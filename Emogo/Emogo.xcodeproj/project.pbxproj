@@ -1,0 +1,855 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
+		335B1A141FBB238A006DA9D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A131FBB238A006DA9D9 /* ViewController.swift */; };
+		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
+		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
+		335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */; };
+		335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A261FBB238A006DA9D9 /* EmogoTests.swift */; };
+		335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */; };
+		335B1A461FBB23FE006DA9D9 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */; };
+		335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
+		335B1A4D1FBB23FE006DA9D9 /* ShareExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A431FBB23FE006DA9D9 /* ShareExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		335B1A591FBB2413006DA9D9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335B1A581FBB2413006DA9D9 /* Messages.framework */; };
+		335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */; };
+		335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */; };
+		335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A601FBB2413006DA9D9 /* Assets.xcassets */; };
+		335B1A651FBB2413006DA9D9 /* iMessageExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A561FBB2413006DA9D9 /* iMessageExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		335B1A231FBB238A006DA9D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 335B1A0D1FBB238A006DA9D9;
+			remoteInfo = Emogo;
+		};
+		335B1A2E1FBB238B006DA9D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 335B1A0D1FBB238A006DA9D9;
+			remoteInfo = Emogo;
+		};
+		335B1A4B1FBB23FE006DA9D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 335B1A421FBB23FE006DA9D9;
+			remoteInfo = ShareExt;
+		};
+		335B1A631FBB2413006DA9D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 335B1A061FBB238A006DA9D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 335B1A551FBB2413006DA9D9;
+			remoteInfo = iMessageExt;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		335B1A511FBB23FE006DA9D9 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				335B1A651FBB2413006DA9D9 /* iMessageExt.appex in Embed App Extensions */,
+				335B1A4D1FBB23FE006DA9D9 /* ShareExt.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		335B1A0E1FBB238A006DA9D9 /* Emogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Emogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A111FBB238A006DA9D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		335B1A131FBB238A006DA9D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		335B1A161FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		335B1A181FBB238A006DA9D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		335B1A1B1FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		335B1A1D1FBB238A006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A261FBB238A006DA9D9 /* EmogoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoTests.swift; sourceTree = "<group>"; };
+		335B1A281FBB238A006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoUITests.swift; sourceTree = "<group>"; };
+		335B1A331FBB238B006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335B1A431FBB23FE006DA9D9 /* ShareExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		335B1A481FBB23FE006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		335B1A4A1FBB23FE006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		335B1A561FBB2413006DA9D9 /* iMessageExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iMessageExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A581FBB2413006DA9D9 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
+		335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		335B1A5E1FBB2413006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		335B1A601FBB2413006DA9D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		335B1A621FBB2413006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		335B1A0B1FBB238A006DA9D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A1F1FBB238A006DA9D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A2A1FBB238B006DA9D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A401FBB23FE006DA9D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A531FBB2413006DA9D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A591FBB2413006DA9D9 /* Messages.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		335B1A051FBB238A006DA9D9 = {
+			isa = PBXGroup;
+			children = (
+				335B1A101FBB238A006DA9D9 /* Emogo */,
+				335B1A251FBB238A006DA9D9 /* EmogoTests */,
+				335B1A301FBB238B006DA9D9 /* EmogoUITests */,
+				335B1A441FBB23FE006DA9D9 /* ShareExt */,
+				335B1A5A1FBB2413006DA9D9 /* iMessageExt */,
+				335B1A571FBB2413006DA9D9 /* Frameworks */,
+				335B1A0F1FBB238A006DA9D9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		335B1A0F1FBB238A006DA9D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A0E1FBB238A006DA9D9 /* Emogo.app */,
+				335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */,
+				335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */,
+				335B1A431FBB23FE006DA9D9 /* ShareExt.appex */,
+				335B1A561FBB2413006DA9D9 /* iMessageExt.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		335B1A101FBB238A006DA9D9 /* Emogo */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A111FBB238A006DA9D9 /* AppDelegate.swift */,
+				335B1A131FBB238A006DA9D9 /* ViewController.swift */,
+				335B1A151FBB238A006DA9D9 /* Main.storyboard */,
+				335B1A181FBB238A006DA9D9 /* Assets.xcassets */,
+				335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */,
+				335B1A1D1FBB238A006DA9D9 /* Info.plist */,
+			);
+			path = Emogo;
+			sourceTree = "<group>";
+		};
+		335B1A251FBB238A006DA9D9 /* EmogoTests */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A261FBB238A006DA9D9 /* EmogoTests.swift */,
+				335B1A281FBB238A006DA9D9 /* Info.plist */,
+			);
+			path = EmogoTests;
+			sourceTree = "<group>";
+		};
+		335B1A301FBB238B006DA9D9 /* EmogoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */,
+				335B1A331FBB238B006DA9D9 /* Info.plist */,
+			);
+			path = EmogoUITests;
+			sourceTree = "<group>";
+		};
+		335B1A441FBB23FE006DA9D9 /* ShareExt */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */,
+				335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */,
+				335B1A4A1FBB23FE006DA9D9 /* Info.plist */,
+			);
+			path = ShareExt;
+			sourceTree = "<group>";
+		};
+		335B1A571FBB2413006DA9D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A581FBB2413006DA9D9 /* Messages.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		335B1A5A1FBB2413006DA9D9 /* iMessageExt */ = {
+			isa = PBXGroup;
+			children = (
+				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
+				335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */,
+				335B1A601FBB2413006DA9D9 /* Assets.xcassets */,
+				335B1A621FBB2413006DA9D9 /* Info.plist */,
+			);
+			path = iMessageExt;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		335B1A0D1FBB238A006DA9D9 /* Emogo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335B1A361FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "Emogo" */;
+			buildPhases = (
+				335B1A0A1FBB238A006DA9D9 /* Sources */,
+				335B1A0B1FBB238A006DA9D9 /* Frameworks */,
+				335B1A0C1FBB238A006DA9D9 /* Resources */,
+				335B1A511FBB23FE006DA9D9 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				335B1A4C1FBB23FE006DA9D9 /* PBXTargetDependency */,
+				335B1A641FBB2413006DA9D9 /* PBXTargetDependency */,
+			);
+			name = Emogo;
+			productName = Emogo;
+			productReference = 335B1A0E1FBB238A006DA9D9 /* Emogo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		335B1A211FBB238A006DA9D9 /* EmogoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335B1A391FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoTests" */;
+			buildPhases = (
+				335B1A1E1FBB238A006DA9D9 /* Sources */,
+				335B1A1F1FBB238A006DA9D9 /* Frameworks */,
+				335B1A201FBB238A006DA9D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				335B1A241FBB238A006DA9D9 /* PBXTargetDependency */,
+			);
+			name = EmogoTests;
+			productName = EmogoTests;
+			productReference = 335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		335B1A2C1FBB238B006DA9D9 /* EmogoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335B1A3C1FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoUITests" */;
+			buildPhases = (
+				335B1A291FBB238B006DA9D9 /* Sources */,
+				335B1A2A1FBB238B006DA9D9 /* Frameworks */,
+				335B1A2B1FBB238B006DA9D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				335B1A2F1FBB238B006DA9D9 /* PBXTargetDependency */,
+			);
+			name = EmogoUITests;
+			productName = EmogoUITests;
+			productReference = 335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		335B1A421FBB23FE006DA9D9 /* ShareExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335B1A4E1FBB23FE006DA9D9 /* Build configuration list for PBXNativeTarget "ShareExt" */;
+			buildPhases = (
+				335B1A3F1FBB23FE006DA9D9 /* Sources */,
+				335B1A401FBB23FE006DA9D9 /* Frameworks */,
+				335B1A411FBB23FE006DA9D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShareExt;
+			productName = ShareExt;
+			productReference = 335B1A431FBB23FE006DA9D9 /* ShareExt.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		335B1A551FBB2413006DA9D9 /* iMessageExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 335B1A661FBB2413006DA9D9 /* Build configuration list for PBXNativeTarget "iMessageExt" */;
+			buildPhases = (
+				335B1A521FBB2413006DA9D9 /* Sources */,
+				335B1A531FBB2413006DA9D9 /* Frameworks */,
+				335B1A541FBB2413006DA9D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iMessageExt;
+			productName = iMessageExt;
+			productReference = 335B1A561FBB2413006DA9D9 /* iMessageExt.appex */;
+			productType = "com.apple.product-type.app-extension.messages";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		335B1A061FBB238A006DA9D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0910;
+				LastUpgradeCheck = 0910;
+				ORGANIZATIONNAME = "Vikas Goyal";
+				TargetAttributes = {
+					335B1A0D1FBB238A006DA9D9 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Manual;
+					};
+					335B1A211FBB238A006DA9D9 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 335B1A0D1FBB238A006DA9D9;
+					};
+					335B1A2C1FBB238B006DA9D9 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 335B1A0D1FBB238A006DA9D9;
+					};
+					335B1A421FBB23FE006DA9D9 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+					335B1A551FBB2413006DA9D9 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 335B1A091FBB238A006DA9D9 /* Build configuration list for PBXProject "Emogo" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 335B1A051FBB238A006DA9D9;
+			productRefGroup = 335B1A0F1FBB238A006DA9D9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				335B1A0D1FBB238A006DA9D9 /* Emogo */,
+				335B1A211FBB238A006DA9D9 /* EmogoTests */,
+				335B1A2C1FBB238B006DA9D9 /* EmogoUITests */,
+				335B1A421FBB23FE006DA9D9 /* ShareExt */,
+				335B1A551FBB2413006DA9D9 /* iMessageExt */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		335B1A0C1FBB238A006DA9D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
+				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
+				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A201FBB238A006DA9D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A2B1FBB238B006DA9D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A411FBB23FE006DA9D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A541FBB2413006DA9D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
+				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		335B1A0A1FBB238A006DA9D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A141FBB238A006DA9D9 /* ViewController.swift in Sources */,
+				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A1E1FBB238A006DA9D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A291FBB238B006DA9D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A3F1FBB23FE006DA9D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A461FBB23FE006DA9D9 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		335B1A521FBB2413006DA9D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		335B1A241FBB238A006DA9D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 335B1A0D1FBB238A006DA9D9 /* Emogo */;
+			targetProxy = 335B1A231FBB238A006DA9D9 /* PBXContainerItemProxy */;
+		};
+		335B1A2F1FBB238B006DA9D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 335B1A0D1FBB238A006DA9D9 /* Emogo */;
+			targetProxy = 335B1A2E1FBB238B006DA9D9 /* PBXContainerItemProxy */;
+		};
+		335B1A4C1FBB23FE006DA9D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 335B1A421FBB23FE006DA9D9 /* ShareExt */;
+			targetProxy = 335B1A4B1FBB23FE006DA9D9 /* PBXContainerItemProxy */;
+		};
+		335B1A641FBB2413006DA9D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 335B1A551FBB2413006DA9D9 /* iMessageExt */;
+			targetProxy = 335B1A631FBB2413006DA9D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		335B1A151FBB238A006DA9D9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				335B1A161FBB238A006DA9D9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				335B1A1B1FBB238A006DA9D9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				335B1A481FBB23FE006DA9D9 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				335B1A5E1FBB2413006DA9D9 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		335B1A341FBB238B006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		335B1A351FBB238B006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		335B1A371FBB238B006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Emogo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		335B1A381FBB238B006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = Emogo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		335B1A3A1FBB238B006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M35DBRABN7;
+				INFOPLIST_FILE = EmogoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Emogo.app/Emogo";
+			};
+			name = Debug;
+		};
+		335B1A3B1FBB238B006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M35DBRABN7;
+				INFOPLIST_FILE = EmogoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Emogo.app/Emogo";
+			};
+			name = Release;
+		};
+		335B1A3D1FBB238B006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M35DBRABN7;
+				INFOPLIST_FILE = EmogoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Emogo;
+			};
+			name = Debug;
+		};
+		335B1A3E1FBB238B006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M35DBRABN7;
+				INFOPLIST_FILE = EmogoUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Emogo;
+			};
+			name = Release;
+		};
+		335B1A4F1FBB23FE006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ShareExt/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo.ShareExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		335B1A501FBB23FE006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ShareExt/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo.ShareExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		335B1A671FBB2413006DA9D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = iMessageExt/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo.iMessageExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		335B1A681FBB2413006DA9D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = iMessageExt/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = northout.Emogo.iMessageExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		335B1A091FBB238A006DA9D9 /* Build configuration list for PBXProject "Emogo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A341FBB238B006DA9D9 /* Debug */,
+				335B1A351FBB238B006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335B1A361FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "Emogo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A371FBB238B006DA9D9 /* Debug */,
+				335B1A381FBB238B006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335B1A391FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A3A1FBB238B006DA9D9 /* Debug */,
+				335B1A3B1FBB238B006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335B1A3C1FBB238B006DA9D9 /* Build configuration list for PBXNativeTarget "EmogoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A3D1FBB238B006DA9D9 /* Debug */,
+				335B1A3E1FBB238B006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335B1A4E1FBB23FE006DA9D9 /* Build configuration list for PBXNativeTarget "ShareExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A4F1FBB23FE006DA9D9 /* Debug */,
+				335B1A501FBB23FE006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		335B1A661FBB2413006DA9D9 /* Build configuration list for PBXNativeTarget "iMessageExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				335B1A671FBB2413006DA9D9 /* Debug */,
+				335B1A681FBB2413006DA9D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 335B1A061FBB238A006DA9D9 /* Project object */;
+}
