@@ -1,0 +1,43 @@
+# Uncomment the next line to define a global platform for your project
+xcodeproj 'Emogo.xcodeproj'
+
+platform :ios, '9.0'
+inhibit_all_warnings!
+def common_pods_for_target
+    pod 'Alamofire'
+    pod 'SDWebImage'
+    pod 'JSONModel'
+    pod 'SwiftyJSON'
+    pod 'SnapKit'
+    pod 'CHTCollectionViewWaterfallLayout/Swift'
+    pod 'AWSS3'
+
+end
+
+
+target 'Emogo' do
+    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+    use_frameworks!
+    
+    # Pods for Emogo
+    common_pods_for_target
+    pod 'IQKeyboardManagerSwift'
+    pod 'CRNotifications'
+
+end
+
+target 'iMessageExt' do
+    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+    use_frameworks!
+    
+    # Pods for iMessageExt
+    common_pods_for_target
+end
+
+target 'ShareExt' do
+    # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+    use_frameworks!
+    
+    # Pods for ShareExt
+    
+end

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CRNotifications
 
 
 // MARK: - UIColor
@@ -148,8 +149,129 @@ extension UIView {
 }
 
 
+// MARK: - String
+
+extension String {
+    
+    func stringByAddingPercentEncodingForURLQueryParameter() -> String? {
+        let allowedCharacters = NSCharacterSet.urlQueryAllowed
+        return addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+    }
+    
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height:height )
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        return boundingBox.width
+    }
+    func trim() -> String{
+        return self.trimmingCharacters(in: CharacterSet.whitespaces)
+    }
+    
+}
+// MARK: - String
+
+extension UIView {
+    
+}
 
 
+// MARK: - UIButton
 
+extension UIButton {
+    
+    
+}
+
+// MARK: - UIButton
+
+extension UIViewController {
+    
+    func showAlert(strMessage:String){
+        let alert = UIAlertController(title: "Message", message: strMessage, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .cancel) { (actoin) in
+        }
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
+    }
+    func showToast(type:String,strMSG:String) {
+        if type == "1" {
+            CRNotifications.showNotification(type: .success, title: "Message!", message: strMSG, dismissDelay: 3)
+        }else if type == "2" {
+            CRNotifications.showNotification(type: .error, title: "Alert!", message: strMSG, dismissDelay: 3)
+        }else {
+            CRNotifications.showNotification(type: .info, title: "Info!", message: strMSG, dismissDelay: 3)
+        }
+
+    }
+}
+
+// MARK: - UINavigationController
+
+extension UINavigationController {
+    
+    /**
+     Pop current view controller to previous view controller.
+     
+     - parameter type:     transition animation type.
+     - parameter duration: transition animation duration.
+     */
+    func pop(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+        self.addTransition(transitionType: type, duration: duration)
+        self.popViewController(animated: false)
+    }
+    
+    /**
+     Push a new view controller on the view controllers's stack.
+     - parameter vc:       view controller to push.
+     - parameter type:     transition animation type.
+     - parameter duration: transition animation duration.
+     */
+    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+        self.addTransition(transitionType: type, duration: duration)
+        self.pushViewController(vc, animated: false)
+    }
+    
+    func flipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+        self.addFlipTransition(transitionType: type, duration: duration)
+        self.pushViewController(vc, animated: false)
+    }
+    
+    private func addTransition(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = type
+        self.view.layer.add(transition, forKey: nil)
+    }
+    private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = type
+        transition.subtype = kCATransitionFromRight
+        self.view.layer.add(transition, forKey: nil)
+    
+    }
+    
+}
+
+
+// MARK: UIKIT
+extension UITextField {
+    func shake() {
+        let animation : CABasicAnimation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.repeatCount = 5
+        animation.duration = 0.1
+        animation.autoreverses = true
+        animation.byValue = -5
+        layer.add(animation, forKey: "shake")
+    }
+    
+    func placeholderColor(){
+    self.attributedPlaceholder = NSAttributedString(string: "placeholder text",
+                                                               attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+    }
+}
 
 

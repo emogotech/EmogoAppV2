@@ -9,6 +9,13 @@
 import UIKit
 
 class VerificationViewController: UIViewController {
+    
+    // MARK: - IBOutlets
+
+    @IBOutlet weak var txtOtP                 : UITextField!
+
+    
+    // MARK: - Override Functions
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +28,34 @@ class VerificationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: - Prepare Layouts
+    
+    func prepareLayouts(){
+    }
+    
+    
+    // MARK: -  Action Methods And Selector
+    
+    @IBAction func btnGoToLandingScreen(_ sender: Any) {
+        if (self.txtOtP.text?.trim().isEmpty)! {
+            self.txtOtP.shake()
+        }else if (txtOtP.text?.trim().count)! != 4 {
+            self.showToast(type: "2", strMSG: kAlertVerificationLengthMsg)
+        }else {
+            self.showToast(type: "1", strMSG: kAlertLoginSuccessMsg)
+        }
+    }
+    @IBAction func btnResendOTPAction(_ sender: Any) {
+        self.showToast(type: "3", strMSG: kAlertLoginSuccessMsg)
+    }
+
+    
+    // MARK: - Class Methods
+    
+    @objc func disMissKeyboard(){
+        self.view.endEditing(true)
+    }
 
     /*
     // MARK: - Navigation

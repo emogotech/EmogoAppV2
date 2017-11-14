@@ -2,20 +2,21 @@
 //  AppDelegate.swift
 //  Emogo
 //
-//  Created by Vikas Goyal on 14/11/17.
-//  Copyright © 2017 Vikas Goyal. All rights reserved.
+//  Created by Vikas Goyal on 27/10/17.
+//  Copyright © 2017 NorhtOut. All rights reserved.
 //
 
 import UIKit
-
+import IQKeyboardManagerSwift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    static var appDelegate:AppDelegate!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        self.initializeApplication()
         return true
     }
 
@@ -40,7 +41,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    // MARK: - Initialize
+    
+    fileprivate func initializeApplication(){
+        // Keyboard Manager
+        IQKeyboardManager.sharedManager().enable = true
+        AppDelegate.appDelegate = self
+    }
 }
 
+/*
+ private func composeMessage() -> MSMessage {
+ var components = URLComponents()
+ var items = [URLQueryItem]()
+ items.append(URLQueryItem(name: "test", value: "food"))
+ components.queryItems = items
+ 
+ let layout = MSMessageTemplateLayout()
+ layout.caption = "Test Me"
+ let message = MSMessage(session: MSSession())
+ message.url = components.url
+ message.layout = layout
+ return message
+ }
+ 
+ @objc func actionButtonClicked (sender: UIButton) {
+ let composeVC = MFMessageComposeViewController()
+ composeVC.messageComposeDelegate = self
+ 
+ composeVC.recipients = []
+ composeVC.message = composeMessage()
+ 
+ self.present(composeVC, animated: true, completion: nil)
+ }
+*/
