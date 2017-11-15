@@ -49,7 +49,7 @@ class SignInViewController: UIViewController {
     
     @IBAction func btnSignupAction(_ sender: Any) {
         let obj:UserNameViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
-        self.navigationController?.flipPush(viewController: obj)
+        self.navigationController?.push(viewController: obj)
     }
     
     // MARK: - Class Methods
