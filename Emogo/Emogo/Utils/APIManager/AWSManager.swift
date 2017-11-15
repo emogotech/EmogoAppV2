@@ -42,14 +42,19 @@ class AWSManager: NSObject {
         return Static.instance
     }
  
+    // MARK: -  INIT
+
     
     override init() {
         super.init()
     }
     
-    
+    // MARK: -  Init AWS
+
     private func initAWS(){
-        
+        let credentialsProvider = AWSStaticCredentialsProvider(accessKey: kAWS_AccessKey, secretKey: kAWS_SecretKey)
+        let configuration = AWSServiceConfiguration(region:kRegion, credentialsProvider:credentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
     }
     
     func uploadMedia(_ uRequest:AWSS3TransferManagerUploadRequest, completion:@escaping (AWSResult<Any, Error>)->Void, progressHandler:@escaping (_ percentage:Int64?)->Void){

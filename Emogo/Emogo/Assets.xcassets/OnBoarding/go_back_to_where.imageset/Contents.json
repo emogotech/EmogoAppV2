@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "sign_up_button.png",
+      "filename" : "go_back_to_where.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sign_up_button@2x.png",
+      "filename" : "go_back_to_where@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sign_up_button@3x.png",
+      "filename" : "go_back_to_where@3x.png",
       "scale" : "3x"
     }
   ],
