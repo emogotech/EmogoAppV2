@@ -2,18 +2,18 @@
 //  AppConstants.swift
 //  Emogo
 //
-//  Created by Pushpendra on 13/12/17.
-//  Copyright © 2017 NorhtOut. All rights reserved.
+//  Created by Vikas Goyal on 15/11/17.
+//  Copyright © 2017 Vikas Goyal. All rights reserved.
 //
 
 /*
- All The Application Constants
+Constants Used in Enier App
  */
+
 import Foundation
 import UIKit
 
 // MARK: -  Constants Variables
-
 let kFrame                               = UIScreen.main.bounds
 
 let kDefault                             = UserDefaults.standard
@@ -37,8 +37,7 @@ let kStoryboardID_UserNameView = "userNameView"
 
 
 
-// MARK: - Static Error Messages
-
+// MARK: - Static Alert Messages
 let kAlertTitle                         = "Alert!"
 let kAlertTitleMessage                  = "Message"
 
@@ -46,3 +45,4 @@ let kPleaseEnterNameMsg                 = "Please Enter User Name."
 let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 characters."
 let kAlertVerificationLengthMsg         = "Verification Code must be 4 characters."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
+

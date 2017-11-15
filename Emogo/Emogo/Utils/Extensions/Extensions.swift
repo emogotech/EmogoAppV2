@@ -2,8 +2,8 @@
 //  Extensions.swift
 //  Emogo
 //
-//  Created by Pushpendra on 13/12/17.
-//  Copyright © 2017 NorhtOut. All rights reserved.
+//  Created by Vikas Goyal on 15/11/17.
+//  Copyright © 2017 Vikas Goyal. All rights reserved.
 //
 
 import Foundation
@@ -12,7 +12,6 @@ import CRNotifications
 
 
 // MARK: - UIColor
-
 extension UIColor {
     
     convenience init (r : CGFloat , g : CGFloat , b : CGFloat ) {
@@ -22,7 +21,6 @@ extension UIColor {
 }
 
 // MARK: - UIView
-
 extension UIView {
     
     func addCorner (radius : CGFloat , borderWidth : CGFloat , color : UIColor ) {
@@ -148,9 +146,7 @@ extension UIView {
     
 }
 
-
 // MARK: - String
-
 extension String {
     
     func stringByAddingPercentEncodingForURLQueryParameter() -> String? {
@@ -168,17 +164,15 @@ extension String {
     }
     
 }
-// MARK: - String
 
+// MARK: - String
 extension UIView {
     
 }
 
 
 // MARK: - UIButton
-
 extension UIButton {
-    
     
 }
 
@@ -193,6 +187,7 @@ extension UIViewController {
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
+    
     func showToast(type:String,strMSG:String) {
         if type == "1" {
             CRNotifications.showNotification(type: .success, title: "Message!", message: strMSG, dismissDelay: 3)
@@ -201,7 +196,7 @@ extension UIViewController {
         }else {
             CRNotifications.showNotification(type: .info, title: "Info!", message: strMSG, dismissDelay: 3)
         }
-
+        
     }
 }
 
@@ -243,6 +238,7 @@ extension UINavigationController {
         transition.type = type
         self.view.layer.add(transition, forKey: nil)
     }
+    
     private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
         let transition = CATransition()
         transition.duration = duration
@@ -250,9 +246,8 @@ extension UINavigationController {
         transition.type = type
         transition.subtype = kCATransitionFromRight
         self.view.layer.add(transition, forKey: nil)
-    
+        
     }
-    
 }
 
 
@@ -269,9 +264,7 @@ extension UITextField {
     }
     
     func placeholderColor(){
-    self.attributedPlaceholder = NSAttributedString(string: "placeholder text",
-                                                               attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        self.attributedPlaceholder = NSAttributedString(string: "placeholder text",
+                                                        attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
     }
 }
-
-

@@ -143,12 +143,10 @@ class PMButton: UIButton {
         
     }
     
-    
     override func cancelTracking(with event: UIEvent?) {
         super.cancelTracking(with: event)
         animateToNormal()
     }
-    
     
     override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         super.endTracking(touch, with: event)
@@ -156,7 +154,6 @@ class PMButton: UIButton {
     }
     
     private func animateToNormal() {
-        
         UIView.animate(withDuration: 0.1, delay: 0, options: UIViewAnimationOptions.allowUserInteraction , animations:  {
             self.rippleBackgroundView.alpha = 1
         }, completion:  {(success : Bool) -> () in
@@ -164,7 +161,6 @@ class PMButton: UIButton {
             UIView.animate(withDuration: self.touchUpAnimationTime, delay: 0, options: UIViewAnimationOptions.allowUserInteraction , animations:  {
                 self.rippleBackgroundView.alpha = 0
             }, completion: nil)
-            
             
         })
         
@@ -185,11 +181,7 @@ class PMButton: UIButton {
             groupAnim.animations = [shadowAnim, opacityAnim]
             
             self.layer.add(groupAnim, forKey: "shadowBack")
-            
-            
         }, completion: nil)
-        
-        
     }
     
     override func layoutSubviews() {

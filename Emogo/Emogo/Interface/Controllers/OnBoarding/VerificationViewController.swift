@@ -16,27 +16,28 @@ class VerificationViewController: UIViewController {
 
     
     // MARK: - Override Functions
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        prepareLayouts()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
     // MARK: - Prepare Layouts
-    
     func prepareLayouts(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
-    
     // MARK: -  Action Methods And Selector
-    
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
         if (self.txtOtP.text?.trim().isEmpty)! {
             self.txtOtP.shake()
@@ -46,13 +47,12 @@ class VerificationViewController: UIViewController {
             self.showToast(type: "1", strMSG: kAlertLoginSuccessMsg)
         }
     }
+    
     @IBAction func btnResendOTPAction(_ sender: Any) {
         self.showToast(type: "3", strMSG: kAlertLoginSuccessMsg)
     }
 
-    
     // MARK: - Class Methods
-    
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
