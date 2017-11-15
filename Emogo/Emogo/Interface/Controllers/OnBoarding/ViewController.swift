@@ -12,7 +12,6 @@ class ViewController: UIViewController {
 
     // MARK: - IBOutlets
 
-
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +31,8 @@ class ViewController: UIViewController {
    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        
+       
+        HUDManager.sharedInstance.showHUD()
     }
 
     // MARK: -  Action Methods And Selector

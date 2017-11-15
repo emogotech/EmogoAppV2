@@ -26,8 +26,6 @@
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
 		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
-		337B52EC1FBC5E6400CEC0EB /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52EB1FBC5E6400CEC0EB /* View.swift */; };
-		337B52EF1FBC5EAB00CEC0EB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52EE1FBC5EAB00CEC0EB /* User.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -74,6 +72,10 @@
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
+		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
+		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
+		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
+		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,8 +154,6 @@
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		337B52EB1FBC5E6400CEC0EB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		337B52EE1FBC5EAB00CEC0EB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -204,6 +204,10 @@
 		93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt.debug.xcconfig"; sourceTree = "<group>"; };
 		9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt.release.xcconfig"; sourceTree = "<group>"; };
 		C0116CE7C51A614A0E9157D1 /* Pods-Emogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.release.xcconfig"; sourceTree = "<group>"; };
+		F45A786F1FBC46A2003FD6AB /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
+		F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDAO.swift; sourceTree = "<group>"; };
+		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
+		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -282,7 +286,6 @@
 				335B1A111FBB238A006DA9D9 /* AppDelegate.swift */,
 				33BCB0681FBB353E004FF634 /* Interface */,
 				33BCB0321FBB353E004FF634 /* Utils */,
-				337B52ED1FBC5E9300CEC0EB /* Models */,
 				33BCB03E1FBB353E004FF634 /* Externals */,
 				33BCB0411FBB353E004FF634 /* Resources */,
 				33BCB0A01FBB3555004FF634 /* SupportingFiles */,
@@ -341,22 +344,6 @@
 			path = iMessageExt;
 			sourceTree = "<group>";
 		};
-		337B52EA1FBC5E1200CEC0EB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				337B52EB1FBC5E6400CEC0EB /* View.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		337B52ED1FBC5E9300CEC0EB /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				337B52EE1FBC5EAB00CEC0EB /* User.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +360,8 @@
 			isa = PBXGroup;
 			children = (
 				33BCB0341FBB353E004FF634 /* APIManager.swift */,
+				F45A786F1FBC46A2003FD6AB /* AWSManager.swift */,
+				F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */,
 			);
 			path = APIManager;
 			sourceTree = "<group>";
@@ -413,6 +402,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4A94B841FBC286400E7B6CE /* HUD */,
 				33BCB03F1FBB353E004FF634 /* Custom UI */,
 			);
 			path = Externals;
@@ -482,7 +472,6 @@
 			isa = PBXGroup;
 			children = (
 				33BCB0691FBB353E004FF634 /* Controllers */,
-				337B52EA1FBC5E1200CEC0EB /* Views */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -528,6 +517,15 @@
 				3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F4A94B841FBC286400E7B6CE /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */,
+				F49D74911FBC2E650096A0CC /* HUDManager.swift */,
+			);
+			path = HUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -910,6 +908,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
+				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
+				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
+				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
@@ -917,12 +918,11 @@
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
-				337B52EF1FBC5EAB00CEC0EB /* User.swift in Sources */,
+				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
-				337B52EC1FBC5E6400CEC0EB /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
