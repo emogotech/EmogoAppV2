@@ -365,9 +365,6 @@
                                                 <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="btnGoToLandingScreen:" destination="m1k-ha-jW7" eventType="touchUpInside" id="bX6-lj-UHF"/>
-                                        </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tr1-t4-2LT">
                                         <rect key="frame" x="65" y="129" width="170" height="45"/>
@@ -376,6 +373,9 @@
                                             <constraint firstAttribute="width" constant="170" id="uvD-YE-thD"/>
                                         </constraints>
                                         <state key="normal" image="done-btn"/>
+                                        <connections>
+                                            <action selector="btnGoToLandingScreen:" destination="m1k-ha-jW7" eventType="touchUpInside" id="WAM-Bt-1aI"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymb-rM-QP0">
                                         <rect key="frame" x="65" y="183" width="170" height="45"/>
