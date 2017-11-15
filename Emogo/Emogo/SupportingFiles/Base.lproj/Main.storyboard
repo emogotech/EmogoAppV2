@@ -36,52 +36,66 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="LY5-eU-v90">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="CLa-PZ-Yjh">
-                                <rect key="frame" x="97" y="182" width="127" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="CLa-PZ-Yjh" secondAttribute="height" multiplier="127:33" id="327-HO-w5v"/>
-                                </constraints>
-                            </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="wFI-Ho-DLd">
-                                <rect key="frame" x="75" y="250" width="170" height="97"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eFE-oo-jcQ">
+                                <rect key="frame" x="55" y="201" width="210" height="165"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wit-LO-N34">
-                                        <rect key="frame" x="0.0" y="0.0" width="170" height="45"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="CLa-PZ-Yjh">
+                                        <rect key="frame" x="42" y="0.0" width="127" height="33"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="Q1J-Zb-oQG"/>
-                                            <constraint firstAttribute="width" constant="170" id="rhA-Ae-EbT"/>
+                                            <constraint firstAttribute="height" constant="33" id="XHz-60-6FJ"/>
                                         </constraints>
-                                        <state key="normal" image="sign-up-btn"/>
-                                        <connections>
-                                            <action selector="btnActionSignup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="14l-S3-q4I"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uih-ih-sF8">
-                                        <rect key="frame" x="0.0" y="52" width="170" height="45"/>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="wFI-Ho-DLd">
+                                        <rect key="frame" x="20" y="68" width="170" height="97"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wit-LO-N34">
+                                                <rect key="frame" x="0.0" y="0.0" width="170" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="Q1J-Zb-oQG"/>
+                                                    <constraint firstAttribute="width" constant="170" id="rhA-Ae-EbT"/>
+                                                </constraints>
+                                                <state key="normal" image="sign-up-btn"/>
+                                                <connections>
+                                                    <action selector="btnActionSignup:" destination="BYZ-38-t0r" eventType="touchUpInside" id="14l-S3-q4I"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uih-ih-sF8">
+                                                <rect key="frame" x="0.0" y="52" width="170" height="45"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="45" id="3aY-oK-YFS"/>
+                                                    <constraint firstAttribute="width" constant="170" id="75P-xA-Sqr"/>
+                                                </constraints>
+                                                <state key="normal" image="sign-in-btn"/>
+                                                <connections>
+                                                    <action selector="btnActionSignin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qth-hs-IVB"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="45" id="3aY-oK-YFS"/>
-                                            <constraint firstAttribute="width" constant="170" id="75P-xA-Sqr"/>
+                                            <constraint firstAttribute="height" constant="97" id="cl0-sb-lEv"/>
                                         </constraints>
-                                        <state key="normal" image="sign-in-btn"/>
-                                        <connections>
-                                            <action selector="btnActionSignin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qth-hs-IVB"/>
-                                        </connections>
-                                    </button>
+                                    </stackView>
                                 </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="wFI-Ho-DLd" secondAttribute="height" multiplier="170:97" id="OWs-H0-3YM"/>
+                                    <constraint firstItem="wFI-Ho-DLd" firstAttribute="top" secondItem="CLa-PZ-Yjh" secondAttribute="bottom" constant="35" id="36y-6z-pkC"/>
+                                    <constraint firstAttribute="height" constant="165" id="6bL-dg-bNH"/>
+                                    <constraint firstAttribute="trailing" secondItem="CLa-PZ-Yjh" secondAttribute="trailing" constant="41" id="Qb9-ok-256"/>
+                                    <constraint firstAttribute="width" constant="210" id="RSz-od-eqC"/>
+                                    <constraint firstItem="CLa-PZ-Yjh" firstAttribute="leading" secondItem="eFE-oo-jcQ" secondAttribute="leading" constant="42" id="gX7-Oz-4RF"/>
+                                    <constraint firstItem="wFI-Ho-DLd" firstAttribute="leading" secondItem="eFE-oo-jcQ" secondAttribute="leading" constant="20" id="hSM-ps-aKQ"/>
+                                    <constraint firstItem="CLa-PZ-Yjh" firstAttribute="top" secondItem="eFE-oo-jcQ" secondAttribute="top" id="psI-ur-J3Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="wFI-Ho-DLd" secondAttribute="trailing" constant="20" id="zfu-nV-I8E"/>
                                 </constraints>
-                            </stackView>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="eFE-oo-jcQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2Jt-pG-dHd"/>
                             <constraint firstItem="LY5-eU-v90" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="8M9-D2-JXo"/>
                             <constraint firstItem="LY5-eU-v90" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9KK-jO-Cuc"/>
-                            <constraint firstItem="wFI-Ho-DLd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BNC-Ly-hCQ"/>
                             <constraint firstItem="LY5-eU-v90" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Rix-MS-x2y"/>
-                            <constraint firstItem="CLa-PZ-Yjh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XfK-L7-xN0"/>
-                            <constraint firstItem="wFI-Ho-DLd" firstAttribute="top" secondItem="CLa-PZ-Yjh" secondAttribute="bottom" constant="35" id="hYQ-yY-Ap6"/>
-                            <constraint firstItem="CLa-PZ-Yjh" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="162" id="tZL-VR-lqH"/>
+                            <constraint firstItem="eFE-oo-jcQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="apb-0F-BRC"/>
                             <constraint firstItem="LY5-eU-v90" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="wao-7c-Gnm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -90,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="182" y="57"/>
+            <point key="canvasLocation" x="181.875" y="55.985915492957744"/>
         </scene>
         <!--User Name View Controller-->
         <scene sceneID="AhM-aZ-nDC">
@@ -546,7 +560,7 @@
         <image name="background-iPhone" width="320" height="568"/>
         <image name="done-btn" width="137" height="45"/>
         <image name="input_text_iphone" width="253" height="42"/>
-        <image name="logo-iPhone" width="127" height="33"/>
+        <image name="logo-iPhone" width="126" height="33"/>
         <image name="next-btn" width="137" height="45"/>
         <image name="sign-in-btn" width="137" height="45"/>
         <image name="sign-up-btn" width="137" height="45"/>

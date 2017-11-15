@@ -31,8 +31,7 @@ class ViewController: UIViewController {
    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-       
-        HUDManager.sharedInstance.showHUD()
+       HUDManager.sharedInstance.showHUD()
     }
 
     // MARK: -  Action Methods And Selector
