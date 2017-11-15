@@ -26,6 +26,8 @@
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
 		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
+		337B52EC1FBC5E6400CEC0EB /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52EB1FBC5E6400CEC0EB /* View.swift */; };
+		337B52EF1FBC5EAB00CEC0EB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52EE1FBC5EAB00CEC0EB /* User.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -150,6 +152,8 @@
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		337B52EB1FBC5E6400CEC0EB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		337B52EE1FBC5EAB00CEC0EB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 				335B1A111FBB238A006DA9D9 /* AppDelegate.swift */,
 				33BCB0681FBB353E004FF634 /* Interface */,
 				33BCB0321FBB353E004FF634 /* Utils */,
+				337B52ED1FBC5E9300CEC0EB /* Models */,
 				33BCB03E1FBB353E004FF634 /* Externals */,
 				33BCB0411FBB353E004FF634 /* Resources */,
 				33BCB0A01FBB3555004FF634 /* SupportingFiles */,
@@ -334,6 +339,22 @@
 				335B1A621FBB2413006DA9D9 /* Info.plist */,
 			);
 			path = iMessageExt;
+			sourceTree = "<group>";
+		};
+		337B52EA1FBC5E1200CEC0EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				337B52EB1FBC5E6400CEC0EB /* View.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		337B52ED1FBC5E9300CEC0EB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				337B52EE1FBC5EAB00CEC0EB /* User.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
@@ -461,6 +482,7 @@
 			isa = PBXGroup;
 			children = (
 				33BCB0691FBB353E004FF634 /* Controllers */,
+				337B52EA1FBC5E1200CEC0EB /* Views */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -895,10 +917,12 @@
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
+				337B52EF1FBC5EAB00CEC0EB /* User.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
+				337B52EC1FBC5E6400CEC0EB /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
