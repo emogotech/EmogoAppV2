@@ -21,12 +21,13 @@
 		335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */; };
 		335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A601FBB2413006DA9D9 /* Assets.xcassets */; };
 		335B1A651FBB2413006DA9D9 /* iMessageExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A561FBB2413006DA9D9 /* iMessageExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */; };
+		337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
+		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
+		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
+		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
-		33BCB0711FBB353E004FF634 /* ApiConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0361FBB353E004FF634 /* ApiConstants.swift */; };
-		33BCB0721FBB353E004FF634 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0371FBB353E004FF634 /* AppConstants.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
-		33BCB0741FBB353E004FF634 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB03B1FBB353E004FF634 /* Extensions.swift */; };
-		33BCB0751FBB353E004FF634 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB03D1FBB353E004FF634 /* Validator.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
 		33BCB0771FBB353E004FF634 /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33BCB0441FBB353E004FF634 /* Montserrat-Black.otf */; };
 		33BCB0781FBB353E004FF634 /* Montserrat-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33BCB0451FBB353E004FF634 /* Montserrat-BlackItalic.otf */; };
@@ -66,7 +67,6 @@
 		33BCB09A1FBB353E004FF634 /* MontserratAlternates-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33BCB0671FBB353E004FF634 /* MontserratAlternates-ThinItalic.otf */; };
 		33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06B1FBB353E004FF634 /* SignInViewController.swift */; };
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
-		33BCB09D1FBB353E004FF634 /* UserNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06D1FBB353E004FF634 /* UserNameViewController.swift */; };
 		33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */; };
 		33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06F1FBB353E004FF634 /* ViewController.swift */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
@@ -145,12 +145,13 @@
 		335B1A5E1FBB2413006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		335B1A601FBB2413006DA9D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		335B1A621FBB2413006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameViewController.swift; sourceTree = "<group>"; };
+		337B52E21FBC141200CEC0EB /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		33BCB0361FBB353E004FF634 /* ApiConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiConstants.swift; sourceTree = "<group>"; };
-		33BCB0371FBB353E004FF634 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
-		33BCB03B1FBB353E004FF634 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		33BCB03D1FBB353E004FF634 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
 		33BCB0421FBB353E004FF634 /* Emogo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Emogo-Bridging-Header.h"; sourceTree = "<group>"; };
 		33BCB0441FBB353E004FF634 /* Montserrat-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.otf"; sourceTree = "<group>"; };
@@ -191,7 +192,6 @@
 		33BCB0671FBB353E004FF634 /* MontserratAlternates-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MontserratAlternates-ThinItalic.otf"; sourceTree = "<group>"; };
 		33BCB06B1FBB353E004FF634 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		33BCB06D1FBB353E004FF634 /* UserNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserNameViewController.swift; sourceTree = "<group>"; };
 		33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		33BCB06F1FBB353E004FF634 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -359,8 +359,8 @@
 		33BCB0351FBB353E004FF634 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				33BCB0361FBB353E004FF634 /* ApiConstants.swift */,
-				33BCB0371FBB353E004FF634 /* AppConstants.swift */,
+				337B52E41FBC14C800CEC0EB /* APIConstants.swift */,
+				337B52E21FBC141200CEC0EB /* AppConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -376,7 +376,7 @@
 		33BCB03A1FBB353E004FF634 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				33BCB03B1FBB353E004FF634 /* Extensions.swift */,
+				337B52E81FBC177F00CEC0EB /* Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -384,7 +384,7 @@
 		33BCB03C1FBB353E004FF634 /* Validations */ = {
 			isa = PBXGroup;
 			children = (
-				33BCB03D1FBB353E004FF634 /* Validator.swift */,
+				337B52E61FBC168F00CEC0EB /* Validator.swift */,
 			);
 			path = Validations;
 			sourceTree = "<group>";
@@ -478,7 +478,7 @@
 			children = (
 				33BCB06B1FBB353E004FF634 /* SignInViewController.swift */,
 				33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */,
-				33BCB06D1FBB353E004FF634 /* UserNameViewController.swift */,
+				337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */,
 				33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */,
 				33BCB06F1FBB353E004FF634 /* ViewController.swift */,
 			);
@@ -888,18 +888,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
-				33BCB0741FBB353E004FF634 /* Extensions.swift in Sources */,
-				33BCB09D1FBB353E004FF634 /* UserNameViewController.swift in Sources */,
+				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
+				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
+				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
-				33BCB0711FBB353E004FF634 /* ApiConstants.swift in Sources */,
+				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
-				33BCB0751FBB353E004FF634 /* Validator.swift in Sources */,
+				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
-				33BCB0721FBB353E004FF634 /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

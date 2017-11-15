@@ -11,31 +11,32 @@ import UIKit
 class SignInViewController: UIViewController {
     
     // MARK: - IBOutlets
-
     @IBOutlet weak var txtPhoneNumber                 : UITextField!
 
     
     // MARK: - Override Functions
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
-        view.addGestureRecognizer(tap)
+
+        prepareLayouts()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    // MARK: - Prepare Layouts
     
+    // MARK: - Prepare Layouts
     func prepareLayouts(){
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
-    
     // MARK: -  Action Methods And Selector
-    
     @IBAction func btnDoneAction(_ sender: Any) {
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
             self.txtPhoneNumber.shake()
@@ -50,20 +51,9 @@ class SignInViewController: UIViewController {
         let obj:UserNameViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
         self.navigationController?.flipPush(viewController: obj)
     }
-    // MARK: - Class Methods
     
+    // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

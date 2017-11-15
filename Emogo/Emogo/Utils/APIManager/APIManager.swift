@@ -22,7 +22,6 @@ class APIManager: NSObject {
     fileprivate var completionHandler:CompletionClosure!
     
     // MARK: - INIT
-
     class var sharedInstance: APIManager {
         struct Static {
             static let instance: APIManager = APIManager()
@@ -31,8 +30,6 @@ class APIManager: NSObject {
     }
     
     // MARK: - REQUEST WITH HEADER
-
-    
     func POSTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
@@ -145,7 +142,6 @@ class APIManager: NSObject {
     
         
     // MARK: - REQUEST WITHOUT HEADER
-    
     func POSTRequest(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
@@ -167,7 +163,6 @@ class APIManager: NSObject {
                 callback!(.error(error))
             }
         }
-        
     }
     
     func GETRequest(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
