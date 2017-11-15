@@ -15,10 +15,9 @@ let kAWS_AccessKey = "AKIAI44TFVCYXAX3XHIA"
 let kAWS_SecretKey = "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"
 
 // MARK: -  AWS Bucket's
-
-let kBucketStreamMedia = "emogo-v2-media"
-let kBucketUserMedia = "emogo-v2-profiles"
-let kBucketTesting = "emogo-v2-testing"
+let kBucketStreamMedia = "emogo-v2/stream-media"
+let kBucketUserMedia = "emogo-v2/user-media"
+let kBucketTesting = "emogo-v2/testing"
 
 // MARK: -  AWS Region
 let kRegion = AWSRegionType.USEast1
