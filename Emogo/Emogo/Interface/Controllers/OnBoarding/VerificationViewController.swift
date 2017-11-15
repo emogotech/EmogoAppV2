@@ -47,7 +47,7 @@ class VerificationViewController: UIViewController {
         }
     }
     @IBAction func btnResendOTPAction(_ sender: Any) {
-        self.showToast(type: "3", strMSG: kAlertLoginSuccessMsg)
+        self.showToast(type: "3", strMSG: kAlertResendCodeMsg)
     }
 
     
