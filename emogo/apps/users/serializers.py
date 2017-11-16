@@ -31,15 +31,15 @@ class UserSerializer(DynamicFieldsModelSerializer):
     """
     User model Serializer
     """
-
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
     phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
         model = User
-        fields = ['email','password','phone_number','user_name']
+        fields = ['email', 'password', 'phone_number', 'user_name']
         extra_kwargs = {'password': {'required': True}}
+
 
     def create(self, validated_data):
         """
@@ -84,9 +84,6 @@ class UserDetailSerializer(UserProfileSerializer):
     pass
 
 
-
-
-
 class UserOtpSerializer(UserProfileSerializer):
     """
     User OTP serializer inherits : UserProfileSerializer
@@ -111,3 +108,11 @@ class UserOtpSerializer(UserProfileSerializer):
         self.instance.save(update_fields=['otp'])
         Token.objects.create(user=self.instance.user)
         return self.instance
+
+
+class UserLoginSerializer(UserSerializer):
+    """
+    User OTP serializer inherits : UserProfileSerializer
+    """
+    phone_number = serializers.CharField(source='username')
+

@@ -16,7 +16,7 @@ from emogo.lib.utils import custom_render_response, send_otp
 from django.contrib.auth.models import User
 from emogo.apps.users.models import UserProfile
 # serializer
-from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer
+from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer
 
 
 class Signup(APIView):
@@ -49,48 +49,26 @@ class VerifyRegistration(APIView):
 
 class Login(APIView):
     """
-    Normal user can login to the system and can get access token according to his credential.
+    User login API
     """
 
     def post(self, request):
-        phone_number = request.data['phone_number']
-        password = '123456'
-
-        data = {}
-        token = None
-        try:
-            if phone_number and password:
-                user = authenticate(request, username=phone_number, password=password)
-                if user is not None:
-                    userData = UserProfile.objects.filter(user=user, status='Active')
-                    if len(userData):
-                        if userData[0].otp is None:
-                            if Token.objects.filter(user=user).exists():
-                                user.auth_token.delete()
-                            token = Token.objects.create(user=user)
-
-                            # setting user data
-                            data["phone_number"] = user.username
-                            data["user_name"] = userData[0].full_name
-                            data["image"] = userData[0].user_image if userData.user_image else ""
-                            data["user_id"] = user.id
-
-                            message, status_code, response_status = messages.MSG_LOGIN_SUCCESS, "200", status.HTTP_200_OK
-                        else:
-                            message, status_code, response_status = messages.MSG_VERIFY_EMAIL, "400", status.HTTP_200_OK
-                    else:
-                        message, status_code, response_status = messages.MSG_ACCOUNT_DEACTIVATED, "400", status.HTTP_200_OK
-                else:
-                    message, status_code, response_status = messages.MSG_INVALID_PHONE_NUMBER, "400", status.HTTP_200_OK
-            else:
-                message, status_code, response_status = messages.MSG_REQUEST_DATA_EMPTY, "400", status.HTTP_200_OK
-            if token:
-                return custom_render_response(status_code, message, response_status, token=token.key, data={"user": data})
-
-            return custom_render_response(status_code, message, response_status)
-        except:
-            message, status_code, response_status = messages.MSG_ERROR_LOGGING_IN, "400", status.HTTP_200_OK
-            return custom_render_response(status_code, message, response_status)
+        serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
+        password = '123456'  # Todo The hard code password is set to maintain django authentication.
+        if serializer.is_valid(raise_exception=True):
+            user = authenticate(request, username=request.data.get('phone_number'), password=password)
+            if user:
+                user.auth_token.delete()
+                try:
+                    user_profile = UserProfile.objects.get(user=user)
+                    Token.objects.create(user=user)
+                    serializer = UserDetailSerializer(instance=user_profile)
+                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+                except UserProfile.DoesNotExist:
+                    return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST,
+                                                  data={'phone_number': messages.MSG_INVALID_PHONE_NUMBER})
+            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST,
+                                          data={'phone_number': messages.MSG_INVALID_PHONE_NUMBER})
 
 
 class Logout(APIView):
