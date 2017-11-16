@@ -52,11 +52,12 @@ def send_otp(phone_number):
     """
     pin = _get_pin()
 
-    client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    message = client.messages.create(
-        body="%s" % pin,
-        to=phone_number,
-        from_=settings.TWILIO_FROM_NUMBER,
-    )
+    #Commenting code due to billing issue on twilio
+    # client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    # message = client.messages.create(
+    #     body="%s" % pin,
+    #     to=phone_number,
+    #     from_=settings.TWILIO_FROM_NUMBER,
+    # )
 
     return pin
