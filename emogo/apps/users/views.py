@@ -39,10 +39,10 @@ class Signup(APIView):
                     message, status_code, response_status = messages.MSG_REGISTRATION_CONFIRMATION, "200", status.HTTP_201_CREATED
                 else :
                     message, status_code, response_status = messages.MSG_PHONE_NUMBER_EXISTS, "400", status.HTTP_200_OK
-                return custom_render_data(status_code, message, response_status)
+                return custom_render_data(status_code, message, response_status, data={"otp":pin})
         except :
             message, status_code, response_status = messages.MSG_DATA_VALIDATION_ERROR, "400", status.HTTP_200_OK
-            return custom_render_data(status_code, message, response_status, data={"otp":pin}, token=None)
+            return custom_render_data(status_code, message, response_status, token=None)
 
 class VerifyRegistration(APIView) :
     """
