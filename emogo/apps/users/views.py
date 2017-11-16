@@ -16,7 +16,7 @@ from emogo.lib.utils import custom_render_response, send_otp
 from django.contrib.auth.models import User
 from emogo.apps.users.models import UserProfile
 # serializer
-from emogo.apps.users.serializers import UserSerializer
+from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer
 
 
 class Signup(APIView):
@@ -35,43 +35,16 @@ class Signup(APIView):
 
 class VerifyRegistration(APIView):
     """
-    This API is use to give access to signup user.
-    User can directly login to the application.
+    This API to verify OTP.
     """
 
     def post(self, request):
-        code = request.data['otp']
-        data = {}
-        token = None
-        try:
-            if code:
-                if UserProfile.objects.filter(otp=code).exists():
-                    userData = UserProfile.objects.get(otp=code)
-
-                    #  setting user data
-                    data["phone_number"] = userData.user.username
-                    data["user_name"] = userData.full_name
-                    data["image"] = userData.user_image if userData.user_image else ""
-                    data["user_id"] = userData.user.id
-
-                    token = Token.objects.create(user=userData.user)
-
-                    userData.otp = None
-                    userData.save()
-
-                    message, status_code, response_status = messages.MSG_USER_VERIFICATION, "200", status.HTTP_200_OK
-                else:
-                    message, status_code, response_status = messages.MSG_USER_NOT_VERIFIED, "400", status.HTTP_400_BAD_REQUEST
-            else:
-                message, status_code, response_status = messages.MSG_REQUEST_DATA_EMPTY, "400", status.HTTP_400_BAD_REQUEST
-
-            if token:
-                return custom_render_response(status_code, message, response_status, token=token.key, data={"user": data})
-
-            return custom_render_response(status_code, message, response_status)
-        except:
-            message, status_code, response_status = messages.MSG_USER_VERIFICATION_ERROR, "400", status.HTTP_400_BAD_REQUEST
-            return custom_render_response(status_code, message, response_status)
+        serializer = UserOtpSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            with transaction.atomic():
+                instance = serializer.save()
+                serializer = UserDetailSerializer(instance=instance)
+                return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
 class Login(APIView):
