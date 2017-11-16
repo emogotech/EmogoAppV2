@@ -38,7 +38,7 @@ class Signup(APIView):
                     user_serializer.create(request.data, pin)
                     message, status_code, response_status = messages.MSG_REGISTRATION_CONFIRMATION, "200", status.HTTP_201_CREATED
                 else :
-                    message, status_code, response_status = messages.MSG_PHONE_NUMBER_EXISTS, "400", status.HTTP_200_OK
+                    message, status_code, response_status, pin = messages.MSG_PHONE_NUMBER_EXISTS, "400", status.HTTP_200_OK, ""
                 return custom_render_data(status_code, message, response_status, data={"otp":pin})
         except :
             message, status_code, response_status = messages.MSG_DATA_VALIDATION_ERROR, "400", status.HTTP_200_OK
