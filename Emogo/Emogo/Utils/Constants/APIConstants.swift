@@ -32,6 +32,7 @@ let kGetCountryCode                               = "http://freegeoip.net/json/"
 
 let kSignUp                                       = "signup/"
 let kVerifyOTP                                    = "verify_otp/"
+let kLogin                                        = "login/"
 
 
 

@@ -36,7 +36,7 @@ class SignInViewController: UIViewController {
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
-        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.phoneCode!)"
+        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.countryCode!)"
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
@@ -50,9 +50,7 @@ class SignInViewController: UIViewController {
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
             self.showToast(type: "2", strMSG: kAlertPhoneNumberLengthMsg)
         }else {
-            let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
-            self.navigationController?.push(viewController: obj)
-            
+            self.userLogin()
         }
     }
     
@@ -65,4 +63,17 @@ class SignInViewController: UIViewController {
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
     }
+    
+    // MARK: - API Methods
+    
+    
+    func userLogin(){
+        APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
+            if isSuccess == true {
+                let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
+                self.navigationController?.push(viewController: obj)
+            }
+        }
+    }
+
 }

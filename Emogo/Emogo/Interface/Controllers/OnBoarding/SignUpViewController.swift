@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
         // Set Rule for Phone Format
 
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
-        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.phoneCode!)"
+        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.countryCode!)"
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")

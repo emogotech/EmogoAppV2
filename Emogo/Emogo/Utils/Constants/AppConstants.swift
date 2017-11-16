@@ -43,7 +43,8 @@ let kCell_StreamCell = "streamCell"
 
 
 // MARK: - UserDefault Identifier
-
+let kUserLogggedIn                      = "userloggedin"
+let kUserLogggedInData                  = "userloggedinData"
 
 // MARK: - Notification Observer Identifier
 

@@ -25,7 +25,7 @@ class APIServiceManager: NSObject {
     // MARK: - Signup API
     
     func apiForUserSignup(userName:String, phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let params:[String:Any] = ["phone_number":userName,"user_name":phone]
+        let params:[String:Any] = ["phone_number":phone,"user_name":userName]
         APIManager.sharedInstance.POSTRequest(strURL: kSignUp, Param: params) { (result) in
             switch(result){
             case .success(let value):
@@ -63,15 +63,13 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == kResponseSuccessCode {
-                        // For Get OTP (Static Login)
-                        var otp:String! = ""
                         if let data = (value as! [String:Any])["data"] {
-                            let result:[String:Any] = data as! [String : Any]
-                            if let code = result["otp"] {
-                                otp = "\(code)"
-                            }
+                            let dictUserData:[String:Any] = data as! [String : Any]
+                             kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
+                            UserDAO.sharedInstance.parseUserInfo()
+                            kDefault.set(true, forKey: kUserLogggedIn)
                         }
-                        completionHandler(true,otp)
+                        completionHandler(true,"")
                     }else {
                         completionHandler(false,"")
                     }
@@ -86,24 +84,22 @@ class APIServiceManager: NSObject {
     
     // MARK: - Login API
     
-    func apiForUserLogin(userName:String, phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let params:[String:Any] = ["phone_number":userName,"user_name":phone]
-        APIManager.sharedInstance.POSTRequest(strURL: kSignUp, Param: params) { (result) in
+    func apiForUserLogin( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let params:[String:Any] = ["phone_number":phone]
+        APIManager.sharedInstance.POSTRequest(strURL: kLogin, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == kResponseSuccessCode {
-                        // For Get OTP (Static Login)
-                        var otp:String! = ""
                         if let data = (value as! [String:Any])["data"] {
-                            let result:[String:Any] = data as! [String : Any]
-                            if let code = result["otp"] {
-                                otp = "\(code)"
-                            }
+                            let dictUserData:[String:Any] = data as! [String : Any]
+                            kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
+                            UserDAO.sharedInstance.parseUserInfo()
+                            kDefault.set(true, forKey: kUserLogggedIn)
                         }
-                        completionHandler(true,otp)
+                        completionHandler(true,"")
                     }else {
                         completionHandler(false,"")
                     }
