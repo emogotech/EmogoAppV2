@@ -1,56 +1,63 @@
 from rest_framework.response import Response
 from django.conf import settings
 from django_twilio.client import TwilioRestClient
-
 import random
 
+from rest_framework.views import exception_handler, status
+from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
-def custom_render_data(status=None, message=None, response_status=None, token=None, data={}):
+
+def custom_exception_handler(exc, context):
     """
-    Common method for getting rendering response to user.
-    :param status:
-    :param message:
-    :param response_status:
-    :param token:
-    :param data:
-    :return:
+    :param exc: The execution string
+    :param context: view request contest dict
+    :return: DRF custom exception handler
     """
-    if isinstance(data, bool):
-        """
-        This specific condition is written if user want data empty list
-        """
-        return Response({"status": status, "data": [], "message": message}, status=response_status)
+    response = exception_handler(exc, context)
 
-    if len(data) >= 1 or data == []:
-        if token:
-            response = Response({"status": status, "data": data, "message": message, "token": token},
-                                status=response_status)
+    if response is not None:
+        response.data = {}
+        errors = []
+        for field, value in response.data.items():
+            errors.append("{} : {}".format(field, " ".join(value)))
+
+        # response.data['errors'] = errors
+        response.data['status_code'] = response.status_code
+        if isinstance(exc, ValidationError):
+            response.data['exception'] = exc.detail
         else:
-            response = Response({"status": status, "data": data, "message": message}, status=response_status)
-    else:
-        if token:
-            response = Response({"status": status, "message": message, "token": token}, status=response_status)
-        else:
-            response = Response({"status": status, "message": message}, status=response_status)
-
-    if token:
-        response['Authorization'] = 'Token ' + token
-
+            response.data['exception'] = str(exc)
+    # else:
+    #     #  The Error is handled only in case of 500 Internal server error.
+    #     return Response({'exception': str(exc), 'status_code': status.HTTP_500_INTERNAL_SERVER_ERROR})
     return response
 
 
-def _get_pin(length=5):
-    """ Return a numeric PIN with length digits """
+def custom_render_response(status_code=None, data=None, token=None):
+    """
+    :param status:
+    :param data: data is response data.
+    :return:
+    """
+    return Response({"status_code": status_code, "data": data})
+
+
+def generate_pin(length=5):
+    """
+    :param length:
+    :return: Return a numeric PIN with length digits
+    """
+
     return random.sample(range(10 ** (length - 1), 10 ** length), 1)[0]
 
 
 def send_otp(phone_number):
     """
-    Sending sms to verify user registration
     :param phone_number:
-    :return:
+    :return: Sending sms to verify user registration
     """
-    pin = _get_pin()
+    pin = generate_pin()
 
     client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     message = client.messages.create(
@@ -58,5 +65,4 @@ def send_otp(phone_number):
         to=phone_number,
         from_=settings.TWILIO_FROM_NUMBER,
     )
-
     return pin

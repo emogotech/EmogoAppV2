@@ -20,8 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('emogo.apps.users.urls')),
-    url(r'^', include('emogo.apps.stream.urls')),
-    url(r'^', include('emogo.apps.collaborator.urls')),
+    url(r'^api/', include('emogo.apps.users.urls')),
+    url(r'^api/', include('emogo.apps.stream.urls')),
+    url(r'^api/', include('emogo.apps.collaborator.urls')),
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

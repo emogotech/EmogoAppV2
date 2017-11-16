@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-
 from emogo.apps.users.models import UserProfile
+from rest_framework.validators import UniqueValidator
+from emogo.lib.utils import generate_pin
+
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -23,27 +25,28 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
-class UserSerializer(DynamicFieldsModelSerializer,serializers.ModelSerializer):
 
-    password = serializers.CharField(write_only=True)
+class UserSerializer(DynamicFieldsModelSerializer):
 
-    def create(self, validated_data, random_code):
-
-        #adding user entry
-        user = User.objects.create(
-            username=validated_data['phone_number'],
-        )
-        user.set_password('123456')
-        user.save()
-
-        userProfileData = UserProfile(full_name=validated_data['user_name'],
-                                      user=user,
-                                      otp=random_code)
-        userProfileData.save()
-
-        return user
+    password = serializers.CharField(read_only=True)
+    user_name = serializers.CharField()
+    phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
         model = User
-        fields = ['username','email','password']
+        fields = ['email','password','phone_number','user_name']
         extra_kwargs = {'password': {'required': True}}
+
+    def create(self, validated_data):
+        """
+        :param validated_data:
+        :return: Create User and user profile object
+        """
+        user = User.objects.create(username=validated_data.get('username'))
+        user.set_password('123456')
+        user.save()
+        setattr(self, 'user_pin' ,generate_pin())
+        user_profile = UserProfile(full_name=validated_data.get('user_name'),
+                                      user=user, otp=self.user_pin)
+        user_profile.save()
+        return user

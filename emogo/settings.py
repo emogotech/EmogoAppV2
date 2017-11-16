@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -26,12 +25,6 @@ SECRET_KEY = 'd^6nmg0*yi#6ita0%gpakjft0np#4p!bu*)7!5&zp*$wt!xs86'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-# Get Local Settings
-try:
-    from local_settings import *
-except ImportError:
-    pass
 
 # Application definition
 
@@ -81,17 +74,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'emogo.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -110,7 +92,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -124,20 +105,35 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
 
-#global status for application
+# global status for application
 STATUSES = (
     ('Active', 'Active'),
     ('Inactive', 'Inactive'),
     ('Deleted', 'Deleted'),
 )
 
-#Twilio Cred
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        # 'rest_framework.parsers.FormParser',
+        # 'rest_framework.parsers.MultiPartParser',
+    ),
+    'EXCEPTION_HANDLER': 'emogo.lib.utils.custom_exception_handler',
+
+}
+
+# Twilio Credential
 TWILIO_ACCOUNT_SID = 'AC470ab177bba5b96f4c1af3d3d29b8975'
 TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
+
+# Get Local Settings
+try:
+    from local_settings import *
+except ImportError:
+    pass

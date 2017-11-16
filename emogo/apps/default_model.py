@@ -3,6 +3,7 @@
 from django.db import models
 from django.conf import settings
 
+
 class DefaultDateModel(models.Model):
     """ Abstract model class to created_at and updated_at fields """
 
@@ -12,6 +13,7 @@ class DefaultDateModel(models.Model):
     class Meta:
         abstract = True
 
+
 class DefaultStatusModel(DefaultDateModel):
     """ Abstract Model for status field"""
 
@@ -19,4 +21,3 @@ class DefaultStatusModel(DefaultDateModel):
 
     class Meta:
         abstract = True
-
