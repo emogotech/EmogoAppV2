@@ -89,18 +89,21 @@ class UserOtpSerializer(UserProfileSerializer):
     User OTP serializer inherits : UserProfileSerializer
     """
     otp = serializers.IntegerField(min_value=1)
+    phone_number = serializers.CharField(source='user.username')
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         self.Meta.fields.append('otp')
+        # self.Meta.fields.append('otp')
+
         # Instantiate the superclass normally
         super(UserOtpSerializer, self).__init__(*args, **kwargs)
 
     def validate_otp(self, value):
         try:
-            self.instance = UserProfile.objects.get(otp=value)
+            self.instance = UserProfile.objects.get(otp=value, user__username=self.initial_data.get('phone_number'))
         except UserProfile.DoesNotExist:
-            raise serializers.ValidationError(messages.MSG_INVALID_OTP)
+            raise serializers.ValidationError(messages.MSG_INVALID_OTP_OR_PHONE)
         return value
 
     def save(self):
