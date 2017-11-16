@@ -28,9 +28,9 @@ def custom_exception_handler(exc, context):
             response.data['exception'] = exc.detail
         else:
             response.data['exception'] = str(exc)
-    # else:
-    #     #  The Error is handled only in case of 500 Internal server error.
-    #     return Response({'exception': str(exc), 'status_code': status.HTTP_500_INTERNAL_SERVER_ERROR})
+    else:
+        #  The Error is handled only in case of 500 Internal server error.
+        return Response({'exception': str(exc), 'status_code': status.HTTP_500_INTERNAL_SERVER_ERROR})
     return response
 
 
@@ -58,7 +58,6 @@ def send_otp(phone_number):
     :return: Sending sms to verify user registration
     """
     pin = generate_pin()
-
     client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     message = client.messages.create(
         body="%s" % pin,
