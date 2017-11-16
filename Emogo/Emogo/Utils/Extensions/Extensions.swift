@@ -198,6 +198,32 @@ extension UIViewController {
         }
         
     }
+    
+    func configureLandingNavigation(){
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = .white
+        let img = UIImage(named: "my_profile")
+        let btnProfile = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnMyProfileAction))
+        self.navigationItem.leftBarButtonItem = btnProfile
+        let img1 = UIImage(named: "camera_icon")
+        let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
+        self.navigationItem.rightBarButtonItem = btnCamera
+        let img2 = UIImage(named: "home_icon_active")
+        let btnHome = UIButton(type: .custom)
+        btnHome.setImage(img2, for: .normal)
+        self.navigationItem.titleView = btnHome
+    }
+    
+    @objc func btnMyProfileAction(){
+        
+    }
+    @objc func btnCameraAction(){
+        
+    }
+    @objc func btnHomeAction(){
+        
+    }
 }
 
 // MARK: - UINavigationController

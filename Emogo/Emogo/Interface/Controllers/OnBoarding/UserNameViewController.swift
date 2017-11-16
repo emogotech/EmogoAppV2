@@ -10,7 +10,7 @@ import UIKit
 
 class UserNameViewController: UIViewController {
     
-    // MARK: - IBOutlets
+    // MARK: - UI Elements
     @IBOutlet weak var txtUserName                 : UITextField!
     
     
@@ -41,9 +41,11 @@ class UserNameViewController: UIViewController {
     @IBAction func btnActionNext(_ sender: Any) {
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
-        }
-        else {
+        }else if (txtUserName.text?.trim().count)! < 3 && (txtUserName.text?.trim().count)! > 30 {
+            self.showToast(type: "2", strMSG: kAlertInvalidUserNameMsg)
+        }else {
             let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
+            obj.userName = self.txtUserName.text?.trim()
             self.navigationController?.push(viewController: obj)
         }
     }

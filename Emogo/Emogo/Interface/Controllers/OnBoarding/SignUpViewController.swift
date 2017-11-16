@@ -10,8 +10,10 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
-    // MARK: - IBOutlets
-    @IBOutlet weak var txtPhoneNumber                 : UITextField!
+    // MARK: - UI Elements
+    @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
+    
+     var userName:String!
 
     
     // MARK: - Override Functions
@@ -34,6 +36,14 @@ class SignUpViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
+        // Set Rule for Phone Format
+
+        txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
+        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.phoneCode!)"
+        txtPhoneNumber.hasPredictiveInput = true;
+        txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
+            print("number is \(textField.text ?? "")")
+        }
     }
     
     // MARK: -  Action Methods And Selector
@@ -43,8 +53,7 @@ class SignUpViewController: UIViewController {
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
             self.showToast(type: "2", strMSG: kAlertPhoneNumberLengthMsg)
         }else {
-            let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
-            self.navigationController?.push(viewController: obj)
+            self.sigupUser()
         }
     }
     
@@ -58,6 +67,19 @@ class SignUpViewController: UIViewController {
         self.view.endEditing(true)
     }
 
+    // MARK: - API Methods
+
+    private func sigupUser(){
+         HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName, phone: (txtPhoneNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
+                obj.OTP = errorMsg
+                self.navigationController?.push(viewController: obj)
+            }
+        })
+    }
     /*
     // MARK: - Navigation
 

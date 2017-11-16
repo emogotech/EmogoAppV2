@@ -35,5 +35,8 @@ class User:JSONModel {
     override class func propertyIsOptional(_ propertyName: String!) -> Bool {
         return true
     }
-   
+
 }
+
+
+
