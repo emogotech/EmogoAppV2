@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "532604213.096687"
+            filePath = "Emogo/Utils/Core/SharedData.swift"
+            timestampString = "532606770.023386"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "apiForUserLogin(phone:completionHandler:)"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "getErrorMessages(dict:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
