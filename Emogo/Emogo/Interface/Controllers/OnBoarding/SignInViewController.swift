@@ -68,10 +68,14 @@ class SignInViewController: UIViewController {
     
     
     func userLogin(){
+        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
                 self.navigationController?.push(viewController: obj)
+            }else {
+                self.showToast(type: .error, strMSG: errorMsg!)
             }
         }
     }

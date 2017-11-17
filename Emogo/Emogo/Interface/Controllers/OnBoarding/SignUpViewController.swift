@@ -78,6 +78,8 @@ class SignUpViewController: UIViewController {
                 obj.OTP = errorMsg
                 obj.phone = self.txtPhoneNumber.text?.trim()
                 self.navigationController?.push(viewController: obj)
+            }else {
+                self.showToast(type: .error, strMSG: errorMsg!)
             }
         })
     }

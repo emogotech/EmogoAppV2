@@ -70,6 +70,8 @@ class VerificationViewController: UIViewController {
             if isSuccess == true {
                 let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
                 self.navigationController?.push(viewController: obj)
+            }else {
+                self.showToast(type: .error, strMSG: errorMsg!)
             }
         }
     }

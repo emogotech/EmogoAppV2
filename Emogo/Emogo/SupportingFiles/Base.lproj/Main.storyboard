@@ -566,15 +566,15 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4oZ-wY-fIx">
                                 <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" red="0.96070033311843872" green="0.96083813905715942" blue="0.96067017316818237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tOM-3W-FTp">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tOM-3W-FTp" customClass="CSStickyHeaderFlowLayout">
                                     <size key="itemSize" width="150" height="125"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="58"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="streamCell" id="Hcl-tv-s7v" customClass="StreamCell" customModule="Emogo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
+                                        <rect key="frame" x="0.0" y="58" width="150" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
@@ -589,7 +589,8 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmS-V3-M4p">
                                                             <rect key="frame" x="0.0" y="80" width="150" height="45"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="45" id="5DX-Iz-i6n"/>
+                                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="5DX-Iz-i6n"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="9MI-IU-aic"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -629,6 +630,45 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="streamHeaderView" id="jfk-LO-1fA" customClass="StreamHeaderView" customModule="Emogo" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ysm-tT-Wwr">
+                                            <rect key="frame" x="8" y="0.0" width="304" height="58"/>
+                                            <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="    Search" textAlignment="natural" minimumFontSize="17" background="search_bar_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="uDv-cl-m5R">
+                                                    <rect key="frame" x="8" y="9" width="288" height="40"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search_icon_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="3F4-JD-0ll">
+                                                    <rect key="frame" x="267" y="22" width="13" height="13"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="13" id="Lj0-ix-eLB"/>
+                                                        <constraint firstAttribute="width" constant="13" id="gtt-6P-QDV"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="uDv-cl-m5R" firstAttribute="leading" secondItem="Ysm-tT-Wwr" secondAttribute="leading" constant="8" id="CfD-or-oeU"/>
+                                                <constraint firstItem="3F4-JD-0ll" firstAttribute="centerY" secondItem="Ysm-tT-Wwr" secondAttribute="centerY" id="TPd-le-3IU"/>
+                                                <constraint firstAttribute="trailing" secondItem="uDv-cl-m5R" secondAttribute="trailing" constant="8" id="bDi-k2-SjT"/>
+                                                <constraint firstItem="uDv-cl-m5R" firstAttribute="top" secondItem="Ysm-tT-Wwr" secondAttribute="top" constant="9" id="dRw-6r-vd5"/>
+                                                <constraint firstItem="3F4-JD-0ll" firstAttribute="leading" secondItem="uDv-cl-m5R" secondAttribute="trailing" constant="-29" id="nhI-We-YFP"/>
+                                                <constraint firstAttribute="bottom" secondItem="uDv-cl-m5R" secondAttribute="bottom" constant="9" id="qMS-43-7lQ"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Ysm-tT-Wwr" firstAttribute="top" secondItem="jfk-LO-1fA" secondAttribute="top" id="53o-nR-Qcw"/>
+                                        <constraint firstItem="Ysm-tT-Wwr" firstAttribute="leading" secondItem="jfk-LO-1fA" secondAttribute="leading" constant="8" id="Llc-1B-ug6"/>
+                                        <constraint firstAttribute="trailing" secondItem="Ysm-tT-Wwr" secondAttribute="trailing" constant="8" id="d84-9e-NMn"/>
+                                        <constraint firstAttribute="bottom" secondItem="Ysm-tT-Wwr" secondAttribute="bottom" id="qfx-z9-m51"/>
+                                    </constraints>
+                                </collectionReusableView>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -646,7 +686,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ONW-wa-62M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1093" y="747"/>
+            <point key="canvasLocation" x="1091.25" y="746.83098591549299"/>
         </scene>
         <!--Welcome View Controller-->
         <scene sceneID="6c2-gT-maW">
@@ -761,6 +801,8 @@
         <image name="input_text_iphone" width="253" height="42"/>
         <image name="logo-iPhone" width="126" height="33"/>
         <image name="next-btn" width="137" height="45"/>
+        <image name="search_bar_iphone" width="291" height="35"/>
+        <image name="search_icon_iphone" width="13" height="13"/>
         <image name="sign-in-btn" width="137" height="45"/>
         <image name="sign-up-btn" width="137" height="45"/>
         <image name="text-me-my-code-btn" width="155" height="45"/>
