@@ -5,6 +5,7 @@ from rest_framework.validators import UniqueValidator
 from emogo.lib.utils import generate_pin
 from emogo.constants import messages
 from rest_framework.authtoken.models import Token
+import re
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -33,7 +34,6 @@ class UserSerializer(DynamicFieldsModelSerializer):
     """
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
-    country_code = serializers.CharField()
     phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
@@ -51,7 +51,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
         user.set_password('123456')
         user.save()
         setattr(self, 'user_pin', generate_pin())
-        user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin, country_code=validated_data.get('country_code'))
+        user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
         user_profile.save()
         return user
 
@@ -60,6 +60,11 @@ class UserSerializer(DynamicFieldsModelSerializer):
             raise serializers.ValidationError(messages.MSG_USER_NAME_EXISTS)
         return value
 
+    def validate_phone_number(self, value):
+        if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
+            return value
+        else:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
 class UserProfileSerializer(DynamicFieldsModelSerializer):
     """
@@ -112,6 +117,12 @@ class UserOtpSerializer(UserProfileSerializer):
             raise serializers.ValidationError(messages.MSG_INVALID_OTP_OR_PHONE)
         return value
 
+    def validate_phone_number(self, value):
+        if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
+            return value
+        else:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
     def save(self):
         self.instance.otp = None
         self.instance.save(update_fields=['otp'])
@@ -121,7 +132,34 @@ class UserOtpSerializer(UserProfileSerializer):
 
 class UserLoginSerializer(UserSerializer):
     """
-    User OTP serializer inherits : UserProfileSerializer
+    User login serializer inherits : UserSerializer
     """
     phone_number = serializers.CharField(source='username')
 
+    def validate_phone_number(self, value):
+        if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
+            return value
+        else:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
+class UserResendOtpSerializer(UserProfileSerializer):
+    """
+    User OTP serializer inherits : UserProfileSerializer
+    """
+    phone_number = serializers.CharField()
+
+    def resend_otp(self, validated_data):
+        setattr(self, 'user_pin', generate_pin())
+        if User.objects.filter(username=validated_data.get('phone_number')).exists():
+            user = User.objects.get(username=validated_data.get('phone_number'))
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile.otp = self.user_pin
+            user_profile.save()
+
+        return self.user_pin
+
+    def validate_phone_number(self, value):
+        if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
+            return value
+        else:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)

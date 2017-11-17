@@ -15,7 +15,7 @@ from emogo.lib.utils import custom_render_response, send_otp
 # Models
 from emogo.apps.users.models import UserProfile
 # serializer
-from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer
+from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, UserResendOtpSerializer
 
 
 class Signup(APIView):
@@ -95,3 +95,15 @@ class UniqueUserName(APIView):
         serializer = UserSerializer(data=request.data, fields=('user_name',))
         if serializer.is_valid(raise_exception=True):
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+class ResendOTP(APIView):
+    """
+    This API for sending an OTP.
+    """
+
+    def post(self, request):
+        serializer = UserResendOtpSerializer(data=request.data, fields=('phone_number', ))
+        if serializer.is_valid(raise_exception=True):
+            with transaction.atomic():
+                user_pin = serializer.resend_otp(request.data)
+                return custom_render_response(status_code=status.HTTP_200_OK, data={"otp": user_pin})
