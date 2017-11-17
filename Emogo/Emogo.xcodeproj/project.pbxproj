@@ -26,6 +26,17 @@
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
 		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
+		337B53121FBC844C00CEC0EB /* CountryCodes.json in Resources */ = {isa = PBXBuildFile; fileRef = 337B52F11FBC844B00CEC0EB /* CountryCodes.json */; };
+		337B531D1FBC844C00CEC0EB /* CRNotificationsMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337B53061FBC844C00CEC0EB /* CRNotificationsMedia.xcassets */; };
+		337B531E1FBC844C00CEC0EB /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B53081FBC844C00CEC0EB /* Colors.swift */; };
+		337B531F1FBC844C00CEC0EB /* CRNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B53091FBC844C00CEC0EB /* CRNotification.swift */; };
+		337B53201FBC844C00CEC0EB /* CRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B530A1FBC844C00CEC0EB /* CRNotifications.swift */; };
+		337B53211FBC844C00CEC0EB /* CRNotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B530B1FBC844C00CEC0EB /* CRNotificationType.swift */; };
+		337B53221FBC844C00CEC0EB /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B530C1FBC844C00CEC0EB /* DeviceManager.swift */; };
+		337B53231FBC844C00CEC0EB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 337B530D1FBC844C00CEC0EB /* LICENSE */; };
+		337B53241FBC844C00CEC0EB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 337B530E1FBC844C00CEC0EB /* README.md */; };
+		337B53251FBC844C00CEC0EB /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B53101FBC844C00CEC0EB /* SharedData.swift */; };
+		337B53261FBC844C00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B53111FBC844C00CEC0EB /* Validator.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -69,6 +80,13 @@
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
 		33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */; };
 		33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06F1FBB353E004FF634 /* ViewController.swift */; };
+		33F67AF01FBDC2700030AA17 /* SignUpSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AEB1FBDC2700030AA17 /* SignUpSelectedViewController.swift */; };
+		33F67AF11FBDC2700030AA17 /* SignUpVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AEC1FBDC2700030AA17 /* SignUpVerifyViewController.swift */; };
+		33F67AF21FBDC2700030AA17 /* SignUpMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AED1FBDC2700030AA17 /* SignUpMobileViewController.swift */; };
+		33F67AF31FBDC2700030AA17 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AEE1FBDC2700030AA17 /* SignInViewController.swift */; };
+		33F67AF41FBDC2700030AA17 /* SignUpNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AEF1FBDC2700030AA17 /* SignUpNameViewController.swift */; };
+		33F67AF91FBDC5930030AA17 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AF71FBDC5930030AA17 /* APIConstants.swift */; };
+		33F67AFA1FBDC5930030AA17 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F67AF81FBDC5930030AA17 /* AppConstants.swift */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
@@ -157,6 +175,17 @@
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		337B52F11FBC844B00CEC0EB /* CountryCodes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = CountryCodes.json; sourceTree = "<group>"; };
+		337B53061FBC844C00CEC0EB /* CRNotificationsMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CRNotificationsMedia.xcassets; sourceTree = "<group>"; };
+		337B53081FBC844C00CEC0EB /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		337B53091FBC844C00CEC0EB /* CRNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotification.swift; sourceTree = "<group>"; };
+		337B530A1FBC844C00CEC0EB /* CRNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotifications.swift; sourceTree = "<group>"; };
+		337B530B1FBC844C00CEC0EB /* CRNotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotificationType.swift; sourceTree = "<group>"; };
+		337B530C1FBC844C00CEC0EB /* DeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		337B530D1FBC844C00CEC0EB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		337B530E1FBC844C00CEC0EB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		337B53101FBC844C00CEC0EB /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
+		337B53111FBC844C00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -201,6 +230,13 @@
 		33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		33BCB06F1FBB353E004FF634 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		33F67AEB1FBDC2700030AA17 /* SignUpSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpSelectedViewController.swift; sourceTree = "<group>"; };
+		33F67AEC1FBDC2700030AA17 /* SignUpVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerifyViewController.swift; sourceTree = "<group>"; };
+		33F67AED1FBDC2700030AA17 /* SignUpMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpMobileViewController.swift; sourceTree = "<group>"; };
+		33F67AEE1FBDC2700030AA17 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		33F67AEF1FBDC2700030AA17 /* SignUpNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNameViewController.swift; sourceTree = "<group>"; };
+		33F67AF71FBDC5930030AA17 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		33F67AF81FBDC5930030AA17 /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.release.xcconfig"; sourceTree = "<group>"; };
 		68A23C5C260534D973245260 /* Pods_iMessageExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMessageExt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -343,11 +379,124 @@
 			isa = PBXGroup;
 			children = (
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
+				337B52F21FBC844B00CEC0EB /* Interface */,
+				337B530F1FBC844C00CEC0EB /* Utils */,
+				337B52FD1FBC844C00CEC0EB /* Externals */,
+				337B52F01FBC844B00CEC0EB /* Resources */,
 				335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */,
 				335B1A601FBB2413006DA9D9 /* Assets.xcassets */,
 				335B1A621FBB2413006DA9D9 /* Info.plist */,
 			);
 			path = iMessageExt;
+			sourceTree = "<group>";
+		};
+		337B52F01FBC844B00CEC0EB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				337B52F11FBC844B00CEC0EB /* CountryCodes.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		337B52F21FBC844B00CEC0EB /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				337B52F31FBC844B00CEC0EB /* Controllers */,
+				337B52FC1FBC844B00CEC0EB /* Views */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		337B52F31FBC844B00CEC0EB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				337B52F41FBC844B00CEC0EB /* Home */,
+				337B52F61FBC844B00CEC0EB /* Onboarding */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		337B52F41FBC844B00CEC0EB /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		337B52F61FBC844B00CEC0EB /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				33F67AEE1FBDC2700030AA17 /* SignInViewController.swift */,
+				33F67AEF1FBDC2700030AA17 /* SignUpNameViewController.swift */,
+				33F67AED1FBDC2700030AA17 /* SignUpMobileViewController.swift */,
+				33F67AEC1FBDC2700030AA17 /* SignUpVerifyViewController.swift */,
+				33F67AEB1FBDC2700030AA17 /* SignUpSelectedViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		337B52FC1FBC844B00CEC0EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		337B52FD1FBC844C00CEC0EB /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				337B53031FBC844C00CEC0EB /* CRNotifications */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		337B53031FBC844C00CEC0EB /* CRNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				337B53041FBC844C00CEC0EB /* CRNotifications */,
+				337B530D1FBC844C00CEC0EB /* LICENSE */,
+				337B530E1FBC844C00CEC0EB /* README.md */,
+			);
+			path = CRNotifications;
+			sourceTree = "<group>";
+		};
+		337B53041FBC844C00CEC0EB /* CRNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				337B53051FBC844C00CEC0EB /* Assets */,
+				337B53071FBC844C00CEC0EB /* Classes */,
+			);
+			path = CRNotifications;
+			sourceTree = "<group>";
+		};
+		337B53051FBC844C00CEC0EB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				337B53061FBC844C00CEC0EB /* CRNotificationsMedia.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		337B53071FBC844C00CEC0EB /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				337B53081FBC844C00CEC0EB /* Colors.swift */,
+				337B53091FBC844C00CEC0EB /* CRNotification.swift */,
+				337B530A1FBC844C00CEC0EB /* CRNotifications.swift */,
+				337B530B1FBC844C00CEC0EB /* CRNotificationType.swift */,
+				337B530C1FBC844C00CEC0EB /* DeviceManager.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		337B530F1FBC844C00CEC0EB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				33F67AF61FBDC5930030AA17 /* Constants */,
+				337B53101FBC844C00CEC0EB /* SharedData.swift */,
+				337B53111FBC844C00CEC0EB /* Validator.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
@@ -513,6 +662,15 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		33F67AF61FBDC5930030AA17 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				33F67AF71FBDC5930030AA17 /* APIConstants.swift */,
+				33F67AF81FBDC5930030AA17 /* AppConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		B7F8FDDD4726FD8DF5D6273C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -672,16 +830,16 @@
 					};
 					335B1A2C1FBB238B006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						TestTargetID = 335B1A0D1FBB238A006DA9D9;
 					};
 					335B1A421FBB23FE006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					335B1A551FBB2413006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -780,8 +938,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				337B531D1FBC844C00CEC0EB /* CRNotificationsMedia.xcassets in Resources */,
+				337B53231FBC844C00CEC0EB /* LICENSE in Resources */,
 				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
+				337B53241FBC844C00CEC0EB /* README.md in Resources */,
+				337B53121FBC844C00CEC0EB /* CountryCodes.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,8 +1142,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				337B531E1FBC844C00CEC0EB /* Colors.swift in Sources */,
+				33F67AFA1FBDC5930030AA17 /* AppConstants.swift in Sources */,
+				33F67AF01FBDC2700030AA17 /* SignUpSelectedViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
+				33F67AF91FBDC5930030AA17 /* APIConstants.swift in Sources */,
+				33F67AF11FBDC2700030AA17 /* SignUpVerifyViewController.swift in Sources */,
+				33F67AF41FBDC2700030AA17 /* SignUpNameViewController.swift in Sources */,
+				33F67AF31FBDC2700030AA17 /* SignInViewController.swift in Sources */,
+				337B531F1FBC844C00CEC0EB /* CRNotification.swift in Sources */,
+				337B53201FBC844C00CEC0EB /* CRNotifications.swift in Sources */,
+				337B53261FBC844C00CEC0EB /* Validator.swift in Sources */,
+				33F67AF21FBDC2700030AA17 /* SignUpMobileViewController.swift in Sources */,
+				337B53251FBC844C00CEC0EB /* SharedData.swift in Sources */,
+				337B53221FBC844C00CEC0EB /* DeviceManager.swift in Sources */,
+				337B53211FBC844C00CEC0EB /* CRNotificationType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1159,6 +1335,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -1166,7 +1343,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6991f97c-fbfc-4a36-a642-519cffe89faa";
+				PROVISIONING_PROFILE = "ef0789e2-d33d-4c73-92f7-f1cd2cfd3d32";
 				PROVISIONING_PROFILE_SPECIFIER = EmogoDev;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1179,7 +1356,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -1187,8 +1364,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "88cb794e-21d2-4275-8c68-2e4acd28ceda";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoDist;
+				PROVISIONING_PROFILE = "ef0789e2-d33d-4c73-92f7-f1cd2cfd3d32";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoDev;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1199,6 +1376,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
@@ -1217,6 +1395,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
@@ -1234,15 +1413,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2d556e0d-da4a-4916-add8-2b112f264d11";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoUITestsAdHoc;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Emogo;
@@ -1253,15 +1433,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2d556e0d-da4a-4916-add8-2b112f264d11";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoUITestsAdHoc;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = Emogo;
@@ -1272,16 +1453,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "511d904c-b6c6-45c6-acc6-90c2f01497db";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDist;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1292,16 +1474,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				APPLICATION_EXTENSION_API_ONLY = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "511d904c-b6c6-45c6-acc6-90c2f01497db";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDist;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1312,17 +1495,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "09dd16f8-f1b6-402e-9b93-df0a1c7538f1";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoiMessageExtDist;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1333,17 +1518,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "09dd16f8-f1b6-402e-9b93-df0a1c7538f1";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoiMessageExtDist;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
