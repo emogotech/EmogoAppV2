@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import JSONModel
 
 class UserDAO {
     
@@ -23,27 +22,48 @@ class UserDAO {
     
     func parseUserInfo(){
         if kDefault.value(forKey: kUserLogggedInData) != nil {
-            let dict:[String:Any] = kDefault.value(forKey: kUserLogggedInData) as! [String:Any]
-            if let u = try? User.init(dictionary: dict) {
-                    self.user = u
+            if kDefault.value(forKey: kUserLogggedInData) is [String:Any] {
+                let dict = kDefault.value(forKey: kUserLogggedInData) as! [String : Any]
+                self.user = User(userData: dict)
             }
         }
     }
    
 }
 
-class User:JSONModel {
+class User {
     
-    var full_name                   :String! = ""
-    var otp                         :String! = ""
-    var phone_number                :String! = ""
-    var token                       :String! = ""
-    var user                        :String! = ""
-    var user_id                     :String! = ""
-    var user_image                  :String! = ""
+    var fullName                   :String!
+    var OTP                         :String!
+    var phoneNumber                :String!
+    var token                       :String!
+    var user                        :String!
+    var userId                     :String!
+    var userImage                  :String!
 
-    override class func propertyIsOptional(_ propertyName: String!) -> Bool {
-        return true
+    init(userData:[String:Any]) {
+        
+        if let obj = userData["full_name"] {
+            self.fullName = obj as! String
+        }
+        if let obj = userData["otp"] {
+            self.OTP = "\(obj)"
+        }
+        if let obj = userData["token"] {
+            self.token = obj as! String
+        }
+        if let obj = userData["phone_number"] {
+            self.phoneNumber = "\(obj)"
+        }
+        if let obj = userData["user"] {
+            self.user = "\(obj)"
+        }
+        if let obj = userData["user_id"] {
+            self.userId = "\(obj)"
+        }
+        if let obj = userData["user_image"] {
+            self.userImage = obj as! String
+        }
     }
 
 }
