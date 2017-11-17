@@ -106,4 +106,6 @@ class ResendOTP(APIView):
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
                 user_pin = serializer.resend_otp(request.data)
+                # Todo : For now we have commented send_otp code for development purpose
+                # send_otp(request.data.get('phone_number'))
                 return custom_render_response(status_code=status.HTTP_200_OK, data={"otp": user_pin})
