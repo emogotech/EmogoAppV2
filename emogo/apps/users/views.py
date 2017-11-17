@@ -13,7 +13,6 @@ from emogo.constants import messages
 # util method
 from emogo.lib.utils import custom_render_response, send_otp
 # Models
-from django.contrib.auth.models import User
 from emogo.apps.users.models import UserProfile
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer
@@ -87,3 +86,12 @@ class Logout(APIView):
         except:
             message, status_code, response_status = messages.MSG_ERROR_LOGGING_OUT, "400", status.HTTP_400_BAD_REQUEST
             return custom_render_response(status_code, message, response_status)
+
+class UniqueUserName(APIView):
+    """
+    User unique name API
+    """
+    def post(self, request):
+        serializer = UserSerializer(data=request.data, fields=('user_name',))
+        if serializer.is_valid(raise_exception=True):
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)

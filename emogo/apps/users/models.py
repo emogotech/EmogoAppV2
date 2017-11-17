@@ -18,6 +18,7 @@ MESSAGE_STATUS = (
 
 class UserProfile( DefaultStatusModel ):
     full_name = models.CharField( max_length=45, null=True, blank=True )
+    country_code = models.CharField( max_length=5, null=True, blank=True )
     user_image = models.CharField(max_length=255, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     user = models.OneToOneField(User, null=True, blank=True)

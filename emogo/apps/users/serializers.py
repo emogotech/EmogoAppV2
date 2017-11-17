@@ -33,11 +33,12 @@ class UserSerializer(DynamicFieldsModelSerializer):
     """
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
+    country_code = serializers.CharField()
     phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all())])
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'phone_number', 'user_name']
+        fields = ['email', 'password', 'phone_number', 'user_name', 'country_code']
         extra_kwargs = {'password': {'required': True}}
 
 
@@ -50,9 +51,14 @@ class UserSerializer(DynamicFieldsModelSerializer):
         user.set_password('123456')
         user.save()
         setattr(self, 'user_pin', generate_pin())
-        user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
+        user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin, country_code=validated_data.get('country_code'))
         user_profile.save()
         return user
+
+    def validate_user_name(self, value):
+        if UserProfile.objects.filter(full_name__iexact=value).exists():
+            raise serializers.ValidationError(messages.MSG_USER_NAME_EXISTS)
+        return value
 
 
 class UserProfileSerializer(DynamicFieldsModelSerializer):
