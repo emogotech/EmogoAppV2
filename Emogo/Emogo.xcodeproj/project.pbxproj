@@ -43,6 +43,7 @@
 		337B8F6A1FBEC85000CFACE3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F581FBEC85000CFACE3 /* SharedData.swift */; };
 		337B8F6B1FBEC85000CFACE3 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F591FBEC85000CFACE3 /* Validator.swift */; };
 		337B8F6D1FBEC99C00CFACE3 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F6C1FBEC99C00CFACE3 /* AppConstant.swift */; };
+		337B8F711FBECD9C00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F701FBECD9C00CFACE3 /* NSDictionary+NullRemover.m */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -166,6 +167,8 @@
 		337B8F581FBEC85000CFACE3 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		337B8F591FBEC85000CFACE3 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B8F6C1FBEC99C00CFACE3 /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
+		337B8F6F1FBECD9C00CFACE3 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
+		337B8F701FBECD9C00CFACE3 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -469,6 +472,15 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		337B8F6E1FBECD9C00CFACE3 /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F6F1FBECD9C00CFACE3 /* NSDictionary+NullRemover.h */,
+				337B8F701FBECD9C00CFACE3 /* NSDictionary+NullRemover.m */,
+			);
+			path = Dictionary;
+			sourceTree = "<group>";
+		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +541,7 @@
 			isa = PBXGroup;
 			children = (
 				F4148A291FBDB5B500081900 /* PhoneValidation */,
+				337B8F6E1FBECD9C00CFACE3 /* Dictionary */,
 				F4148A251FBD946500081900 /* CardView */,
 				F4A94B841FBC286400E7B6CE /* HUD */,
 				33BCB03F1FBB353E004FF634 /* Custom UI */,
@@ -1082,6 +1095,7 @@
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
+				337B8F711FBECD9C00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 			);
