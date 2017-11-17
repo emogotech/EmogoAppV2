@@ -149,6 +149,7 @@ class UserResendOtpSerializer(UserProfileSerializer):
     phone_number = serializers.CharField()
 
     def resend_otp(self, validated_data):
+        setattr(self, 'user_pin', generate_pin())
         if User.objects.filter(username=validated_data.get('phone_number')).exists():
             user = User.objects.get(username=validated_data.get('phone_number'))
             user_profile = UserProfile.objects.get(user=user)
