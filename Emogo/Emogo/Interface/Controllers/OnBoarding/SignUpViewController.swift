@@ -39,7 +39,7 @@ class SignUpViewController: UIViewController {
         // Set Rule for Phone Format
 
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
-        txtPhoneNumber.formatter.prefix = "+\(SharedData.sharedInstance.countryCode!)"
+        txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode!
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
@@ -51,7 +51,7 @@ class SignUpViewController: UIViewController {
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
             self.txtPhoneNumber.shake()
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
-            self.showToast(type: "2", strMSG: kAlertPhoneNumberLengthMsg)
+            self.showToast(type: .error, strMSG: kAlertPhoneNumberLengthMsg)
         }else {
             self.sigupUser()
         }
@@ -76,6 +76,7 @@ class SignUpViewController: UIViewController {
             if isSuccess == true {
                 let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
                 obj.OTP = errorMsg
+                obj.phone = self.txtPhoneNumber.text?.trim()
                 self.navigationController?.push(viewController: obj)
             }
         })

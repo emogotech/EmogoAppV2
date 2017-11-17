@@ -52,11 +52,23 @@ let kUserLogggedInData                  = "userloggedinData"
 
 // MARK: - Static Alert Messages
 let kAlertTitle                         = "Alert!"
-let kAlertTitleMessage                  = "Message"
+let kAlertTitleMessage                  = "Message!"
+let kAlertTitleInfo                     = "Info!"
 
 let kPleaseEnterNameMsg                 = "Please Enter User Name."
 let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 characters."
 let kAlertVerificationLengthMsg         = "Verification Code must be 5 characters."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg          = "User Name Should be Between 3 - 30 characters."
+let kAlertInvalidUserNameMsg            = "User Name Should be Between 3 - 30 characters."
+let kAlertUserNameAlreayExistsMsg               = "User Name Already Exists, Please enter Unique User Name."
+
+
+// MARK: -  AlertMessage
+enum AlertType: String {
+    case success = "1"
+    case error = "2"
+    case Info = "3"
+    
+}
+
 

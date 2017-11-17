@@ -188,15 +188,18 @@ extension UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func showToast(type:String,strMSG:String) {
-        if type == "1" {
-            CRNotifications.showNotification(type: .success, title: "Message!", message: strMSG, dismissDelay: 3)
-        }else if type == "2" {
-            CRNotifications.showNotification(type: .error, title: "Alert!", message: strMSG, dismissDelay: 3)
-        }else {
-            CRNotifications.showNotification(type: .info, title: "Info!", message: strMSG, dismissDelay: 3)
+    func showToast(type:AlertType,strMSG:String) {
+        switch type {
+        case .success:
+            CRNotifications.showNotification(type: .success, title: kAlertTitleMessage, message: strMSG, dismissDelay: 3)
+            break
+        case .error:
+            CRNotifications.showNotification(type: .error, title: kAlertTitle, message: strMSG, dismissDelay: 3)
+            break
+        case .Info:
+            CRNotifications.showNotification(type: .info, title: kAlertTitleInfo, message: strMSG, dismissDelay: 3)
+            break
         }
-        
     }
     
     func configureLandingNavigation(){

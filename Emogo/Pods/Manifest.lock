@@ -6,7 +6,6 @@ PODS:
   - CHTCollectionViewWaterfallLayout/Swift (0.9.7)
   - CRNotifications (1.1.3)
   - IQKeyboardManagerSwift (5.0.4)
-  - JSONModel (1.7.0)
   - SDWebImage (4.2.1):
     - SDWebImage/Core (= 4.2.1)
   - SDWebImage/Core (4.2.1)
@@ -19,7 +18,6 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout/Swift
   - CRNotifications
   - IQKeyboardManagerSwift
-  - JSONModel
   - SDWebImage
   - SnapKit
   - SwiftyJSON
@@ -31,11 +29,10 @@ SPEC CHECKSUMS:
   CHTCollectionViewWaterfallLayout: 9d11068fafecac106695bb5a5d6d0f738483b598
   CRNotifications: 887e7a676aa7b8f6684620f96618b6642c531394
   IQKeyboardManagerSwift: a0592bb636b10a9a1cf75d2b2c61144226226c84
-  JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   SDWebImage: 1fa4c9edf525b744f002db89f3f5a38b3cd4c541
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 2c48a8cdad2e15a0c3b048c20058ed30137f711e
+PODFILE CHECKSUM: 3c4cc2361cdfd7a5f3a25b4ecfacfe485ef8f2ac
 
 COCOAPODS: 1.3.1

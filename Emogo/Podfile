@@ -6,7 +6,6 @@ inhibit_all_warnings!
 def common_pods_for_target
     pod 'Alamofire'
     pod 'SDWebImage'
-    pod 'JSONModel'
     pod 'SwiftyJSON'
     pod 'SnapKit'
     pod 'CHTCollectionViewWaterfallLayout/Swift'

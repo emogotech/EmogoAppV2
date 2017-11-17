@@ -11,7 +11,7 @@ import CoreTelephony
 
 class SharedData: NSObject {
     var countryCode:String! = ""
-    
+    var isMessageWindowExpand:Bool! = false
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
         struct Static {
@@ -37,7 +37,7 @@ class SharedData: NSObject {
  */
         APIManager.sharedInstance.getCountryCode { (code) in
             if !(code?.isEmpty)! {
-                self.countryCode = self.getCountryCallingCode(countryRegionCode: code!)
+                self.countryCode = "+\(self.getCountryCallingCode(countryRegionCode: code!))"
                 print(self.countryCode)
 
             }

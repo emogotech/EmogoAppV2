@@ -15,6 +15,8 @@ class VerificationViewController: UIViewController {
     @IBOutlet weak var txtOtP                 : UITextField!
 
      var OTP:String!
+     var phone:String!
+
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,7 @@ class VerificationViewController: UIViewController {
         if (self.txtOtP.text?.trim().isEmpty)! {
             self.txtOtP.shake()
         }else if (txtOtP.text?.trim().count)! != 5 {
-            self.showToast(type: "2", strMSG: kAlertVerificationLengthMsg)
+            self.showToast(type: .error, strMSG: kAlertVerificationLengthMsg)
         }else {
             self.verifyOTP()
         }
@@ -63,7 +65,7 @@ class VerificationViewController: UIViewController {
 
     func verifyOTP(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP,phone: self.phone) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController

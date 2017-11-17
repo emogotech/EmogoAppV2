@@ -42,11 +42,9 @@ class UserNameViewController: UIViewController {
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
         }else if (txtUserName.text?.trim().count)! < 3 && (txtUserName.text?.trim().count)! > 30 {
-            self.showToast(type: "2", strMSG: kAlertInvalidUserNameMsg)
+            self.showToast(type: .error, strMSG: kAlertInvalidUserNameMsg)
         }else {
-            let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
-            obj.userName = self.txtUserName.text?.trim()
-            self.navigationController?.push(viewController: obj)
+            self.verifyUserName()
         }
     }
     
@@ -60,11 +58,21 @@ class UserNameViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    func verifyUserName(){
+        APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtUserName.text?.trim())!) { (isSuccess, errorMsg) in
+        if isSuccess == true {
+            let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
+            obj.userName = self.txtUserName.text?.trim()
+            self.navigationController?.push(viewController: obj)
+        }else {
+            self.showToast(type: .error, strMSG: kAlertUserNameAlreayExistsMsg)
+            }
+        }
+    }
+    
 }
 
 // MARK: -  EXTENSIONS
 
 // MARK: -  Delegate and Datasource
-extension UserNameViewController {
-    
-}
+

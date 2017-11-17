@@ -20,11 +20,37 @@ class APIServiceManager: NSObject {
     
     // MARK: - ONBOARDING API'S
     
+    // MARK: - Username Verify API
+    
+    func apiForUserNameVerify(userName:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let params:[String:Any] = ["user_name":userName]
+        APIManager.sharedInstance.POSTRequest(strURL: kUserNameVerifyAPI, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        completionHandler(false,kAlertUserNameAlreayExistsMsg)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+    
     // MARK: - Signup API
+
     
     func apiForUserSignup(userName:String, phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let params:[String:Any] = ["phone_number":phone,"user_name":userName]
-        APIManager.sharedInstance.POSTRequest(strURL: kSignUp, Param: params) { (result) in
+        let strPhone = phone.replacingOccurrences(of:SharedData.sharedInstance.countryCode!, with: "")
+        print(strPhone)
+        let params:[String:Any] = ["phone_number":strPhone,"user_name":userName,"country_code":SharedData.sharedInstance.countryCode]
+        APIManager.sharedInstance.POSTRequest(strURL: kSignUpAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
@@ -52,9 +78,11 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Verify OTP API
-    func apiForVerifyUserOTP(otp:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let params:[String:Any] = ["otp":otp]
-        APIManager.sharedInstance.POSTRequest(strURL: kVerifyOTP, Param: params) { (result) in
+    func apiForVerifyUserOTP(otp:String, phone:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let strPhone = phone.replacingOccurrences(of:SharedData.sharedInstance.countryCode!, with: "")
+        print(strPhone)
+        let params:[String:Any] = ["otp":otp,"phone_number":strPhone]
+        APIManager.sharedInstance.POSTRequest(strURL: kVerifyOTPAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
@@ -83,8 +111,10 @@ class APIServiceManager: NSObject {
     // MARK: - Login API
     
     func apiForUserLogin( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let params:[String:Any] = ["phone_number":phone]
-        APIManager.sharedInstance.POSTRequest(strURL: kLogin, Param: params) { (result) in
+        let strPhone = phone.replacingOccurrences(of:SharedData.sharedInstance.countryCode!, with: "")
+        print(strPhone)
+        let params:[String:Any] = ["phone_number":strPhone]
+        APIManager.sharedInstance.POSTRequest(strURL: kLoginAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)

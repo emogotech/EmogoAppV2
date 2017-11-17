@@ -33,13 +33,13 @@ class UserDAO {
 
 class User {
     
-    var fullName                   :String!
-    var OTP                         :String!
-    var phoneNumber                :String!
-    var token                       :String!
-    var user                        :String!
-    var userId                     :String!
-    var userImage                  :String!
+    var fullName                   :String! = ""
+    var OTP                        :String! = ""
+    var phoneNumber                :String! = ""
+    var token                      :String! = ""
+    var user                       :String! = ""
+    var userId                     :String! = ""
+    var userImage                  :String! = ""
 
     init(userData:[String:Any]) {
         

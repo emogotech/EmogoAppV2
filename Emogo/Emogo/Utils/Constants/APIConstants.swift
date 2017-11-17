@@ -30,10 +30,10 @@ let kGetCountryCode                               = "http://freegeoip.net/json/"
 
 // MARK: -  API END POINTS
 
-let kSignUp                                       = "signup/"
-let kVerifyOTP                                    = "verify_otp/"
-let kLogin                                        = "login/"
-
+let kSignUpAPI                                      = "signup/"
+let kVerifyOTPAPI                                   = "verify_otp/"
+let kLoginAPI                                       = "login/"
+let kUserNameVerifyAPI                              = "unique_user_name/"
 
 
 
