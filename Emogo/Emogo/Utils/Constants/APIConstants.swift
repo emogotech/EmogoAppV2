@@ -38,5 +38,12 @@ let kLogin                                        = "login/"
 
 
 // MARK: -  API STATUS CODE
+enum APIStatus: String {
+    case successOK = "200"
+    case success = "201"
+    case NoContent = "204"
+    case BadRequest = "400"
+    case ServerError = "500"
+    case NotFound = "404"
+}
 
-let kResponseSuccessCode = "201"

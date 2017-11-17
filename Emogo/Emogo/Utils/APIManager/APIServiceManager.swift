@@ -9,8 +9,6 @@
 import UIKit
 
 
-
-
 class APIServiceManager: NSObject {
     
     class var sharedInstance: APIServiceManager {
@@ -32,13 +30,13 @@ class APIServiceManager: NSObject {
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
-                    if status == kResponseSuccessCode {
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         // For Get OTP (Static Login)
                         var otp:String! = ""
                         if let data = (value as! [String:Any])["data"] {
                             let result:[String:Any] = data as! [String : Any]
                             if let code = result["otp"] {
-                               otp = "\(code)"
+                                otp = "\(code)"
                             }
                         }
                         completionHandler(true,otp)
@@ -62,10 +60,10 @@ class APIServiceManager: NSObject {
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
-                    if status == kResponseSuccessCode {
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            let dictUserData:[String:Any] = data as! [String : Any]
-                             kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
                             kDefault.set(true, forKey: kUserLogggedIn)
                         }
@@ -92,11 +90,12 @@ class APIServiceManager: NSObject {
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
-                    if status == kResponseSuccessCode {
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            let dictUserData:[String:Any] = data as! [String : Any]
-                            kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
+                            print(UserDAO.sharedInstance.user.fullName)
                             kDefault.set(true, forKey: kUserLogggedIn)
                         }
                         completionHandler(true,"")
@@ -110,6 +109,6 @@ class APIServiceManager: NSObject {
             }
         }
     }
-
+    
     
 }
