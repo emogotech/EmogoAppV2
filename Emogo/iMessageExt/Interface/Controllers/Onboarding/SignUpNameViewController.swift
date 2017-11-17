@@ -36,8 +36,16 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     //MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
-        if(Validator.isNameIsValidForString(string: txtName.text!, numberOfCharacters: 3)){
-            
+        if (self.txtName.text?.trim().isEmpty)! {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_Name , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if (txtName.text?.trim().count)! < 3 && (txtName.text?.trim().count)! > 30 {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertInvalidUserNameMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else {
+            self.verifyUserName()
         }
     }
     
@@ -96,7 +104,9 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK: - API Methods
     func verifyUserName(){
+      //  HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
+            //HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 
                 let obj : SignUpMobileViewController = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
@@ -106,12 +116,12 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                 self.present(obj, animated: true, completion: nil)
                 
             } else {
-//                self.showToast(type: .error, strMSG: kAlertUserNameAlreayExistsMsg)
+                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
-    
-    
     
 }
 

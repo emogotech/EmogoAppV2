@@ -97,6 +97,9 @@ let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
 //Alert Messages
 let iMsgError_NameMsg                           = "Please enter the name and minimum three characters."
 let iMsgError_CodeMsg                           = "Please enter 4 digit code."
+let iMsgError_Mobile                            = "Please enter mobile number."
+let iMsgError_Name                              = "Please enter the name."
+
 
 //Alert Types
 let iMsgAlertType_One = "1"

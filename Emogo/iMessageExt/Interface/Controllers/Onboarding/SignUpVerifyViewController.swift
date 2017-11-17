@@ -12,7 +12,7 @@ import Messages
 class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     //MARK:- UI Elements
-    @IBOutlet weak var txtVeryficationCodde : UITextField!
+    @IBOutlet weak var txtVeryficationCode : UITextField!
     
     
     //MARK:- Variables
@@ -29,10 +29,10 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     func prepareLayout()  {
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpVerify, colorName: UIColor.white)
-        txtVeryficationCodde.attributedPlaceholder = placeholder;
+        txtVeryficationCode.attributedPlaceholder = placeholder;
         
-        txtVeryficationCodde.layer.cornerRadius = iMsg_CornorRadius
-        txtVeryficationCodde.clipsToBounds = true
+        txtVeryficationCode.layer.cornerRadius = iMsg_CornorRadius
+        txtVeryficationCode.clipsToBounds = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -41,8 +41,16 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     //MARK:- Action Methods
     @IBAction func btnDone(_ sender : UIButton){
-        if(Validator.isInValidPhoneNumber(text: txtVeryficationCodde.text!) && Validator.isValidDigitCode(string: txtVeryficationCodde.text!, numberOfCharacters: iMsgCharacterMaxLength_VerificationCode) ) {
-           
+        if (self.txtVeryficationCode.text?.trim().isEmpty)! {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_CodeMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else if (txtVeryficationCode.text?.trim().count)! != 5 {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertVerificationLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }else {
+            self.verifyOTP()
         }
     }
     
@@ -85,7 +93,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.txtVeryficationCodde.resignFirstResponder()
+        self.txtVeryficationCode.resignFirstResponder()
     }
     
     // MARK: - Delegate Methods of Segue
@@ -95,13 +103,14 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
+      //  HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+        //    HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpSelected)
                 self.present(vc, animated: true, completion: nil)
             }
         }
     }
-    
 }
 

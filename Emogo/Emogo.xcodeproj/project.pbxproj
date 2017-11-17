@@ -377,8 +377,8 @@
 			isa = PBXGroup;
 			children = (
 				337B8F781FBEECBD00CFACE3 /* SignInViewController.swift */,
-				337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */,
 				337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */,
+				337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */,
 				337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */,
 				337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */,
 			);

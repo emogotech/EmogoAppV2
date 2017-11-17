@@ -13,7 +13,6 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     //MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber : UITextField!
-    @IBOutlet weak var btnCountryCode : UIButton!
     
     //MARK:- Life-Cycle Methods
     override func viewDidLoad() {
@@ -28,21 +27,34 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     //MARK:- Action Methods
     @IBAction func btnSignIn(_ sender : UIButton){
-        if(Validator.isInValidPhoneNumber(text: txtMobileNumber.text!) && Validator.isNameIsValidForString(string: txtMobileNumber.text!, numberOfCharacters: iMsgCharacterMaxLength_MobileNumber)){
-                self.userLogin()
+        
+        if (self.txtMobileNumber.text?.trim().isEmpty)! {
+            
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_Mobile , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (txtMobileNumber.text?.trim().count)! < 10 {
+            
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else {
+            self.userLogin()
         }
     }
     
     //MARK:- PrepareLayout
     func prepareLayout()  {
+        
         let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignIn, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
         
         txtMobileNumber.layer.cornerRadius = iMsg_CornorRadius
         txtMobileNumber.clipsToBounds = true
         
-        btnCountryCode.layer.cornerRadius = iMsg_CornorRadius
-        btnCountryCode.clipsToBounds = true
+        txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
     }
     
     //MARK:- TextField Delegate method
@@ -54,11 +66,15 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+        let textFieldText: String! = textField.text
+        
+        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank){
+            return false
+        }
+        
         if(string == iMsg_String_isBlank) {
             return true
         }
-        
-        let textFieldText: String! = textField.text
         
         if(textFieldText.count >= iMsgCharacterMaxLength_MobileNumber){
             return false
@@ -92,7 +108,9 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     // MARK: - API Methods
     func userLogin(){
+//        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
+//            HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 print("LoginSucccesss")
             }
@@ -100,5 +118,3 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     }
     
 }
-
-

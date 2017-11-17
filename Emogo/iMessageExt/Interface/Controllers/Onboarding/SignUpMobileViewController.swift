@@ -13,7 +13,6 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     //MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber : UITextField!
-    @IBOutlet weak var btnCountryCode : UIButton!
     
     //MARK:- Variables
     var userName :  String?
@@ -31,7 +30,19 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     //MARK:- Action Methods
     @IBAction func btnTextMeCode(_ sender : UIButton){
-        if(Validator.isInValidPhoneNumber(text: txtMobileNumber.text!) && Validator.isNameIsValidForString(string: txtMobileNumber.text!, numberOfCharacters: iMsgCharacterMaxLength_MobileNumber)){
+        
+        if (self.txtMobileNumber.text?.trim().isEmpty)! {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_Mobile , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if (txtMobileNumber.text?.trim().count)! < 12 {
+            
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else {
             self.sigupUser()
         }
     }
@@ -45,8 +56,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         txtMobileNumber.layer.cornerRadius = iMsg_CornorRadius
         txtMobileNumber.clipsToBounds = true
         
-        btnCountryCode.layer.cornerRadius = iMsg_CornorRadius
-        btnCountryCode.clipsToBounds = true
+        txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
     }
     
     //MARK:- TextField Delegate method
@@ -58,14 +68,14 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        if(string == iMsg_String_isBlank) {
-            return true
-        }
-        
         let textFieldText: String! = textField.text
         
-        if(textFieldText.count >= iMsgCharacterMaxLength_MobileNumber){
+        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank){
             return false
+        }
+        
+        if(string == iMsg_String_isBlank) {
+            return true
         }
         
         if(string == iMsg_String_singleSpace){
@@ -96,12 +106,12 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     private func sigupUser(){
+       // HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
-
+          //  HUDManager.sharedInstance.hideHUD()
+            
             if isSuccess == true {
-                
                 let obj : SignUpVerifyViewController  = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
-                
                 obj.OTP = errorMsg
                 obj.phone = self.txtMobileNumber.text?.trim()
                 self.present(obj, animated: true, completion: nil)
@@ -109,6 +119,5 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             }
         })
     }
-    
 }
 
