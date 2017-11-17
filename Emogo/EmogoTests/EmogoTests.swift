@@ -13,25 +13,15 @@ class EmogoTests: XCTestCase {
     
     let maxNumCharacters        =   10
     let maxUserNameCharacters   =   30
+    let maxOTPCharacters        =   5
     let storyboard              =   UIStoryboard(name: "Main", bundle: Bundle.main)
-
+    
     override func setUp() {
         super.setUp()
     }
     
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func testSignUpWithPhoneNumber() {
-        
-        let signupVC                            =   storyboard.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
-        signupVC.loadView()
-        
-        let strMaxLimitForPhoneNumber           =   String.init(repeating: Character("5"), count: 30)
-        let isMaxLimitForPhoneNumberExceed      =   self.checkMaxCharactersFor(textField: signupVC.txtPhoneNumber, shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: strMaxLimitForPhoneNumber, andForCount: maxNumCharacters)
-        XCTAssertFalse(isMaxLimitForPhoneNumberExceed,  "The user name text field should not allow \(maxNumCharacters+1) characters")
-        
     }
     
     func testSignUpWithUserName(){
@@ -41,23 +31,44 @@ class EmogoTests: XCTestCase {
         
         let strMaxLimitForUserName          =   String.init(repeating: Character("A"), count: 35)
         let isMaxLimitForUserNameExceed     =   self.checkMaxCharactersFor(textField: userNameVC.txtUserName, shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: strMaxLimitForUserName, andForCount: maxNumCharacters)
-        XCTAssertFalse(isMaxLimitForUserNameExceed,  "The phone number text field should not allow \(maxUserNameCharacters+1) characters")
+        XCTAssertTrue(isMaxLimitForUserNameExceed,  "The phone number text field should not allow \(maxUserNameCharacters+1) characters")
         
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testSignUpWithPhoneNumber() {
+        
+        let signupVC                            =   storyboard.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
+        signupVC.loadView()
+        
+        let strMaxLimitForPhoneNumber           =   String.init(repeating: Character("5"), count: 11)
+        let isMaxLimitForPhoneNumberExceed      =   self.checkMaxCharactersFor(textField: signupVC.txtPhoneNumber, shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: strMaxLimitForPhoneNumber, andForCount: maxNumCharacters)
+        XCTAssertFalse(isMaxLimitForPhoneNumberExceed,  "The Phone Number text field should not allow \(maxNumCharacters+1) characters")
+        
+    }
+    
+    func testSignUpWithOTP(){
+        
+        let verificationVC      =   storyboard.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
+        verificationVC.loadView()
+        
+        let strMaxLimitForOTPExceed           =   String.init(repeating: Character("5"), count: 11)
+        let isMaxLimitForPhoneNumberExceed      =   self.checkMaxCharactersFor(textField: verificationVC.txtOtP, shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: strMaxLimitForOTPExceed, andForCount: maxOTPCharacters)
+        XCTAssertFalse(isMaxLimitForPhoneNumberExceed,  "The OTP text field should not allow \(maxOTPCharacters+1) characters")
+        
+        let strCharactersForOTP         =   String.init(repeating: "A", count: 5)
+        let isCharctersAllowedForOTP    =   self.checkMaxCharactersFor(textField: verificationVC.txtOtP, shouldChangeCharactersInRange: NSRange(location: 0, length: 0), replacementString: strCharactersForOTP, andForCount: maxOTPCharacters)
+        XCTAssertFalse(isCharctersAllowedForOTP,  "The OTP text field should not allow characters")
+        
     }
     
 }
 
 extension EmogoTests {
-
+    
     func checkMaxCharactersFor(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String , andForCount count : Int) -> Bool {
         let newLength =     (textField.text?.count)! + string.count
-        return newLength <= maxNumCharacters
+        return newLength <= count
     }
+    
 }
+
