@@ -14,7 +14,7 @@ class MessagesViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: "manageRequestStyle"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -85,3 +85,4 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
 }
+

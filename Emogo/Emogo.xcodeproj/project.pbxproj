@@ -26,6 +26,23 @@
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
 		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
+		337B8F5B1FBEC85000CFACE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F401FBEC84F00CFACE3 /* SignInViewController.swift */; };
+		337B8F5C1FBEC85000CFACE3 /* SignUpMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F411FBEC84F00CFACE3 /* SignUpMobileViewController.swift */; };
+		337B8F5D1FBEC85000CFACE3 /* SignUpNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F421FBEC84F00CFACE3 /* SignUpNameViewController.swift */; };
+		337B8F5E1FBEC85000CFACE3 /* SignUpSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F431FBEC84F00CFACE3 /* SignUpSelectedViewController.swift */; };
+		337B8F5F1FBEC85000CFACE3 /* SignUpVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F441FBEC84F00CFACE3 /* SignUpVerifyViewController.swift */; };
+		337B8F601FBEC85000CFACE3 /* CRNotificationsMedia.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337B8F4B1FBEC85000CFACE3 /* CRNotificationsMedia.xcassets */; };
+		337B8F611FBEC85000CFACE3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F4D1FBEC85000CFACE3 /* Colors.swift */; };
+		337B8F621FBEC85000CFACE3 /* CRNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F4E1FBEC85000CFACE3 /* CRNotification.swift */; };
+		337B8F631FBEC85000CFACE3 /* CRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F4F1FBEC85000CFACE3 /* CRNotifications.swift */; };
+		337B8F641FBEC85000CFACE3 /* CRNotificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F501FBEC85000CFACE3 /* CRNotificationType.swift */; };
+		337B8F651FBEC85000CFACE3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F511FBEC85000CFACE3 /* DeviceManager.swift */; };
+		337B8F661FBEC85000CFACE3 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 337B8F521FBEC85000CFACE3 /* LICENSE */; };
+		337B8F671FBEC85000CFACE3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 337B8F531FBEC85000CFACE3 /* README.md */; };
+		337B8F681FBEC85000CFACE3 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F561FBEC85000CFACE3 /* APIConstants.swift */; };
+		337B8F6A1FBEC85000CFACE3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F581FBEC85000CFACE3 /* SharedData.swift */; };
+		337B8F6B1FBEC85000CFACE3 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F591FBEC85000CFACE3 /* Validator.swift */; };
+		337B8F6D1FBEC99C00CFACE3 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F6C1FBEC99C00CFACE3 /* AppConstant.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -52,7 +69,6 @@
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
 		F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
-		F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 /* End PBXBuildFile section */
@@ -133,6 +149,23 @@
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		337B8F401FBEC84F00CFACE3 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		337B8F411FBEC84F00CFACE3 /* SignUpMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpMobileViewController.swift; sourceTree = "<group>"; };
+		337B8F421FBEC84F00CFACE3 /* SignUpNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNameViewController.swift; sourceTree = "<group>"; };
+		337B8F431FBEC84F00CFACE3 /* SignUpSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpSelectedViewController.swift; sourceTree = "<group>"; };
+		337B8F441FBEC84F00CFACE3 /* SignUpVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerifyViewController.swift; sourceTree = "<group>"; };
+		337B8F4B1FBEC85000CFACE3 /* CRNotificationsMedia.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CRNotificationsMedia.xcassets; sourceTree = "<group>"; };
+		337B8F4D1FBEC85000CFACE3 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		337B8F4E1FBEC85000CFACE3 /* CRNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotification.swift; sourceTree = "<group>"; };
+		337B8F4F1FBEC85000CFACE3 /* CRNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotifications.swift; sourceTree = "<group>"; };
+		337B8F501FBEC85000CFACE3 /* CRNotificationType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CRNotificationType.swift; sourceTree = "<group>"; };
+		337B8F511FBEC85000CFACE3 /* DeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		337B8F521FBEC85000CFACE3 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		337B8F531FBEC85000CFACE3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		337B8F561FBEC85000CFACE3 /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		337B8F581FBEC85000CFACE3 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
+		337B8F591FBEC85000CFACE3 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		337B8F6C1FBEC99C00CFACE3 /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -308,11 +341,132 @@
 			isa = PBXGroup;
 			children = (
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
+				337B8F3C1FBEC84F00CFACE3 /* Interface */,
+				337B8F541FBEC85000CFACE3 /* Utils */,
+				337B8F461FBEC85000CFACE3 /* Externals */,
+				337B8F3A1FBEC84F00CFACE3 /* Resources */,
 				335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */,
 				335B1A601FBB2413006DA9D9 /* Assets.xcassets */,
 				335B1A621FBB2413006DA9D9 /* Info.plist */,
 			);
 			path = iMessageExt;
+			sourceTree = "<group>";
+		};
+		337B8F3A1FBEC84F00CFACE3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		337B8F3C1FBEC84F00CFACE3 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F3D1FBEC84F00CFACE3 /* Controllers */,
+				337B8F451FBEC84F00CFACE3 /* Views */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		337B8F3D1FBEC84F00CFACE3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F3E1FBEC84F00CFACE3 /* Home */,
+				337B8F3F1FBEC84F00CFACE3 /* Onboarding */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		337B8F3E1FBEC84F00CFACE3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		337B8F3F1FBEC84F00CFACE3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F401FBEC84F00CFACE3 /* SignInViewController.swift */,
+				337B8F411FBEC84F00CFACE3 /* SignUpMobileViewController.swift */,
+				337B8F421FBEC84F00CFACE3 /* SignUpNameViewController.swift */,
+				337B8F431FBEC84F00CFACE3 /* SignUpSelectedViewController.swift */,
+				337B8F441FBEC84F00CFACE3 /* SignUpVerifyViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		337B8F451FBEC84F00CFACE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		337B8F461FBEC85000CFACE3 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F481FBEC85000CFACE3 /* CRNotifications */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		337B8F481FBEC85000CFACE3 /* CRNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F491FBEC85000CFACE3 /* CRNotifications */,
+				337B8F521FBEC85000CFACE3 /* LICENSE */,
+				337B8F531FBEC85000CFACE3 /* README.md */,
+			);
+			path = CRNotifications;
+			sourceTree = "<group>";
+		};
+		337B8F491FBEC85000CFACE3 /* CRNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F4A1FBEC85000CFACE3 /* Assets */,
+				337B8F4C1FBEC85000CFACE3 /* Classes */,
+			);
+			path = CRNotifications;
+			sourceTree = "<group>";
+		};
+		337B8F4A1FBEC85000CFACE3 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F4B1FBEC85000CFACE3 /* CRNotificationsMedia.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		337B8F4C1FBEC85000CFACE3 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F4D1FBEC85000CFACE3 /* Colors.swift */,
+				337B8F4E1FBEC85000CFACE3 /* CRNotification.swift */,
+				337B8F4F1FBEC85000CFACE3 /* CRNotifications.swift */,
+				337B8F501FBEC85000CFACE3 /* CRNotificationType.swift */,
+				337B8F511FBEC85000CFACE3 /* DeviceManager.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		337B8F541FBEC85000CFACE3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F551FBEC85000CFACE3 /* Constants */,
+				337B8F581FBEC85000CFACE3 /* SharedData.swift */,
+				337B8F591FBEC85000CFACE3 /* Validator.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		337B8F551FBEC85000CFACE3 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F561FBEC85000CFACE3 /* APIConstants.swift */,
+				337B8F6C1FBEC99C00CFACE3 /* AppConstant.swift */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
@@ -747,8 +901,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				337B8F671FBEC85000CFACE3 /* README.md in Resources */,
+				337B8F601FBEC85000CFACE3 /* CRNotificationsMedia.xcassets in Resources */,
 				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
+				337B8F661FBEC85000CFACE3 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -958,9 +1115,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				337B8F5B1FBEC85000CFACE3 /* SignInViewController.swift in Sources */,
+				337B8F631FBEC85000CFACE3 /* CRNotifications.swift in Sources */,
+				337B8F621FBEC85000CFACE3 /* CRNotification.swift in Sources */,
+				337B8F611FBEC85000CFACE3 /* Colors.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
-				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
+				337B8F651FBEC85000CFACE3 /* DeviceManager.swift in Sources */,
+				337B8F641FBEC85000CFACE3 /* CRNotificationType.swift in Sources */,
+				337B8F5F1FBEC85000CFACE3 /* SignUpVerifyViewController.swift in Sources */,
+				337B8F681FBEC85000CFACE3 /* APIConstants.swift in Sources */,
+				337B8F5D1FBEC85000CFACE3 /* SignUpNameViewController.swift in Sources */,
+				337B8F6B1FBEC85000CFACE3 /* Validator.swift in Sources */,
+				337B8F6A1FBEC85000CFACE3 /* SharedData.swift in Sources */,
+				337B8F5E1FBEC85000CFACE3 /* SignUpSelectedViewController.swift in Sources */,
+				337B8F5C1FBEC85000CFACE3 /* SignUpMobileViewController.swift in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
+				337B8F6D1FBEC99C00CFACE3 /* AppConstant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1261,6 +1431,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1281,6 +1452,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1301,6 +1473,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1322,6 +1495,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
