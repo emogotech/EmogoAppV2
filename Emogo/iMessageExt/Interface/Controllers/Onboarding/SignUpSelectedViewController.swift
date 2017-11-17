@@ -20,6 +20,20 @@ class SignUpSelectedViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK:- Action Methods
+    @IBAction func btnGoBackWherIWas(_ sender : UIButton){
+        
+    }
+    
+    @IBAction func btnBrowseStreams(_ sender : UIButton){
+        
+    }
+    
+    @IBAction func btnCheckEmogoStream(_ sender : UIButton){
+        
+    }
+
+
     //MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return true

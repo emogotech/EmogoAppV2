@@ -2,8 +2,7 @@
 //  NSDictionary+NullRemover.h
 //  LetsAllDoGood
 //
-//  Created by Pushpendra on 13/12/16.
-//  Copyright © 2016 LetsAllDoGood Inc. All rights reserved.
+//  Created by Vikas Goyal on 14/11/17.
 //
 
 #import <Foundation/Foundation.h>

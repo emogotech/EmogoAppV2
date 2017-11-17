@@ -159,9 +159,10 @@ extension String {
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
         return boundingBox.width
     }
-    func trim() -> String{
-        return self.trimmingCharacters(in: CharacterSet.whitespaces)
-    }
+    
+//    func trim() -> String{
+//        return self.trimmingCharacters(in: CharacterSet.whitespaces)
+//    }
     
 }
 

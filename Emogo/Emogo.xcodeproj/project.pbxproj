@@ -15,17 +15,31 @@
 		335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */; };
 		335B1A461FBB23FE006DA9D9 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */; };
 		335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
-		335B1A4D1FBB23FE006DA9D9 /* ShareExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A431FBB23FE006DA9D9 /* ShareExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		335B1A4D1FBB23FE006DA9D9 /* EmogoShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		335B1A591FBB2413006DA9D9 /* Messages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 335B1A581FBB2413006DA9D9 /* Messages.framework */; };
 		335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */; };
 		335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */; };
 		335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A601FBB2413006DA9D9 /* Assets.xcassets */; };
-		335B1A651FBB2413006DA9D9 /* iMessageExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A561FBB2413006DA9D9 /* iMessageExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		335B1A651FBB2413006DA9D9 /* Emogo.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A561FBB2413006DA9D9 /* Emogo.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */; };
 		337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
 		337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E81FBC177F00CEC0EB /* Extensions.swift */; };
+		337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F781FBEECBD00CFACE3 /* SignInViewController.swift */; };
+		337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */; };
+		337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */; };
+		337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */; };
+		337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */; };
+		337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
+		337B8FA31FBEEEDD00CFACE3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */; };
+		337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
+		337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
+		337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
+		337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
+		337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
+		337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */; };
+		337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -38,7 +52,6 @@
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
-		F4110B501FBEDBD900BC2A8A /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		F4110B561FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */; };
@@ -101,8 +114,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				335B1A651FBB2413006DA9D9 /* iMessageExt.appex in Embed App Extensions */,
-				335B1A4D1FBB23FE006DA9D9 /* ShareExt.appex in Embed App Extensions */,
+				335B1A651FBB2413006DA9D9 /* Emogo.appex in Embed App Extensions */,
+				335B1A4D1FBB23FE006DA9D9 /* EmogoShare.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,11 +137,11 @@
 		335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoUITests.swift; sourceTree = "<group>"; };
 		335B1A331FBB238B006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		335B1A431FBB23FE006DA9D9 /* ShareExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = EmogoShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		335B1A481FBB23FE006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		335B1A4A1FBB23FE006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		335B1A561FBB2413006DA9D9 /* iMessageExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iMessageExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		335B1A561FBB2413006DA9D9 /* Emogo.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Emogo.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A581FBB2413006DA9D9 /* Messages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Messages.framework; path = System/Library/Frameworks/Messages.framework; sourceTree = SDKROOT; };
 		335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		335B1A5E1FBB2413006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -139,6 +152,15 @@
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		337B52E61FBC168F00CEC0EB /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		337B52E81FBC177F00CEC0EB /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		337B8F781FBEECBD00CFACE3 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpMobileViewController.swift; sourceTree = "<group>"; };
+		337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNameViewController.swift; sourceTree = "<group>"; };
+		337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpSelectedViewController.swift; sourceTree = "<group>"; };
+		337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerifyViewController.swift; sourceTree = "<group>"; };
+		337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
+		337B8FB01FBEF37E00CFACE3 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
+		337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
+		337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageExt.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -253,8 +275,8 @@
 				335B1A0E1FBB238A006DA9D9 /* Emogo.app */,
 				335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */,
 				335B1A2D1FBB238B006DA9D9 /* EmogoUITests.xctest */,
-				335B1A431FBB23FE006DA9D9 /* ShareExt.appex */,
-				335B1A561FBB2413006DA9D9 /* iMessageExt.appex */,
+				335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */,
+				335B1A561FBB2413006DA9D9 /* Emogo.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -317,11 +339,93 @@
 			isa = PBXGroup;
 			children = (
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
+				337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */,
+				337B8FB51FBEF45C00CFACE3 /* Utils */,
+				337B8F741FBEECBD00CFACE3 /* Interface */,
+				337B8F7E1FBEECBD00CFACE3 /* Externals */,
 				335B1A5D1FBB2413006DA9D9 /* MainInterface.storyboard */,
 				335B1A601FBB2413006DA9D9 /* Assets.xcassets */,
 				335B1A621FBB2413006DA9D9 /* Info.plist */,
 			);
 			path = iMessageExt;
+			sourceTree = "<group>";
+		};
+		337B8F741FBEECBD00CFACE3 /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F751FBEECBD00CFACE3 /* Controllers */,
+				337B8F7D1FBEECBD00CFACE3 /* Views */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		337B8F751FBEECBD00CFACE3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F761FBEECBD00CFACE3 /* Home */,
+				337B8F771FBEECBD00CFACE3 /* Onboarding */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		337B8F761FBEECBD00CFACE3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		337B8F771FBEECBD00CFACE3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				337B8F781FBEECBD00CFACE3 /* SignInViewController.swift */,
+				337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */,
+				337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */,
+				337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */,
+				337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		337B8F7D1FBEECBD00CFACE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		337B8F7E1FBEECBD00CFACE3 /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				337B8FAF1FBEF37E00CFACE3 /* Dictionary */,
+			);
+			path = Externals;
+			sourceTree = "<group>";
+		};
+		337B8FAF1FBEF37E00CFACE3 /* Dictionary */ = {
+			isa = PBXGroup;
+			children = (
+				337B8FB01FBEF37E00CFACE3 /* NSDictionary+NullRemover.h */,
+				337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */,
+			);
+			name = Dictionary;
+			path = Emogo/Externals/Dictionary;
+			sourceTree = SOURCE_ROOT;
+		};
+		337B8FB51FBEF45C00CFACE3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				337B8FB61FBEF47700CFACE3 /* Extension */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		337B8FB61FBEF47700CFACE3 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		33BCB0321FBB353E004FF634 /* Utils */ = {
@@ -651,7 +755,7 @@
 			);
 			name = ShareExt;
 			productName = ShareExt;
-			productReference = 335B1A431FBB23FE006DA9D9 /* ShareExt.appex */;
+			productReference = 335B1A431FBB23FE006DA9D9 /* EmogoShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		335B1A551FBB2413006DA9D9 /* iMessageExt */ = {
@@ -670,7 +774,7 @@
 			);
 			name = iMessageExt;
 			productName = iMessageExt;
-			productReference = 335B1A561FBB2413006DA9D9 /* iMessageExt.appex */;
+			productReference = 335B1A561FBB2413006DA9D9 /* Emogo.appex */;
 			productType = "com.apple.product-type.app-extension.messages";
 		};
 /* End PBXNativeTarget section */
@@ -930,6 +1034,7 @@
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
+				337B8FA31FBEEEDD00CFACE3 /* MessagesViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
@@ -978,13 +1083,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4110B501FBEDBD900BC2A8A /* SharedData.swift in Sources */,
+				337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */,
+				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
+				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
+				337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
+				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
+				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
+				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
+				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
+				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
+				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
+				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
+				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
+				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1102,6 +1219,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1151,6 +1269,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1212,6 +1331,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1231,6 +1351,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = northout.EmogoTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1250,6 +1371,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1270,6 +1392,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.uitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1285,6 +1408,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1292,7 +1416,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EmogoShare;
 				PROVISIONING_PROFILE = "511d904c-b6c6-45c6-acc6-90c2f01497db";
 				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDist;
 				SKIP_INSTALL = YES;
@@ -1305,6 +1429,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1312,7 +1437,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = EmogoShare;
 				PROVISIONING_PROFILE = "511d904c-b6c6-45c6-acc6-90c2f01497db";
 				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDist;
 				SKIP_INSTALL = YES;
@@ -1325,6 +1450,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1333,10 +1459,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Emogo;
 				PROVISIONING_PROFILE = "09dd16f8-f1b6-402e-9b93-df0a1c7538f1";
 				PROVISIONING_PROFILE_SPECIFIER = EmogoiMessageExtDist;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1346,6 +1473,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
@@ -1354,10 +1482,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Emogo;
 				PROVISIONING_PROFILE = "09dd16f8-f1b6-402e-9b93-df0a1c7538f1";
 				PROVISIONING_PROFILE_SPECIFIER = EmogoiMessageExtDist;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
