@@ -147,7 +147,7 @@ class APIManager: NSObject {
         let url = "\(kBaseURL)\(strURL)"
         print(url)
         //   let headers : HTTPHeaders = ["Content-Type" : "application/json"]
-        Alamofire.request(url, method: .post, parameters: Param, encoding: URLEncoding.default).responseJSON { response in
+        Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
@@ -187,4 +187,26 @@ class APIManager: NSObject {
         }
     }
     
+    // MARK: - Get Country Code
+
+    func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){
+        let url = URL(string: kGetCountryCode)
+        let request = URLRequest(url: url!)
+        let dataTask = URLSession.shared.dataTask(with: request) {
+            data,response,error in
+            do {
+                if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:Any] {
+                    guard let code = jsonResult["country_code"] else {
+                        completionHandler("")
+                        return
+                    }
+                    completionHandler("\(code)")
+                }
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                completionHandler("")
+            }
+        }
+        dataTask.resume()
+    }
 }

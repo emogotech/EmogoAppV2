@@ -31,7 +31,7 @@ class HUDManager: NSObject {
         view.thirdColor = UIColor(r: 0, g: 173.0, b: 243.0)
         view.duration = 2.5
         view.lineWidth = 5.0
-        view.bgColor =  UIColor.black.withAlphaComponent(0.3)
+        view.bgColor =  UIColor.black.withAlphaComponent(0.5)
         return view
     }()
     

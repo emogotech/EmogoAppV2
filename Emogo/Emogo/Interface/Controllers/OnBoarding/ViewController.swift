@@ -10,12 +10,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    // MARK: - IBOutlets
+    // MARK: - UI Elements
 
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareLayouts()
     }
     
@@ -29,9 +28,8 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
    
-    // MARK: - Prepare Layouts
+   // MARK: - Prepare Layouts
     func prepareLayouts(){
-        
     }
 
     // MARK: -  Action Methods And Selector

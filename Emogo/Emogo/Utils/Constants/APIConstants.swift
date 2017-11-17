@@ -23,6 +23,20 @@ let kBucketTesting = "emogo-v2/testing"
 let kRegion = AWSRegionType.USEast1
 //let kRegion = AWSRegionType.APSouth1
 
+// MARK: -  API
+// base URL
+let kBaseURL                                      = "http://54.196.89.61/api/"
+let kGetCountryCode                               = "http://freegeoip.net/json/"
 
-let kBaseURL                                      = ""
+// MARK: -  API END POINTS
 
+let kSignUp                                       = "signup/"
+let kVerifyOTP                                    = "verify_otp/"
+let kLogin                                        = "login/"
+
+
+
+
+// MARK: -  API STATUS CODE
+
+let kResponseSuccessCode = "201"

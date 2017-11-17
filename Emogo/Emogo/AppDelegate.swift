@@ -48,6 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
+        //get Country code
+        print(SharedData.sharedInstance.countryCode)
     }
 }
 

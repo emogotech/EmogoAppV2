@@ -10,11 +10,11 @@ import UIKit
 
 class VerificationViewController: UIViewController {
     
-    // MARK: - IBOutlets
+    // MARK: - UI Elements
 
     @IBOutlet weak var txtOtP                 : UITextField!
 
-    
+     var OTP:String!
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,18 +35,20 @@ class VerificationViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
+        self.txtOtP.text = self.OTP
     }
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
         if (self.txtOtP.text?.trim().isEmpty)! {
             self.txtOtP.shake()
-        }else if (txtOtP.text?.trim().count)! != 4 {
+        }else if (txtOtP.text?.trim().count)! != 5 {
             self.showToast(type: "2", strMSG: kAlertVerificationLengthMsg)
         }else {
-            self.showToast(type: "1", strMSG: kAlertLoginSuccessMsg)
+            self.verifyOTP()
         }
     }
+    
     
     @IBAction func btnResendOTPAction(_ sender: Any) {
      //   self.showToast(type: "3", strMSG: kAlertResendCodeMsg)
@@ -55,6 +57,19 @@ class VerificationViewController: UIViewController {
     // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
+    }
+    
+    // MARK: - API Methods
+
+    func verifyOTP(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
+                self.navigationController?.push(viewController: obj)
+            }
+        }
     }
 
     /*
