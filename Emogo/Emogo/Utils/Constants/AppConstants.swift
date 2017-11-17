@@ -38,6 +38,8 @@ let kStoryboardID_StreamListView = "streamListView"
 // MARK: - Cell's  and NIB's Identifier
 
 let kCell_StreamCell = "streamCell"
+let kHeader_StreamHeaderView = "streamHeaderView"
+
 
 // MARK: - StoryboardSegue Identifier
 

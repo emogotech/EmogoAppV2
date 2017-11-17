@@ -23,6 +23,7 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'CRNotifications'
 
+
 end
 
 target 'iMessageExt' do

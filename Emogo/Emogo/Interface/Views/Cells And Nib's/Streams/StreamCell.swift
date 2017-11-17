@@ -26,7 +26,9 @@ class StreamCell: UICollectionViewCell {
         self.imgCover.image = stream.imgCover
         self.lblTitle.attributedText = setInfo(cover: stream.title, postedBy: "\nPosted By Pushpendra")
         self.lblTitle.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "gradient"))
-    }
+        self.lblTitle.numberOfLines = 0
+        self.lblTitle.sizeToFit()
+ }
     
     func setInfo(cover:String,postedBy:String) -> NSMutableAttributedString {
     
