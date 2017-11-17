@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -21,7 +22,7 @@
         <!--Messages View Controller-->
         <scene sceneID="7MM-of-jgj">
             <objects>
-                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zMn-AG-sqS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +87,7 @@
         <!--Sign Up Name View Controller-->
         <scene sceneID="sa7-sb-NJI">
             <objects>
-                <viewController storyboardIdentifier="SignUpNameViewController" id="8Jb-pS-eSp" customClass="SignUpNameViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpNameViewController" id="8Jb-pS-eSp" customClass="SignUpNameViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VBO-JG-xEb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -189,7 +190,7 @@
         <!--Sign Up Mobile View Controller-->
         <scene sceneID="8SF-yL-ops">
             <objects>
-                <viewController storyboardIdentifier="SignUpMobileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jJ8-gp-UFI" customClass="SignUpMobileViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpMobileViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jJ8-gp-UFI" customClass="SignUpMobileViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="prq-xO-4U2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -312,7 +313,7 @@
         <!--Sign Up Verify View Controller-->
         <scene sceneID="SrE-SR-N8Q">
             <objects>
-                <viewController storyboardIdentifier="SignUpVerifyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eQ0-lP-RCy" customClass="SignUpVerifyViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpVerifyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eQ0-lP-RCy" customClass="SignUpVerifyViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CR7-0c-cQc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -424,7 +425,7 @@
         <!--Sign Up Selected View Controller-->
         <scene sceneID="crR-Na-XJL">
             <objects>
-                <viewController storyboardIdentifier="SignUpSelectedViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2O-v6-8hu" customClass="SignUpSelectedViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignUpSelectedViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J2O-v6-8hu" customClass="SignUpSelectedViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k1E-F3-wxm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -516,7 +517,7 @@
         <!--Sign In View Controller-->
         <scene sceneID="hS3-dm-L5E">
             <objects>
-                <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pig-8w-BQt" customClass="SignInViewController" customModule="emogo_MessagesExtension" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Pig-8w-BQt" customClass="SignInViewController" customModule="iMessageExt" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bcK-Ii-XFG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -542,6 +543,9 @@
                                             <constraint firstAttribute="width" secondItem="UTJ-Wu-5ay" secondAttribute="height" multiplier="31:9" id="M3e-IJ-nFO"/>
                                         </constraints>
                                         <state key="normal" image="text-me-my-code-btn"/>
+                                        <connections>
+                                            <action selector="btnSignIn:" destination="Pig-8w-BQt" eventType="touchUpInside" id="C2T-ML-sK5"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-7X-UYD">
                                         <rect key="frame" x="91" y="175" width="137" height="30"/>
@@ -648,6 +652,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0JJ-eD-H3B"/>
-        <segue reference="7X6-Js-wGB"/>
+        <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>

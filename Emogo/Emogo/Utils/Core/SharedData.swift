@@ -10,8 +10,12 @@ import UIKit
 import CoreTelephony
 
 class SharedData: NSObject {
+    //MARK:- Variables
+    var isMessageWindowExpand : Bool = false
+    
+    var storyBoard = UIStoryboard(name: iMsgStoryBoard , bundle: nil)
     var countryCode:String! = ""
-    var isMessageWindowExpand:Bool! = false
+        
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
         struct Static {
@@ -63,4 +67,8 @@ class SharedData: NSObject {
         }
     }
     
+    func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {
+        
+        return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+    }
 }

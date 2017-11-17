@@ -14,6 +14,11 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     //MARK:- UI Elements
     @IBOutlet weak var txtVeryficationCodde : UITextField!
     
+    
+    //MARK:- Variables
+    var OTP : String?
+    var phone : String?
+    
     //MARK:- Life-Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +42,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     //MARK:- Action Methods
     @IBAction func btnDone(_ sender : UIButton){
         if(Validator.isInValidPhoneNumber(text: txtVeryficationCodde.text!) && Validator.isValidDigitCode(string: txtVeryficationCodde.text!, numberOfCharacters: iMsgCharacterMaxLength_VerificationCode) ) {
-            let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpSelected)
-            self.present(vc, animated: true, completion: nil)
+           
         }
     }
     
@@ -89,14 +93,15 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         return true
     }
     
-    func showToast(type:String,strMSG:String) {
-        if type == iMsgAlertType_One {
-            CRNotifications.showNotification(type: .success, title: iMsgAlertTitle_Success, message: strMSG, dismissDelay: iMsgDismissDelayTimeForPopUp)
-        }else if type == iMsgAlertType_Two {
-            CRNotifications.showNotification(type: .error, title: iMsgAlertTitle_Alert, message: strMSG, dismissDelay: iMsgDismissDelayTimeForPopUp)
-        }else {
-            CRNotifications.showNotification(type: .info, title: iMsgAlertTitle_Info, message: strMSG, dismissDelay: iMsgDismissDelayTimeForPopUp)
+    // MARK: - API Methods
+    func verifyOTP(){
+        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+            if isSuccess == true {
+                let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpSelected)
+                self.present(vc, animated: true, completion: nil)
+            }
         }
     }
+    
 }
 

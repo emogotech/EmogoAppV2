@@ -15,6 +15,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     @IBOutlet weak var txtMobileNumber : UITextField!
     @IBOutlet weak var btnCountryCode : UIButton!
     
+    //MARK:- Variables
+    var userName :  String?
+    
     //MARK:- Life-Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +32,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     //MARK:- Action Methods
     @IBAction func btnTextMeCode(_ sender : UIButton){
         if(Validator.isInValidPhoneNumber(text: txtMobileNumber.text!) && Validator.isNameIsValidForString(string: txtMobileNumber.text!, numberOfCharacters: iMsgCharacterMaxLength_MobileNumber)){
-            let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify)
-            self.present(vc, animated: true, completion: nil)
+            self.sigupUser()
         }
     }
     
@@ -90,6 +92,22 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return true
+    }
+    
+    // MARK: - API Methods
+    private func sigupUser(){
+        APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
+
+            if isSuccess == true {
+                
+                let obj : SignUpVerifyViewController  = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
+                
+                obj.OTP = errorMsg
+                obj.phone = self.txtMobileNumber.text?.trim()
+                self.present(obj, animated: true, completion: nil)
+
+            }
+        })
     }
     
 }

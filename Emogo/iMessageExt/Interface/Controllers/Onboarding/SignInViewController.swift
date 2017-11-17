@@ -28,14 +28,14 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     //MARK:- Action Methods
     @IBAction func btnSignIn(_ sender : UIButton){
-        let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile)
-        self.present(vc, animated: true, completion: nil)
+        if(Validator.isInValidPhoneNumber(text: txtMobileNumber.text!) && Validator.isNameIsValidForString(string: txtMobileNumber.text!, numberOfCharacters: iMsgCharacterMaxLength_MobileNumber)){
+                self.userLogin()
+        }
     }
     
     //MARK:- PrepareLayout
     func prepareLayout()  {
-        
-        let placeholder = NSAttributedString(string: iMsgPlaceHolderText_SignIn, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignIn, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
         
         txtMobileNumber.layer.cornerRadius = iMsg_CornorRadius
@@ -88,6 +88,15 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     //MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return true
+    }
+    
+    // MARK: - API Methods
+    func userLogin(){
+        APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
+            if isSuccess == true {
+                print("LoginSucccesss")
+            }
+        }
     }
     
 }
