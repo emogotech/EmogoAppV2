@@ -106,16 +106,20 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     private func sigupUser(){
-       // HUDManager.sharedInstance.showHUD()
+        // HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
-          //  HUDManager.sharedInstance.hideHUD()
+            //  HUDManager.sharedInstance.hideHUD()
             
             if isSuccess == true {
                 let obj : SignUpVerifyViewController  = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
                 obj.OTP = errorMsg
                 obj.phone = self.txtMobileNumber.text?.trim()
                 self.present(obj, animated: true, completion: nil)
-
+                
+            }else{
+                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         })
     }

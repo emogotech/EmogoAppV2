@@ -30,7 +30,6 @@ class SignUpSelectedViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnCheckEmogoStream(_ sender : UIButton){
-        
     }
 
 

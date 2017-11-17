@@ -17,6 +17,9 @@
         <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
     </customFonts>
     <scenes>
         <!--Messages View Controller-->
@@ -49,9 +52,6 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pe0-dU-REi">
                                         <rect key="frame" x="92" y="150" width="137" height="45"/>
                                         <state key="normal" image="sign_in_button"/>
-                                        <connections>
-                                            <segue destination="Pig-8w-BQt" kind="show" id="8o7-lf-1dQ"/>
-                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -85,7 +85,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-726" y="93"/>
+            <point key="canvasLocation" x="-551" y="95"/>
         </scene>
         <!--Sign Up Name View Controller-->
         <scene sceneID="sa7-sb-NJI">
@@ -363,7 +363,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="142" id="Jbr-ay-vER"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
-                                        <state key="normal" title="Sign In">
+                                        <state key="normal" title="Resend Code">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -526,11 +526,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTJ-Wu-5ay">
-                                        <rect key="frame" x="82" y="113" width="155" height="45"/>
+                                        <rect key="frame" x="91" y="113" width="137" height="45"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="UTJ-Wu-5ay" secondAttribute="height" multiplier="31:9" id="M3e-IJ-nFO"/>
+                                            <constraint firstAttribute="width" secondItem="UTJ-Wu-5ay" secondAttribute="height" multiplier="31:9" constant="-18" id="M3e-IJ-nFO"/>
                                         </constraints>
-                                        <state key="normal" image="text-me-my-code-btn"/>
+                                        <state key="normal" image="done-btn"/>
                                         <connections>
                                             <action selector="btnSignIn:" destination="Pig-8w-BQt" eventType="touchUpInside" id="C2T-ML-sK5"/>
                                         </connections>
@@ -611,13 +611,62 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7a-bU-Cwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-300" y="855"/>
+            <point key="canvasLocation" x="351" y="923"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="imd-C7-NIW">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VaB-LN-Ug2" customClass="HomeViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dgD-hL-CGi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="nOs-ya-pCr">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h5D-SY-xVo">
+                                <rect key="frame" x="0.0" y="130" width="320" height="268"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Working under progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyy-Xk-gld">
+                                        <rect key="frame" x="53.5" y="121.5" width="214" height="26"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Dyy-Xk-gld" secondAttribute="height" multiplier="199:24" id="DzH-GP-HSM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Dyy-Xk-gld" firstAttribute="centerX" secondItem="h5D-SY-xVo" secondAttribute="centerX" id="9b5-p7-N6i"/>
+                                    <constraint firstAttribute="width" secondItem="h5D-SY-xVo" secondAttribute="height" multiplier="80:67" id="Bii-54-dqN"/>
+                                    <constraint firstItem="Dyy-Xk-gld" firstAttribute="centerY" secondItem="h5D-SY-xVo" secondAttribute="centerY" id="qFS-vG-QzX"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="h5D-SY-xVo" firstAttribute="centerY" secondItem="dgD-hL-CGi" secondAttribute="centerY" id="VW8-83-Yg5"/>
+                            <constraint firstItem="h5D-SY-xVo" firstAttribute="top" secondItem="p9Q-Mn-43p" secondAttribute="top" constant="110" id="bjO-CF-oGk"/>
+                            <constraint firstItem="h5D-SY-xVo" firstAttribute="centerX" secondItem="dgD-hL-CGi" secondAttribute="centerX" id="vI3-G8-fiq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="p9Q-Mn-43p"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="528"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qKQ-UQ-zmJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1429" y="908"/>
         </scene>
     </scenes>
     <resources>
         <image name="background_image" width="320" height="223"/>
         <image name="browse-streams" width="155" height="45"/>
         <image name="check-emogo-stream" width="155" height="45"/>
+        <image name="done-btn" width="137" height="45"/>
         <image name="done_button" width="137" height="45"/>
         <image name="emogo_logo" width="89" height="23"/>
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
@@ -627,7 +676,7 @@
         <image name="text-me-my-code-btn" width="155" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8o7-lf-1dQ"/>
-        <segue reference="7X6-Js-wGB"/>
+        <segue reference="rWE-0e-NjR"/>
+        <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>

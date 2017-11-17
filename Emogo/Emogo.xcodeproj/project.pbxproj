@@ -40,6 +40,7 @@
 		337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */; };
 		337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */; };
+		339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
@@ -160,6 +161,7 @@
 		337B8FB01FBEF37E00CFACE3 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageExt.swift; sourceTree = "<group>"; };
+		339518551FBF1B0000DCC085 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		33BCB0341FBB353E004FF634 /* APIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		33BCB0391FBB353E004FF634 /* SharedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedData.swift; sourceTree = "<group>"; };
 		33BCB0401FBB353E004FF634 /* PMButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMButton.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 		337B8F761FBEECBD00CFACE3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				339518551FBF1B0000DCC085 /* HomeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1094,6 +1097,7 @@
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
+				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,

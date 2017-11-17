@@ -103,12 +103,14 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
-      //  HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
-        //    HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
-                let vc = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpSelected)
+                let vc : HomeViewController = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
                 self.present(vc, animated: true, completion: nil)
+            }else{
+                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
