@@ -59,13 +59,15 @@ class UserNameViewController: UIViewController {
     }
     
     func verifyUserName(){
+        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtUserName.text?.trim())!) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
         if isSuccess == true {
             let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
             obj.userName = self.txtUserName.text?.trim()
             self.navigationController?.push(viewController: obj)
         }else {
-            self.showToast(type: .error, strMSG: kAlertUserNameAlreayExistsMsg)
+            self.showToast(type: .error, strMSG: errorMsg!)
             }
         }
     }

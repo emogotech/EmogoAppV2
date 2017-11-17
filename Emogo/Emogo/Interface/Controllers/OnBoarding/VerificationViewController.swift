@@ -73,6 +73,10 @@ class VerificationViewController: UIViewController {
             }
         }
     }
+    
+    func resendOTP(){
+        
+    }
 
     /*
     // MARK: - Navigation
