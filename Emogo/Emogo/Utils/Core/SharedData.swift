@@ -68,12 +68,11 @@ class SharedData: NSObject {
         }
     }
     
-<<<<<<< HEAD
     func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {
         
         return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
     }
-=======
+    
     // MARK: - Retrive error messages from JSON
 
     func getErrorMessages(dict:[String:Any]) -> String {
@@ -92,5 +91,4 @@ class SharedData: NSObject {
         return errorMessage.joined(separator: "\n")
     }
     
->>>>>>> 40098c8c45a762790dc3dfa208aee205bf5993c0
 }
