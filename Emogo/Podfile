@@ -8,9 +8,8 @@ def common_pods_for_target
     pod 'SDWebImage'
     pod 'SwiftyJSON'
     pod 'SnapKit'
-    pod 'CHTCollectionViewWaterfallLayout/Swift'
     pod 'AWSS3'
-
+  
 end
 
 
@@ -22,6 +21,11 @@ target 'Emogo' do
     common_pods_for_target
     pod 'IQKeyboardManagerSwift'
     pod 'CRNotifications'
+    pod "SwiftyCam"
+    pod 'iOSPhotoEditor'
+    pod 'DKImagePickerController'
+
+
 
 target 'EmogoTests' do
     inherit! :search_paths

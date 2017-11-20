@@ -66,7 +66,7 @@ class VerificationViewController: UIViewController {
 
     func verifyOTP(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP,phone: self.phone) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController

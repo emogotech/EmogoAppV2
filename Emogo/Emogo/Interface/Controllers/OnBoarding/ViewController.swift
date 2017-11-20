@@ -35,12 +35,12 @@ class ViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionSignup(_ sender: Any) {
         let obj:UserNameViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
-        self.navigationController?.flipPush(viewController: obj)
+        self.navigationController?.push(viewController: obj)
     }
     
     @IBAction func btnActionSignin(_ sender: Any) {
         let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
-        self.navigationController?.flipPush(viewController: obj)
+        self.navigationController?.push(viewController: obj)
     }
     
     // MARK: - Class Methods

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CHTCollectionViewWaterfallLayout
 
 class StreamListViewController: UIViewController {
 
@@ -16,38 +15,60 @@ class StreamListViewController: UIViewController {
     
     // Varibales
      var arrayStreams = [StreamDAO]()
-    
+    private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareLayouts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.configureLandingNavigation()
     }
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        self.configureLandingNavigation()
         // Attach datasource and delegate
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
-        let layout = CHTCollectionViewWaterfallLayout()
-        layout.minimumColumnSpacing = 8.0
-        layout.minimumInteritemSpacing = 8.0
-        layout.columnCount = 2
-        // Collection view attributes
-        self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        self.streamCollectionView.alwaysBounceVertical = true
-        self.streamCollectionView.collectionViewLayout = layout
+        
+        if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
+            layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
+            layout.itemSize = CGSize(width: UIScreen.main.bounds.size.width, height: layout.itemSize.height)
+            layout.parallaxHeaderAlwaysOnTop = false
+            layout.disableStickyHeaders = true
+            self.streamCollectionView.collectionViewLayout = layout
+        }
+        
+        self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
+
         self.prepareDummyData()
     }
+    
+    
+    // MARK: -  Action Methods And Selector
+    
+    override func btnCameraAction() {
+        let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        self.navigationController?.push(viewController: obj)
+    }
+    
+    override func btnHomeAction() {
+        
+    }
+    
+    override func btnMyProfileAction() {
+        
+    }
+
+    
 
     // MARK: - Class Methods
+
 
     func prepareDummyData(){
         for i in 1..<8 {
@@ -57,6 +78,9 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.reloadData()
         
     }
+    
+    // MARK: - API Methods
+
     
     /*
     // MARK: - Navigation
@@ -73,7 +97,7 @@ class StreamListViewController: UIViewController {
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
 
-extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
+extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -91,11 +115,22 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemWidth = collectionView.bounds.size.width/2.0 - 10.0
         return CGSize(width: itemWidth, height: itemWidth)
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case IOStickyHeaderParallaxHeader:
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_StreamHeaderView, for: indexPath) as! StreamSearchCell
+            return cell
+        default:
+            assert(false, "Unexpected element kind")
+        }
+        
+    }
+
 }
 
 

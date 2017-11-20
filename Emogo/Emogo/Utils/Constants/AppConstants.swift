@@ -34,11 +34,14 @@ let kStoryboardID_VerificationView = "verificationView"
 let kStoryboardID_UserNameView = "userNameView"
 let kStoryboardID_WelcomeView = "welcomeView"
 let kStoryboardID_StreamListView = "streamListView"
+let kStoryboardID_CameraView = "cameraView"
+
 
 // MARK: - Cell's  and NIB's Identifier
 
 let kCell_StreamCell = "streamCell"
-let kHeader_StreamHeaderView = "streamHeaderView"
+let kHeader_StreamHeaderView = "streamSearchCell"
+let kCell_PreviewCell = "previewCell"
 
 
 // MARK: - StoryboardSegue Identifier

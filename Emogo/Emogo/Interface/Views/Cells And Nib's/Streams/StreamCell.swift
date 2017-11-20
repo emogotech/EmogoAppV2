@@ -37,7 +37,7 @@ class StreamCell: UICollectionViewCell {
         let nameAttribute:[NSAttributedStringKey:Any?] = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0)]
 
         let coverStr =  NSMutableAttributedString(string: cover, attributes: coverAttribute)
-        let nameStr =  NSMutableAttributedString(string: cover, attributes: nameAttribute)
+        let nameStr =  NSMutableAttributedString(string: postedBy, attributes: nameAttribute)
         coverStr.append(nameStr)
         return coverStr
     }
