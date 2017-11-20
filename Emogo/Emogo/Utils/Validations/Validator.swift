@@ -40,7 +40,7 @@ class Validator {
     static func isNameIsValidForString(string : String,numberOfCharacters : Int) -> Bool{
         if(string.contains("\\") == true || string.contains("'") == true || string.contains("@") == true || string.contains("\"") == true || string.contains(".") == true){
             return false
-        }else if(string.trim().characters.count < numberOfCharacters){
+        }else if(string.trim().count < numberOfCharacters){
             return false
         }
         return true
@@ -78,7 +78,6 @@ class Validator {
         return true
     }
     
-    
     static func isInValidPassword(text : String) -> Bool {
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         return passwordTest.evaluate(with: text)
@@ -90,11 +89,36 @@ class Validator {
         let filtered = inputString.joined(separator: "")
         return  text == filtered
     }
+    
     static func removeSpecialCharsFromString(text: String) -> String {
         let okayChars : Set<Character> =
-            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890+-*=(),.:!_".characters)
-        return String(text.characters.filter {okayChars.contains($0) })
+            Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ1234567890+-*=(),.:!_")
+        return String(text.filter {okayChars.contains($0) })
     }
+    
+    //iMessage
+    static func isEmpty(text: String) -> Bool {
+        if text.trim().count == 0 {
+            return false
+        }
+        return  true
+    }
+    
+    static func isMobileLength(text: String, lenght : Int) -> Bool {
+        if text.trim().count < lenght {
+            return false
+        }
+        return  true
+    }
+    
+    static func isNameLength(text: String, lenghtMin : Int, lengthMax : Int) -> Bool {
+        if (text.trim().count) < lenghtMin || (text.trim().count) > lengthMax {
+            return false
+        }
+        return  true
+    }
+    
+//
 }
 
 extension String {

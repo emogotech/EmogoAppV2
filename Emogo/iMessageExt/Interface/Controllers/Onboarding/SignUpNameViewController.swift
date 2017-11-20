@@ -11,20 +11,26 @@ import Messages
 
 class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
-    //MARK:- UI Elements
+    // MARK:- UI Elements
     @IBOutlet weak var txtName : UITextField!
     
-    //MARK:- Life-Cycle Methods
+    // MARK s: - Variables
+    var hudView: LoadingView!
+    
+    // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
         self.prepareLayout()
+        self.setupLoader()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK:- PrepareLayout
+    // MARK:- PrepareLayout
     func prepareLayout()  {
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpName, colorName: UIColor.white)
@@ -34,22 +40,42 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         txtName.clipsToBounds = true
     }
     
-    //MARK:- Action Methods
+    // MARK:- LoaderSetup
+    func setupLoader() {
+        
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    
+    // MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
-        if (self.txtName.text?.trim().isEmpty)! {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_Name , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if (txtName.text?.trim().count)! < 3 && (txtName.text?.trim().count)! > 30 {
+        if !(Validator.isEmpty(text: txtName.text!)) {
+            txtName.shakeTextField()
+        } else if(!Validator.isNameLength(text: txtName.text!, lenghtMin: iMsgNameMinLength, lengthMax: iMsgNameMaxLength)) {
             let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertInvalidUserNameMsg , preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        }else {
+        }
+        else {
+            txtName.resignFirstResponder()
+            hudView.startLoaderWithAnimation()
             self.verifyUserName()
         }
     }
     
-    //MARK:- TextField Delegate method
+    @IBAction func btnTapSignIn(_ sender : UIButton) {
+        let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
+        self.addTransitionAtNaviagteNext()
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    // MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
@@ -90,31 +116,25 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         return true
     }
     
-    //MARK: - Delegate Methods of Segue
+    // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        return true
+        return false
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == iMsgSegue_SignUpMobile {
-            //present your view controller or do some code
         }
     }
-
     
     // MARK: - API Methods
     func verifyUserName(){
-        //  HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
-            //HUDManager.sharedInstance.hideHUD()
+            self.hudView.stopLoaderWithAnimation()
             if isSuccess == true {
-                
-                let obj : SignUpMobileViewController = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
-                
+                let obj : SignUpMobileViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
                 obj.userName = self.txtName.text?.trim()
-                
-                self.present(obj, animated: true, completion: nil)
-                
+                self.addTransitionAtNaviagteNext()
+                self.present(obj, animated: false, completion: nil)
             } else {
                 let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
@@ -122,6 +142,5 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             }
         }
     }
-    
 }
 

@@ -13,7 +13,6 @@ class SharedData: NSObject {
     //MARK:- Variables
     var isMessageWindowExpand : Bool = false
     
-    var storyBoard = UIStoryboard(name: iMsgStoryBoard , bundle: nil)
     var countryCode:String! = ""
         
     // MARK: - INIT Singleton Method

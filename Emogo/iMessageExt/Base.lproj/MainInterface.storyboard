@@ -11,11 +11,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Medium.ttf">
-            <string>Montserrat-Medium</string>
+        <array key="SF-Pro-Display-Light.otf">
+            <string>SFProDisplay-Light</string>
         </array>
-        <array key="Montserrat-Regular.ttf">
-            <string>Montserrat-Regular</string>
+        <array key="SF-Pro-Display-Medium.otf">
+            <string>SFProDisplay-Medium</string>
         </array>
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
@@ -30,13 +30,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="waX-0j-Ynp">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="waX-0j-Ynp">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uzf-Wx-3Jq">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emogo_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DpN-yg-abb">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emogo-logo-img" translatesAutoresizingMaskIntoConstraints="NO" id="DpN-yg-abb">
                                         <rect key="frame" x="115" y="52" width="89" height="23"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="DpN-yg-abb" secondAttribute="height" multiplier="89:23" id="voe-Cx-kvy"/>
@@ -46,12 +46,16 @@
                                         <rect key="frame" x="92" y="90" width="137" height="45"/>
                                         <state key="normal" image="sign-up-btn"/>
                                         <connections>
+                                            <action selector="btnTapSignUp:" destination="ObA-dk-sSI" eventType="touchUpInside" id="CRL-Yx-cZ4"/>
                                             <segue destination="8Jb-pS-eSp" kind="show" identifier="SignUpNameViewController" id="7X6-Js-wGB"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pe0-dU-REi">
                                         <rect key="frame" x="92" y="150" width="137" height="45"/>
-                                        <state key="normal" image="sign_in_button"/>
+                                        <state key="normal" image="sign-in-btn"/>
+                                        <connections>
+                                            <action selector="btnTapSignIn:" destination="ObA-dk-sSI" eventType="touchUpInside" id="rhU-n5-Cq6"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -85,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-551" y="95"/>
+            <point key="canvasLocation" x="-750" y="93"/>
         </scene>
         <!--Sign Up Name View Controller-->
         <scene sceneID="sa7-sb-NJI">
@@ -95,18 +99,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="sOh-iA-XPd">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="sOh-iA-XPd">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ym-ll-kJP">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a user name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv0-17-sKu">
-                                        <rect key="frame" x="82.5" y="10" width="157.5" height="34"/>
+                                        <rect key="frame" x="87.5" y="10" width="148" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="SJY-9T-5xJ"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -118,7 +122,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="ris-cN-EH8"/>
                                         </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
@@ -134,21 +138,22 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="4Dz-d0-3zr" secondAttribute="height" multiplier="137:45" id="pET-mX-rEk"/>
                                         </constraints>
-                                        <state key="normal" image="next"/>
+                                        <state key="normal" image="next-btn"/>
                                         <connections>
                                             <action selector="btnNext:" destination="8Jb-pS-eSp" eventType="touchUpInside" id="5WJ-K4-FJP"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddr-ue-w6g">
-                                        <rect key="frame" x="91" y="175" width="137" height="30"/>
+                                        <rect key="frame" x="93.5" y="175" width="132" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ddr-ue-w6g" secondAttribute="height" multiplier="137:30" id="JbO-XC-BHl"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
+                                            <action selector="btnTapSignIn:" destination="8Jb-pS-eSp" eventType="touchUpInside" id="hbE-Kv-rhT"/>
                                             <segue destination="Pig-8w-BQt" kind="show" identifier="SignInViewController" id="0JJ-eD-H3B"/>
                                         </connections>
                                     </button>
@@ -198,18 +203,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="lnE-qK-l3C">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="lnE-qK-l3C">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3fC-Ct-uIF">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-Np-IyY">
-                                        <rect key="frame" x="83.5" y="10" width="153.5" height="34"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="Ivi-VH-I3l"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -224,15 +229,16 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naV-ZZ-OYN">
-                                        <rect key="frame" x="91" y="175" width="137" height="30"/>
+                                        <rect key="frame" x="93.5" y="175" width="132" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="naV-ZZ-OYN" secondAttribute="height" multiplier="142:31" id="x5s-Db-KoW"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
+                                            <action selector="btnTapSignIn:" destination="jJ8-gp-UFI" eventType="touchUpInside" id="7qA-9y-I7n"/>
                                             <segue destination="Pig-8w-BQt" kind="show" identifier="SignInViewController" id="A1q-kX-4z3"/>
                                         </connections>
                                     </button>
@@ -243,7 +249,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="211" height="37"/>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="jJ8-gp-UFI" id="kfd-d8-NUY"/>
@@ -306,7 +312,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="Ea5-OP-dhr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="Ea5-OP-dhr">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s4g-1O-hxs">
@@ -318,7 +324,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="215" id="nqu-Vb-ZFJ"/>
                                             <constraint firstAttribute="height" constant="19" id="zOX-eP-gmC"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -328,7 +334,7 @@
                                             <constraint firstAttribute="height" constant="19" id="5qz-xH-CWI"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="157" id="l1J-Wj-KzY"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -340,7 +346,7 @@
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="220" id="gT4-bM-gc4"/>
                                         </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="16"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="eQ0-lP-RCy" id="qIu-vL-iBg"/>
@@ -351,7 +357,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="swt-mM-Wmg" secondAttribute="height" multiplier="137:45" id="gWn-C5-Dc5"/>
                                         </constraints>
-                                        <state key="normal" image="done_button"/>
+                                        <state key="normal" image="done-btn"/>
                                         <connections>
                                             <action selector="btnDone:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="sSG-7U-JJj"/>
                                         </connections>
@@ -362,11 +368,12 @@
                                             <constraint firstAttribute="height" constant="31" id="5Ge-eX-U6x"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="142" id="Jbr-ay-vER"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
                                         <state key="normal" title="Resend Code">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
+                                            <action selector="btnResend:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="2gK-DS-vLG"/>
                                             <segue destination="Pig-8w-BQt" kind="show" identifier="SignInViewController" id="rWE-0e-NjR"/>
                                         </connections>
                                     </button>
@@ -418,29 +425,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="IUY-G3-ZtW">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="IUY-G3-ZtW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mau-jc-b39">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="89" y="10" width="141" height="18"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What would you Like to Do Next?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJ8-wh-xyE">
-                                        <rect key="frame" x="45" y="29" width="230" height="18"/>
+                                        <rect key="frame" x="40.5" y="29" width="240" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="KUI-ME-HWq"/>
                                             <constraint firstAttribute="height" constant="18" id="T7R-LN-yMt"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -456,14 +463,14 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="riL-jI-jWw" secondAttribute="height" multiplier="31:9" id="NHq-hS-B8y"/>
                                         </constraints>
-                                        <state key="normal" image="browse-streams"/>
+                                        <state key="normal" image="browse-streams-btn"/>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jrI-1g-P0b">
                                         <rect key="frame" x="83" y="172" width="155" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="jrI-1g-P0b" secondAttribute="height" multiplier="31:9" id="pUr-jZ-mMh"/>
                                         </constraints>
-                                        <state key="normal" image="check-emogo-stream"/>
+                                        <state key="normal" image="check-emogo-stream-btn"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -510,18 +517,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="ejm-i5-tVn">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="ejm-i5-tVn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b87-vm-feV">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="83.5" y="10" width="153.5" height="34"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="7Rs-DU-S5E"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -536,15 +543,16 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-7X-UYD">
-                                        <rect key="frame" x="91" y="175" width="137" height="30"/>
+                                        <rect key="frame" x="93.5" y="175" width="132" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iOs-7X-UYD" secondAttribute="height" multiplier="142:31" id="85k-Op-S82"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
+                                            <action selector="btnTapSignUp:" destination="Pig-8w-BQt" eventType="touchUpInside" id="7Bi-JD-6bO"/>
                                             <segue destination="8Jb-pS-eSp" kind="show" identifier="SignUpNameViewController" id="EwF-BA-GLV"/>
                                         </connections>
                                     </button>
@@ -558,7 +566,7 @@
                                                     <constraint firstAttribute="width" secondItem="KUo-Ue-ZkQ" secondAttribute="height" multiplier="148:35" constant="55" id="nZ8-2C-CXg"/>
                                                 </constraints>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Pig-8w-BQt" id="mqq-Rq-gbT"/>
@@ -611,7 +619,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7a-bU-Cwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="351" y="923"/>
+            <point key="canvasLocation" x="348.75" y="897.88732394366195"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="imd-C7-NIW">
@@ -621,7 +629,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background_image" translatesAutoresizingMaskIntoConstraints="NO" id="nOs-ya-pCr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="nOs-ya-pCr">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -629,11 +637,11 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Working under progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyy-Xk-gld">
-                                        <rect key="frame" x="53.5" y="121.5" width="214" height="26"/>
+                                        <rect key="frame" x="74.5" y="124.5" width="171" height="20.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Dyy-Xk-gld" secondAttribute="height" multiplier="199:24" id="DzH-GP-HSM"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="20"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -663,20 +671,19 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background_image" width="320" height="223"/>
-        <image name="browse-streams" width="155" height="45"/>
-        <image name="check-emogo-stream" width="155" height="45"/>
+        <image name="background-image" width="320" height="223"/>
+        <image name="browse-streams-btn" width="155" height="45"/>
+        <image name="check-emogo-stream-btn" width="155" height="45"/>
         <image name="done-btn" width="137" height="45"/>
-        <image name="done_button" width="137" height="45"/>
-        <image name="emogo_logo" width="89" height="23"/>
+        <image name="emogo-logo-img" width="89" height="23"/>
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
-        <image name="next" width="137" height="45"/>
+        <image name="next-btn" width="137" height="45"/>
+        <image name="sign-in-btn" width="137" height="45"/>
         <image name="sign-up-btn" width="137" height="45"/>
-        <image name="sign_in_button" width="137" height="45"/>
         <image name="text-me-my-code-btn" width="155" height="45"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rWE-0e-NjR"/>
+        <segue reference="A1q-kX-4z3"/>
         <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>

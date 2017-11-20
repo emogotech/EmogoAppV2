@@ -11,4 +11,4 @@
 
 #import "NSDictionary+NullRemover.h"
 
-#endif /* iMessageExt_Bridging_Header_h */
+#endif

@@ -11,6 +11,7 @@ import Messages
 
 class HomeViewController: MSMessagesAppViewController {
 
+    // MARK:- UI Elements
     override func viewDidLoad() {
         super.viewDidLoad()
     }
