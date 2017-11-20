@@ -6,6 +6,8 @@ from emogo.lib.utils import generate_pin
 from emogo.constants import messages
 from rest_framework.authtoken.models import Token
 import re
+from django.contrib.auth import authenticate
+
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -141,6 +143,19 @@ class UserLoginSerializer(UserSerializer):
             return value
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
+    def authenticate(self):
+        # Todo For now we consider password 123456 for authenticate user by Django backend
+        password = '123456'
+        user = authenticate(username=self.validated_data.get('username'), password=password)
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+            user.auth_token.delete()
+            Token.objects.create(user=user)
+        except UserProfile.DoesNotExist:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+        return user_profile
+
 
 class UserResendOtpSerializer(UserProfileSerializer):
     """

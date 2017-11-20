@@ -53,21 +53,10 @@ class Login(APIView):
 
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
-        password = '123456'  # Todo The hard code password is set to maintain django authentication.
         if serializer.is_valid(raise_exception=True):
-            user = authenticate(request, username=request.data.get('phone_number'), password=password)
-            if user:
-                user.auth_token.delete()
-                try:
-                    user_profile = UserProfile.objects.get(user=user)
-                    Token.objects.create(user=user)
-                    serializer = UserDetailSerializer(instance=user_profile)
-                    return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
-                except UserProfile.DoesNotExist:
-                    return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST,
-                                                  data={'phone_number': messages.MSG_INVALID_PHONE_NUMBER})
-            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST,
-                                          data={'phone_number': messages.MSG_INVALID_PHONE_NUMBER})
+            user_profile = serializer.authenticate()
+            serializer = UserDetailSerializer(instance=user_profile)
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
 class Logout(APIView):
@@ -87,6 +76,7 @@ class Logout(APIView):
             message, status_code, response_status = messages.MSG_ERROR_LOGGING_OUT, "400", status.HTTP_400_BAD_REQUEST
             return custom_render_response(status_code, message, response_status)
 
+
 class UniqueUserName(APIView):
     """
     User unique name API
@@ -95,6 +85,7 @@ class UniqueUserName(APIView):
         serializer = UserSerializer(data=request.data, fields=('user_name',))
         if serializer.is_valid(raise_exception=True):
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
 
 class ResendOTP(APIView):
     """

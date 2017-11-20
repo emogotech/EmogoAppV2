@@ -40,12 +40,12 @@ class UserDevice( DefaultDateModel ):
     class Meta:
         db_table = 'user_device'
 
+
 class UserNotification( DefaultDateModel ):
     status = models.CharField(max_length=10, choices=MESSAGE_STATUS, default=MESSAGE_STATUS[0][0])
     device = models.ForeignKey(UserDevice, null=True, blank=True)
 
     objects = models.Manager()  # The default manager.
-
 
     class Meta:
         db_table = 'user_notification'
