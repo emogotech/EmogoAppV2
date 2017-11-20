@@ -40,12 +40,9 @@ let kStoryboardID_CameraView = "cameraView"
 // MARK: - Cell's  and NIB's Identifier
 
 let kCell_StreamCell = "streamCell"
-<<<<<<< HEAD
 let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
 
-=======
->>>>>>> da3c3fada46263701019371047050948f0fa9c1f
 
 // MARK: - StoryboardSegue Identifier
 
