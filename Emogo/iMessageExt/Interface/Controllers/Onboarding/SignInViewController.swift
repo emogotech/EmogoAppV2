@@ -108,11 +108,16 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     // MARK: - API Methods
     func userLogin(){
-//        HUDManager.sharedInstance.showHUD()
+        //        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
-//            HUDManager.sharedInstance.hideHUD()
+            //            HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
-                print("LoginSucccesss")
+                let obj : HomeViewController  = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                self.present(obj, animated: true, completion: nil)
+            }else{
+                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }

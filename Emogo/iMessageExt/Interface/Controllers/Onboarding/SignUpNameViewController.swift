@@ -104,14 +104,14 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK: - API Methods
     func verifyUserName(){
-      //  HUDManager.sharedInstance.showHUD()
+        //  HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
             //HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 
                 let obj : SignUpMobileViewController = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
                 
-                 obj.userName = self.txtName.text?.trim()
+                obj.userName = self.txtName.text?.trim()
                 
                 self.present(obj, animated: true, completion: nil)
                 
