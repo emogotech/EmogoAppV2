@@ -23,6 +23,25 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'CRNotifications'
 
+target 'EmogoTests' do
+    inherit! :search_paths
+    common_pods_for_target
+    pod 'IQKeyboardManagerSwift'
+    pod 'CRNotifications'
+    
+    # Pods for testing
+end
+
+target 'EmogoUITests' do
+    inherit! :search_paths
+    # Pods for testing
+    common_pods_for_target
+    pod 'IQKeyboardManagerSwift'
+    pod 'CRNotifications'
+    
+end
+
+
 
 end
 
