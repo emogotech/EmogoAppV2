@@ -22,6 +22,7 @@ class VerificationViewController: UIViewController {
         super.viewDidLoad()
         
         prepareLayouts()
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +54,7 @@ class VerificationViewController: UIViewController {
     
     
     @IBAction func btnResendOTPAction(_ sender: Any) {
-     //   self.showToast(type: "3", strMSG: kAlertResendCodeMsg)
+        self.resendOTP()
     }
 
     // MARK: - Class Methods
@@ -77,7 +78,13 @@ class VerificationViewController: UIViewController {
     }
     
     func resendOTP(){
-        
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                self.txtOtP.text = errorMsg
+            }
+        }
     }
 
     /*

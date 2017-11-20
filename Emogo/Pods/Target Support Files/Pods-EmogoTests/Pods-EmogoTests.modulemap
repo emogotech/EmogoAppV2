@@ -1,0 +1,6 @@
+framework module Pods_EmogoTests {
+  umbrella header "Pods-EmogoTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

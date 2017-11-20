@@ -78,14 +78,18 @@ class SharedData: NSObject {
     func getErrorMessages(dict:[String:Any]) -> String {
         var errorMessage = [String]()
         if let value = dict["exception"] {
-            let obj:[String:Any] = value as! [String : Any]
-            print(obj)
-            for (key, value) in obj {
-                print("key is - \(key) and value is - \(value)")
-                if value is [Any] {
-                    let error:String = (value as! [Any])[0] as! String
-                    errorMessage.append(error)
+            if value is [String:Any] {
+                let obj:[String:Any] = value as! [String : Any]
+                print(obj)
+                for (key, value) in obj {
+                    print("key is - \(key) and value is - \(value)")
+                    if value is [Any] {
+                        let error:String = (value as! [Any])[0] as! String
+                        errorMessage.append(error)
+                    }
                 }
+            }else {
+                return "\(value)"
             }
         }
         return errorMessage.joined(separator: "\n")
