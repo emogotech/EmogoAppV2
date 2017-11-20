@@ -74,6 +74,7 @@
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E781FBEFC7200E746A8 /* StreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F18E771FBEFC7200E746A8 /* StreamHeaderView.swift */; };
+		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -487,6 +488,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4F18E791FBF192E00E746A8 /* ParralaxHeader */,
 				F4110B531FBEDD1D00BC2A8A /* Dictionary */,
 				F4148A291FBDB5B500081900 /* PhoneValidation */,
 				F4148A251FBD946500081900 /* CardView */,
@@ -677,6 +679,13 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
+		F4F18E791FBF192E00E746A8 /* ParralaxHeader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ParralaxHeader;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -839,6 +848,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,

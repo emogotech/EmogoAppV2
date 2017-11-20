@@ -34,6 +34,7 @@ let kSignUpAPI                                      = "signup/"
 let kVerifyOTPAPI                                   = "verify_otp/"
 let kLoginAPI                                       = "login/"
 let kUserNameVerifyAPI                              = "unique_user_name/"
+let kResendAPI                              = "resend_otp/"
 
 
 

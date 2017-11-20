@@ -49,7 +49,7 @@ class Validator {
     static func isUserNameIsValidForString(string : String, numberOfCharacters : Int) -> Bool{
         if(string.contains("\\") == true || string.contains("'") == true || string.contains("\"") == true || string.contains(".") == true){
             return false
-        }else if(string.trim().characters.count < numberOfCharacters){
+        }else if(string.trim().count < numberOfCharacters){
             return false
         }
         return true
@@ -58,21 +58,21 @@ class Validator {
     static func isValidPasswordForString(string : String) -> Bool{
         if(string.contains(" ") == true ){
             return false
-        }else if(string.trim().characters.count < 1){
+        }else if(string.trim().count < 1){
             return false
         }
         return true
     }
     
     static func isValidMobileNumber(string : String, numberOfCharacters : Int) -> Bool{
-        if(string.trim().characters.count < numberOfCharacters){
+        if(string.trim().count < numberOfCharacters){
             return false
         }
         return true
     }
     
     static func isValidDigitCode(string : String, numberOfCharacters : Int) -> Bool{
-        if(string.trim().characters.count < numberOfCharacters){
+        if(string.trim().count < numberOfCharacters){
             return false
         }
         return true
@@ -99,7 +99,7 @@ class Validator {
 
 extension String {
     var length: Int {
-        return self.characters.count
+        return self.count
     }
     
     func trim() -> String{

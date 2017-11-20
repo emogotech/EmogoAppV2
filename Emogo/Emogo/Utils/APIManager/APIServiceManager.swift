@@ -87,12 +87,15 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+/*
+
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                            kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
-                            UserDAO.sharedInstance.parseUserInfo()
+                            //kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                           // UserDAO.sharedInstance.parseUserInfo()
                             kDefault.set(true, forKey: kUserLogggedIn)
                         }
+ */
                         completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -110,15 +113,21 @@ class APIServiceManager: NSObject {
 
     func apiForResendOTP( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let params:[String:Any] = ["phone_number":phone]
-        APIManager.sharedInstance.POSTRequest(strURL: kLoginAPI, Param: params) { (result) in
+        APIManager.sharedInstance.POSTRequest(strURL: kResendAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                       
-                        completionHandler(true,"")
+                        var otp:String! = ""
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[String:Any] = data as! [String : Any]
+                            if let code = result["otp"] {
+                                otp = "\(code)"
+                            }
+                        }
+                        completionHandler(true,otp)
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(false,errorMessage)
@@ -142,13 +151,15 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        /*
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                            kDefault.setValue(dictUserData, forKey: kUserLogggedInData)
+                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
                             print(UserDAO.sharedInstance.user.fullName)
                             kDefault.set(true, forKey: kUserLogggedIn)
                         }
+ */
                         completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
