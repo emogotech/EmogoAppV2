@@ -11,23 +11,28 @@ import Messages
 
 class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
-    //MARK:- UI Elements
+    // MARK:- UI Elements
     @IBOutlet weak var txtVeryficationCode : UITextField!
     
-    
-    //MARK:- Variables
+    // MARK:- Variables
     var OTP : String?
     var phone : String?
+    var hudView: LoadingView!
     
-    //MARK:- Life-Cycle Methods
+    // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.prepareLayout()
+        self.setupLoader()
     }
     
-    //MARK:- PrepareLayout
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    // MARK:- PrepareLayout
     func prepareLayout()  {
-        
         let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpVerify, colorName: UIColor.white)
         txtVeryficationCode.attributedPlaceholder = placeholder;
         
@@ -35,25 +40,36 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         txtVeryficationCode.clipsToBounds = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    //MARK:- Action Methods
-    @IBAction func btnDone(_ sender : UIButton){
-        if (self.txtVeryficationCode.text?.trim().isEmpty)! {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_CodeMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }else if (txtVeryficationCode.text?.trim().count)! != 5 {
+    // MARK:- Action Methods
+    @IBAction func btnDone(_ sender : UIButton) {
+        if !(Validator.isEmpty(text: txtVeryficationCode.text!)) {
+            txtVeryficationCode.shakeTextField()
+        }
+        else if !(Validator.isMobileLength(text: txtVeryficationCode.text!, lenght: iMsgCharacterMaxLength_VerificationCode)) {
             let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertVerificationLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        }else {
+        }
+        else {
+            self.txtVeryficationCode.resignFirstResponder()
+            self.hudView.startLoaderWithAnimation()
             self.verifyOTP()
         }
     }
     
+    @IBAction func btnResend(_ sender : UIButton){
+    }
+        
     //MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
@@ -62,25 +78,20 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
+        let textFieldText: String! = textField.text
         if(string == iMsg_String_isBlank){
             return true
         }
-        let textFieldText: String! = textField.text
-        
         if(textFieldText.count >= iMsgCharacterMaxLength_VerificationCode){
             return false
         }
-        
         if(string == iMsg_String_singleSpace){
             return false
         }
-        
         let characterSet = CharacterSet.init(charactersIn: iMsgNumberSet)
         if string.rangeOfCharacter(from: characterSet) == nil{
             return false
         }
-        
         return true
     }
     
@@ -98,16 +109,19 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        return true
+        return false
     }
     
     // MARK: - API Methods
     func verifyOTP(){
         APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+            self.hudView.stopLoaderWithAnimation()
             if isSuccess == true {
-                let vc : HomeViewController = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                self.present(vc, animated: true, completion: nil)
-            }else{
+                let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                self.addTransitionAtNaviagteNext()
+                self.present(obj, animated: false, completion: nil)
+            }
+            else {
                 let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)

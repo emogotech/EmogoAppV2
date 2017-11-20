@@ -11,41 +11,25 @@ import Messages
 
 class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
-    //MARK:- UI Elements
+    // MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber : UITextField!
     
-    //MARK:- Life-Cycle Methods
+    // MARK: - Variables
+    var hudView: LoadingView!
+    
+    // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+      
         self.prepareLayout()
+        self.setupLoader()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK:- Action Methods
-    @IBAction func btnSignIn(_ sender : UIButton){
-        
-        if (self.txtMobileNumber.text?.trim().isEmpty)! {
-            
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:iMsgError_Mobile , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        } else if (txtMobileNumber.text?.trim().count)! < 10 {
-            
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        } else {
-            self.userLogin()
-        }
-    }
-    
-    //MARK:- PrepareLayout
+    // MARK:- PrepareLayout
     func prepareLayout()  {
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignIn, colorName: UIColor.white)
@@ -57,18 +41,52 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
     }
     
-    //MARK:- TextField Delegate method
+    // MARK:- LoaderSetup
+    func setupLoader() {
+
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    // MARK:- Action Methods
+    @IBAction func btnSignIn(_ sender : UIButton) {
+        if !(Validator.isEmpty(text: txtMobileNumber.text!)) {
+            txtMobileNumber.shakeTextField()
+        }
+        else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: iMsgCharacterMaxLength_MobileNumber)) {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+            self.txtMobileNumber.resignFirstResponder()
+            hudView.startLoaderWithAnimation()
+            self.userLogin()
+        }
+    }
+    
+    @IBAction func btnTapSignUp(_ sender : UIButton) {
+        let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
+        self.addTransitionAtNaviagteNext()
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    // MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if(!SharedData.sharedInstance.isMessageWindowExpand){
+        if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         let textFieldText: String! = textField.text
         
-        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank){
+        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank) {
             return false
         }
         
@@ -103,23 +121,23 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     //MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        return true
+        return false
     }
     
     // MARK: - API Methods
-    func userLogin(){
-        //        HUDManager.sharedInstance.showHUD()
+    func userLogin() {
         APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
-            //            HUDManager.sharedInstance.hideHUD()
+            self.hudView.stopLoaderWithAnimation()
             if isSuccess == true {
-                let obj : HomeViewController  = SharedData.sharedInstance.storyBoard.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                self.present(obj, animated: true, completion: nil)
-            }else{
+                let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                self.addTransitionAtNaviagteNext()
+                self.present(obj, animated: false, completion: nil)
+            }
+            else {
                 let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             }
         }
     }
-    
 }

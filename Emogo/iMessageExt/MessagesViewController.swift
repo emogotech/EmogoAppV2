@@ -11,16 +11,23 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _ = SharedData.sharedInstance
+        prepareLayout()
         
-     NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - PrepareLayout
+    func prepareLayout()  {
+        _ = SharedData.sharedInstance
     }
     
     // MARK: - Screen Size Handling
@@ -28,11 +35,23 @@ class MessagesViewController: MSMessagesAppViewController {
         requestPresentationStyle(.expanded)
     }
     
+    // MARK: - Action methods
+    @IBAction func btnTapSignIn(_ sender : UIButton){
+        let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
+        self.addTransitionAtNaviagteNext()
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    @IBAction func btnTapSignUp(_ sender : UIButton) {
+        let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
+        self.addTransitionAtNaviagteNext()
+        self.present(obj, animated: false, completion: nil)
+    }
+    
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
-        
         // Use this method to configure the extension and restore previously stored state.
     }
     
@@ -59,11 +78,11 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didCancelSending(_ message: MSMessage, conversation: MSConversation) {
         // Called when the user deletes the message without sending it.
-        
         // Use this to clean up state related to the deleted message.
     }
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
+        
         if(presentationStyle == .expanded) {
             SharedData.sharedInstance.isMessageWindowExpand = true
         }
@@ -71,7 +90,6 @@ class MessagesViewController: MSMessagesAppViewController {
             SharedData.sharedInstance.isMessageWindowExpand = false
         }
         // Called before the extension transitions to a new presentation style.
-        
         // Use this method to prepare for the change in presentation style.
     }
     
@@ -81,10 +99,9 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
-    //MARK: - Delegate Methods of Segue
+    // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        return true
+        return false
     }
     
 }
-

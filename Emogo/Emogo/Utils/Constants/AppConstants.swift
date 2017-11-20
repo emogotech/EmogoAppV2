@@ -38,8 +38,6 @@ let kStoryboardID_StreamListView = "streamListView"
 // MARK: - Cell's  and NIB's Identifier
 
 let kCell_StreamCell = "streamCell"
-let kHeader_StreamHeaderView = "streamHeaderView"
-
 
 // MARK: - StoryboardSegue Identifier
 
@@ -62,7 +60,7 @@ let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 characters."
 let kAlertVerificationLengthMsg         = "Verification Code must be 5 characters."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
 let kAlertInvalidUserNameMsg            = "User Name Should be Between 3 - 30 characters."
-let kAlertUserNameAlreayExistsMsg               = "User Name Already Exists, Please enter Unique User Name."
+let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 
 
 // MARK: -  AlertMessage
@@ -126,11 +124,13 @@ let iMsg_String_singleSpace                     = " "
 let iMsg_CornorRadius : CGFloat                 = 18.0
 let iMsgCharacterMaxLength_Name                 = 30
 let iMsgCharacterMaxLength_VerificationCode     = 4
-let iMsgCharacterMaxLength_MobileNumber         = 10
+let iMsgCharacterMaxLength_MobileNumber         = 12
+
+let iMsgNameMinLength                           = 3
+let iMsgNameMaxLength                           = 20
 
 let iMsgDismissDelayTimeForPopUp : TimeInterval = 3
 
 
-
-
+let iMsg_hudAlphaConstant: CGFloat              = 0.4
 

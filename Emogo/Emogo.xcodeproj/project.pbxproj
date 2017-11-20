@@ -32,7 +32,6 @@
 		337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */; };
 		337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */; };
 		337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E61FBC168F00CEC0EB /* Validator.swift */; };
-		337B8FA31FBEEEDD00CFACE3 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */; };
 		337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
@@ -48,6 +47,8 @@
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
 		33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */; };
 		33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06F1FBB353E004FF634 /* ViewController.swift */; };
+		33BE05741FC2AC3300DEB169 /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BE05711FC2AC3300DEB169 /* KDLoadingView.swift */; };
+		33BE05771FC2AC7000DEB169 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BE05761FC2AC6F00DEB169 /* LoadingView.swift */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
@@ -170,6 +171,8 @@
 		33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		33BCB06F1FBB353E004FF634 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		33BE05711FC2AC3300DEB169 /* KDLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDLoadingView.swift; sourceTree = "<group>"; };
+		33BE05761FC2AC6F00DEB169 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.release.xcconfig"; sourceTree = "<group>"; };
 		68A23C5C260534D973245260 /* Pods_iMessageExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMessageExt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,6 +396,7 @@
 		337B8F7D1FBEECBD00CFACE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				33BE05761FC2AC6F00DEB169 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -401,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				337B8FAF1FBEF37E00CFACE3 /* Dictionary */,
+				33BE05711FC2AC3300DEB169 /* KDLoadingView.swift */,
 			);
 			path = Externals;
 			sourceTree = "<group>";
@@ -1037,7 +1042,6 @@
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
-				337B8FA31FBEEEDD00CFACE3 /* MessagesViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
@@ -1089,6 +1093,7 @@
 				337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */,
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
+				33BE05771FC2AC7000DEB169 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
@@ -1096,6 +1101,7 @@
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
+				33BE05741FC2AC3300DEB169 /* KDLoadingView.swift in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
 				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
