@@ -63,7 +63,6 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         }
         else {
             txtName.resignFirstResponder()
-            hudView.startLoaderWithAnimation()
             self.verifyUserName()
         }
     }
@@ -127,18 +126,25 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK: - API Methods
     func verifyUserName(){
-        APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
-            self.hudView.stopLoaderWithAnimation()
-            if isSuccess == true {
-                let obj : SignUpMobileViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
-                obj.userName = self.txtName.text?.trim()
-                self.addRippleTransition()
-                self.present(obj, animated: false, completion: nil)
-            } else {
-                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+        if Reachability.isNetworkAvailable() {
+              hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    let obj : SignUpMobileViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
+                    obj.userName = self.txtName.text?.trim()
+                    self.addRippleTransition()
+                    self.present(obj, animated: false, completion: nil)
+                } else {
+                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
+        }else {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

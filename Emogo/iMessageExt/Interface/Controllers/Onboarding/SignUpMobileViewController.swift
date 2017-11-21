@@ -65,7 +65,6 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
         else {
             self.txtMobileNumber.resignFirstResponder()
-            self.hudView.startLoaderWithAnimation()
             self.sigupUser()
         }
     }
@@ -120,21 +119,30 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     private func sigupUser(){
-        APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
-            self.hudView.startLoaderWithAnimation()
-            if isSuccess == true {
-                let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
-                obj.OTP = errorMsg
-                obj.phone = self.txtMobileNumber.text?.trim()
-//                self.addTransitionAtPresentingControllerRight()
-                self.present(obj, animated: false, completion: nil)
-            }
-            else {
-                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
+        if Reachability.isNetworkAvailable() {
+            hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
+                    obj.OTP = errorMsg
+                    obj.phone = self.txtMobileNumber.text?.trim()
+                    //                self.addTransitionAtPresentingControllerRight()
+                    self.present(obj, animated: false, completion: nil)
+                }
+                else {
+                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
+            })
+            
+        }else {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        }
     }
 }
 
