@@ -117,24 +117,35 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
-        self.hudView.startLoaderWithAnimation()
+   
 
-        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
-            self.hudView.stopLoaderWithAnimation()
-            if isSuccess == true {
-                let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                self.addRippleTransition()
-                self.present(obj, animated: false, completion: nil)
+        
+        if Reachability.isNetworkAvailable() {
+                 self.hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                    self.addRippleTransition()
+                    self.present(obj, animated: false, completion: nil)
+                }
+                else {
+                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
-            else {
-                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
+        }else {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
+        
+        
     }
     
     func resendOTP(){
+        
         if Reachability.isNetworkAvailable() {
             self.hudView.startLoaderWithAnimation()
 

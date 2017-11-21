@@ -64,7 +64,7 @@ let kPleaseEnterNameMsg                 = "Please Enter User Name."
 let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 digits."
 let kAlertVerificationLengthMsg         = "Verification Code must be 5 digits."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg            = "User Name Should be Between 3 - 30 characters."
+let kAlertInvalidUserNameMsg            = "User Name Should be minimum 3 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
 
@@ -86,7 +86,7 @@ let iMsgStoryBoard                              = "MainInterface"
 
 //PlaceHolder text
 let iMsgPlaceHolderText_SignIn                   = "Your number here"
-let iMsgPlaceHolderText_SignUpName               = "Your text here"
+let iMsgPlaceHolderText_SignUpName               = "Choose a Username"
 let iMsgPlaceHolderText_SignUpMobile             = "Your number here"
 let iMsgPlaceHolderText_SignUpVerify             = "Your code here"
 
@@ -115,7 +115,7 @@ let iMsgAlertType_Three = "3"
 
 //Alert titles
 let iMsgAlertTitle_Success                       = "Message!"
-let iMsgAlertTitle_Alert                         = "Alert!"
+let iMsgAlertTitle_Alert                         = "Emogo"
 let iMsgAlertTitle_Info                          = "Info!"
 
 //Sets Constant
