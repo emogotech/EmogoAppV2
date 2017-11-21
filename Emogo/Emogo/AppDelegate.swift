@@ -62,12 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame:  UIScreen.main.bounds)
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = UINavigationController(rootViewController: objHome)
-        let transition = CATransition()
-        transition.duration = 0.8
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = "cube"
-        transition.subtype = kCATransitionFromRight
-        self.window?.layer.add(transition, forKey: nil)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     
