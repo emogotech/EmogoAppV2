@@ -55,7 +55,6 @@
 		337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
-		337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */; };
 		337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */; };
 		339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
@@ -73,7 +72,6 @@
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
-		F4110B561FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */; };
 		F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A131FBD78A600081900 /* StreamListViewController.swift */; };
 		F4148A171FBD7C0800081900 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A161FBD7C0700081900 /* View.swift */; };
@@ -99,6 +97,8 @@
 		F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */; };
 		F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */; };
 		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
+		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
+		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
@@ -188,7 +188,6 @@
 		337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNameViewController.swift; sourceTree = "<group>"; };
 		337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpSelectedViewController.swift; sourceTree = "<group>"; };
 		337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerifyViewController.swift; sourceTree = "<group>"; };
-		337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		337B8FB01FBEF37E00CFACE3 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageExt.swift; sourceTree = "<group>"; };
@@ -211,8 +210,6 @@
 		C0116CE7C51A614A0E9157D1 /* Pods-Emogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.release.xcconfig"; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
-		F4110B541FBEDD1E00BC2A8A /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
-		F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
 		F4148A161FBD7C0700081900 /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -251,6 +248,9 @@
 		F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKExpandableButton.swift; sourceTree = "<group>"; };
 		F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCell.swift; sourceTree = "<group>"; };
 		F49023C41FC4010A004F3C90 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
+		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
+		F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
@@ -386,8 +386,8 @@
 		335B1A5A1FBB2413006DA9D9 /* iMessageExt */ = {
 			isa = PBXGroup;
 			children = (
+				F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */,
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
-				337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */,
 				337B8FB51FBEF45C00CFACE3 /* Utils */,
 				337B8F741FBEECBD00CFACE3 /* Interface */,
 				337B8F7E1FBEECBD00CFACE3 /* Externals */,
@@ -538,6 +538,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F49023CB1FC429CF004F3C90 /* InfoHUD */,
 				F49023C31FC40102004F3C90 /* Reachability */,
 				F4731FC61FC2E28700AA68D8 /* ExpandMenu */,
 				F4F18E791FBF192E00E746A8 /* ParralaxHeader */,
@@ -643,8 +644,8 @@
 		F4110B531FBEDD1D00BC2A8A /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
-				F4110B541FBEDD1E00BC2A8A /* NSDictionary+NullRemover.h */,
-				F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */,
+				F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */,
+				F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */,
 			);
 			path = Dictionary;
 			sourceTree = "<group>";
@@ -751,6 +752,13 @@
 				F49023C41FC4010A004F3C90 /* Reachability.swift */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		F49023CB1FC429CF004F3C90 /* InfoHUD */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = InfoHUD;
 			sourceTree = "<group>";
 		};
 		F4A94B841FBC286400E7B6CE /* HUD */ = {
@@ -908,6 +916,7 @@
 					};
 					335B1A551FBB2413006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1303,10 +1312,10 @@
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
+				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
-				F4110B561FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 			);
@@ -1347,8 +1356,8 @@
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
-				337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
+				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
@@ -1716,6 +1725,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1727,7 +1737,8 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1739,6 +1750,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1750,7 +1762,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

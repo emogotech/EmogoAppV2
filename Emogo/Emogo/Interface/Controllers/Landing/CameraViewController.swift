@@ -58,7 +58,8 @@ class CameraViewController: SwiftyCamViewController {
         
         cameraDelegate = self
         // Preview Height
-        kPreviewHeight.constant = 0.0
+        kPreviewHeight.constant = 24.0
+        self.btnPreviewOpen.isHidden = true
         // adding FlashButton
         self.btnFlash.direction      = .Left
         self.btnFlash.options        = ["ON", "OFF",#imageLiteral(resourceName: "flash-icon")]
@@ -104,8 +105,7 @@ class CameraViewController: SwiftyCamViewController {
         let pickerController = DKImagePickerController()
         pickerController.sourceType = .photo
         pickerController.didSelectAssets = { (assets: [DKAsset]) in
-            print("didSelectAssets")
-            print(assets)
+            self.preparePreview(assets: assets)
         }
         self.present(pickerController, animated: true, completion: nil)
 
@@ -123,7 +123,15 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     // MARK: - Class Methods
-    
+    func preparePreview(assets:[DKAsset]){
+        for obj in assets {
+            obj.fetchImageWithSize(CGSize(width: 71.0, height: 102.0), completeBlock: { image, info in
+              self.arrayPreview.append(image!)
+            })
+        }
+        self.btnPreviewOpen.isHidden = false
+        self.previewCollection.reloadData()
+    }
 
     private func animateView(){
         UIView.animate(withDuration: 0.5) {
@@ -173,10 +181,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         self.arrayPreview.insert(photo, at: 0)
-        if self.arrayPreview.count == 1 {
-            self.kPreviewHeight.constant = 24.0
-            self.view.layoutIfNeeded()
-        }
+        self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {

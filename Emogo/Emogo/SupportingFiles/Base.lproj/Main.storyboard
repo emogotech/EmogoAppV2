@@ -126,7 +126,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uAO-37-Oow">
                                 <rect key="frame" x="10" y="194" width="300" height="226"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a User Name Here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwa-cK-Mt4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zwa-cK-Mt4">
                                         <rect key="frame" x="0.0" y="26" width="300" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="uxc-33-ggW"/>
@@ -749,7 +749,7 @@
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yDV-Ix-T4g">
                                         <rect key="frame" x="0.0" y="27" width="320" height="102"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="svf-Cd-ZVB">
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="4" minimumInteritemSpacing="4" id="svf-Cd-ZVB">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -786,7 +786,7 @@
                                         </connections>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="K8V-sK-6fv" secondAttribute="trailing" id="1T9-tH-XOS"/>
                                     <constraint firstItem="K8V-sK-6fv" firstAttribute="leading" secondItem="rB4-zD-lus" secondAttribute="leading" id="6Bc-0M-cCW"/>
@@ -855,18 +855,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="X1T-IX-TPg">
-                                        <rect key="frame" x="59" y="132" width="170" height="149"/>
+                                        <rect key="frame" x="59" y="132" width="170" height="97"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Btv-JK-dJc">
-                                                <rect key="frame" x="0.0" y="0.0" width="170" height="45"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="170" id="YJ9-5h-A6j"/>
-                                                    <constraint firstAttribute="height" constant="45" id="biz-Qe-eDV"/>
-                                                </constraints>
-                                                <state key="normal" image="go_back_to_where"/>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ywY-Mk-C0O">
-                                                <rect key="frame" x="0.0" y="52" width="170" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="170" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="Ua4-89-GMG"/>
                                                     <constraint firstAttribute="width" constant="170" id="mzJ-PD-xLL"/>
@@ -877,7 +869,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0E-UR-MkT">
-                                                <rect key="frame" x="0.0" y="104" width="170" height="45"/>
+                                                <rect key="frame" x="0.0" y="52" width="170" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="45" id="EwK-BI-XiP"/>
                                                     <constraint firstAttribute="width" constant="170" id="nBb-rq-mYH"/>
@@ -889,8 +881,8 @@
                                             </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="149" id="cvw-Zp-bJr"/>
-                                            <constraint firstAttribute="width" constant="170" id="eev-cH-qvk"/>
+                                            <constraint firstAttribute="width" constant="170" id="4gz-Yl-yKd"/>
+                                            <constraint firstAttribute="height" constant="97" id="p9m-nN-SOa"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -899,10 +891,10 @@
                                     <constraint firstAttribute="height" constant="281" id="1c2-A8-S1p"/>
                                     <constraint firstItem="Pcp-6J-dEL" firstAttribute="top" secondItem="WMN-WO-v8g" secondAttribute="top" id="AbM-LR-EQL"/>
                                     <constraint firstAttribute="trailing" secondItem="oDE-eR-IZd" secondAttribute="trailing" id="IJT-V5-PCu"/>
-                                    <constraint firstItem="X1T-IX-TPg" firstAttribute="top" secondItem="oDE-eR-IZd" secondAttribute="bottom" constant="16" id="SkC-El-dKO"/>
+                                    <constraint firstItem="X1T-IX-TPg" firstAttribute="centerX" secondItem="WMN-WO-v8g" secondAttribute="centerX" id="UGk-57-RLB"/>
                                     <constraint firstItem="oDE-eR-IZd" firstAttribute="leading" secondItem="WMN-WO-v8g" secondAttribute="leading" id="YLW-La-z0K"/>
                                     <constraint firstItem="Pcp-6J-dEL" firstAttribute="centerX" secondItem="WMN-WO-v8g" secondAttribute="centerX" id="YWb-yd-sA0"/>
-                                    <constraint firstItem="X1T-IX-TPg" firstAttribute="centerX" secondItem="WMN-WO-v8g" secondAttribute="centerX" id="dH1-15-85S"/>
+                                    <constraint firstItem="X1T-IX-TPg" firstAttribute="top" secondItem="oDE-eR-IZd" secondAttribute="bottom" constant="16" id="end-he-9ri"/>
                                     <constraint firstAttribute="width" constant="288" id="iTC-8t-FN8"/>
                                     <constraint firstItem="oDE-eR-IZd" firstAttribute="top" secondItem="Pcp-6J-dEL" secondAttribute="bottom" constant="35" id="rpj-8c-RHJ"/>
                                 </constraints>
@@ -933,7 +925,6 @@
         <image name="capture-icon" width="54" height="54"/>
         <image name="done-btn" width="137" height="45"/>
         <image name="emogo_stream" width="155" height="45"/>
-        <image name="go_back_to_where" width="155" height="45"/>
         <image name="input_text_iphone" width="253" height="42"/>
         <image name="lapse-icon" width="23" height="23"/>
         <image name="logo-iPhone" width="126" height="33"/>
