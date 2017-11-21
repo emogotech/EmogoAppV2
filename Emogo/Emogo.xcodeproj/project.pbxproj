@@ -106,6 +106,7 @@
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
+		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
@@ -262,6 +263,7 @@
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
+		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -355,6 +357,7 @@
 		335B1A251FBB238A006DA9D9 /* EmogoTests */ = {
 			isa = PBXGroup;
 			children = (
+				F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */,
 				335B1A261FBB238A006DA9D9 /* EmogoTests.swift */,
 				335B1A281FBB238A006DA9D9 /* Info.plist */,
 			);
@@ -1343,6 +1346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */,
 				335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

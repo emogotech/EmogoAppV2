@@ -21,7 +21,11 @@ class CameraViewController: SwiftyCamViewController {
     @IBOutlet weak var btnTimer: UIButton!
     @IBOutlet weak var btnShutter: UIButton!
     @IBOutlet weak var btnGallery: UIButton!
+    @IBOutlet weak var btnFlashOn: UIButton!
+    @IBOutlet weak var btnFlashOff: UIButton!
+    @IBOutlet weak var btnFlashAuto: UIButton!
 
+    @IBOutlet weak var viewFlashOptions: UIStackView!
     @IBOutlet weak var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet weak var previewCollection: UICollectionView!
     @IBOutlet weak var lblRecordTimer: UILabel!
@@ -29,6 +33,8 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Variables
     var isRecording:Bool! = false
     var isPreviewOpen:Bool! = false
+    var isFlashClicked:Bool! = false
+    var isCaptureMode: Bool! = true
     var arrayPreview = [UIImage]()
     var timer:Timer!
     var timeSec = 0
@@ -66,6 +72,7 @@ class CameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         cameraDelegate = self
         allowBackgroundAudio = true
+        self.viewFlashOptions.isHidden = true
         // Set ContDownLabel
         lblRecordTimer.isHidden = true
         self.lblRecordTimer.addAnimation()
@@ -82,7 +89,19 @@ class CameraViewController: SwiftyCamViewController {
   
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
-        takePhoto()
+        if isCaptureMode == true {
+            self.performCamera(action: .capture)
+        }else {
+            self.isRecording = !self.isRecording
+            if self.isRecording == true {
+                self.btnCamera.setImage(#imageLiteral(resourceName: "video_stop"), for: .normal)
+                self.performCamera(action: .record)
+            }else {
+                self.recordButtonTapped(isShow: false)
+                self.performCamera(action: .stop)
+            }
+        }
+       
     }
     
     @IBAction func btnActionTimer(_ sender: Any) {
@@ -109,14 +128,7 @@ class CameraViewController: SwiftyCamViewController {
     
    
     @IBAction func btnActionRecord(_ sender: Any) {
-        self.isRecording = !self.isRecording
-        if self.isRecording == true {
-            startVideoRecording()
-            self.btnRecording.tintColor = UIColor.red
-        }else {
-            stopVideoRecording()
-            self.btnRecording.tintColor = UIColor.white
-        }
+        self.recordButtonTapped(isShow: true)
     }
 
     @IBAction func btnActionGallery(_ sender: Any) {
@@ -133,6 +145,13 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionFlash(_ sender: Any) {
+        self.isFlashClicked = !self.isFlashClicked
+        if self.isFlashClicked == true {
+            self.viewFlashOptions.isHidden = false
+        }else {
+            self.viewFlashOptions.isHidden = true
+        }
+       
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
@@ -143,6 +162,22 @@ class CameraViewController: SwiftyCamViewController {
         self.animateView()
     }
     
+    @IBAction func btnActionFlashOptions(_ sender: UIButton) {
+        
+        switch sender.tag {
+        case 111:
+            self.flashOption(options: .on)
+            break
+        case 222:
+            self.flashOption(options: .off)
+            break
+        case 333:
+            self.flashOption(options: .auto)
+            break
+         default:
+            break
+        }
+    }
     
     
     // MARK: - Class Methods

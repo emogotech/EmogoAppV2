@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/CameraViewController.swift"
-            timestampString = "532963482.937158"
+            timestampString = "532968841.963769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
             landmarkName = "swiftyCam(_:didFinishRecordingVideo:)"
             landmarkType = "7">
          </BreakpointContent>
