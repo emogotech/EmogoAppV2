@@ -30,6 +30,10 @@ class ViewController: UIViewController {
    
    // MARK: - Prepare Layouts
     func prepareLayouts(){
+        HUDManager.sharedInstance.showHUD()
+        SharedData.sharedInstance.getPhoneCode { (code) in
+            HUDManager.sharedInstance.hideHUD()
+        }
     }
 
     // MARK: -  Action Methods And Selector

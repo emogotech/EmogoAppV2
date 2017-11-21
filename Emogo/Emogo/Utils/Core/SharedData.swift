@@ -25,11 +25,11 @@ class SharedData: NSObject {
     
     override init() {
         super.init()
-        self.getPhoneCode()
+    
     }
     
     // MARK: - Auto Detect Country code
-    func getPhoneCode(){
+    func getPhoneCode(completionHandler:@escaping (_ strCode:String?)->Void){
         /*
         let network_Info = CTTelephonyNetworkInfo()
         let carrier: CTCarrier? = network_Info.subscriberCellularProvider
@@ -41,8 +41,9 @@ class SharedData: NSObject {
         APIManager.sharedInstance.getCountryCode { (code) in
             if !(code?.isEmpty)! {
                 self.countryCode = "+\(self.getCountryCallingCode(countryRegionCode: code!))"
-                print(self.countryCode)
-
+              completionHandler(self.countryCode)
+            }else {
+                completionHandler(self.countryCode)
             }
         }
     }
@@ -75,7 +76,8 @@ class SharedData: NSObject {
     // MARK: - Retrive error messages from JSON
 
     func getErrorMessages(dict:[String:Any]) -> String {
-        var errorMessage = [String]()
+        var errors = [String]()
+        var errorMessage:String! = ""
         if let value = dict["exception"] {
             if value is [String:Any] {
                 let obj:[String:Any] = value as! [String : Any]
@@ -84,14 +86,15 @@ class SharedData: NSObject {
                     print("key is - \(key) and value is - \(value)")
                     if value is [Any] {
                         let error:String = (value as! [Any])[0] as! String
-                        errorMessage.append(error)
+                        errors.append(error)
                     }
                 }
+                errorMessage = errors.joined(separator: "\n")
             }else {
-                return "\(value)"
+                errorMessage = "\(value)"
             }
         }
-        return errorMessage.joined(separator: "\n")
+        return errorMessage.replacingOccurrences(of: ")", with: "").replacingOccurrences(of: ")", with: "")
     }
     
 }

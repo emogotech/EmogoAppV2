@@ -41,7 +41,7 @@ class UserNameViewController: UIViewController {
     @IBAction func btnActionNext(_ sender: Any) {
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
-        }else if (txtUserName.text?.trim().count)! < 3 && (txtUserName.text?.trim().count)! > 30 {
+        }else if (txtUserName.text?.trim().count)! < 3 || (txtUserName.text?.trim().count)! > 30 {
             self.showToast(type: .error, strMSG: kAlertInvalidUserNameMsg)
         }else {
             self.verifyUserName()
