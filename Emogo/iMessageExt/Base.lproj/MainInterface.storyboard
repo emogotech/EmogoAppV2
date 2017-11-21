@@ -106,7 +106,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a user name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv0-17-sKu">
-                                        <rect key="frame" x="87.5" y="10" width="148" height="34"/>
+                                        <rect key="frame" x="93" y="10" width="137" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="SJY-9T-5xJ"/>
                                         </constraints>
@@ -210,7 +210,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-Np-IyY">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
+                                        <rect key="frame" x="93.5" y="10" width="134.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="Ivi-VH-I3l"/>
                                         </constraints>
@@ -432,7 +432,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="90" y="10" width="141" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -442,7 +442,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What would you Like to Do Next?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJ8-wh-xyE">
-                                        <rect key="frame" x="40.5" y="29" width="240" height="18"/>
+                                        <rect key="frame" x="45.5" y="29" width="230" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="KUI-ME-HWq"/>
                                             <constraint firstAttribute="height" constant="18" id="T7R-LN-yMt"/>
@@ -524,7 +524,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
+                                        <rect key="frame" x="93.5" y="10" width="134.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="7Rs-DU-S5E"/>
                                         </constraints>
@@ -637,7 +637,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Working under progress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dyy-Xk-gld">
-                                        <rect key="frame" x="74.5" y="124.5" width="171" height="20.5"/>
+                                        <rect key="frame" x="79" y="125" width="162" height="19.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Dyy-Xk-gld" secondAttribute="height" multiplier="199:24" id="DzH-GP-HSM"/>
                                         </constraints>

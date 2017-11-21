@@ -43,7 +43,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     // MARK:- LoaderSetup
     func setupLoader() {
         
-        hudView  = LoadingView.init(frame: view.frame)
+        hudView  = LoadingView.init(frame: self.view.frame)
         view.addSubview(hudView)
         hudView.translatesAutoresizingMaskIntoConstraints = false
         hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
@@ -51,7 +51,6 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
     
     // MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
