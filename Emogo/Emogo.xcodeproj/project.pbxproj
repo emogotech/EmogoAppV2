@@ -26,6 +26,7 @@
 		330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F45430921FBD6E8900DE80E6 /* SF-Pro-Display-Regular.otf */; };
 		330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */; };
 		330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */; };
+		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
@@ -1364,6 +1365,7 @@
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
 				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
+				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,

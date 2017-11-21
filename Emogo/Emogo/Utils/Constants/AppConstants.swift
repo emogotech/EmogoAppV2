@@ -130,7 +130,8 @@ let iMsg_String_singleSpace                     = " "
 let iMsg_CornorRadius : CGFloat                 = 18.0
 let iMsgCharacterMaxLength_Name                 = 30
 let iMsgCharacterMaxLength_VerificationCode     = 4
-let iMsgCharacterMaxLength_MobileNumber         = 12
+let iMsgCharacterMaxLength_MobileNumber         = 15
+let iMsgCharacterMinLength_MobileNumber         = 12
 
 let iMsgNameMinLength                           = 3
 let iMsgNameMaxLength                           = 20
@@ -138,5 +139,5 @@ let iMsgNameMaxLength                           = 20
 let iMsgDismissDelayTimeForPopUp : TimeInterval = 3
 
 
-let iMsg_hudAlphaConstant: CGFloat              = 0.4
+let iMsg_hudAlphaConstant: CGFloat              = 0.7
 

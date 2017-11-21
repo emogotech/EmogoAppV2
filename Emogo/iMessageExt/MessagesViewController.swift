@@ -38,13 +38,13 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Action methods
     @IBAction func btnTapSignIn(_ sender : UIButton){
         let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
-        self.addTransitionAtNaviagteNext()
+        self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
     }
     
     @IBAction func btnTapSignUp(_ sender : UIButton) {
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
-        self.addTransitionAtNaviagteNext()
+        self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
     }
     
