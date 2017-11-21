@@ -72,6 +72,7 @@ class CameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         cameraDelegate = self
         allowBackgroundAudio = true
+        self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true
         // Set ContDownLabel
         lblRecordTimer.isHidden = true
@@ -95,7 +96,7 @@ class CameraViewController: SwiftyCamViewController {
             self.isRecording = !self.isRecording
             if self.isRecording == true {
                 self.btnCamera.setImage(#imageLiteral(resourceName: "video_stop"), for: .normal)
-                self.performCamera(action: .record)
+                self.performCamera(action: .recording)
             }else {
                 self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
@@ -105,6 +106,7 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionTimer(_ sender: Any) {
+        timeSec = 0
         let alert = UIAlertController(title: "Select Time", message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: "5s", style: .default) { (action) in
             self.captreIn(time: 5)
@@ -128,6 +130,8 @@ class CameraViewController: SwiftyCamViewController {
     
    
     @IBAction func btnActionRecord(_ sender: Any) {
+        timeSec = 0
+        self.btnPreviewOpen.isHidden = true
         self.recordButtonTapped(isShow: true)
     }
 
@@ -184,7 +188,7 @@ class CameraViewController: SwiftyCamViewController {
     
     func preparePreview(assets:[DKAsset]){
         for obj in assets {
-            obj.fetchImageWithSize(CGSize(width: 71.0, height: 102.0), completeBlock: { image, info in
+            obj.fetchImageWithSize(CGSize(width: previewCollection.frame.size.height - 30, height: previewCollection.frame.size.height), completeBlock: { image, info in
               self.arrayPreview.append(image!)
             })
         }
@@ -285,7 +289,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
 
 
 
-extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSource {
+extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrayPreview.count
     }
@@ -299,8 +303,7 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print(collectionView.frame.size.height)
-        return CGSize(width: 71.0, height: collectionView.frame.size.height)
+        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
     }
 }
 

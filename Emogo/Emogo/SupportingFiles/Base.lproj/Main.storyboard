@@ -698,7 +698,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-sv-mO2">
-                                        <rect key="frame" x="110" y="15" width="100" height="21"/>
+                                        <rect key="frame" x="110" y="21" width="100" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="pJu-EI-rPw"/>
                                             <constraint firstAttribute="height" constant="21" id="v1g-XQ-qWk"/>
@@ -769,7 +769,7 @@
                                     <constraint firstAttribute="height" constant="50" id="cea-wM-I2U"/>
                                     <constraint firstAttribute="trailing" secondItem="2Mn-zJ-uNp" secondAttribute="trailing" id="rKl-nl-T4g"/>
                                     <constraint firstItem="2Mn-zJ-uNp" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" id="xf9-1D-ma1"/>
-                                    <constraint firstItem="q1G-sv-mO2" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" constant="15" id="ymS-hG-4CW"/>
+                                    <constraint firstItem="q1G-sv-mO2" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" constant="21" id="ymS-hG-4CW"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68Q-pV-hEa">
@@ -844,7 +844,7 @@
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yDV-Ix-T4g">
                                         <rect key="frame" x="0.0" y="27" width="320" height="102"/>
-                                        <color key="backgroundColor" red="0.23921568630000001" green="0.35686274509999999" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="4" minimumInteritemSpacing="4" id="svf-Cd-ZVB">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>

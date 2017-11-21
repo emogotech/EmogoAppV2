@@ -19,6 +19,8 @@ enum CameraAction:String {
     case capture = "camera"
     case stop = "stop"
     case record = "record"
+    case recording = "recording"
+
 }
 
 
@@ -62,7 +64,6 @@ extension CameraViewController {
     }
     
     func recordButtonTapped(isShow:Bool){
-        self.isRecording = isShow
         isCaptureMode = false
         self.btnGallery.isHidden = isShow
         self.btnRecording.isHidden = isShow
@@ -121,10 +122,13 @@ extension CameraViewController {
             takePhoto()
             break
         case .record:
-            startVideoRecording()
+            print("prepare for record")
             break
         case .stop:
             stopVideoRecording()
+            break
+        case .recording:
+            startVideoRecording()
             break
         }
     }
