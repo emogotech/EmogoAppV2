@@ -587,10 +587,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmS-V3-M4p">
-                                                            <rect key="frame" x="0.0" y="80" width="150" height="45"/>
+                                                            <rect key="frame" x="8" y="80" width="142" height="45"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="5DX-Iz-i6n"/>
-                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="9MI-IU-aic"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="142" id="9MI-IU-aic"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -599,7 +599,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
-                                                        <constraint firstItem="xmS-V3-M4p" firstAttribute="leading" secondItem="ExW-6G-kMP" secondAttribute="leading" id="3Ei-xJ-K0P"/>
+                                                        <constraint firstItem="xmS-V3-M4p" firstAttribute="leading" secondItem="ExW-6G-kMP" secondAttribute="leading" constant="8" id="3Ei-xJ-K0P"/>
                                                         <constraint firstAttribute="trailing" secondItem="xmS-V3-M4p" secondAttribute="trailing" id="9jx-rM-M6Q"/>
                                                         <constraint firstItem="Enf-EU-hU2" firstAttribute="top" secondItem="ExW-6G-kMP" secondAttribute="top" id="Icv-Zg-whq"/>
                                                         <constraint firstAttribute="bottom" secondItem="Enf-EU-hU2" secondAttribute="bottom" id="UzQ-zV-zoI"/>
@@ -647,7 +647,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ONW-wa-62M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1078" y="763"/>
+            <point key="canvasLocation" x="1076.25" y="762.67605633802816"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="eXg-Qh-yA9">

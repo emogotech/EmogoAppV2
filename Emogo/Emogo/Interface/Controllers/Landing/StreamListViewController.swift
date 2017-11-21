@@ -72,7 +72,7 @@ class StreamListViewController: UIViewController {
 
     func prepareDummyData(){
         for i in 1..<8 {
-            let obj = StreamDAO(title: "Cover Image1", image: UIImage(named: "image\(i)")!)
+            let obj = StreamDAO(title: "Cover Image \(i)", image: UIImage(named: "image\(i)")!)
             self.arrayStreams.append(obj)
         }
         self.streamCollectionView.reloadData()
