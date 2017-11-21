@@ -70,18 +70,23 @@ class SignUpViewController: UIViewController {
     // MARK: - API Methods
 
     private func sigupUser(){
-         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName, phone: (txtPhoneNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
-                obj.OTP = errorMsg
-                obj.phone = self.txtPhoneNumber.text?.trim()
-                self.navigationController?.push(viewController: obj)
-            }else {
-                self.showToast(type: .error, strMSG: errorMsg!)
-            }
-        })
+        if Reachability.isNetworkAvailable() {
+            HUDManager.sharedInstance.showHUD()
+            APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName, phone: (txtPhoneNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
+                if isSuccess == true {
+                    let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
+                    obj.OTP = errorMsg
+                    obj.phone = self.txtPhoneNumber.text?.trim()
+                    self.navigationController?.push(viewController: obj)
+                }else {
+                    self.showToast(type: .error, strMSG: errorMsg!)
+                }
+            })
+        }else {
+            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
+        }
+       
     }
     /*
     // MARK: - Navigation

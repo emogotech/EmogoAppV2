@@ -98,6 +98,7 @@
 		F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */; };
 		F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */; };
 		F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */; };
+		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
@@ -249,6 +250,7 @@
 		F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKExpandableButton.swift; sourceTree = "<group>"; };
 		F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCell.swift; sourceTree = "<group>"; };
+		F49023C41FC4010A004F3C90 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F49023C31FC40102004F3C90 /* Reachability */,
 				F4731FC61FC2E28700AA68D8 /* ExpandMenu */,
 				F4F18E791FBF192E00E746A8 /* ParralaxHeader */,
 				F4110B531FBEDD1D00BC2A8A /* Dictionary */,
@@ -740,6 +743,14 @@
 				F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		F49023C31FC40102004F3C90 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				F49023C41FC4010A004F3C90 /* Reachability.swift */,
+			);
+			path = Reachability;
 			sourceTree = "<group>";
 		};
 		F4A94B841FBC286400E7B6CE /* HUD */ = {
@@ -1262,6 +1273,7 @@
 			files = (
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
+				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,

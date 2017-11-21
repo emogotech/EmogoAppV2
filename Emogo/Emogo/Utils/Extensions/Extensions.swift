@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import CRNotifications
-
+import QuartzCore
 
 // MARK: - UIColor
 extension UIColor {
@@ -251,7 +251,7 @@ extension UINavigationController {
      - parameter type:     transition animation type.
      - parameter duration: transition animation duration.
      */
-    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.5) {
         self.addTransition(transitionType: type, duration: duration)
         self.pushViewController(vc, animated: false)
     }
@@ -261,15 +261,27 @@ extension UINavigationController {
         self.pushViewController(vc, animated: false)
     }
     
-    private func addTransition(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+    private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.5) {
+        /*
+         CATransition* transition = [CATransition animation];
+         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+         transition.duration = 1.0f;
+         transition.type =  @"flip";
+         transition.subtype = @"fromTop";
+         [self.navigationController.view.layer removeAllAnimations];
+         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+         
+         */
+        
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition.type = type
+        transition.type = "rippleEffect"
         self.view.layer.add(transition, forKey: nil)
     }
     
     private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+       
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
