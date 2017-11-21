@@ -24,7 +24,7 @@ class StreamCell: UICollectionViewCell {
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         self.imgCover.image = stream.imgCover
-        self.lblTitle.attributedText = setInfo(cover: stream.title, postedBy: "\nPosted By Pushpendra")
+        self.lblTitle.attributedText = setInfo(cover: stream.title, postedBy: "\nPosted By Jon")
         self.lblTitle.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "gradient"))
         self.lblTitle.numberOfLines = 0
         self.lblTitle.sizeToFit()
