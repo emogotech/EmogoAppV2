@@ -126,7 +126,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 self.hudView.stopLoaderWithAnimation()
                 if isSuccess == true {
                     let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                    self.addRippleTransition()
+                    self.addTransitionAtPresentingControllerRight()
                     self.present(obj, animated: false, completion: nil)
                 }
                 else {
@@ -140,12 +140,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        
-        
     }
     
     func resendOTP(){
-        
         if Reachability.isNetworkAvailable() {
             self.hudView.startLoaderWithAnimation()
 

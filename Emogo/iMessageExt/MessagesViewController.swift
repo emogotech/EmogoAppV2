@@ -27,7 +27,8 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
-        _ = SharedData.sharedInstance
+        SharedData.sharedInstance.getPhoneCode { (code) in
+        }
     }
     
     // MARK: - Screen Size Handling

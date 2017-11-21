@@ -96,7 +96,6 @@ class StreamListViewController: UIViewController {
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
-
 extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
 
@@ -112,7 +111,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         let stream = self.arrayStreams[indexPath.row]
         cell.prepareLayouts(stream: stream)
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

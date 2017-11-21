@@ -131,8 +131,8 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
                 self.hudView.stopLoaderWithAnimation()
                 if isSuccess == true {
                     let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                    self.addRippleTransition()
                     self.present(obj, animated: false, completion: nil)
+                    self.addTransitionAtPresentingControllerRight()
                 }
                 else {
                     let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
