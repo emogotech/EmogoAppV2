@@ -262,17 +262,7 @@ extension UINavigationController {
     }
     
     private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.5) {
-        /*
-         CATransition* transition = [CATransition animation];
-         transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
-         transition.duration = 1.0f;
-         transition.type =  @"flip";
-         transition.subtype = @"fromTop";
-         [self.navigationController.view.layer removeAllAnimations];
-         [self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-         
-         */
-        
+    
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
