@@ -34,8 +34,7 @@ class LoadingView: UIView {
         load?.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         load?.backgroundColor = UIColor.clear
         load?.duration = 2.5
-        load?.lineWidth = 4
-        
+        load?.lineWidth = 5.0
         load?.firstColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)
         load?.secondColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)
         load?.thirdColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)

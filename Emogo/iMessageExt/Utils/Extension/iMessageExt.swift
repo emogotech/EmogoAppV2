@@ -49,6 +49,15 @@ extension MSMessagesAppViewController {
         transition.subtype = kCATransitionFromRight
         view.window!.layer.add(transition, forKey: kCATransition)
     }
+    
+    func addRippleTransition() {
+        
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = "rippleEffect"
+        view.window!.layer.add(transition, forKey: kCATransition)
+    }
 }
 
 // MARK: - UITextField

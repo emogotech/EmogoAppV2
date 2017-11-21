@@ -70,7 +70,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
-        self.addTransitionAtNaviagteNext()
+        self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
     }
     
@@ -132,7 +132,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             if isSuccess == true {
                 let obj : SignUpMobileViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
                 obj.userName = self.txtName.text?.trim()
-                self.addTransitionAtNaviagteNext()
+                self.addRippleTransition()
                 self.present(obj, animated: false, completion: nil)
             } else {
                 let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)

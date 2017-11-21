@@ -58,7 +58,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         if !(Validator.isEmpty(text: txtMobileNumber.text!)) {
             txtMobileNumber.shakeTextField()
         }
-        else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: iMsgCharacterMaxLength_MobileNumber)) {
+        else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: iMsgCharacterMinLength_MobileNumber)) {
             let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -72,7 +72,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
-        self.addTransitionAtNaviagteNext()
+        self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
     }
     
