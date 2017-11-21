@@ -50,10 +50,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
-        //get Country code
-        print(SharedData.sharedInstance.countryCode)
+        // If User already logged in
+        if kDefault.bool(forKey: kUserLogggedIn) == true {
+            UserDAO.sharedInstance.parseUserInfo()
+            self.openLandingScreen()
+        }
     }
+    
+   fileprivate func openLandingScreen(){
+        
+        self.window = UIWindow(frame:  UIScreen.main.bounds)
+        let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+        let navigation = UINavigationController(rootViewController: objHome)
+        self.window?.rootViewController = navigation
+        self.window?.makeKeyAndVisible()
+    
+    }
+    
+  
 }
+
 
 /*
  private func composeMessage() -> MSMessage {

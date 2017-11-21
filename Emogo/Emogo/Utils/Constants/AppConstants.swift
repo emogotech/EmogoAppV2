@@ -61,11 +61,12 @@ let kAlertTitleMessage                  = "Message!"
 let kAlertTitleInfo                     = "Info!"
 
 let kPleaseEnterNameMsg                 = "Please Enter User Name."
-let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 characters."
-let kAlertVerificationLengthMsg         = "Verification Code must be 5 characters."
+let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 digits."
+let kAlertVerificationLengthMsg         = "Verification Code must be 5 digits."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg            = "User Name Should be Between 3 - 30 characters."
+let kAlertInvalidUserNameMsg            = "User Name Should be minimum 3 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
+let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
 
 
 // MARK: -  AlertMessage
@@ -85,7 +86,7 @@ let iMsgStoryBoard                              = "MainInterface"
 
 //PlaceHolder text
 let iMsgPlaceHolderText_SignIn                   = "Your number here"
-let iMsgPlaceHolderText_SignUpName               = "Your text here"
+let iMsgPlaceHolderText_SignUpName               = "Choose a Username"
 let iMsgPlaceHolderText_SignUpMobile             = "Your number here"
 let iMsgPlaceHolderText_SignUpVerify             = "Your code here"
 
@@ -114,7 +115,7 @@ let iMsgAlertType_Three = "3"
 
 //Alert titles
 let iMsgAlertTitle_Success                       = "Message!"
-let iMsgAlertTitle_Alert                         = "Alert!"
+let iMsgAlertTitle_Alert                         = "Emogo"
 let iMsgAlertTitle_Info                          = "Info!"
 
 //Sets Constant
@@ -129,7 +130,8 @@ let iMsg_String_singleSpace                     = " "
 let iMsg_CornorRadius : CGFloat                 = 18.0
 let iMsgCharacterMaxLength_Name                 = 30
 let iMsgCharacterMaxLength_VerificationCode     = 4
-let iMsgCharacterMaxLength_MobileNumber         = 12
+let iMsgCharacterMaxLength_MobileNumber         = 15
+let iMsgCharacterMinLength_MobileNumber         = 12
 
 let iMsgNameMinLength                           = 3
 let iMsgNameMaxLength                           = 20
@@ -137,5 +139,5 @@ let iMsgNameMaxLength                           = 20
 let iMsgDismissDelayTimeForPopUp : TimeInterval = 3
 
 
-let iMsg_hudAlphaConstant: CGFloat              = 0.4
+let iMsg_hudAlphaConstant: CGFloat              = 0.7
 

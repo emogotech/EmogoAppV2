@@ -41,7 +41,7 @@ class UserNameViewController: UIViewController {
     @IBAction func btnActionNext(_ sender: Any) {
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
-        }else if (txtUserName.text?.trim().count)! < 3 && (txtUserName.text?.trim().count)! > 30 {
+        }else if (txtUserName.text?.trim().count)! < 3 || (txtUserName.text?.trim().count)! > 30 {
             self.showToast(type: .error, strMSG: kAlertInvalidUserNameMsg)
         }else {
             self.verifyUserName()
@@ -59,17 +59,22 @@ class UserNameViewController: UIViewController {
     }
     
     func verifyUserName(){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtUserName.text?.trim())!) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-        if isSuccess == true {
-            let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
-            obj.userName = self.txtUserName.text?.trim()
-            self.navigationController?.push(viewController: obj)
-        }else {
-            self.showToast(type: .error, strMSG: errorMsg!)
+        if Reachability.isNetworkAvailable() {
+            HUDManager.sharedInstance.showHUD()
+            APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtUserName.text?.trim())!) { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
+                if isSuccess == true {
+                    let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
+                    obj.userName = self.txtUserName.text?.trim()
+                    self.navigationController?.push(viewController: obj)
+                }else {
+                    self.showToast(type: .error, strMSG: errorMsg!)
+                }
             }
+        }else {
+            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
+       
     }
     
 }

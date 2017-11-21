@@ -12,6 +12,7 @@ class LoadingView: UIView {
     
     // MARK: - Variables
     var load : KDLoadingView?
+     var loaderImage : UIImageView?
     
     // MARK: - Override methods
     override init(frame: CGRect) {
@@ -32,11 +33,11 @@ class LoadingView: UIView {
         load = KDLoadingView.init()
         load?.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         load?.backgroundColor = UIColor.clear
-        load?.duration = 4.0
-        load?.lineWidth = 6
-        load?.firstColor = UIColor.red
-        load?.secondColor = UIColor.red
-        load?.thirdColor = UIColor.red
+        load?.duration = 2.5
+        load?.lineWidth = 5.0
+        load?.firstColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)
+        load?.secondColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)
+        load?.thirdColor = #colorLiteral(red: 0.001609396073, green: 0.6759747267, blue: 0.9307156205, alpha: 1)
         
         self.addSubview(load!)
         
@@ -45,6 +46,15 @@ class LoadingView: UIView {
         load?.heightAnchor.constraint(equalToConstant: 60).isActive = true
         load?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         load?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
+        
+        loaderImage = UIImageView(frame:  CGRect(x: 0, y: 0, width: 50, height: 50))
+        loaderImage?.image = #imageLiteral(resourceName: "loader")
+        self.addSubview(loaderImage!)
+        loaderImage?.translatesAutoresizingMaskIntoConstraints = false
+        loaderImage?.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        loaderImage?.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        loaderImage?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        loaderImage?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
     }
     
     // MARK: - Start Loader

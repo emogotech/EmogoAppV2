@@ -26,6 +26,9 @@
 		330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F45430921FBD6E8900DE80E6 /* SF-Pro-Display-Regular.otf */; };
 		330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */; };
 		330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */; };
+		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
+		330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */; };
+		330FEB931FC4600D00552260 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
@@ -55,7 +58,6 @@
 		337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
-		337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */; };
 		337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */; };
 		339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
@@ -73,7 +75,6 @@
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
-		F4110B561FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */; };
 		F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */; };
 		F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A131FBD78A600081900 /* StreamListViewController.swift */; };
 		F4148A171FBD7C0800081900 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A161FBD7C0700081900 /* View.swift */; };
@@ -98,7 +99,14 @@
 		F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */; };
 		F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */; };
 		F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */; };
+		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
+		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
+		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
+		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
+		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
+		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
+		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
@@ -155,6 +163,7 @@
 		23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		330FEB751FC3F5CC00552260 /* KDLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDLoadingView.swift; sourceTree = "<group>"; };
 		330FEB771FC3F5F200552260 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		335B1A0E1FBB238A006DA9D9 /* Emogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Emogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A111FBB238A006DA9D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		335B1A161FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -187,7 +196,6 @@
 		337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpNameViewController.swift; sourceTree = "<group>"; };
 		337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpSelectedViewController.swift; sourceTree = "<group>"; };
 		337B8F7C1FBEECBD00CFACE3 /* SignUpVerifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpVerifyViewController.swift; sourceTree = "<group>"; };
-		337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		337B8FB01FBEF37E00CFACE3 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		337B8FB11FBEF37E00CFACE3 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMessageExt.swift; sourceTree = "<group>"; };
@@ -210,8 +218,6 @@
 		C0116CE7C51A614A0E9157D1 /* Pods-Emogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.release.xcconfig"; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
-		F4110B541FBEDD1E00BC2A8A /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
-		F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
 		F4148A161FBD7C0700081900 /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -249,7 +255,15 @@
 		F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKExpandableButton.swift; sourceTree = "<group>"; };
 		F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCell.swift; sourceTree = "<group>"; };
+		F49023C41FC4010A004F3C90 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
+		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
+		F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
+		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
+		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
+		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -343,6 +357,7 @@
 		335B1A251FBB238A006DA9D9 /* EmogoTests */ = {
 			isa = PBXGroup;
 			children = (
+				F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */,
 				335B1A261FBB238A006DA9D9 /* EmogoTests.swift */,
 				335B1A281FBB238A006DA9D9 /* Info.plist */,
 			);
@@ -384,8 +399,8 @@
 		335B1A5A1FBB2413006DA9D9 /* iMessageExt */ = {
 			isa = PBXGroup;
 			children = (
+				F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */,
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
-				337B8FAE1FBEF17C00CFACE3 /* iMessageExt-Bridging-Header.h */,
 				337B8FB51FBEF45C00CFACE3 /* Utils */,
 				337B8F741FBEECBD00CFACE3 /* Interface */,
 				337B8F7E1FBEECBD00CFACE3 /* Externals */,
@@ -437,6 +452,7 @@
 		337B8F7D1FBEECBD00CFACE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */,
 				330FEB771FC3F5F200552260 /* LoadingView.swift */,
 			);
 			path = Views;
@@ -536,6 +552,8 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4A69BA01FC45114008F9534 /* Sound */,
+				F49023C31FC40102004F3C90 /* Reachability */,
 				F4731FC61FC2E28700AA68D8 /* ExpandMenu */,
 				F4F18E791FBF192E00E746A8 /* ParralaxHeader */,
 				F4110B531FBEDD1D00BC2A8A /* Dictionary */,
@@ -640,8 +658,8 @@
 		F4110B531FBEDD1D00BC2A8A /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
-				F4110B541FBEDD1E00BC2A8A /* NSDictionary+NullRemover.h */,
-				F4110B551FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m */,
+				F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */,
+				F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */,
 			);
 			path = Dictionary;
 			sourceTree = "<group>";
@@ -651,6 +669,7 @@
 			children = (
 				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
 				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
+				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
 			);
 			path = Landing;
 			sourceTree = "<group>";
@@ -740,6 +759,23 @@
 				F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		F49023C31FC40102004F3C90 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				F49023C41FC4010A004F3C90 /* Reachability.swift */,
+			);
+			path = Reachability;
+			sourceTree = "<group>";
+		};
+		F4A69BA01FC45114008F9534 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				F4A69BA31FC45180008F9534 /* beep.wav */,
+				F4A69BA11FC4515D008F9534 /* Sound.swift */,
+			);
+			path = Sound;
 			sourceTree = "<group>";
 		};
 		F4A94B841FBC286400E7B6CE /* HUD */ = {
@@ -897,6 +933,7 @@
 					};
 					335B1A551FBB2413006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -932,6 +969,7 @@
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
+				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
@@ -972,6 +1010,7 @@
 			files = (
 				330FEB801FC3F68C00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
+				330FEB931FC4600D00552260 /* Assets.xcassets in Resources */,
 				330FEB7B1FC3F68C00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB7E1FC3F68C00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
@@ -1262,6 +1301,7 @@
 			files = (
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
+				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
@@ -1272,11 +1312,13 @@
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
+				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
+				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
@@ -1291,10 +1333,10 @@
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
+				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
-				F4110B561FBEDD1E00BC2A8A /* NSDictionary+NullRemover.m in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 			);
@@ -1304,6 +1346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */,
 				335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1335,14 +1378,15 @@
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
-				337B8FAA1FBEF04D00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
+				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
 				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
+				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
@@ -1350,6 +1394,7 @@
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
+				330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1704,6 +1749,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1715,7 +1761,8 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1727,6 +1774,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
@@ -1738,7 +1786,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

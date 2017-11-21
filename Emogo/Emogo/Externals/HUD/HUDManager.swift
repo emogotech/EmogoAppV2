@@ -32,6 +32,7 @@ class HUDManager: NSObject {
         view.duration = 2.5
         view.lineWidth = 5.0
         view.bgColor =  UIColor.black.withAlphaComponent(0.5)
+        
         return view
     }()
     

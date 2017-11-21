@@ -65,26 +65,36 @@ class VerificationViewController: UIViewController {
     // MARK: - API Methods
 
     func verifyOTP(){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
-                self.navigationController?.push(viewController: obj)
-            }else {
-                self.showToast(type: .error, strMSG: errorMsg!)
+        if Reachability.isNetworkAvailable() {
+            HUDManager.sharedInstance.showHUD()
+            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
+                if isSuccess == true {
+                    let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
+                    self.navigationController?.push(viewController: obj)
+                }else {
+                    self.showToast(type: .error, strMSG: errorMsg!)
+                }
             }
+        }else {
+            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
+       
     }
     
     func resendOTP(){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                self.txtOtP.text = errorMsg
+        if Reachability.isNetworkAvailable() {
+            HUDManager.sharedInstance.showHUD()
+            APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone) { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
+                if isSuccess == true {
+                    self.txtOtP.text = errorMsg
+                }
             }
+        }else {
+            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
+       
     }
 
     /*

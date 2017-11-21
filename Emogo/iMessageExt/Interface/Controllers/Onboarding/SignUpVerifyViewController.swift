@@ -38,6 +38,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         
         txtVeryficationCode.layer.cornerRadius = iMsg_CornorRadius
         txtVeryficationCode.clipsToBounds = true
+        
+        txtVeryficationCode.text = self.OTP
     }
     
     func setupLoader() {
@@ -61,13 +63,14 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.present(alert, animated: true, completion: nil)
         }
         else {
-            self.txtVeryficationCode.resignFirstResponder()
-            self.hudView.startLoaderWithAnimation()
+            self.view.endEditing(true)
             self.verifyOTP()
         }
     }
     
     @IBAction func btnResend(_ sender : UIButton){
+        self.view.endEditing(true)
+        self.resendOTP()
     }
         
     //MARK:- TextField Delegate method
@@ -114,18 +117,45 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
-        APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
-            self.hudView.stopLoaderWithAnimation()
-            if isSuccess == true {
-                let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                self.addTransitionAtNaviagteNext()
-                self.present(obj, animated: false, completion: nil)
+   
+
+        
+        if Reachability.isNetworkAvailable() {
+                 self.hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                    self.addTransitionAtPresentingControllerRight()
+                    self.present(obj, animated: false, completion: nil)
+                }
+                else {
+                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
-            else {
-                let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+        }else {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func resendOTP(){
+        if Reachability.isNetworkAvailable() {
+            self.hudView.startLoaderWithAnimation()
+
+            APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone!) { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    self.txtVeryficationCode.text = errorMsg
+                }
             }
+        }else {
+            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
     }
 }

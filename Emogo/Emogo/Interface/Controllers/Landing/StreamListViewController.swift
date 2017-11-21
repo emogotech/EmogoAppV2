@@ -72,7 +72,7 @@ class StreamListViewController: UIViewController {
 
     func prepareDummyData(){
         for i in 1..<8 {
-            let obj = StreamDAO(title: "Cover Image1", image: UIImage(named: "image\(i)")!)
+            let obj = StreamDAO(title: "Cover Image \(i)", image: UIImage(named: "image\(i)")!)
             self.arrayStreams.append(obj)
         }
         self.streamCollectionView.reloadData()
@@ -96,7 +96,6 @@ class StreamListViewController: UIViewController {
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
-
 extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
 
@@ -112,7 +111,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         let stream = self.arrayStreams[indexPath.row]
         cell.prepareLayouts(stream: stream)
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
