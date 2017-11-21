@@ -13,6 +13,7 @@ class StreamCell: UICollectionViewCell {
     // MARK: - UI Elements
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var viewContent: UIView!
 
     
     // MARK: - Override Functions
@@ -25,9 +26,8 @@ class StreamCell: UICollectionViewCell {
     func prepareLayouts(stream:StreamDAO){
         self.imgCover.image = stream.imgCover
         self.lblTitle.attributedText = setInfo(cover: stream.title, postedBy: "\nPosted By Jon")
-        self.lblTitle.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "gradient"))
+        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblTitle.numberOfLines = 0
-        self.lblTitle.sizeToFit()
  }
     
     func setInfo(cover:String,postedBy:String) -> NSMutableAttributedString {

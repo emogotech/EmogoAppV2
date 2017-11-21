@@ -14,17 +14,27 @@ class CameraViewController: SwiftyCamViewController {
     
     
     // MARK: - UI Elements
-    @IBOutlet weak var btnFlash:  VKExpandableButton!
+    @IBOutlet weak var btnFlash:  UIButton!
     @IBOutlet weak var btnPreviewOpen: UIButton!
+    @IBOutlet weak var btnRecording: UIButton!
+    @IBOutlet weak var btnCamera: UIButton!
+    @IBOutlet weak var btnTimer: UIButton!
+    @IBOutlet weak var btnShutter: UIButton!
+    @IBOutlet weak var btnGallery: UIButton!
+
     @IBOutlet weak var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet weak var previewCollection: UICollectionView!
+    @IBOutlet weak var lblRecordTimer: UILabel!
 
     // MARK: - Variables
     var isRecording:Bool! = false
     var isPreviewOpen:Bool! = false
     var arrayPreview = [UIImage]()
-    
+    var timer:Timer!
+    var timeSec = 0
 
+    var beepSound: Sound?
+    
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -42,7 +52,6 @@ class CameraViewController: SwiftyCamViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      
     }
     
 
@@ -55,40 +64,47 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Prepare Layouts
 
     func prepareLayouts(){
-        
         cameraDelegate = self
+        allowBackgroundAudio = true
+        // Set ContDownLabel
+        lblRecordTimer.isHidden = true
+        self.lblRecordTimer.addAnimation()
         // Preview Height
         kPreviewHeight.constant = 24.0
-        self.btnPreviewOpen.isHidden = true
-        // adding FlashButton
-        self.btnFlash.direction      = .Left
-        self.btnFlash.options        = ["ON", "OFF",#imageLiteral(resourceName: "flash-icon")]
-        self.btnFlash.imageInsets    = UIEdgeInsetsMake(12, 12, 12, 12)
-        self.btnFlash.buttonBackgroundColor = UIColor.clear
-        self.btnFlash.expandedButtonBackgroundColor = self.btnFlash.buttonBackgroundColor
-        self.btnFlash.currentValue   = self.btnFlash.options[2]
         
-        self.btnFlash.optionSelectionBlock = {
-            index in
-            print("[Left] Did select cat at index: \(index)")
-            if index == 0 {
-                self.flashEnabled = true
-            }else {
-                self.flashEnabled = false
-            }
-            self.btnFlash.currentValue   = self.btnFlash.options[2]
+        // Configure Sound For timer
+        if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
+            beepSound = Sound(url: bUrl)
         }
-        
       
     }
     
-    
+  
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
         takePhoto()
     }
     
     @IBAction func btnActionTimer(_ sender: Any) {
+        let alert = UIAlertController(title: "Select Time", message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: "5s", style: .default) { (action) in
+            self.captreIn(time: 5)
+        }
+        let action2 = UIAlertAction(title: "10s", style: .default) { (action) in
+            self.captreIn(time: 10)
+        }
+        let action3 = UIAlertAction(title: "15s", style: .default) { (action) in
+            self.captreIn(time: 15)
+        }
+    
+        let action = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            
+        }
+        alert.addAction(action1)
+        alert.addAction(action2)
+        alert.addAction(action3)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
    
@@ -96,8 +112,10 @@ class CameraViewController: SwiftyCamViewController {
         self.isRecording = !self.isRecording
         if self.isRecording == true {
             startVideoRecording()
+            self.btnRecording.tintColor = UIColor.red
         }else {
             stopVideoRecording()
+            self.btnRecording.tintColor = UIColor.white
         }
     }
 
@@ -114,6 +132,9 @@ class CameraViewController: SwiftyCamViewController {
     @IBAction func btnActionShutter(_ sender: Any) {
     }
     
+    @IBAction func btnActionFlash(_ sender: Any) {
+    }
+    
     @IBAction func btnActionBack(_ sender: Any) {
         self.navigationController?.pop()
     }
@@ -122,7 +143,10 @@ class CameraViewController: SwiftyCamViewController {
         self.animateView()
     }
     
+    
+    
     // MARK: - Class Methods
+    
     func preparePreview(assets:[DKAsset]){
         for obj in assets {
             obj.fetchImageWithSize(CGSize(width: 71.0, height: 102.0), completeBlock: { image, info in
@@ -146,17 +170,19 @@ class CameraViewController: SwiftyCamViewController {
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             }
-            self.view.layoutIfNeeded()
+            self.view.updateConstraintsIfNeeded()
         }
     }
     private  func viewUP(){
         UIView.animate(withDuration: 0.5) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             self.kPreviewHeight.constant = 129.0
-              self.view.layoutIfNeeded()
+            self.view.updateConstraintsIfNeeded()
         }
     }
     
+    
+  
     // MARK: - API Methods
 
     
@@ -187,11 +213,15 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Called when startVideoRecording() is called
         // Called if a SwiftyCamButton begins a long press gesture
+        self.lblRecordTimer.isHidden = false
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(CameraViewController.updateRecordingTime)), userInfo: nil, repeats: true)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Called when stopVideoRecording() is called
         // Called if a SwiftyCamButton ends a long press gesture
+         timer.invalidate()
+        self.lblRecordTimer.isHidden = true
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
@@ -234,7 +264,10 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print(collectionView.frame.size.height)
         return CGSize(width: 71.0, height: collectionView.frame.size.height)
     }
 }
+
+
 

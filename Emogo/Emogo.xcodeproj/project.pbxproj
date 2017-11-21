@@ -103,6 +103,9 @@
 		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
+		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
+		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
+		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
@@ -256,6 +259,9 @@
 		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
+		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
+		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
+		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -543,7 +549,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				F49023CB1FC429CF004F3C90 /* InfoHUD */,
+				F4A69BA01FC45114008F9534 /* Sound */,
 				F49023C31FC40102004F3C90 /* Reachability */,
 				F4731FC61FC2E28700AA68D8 /* ExpandMenu */,
 				F4F18E791FBF192E00E746A8 /* ParralaxHeader */,
@@ -660,6 +666,7 @@
 			children = (
 				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
 				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
+				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
 			);
 			path = Landing;
 			sourceTree = "<group>";
@@ -759,11 +766,13 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
-		F49023CB1FC429CF004F3C90 /* InfoHUD */ = {
+		F4A69BA01FC45114008F9534 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
+				F4A69BA31FC45180008F9534 /* beep.wav */,
+				F4A69BA11FC4515D008F9534 /* Sound.swift */,
 			);
-			path = InfoHUD;
+			path = Sound;
 			sourceTree = "<group>";
 		};
 		F4A94B841FBC286400E7B6CE /* HUD */ = {
@@ -957,6 +966,7 @@
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
+				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
@@ -1299,11 +1309,13 @@
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
+				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
+				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,

@@ -301,3 +301,20 @@ extension UITextField {
                                                         attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
     }
 }
+
+extension UILabel {
+    func addAnimation(){
+        let animation = CATransition()
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        animation.type = kCATransitionFade
+        animation.duration = 0.75
+        self.layer.add(animation, forKey: "kCATransitionFade")
+    }
+    
+    func addGradientBackground(){
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [UIColor.red, UIColor.blue, UIColor.red, UIColor.blue]
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+}
