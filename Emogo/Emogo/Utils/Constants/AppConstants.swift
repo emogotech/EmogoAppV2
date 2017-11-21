@@ -66,6 +66,7 @@ let kAlertVerificationLengthMsg         = "Verification Code must be 5 character
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
 let kAlertInvalidUserNameMsg            = "User Name Should be Between 3 - 30 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
+let kAlertNetworkErrorMsg       = "Unable to connect, Please check your internet connection!"
 
 
 // MARK: -  AlertMessage

@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/OnBoarding/UserNameViewController.swift"
-            timestampString = "532620523.932578"
+            timestampString = "532942244.394336"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "verifyUserName()"
             landmarkType = "7">
          </BreakpointContent>
