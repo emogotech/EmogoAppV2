@@ -78,8 +78,10 @@ class PreviewController: UIViewController {
     @IBAction func btnActionShare(_ sender: Any) {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
+        self.showToast(type: .success, strMSG: "Stream added Successfully.")
     }
     @IBAction func btnDoneAction(_ sender: Any) {
+        self.showToast(type: .success, strMSG: "Content added Successfully.")
     }
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
