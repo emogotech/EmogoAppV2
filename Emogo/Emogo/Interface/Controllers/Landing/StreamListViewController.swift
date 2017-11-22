@@ -114,7 +114,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 10.0
+        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
         return CGSize(width: itemWidth, height: itemWidth)
     }
     

@@ -45,6 +45,7 @@ class SignInViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnDoneAction(_ sender: Any) {
+         self.disMissKeyboard()
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
             self.txtPhoneNumber.shake()
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
@@ -55,6 +56,7 @@ class SignInViewController: UIViewController {
     }
     
     @IBAction func btnSignupAction(_ sender: Any) {
+        self.disMissKeyboard()
         let obj:UserNameViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
         self.navigationController?.push(viewController: obj)
     }
@@ -87,3 +89,7 @@ class SignInViewController: UIViewController {
         
 
 }
+
+
+
+

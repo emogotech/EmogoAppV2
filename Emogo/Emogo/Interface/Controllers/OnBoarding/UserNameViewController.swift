@@ -34,11 +34,13 @@ class UserNameViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
+        self.txtUserName.delegate = self
     }
     
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionNext(_ sender: Any) {
+            disMissKeyboard()
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
         }else if (txtUserName.text?.trim().count)! < 3 || (txtUserName.text?.trim().count)! > 30 {
@@ -82,4 +84,10 @@ class UserNameViewController: UIViewController {
 // MARK: -  EXTENSIONS
 
 // MARK: -  Delegate and Datasource
+extension UserNameViewController:UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
 

@@ -48,6 +48,7 @@ class SignUpViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGetOTPAction(_ sender: Any) {
+        self.disMissKeyboard()
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
             self.txtPhoneNumber.shake()
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
@@ -61,7 +62,9 @@ class SignUpViewController: UIViewController {
         let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
         self.navigationController?.push(viewController: obj)
     }
-    
+    @IBAction func btnActionBack(_ sender: Any) {
+        self.navigationController?.pop()
+    }
     // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)

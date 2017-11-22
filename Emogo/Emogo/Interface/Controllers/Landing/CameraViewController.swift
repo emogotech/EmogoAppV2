@@ -149,9 +149,11 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
-        let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-        objPreview.imagesPreview = self.arrayPreview
-        self.navigationController?.push(viewController: objPreview)
+        if self.arrayPreview.count != 0 {
+            let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            objPreview.imagesPreview = self.arrayPreview
+            self.navigationController?.push(viewController: objPreview)
+        }
     }
     
     @IBAction func btnActionFlash(_ sender: Any) {
@@ -192,10 +194,13 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Class Methods
     
     func preparePreview(assets:[DKAsset]){
+        if arrayPreview.count == 0  && assets.count != 0 {
+            self.viewUP()
+        }
         let group = DispatchGroup()
         for obj in assets {
             group.enter()
-            obj.fetchImageWithSize(CGSize(width: previewCollection.frame.size.height - 30, height: previewCollection.frame.size.height), completeBlock: { image, info in
+            obj.fetchOriginalImageWithCompleteBlock({ (image, info) in
                 var camera:CameraDAO!
                 if obj.isVideo == true {
                     camera  = CameraDAO(type: .video, image: image!)
@@ -205,7 +210,9 @@ class CameraViewController: SwiftyCamViewController {
                 self.arrayPreview.append(camera)
                 group.leave()
             })
+           
         }
+        
         
         group.notify(queue: .main, execute: {
             self.btnPreviewOpen.isHidden = false
@@ -263,6 +270,9 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let camera = CameraDAO(type: .image, image: photo)
+        if arrayPreview.count == 0 {
+            self.viewUP()
+        }
         self.arrayPreview.insert(camera, at: 0)
         self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
@@ -286,6 +296,9 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
             let camera = CameraDAO(type: .video, image: image)
+            if arrayPreview.count == 0 {
+                self.viewUP()
+            }
             self.arrayPreview.insert(camera, at: 0)
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
@@ -327,7 +340,7 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
+        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
     }
 }
 

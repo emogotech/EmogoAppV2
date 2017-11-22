@@ -31,8 +31,9 @@ class PreviewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        self.prepareLayouts()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -118,7 +119,7 @@ class PreviewController: UIViewController {
            photoEditor.image = image
         //PhotoEditorDelegate
          photoEditor.photoEditorDelegate = self
-         photoEditor.hiddenControls = [.sticker]
+         photoEditor.hiddenControls = [.share]
          photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
           present(photoEditor, animated: true) {
             AppDelegate.appDelegate.keyboardToolBar(disable:false)
@@ -157,9 +158,7 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        self.preparePreview(index: indexPath.row)
-    }
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
     }

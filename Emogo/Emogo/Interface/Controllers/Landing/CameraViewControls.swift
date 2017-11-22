@@ -114,6 +114,7 @@ extension CameraViewController {
             break
         }
         self.viewFlashOptions.isHidden = true
+        self.isFlashClicked = false
     }
     
     func performCamera(action:CameraAction) {
