@@ -87,6 +87,8 @@
 		F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2E1FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.m */; };
 		F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
+		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
+		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
@@ -236,6 +238,8 @@
 		F4148A331FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHSPhoneNumberFormatter+UserConfig.h"; sourceTree = "<group>"; };
 		F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSPhoneTextField.m; sourceTree = "<group>"; };
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
+		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
+		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
 		F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
 		F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
@@ -670,6 +674,7 @@
 				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
 				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
 				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
+				F42864311FC4A12500E3549D /* PreviewController.swift */,
 			);
 			path = Landing;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 			children = (
 				F45A78761FBC68E1003FD6AB /* User */,
 				F4148A221FBD7DAA00081900 /* StreamDAO.swift */,
+				F42864371FC4A8C900E3549D /* CameraDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1310,6 +1316,7 @@
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
+				F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
@@ -1339,6 +1346,7 @@
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
+				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

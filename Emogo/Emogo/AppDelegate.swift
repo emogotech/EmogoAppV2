@@ -66,7 +66,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
     
     }
-    
+    func keyboardToolBar(disable:Bool){
+        IQKeyboardManager.sharedManager().enableAutoToolbar = disable
+        IQKeyboardManager.sharedManager().shouldShowToolbarPlaceholder = disable
+    }
   
 }
 

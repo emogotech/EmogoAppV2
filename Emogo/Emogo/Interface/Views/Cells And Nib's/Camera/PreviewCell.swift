@@ -20,6 +20,11 @@ class PreviewCell: UICollectionViewCell {
     @IBOutlet weak var playIcon: UIButton!
 
     func setupPreviewWithType(type:PreviewType, image:UIImage){
+        if type == .image {
+            self.playIcon.isHidden = true
+        }else {
+            self.playIcon.isHidden = false
+        }
         self.previewImage.image = image
     }
 }

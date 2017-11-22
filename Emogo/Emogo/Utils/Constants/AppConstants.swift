@@ -35,6 +35,8 @@ let kStoryboardID_UserNameView = "userNameView"
 let kStoryboardID_WelcomeView = "welcomeView"
 let kStoryboardID_StreamListView = "streamListView"
 let kStoryboardID_CameraView = "cameraView"
+let kStoryboardID_PreView = "preView"
+
 
 
 // MARK: - Cell's  and NIB's Identifier

@@ -35,7 +35,7 @@ class CameraViewController: SwiftyCamViewController {
     var isPreviewOpen:Bool! = false
     var isFlashClicked:Bool! = false
     var isCaptureMode: Bool! = true
-    var arrayPreview = [UIImage]()
+    var arrayPreview = [CameraDAO]()
     var timer:Timer!
     var timeSec = 0
 
@@ -96,6 +96,9 @@ class CameraViewController: SwiftyCamViewController {
             self.isRecording = !self.isRecording
             if self.isRecording == true {
                 self.btnCamera.setImage(#imageLiteral(resourceName: "video_stop"), for: .normal)
+                self.lblRecordTimer.text = "00:00:00"
+                self.timeSec = 0
+                self.lblRecordTimer.isHidden = false
                 self.performCamera(action: .recording)
             }else {
                 self.recordButtonTapped(isShow: false)
@@ -146,6 +149,9 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
+        let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+        objPreview.imagesPreview = self.arrayPreview
+        self.navigationController?.push(viewController: objPreview)
     }
     
     @IBAction func btnActionFlash(_ sender: Any) {
@@ -187,13 +193,25 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Class Methods
     
     func preparePreview(assets:[DKAsset]){
+        let group = DispatchGroup()
         for obj in assets {
+            group.enter()
             obj.fetchImageWithSize(CGSize(width: previewCollection.frame.size.height - 30, height: previewCollection.frame.size.height), completeBlock: { image, info in
-              self.arrayPreview.append(image!)
+                var camera:CameraDAO!
+                if obj.isVideo == true {
+                    camera  = CameraDAO(type: .video, image: image!)
+                }else {
+                    camera  = CameraDAO(type: .image, image: image!)
+                }
+                self.arrayPreview.append(camera)
+                group.leave()
             })
         }
-        self.btnPreviewOpen.isHidden = false
-        self.previewCollection.reloadData()
+        
+        group.notify(queue: .main, execute: {
+            self.btnPreviewOpen.isHidden = false
+            self.previewCollection.reloadData()
+        })
     }
 
     private func animateView(){
@@ -245,7 +263,8 @@ class CameraViewController: SwiftyCamViewController {
 extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        self.arrayPreview.insert(photo, at: 0)
+        let camera = CameraDAO(type: .image, image: photo)
+        self.arrayPreview.insert(camera, at: 0)
         self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
     }
@@ -266,7 +285,12 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
-        print(url)
+        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+            let camera = CameraDAO(type: .video, image: image)
+            self.arrayPreview.insert(camera, at: 0)
+            self.btnPreviewOpen.isHidden = false
+            self.previewCollection.reloadData()
+        }
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFocusAtPoint point: CGPoint) {
@@ -297,7 +321,8 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        cell.setupPreviewWithType(type: .image, image: self.arrayPreview[indexPath.row])
+        let obj = self.arrayPreview[indexPath.row]
+        cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
         return cell
         
     }

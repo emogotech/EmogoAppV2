@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreTelephony
+import Photos
 
 class SharedData: NSObject {
     //MARK:- Variables
@@ -95,6 +96,37 @@ class SharedData: NSObject {
             }
         }
         return errorMessage.replacingOccurrences(of: ")", with: "").replacingOccurrences(of: ")", with: "")
+    }
+    
+    
+    func saveVideo(fileUrl:URL){
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileUrl)
+        }) { saved, error in
+            if saved {
+               print("Saved")
+            }
+        }
+    }
+    
+    func videoPreviewImage(moviePath: URL) -> UIImage? {
+        self.saveVideo(fileUrl: moviePath)
+        do {
+            
+            let asset = AVURLAsset(url: moviePath , options: nil)
+            let imgGenerator = AVAssetImageGenerator(asset: asset)
+            imgGenerator.appliesPreferredTrackTransform = true
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let thumbnail = UIImage(cgImage: cgImage)
+            
+            return thumbnail
+            
+        } catch let error {
+            
+            print("*** Error generating thumbnail: \(error.localizedDescription)")
+            return nil
+            
+        }
     }
     
 }
