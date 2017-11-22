@@ -119,14 +119,16 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        var cell = UICollectionReusableView()
         switch kind {
         case IOStickyHeaderParallaxHeader:
-            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_StreamHeaderView, for: indexPath) as! StreamSearchCell
+            cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_StreamHeaderView, for: indexPath) as! StreamSearchCell
             return cell
         default:
             assert(false, "Unexpected element kind")
         }
         
+        return cell
     }
 
 }
