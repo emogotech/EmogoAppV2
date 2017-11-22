@@ -28,7 +28,6 @@
 		330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */; };
 		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */; };
-		330FEB931FC4600D00552260 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
@@ -68,6 +67,7 @@
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
 		33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */; };
 		33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06F1FBB353E004FF634 /* ViewController.swift */; };
+		33F928EA1FC54F3B008A104B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
@@ -1016,7 +1016,7 @@
 			files = (
 				330FEB801FC3F68C00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
-				330FEB931FC4600D00552260 /* Assets.xcassets in Resources */,
+				33F928EA1FC54F3B008A104B /* Assets.xcassets in Resources */,
 				330FEB7B1FC3F68C00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB7E1FC3F68C00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
