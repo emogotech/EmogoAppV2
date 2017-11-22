@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
-from django.conf import settings
+from emogo.lib.default_models.default_model import DefaultStatusModel
 
 STREAM_TYPE = (
     ('Private', 'Private'),
@@ -22,49 +22,43 @@ EVENT_TYPE = (
     ('Content', 'Content'),
 )
 
-class CategoryMaster( models.Model ):
+
+class CategoryMaster(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
-    status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
-    crd = models.DateTimeField(auto_now_add=True)
-    upd = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'category_master'
 
-class Stream( models.Model ):
+
+class Stream(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
-    category_master = models.ForeignKey(CategoryMaster, null=True, blank=True)
+    description = models.TextField(max_length=1000, null=True, blank=True)
+    category = models.ForeignKey(CategoryMaster, null=True, blank=True)
     image = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=STREAM_TYPE, default=STREAM_TYPE[0][0])
-    status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
+    any_one_can_edit = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, null=True, blank=True)
-    crd = models.DateTimeField(auto_now_add=True)
-    upd = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'stream'
 
-class Content( models.Model ):
+
+class Content(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
     url = models.CharField(max_length=45, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     stream = models.ForeignKey(Stream, null=True, blank=True)
-    status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
     created_by = models.ForeignKey(User, null=True, blank=True)
-    crd = models.DateTimeField(auto_now_add=True)
-    upd = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'content'
 
-class tags( models.Model ):
+
+class Tags(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
     event_id = models.IntegerField(null=True, blank=True)
     event_type = models.CharField(max_length=10, choices=EVENT_TYPE, default=EVENT_TYPE[0][0])
-    status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
     created_by = models.ForeignKey(User, null=True, blank=True)
-    crd = models.DateTimeField(auto_now_add=True)
-    upd = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'tags'

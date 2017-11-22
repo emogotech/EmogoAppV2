@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-# django rest
-from rest_framework.views import APIView
+
 from django.db import transaction
 from rest_framework import status
-from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+# django rest
+from rest_framework.views import APIView
+
+# serializer
+from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
+    UserResendOtpSerializer
 # constants
 from emogo.constants import messages
 # util method
-from emogo.lib.utils import custom_render_response, send_otp
-# Models
-from emogo.apps.users.models import UserProfile
-# serializer
-from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, UserResendOtpSerializer
+from emogo.lib.helpers.utils import custom_render_response
 
 
 class Signup(APIView):

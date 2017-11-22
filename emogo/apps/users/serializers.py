@@ -1,33 +1,16 @@
-from rest_framework import serializers
-from django.contrib.auth.models import User
-from emogo.apps.users.models import UserProfile
-from rest_framework.validators import UniqueValidator
-from emogo.lib.utils import generate_pin
-from emogo.constants import messages
-from rest_framework.authtoken.models import Token
 import re
+
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from rest_framework.validators import UniqueValidator
 
-
-class DynamicFieldsModelSerializer(serializers.ModelSerializer):
-    """
-    A ModelSerializer that takes an additional `fields` argument that
-    controls which fields should be displayed.
-    """
-
-    def __init__(self, *args, **kwargs):
-        # Don't pass the 'fields' arg up to the superclass
-        fields = kwargs.pop('fields', None)
-
-        # Instantiate the superclass normally
-        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
-
-        if fields:
-            # Drop any fields that are not specified in the `fields` argument.
-            allowed = set(fields)
-            existing = set(self.fields.keys())
-            for field_name in existing - allowed:
-                self.fields.pop(field_name)
+from emogo import settings
+from emogo.apps.users.models import UserProfile
+from emogo.constants import messages
+from emogo.lib.common_serializers.custom_serializers import DynamicFieldsModelSerializer
+from emogo.lib.helpers.utils import generate_pin
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -43,14 +26,13 @@ class UserSerializer(DynamicFieldsModelSerializer):
         fields = ['email', 'password', 'phone_number', 'user_name']
         extra_kwargs = {'password': {'required': True}}
 
-
     def create(self, validated_data):
         """
         :param validated_data:
         :return: Create User and user profile object
         """
         user = User.objects.create(username=validated_data.get('username'))
-        user.set_password('123456')
+        user.set_password(settings.DEFAULT_PASSWORD)
         user.save()
         setattr(self, 'user_pin', generate_pin())
         user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
@@ -145,9 +127,7 @@ class UserLoginSerializer(UserSerializer):
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
     def authenticate(self):
-        # Todo For now we consider password 123456 for authenticate user by Django backend
-        password = '123456'
-        user = authenticate(username=self.validated_data.get('username'), password=password)
+        user = authenticate(username=self.validated_data.get('username'), password=settings.DEFAULT_PASSWORD)
         try:
             user_profile = UserProfile.objects.get(user=user)
             user.auth_token.delete()
