@@ -173,7 +173,6 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionFlashOptions(_ sender: UIButton) {
-        
         switch sender.tag {
         case 111:
             self.flashOption(options: .on)

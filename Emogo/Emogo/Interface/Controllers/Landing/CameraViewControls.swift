@@ -113,7 +113,7 @@ extension CameraViewController {
          //   self.viewFlashOptions.swipeToUp(height: 20)
             break
         }
-        self.viewFlashOptions.isHidden = false
+        self.viewFlashOptions.isHidden = true
     }
     
     func performCamera(action:CameraAction) {

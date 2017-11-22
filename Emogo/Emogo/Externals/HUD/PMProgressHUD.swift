@@ -78,10 +78,12 @@ class PMProgressHUD: UIView {
     private func setupAJProgressView() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+        self.isHidden = false
         if (appDelegate.window?.subviews.contains(objProgressView))! {
             appDelegate.window?.bringSubview(toFront:objProgressView)
             print("already there")
+            return
+        
         }else{
             appDelegate.window?.addSubview(objProgressView)
             appDelegate.window?.bringSubview(toFront: objProgressView)
@@ -94,6 +96,9 @@ class PMProgressHUD: UIView {
         self.frame = UIScreen.main.bounds
         
         let innerView = UIView()
+        print((ScreenSize.Width - 45.0)/2)
+        print((ScreenSize.Height - 45.0)/2)
+
         innerView.frame = CGRect(x: (ScreenSize.Width - 45.0)/2, y: (ScreenSize.Height - 45.0)/2, width: 45.0, height: 45.0)
         innerView.backgroundColor = UIColor.clear
         shapeLayer.fillColor = UIColor.clear.cgColor
@@ -228,7 +233,6 @@ class PMProgressHUD: UIView {
     //MARK: -
     
     public func show() {
-        
         self.setupAJProgressView()
         UIView.animate(withDuration: 0.3, animations: {() -> Void in
             self.alpha = 1.0
@@ -243,7 +247,8 @@ class PMProgressHUD: UIView {
             self.alpha = 0.0
         }, completion: {(finished: Bool) -> Void in
             self.stopAnimating()
-            self.removeFromSuperview()
+            self.isHidden = true
+          //  self.removeFromSuperview()
         })
     }
 

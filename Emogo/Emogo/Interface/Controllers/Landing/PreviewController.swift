@@ -65,6 +65,7 @@ class PreviewController: UIViewController {
 
     
     @IBAction func btnBackAction(_ sender: Any) {
+        self.navigationController?.pop()
     }
     
     @IBAction func btnEditAction(_ sender: Any) {

@@ -70,8 +70,8 @@ class VerificationViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    let obj:WelcomeViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_WelcomeView) as! WelcomeViewController
-                    self.navigationController?.push(viewController: obj)
+                    let obj:StreamListViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+                    self.navigationController?.flipPush(viewController: obj)
                 }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
                 }
