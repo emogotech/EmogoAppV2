@@ -45,7 +45,7 @@ class PreviewController: UIViewController {
     
     func prepareLayouts(){
         // Preview Height
-        kPreviewHeight.constant = 24.0
+        kPreviewHeight.constant = 129.0
         self.preparePreview(index: 0)
         self.previewCollection.reloadData()
     }
@@ -70,9 +70,13 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
-        let obj = self.imagesPreview[selectedIndex]
-        if obj.type == .image {
-            self.openEditor(image:obj.imgPreview)
+        if self.imagesPreview.count != 0 {
+            let obj = self.imagesPreview[selectedIndex]
+            if obj.type == .image {
+                self.openEditor(image:obj.imgPreview)
+            }
+        }else {
+            self.showToast(type: .error, strMSG: "You don't have image to edit.")
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
@@ -181,6 +185,7 @@ extension PreviewController:PhotoEditorDelegate
         // the edited image
         let camera = CameraDAO(type: .image, image: image)
         self.imagesPreview[selectedIndex] = camera
+        self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
     }
     

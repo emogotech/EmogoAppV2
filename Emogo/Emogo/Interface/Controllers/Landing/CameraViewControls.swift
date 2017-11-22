@@ -39,6 +39,7 @@ extension CameraViewController {
     }
     
     @objc func countDown(){
+        self.viewFlashOptions.isHidden = true
         if timeSec < 1 {
             timer.invalidate()
             self.lblRecordTimer.isHidden = true
