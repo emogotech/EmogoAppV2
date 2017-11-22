@@ -55,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
+        self.keyboardToolBar(disable:false)
+
     }
     
    fileprivate func openLandingScreen(){
@@ -64,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigation = UINavigationController(rootViewController: objHome)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
+    
     
     }
     func keyboardToolBar(disable:Bool){

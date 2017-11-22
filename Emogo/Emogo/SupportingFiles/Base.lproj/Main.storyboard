@@ -828,7 +828,7 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktU-Wk-HJO">
                                                 <rect key="frame" x="256" y="0.0" width="54" height="54"/>
-                                                <state key="normal" image="click_link_icon"/>
+                                                <state key="normal" image="share_button"/>
                                                 <connections>
                                                     <action selector="btnActionShutter:" destination="taN-Fu-ihg" eventType="touchUpInside" id="a4D-3c-xTT"/>
                                                 </connections>
@@ -984,19 +984,41 @@
                                     <action selector="btnBackAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="OzY-Wq-DhN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfC-aG-FKj">
-                                <rect key="frame" x="270" y="10" width="50" height="50"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3uw-5u-fwC">
+                                <rect key="frame" x="220" y="10" width="100" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfC-aG-FKj">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="Ntq-TO-HqS"/>
+                                            <constraint firstAttribute="width" constant="50" id="OhO-mc-5as"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" image="delete_icon-cover_image"/>
+                                        <connections>
+                                            <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="mv1-ON-3xA"/>
+                                            <action selector="btnDeleteAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="p2Z-PJ-8rz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGM-bQ-3S9">
+                                        <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="qb5-H9-kMF"/>
+                                            <constraint firstAttribute="width" constant="50" id="zu8-Mx-l72"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" image="edit_icon"/>
+                                        <connections>
+                                            <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="iSs-zX-bZ7"/>
+                                            <action selector="btnEditAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="uMi-Fl-u6d"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="M91-c5-kw0"/>
-                                    <constraint firstAttribute="width" constant="50" id="z3n-iB-lyM"/>
+                                    <constraint firstAttribute="height" constant="50" id="2Lz-tL-KCE"/>
+                                    <constraint firstAttribute="width" constant="100" id="MEC-G6-9cK"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="edit_icon"/>
-                                <connections>
-                                    <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="mv1-ON-3xA"/>
-                                    <action selector="btnEditAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="jA2-v5-Y4e"/>
-                                </connections>
-                            </button>
+                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xd-F1-Pek">
                                 <rect key="frame" x="0.0" y="340" width="320" height="69"/>
                                 <subviews>
@@ -1197,18 +1219,18 @@
                             <constraint firstItem="xL0-eK-8Ba" firstAttribute="top" secondItem="4xd-F1-Pek" secondAttribute="bottom" id="H2f-cj-0hX"/>
                             <constraint firstItem="Kqd-OM-WJP" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="TTM-UM-aQN"/>
                             <constraint firstItem="otu-8u-hua" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="VSb-A1-Icq"/>
-                            <constraint firstItem="OfC-aG-FKj" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="an4-uF-OcX"/>
                             <constraint firstItem="otu-8u-hua" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="c8A-25-2eS"/>
                             <constraint firstItem="Kqd-OM-WJP" firstAttribute="top" secondItem="xL0-eK-8Ba" secondAttribute="bottom" id="c9R-Nc-Mza"/>
                             <constraint firstItem="3RP-cT-R1w" firstAttribute="centerY" secondItem="otu-8u-hua" secondAttribute="centerY" id="ckl-4R-o9L"/>
                             <constraint firstItem="xL0-eK-8Ba" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="duL-eN-aC2"/>
                             <constraint firstItem="xL0-eK-8Ba" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="e3X-7Q-1Zu"/>
-                            <constraint firstItem="OfC-aG-FKj" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" constant="10" id="nxH-h7-Qkd"/>
+                            <constraint firstItem="3uw-5u-fwC" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" constant="10" id="lsE-3C-DkF"/>
                             <constraint firstItem="4xd-F1-Pek" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="qjO-2J-gD0"/>
                             <constraint firstItem="otu-8u-hua" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" id="tOb-uO-vLT"/>
                             <constraint firstItem="xL0-eK-8Ba" firstAttribute="top" secondItem="otu-8u-hua" secondAttribute="bottom" id="vL7-Kc-Wgn"/>
                             <constraint firstItem="4xd-F1-Pek" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="wgx-3V-XeO"/>
                             <constraint firstItem="OW2-MW-XJQ" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="yNx-fe-bdi"/>
+                            <constraint firstItem="3uw-5u-fwC" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="zFZ-2k-lYp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>
@@ -1327,7 +1349,7 @@
         <image name="background-iPhone" width="320" height="568"/>
         <image name="browse_streams" width="155" height="45"/>
         <image name="capture-icon" width="54" height="54"/>
-        <image name="click_link_icon" width="18" height="18"/>
+        <image name="delete_icon-cover_image" width="24" height="24"/>
         <image name="done-btn" width="137" height="45"/>
         <image name="done_icon" width="14" height="13"/>
         <image name="edit_icon" width="24" height="24"/>
@@ -1338,6 +1360,7 @@
         <image name="logo-iPhone" width="126" height="33"/>
         <image name="next-btn" width="137" height="45"/>
         <image name="play_button" width="88" height="88"/>
+        <image name="share_button" width="16" height="13"/>
         <image name="sign-in-btn" width="137" height="45"/>
         <image name="sign-up-btn" width="137" height="45"/>
         <image name="text-me-my-code-btn" width="155" height="45"/>

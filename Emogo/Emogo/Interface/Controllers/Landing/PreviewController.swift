@@ -86,6 +86,17 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnPlayAction(_ sender: Any) {
     }
+    @IBAction func btnDeleteAction(_ sender: Any) {
+        if self.imagesPreview.count != 0 {
+            self.imagesPreview.remove(at: self.selectedIndex)
+            if self.imagesPreview.count != 0 {
+                self.preparePreview(index: 0)
+            }else{
+                self.imgPreview.image = nil
+            }
+            self.previewCollection.reloadData()
+        }
+    }
     
     // MARK: - Class Methods
 
@@ -114,7 +125,6 @@ class PreviewController: UIViewController {
     }
     
     private func openEditor(image:UIImage){
-        AppDelegate.appDelegate.keyboardToolBar(disable:true)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
            photoEditor.image = image
         //PhotoEditorDelegate
@@ -122,7 +132,6 @@ class PreviewController: UIViewController {
          photoEditor.hiddenControls = [.share]
          photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
           present(photoEditor, animated: true) {
-            AppDelegate.appDelegate.keyboardToolBar(disable:false)
         }
     }
     

@@ -103,6 +103,7 @@ public final class PhotoEditorViewController: UIViewController {
         configureCollectionView()
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         hideControls()
+        activeTextView?.keyboardAppearance = .dark
     }
     
     func configureCollectionView() {

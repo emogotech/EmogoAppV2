@@ -64,6 +64,7 @@ extension PhotoEditorViewController {
         textView.layer.backgroundColor = UIColor.clear.cgColor
         textView.autocorrectionType = .no
         textView.isScrollEnabled = false
+        textView.keyboardAppearance = .dark
         textView.delegate = self
         self.canvasImageView.addSubview(textView)
         addGestures(view: textView)
