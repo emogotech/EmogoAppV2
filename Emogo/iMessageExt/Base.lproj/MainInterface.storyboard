@@ -438,7 +438,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -573,7 +573,7 @@
                                                 </constraints>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="Pig-8w-BQt" id="mqq-Rq-gbT"/>
                                                 </connections>
@@ -654,6 +654,9 @@
                                         <state key="normal" title="FEATURED">
                                             <color key="titleColor" red="0.0" green="0.5607843137254902" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnFeaturedTap:" destination="VaB-LN-Ug2" eventType="touchUpInside" id="nHc-vZ-6Uc"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2st-yn-GXI">
                                         <rect key="frame" x="124" y="6" width="190" height="30"/>
@@ -662,7 +665,7 @@
                                                 <rect key="frame" x="10" y="4" width="133" height="26"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="11"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="alert" returnKeyType="search"/>
+                                                <textInputTraits key="textInputTraits"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="VaB-LN-Ug2" id="ACU-ch-yJw"/>
                                                 </connections>
@@ -821,6 +824,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
+                        <outlet property="btnFeature" destination="wQr-0I-T8n" id="WpA-ua-zxk"/>
                         <outlet property="collectionStream" destination="zD8-Bj-ORS" id="e1h-Ts-Itf"/>
                         <outlet property="searchText" destination="cIj-e9-fjI" id="3nQ-X2-oJg"/>
                         <outlet property="searchView" destination="2st-yn-GXI" id="535-cB-Xli"/>

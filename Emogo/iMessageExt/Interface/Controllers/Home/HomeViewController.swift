@@ -11,25 +11,45 @@ import Messages
 
 class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate {
 
-    // Varibales
-    var arrayStreams = [StreamDAO]()
-    
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
     @IBOutlet weak var searchView : UIView!
     @IBOutlet weak var searchText : UITextField!
+    @IBOutlet weak var btnFeature : UIButton!
+    
+    // Varibales
+    var arrayStreams = [StreamDAO]()
+    
+    fileprivate let arrImages = ["feverateDeselected","feverateDeselected","featutreDeselected","emogoDeselected","tredingDeselected","peopleDeselected"]
+    fileprivate let arrImagesSelected = ["feverateSelected","feverateSelected","featutreSelected","emogoSelected","tredingSelected","peopleSelected"]
+    
     
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         
         prepareLayout()
+    }
+    
+    @objc func requestMessageScreenChangeSize(){
+        self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
+    }
+    
+    @objc func changeUI(){
+        if(SharedData.sharedInstance.isMessageWindowExpand) {
+            SharedData.sharedInstance.showPager(controller: self)
+             btnFeature.tag = 1
+        }else{
+            SharedData.sharedInstance.hidePager(controller: self)
+             btnFeature.tag = 0
+        }
     }
 
     func prepareLayout() {
         self.searchView.layer.cornerRadius = 15
         self.searchView.clipsToBounds = true
-        
+       
         prepareDummyData()
     }
     
@@ -39,7 +59,6 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
             self.arrayStreams.append(obj)
         }
         self.collectionStream.reloadData()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -58,11 +77,34 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
         collectionStream.dataSource = self
         
         collectionStream.reloadData()
+        
+         SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 260, width: self.view.frame.size.width, height: 220), controller: self)
+
+        if(SharedData.sharedInstance.isMessageWindowExpand) {
+            SharedData.sharedInstance.showPager(controller: self)
+            btnFeature.tag = 1
+        }
+
     }
     
     // MARK:- Action methods
     @IBAction func btmnSearchAction(_ sender: UIButton){
-        self.searchText.resignFirstResponder()
+       self.searchText.resignFirstResponder()
+        
+    }
+    
+    @IBAction func btnFeaturedTap(_ sender: UIButton){
+        if(btnFeature.tag == 1){
+              SharedData.sharedInstance.hidePager(controller: self)
+            btnFeature.tag = 0
+        } else {
+            if(SharedData.sharedInstance.isMessageWindowExpand) {
+                SharedData.sharedInstance.showPager(controller: self)
+                btnFeature.tag = 1
+            }else{
+                NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
+            }
+        }
     }
     
     // MARK:- collection-view delegate methods
@@ -104,5 +146,70 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         return true
+    }
+    
+
+}
+
+
+extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
+    
+    // MARK:- FSPagerViewDataSource
+    public func numberOfItems(in pagerView: FSPagerView) -> Int {
+        return arrImages.count
+    }
+    
+    public func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
+        
+        if(index == pagerView.currentIndex){
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 110, height: 110)
+            cell.imageView?.center = cell.contentView.center
+            cell.imageView?.image = UIImage(named: self.arrImagesSelected[index])
+            cell.addLayerInImageView(isTrue : true)
+        }
+        else {
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+            cell.imageView?.center = cell.contentView.center
+            cell.imageView?.image = UIImage(named: self.arrImages[index])
+        }
+        
+        cell.imageView?.tag = index
+        cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.width)!/2
+        cell.imageView?.contentMode = .scaleAspectFill
+        cell.imageView?.clipsToBounds = true
+        
+        return cell
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        pagerView.deselectItem(at: index, animated: false)
+        pagerView.scrollToItem(at: index, animated: true)
+        changeCellImageAnimationt(index, pagerView: pagerView)
+    }
+    
+    func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
+        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
+    }
+    
+    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView){
+        for section in 0 ..< pagerView.numberOfSections {
+            for row in 0 ..< pagerView.numberOfItems{
+                let indexPath = NSIndexPath(row: row, section: section)
+                if let sel = pagerView.collectionView.cellForItem(at: indexPath as IndexPath){
+                    if(sender == (sel as! FSPagerViewCell).imageView?.tag){
+                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 110, height: 110)
+                        (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
+                        (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImagesSelected[indexPath.row])
+                        (sel as! FSPagerViewCell).addLayerInImageView(isTrue : true)
+                    } else {
+                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+                        (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
+                        (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImages[indexPath.row])
+                    }
+                    (sel as! FSPagerViewCell).imageView?.layer.cornerRadius = ((sel as! FSPagerViewCell).imageView?.frame.size.width)!/2
+                }
+            }
+        }
     }
 }

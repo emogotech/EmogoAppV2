@@ -86,10 +86,14 @@ class MessagesViewController: MSMessagesAppViewController {
         
         if(presentationStyle == .expanded) {
             SharedData.sharedInstance.isMessageWindowExpand = true
+
         }
         else {
             SharedData.sharedInstance.isMessageWindowExpand = false
+
         }
+        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageScreen), object: nil)
+
         // Called before the extension transitions to a new presentation style.
         // Use this method to prepare for the change in presentation style.
     }

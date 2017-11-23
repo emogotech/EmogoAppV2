@@ -102,6 +102,7 @@ let iMsgSegue_Home                              = "HomeViewController"
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
+let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages
 let iMsgError_NameMsg                           = "Please enter the name and minimum three characters."

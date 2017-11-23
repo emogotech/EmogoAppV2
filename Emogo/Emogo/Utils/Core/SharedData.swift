@@ -9,10 +9,11 @@
 import UIKit
 import CoreTelephony
 import Photos
+import Messages
 
 class SharedData: NSObject {
     //MARK:- Variables
-    var isMessageWindowExpand : Bool = false
+    
     
     var countryCode:String! = ""
         
@@ -69,10 +70,6 @@ class SharedData: NSObject {
         }
     }
     
-    func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {
-        
-        return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
-    }
     
     // MARK: - Retrive error messages from JSON
 
@@ -128,5 +125,47 @@ class SharedData: NSObject {
             
         }
     }
+    
+    
+    //iMessage spectific func and variables
+    //MARK :- Variables
+    var isMessageWindowExpand : Bool = false
+    
+    //MARK :- FSPagerView
+    
+    func preparePagerFrame(frame : CGRect, controller : MSMessagesAppViewController) {
+            let pagerView  = FSPagerView(frame: frame)
+            controller.view.addSubview(pagerView)
+            pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
+            pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
+            pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
+            pagerView.currentIndex = 2
+            pagerView.itemSize = CGSize(width: 130, height: 130)
+            pagerView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
+            pagerView.delegate = controller as? FSPagerViewDelegate
+            pagerView.dataSource = controller as? FSPagerViewDataSource
+            pagerView.isHidden = true
+    }
+    
+    func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {
+        return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+    }
+    
+    func showPager(controller : MSMessagesAppViewController)  {
+            for subV in controller.view.subviews {
+                if(subV.isKind(of: FSPagerView.self)){
+                    subV.isHidden = false
+                }
+            }
+    }
+    
+    func hidePager(controller : MSMessagesAppViewController)  {
+            for subV in controller.view.subviews {
+                if(subV.isKind(of: FSPagerView.self)){
+                    subV.isHidden = true
+                }
+            }
+    }
+
     
 }
