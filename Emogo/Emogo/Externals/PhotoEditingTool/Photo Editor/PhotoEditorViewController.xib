@@ -22,6 +22,7 @@
                 <outlet property="canvasView" destination="S1Y-ZS-dct" id="p6I-kg-UUU"/>
                 <outlet property="clearButton" destination="Kpe-Ez-Cio" id="C0i-3L-kLI"/>
                 <outlet property="colorButton" destination="C2f-OB-8Zp" id="3sG-xL-MoN"/>
+                <outlet property="colorPickerButtonsWidth" destination="0iS-Lg-ozu" id="sDM-rS-fEc"/>
                 <outlet property="colorPickerView" destination="Cy8-ap-fH9" id="KJx-KY-rfM"/>
                 <outlet property="colorPickerViewBottomConstraint" destination="mok-x4-xHA" id="SKq-N5-bcn"/>
                 <outlet property="colorsCollectionView" destination="GaQ-XR-asZ" id="1rf-hU-0nn"/>
@@ -29,6 +30,7 @@
                 <outlet property="deleteView" destination="yAt-sK-1nK" id="0Jn-1A-WAT"/>
                 <outlet property="doneButton" destination="KxU-y4-Jwh" id="19z-FV-eWC"/>
                 <outlet property="drawButton" destination="Qm4-f6-DBr" id="yHl-a1-GgN"/>
+                <outlet property="drawViewButton" destination="ZXe-rv-DYq" id="1d1-0S-dKZ"/>
                 <outlet property="imageView" destination="5rw-9v-ExQ" id="5lP-en-DGc"/>
                 <outlet property="imageViewHeightConstraint" destination="DdY-qb-dfp" id="ZY9-Em-cs4"/>
                 <outlet property="pencilButton" destination="ULP-BC-rbf" id="wCF-6X-LW0"/>
@@ -145,7 +147,7 @@
                                 <constraint firstAttribute="width" constant="50" id="fbl-GT-eRb"/>
                             </constraints>
                             <size key="titleShadowOffset" width="1" height="0.0"/>
-                            <state key="normal" image="cross_icon">
+                            <state key="normal" image="editing_cross_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                             </state>
@@ -186,6 +188,7 @@
                                         <constraint firstAttribute="height" constant="50" id="LCK-qI-DWA"/>
                                         <constraint firstAttribute="width" constant="50" id="vsI-Y8-D7I"/>
                                     </constraints>
+                                    <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal" image="download_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -197,6 +200,7 @@
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlw-H0-WcJ">
                                     <rect key="frame" x="65" y="0.0" width="50" height="50"/>
+                                    <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal" image="emoji_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -260,6 +264,7 @@
                         <constraint firstAttribute="height" constant="50" id="IFZ-1q-Ptj"/>
                         <constraint firstAttribute="width" constant="50" id="bhJ-dW-V4y"/>
                     </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="-10" maxX="0.0" maxY="0.0"/>
                     <size key="titleShadowOffset" width="1" height="0.0"/>
                     <state key="normal" image="editing_done_icon">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -273,7 +278,7 @@
                     <rect key="frame" x="162" y="605" width="50" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqh-uS-U1m">
-                            <rect key="frame" x="10" y="10" width="31" height="30"/>
+                            <rect key="frame" x="9.5" y="10" width="31" height="30"/>
                             <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="30"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -347,7 +352,7 @@
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82I-yo-9Tr">
-                    <rect key="frame" x="5" y="467" width="50" height="150"/>
+                    <rect key="frame" x="2" y="467" width="50" height="150"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZXJ-x1-Vkt">
                             <rect key="frame" x="0.0" y="0.0" width="50" height="150"/>
@@ -358,6 +363,7 @@
                                         <constraint firstAttribute="width" constant="50" id="dy3-SX-JxE"/>
                                         <constraint firstAttribute="height" constant="50" id="zPC-0n-jpj"/>
                                     </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="pen_big"/>
                                     <connections>
                                         <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="HcX-Oz-mjC"/>
@@ -369,6 +375,7 @@
                                         <constraint firstAttribute="height" constant="50" id="4Wd-QU-OSU"/>
                                         <constraint firstAttribute="width" constant="50" id="B1O-bp-oVh"/>
                                     </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="pen_medium"/>
                                     <connections>
                                         <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="jLT-hA-UFi"/>
@@ -380,6 +387,7 @@
                                         <constraint firstAttribute="width" constant="50" id="W3J-UG-ncs"/>
                                         <constraint firstAttribute="height" constant="50" id="XQ2-Kw-l31"/>
                                     </constraints>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" image="pen_small"/>
                                     <connections>
                                         <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="Tic-RZ-1Ld"/>
@@ -407,7 +415,7 @@
                 <constraint firstItem="S1Y-ZS-dct" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="2tC-2e-oA6"/>
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="6eK-mF-0OL"/>
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="top" secondItem="82I-yo-9Tr" secondAttribute="bottom" id="CKR-bA-txk"/>
-                <constraint firstItem="82I-yo-9Tr" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" constant="5" id="DRU-Wr-DjW"/>
+                <constraint firstItem="82I-yo-9Tr" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" constant="2" id="DRU-Wr-DjW"/>
                 <constraint firstItem="3MS-N5-3xY" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" id="Fj6-PW-wbF"/>
                 <constraint firstAttribute="trailing" secondItem="3MS-N5-3xY" secondAttribute="trailing" id="M86-Ia-XcZ"/>
                 <constraint firstItem="rLz-36-0xz" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" id="RYD-1T-XNJ"/>
@@ -433,9 +441,9 @@
     </objects>
     <resources>
         <image name="color_bucket_icon_unactive" width="27" height="27"/>
-        <image name="cross_icon" width="17" height="17"/>
         <image name="crrop_icon" width="27" height="27"/>
         <image name="download_icon" width="27" height="27"/>
+        <image name="editing_cross_icon" width="12" height="12"/>
         <image name="editing_done_icon" width="17" height="14"/>
         <image name="emoji_icon" width="27" height="27"/>
         <image name="next_icon" width="11" height="18"/>

@@ -50,4 +50,12 @@ extension PhotoEditorViewController: UITextViewDelegate {
         }, completion: nil)
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            self.doneButtonAction()
+            return false
+        }
+        return true
+    }
+    
 }

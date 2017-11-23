@@ -29,7 +29,8 @@ import UIKit
     @IBOutlet weak var colorsCollectionView: UICollectionView!
     @IBOutlet weak var colorPickerView: UIView!
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var colorPickerButtonsWidth: NSLayoutConstraint!
+
     //Controls
     @IBOutlet weak var cropButton: UIButton!
     @IBOutlet weak var stickerButton: UIButton!
@@ -41,6 +42,7 @@ import UIKit
     @IBOutlet weak var pencilButton: UIButton!
     @IBOutlet weak var colorButton: UIButton!
     @IBOutlet weak var pencilView: UIView!
+    @IBOutlet weak var drawViewButton: UIStackView!
 
     public var image: UIImage?
     /**

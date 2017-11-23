@@ -42,6 +42,8 @@ extension PhotoEditorViewController {
     }
 
     @IBAction func drawButtonTapped(_ sender: Any) {
+        colorPickerButtonsWidth.constant = 105.0
+        drawViewButton.isHidden = false
         isDrawing = true
         canvasImageView.isUserInteractionEnabled = false
         doneButton.isHidden = false
@@ -51,6 +53,9 @@ extension PhotoEditorViewController {
 
     @IBAction func textButtonTapped(_ sender: Any) {
         isTyping = true
+        self.colorsCollectionView.isHidden = false
+        drawViewButton.isHidden = true
+        colorPickerButtonsWidth.constant = 0.0
         let textView = UITextView(frame: CGRect(x: 0, y: canvasImageView.center.y,
                                                 width: UIScreen.main.bounds.width, height: 30))
         
@@ -65,6 +70,7 @@ extension PhotoEditorViewController {
         textView.autocorrectionType = .no
         textView.isScrollEnabled = false
         textView.keyboardAppearance = .dark
+        textView.returnKeyType = .done
         textView.delegate = self
         self.canvasImageView.addSubview(textView)
         addGestures(view: textView)
@@ -72,14 +78,9 @@ extension PhotoEditorViewController {
     }    
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        view.endEditing(true)
-        doneButton.isHidden = true
-        colorPickerView.isHidden = true
-        canvasImageView.isUserInteractionEnabled = true
-        hideToolbar(hide: false)
-        isDrawing = false
+       self.doneButtonAction()
     }
-    
+
     //MARK: Bottom Toolbar
     
     @IBAction func saveButtonTapped(_ sender: AnyObject) {
@@ -135,6 +136,8 @@ extension PhotoEditorViewController {
     }
     @IBAction func btnPencilSelectedPressed(_ sender: UIButton) {
         self.pencilView.isHidden = true
+        self.isPencilSelected = false
+        self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
         self.viewSlideInFromTopToBottom(views:self.pencilView)
         switch sender.tag {
         case 11:
@@ -188,6 +191,15 @@ extension PhotoEditorViewController {
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromBottom
         views.layer.add(transition!, forKey: nil)
+    }
+    func doneButtonAction(){
+        view.endEditing(true)
+        doneButton.isHidden = true
+        colorPickerView.isHidden = true
+        canvasImageView.isUserInteractionEnabled = true
+        hideToolbar(hide: false)
+        isDrawing = false
+        self.colorsCollectionView.isHidden = true
     }
 
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
