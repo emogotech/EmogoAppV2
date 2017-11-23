@@ -8,7 +8,7 @@
 
 import UIKit
 
-public final class PhotoEditorViewController: UIViewController {
+ class PhotoEditorViewController: UIViewController {
     
     /** holding the 2 imageViews original image and drawing & stickers */
     @IBOutlet weak var canvasView: UIView!
@@ -40,6 +40,7 @@ public final class PhotoEditorViewController: UIViewController {
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var pencilButton: UIButton!
     @IBOutlet weak var colorButton: UIButton!
+    @IBOutlet weak var pencilView: UIView!
 
     public var image: UIImage?
     /**
@@ -90,16 +91,16 @@ public final class PhotoEditorViewController: UIViewController {
         deleteView.layer.borderColor = UIColor.white.cgColor
         deleteView.clipsToBounds = true
         
-        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.screenEdgeSwiped(_:)))
         edgePan.edges = .bottom
         edgePan.delegate = self
         self.view.addGestureRecognizer(edgePan)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow),
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidShow(notification:)),
                                                name: .UIKeyboardDidShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)),
                                                name: .UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillChangeFrame(_:)),
+        NotificationCenter.default.addObserver(self,selector: #selector(self.keyboardWillChangeFrame(_:)),
                                                name: .UIKeyboardWillChangeFrame, object: nil)
         
         

@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoEditorViewController" customModule="iOSPhotoEditor" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoEditorViewController" customModule="Emogo" customModuleProvider="target">
             <connections>
                 <outlet property="bottomGradient" destination="ZGa-1B-gkO" id="pYn-g8-ak7"/>
                 <outlet property="bottomToolbar" destination="87h-1G-t5q" id="Pzi-Dw-qOq"/>
@@ -32,6 +32,7 @@
                 <outlet property="imageView" destination="5rw-9v-ExQ" id="5lP-en-DGc"/>
                 <outlet property="imageViewHeightConstraint" destination="DdY-qb-dfp" id="ZY9-Em-cs4"/>
                 <outlet property="pencilButton" destination="ULP-BC-rbf" id="wCF-6X-LW0"/>
+                <outlet property="pencilView" destination="82I-yo-9Tr" id="gRL-nO-lFn"/>
                 <outlet property="saveButton" destination="mW4-Jz-sic" id="1Uj-nU-EU1"/>
                 <outlet property="shareButton" destination="PLX-iy-2Rc" id="INl-26-YIN"/>
                 <outlet property="stickerButton" destination="zlw-H0-WcJ" id="frU-KG-K8Q"/>
@@ -73,7 +74,7 @@
                         <constraint firstItem="5rw-9v-ExQ" firstAttribute="leading" secondItem="S1Y-ZS-dct" secondAttribute="leading" id="v73-ro-BkR"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rLz-36-0xz" customClass="GradientView" customModule="iOSPhotoEditor" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rLz-36-0xz" customClass="GradientView" customModule="Emogo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -163,7 +164,7 @@
                         <constraint firstItem="Doi-2Z-r5q" firstAttribute="top" secondItem="3MS-N5-3xY" secondAttribute="top" id="YMJ-5J-baj"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZGa-1B-gkO" customClass="GradientView" customModule="iOSPhotoEditor" customModuleProvider="target">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZGa-1B-gkO" customClass="GradientView" customModule="Emogo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="587" width="375" height="80"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -272,7 +273,7 @@
                     <rect key="frame" x="162" y="605" width="50" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqh-uS-U1m">
-                            <rect key="frame" x="8" y="7.5" width="35.5" height="35"/>
+                            <rect key="frame" x="10" y="10" width="31" height="30"/>
                             <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="30"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -322,7 +323,7 @@
                             </constraints>
                         </stackView>
                         <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GaQ-XR-asZ">
-                            <rect key="frame" x="107" y="0.0" width="268" height="40"/>
+                            <rect key="frame" x="107" y="5" width="268" height="40"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7jl-DS-5B7">
                                 <size key="itemSize" width="50" height="50"/>
@@ -336,13 +337,65 @@
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="ZXe-rv-DYq" secondAttribute="bottom" id="1cO-CS-EBU"/>
-                        <constraint firstAttribute="bottom" secondItem="GaQ-XR-asZ" secondAttribute="bottom" constant="10" id="8VE-JO-iRe"/>
+                        <constraint firstAttribute="bottom" secondItem="GaQ-XR-asZ" secondAttribute="bottom" constant="5" id="8VE-JO-iRe"/>
                         <constraint firstItem="GaQ-XR-asZ" firstAttribute="leading" secondItem="ZXe-rv-DYq" secondAttribute="trailing" id="HWq-qu-otW"/>
                         <constraint firstAttribute="height" constant="50" id="KBh-Ry-wrN"/>
                         <constraint firstItem="ZXe-rv-DYq" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" id="LoZ-bw-lnP"/>
                         <constraint firstAttribute="trailing" secondItem="GaQ-XR-asZ" secondAttribute="trailing" id="Ne2-Y3-P6Y"/>
                         <constraint firstItem="ZXe-rv-DYq" firstAttribute="leading" secondItem="Cy8-ap-fH9" secondAttribute="leading" constant="2" id="T2O-o4-5ik"/>
-                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" id="j1Z-Uu-lnr"/>
+                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" constant="5" id="j1Z-Uu-lnr"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82I-yo-9Tr">
+                    <rect key="frame" x="5" y="467" width="50" height="150"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZXJ-x1-Vkt">
+                            <rect key="frame" x="0.0" y="0.0" width="50" height="150"/>
+                            <subviews>
+                                <button opaque="NO" tag="33" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bop-8S-POB">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="dy3-SX-JxE"/>
+                                        <constraint firstAttribute="height" constant="50" id="zPC-0n-jpj"/>
+                                    </constraints>
+                                    <state key="normal" image="pen_big"/>
+                                    <connections>
+                                        <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="HcX-Oz-mjC"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="22" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmp-EW-K6e">
+                                    <rect key="frame" x="0.0" y="50" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="4Wd-QU-OSU"/>
+                                        <constraint firstAttribute="width" constant="50" id="B1O-bp-oVh"/>
+                                    </constraints>
+                                    <state key="normal" image="pen_medium"/>
+                                    <connections>
+                                        <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="jLT-hA-UFi"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BHl-6q-vJH">
+                                    <rect key="frame" x="0.0" y="100" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="W3J-UG-ncs"/>
+                                        <constraint firstAttribute="height" constant="50" id="XQ2-Kw-l31"/>
+                                    </constraints>
+                                    <state key="normal" image="pen_small"/>
+                                    <connections>
+                                        <action selector="btnPencilSelectedPressed:" destination="-1" eventType="touchUpInside" id="Tic-RZ-1Ld"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ZXJ-x1-Vkt" secondAttribute="bottom" id="3NT-X5-It1"/>
+                        <constraint firstItem="ZXJ-x1-Vkt" firstAttribute="leading" secondItem="82I-yo-9Tr" secondAttribute="leading" id="4M8-kX-lsM"/>
+                        <constraint firstItem="ZXJ-x1-Vkt" firstAttribute="top" secondItem="82I-yo-9Tr" secondAttribute="top" id="Hf3-mA-cb5"/>
+                        <constraint firstAttribute="width" constant="50" id="M2d-p7-fxh"/>
+                        <constraint firstAttribute="trailing" secondItem="ZXJ-x1-Vkt" secondAttribute="trailing" id="Zpt-tv-co2"/>
+                        <constraint firstAttribute="height" constant="150" id="orT-ve-NYk"/>
                     </constraints>
                 </view>
             </subviews>
@@ -353,6 +406,8 @@
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="centerX" secondItem="HPk-Bg-V0q" secondAttribute="centerX" id="24Z-2f-Tyk"/>
                 <constraint firstItem="S1Y-ZS-dct" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="2tC-2e-oA6"/>
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="6eK-mF-0OL"/>
+                <constraint firstItem="Cy8-ap-fH9" firstAttribute="top" secondItem="82I-yo-9Tr" secondAttribute="bottom" id="CKR-bA-txk"/>
+                <constraint firstItem="82I-yo-9Tr" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" constant="5" id="DRU-Wr-DjW"/>
                 <constraint firstItem="3MS-N5-3xY" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" id="Fj6-PW-wbF"/>
                 <constraint firstAttribute="trailing" secondItem="3MS-N5-3xY" secondAttribute="trailing" id="M86-Ia-XcZ"/>
                 <constraint firstItem="rLz-36-0xz" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" id="RYD-1T-XNJ"/>
@@ -384,7 +439,10 @@
         <image name="editing_done_icon" width="17" height="14"/>
         <image name="emoji_icon" width="27" height="27"/>
         <image name="next_icon" width="11" height="18"/>
+        <image name="pen_big" width="27" height="27"/>
         <image name="pen_icon_unactive" width="27" height="27"/>
+        <image name="pen_medium" width="27" height="27"/>
+        <image name="pen_small" width="27" height="27"/>
         <image name="pencil_icon" width="27" height="27"/>
         <image name="text_icon" width="27" height="27"/>
         <image name="undo_button" width="15" height="18"/>

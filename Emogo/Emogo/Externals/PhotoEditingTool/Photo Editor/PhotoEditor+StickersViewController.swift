@@ -81,23 +81,23 @@ extension PhotoEditorViewController: StickersViewControllerDelegate {
         view.isUserInteractionEnabled = true
         
         let panGesture = UIPanGestureRecognizer(target: self,
-                                                action: #selector(PhotoEditorViewController.panGesture))
+                                                action: #selector(self.panGesture(_:)))
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 1
         panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
         
         let pinchGesture = UIPinchGestureRecognizer(target: self,
-                                                    action: #selector(PhotoEditorViewController.pinchGesture))
+                                                    action: #selector(self.pinchGesture(_:)))
         pinchGesture.delegate = self
         view.addGestureRecognizer(pinchGesture)
         
         let rotationGestureRecognizer = UIRotationGestureRecognizer(target: self,
-                                                                    action:#selector(PhotoEditorViewController.rotationGesture) )
+                                                                    action:#selector(self.rotationGesture(_:)) )
         rotationGestureRecognizer.delegate = self
         view.addGestureRecognizer(rotationGestureRecognizer)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PhotoEditorViewController.tapGesture))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapGesture(_:)))
         view.addGestureRecognizer(tapGesture)
         
     }

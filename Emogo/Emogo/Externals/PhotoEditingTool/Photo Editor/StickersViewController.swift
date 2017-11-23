@@ -42,7 +42,7 @@ class StickersViewController: UIViewController, UIGestureRecognizerDelegate {
         pageControl.numberOfPages = 2
         
         holdView.layer.cornerRadius = 3
-        let gesture = UIPanGestureRecognizer.init(target: self, action: #selector(StickersViewController.panGesture))
+        let gesture = UIPanGestureRecognizer.init(target: self, action: #selector(self.panGesture(_:)))
         gesture.delegate = self
         view.addGestureRecognizer(gesture)
     }
@@ -142,7 +142,7 @@ class StickersViewController: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: Pan Gesture
     
-    func panGesture(_ recognizer: UIPanGestureRecognizer) {
+    @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
         
         let translation = recognizer.translation(in: self.view)
         let velocity = recognizer.velocity(in: self.view)

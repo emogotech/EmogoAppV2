@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import iOSPhotoEditor
 
 class PreviewController: UIViewController {
 

@@ -11,7 +11,7 @@ import UIKit
 
 extension PhotoEditorViewController: UITextViewDelegate {
     
-    public func textViewDidChange(_ textView: UITextView) {
+     func textViewDidChange(_ textView: UITextView) {
         let rotation = atan2(textView.transform.b, textView.transform.a)
         if rotation == 0 {
             let oldFrame = textView.frame
@@ -19,7 +19,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
             textView.frame.size = CGSize(width: oldFrame.width, height: sizeToFit.height)
         }
     }
-    public func textViewDidBeginEditing(_ textView: UITextView) {
+     func textViewDidBeginEditing(_ textView: UITextView) {
         isTyping = true
         lastTextViewTransform =  textView.transform
         lastTextViewTransCenter = textView.center
@@ -36,7 +36,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
         
     }
     
-    public func textViewDidEndEditing(_ textView: UITextView) {
+     func textViewDidEndEditing(_ textView: UITextView) {
         guard lastTextViewTransform != nil && lastTextViewTransCenter != nil && lastTextViewFont != nil
             else {
                 return

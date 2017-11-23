@@ -111,8 +111,12 @@ extension PhotoEditorViewController {
         self.isPencilSelected = !self.isPencilSelected
         if self.isPencilSelected {
             self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon"), for: .normal)
+            self.pencilView.isHidden = false
+            self.viewSlideInFromBottomToTop(views:self.pencilView)
         }else {
             self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
+            self.pencilView.isHidden = true
+            self.viewSlideInFromTopToBottom(views:self.pencilView)
         }
     }
     @IBAction func colorShowButtonPressed(_ sender: Any) {
@@ -120,34 +124,51 @@ extension PhotoEditorViewController {
         if self.isColorSelected {
             let image = UIImage(named: "color_bucket_icon")
             self.colorButton.setImage(image, for: .normal)
-            self.showColorsView(isShow: true)
+            self.colorsCollectionView.isHidden = false
+            self.viewSlideInFromRightToLeft(view:self.colorsCollectionView)
         }else {
-            self.showColorsView(isShow: false)
             let image = UIImage(named: "color_bucket_icon_unactive")
-            self.colorButton.setImage(image, for: .normal)        }
+            self.colorButton.setImage(image, for: .normal)
+            self.colorsCollectionView.isHidden = true
+            self.viewSlideInFromLeftToRight(view:self.colorsCollectionView)
+        }
     }
-    
-
-    
+    @IBAction func btnPencilSelectedPressed(_ sender: UIButton) {
+        self.pencilView.isHidden = true
+        self.viewSlideInFromTopToBottom(views:self.pencilView)
+        switch sender.tag {
+        case 11:
+            self.drawWidth = 5.0
+            break
+        case 22:
+            self.drawWidth = 10.0
+            break
+        case 33:
+            self.drawWidth = 15.0
+            break
+        default:
+            break
+        }
+    }
     //MAKR: helper methods
     
-     func viewSlideInFromRightToLeft(views: UIView) {
+     func viewSlideInFromRightToLeft(view: UICollectionView) {
         var transition: CATransition? = nil
         transition = CATransition()
         transition!.duration = 0.5
         transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromRight
-        views.layer.add(transition!, forKey: nil)
+        view.layer.add(transition!, forKey: nil)
     }
-     func viewSlideInFromLeftToRight(views: UIView) {
+     func viewSlideInFromLeftToRight(view: UICollectionView) {
         var transition: CATransition? = nil
         transition = CATransition()
         transition!.duration = 0.5
         transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromLeft
-        views.layer.add(transition!, forKey: nil)
+        view.layer.add(transition!, forKey: nil)
     }
     
      func viewSlideInFromTopToBottom(views: UIView) {
@@ -169,28 +190,7 @@ extension PhotoEditorViewController {
         views.layer.add(transition!, forKey: nil)
     }
 
-    func setView(view: UIView, hidden: Bool) {
-        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: { _ in
-            view.isHidden = hidden
-        }, completion: nil)
-    }
-    
-    func showColorsView(isShow:Bool){
-        UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseInOut, animations: {
-            if isShow == true {
-                self.colorsCollectionView.alpha = 1.0
-            }else {
-                self.colorsCollectionView.alpha = 0
-            }
-        }) { (completion) in
-            if isShow == true {
-                self.colorsCollectionView.isHidden =  false
-            }else {
-                self.colorsCollectionView.isHidden =  true
-            }
-        }
-    }
-    func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
+    @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
         let alert = UIAlertController(title: "Image Saved", message: "Image successfully saved to Photos library", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)

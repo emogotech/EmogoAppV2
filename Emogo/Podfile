@@ -22,7 +22,6 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'CRNotifications'
     pod "SwiftyCam"
-    pod 'iOSPhotoEditor'
     pod 'DKImagePickerController'
 
 
