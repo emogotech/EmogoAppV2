@@ -67,6 +67,18 @@
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
 		33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */; };
 		33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06F1FBB353E004FF634 /* ViewController.swift */; };
+		33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2ED1FC6B9020053AC23 /* FSPagerCollectionView.swift */; };
+		33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2EE1FC6B9020053AC23 /* FSPagerView.swift */; };
+		33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2EF1FC6B9020053AC23 /* FSPagerViewCell.swift */; };
+		33DAB2F61FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F01FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift */; };
+		33DAB2F71FC6B9020053AC23 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */; };
+		33DAB2F81FC6B9020053AC23 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */; };
+		33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2ED1FC6B9020053AC23 /* FSPagerCollectionView.swift */; };
+		33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2EE1FC6B9020053AC23 /* FSPagerView.swift */; };
+		33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2EF1FC6B9020053AC23 /* FSPagerViewCell.swift */; };
+		33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F01FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift */; };
+		33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */; };
+		33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */; };
 		33F928EA1FC54F3B008A104B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */; };
@@ -209,6 +221,12 @@
 		33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		33BCB06E1FBB353E004FF634 /* VerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		33BCB06F1FBB353E004FF634 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		33DAB2ED1FC6B9020053AC23 /* FSPagerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerCollectionView.swift; sourceTree = "<group>"; };
+		33DAB2EE1FC6B9020053AC23 /* FSPagerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerView.swift; sourceTree = "<group>"; };
+		33DAB2EF1FC6B9020053AC23 /* FSPagerViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewCell.swift; sourceTree = "<group>"; };
+		33DAB2F01FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPagerViewLayoutAttributes.swift; sourceTree = "<group>"; };
+		33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewLayout.swift; sourceTree = "<group>"; };
+		33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPageViewTransformer.swift; sourceTree = "<group>"; };
 		35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D9F5135564F0A8FF708BED0 /* Pods-iMessageExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.release.xcconfig"; sourceTree = "<group>"; };
 		512AC7A67B1967277A47AEDD /* Pods-EmogoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -466,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				330FEB751FC3F5CC00552260 /* KDLoadingView.swift */,
+				33DAB2EC1FC6B9020053AC23 /* FSPagerView */,
 				337B8FAF1FBEF37E00CFACE3 /* Dictionary */,
 			);
 			path = Externals;
@@ -640,6 +659,19 @@
 				335B1A1D1FBB238A006DA9D9 /* Info.plist */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		33DAB2EC1FC6B9020053AC23 /* FSPagerView */ = {
+			isa = PBXGroup;
+			children = (
+				33DAB2ED1FC6B9020053AC23 /* FSPagerCollectionView.swift */,
+				33DAB2EE1FC6B9020053AC23 /* FSPagerView.swift */,
+				33DAB2EF1FC6B9020053AC23 /* FSPagerViewCell.swift */,
+				33DAB2F01FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift */,
+				33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */,
+				33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */,
+			);
+			path = FSPagerView;
 			sourceTree = "<group>";
 		};
 		B7F8FDDD4726FD8DF5D6273C /* Pods */ = {
@@ -1312,6 +1344,7 @@
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
+				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
@@ -1326,15 +1359,19 @@
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
+				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
+				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
+				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
+				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
@@ -1342,6 +1379,7 @@
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
+				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
@@ -1379,9 +1417,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33DAB2F61FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */,
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
+				33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */,
 				330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
@@ -1389,14 +1429,18 @@
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
+				33DAB2F81FC6B9020053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
+				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
 				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
+				33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
+				33DAB2F71FC6B9020053AC23 /* FSPageViewLayout.swift in Sources */,
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
@@ -1520,7 +1564,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "88cb794e-21d2-4275-8c68-2e4acd28ceda";
+				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -1574,7 +1618,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "88cb794e-21d2-4275-8c68-2e4acd28ceda";
+				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1598,8 +1642,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "88cb794e-21d2-4275-8c68-2e4acd28ceda";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoDist;
+				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoAdHock;
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -1623,8 +1667,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "88cb794e-21d2-4275-8c68-2e4acd28ceda";
-				PROVISIONING_PROFILE_SPECIFIER = EmogoDist;
+				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoAdHock;
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
