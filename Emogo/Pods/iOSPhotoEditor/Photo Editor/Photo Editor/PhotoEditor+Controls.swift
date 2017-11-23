@@ -106,9 +106,90 @@ extension PhotoEditorViewController {
         photoEditorDelegate?.doneEditing(image: img)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func pencilButtonPressed(_ sender: Any) {
+        self.isPencilSelected = !self.isPencilSelected
+        if self.isPencilSelected {
+            self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon"), for: .normal)
+        }else {
+            self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
+        }
+    }
+    @IBAction func colorShowButtonPressed(_ sender: Any) {
+        self.isColorSelected = !self.isColorSelected
+        if self.isColorSelected {
+            let image = UIImage(named: "color_bucket_icon")
+            self.colorButton.setImage(image, for: .normal)
+            self.showColorsView(isShow: true)
+        }else {
+            self.showColorsView(isShow: false)
+            let image = UIImage(named: "color_bucket_icon_unactive")
+            self.colorButton.setImage(image, for: .normal)        }
+    }
+    
 
+    
     //MAKR: helper methods
     
+     func viewSlideInFromRightToLeft(views: UIView) {
+        var transition: CATransition? = nil
+        transition = CATransition()
+        transition!.duration = 0.5
+        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition!.type = kCATransitionPush
+        transition!.subtype = kCATransitionFromRight
+        views.layer.add(transition!, forKey: nil)
+    }
+     func viewSlideInFromLeftToRight(views: UIView) {
+        var transition: CATransition? = nil
+        transition = CATransition()
+        transition!.duration = 0.5
+        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition!.type = kCATransitionPush
+        transition!.subtype = kCATransitionFromLeft
+        views.layer.add(transition!, forKey: nil)
+    }
+    
+     func viewSlideInFromTopToBottom(views: UIView) {
+        var transition: CATransition? = nil
+        transition = CATransition()
+        transition!.duration = 0.5
+        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition!.type = kCATransitionPush
+        transition!.subtype = kCATransitionFromTop
+        views.layer.add(transition!, forKey: nil)
+    }
+     func viewSlideInFromBottomToTop(views: UIView) {
+        var transition: CATransition? = nil
+        transition = CATransition()
+        transition!.duration = 0.5
+        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition!.type = kCATransitionPush
+        transition!.subtype = kCATransitionFromBottom
+        views.layer.add(transition!, forKey: nil)
+    }
+
+    func setView(view: UIView, hidden: Bool) {
+        UIView.transition(with: view, duration: 0.5, options: .transitionCrossDissolve, animations: { _ in
+            view.isHidden = hidden
+        }, completion: nil)
+    }
+    
+    func showColorsView(isShow:Bool){
+        UIView.animate(withDuration: 0.2, delay: 0.2, options: .curveEaseInOut, animations: {
+            if isShow == true {
+                self.colorsCollectionView.alpha = 1.0
+            }else {
+                self.colorsCollectionView.alpha = 0
+            }
+        }) { (completion) in
+            if isShow == true {
+                self.colorsCollectionView.isHidden =  false
+            }else {
+                self.colorsCollectionView.isHidden =  true
+            }
+        }
+    }
     func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
         let alert = UIAlertController(title: "Image Saved", message: "Image successfully saved to Photos library", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))

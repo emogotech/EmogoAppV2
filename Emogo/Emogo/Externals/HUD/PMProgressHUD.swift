@@ -117,7 +117,7 @@ class PMProgressHUD: UIView {
         
         let imgViewLogo = UIImageView()
         imgViewLogo.image = imgLogo
-        imgViewLogo.contentMode = .scaleAspectFit
+        imgViewLogo.contentMode = UIViewContentMode.center
         imgViewLogo.backgroundColor = UIColor.clear
         imgViewLogo.clipsToBounds = true
         imgViewLogo.frame = CGRect(x: 0, y: 0, width: widthProgressView * 0.4, height: widthProgressView * 0.4)

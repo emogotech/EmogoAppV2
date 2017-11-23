@@ -38,7 +38,9 @@ public final class PhotoEditorViewController: UIViewController {
     @IBOutlet weak var saveButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
-    
+    @IBOutlet weak var pencilButton: UIButton!
+    @IBOutlet weak var colorButton: UIButton!
+
     public var image: UIImage?
     /**
      Array of Stickers -UIImage- that the user will choose from
@@ -68,8 +70,9 @@ public final class PhotoEditorViewController: UIViewController {
     var activeTextView: UITextView?
     var imageViewToPan: UIImageView?
     var isTyping: Bool = false
-    
-    
+    var isColorSelected: Bool = false
+    var isPencilSelected: Bool = false
+    var drawWidth:CGFloat = 5.0
     var stickersViewController: StickersViewController!
 
     //Register Custom font before we load XIB

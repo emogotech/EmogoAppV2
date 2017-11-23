@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -20,6 +21,7 @@
                 <outlet property="canvasImageView" destination="n3p-yR-4xc" id="OED-1L-YMz"/>
                 <outlet property="canvasView" destination="S1Y-ZS-dct" id="p6I-kg-UUU"/>
                 <outlet property="clearButton" destination="Kpe-Ez-Cio" id="C0i-3L-kLI"/>
+                <outlet property="colorButton" destination="C2f-OB-8Zp" id="3sG-xL-MoN"/>
                 <outlet property="colorPickerView" destination="Cy8-ap-fH9" id="KJx-KY-rfM"/>
                 <outlet property="colorPickerViewBottomConstraint" destination="mok-x4-xHA" id="SKq-N5-bcn"/>
                 <outlet property="colorsCollectionView" destination="GaQ-XR-asZ" id="1rf-hU-0nn"/>
@@ -29,9 +31,10 @@
                 <outlet property="drawButton" destination="Qm4-f6-DBr" id="yHl-a1-GgN"/>
                 <outlet property="imageView" destination="5rw-9v-ExQ" id="5lP-en-DGc"/>
                 <outlet property="imageViewHeightConstraint" destination="DdY-qb-dfp" id="ZY9-Em-cs4"/>
+                <outlet property="pencilButton" destination="ULP-BC-rbf" id="wCF-6X-LW0"/>
                 <outlet property="saveButton" destination="mW4-Jz-sic" id="1Uj-nU-EU1"/>
-                <outlet property="shareButton" destination="zlw-H0-WcJ" id="OZv-z0-8s8"/>
-                <outlet property="stickerButton" destination="PLX-iy-2Rc" id="tzt-tW-R1r"/>
+                <outlet property="shareButton" destination="PLX-iy-2Rc" id="INl-26-YIN"/>
+                <outlet property="stickerButton" destination="zlw-H0-WcJ" id="frU-KG-K8Q"/>
                 <outlet property="textButton" destination="0wH-LJ-SyD" id="ofN-bp-ZaE"/>
                 <outlet property="topGradient" destination="rLz-36-0xz" id="0Yd-em-MMy"/>
                 <outlet property="topToolbar" destination="3MS-N5-3xY" id="kzY-Ga-SoQ"/>
@@ -81,22 +84,14 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Doi-2Z-r5q">
-                            <rect key="frame" x="198" y="0.0" width="165" height="60"/>
+                            <rect key="frame" x="158" y="0.0" width="205" height="60"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ghm-bq-BmY">
-                                    <rect key="frame" x="0.0" y="0.0" width="30" height="60"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
-                                    <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="cropButtonTapped:" destination="-1" eventType="touchUpInside" id="fa9-jd-guk"/>
-                                    </connections>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PLX-iy-2Rc">
-                                    <rect key="frame" x="45" y="0.0" width="30" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="40" height="60"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="40" id="hnl-GD-VEz"/>
+                                        <constraint firstAttribute="height" constant="60" id="iCu-2G-5k9"/>
+                                    </constraints>
                                     <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal" title="">
@@ -104,14 +99,24 @@
                                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="stickersButtonTapped:" destination="-1" eventType="touchUpInside" id="snI-Px-Ngx"/>
+                                        <action selector="shareButtonTapped:" destination="-1" eventType="touchUpInside" id="Hf5-PY-K1e"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qm4-f6-DBr">
-                                    <rect key="frame" x="90" y="0.0" width="30" height="60"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ghm-bq-BmY">
+                                    <rect key="frame" x="55" y="0.0" width="40" height="60"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
+                                    <state key="normal" image="crrop_icon">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="cropButtonTapped:" destination="-1" eventType="touchUpInside" id="fa9-jd-guk"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qm4-f6-DBr">
+                                    <rect key="frame" x="110" y="0.0" width="40" height="60"/>
+                                    <size key="titleShadowOffset" width="1" height="0.0"/>
+                                    <state key="normal" image="pencil_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                     </state>
@@ -119,11 +124,10 @@
                                         <action selector="drawButtonTapped:" destination="-1" eventType="touchUpInside" id="uts-mM-XHI"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wH-LJ-SyD">
-                                    <rect key="frame" x="135" y="0.0" width="30" height="60"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0wH-LJ-SyD">
+                                    <rect key="frame" x="165" y="0.0" width="40" height="60"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
+                                    <state key="normal" image="text_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                     </state>
@@ -133,11 +137,14 @@
                                 </button>
                             </subviews>
                         </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9an-1W-thw">
-                            <rect key="frame" x="12" y="11.5" width="30" height="37"/>
-                            <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9an-1W-thw">
+                            <rect key="frame" x="2" y="0.0" width="50" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="7US-mA-LSz"/>
+                                <constraint firstAttribute="width" constant="50" id="fbl-GT-eRb"/>
+                            </constraints>
                             <size key="titleShadowOffset" width="1" height="0.0"/>
-                            <state key="normal" title="">
+                            <state key="normal" image="cross_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                             </state>
@@ -148,12 +155,12 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="9an-1W-thw" firstAttribute="centerY" secondItem="3MS-N5-3xY" secondAttribute="centerY" id="1bY-xX-lhc"/>
                         <constraint firstAttribute="bottom" secondItem="Doi-2Z-r5q" secondAttribute="bottom" id="5UH-pm-VlP"/>
+                        <constraint firstItem="9an-1W-thw" firstAttribute="top" secondItem="3MS-N5-3xY" secondAttribute="top" id="8xk-RG-4eb"/>
                         <constraint firstAttribute="trailing" secondItem="Doi-2Z-r5q" secondAttribute="trailing" constant="12" id="Ank-Rs-hHo"/>
                         <constraint firstAttribute="height" constant="60" id="RSV-Dw-76F"/>
+                        <constraint firstItem="9an-1W-thw" firstAttribute="leading" secondItem="3MS-N5-3xY" secondAttribute="leading" constant="2" id="Xge-Pb-qkY"/>
                         <constraint firstItem="Doi-2Z-r5q" firstAttribute="top" secondItem="3MS-N5-3xY" secondAttribute="top" id="YMJ-5J-baj"/>
-                        <constraint firstItem="9an-1W-thw" firstAttribute="leading" secondItem="3MS-N5-3xY" secondAttribute="leading" constant="12" id="lPL-cU-BVr"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZGa-1B-gkO" customClass="GradientView" customModule="iOSPhotoEditor" customModuleProvider="target">
@@ -170,13 +177,16 @@
                     <rect key="frame" x="0.0" y="607" width="375" height="60"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ZRl-89-gRO">
-                            <rect key="frame" x="12" y="0.0" width="120" height="52"/>
+                            <rect key="frame" x="1" y="8" width="115" height="50"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mW4-Jz-sic">
-                                    <rect key="frame" x="0.0" y="0.0" width="30" height="52"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mW4-Jz-sic">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="LCK-qI-DWA"/>
+                                        <constraint firstAttribute="width" constant="50" id="vsI-Y8-D7I"/>
+                                    </constraints>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
+                                    <state key="normal" image="download_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                     </state>
@@ -184,37 +194,31 @@
                                         <action selector="saveButtonTapped:" destination="-1" eventType="touchUpInside" id="Sc7-Zy-r4v"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlw-H0-WcJ">
-                                    <rect key="frame" x="45" y="0.0" width="30" height="52"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlw-H0-WcJ">
+                                    <rect key="frame" x="65" y="0.0" width="50" height="50"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
+                                    <state key="normal" image="emoji_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                     </state>
                                     <connections>
-                                        <action selector="shareButtonTapped:" destination="-1" eventType="touchUpInside" id="ZTG-wV-jfh"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpe-Ez-Cio">
-                                    <rect key="frame" x="90" y="0.0" width="30" height="52"/>
-                                    <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="25"/>
-                                    <size key="titleShadowOffset" width="1" height="0.0"/>
-                                    <state key="normal" title="">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="clearButtonTapped:" destination="-1" eventType="touchUpInside" id="gXm-sD-poT"/>
+                                        <action selector="stickersButtonTapped:" destination="-1" eventType="touchUpInside" id="YOc-di-Iiz"/>
                                     </connections>
                                 </button>
                             </subviews>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="115" id="1Pv-PL-YRT"/>
+                                <constraint firstAttribute="height" constant="50" id="LrX-XR-QfM"/>
+                            </constraints>
                         </stackView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNH-TU-KxG">
-                            <rect key="frame" x="313" y="-14" width="50" height="62"/>
-                            <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="50"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNH-TU-KxG">
+                            <rect key="frame" x="324" y="8" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="7bt-h4-HGw"/>
+                                <constraint firstAttribute="width" constant="50" id="9Ij-uQ-9V9"/>
+                            </constraints>
                             <size key="titleShadowOffset" width="1" height="0.0"/>
-                            <state key="normal" title="">
+                            <state key="normal" image="next_icon">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                             </state>
@@ -222,22 +226,41 @@
                                 <action selector="continueButtonPressed:" destination="-1" eventType="touchUpInside" id="0k9-Sl-9QG"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kpe-Ez-Cio">
+                            <rect key="frame" x="271" y="8" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="50" id="N5d-2b-gjX"/>
+                                <constraint firstAttribute="height" constant="50" id="dZx-3Q-5z6"/>
+                            </constraints>
+                            <size key="titleShadowOffset" width="1" height="0.0"/>
+                            <state key="normal" image="undo_button">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clearButtonTapped:" destination="-1" eventType="touchUpInside" id="gXm-sD-poT"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Kpe-Ez-Cio" secondAttribute="bottom" constant="2" id="23q-yo-zgK"/>
                         <constraint firstAttribute="height" constant="60" id="7QB-HT-iOq"/>
-                        <constraint firstAttribute="bottom" secondItem="ZRl-89-gRO" secondAttribute="bottom" constant="8" id="Bdt-cg-dLR"/>
-                        <constraint firstAttribute="bottom" secondItem="wNH-TU-KxG" secondAttribute="bottom" constant="12" id="MHF-pQ-8R0"/>
-                        <constraint firstAttribute="trailing" secondItem="wNH-TU-KxG" secondAttribute="trailing" constant="12" id="dUX-Z1-0Ev"/>
-                        <constraint firstItem="ZRl-89-gRO" firstAttribute="top" secondItem="87h-1G-t5q" secondAttribute="top" id="jMd-Og-yCn"/>
-                        <constraint firstItem="ZRl-89-gRO" firstAttribute="leading" secondItem="87h-1G-t5q" secondAttribute="leading" constant="12" id="mn5-Hu-M5A"/>
+                        <constraint firstItem="ZRl-89-gRO" firstAttribute="leading" secondItem="87h-1G-t5q" secondAttribute="leading" constant="1" id="BCb-06-q8n"/>
+                        <constraint firstItem="wNH-TU-KxG" firstAttribute="leading" secondItem="Kpe-Ez-Cio" secondAttribute="trailing" constant="3" id="Kbz-5s-IDV"/>
+                        <constraint firstAttribute="bottom" secondItem="wNH-TU-KxG" secondAttribute="bottom" constant="2" id="MvO-f0-xQR"/>
+                        <constraint firstAttribute="trailing" secondItem="wNH-TU-KxG" secondAttribute="trailing" constant="1" id="VfW-bV-9HW"/>
+                        <constraint firstAttribute="bottom" secondItem="ZRl-89-gRO" secondAttribute="bottom" constant="2" id="kIb-z9-ycv"/>
                     </constraints>
                 </view>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KxU-y4-Jwh">
-                    <rect key="frame" x="323" y="12" width="40" height="32"/>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KxU-y4-Jwh">
+                    <rect key="frame" x="318" y="10" width="50" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="IFZ-1q-Ptj"/>
+                        <constraint firstAttribute="width" constant="50" id="bhJ-dW-V4y"/>
+                    </constraints>
                     <size key="titleShadowOffset" width="1" height="0.0"/>
-                    <state key="normal" title="Done">
+                    <state key="normal" image="editing_done_icon">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                     </state>
@@ -249,7 +272,7 @@
                     <rect key="frame" x="162" y="605" width="50" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqh-uS-U1m">
-                            <rect key="frame" x="9.5" y="10" width="31" height="30"/>
+                            <rect key="frame" x="8" y="7.5" width="35.5" height="35"/>
                             <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="30"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -265,15 +288,42 @@
                         <constraint firstItem="sqh-uS-U1m" firstAttribute="centerX" secondItem="yAt-sK-1nK" secondAttribute="centerX" id="vx8-XT-NVx"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cy8-ap-fH9" userLabel="Color Picker">
+                <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cy8-ap-fH9" userLabel="Color Picker">
                     <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                     <subviews>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GaQ-XR-asZ">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ZXe-rv-DYq">
+                            <rect key="frame" x="2" y="0.0" width="105" height="50"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULP-BC-rbf">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="GK0-lP-4PS"/>
+                                        <constraint firstAttribute="width" constant="50" id="XlO-YL-d2b"/>
+                                    </constraints>
+                                    <state key="normal" image="pen_icon_unactive"/>
+                                    <connections>
+                                        <action selector="pencilButtonPressed:" destination="-1" eventType="touchUpInside" id="4oA-te-Ayd"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2f-OB-8Zp">
+                                    <rect key="frame" x="55" y="0.0" width="50" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="HV7-j8-jxz"/>
+                                        <constraint firstAttribute="height" constant="50" id="tQQ-es-qgo"/>
+                                    </constraints>
+                                    <state key="normal" image="color_bucket_icon_unactive"/>
+                                    <connections>
+                                        <action selector="colorShowButtonPressed:" destination="-1" eventType="touchUpInside" id="7hH-Uj-yiy"/>
+                                    </connections>
+                                </button>
+                            </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" constant="40" id="25X-Kn-avj"/>
+                                <constraint firstAttribute="width" constant="105" id="0iS-Lg-ozu"/>
                             </constraints>
+                        </stackView>
+                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GaQ-XR-asZ">
+                            <rect key="frame" x="107" y="0.0" width="268" height="40"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="7jl-DS-5B7">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -283,19 +333,23 @@
                             <cells/>
                         </collectionView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="leading" secondItem="Cy8-ap-fH9" secondAttribute="leading" id="5uh-Qw-RZB"/>
+                        <constraint firstAttribute="bottom" secondItem="ZXe-rv-DYq" secondAttribute="bottom" id="1cO-CS-EBU"/>
+                        <constraint firstAttribute="bottom" secondItem="GaQ-XR-asZ" secondAttribute="bottom" constant="10" id="8VE-JO-iRe"/>
+                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="leading" secondItem="ZXe-rv-DYq" secondAttribute="trailing" id="HWq-qu-otW"/>
                         <constraint firstAttribute="height" constant="50" id="KBh-Ry-wrN"/>
-                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" id="LEF-vO-2nq"/>
-                        <constraint firstAttribute="trailing" secondItem="GaQ-XR-asZ" secondAttribute="trailing" id="ZAL-PE-sPi"/>
+                        <constraint firstItem="ZXe-rv-DYq" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" id="LoZ-bw-lnP"/>
+                        <constraint firstAttribute="trailing" secondItem="GaQ-XR-asZ" secondAttribute="trailing" id="Ne2-Y3-P6Y"/>
+                        <constraint firstItem="ZXe-rv-DYq" firstAttribute="leading" secondItem="Cy8-ap-fH9" secondAttribute="leading" constant="2" id="T2O-o4-5ik"/>
+                        <constraint firstItem="GaQ-XR-asZ" firstAttribute="top" secondItem="Cy8-ap-fH9" secondAttribute="top" id="j1Z-Uu-lnr"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="87h-1G-t5q" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="0ft-JY-szV"/>
-                <constraint firstItem="KxU-y4-Jwh" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" constant="12" id="1QI-yc-Gke"/>
+                <constraint firstItem="KxU-y4-Jwh" firstAttribute="top" secondItem="HPk-Bg-V0q" secondAttribute="top" constant="10" id="1QI-yc-Gke"/>
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="centerX" secondItem="HPk-Bg-V0q" secondAttribute="centerX" id="24Z-2f-Tyk"/>
                 <constraint firstItem="S1Y-ZS-dct" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="2tC-2e-oA6"/>
                 <constraint firstItem="Cy8-ap-fH9" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="6eK-mF-0OL"/>
@@ -306,7 +360,7 @@
                 <constraint firstItem="yAt-sK-1nK" firstAttribute="centerX" secondItem="HPk-Bg-V0q" secondAttribute="centerX" id="Viz-8c-pzk"/>
                 <constraint firstAttribute="bottom" secondItem="87h-1G-t5q" secondAttribute="bottom" id="XH4-oO-47L"/>
                 <constraint firstItem="ZGa-1B-gkO" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="YYk-Vg-obo"/>
-                <constraint firstAttribute="trailing" secondItem="KxU-y4-Jwh" secondAttribute="trailing" constant="12" id="Z0h-d5-J2Z"/>
+                <constraint firstAttribute="trailing" secondItem="KxU-y4-Jwh" secondAttribute="trailing" constant="7" id="Z0h-d5-J2Z"/>
                 <constraint firstAttribute="trailing" secondItem="Cy8-ap-fH9" secondAttribute="trailing" id="dlF-iN-Gjg"/>
                 <constraint firstAttribute="trailing" secondItem="S1Y-ZS-dct" secondAttribute="trailing" id="jwU-EC-jaR"/>
                 <constraint firstAttribute="trailing" secondItem="87h-1G-t5q" secondAttribute="trailing" id="kaD-bR-ZZt"/>
@@ -319,6 +373,20 @@
                 <constraint firstItem="S1Y-ZS-dct" firstAttribute="centerX" secondItem="HPk-Bg-V0q" secondAttribute="centerX" id="uyk-kx-vrC"/>
                 <constraint firstItem="3MS-N5-3xY" firstAttribute="leading" secondItem="HPk-Bg-V0q" secondAttribute="leading" id="zYw-cX-ezI"/>
             </constraints>
+            <point key="canvasLocation" x="39.5" y="54.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="color_bucket_icon_unactive" width="27" height="27"/>
+        <image name="cross_icon" width="17" height="17"/>
+        <image name="crrop_icon" width="27" height="27"/>
+        <image name="download_icon" width="27" height="27"/>
+        <image name="editing_done_icon" width="17" height="14"/>
+        <image name="emoji_icon" width="27" height="27"/>
+        <image name="next_icon" width="11" height="18"/>
+        <image name="pen_icon_unactive" width="27" height="27"/>
+        <image name="pencil_icon" width="27" height="27"/>
+        <image name="text_icon" width="27" height="27"/>
+        <image name="undo_button" width="15" height="18"/>
+    </resources>
 </document>
