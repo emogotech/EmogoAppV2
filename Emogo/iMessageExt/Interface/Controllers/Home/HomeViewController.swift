@@ -33,12 +33,16 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     }
     
     @objc func requestMessageScreenChangeSize(){
+        self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
+    }
+    
+    @objc func changeUI(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             SharedData.sharedInstance.showPager(controller: self)
-            btnFeature.isSelected = true
+             btnFeature.tag = 1
         }else{
             SharedData.sharedInstance.hidePager(controller: self)
-            btnFeature.isSelected = false
+             btnFeature.tag = 0
         }
     }
 
@@ -78,7 +82,7 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
 
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             SharedData.sharedInstance.showPager(controller: self)
-            btnFeature.isSelected = true
+            btnFeature.tag = 1
         }
 
     }
@@ -90,20 +94,17 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     }
     
     @IBAction func btnFeaturedTap(_ sender: UIButton){
-        
-        if(btnFeature.isSelected){
+        if(btnFeature.tag == 1){
               SharedData.sharedInstance.hidePager(controller: self)
-            btnFeature.isSelected = false
+            btnFeature.tag = 0
         } else {
             if(SharedData.sharedInstance.isMessageWindowExpand) {
                 SharedData.sharedInstance.showPager(controller: self)
-                btnFeature.isSelected = false
+                btnFeature.tag = 1
             }else{
                 NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
-                SharedData.sharedInstance.hidePager(controller: self)
             }
         }
-        
     }
     
     // MARK:- collection-view delegate methods
