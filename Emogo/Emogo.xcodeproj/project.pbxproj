@@ -84,6 +84,7 @@
 		7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
+		C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */; };
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
@@ -270,6 +271,7 @@
 		93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt.debug.xcconfig"; sourceTree = "<group>"; };
 		9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt.release.xcconfig"; sourceTree = "<group>"; };
 		C0116CE7C51A614A0E9157D1 /* Pods-Emogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.release.xcconfig"; sourceTree = "<group>"; };
+		C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCUITests.swift; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 			isa = PBXGroup;
 			children = (
 				335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */,
+				C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */,
 				335B1A331FBB238B006DA9D9 /* Info.plist */,
 			);
 			path = EmogoUITests;
@@ -1551,6 +1554,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */,
 				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1783,8 +1787,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -1808,8 +1812,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
@@ -1831,7 +1835,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
@@ -1853,7 +1858,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoTests/Info.plist;
@@ -1875,7 +1881,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;
@@ -1897,7 +1903,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = EmogoUITests/Info.plist;

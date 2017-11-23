@@ -140,8 +140,7 @@ class EmogoUITests: XCTestCase {
         btnDone.tap()
         sleep(3)
     }
-    
-    
+        
 }
 
 extension XCUIElement {

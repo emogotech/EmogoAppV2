@@ -19,7 +19,7 @@ class EmogoStreamListVCTests: XCTestCase {
     override func setUp() {
         super.setUp()
         vc                      =   storyboard.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-        vc.loadView()
+        vc.loadViewIfNeeded()
     }
     
     override func tearDown() {
@@ -41,9 +41,15 @@ class EmogoStreamListVCTests: XCTestCase {
         XCTAssertTrue(self.vc.responds(to: #selector(self.vc.collectionView(_:cellForItemAt:))), "StreamListVC isn not calling cellForItemAt")
     }
     
+    func testSLVC_Should_Conform_To_CollectionViewDelegateFlowLayout() {
+        XCTAssert(self.vc.conforms(to: UICollectionViewDelegateFlowLayout.self))
+        XCTAssertTrue(self.vc.responds(to: #selector(self.vc.collectionView(_:viewForSupplementaryElementOfKind:at:))), "")
+        XCTAssertTrue(self.vc.responds(to: #selector(self.vc.collectionView(_:layout:sizeForItemAt:))), "")
+    }
+    
     func testSLVC_Should_Conform_To_CollectionViewDelegate(){
         XCTAssert(self.vc.conforms(to: UICollectionViewDelegate.self))
-//        XCTAssertTrue(self.vc.responds(to: #selector(self.vc.collectionView(_:didSelectItemAt:))), "StreamListVC isn not calling didSelectItemAt")
+        //XCTAssertTrue(self.vc.responds(to: #selector(self.vc.collectionView(_:didSelectItemAt:))), "StreamListVC isn not calling didSelectItemAt")
     }
 
 }
