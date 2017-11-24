@@ -33,10 +33,7 @@ class ViewController: UIViewController {
    
    // MARK: - Prepare Layouts
     func prepareLayouts(){
-        HUDManager.sharedInstance.showHUD()
-        SharedData.sharedInstance.getPhoneCode { (code) in
-            HUDManager.sharedInstance.hideHUD()
-        }
+       self.getCountryCode()
     }
 
     // MARK: -  Action Methods And Selector
@@ -52,7 +49,16 @@ class ViewController: UIViewController {
     
     // MARK: - Class Methods
     
-
+    func getCountryCode(){
+        HUDManager.sharedInstance.showHUD()
+        APIManager.sharedInstance.getCountryCode { (code) in
+            HUDManager.sharedInstance.hideHUD()
+            if !(code?.isEmpty)! {
+               let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"
+                SharedData.sharedInstance.countryCode = code
+            }
+        }
+    }
 }
 
 

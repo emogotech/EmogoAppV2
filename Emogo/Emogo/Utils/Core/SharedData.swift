@@ -30,25 +30,7 @@ class SharedData: NSObject {
     
     }
     
-    // MARK: - Auto Detect Country code
-    func getPhoneCode(completionHandler:@escaping (_ strCode:String?)->Void){
-        /*
-        let network_Info = CTTelephonyNetworkInfo()
-        let carrier: CTCarrier? = network_Info.subscriberCellularProvider
-        //let mnc: String? = carrier?.mobileNetworkCode
-        //let mcc: String? = carrier?.mobileCountryCode
-        let cc:String? = carrier?.isoCountryCode
-        print(cc ?? "")
- */
-        APIManager.sharedInstance.getCountryCode { (code) in
-            if !(code?.isEmpty)! {
-                self.countryCode = "+\(self.getCountryCallingCode(countryRegionCode: code!))"
-              completionHandler(self.countryCode)
-            }else {
-                completionHandler(self.countryCode)
-            }
-        }
-    }
+ 
     // MARK: - Country Code
 
     func getCountryCallingCode(countryRegionCode:String)->String{
@@ -92,7 +74,7 @@ class SharedData: NSObject {
                 errorMessage = "\(value)"
             }
         }
-        return errorMessage.replacingOccurrences(of: ")", with: "").replacingOccurrences(of: ")", with: "")
+        return errorMessage.replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "(", with: "")
     }
     
     

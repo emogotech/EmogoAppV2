@@ -190,17 +190,16 @@ extension UIViewController {
     }
     
     func showToast(type:AlertType,strMSG:String) {
-        switch type {
-        case .success:
-            CRNotifications.showNotification(type: .success, title: kAlertTitleMessage, message: strMSG, dismissDelay: 3)
-            break
-        case .error:
-            CRNotifications.showNotification(type: .error, title: kAlertTitle, message: strMSG, dismissDelay: 3)
-            break
-        case .Info:
-            CRNotifications.showNotification(type: .info, title: kAlertTitleInfo, message: strMSG, dismissDelay: 3)
-            break
-        }
+        
+        self.view.makeToast(message: strMSG,
+                            duration: TimeInterval(3.0),
+                            position: .top,
+                            image: nil,
+                            backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                            titleColor: UIColor.yellow,
+                            messageColor: UIColor.white,
+                            font: nil)
+    
     }
     
     func configureLandingNavigation(){

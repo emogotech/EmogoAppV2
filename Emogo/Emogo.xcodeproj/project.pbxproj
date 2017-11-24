@@ -137,6 +137,7 @@
 		F4431AAE1FC6DD2C00311C9A /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8A1FC6DD2900311C9A /* UIImage+Size.swift */; };
 		F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */; };
 		F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */; };
+		F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
@@ -159,6 +160,7 @@
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
+		F4FF7F6C1FC7FC66000FB678 /* UIImage+ResizeMagick.m in Sources */ = {isa = PBXBuildFile; fileRef = F4FF7F6B1FC7FC65000FB678 /* UIImage+ResizeMagick.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -330,6 +332,7 @@
 		F4431A8A1FC6DD2900311C9A /* UIImage+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 		F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
+		F4431AB21FC7044D00311C9A /* ASToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASToast.swift; sourceTree = "<group>"; };
 		F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
 		F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
 		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
+		F4FF7F6A1FC7FC65000FB678 /* UIImage+ResizeMagick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ResizeMagick.h"; sourceTree = "<group>"; };
+		F4FF7F6B1FC7FC65000FB678 /* UIImage+ResizeMagick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ResizeMagick.m"; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -649,6 +654,8 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4FF7F691FC7FC57000FB678 /* ImageResizer */,
+				F4431AB11FC7044300311C9A /* Toast */,
 				F4431A661FC6DD1A00311C9A /* PhotoEditingTool */,
 				F4A69BA01FC45114008F9534 /* Sound */,
 				F49023C31FC40102004F3C90 /* Reachability */,
@@ -889,6 +896,14 @@
 			path = "Photo Editor";
 			sourceTree = "<group>";
 		};
+		F4431AB11FC7044300311C9A /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				F4431AB21FC7044D00311C9A /* ASToast.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		F45A78751FBC67A0003FD6AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,6 +971,15 @@
 				F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */,
 			);
 			path = ParralaxHeader;
+			sourceTree = "<group>";
+		};
+		F4FF7F691FC7FC57000FB678 /* ImageResizer */ = {
+			isa = PBXGroup;
+			children = (
+				F4FF7F6A1FC7FC65000FB678 /* UIImage+ResizeMagick.h */,
+				F4FF7F6B1FC7FC65000FB678 /* UIImage+ResizeMagick.m */,
+			);
+			path = ImageResizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1495,6 +1519,7 @@
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
+				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
@@ -1508,6 +1533,7 @@
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4431AA11FC6DD2C00311C9A /* PhotoEditor+Gestures.swift in Sources */,
+				F4FF7F6C1FC7FC66000FB678 /* UIImage+ResizeMagick.m in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,

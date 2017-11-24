@@ -97,7 +97,7 @@ class PreviewController: UIViewController {
             if self.imagesPreview.count != 0 {
                 self.preparePreview(index: 0)
             }else{
-                self.imgPreview.image = nil
+                self.navigationController?.pop()
             }
             self.previewCollection.reloadData()
         }
@@ -118,6 +118,7 @@ class PreviewController: UIViewController {
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             }
+            self.imgPreview.contentMode = .scaleAspectFit
             self.view.updateConstraintsIfNeeded()
         }
     }
@@ -125,6 +126,7 @@ class PreviewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             self.kPreviewHeight.constant = 129.0
+            sel.imgPreview.contentMode = .scaleAspectFit
             self.view.updateConstraintsIfNeeded()
         }
     }
