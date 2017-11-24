@@ -99,6 +99,7 @@ let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
 let iMsgSegue_SignUpVerify                      = "SignUpVerifyViewController"
 let iMsgSegue_SignUpSelected                    = "SignUpSelectedViewController"
 let iMsgSegue_Home                              = "HomeViewController"
+let iMsgSegue_HomeDetailed                       = "HomeDetailedViewController"
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"

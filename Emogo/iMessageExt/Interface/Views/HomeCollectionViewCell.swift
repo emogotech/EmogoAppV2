@@ -9,10 +9,15 @@
 import UIKit
 
 class HomeCollectionViewCell: UICollectionViewCell {
-  
+    
     @IBOutlet weak var imgStream : UIImageView!
     @IBOutlet weak var lblStreamName : UILabel!
     @IBOutlet weak var lblShortDesc : UILabel!
+    @IBOutlet weak var viewShowHide : UIView!
+    
+    @IBOutlet weak var btnShare : UIButton!
+    @IBOutlet weak var btnView: UIButton!
+    
     
     override func awakeFromNib() {
         self.layer.cornerRadius = 5.0
@@ -27,3 +32,4 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
     
 }
+

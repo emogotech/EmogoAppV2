@@ -50,13 +50,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
+       
         // If User already logged in
         if kDefault.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
+        
         self.keyboardToolBar(disable:false)
-
     }
     
    fileprivate func openLandingScreen(){
