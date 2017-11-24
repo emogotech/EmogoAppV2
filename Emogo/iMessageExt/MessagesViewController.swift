@@ -27,7 +27,11 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
-        SharedData.sharedInstance.getPhoneCode { (code) in
+        APIManager.sharedInstance.getCountryCode { (code) in
+            if !(code?.isEmpty)! {
+                let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"
+                SharedData.sharedInstance.countryCode = code
+            }
         }
     }
     

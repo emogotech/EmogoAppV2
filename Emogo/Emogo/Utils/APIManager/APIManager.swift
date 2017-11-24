@@ -190,23 +190,28 @@ class APIManager: NSObject {
     // MARK: - Get Country Code
 
     func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){
-        let url = URL(string: kGetCountryCode)
-        let request = URLRequest(url: url!)
-        let dataTask = URLSession.shared.dataTask(with: request) {
-            data,response,error in
-            do {
-                if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:Any] {
-                    guard let code = jsonResult["country_code"] else {
-                        completionHandler("")
-                        return
-                    }
-                    completionHandler("\(code)")
+        
+        Alamofire.request(kGetCountryCode,encoding: JSONEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                print(dict)
+                guard let code = dict["country_code"] else {
+                    completionHandler("")
+                    return
                 }
-            } catch let error as NSError {
+                completionHandler("\(code)")
+                break
+            case .failure(let error):
+                // TODO deal with error
                 print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)!
+                    print(statusCode)
+                }
                 completionHandler("")
             }
         }
-        dataTask.resume()
+
     }
 }
