@@ -58,6 +58,12 @@ class PreviewController: UIViewController {
         }else {
             self.btnPlayIcon.isHidden = false
         }
+        if !obj.title.isEmpty {
+            self.txtTitleImage.text = obj.title.trim()
+        }
+        if !obj.description.isEmpty {
+            self.txtDescription.text = obj.description.trim()
+        }
     }
     
     
@@ -75,7 +81,7 @@ class PreviewController: UIViewController {
                 self.openEditor(image:obj.imgPreview)
             }
         }else {
-            self.showToast(type: .error, strMSG: "You don't have image to edit.")
+            self.showToast(type: .error, strMSG: "You don't have image to Edit.")
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
@@ -126,7 +132,7 @@ class PreviewController: UIViewController {
         UIView.animate(withDuration: 0.5) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             self.kPreviewHeight.constant = 129.0
-            sel.imgPreview.contentMode = .scaleAspectFit
+            self.imgPreview.contentMode = .scaleAspectFit
             self.view.updateConstraintsIfNeeded()
         }
     }
@@ -142,6 +148,14 @@ class PreviewController: UIViewController {
         }
     }
     
+    func setPreviewContent(title:String, description:String) {
+        if self.imagesPreview.count != 0 {
+            let obj = self.imagesPreview[selectedIndex]
+            obj.title = title
+            obj.description = description
+            self.imagesPreview[selectedIndex] = obj
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -198,7 +212,12 @@ extension PreviewController:PhotoEditorDelegate
 
 extension PreviewController:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        if textField == txtTitleImage {
+            txtDescription.becomeFirstResponder()
+        }else {
+            textField.resignFirstResponder()
+            self.setPreviewContent(title: (txtTitleImage.text?.trim())!, description: (txtDescription.text?.trim())!)
+        }
         return true
     }
 }

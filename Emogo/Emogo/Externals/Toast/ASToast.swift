@@ -548,7 +548,7 @@ public extension UIView {
         messageLabel.backgroundColor = UIColor.clear
         messageLabel.alpha = 1.0
         let fullString = NSMutableAttributedString()
-        let MSG = NSAttributedString(string: message)
+        let MSG = NSAttributedString(string: "  \(message)")
         // create our NSTextAttachment
         let image1Attachment = NSTextAttachment()
         image1Attachment.image = UIImage(named: "alert_icon")
@@ -565,7 +565,7 @@ public extension UIView {
         // set size the message label according to the lenth of message text
         let maxSizeMessage = CGSize(width: (self.bounds.size.width * Constants.ToastMaxWidth) - imageWidth, height: self.bounds.size.height * Constants.ToastMaxHeight)
         let expectedSizeMessage = sizeForString(message as NSString, font: messageLabel.font, constrainedSize: maxSizeMessage, lineBreakMode: messageLabel.lineBreakMode)
-        messageLabel.frame = CGRect(x: 0.0, y: 0.0, width: expectedSizeMessage.width, height: expectedSizeMessage.height)
+        messageLabel.frame = CGRect(x: 0.0, y: 0.0, width: expectedSizeMessage.width + 30.0, height: expectedSizeMessage.height)
         return messageLabel
     }
 
@@ -761,7 +761,7 @@ public extension UIView {
     fileprivate func centerPointForPosition(position: ToastPosition, toastView: UIView!) -> CGPoint {
         switch position {
         case.top :
-            return CGPoint(x: self.bounds.size.width / 2, y: (toastView.frame.size.height / 2) + Constants.ToastVerticalPadding)
+            return CGPoint(x: self.bounds.size.width / 2, y: (toastView.frame.size.height / 2) + Constants.ToastVerticalPadding + 10.0)
         case .center:
             return CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         default:
