@@ -9,7 +9,7 @@
 import UIKit
 import Messages
 
-class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate {
+class HomeViewController: MSMessagesAppViewController {
 
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
@@ -20,10 +20,9 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     // Varibales
     var arrayStreams = [StreamDAO]()
     
-    fileprivate let arrImages = ["feverateDeselected","feverateDeselected","featutreDeselected","emogoDeselected","tredingDeselected","peopleDeselected"]
-    fileprivate let arrImagesSelected = ["feverateSelected","feverateSelected","featutreSelected","emogoSelected","tredingSelected","peopleSelected"]
-    
-    
+    fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
+    fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","Peoples"]
+
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +106,25 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
         }
     }
     
-    // MARK:- collection-view delegate methods
+    @IBAction func tapActionOnCollectionCell(_ sender: Int){
+        if(btnFeature.tag == 1){
+            SharedData.sharedInstance.hidePager(controller: self)
+            btnFeature.tag = 0
+        } else {
+            if(SharedData.sharedInstance.isMessageWindowExpand) {
+                SharedData.sharedInstance.showPager(controller: self)
+                btnFeature.tag = 1
+            }else{
+                NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
+            }
+        }
+    }
+   
+}
+
+// MARK:- collection-view delegate methods
+extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -117,17 +134,58 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell : HomeCollectionViewCell = self.collectionStream.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as! HomeCollectionViewCell
         let stream = self.arrayStreams[indexPath.row]
         cell.prepareLayouts(stream: stream)
+        cell.imgStream.tag = indexPath.row
+        cell.btnView.tag = indexPath.row
+        cell.btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
+        cell.btnShare.tag = indexPath.row
+        
         return cell
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.view.endEditing(true)
+    
+    @objc func btnViewAction(_ sender:UIButton){
+        let obj : HomeDetailedViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_HomeDetailed) as! HomeDetailedViewController
+        self.addRippleTransition()
+        obj.arrValues = self.arrayStreams
+        obj.currentIndex = sender.tag
+        self.present(obj, animated: false, completion: nil)
     }
     
-    // MARK:- TextField delegate methods
+    func btnShareAction(_ sender:UIButton){
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+        SharedData.sharedInstance.hidePager(controller: self)
+        btnFeature.tag = 0
+        self.changeCellImageAnimationt(indexPath.row)
+    }
+    
+    func changeCellImageAnimationt(_ sender : Int){
+        for section in 0 ..< self.collectionStream.numberOfSections {
+            for row in 0 ..< self.collectionStream.numberOfItems(inSection: section){
+                let indexPath = NSIndexPath(row: row, section: section)
+                if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
+                    if(sender == (sel as! HomeCollectionViewCell).imgStream?.tag){
+                        (sel as! HomeCollectionViewCell).viewShowHide.isHidden = false
+                    } else {
+                        (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+ // MARK:- TextField delegate methods
+extension HomeViewController : UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -140,6 +198,9 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
+        }else{
+            SharedData.sharedInstance.hidePager(controller: self)
+            btnFeature.tag = 0
         }
         return true
     }
@@ -148,9 +209,7 @@ class HomeViewController: MSMessagesAppViewController,UICollectionViewDelegate,U
         return true
     }
     
-
 }
-
 
 extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     
@@ -163,13 +222,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
         
         if(index == pagerView.currentIndex){
-            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 110, height: 110)
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = UIImage(named: self.arrImagesSelected[index])
             cell.addLayerInImageView(isTrue : true)
         }
         else {
-            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 65, height: 65)
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = UIImage(named: self.arrImages[index])
         }
@@ -198,12 +257,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 let indexPath = NSIndexPath(row: row, section: section)
                 if let sel = pagerView.collectionView.cellForItem(at: indexPath as IndexPath){
                     if(sender == (sel as! FSPagerViewCell).imageView?.tag){
-                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 110, height: 110)
+                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
                         (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
                         (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImagesSelected[indexPath.row])
                         (sel as! FSPagerViewCell).addLayerInImageView(isTrue : true)
                     } else {
-                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
+                        (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 65, height: 65)
                         (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
                         (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImages[indexPath.row])
                     }
@@ -211,5 +270,15 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 }
             }
         }
+        pagerView.lblCurrentType.text = "\(self.arrImagesSelected[sender])"
+    }
+}
+
+extension HomeViewController : UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+        SharedData.sharedInstance.hidePager(controller: self)
+        btnFeature.tag = 0
     }
 }
