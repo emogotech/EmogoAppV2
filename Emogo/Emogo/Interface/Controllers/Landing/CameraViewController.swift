@@ -225,7 +225,6 @@ class CameraViewController: SwiftyCamViewController {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
-
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
             }else {
@@ -233,6 +232,7 @@ class CameraViewController: SwiftyCamViewController {
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             }
+            self.previewCollection.reloadData()
             self.view.updateConstraintsIfNeeded()
         }
     }

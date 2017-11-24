@@ -27,7 +27,19 @@ class PreviewController: UIViewController {
     var imagesPreview:[CameraDAO]!
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
+    
+    let defaultFooterSize: CGFloat = 63.0
+    let FooterSectionIndex: Int = 0
 
+    
+    var shouldHideFooter: Bool = false {
+        didSet {
+            self.previewCollection?.collectionViewLayout.invalidateLayout()
+        }
+    }
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -50,6 +62,8 @@ class PreviewController: UIViewController {
     }
     
     func preparePreview(index:Int) {
+        self.txtTitleImage.text = ""
+        self.txtDescription.text = ""
         self.selectedIndex = index
         let obj = self.imagesPreview[index]
         self.imgPreview.image = obj.imgPreview
@@ -191,6 +205,16 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        if self.shouldHideFooter && section == self.FooterSectionIndex {
+            return CGSize(width: defaultFooterSize, height: collectionView.bounds.height )
+        }
+        else {
+            return CGSize(width: defaultFooterSize, height: collectionView.bounds.height)
+        }
     }
 }
 
