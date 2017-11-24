@@ -44,6 +44,7 @@ let kStoryboardID_PreView = "preView"
 let kCell_StreamCell = "streamCell"
 let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
+let kFooter_Preview = "previewFooterView"
 
 
 // MARK: - StoryboardSegue Identifier

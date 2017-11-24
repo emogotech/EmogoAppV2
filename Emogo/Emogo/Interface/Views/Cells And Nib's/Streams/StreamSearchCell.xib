@@ -29,6 +29,9 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="    Search" textAlignment="natural" minimumFontSize="17" background="search_bar_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="e3e-Tu-cpu">
                                 <rect key="frame" x="8" y="9" width="288" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="E04-qb-2Kz"/>
+                                </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -36,19 +39,18 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="search_icon_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="f73-H2-rrU">
                                 <rect key="frame" x="267" y="22" width="13" height="13"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="13" id="KLb-Nh-5ER"/>
-                                    <constraint firstAttribute="width" constant="13" id="YeR-V8-eug"/>
+                                    <constraint firstAttribute="height" constant="13" id="DOz-bt-kig"/>
+                                    <constraint firstAttribute="width" constant="13" id="SJk-yn-5tR"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="f73-H2-rrU" firstAttribute="centerY" secondItem="nm9-Dm-5Kz" secondAttribute="centerY" id="3Ni-m7-HAi"/>
-                            <constraint firstItem="e3e-Tu-cpu" firstAttribute="leading" secondItem="nm9-Dm-5Kz" secondAttribute="leading" constant="8" id="8I3-4L-Afx"/>
-                            <constraint firstAttribute="bottom" secondItem="e3e-Tu-cpu" secondAttribute="bottom" constant="9" id="CBy-gG-PD1"/>
-                            <constraint firstAttribute="trailing" secondItem="e3e-Tu-cpu" secondAttribute="trailing" constant="8" id="RLE-VV-GQa"/>
-                            <constraint firstItem="e3e-Tu-cpu" firstAttribute="top" secondItem="nm9-Dm-5Kz" secondAttribute="top" constant="9" id="lGC-Rz-RCi"/>
-                            <constraint firstItem="f73-H2-rrU" firstAttribute="leading" secondItem="e3e-Tu-cpu" secondAttribute="trailing" constant="-29" id="rKe-3E-vNK"/>
+                            <constraint firstItem="f73-H2-rrU" firstAttribute="centerY" secondItem="e3e-Tu-cpu" secondAttribute="centerY" id="UcZ-Kd-3wD"/>
+                            <constraint firstAttribute="trailing" secondItem="e3e-Tu-cpu" secondAttribute="trailing" constant="8" id="ZUr-oT-sPN"/>
+                            <constraint firstItem="e3e-Tu-cpu" firstAttribute="top" secondItem="nm9-Dm-5Kz" secondAttribute="top" constant="9" id="Zi0-9a-eTI"/>
+                            <constraint firstItem="f73-H2-rrU" firstAttribute="leading" secondItem="e3e-Tu-cpu" secondAttribute="trailing" constant="-29" id="exf-7E-cJb"/>
+                            <constraint firstItem="e3e-Tu-cpu" firstAttribute="leading" secondItem="nm9-Dm-5Kz" secondAttribute="leading" constant="8" id="mLm-p8-rFu"/>
                         </constraints>
                     </view>
                 </subviews>

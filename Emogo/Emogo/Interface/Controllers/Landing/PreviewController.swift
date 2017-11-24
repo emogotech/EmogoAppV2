@@ -20,25 +20,17 @@ class PreviewController: UIViewController {
     @IBOutlet weak var previewCollection: UICollectionView!
     @IBOutlet weak var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet weak var btnPlayIcon: UIButton!
+    @IBOutlet weak var kWidthOptions: NSLayoutConstraint!
+    @IBOutlet weak var viewOptions: UIView!
+    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var btnDelete: UIButton!
 
     // MARK: - Variables
 
     var isPreviewOpen:Bool! = false
-    var imagesPreview:[CameraDAO]!
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
     
-    let defaultFooterSize: CGFloat = 63.0
-    let FooterSectionIndex: Int = 0
-
-    
-    var shouldHideFooter: Bool = false {
-        didSet {
-            self.previewCollection?.collectionViewLayout.invalidateLayout()
-        }
-    }
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +39,10 @@ class PreviewController: UIViewController {
 
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+         self.preparePreview(index: 0)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -57,15 +53,20 @@ class PreviewController: UIViewController {
     func prepareLayouts(){
         // Preview Height
         kPreviewHeight.constant = 129.0
-        self.preparePreview(index: 0)
+        kWidthOptions.constant = 0.0
+        viewOptions.isHidden = true
+        // Preview Footer
         self.previewCollection.reloadData()
     }
+   
+    
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
         self.selectedIndex = index
-        let obj = self.imagesPreview[index]
+       
+        let obj = Gallery.sharedInstance.Images[index]
         self.imgPreview.image = obj.imgPreview
         if obj.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -78,19 +79,25 @@ class PreviewController: UIViewController {
         if !obj.description.isEmpty {
             self.txtDescription.text = obj.description.trim()
         }
+        
+        self.imgPreview.image = obj.imgPreview.resizedImage(withMaximumSize: CGSize(width: self.imgPreview.frame.width * 2.0, height: self.imgPreview.frame.height * 2.0))
     }
     
+    
+    func hideControls(isHide:Bool) {
+        
+    }
     
     // MARK: -  Action Methods And Selector
 
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.navigationController?.pop()
+        self.navigationController?.popNormal()
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
-        if self.imagesPreview.count != 0 {
-            let obj = self.imagesPreview[selectedIndex]
+        if  Gallery.sharedInstance.Images.count != 0 {
+            let obj =  Gallery.sharedInstance.Images[selectedIndex]
             if obj.type == .image {
                 self.openEditor(image:obj.imgPreview)
             }
@@ -112,15 +119,18 @@ class PreviewController: UIViewController {
     @IBAction func btnPlayAction(_ sender: Any) {
     }
     @IBAction func btnDeleteAction(_ sender: Any) {
-        if self.imagesPreview.count != 0 {
-            self.imagesPreview.remove(at: self.selectedIndex)
-            if self.imagesPreview.count != 0 {
+        if Gallery.sharedInstance.Images.count != 0 {
+            Gallery.sharedInstance.Images.remove(at: self.selectedIndex)
+            if Gallery.sharedInstance.Images.count != 0 {
                 self.preparePreview(index: 0)
             }else{
                 self.navigationController?.pop()
             }
             self.previewCollection.reloadData()
         }
+    }
+    @objc func playIconTapped(sender:UIButton) {
+        self.preparePreview(index: sender.tag)
     }
     
     // MARK: - Class Methods
@@ -130,7 +140,6 @@ class PreviewController: UIViewController {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
-                
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
             }else {
@@ -138,18 +147,12 @@ class PreviewController: UIViewController {
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             }
-            self.imgPreview.contentMode = .scaleAspectFit
             self.view.updateConstraintsIfNeeded()
+            print(self.imgPreview.bounds)
+            self.imgPreview.image = Gallery.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
         }
     }
-    private  func viewUP(){
-        UIView.animate(withDuration: 0.5) {
-            self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-            self.kPreviewHeight.constant = 129.0
-            self.imgPreview.contentMode = .scaleAspectFit
-            self.view.updateConstraintsIfNeeded()
-        }
-    }
+   
     
     private func openEditor(image:UIImage){
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
@@ -163,11 +166,11 @@ class PreviewController: UIViewController {
     }
     
     func setPreviewContent(title:String, description:String) {
-        if self.imagesPreview.count != 0 {
-            let obj = self.imagesPreview[selectedIndex]
+        if Gallery.sharedInstance.Images.count != 0 {
+            let obj = Gallery.sharedInstance.Images[selectedIndex]
             obj.title = title
             obj.description = description
-            self.imagesPreview[selectedIndex] = obj
+            Gallery.sharedInstance.Images[selectedIndex] = obj
         }
     }
     /*
@@ -186,14 +189,16 @@ class PreviewController: UIViewController {
 extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imagesPreview.count
+        return Gallery.sharedInstance.Images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj = self.imagesPreview[indexPath.row]
+        let obj = Gallery.sharedInstance.Images[indexPath.row]
         cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
+        cell.playIcon.tag = indexPath.row
+        cell.playIcon.addTarget(self, action: #selector(self.playIconTapped(sender:)), for: .touchUpInside)
         return cell
         
     }
@@ -207,23 +212,14 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         self.preparePreview(index: indexPath.row)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        
-        if self.shouldHideFooter && section == self.FooterSectionIndex {
-            return CGSize(width: defaultFooterSize, height: collectionView.bounds.height )
-        }
-        else {
-            return CGSize(width: defaultFooterSize, height: collectionView.bounds.height)
-        }
-    }
 }
 
 extension PreviewController:PhotoEditorDelegate
 {
     func doneEditing(image: UIImage) {
         // the edited image
-        let camera = CameraDAO(type: .image, image: image)
-        self.imagesPreview[selectedIndex] = camera
+        let camera = ImageDAO(type: .image, image: image)
+        Gallery.sharedInstance.Images[selectedIndex] = camera
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
     }

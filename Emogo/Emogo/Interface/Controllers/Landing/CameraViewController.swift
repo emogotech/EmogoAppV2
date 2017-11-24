@@ -35,7 +35,6 @@ class CameraViewController: SwiftyCamViewController {
     var isPreviewOpen:Bool! = false
     var isFlashClicked:Bool! = false
     var isCaptureMode: Bool! = true
-    var arrayPreview = [CameraDAO]()
     var timer:Timer!
     var timeSec = 0
 
@@ -51,15 +50,14 @@ class CameraViewController: SwiftyCamViewController {
         
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        self.previewCollection.reloadData()
+
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
+   
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -70,6 +68,7 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Prepare Layouts
 
     func prepareLayouts(){
+        Gallery.sharedInstance.Images.removeAll()
         cameraDelegate = self
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true
@@ -149,10 +148,9 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
-        if self.arrayPreview.count != 0 {
+        if Gallery.sharedInstance.Images.count != 0 {
             let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            objPreview.imagesPreview = self.arrayPreview
-            self.navigationController?.push(viewController: objPreview)
+            self.navigationController?.pushNormal(viewController: objPreview)
         }
     }
     
@@ -194,20 +192,20 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Class Methods
     
     func preparePreview(assets:[DKAsset]){
-        if arrayPreview.count == 0  && assets.count != 0 {
+        if Gallery.sharedInstance.Images.count == 0  && assets.count != 0 {
             self.viewUP()
         }
         let group = DispatchGroup()
         for obj in assets {
             group.enter()
             obj.fetchOriginalImageWithCompleteBlock({ (image, info) in
-                var camera:CameraDAO!
+                var camera:ImageDAO!
                 if obj.isVideo == true {
-                    camera  = CameraDAO(type: .video, image: image!)
+                    camera  = ImageDAO(type: .video, image: image!)
                 }else {
-                    camera  = CameraDAO(type: .image, image: image!)
+                    camera  = ImageDAO(type: .image, image: image!)
                 }
-                self.arrayPreview.append(camera)
+                Gallery.sharedInstance.Images.append(camera)
                 group.leave()
             })
            
@@ -269,11 +267,11 @@ class CameraViewController: SwiftyCamViewController {
 extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        let camera = CameraDAO(type: .image, image: photo)
-        if arrayPreview.count == 0 {
+        let camera = ImageDAO(type: .image, image: photo)
+        if Gallery.sharedInstance.Images.count == 0 {
             self.viewUP()
         }
-        self.arrayPreview.insert(camera, at: 0)
+        Gallery.sharedInstance.Images.insert(camera, at: 0)
         self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
     }
@@ -295,11 +293,11 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
-            let camera = CameraDAO(type: .video, image: image)
-            if arrayPreview.count == 0 {
+            let camera = ImageDAO(type: .video, image: image)
+            if Gallery.sharedInstance.Images.count == 0 {
                 self.viewUP()
             }
-            self.arrayPreview.insert(camera, at: 0)
+            Gallery.sharedInstance.Images.insert(camera, at: 0)
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
         }
@@ -327,13 +325,13 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
 
 extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrayPreview.count
+        return Gallery.sharedInstance.Images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj = self.arrayPreview[indexPath.row]
+        let obj = Gallery.sharedInstance.Images[indexPath.row]
         cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
         return cell
         

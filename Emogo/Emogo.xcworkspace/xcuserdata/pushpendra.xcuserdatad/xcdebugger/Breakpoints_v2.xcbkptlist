@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/Core/SharedData.swift"
-            timestampString = "533209343.257104"
+            timestampString = "533221720.20068"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
@@ -48,38 +48,6 @@
             startingLineNumber = "31"
             endingLineNumber = "31"
             landmarkName = "apiForUserNameVerify(userName:completionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/CameraViewController.swift"
-            timestampString = "533209343.257252"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "swiftyCam(_:didFinishRecordingVideo:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/CameraViewController.swift"
-            timestampString = "533209343.257716"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "btnActionCamera(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -161,54 +129,6 @@
             endingLineNumber = "121"
             landmarkName = "colorShowButtonPressed(_:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Utils/APIManager/APIManager.swift"
-            timestampString = "533209343.258335"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
-            landmarkName = "getCountryCode(completionHandler:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.APIManager.getCountryCode(completionHandler: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/APIManager.swift"
-                  timestampString = "533199201.019128"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "194"
-                  endingLineNumber = "194"
-                  offsetFromSymbolStart = "36">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Any&gt;) -&gt; () in Emogo.APIManager.getCountryCode(completionHandler: (Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/APIManager.swift"
-                  timestampString = "533199201.022487"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "195"
-                  endingLineNumber = "195"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

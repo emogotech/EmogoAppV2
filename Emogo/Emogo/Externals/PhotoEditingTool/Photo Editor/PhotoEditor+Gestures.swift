@@ -18,6 +18,8 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      Selecting transparent parts of the imageview won't move the object
      */
  @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
+    print("panGesture")
+
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
@@ -45,6 +47,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      If it's a UITextView will make the font bigger so it doen't look pixlated
      */
   @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
+    print("pinch")
         if let view = recognizer.view {
             if view is UITextView {
                 let textView = view as! UITextView
@@ -162,7 +165,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      */
 
     func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
-        
+      
         hideToolbar(hide: true)
         deleteView.isHidden = false
         
@@ -216,6 +219,10 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 })
                 
             }
+        }
+        
+        if isTyping == true {
+            hideToolbar(hide: true)
         }
     }
     

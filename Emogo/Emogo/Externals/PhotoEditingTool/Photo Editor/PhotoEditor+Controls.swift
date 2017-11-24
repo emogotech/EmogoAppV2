@@ -200,15 +200,18 @@ extension PhotoEditorViewController {
         hideToolbar(hide: false)
         isDrawing = false
         self.colorsCollectionView.isHidden = true
+        self.pencilView.isHidden = true
+        self.isPencilSelected = false
+        self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
+        self.viewSlideInFromTopToBottom(views:self.pencilView)
     }
 
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
-        let alert = UIAlertController(title: "Image Saved", message: "Image successfully saved to Photos library", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        self.showToast(type: .error, strMSG: "Image successfully saved to Photos library")
     }
     
     func hideControls() {
+        
         for control in hiddenControls {
             switch control {
                 

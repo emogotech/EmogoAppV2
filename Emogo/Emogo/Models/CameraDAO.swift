@@ -1,5 +1,5 @@
 //
-//  CameraDAO.swift
+//  ImageDAO.swift
 //  Emogo
 //
 //  Created by Pushpendra on 13/12/17.
@@ -9,7 +9,8 @@
 import Foundation
 import UIKit
 
-class CameraDAO {
+class ImageDAO {
+    
     var type:PreviewType!
     var imgPreview:UIImage!
     var title:String! = ""
@@ -19,4 +20,23 @@ class CameraDAO {
         self.type = type
         self.imgPreview = image
     }
+}
+
+
+class Gallery{
+    
+    var Images:[ImageDAO]!
+    
+    class var sharedInstance: Gallery {
+        struct Static {
+            static let instance: Gallery = Gallery()
+        }
+        return Static.instance
+    }
+    
+    init() {
+        Images = [ImageDAO]()
+    }
+       
+    
 }
