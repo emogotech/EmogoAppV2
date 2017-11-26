@@ -95,7 +95,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-750" y="93"/>
+            <point key="canvasLocation" x="-774" y="52"/>
         </scene>
         <!--Sign Up Name View Controller-->
         <scene sceneID="sa7-sb-NJI">
@@ -112,7 +112,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a user name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fv0-17-sKu">
-                                        <rect key="frame" x="87.5" y="10" width="148" height="34"/>
+                                        <rect key="frame" x="93" y="10" width="137" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="SJY-9T-5xJ"/>
                                         </constraints>
@@ -216,7 +216,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-Np-IyY">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
+                                        <rect key="frame" x="93.5" y="10" width="134.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="Ivi-VH-I3l"/>
                                         </constraints>
@@ -308,7 +308,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kcs-sU-vUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="986.25" y="92.957746478873247"/>
+            <point key="canvasLocation" x="1103" y="93"/>
         </scene>
         <!--Sign Up Verify View Controller-->
         <scene sceneID="SrE-SR-N8Q">
@@ -421,7 +421,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Pa-3B-jte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1785" y="94"/>
+            <point key="canvasLocation" x="1984" y="93"/>
         </scene>
         <!--Sign Up Selected View Controller-->
         <scene sceneID="crR-Na-XJL">
@@ -438,7 +438,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="89.5" y="10" width="141" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -448,7 +448,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What would you Like to Do Next?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJ8-wh-xyE">
-                                        <rect key="frame" x="40.5" y="29" width="240" height="18"/>
+                                        <rect key="frame" x="45.5" y="29" width="230" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="KUI-ME-HWq"/>
                                             <constraint firstAttribute="height" constant="18" id="T7R-LN-yMt"/>
@@ -513,7 +513,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vK4-TV-wYU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2522" y="93"/>
+            <point key="canvasLocation" x="2837" y="93"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="hS3-dm-L5E">
@@ -530,7 +530,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
+                                        <rect key="frame" x="93.5" y="10" width="134.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="7Rs-DU-S5E"/>
                                         </constraints>
@@ -625,7 +625,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7a-bU-Cwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="276" y="948"/>
+            <point key="canvasLocation" x="71" y="1061"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="imd-C7-NIW">
@@ -649,7 +649,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQr-0I-T8n">
-                                        <rect key="frame" x="15" y="7" width="66" height="28"/>
+                                        <rect key="frame" x="15" y="7" width="64" height="28"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
                                         <state key="normal" title="FEATURED">
                                             <color key="titleColor" red="0.0" green="0.5607843137254902" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -885,7 +885,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
             </objects>
-            <point key="canvasLocation" x="1387.5" y="859.85915492957747"/>
+            <point key="canvasLocation" x="1883" y="1093"/>
         </scene>
         <!--Home Detailed View Controller-->
         <scene sceneID="fnr-IV-7MP">
@@ -902,7 +902,6 @@
                                         <rect key="frame" x="115" y="11" width="91" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="og7-Bb-3nU"/>
-                                            <constraint firstAttribute="width" constant="91" id="qgE-Iy-QaQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -1037,7 +1036,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k4e-dR-xZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2017.5" y="859.85915492957747"/>
+            <point key="canvasLocation" x="2747" y="1094"/>
         </scene>
     </scenes>
     <resources>
@@ -1061,7 +1060,7 @@
         <image name="view-icon" width="15" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0JJ-eD-H3B"/>
+        <segue reference="A1q-kX-4z3"/>
         <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>
