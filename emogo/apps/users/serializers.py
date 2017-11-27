@@ -99,7 +99,7 @@ class UserOtpSerializer(UserProfileSerializer):
         try:
             self.instance = UserProfile.objects.get(otp=value, user__username=self.initial_data.get('phone_number'))
         except UserProfile.DoesNotExist:
-            raise serializers.ValidationError(messages.MSG_INVALID_OTP_OR_PHONE)
+            raise serializers.ValidationError(messages.MSG_INVALID_OTP)
         return value
 
     def validate_phone_number(self, value):
@@ -134,7 +134,7 @@ class UserLoginSerializer(UserSerializer):
             user.auth_token.delete()
             Token.objects.create(user=user)
         except UserProfile.DoesNotExist:
-            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+            raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
 
 
