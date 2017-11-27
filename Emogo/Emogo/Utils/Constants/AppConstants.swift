@@ -21,11 +21,14 @@ let kDefault                             = UserDefaults.standard
 let kStoryboardMain                      = UIStoryboard(name: "Main", bundle: nil)
 let kPhoneFormat                         = "##########"
 
+let kNavigationColor = UIColor(red: 247.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+
 // MARK: -  FONT'S
-let kFontRegular = "SF-Pro-Display-Regular"
-let kFontMedium = "SF-Pro-Display-Medium"
-let kFontLight = "SF-Pro-Display-Light"
-let kFontBold = "SF-Pro-Display-Bold"
+let kFontRegular = "SF Pro Display Regular"
+let kFontMedium = "SF Pro Display Medium"
+let kFontLight = "SF Pro Display Light"
+let kFontBold = "SF Pro Display Bold"
 
 // MARK: - Storyboard Identifier
 let kStoryboardID_SignUpView = "signUpView"
@@ -36,6 +39,8 @@ let kStoryboardID_WelcomeView = "welcomeView"
 let kStoryboardID_StreamListView = "streamListView"
 let kStoryboardID_CameraView = "cameraView"
 let kStoryboardID_PreView = "preView"
+let kStoryboardID_AddStreamView = "addStreamView"
+
 
 
 
@@ -53,6 +58,7 @@ let kFooter_Preview = "previewFooterView"
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"
 let kUserLogggedInData                  = "userloggedinData"
+let kaddBackgroundImage                 = "menuBackGround"
 
 // MARK: - Notification Observer Identifier
 
@@ -67,7 +73,7 @@ let kPleaseEnterNameMsg                 = "Please Enter User Name."
 let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 digits."
 let kAlertVerificationLengthMsg         = "Verification Code must be 5 digits."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg            = "User Name Should be minimum 3 characters."
+let kAlertInvalidUserNameMsg            = "User Name limit is maximum 30 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
 
@@ -107,7 +113,7 @@ let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
 let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages
-let iMsgError_NameMsg                           = "Please enter the name and minimum three characters."
+let iMsgError_NameMsg                           = "User Name limit is maximum 30 characters."
 let iMsgError_CodeMsg                           = "Please enter 4 digit code."
 let iMsgError_Mobile                            = "Please enter mobile number."
 let iMsgError_Name                              = "Please enter the name."

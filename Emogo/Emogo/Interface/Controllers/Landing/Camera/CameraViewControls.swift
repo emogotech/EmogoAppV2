@@ -6,8 +6,12 @@
 //  Copyright © 2017 Vikas Goyal. All rights reserved.
 //
 
+
 import Foundation
 import UIKit
+
+
+// MARK: - ENUM'S
 
 enum FlashOptions:String {
     case on = "flash_yellow_icon"
@@ -24,20 +28,22 @@ enum CameraAction:String {
 }
 
 
+
 extension CameraViewController {
     
     
+    // MARK: - TIMER FUNCTIONALITY
+    
+    // MARK: - schedule timer
+
    func captreIn(time:Int) {
         timeSec = time
         self.lblRecordTimer.isHidden = false
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CameraViewController.countDown)), userInfo: nil, repeats: true)
     }
     
-    @objc func updateRecordingTime(){
-        timeSec += 1
-        lblRecordTimer.text = timeString(time: TimeInterval(timeSec),inSeconds: false)
-    }
-    
+    // MARK: - Show CountDown
+
     @objc func countDown(){
         self.viewFlashOptions.isHidden = true
         if timeSec < 1 {
@@ -53,17 +59,30 @@ extension CameraViewController {
         }
     }
     
-    func timeString(time:TimeInterval, inSeconds:Bool) -> String {
-        let hours = Int(time) / 3600
-        let minutes = Int(time) / 60 % 60
-        let seconds = Int(time) % 60
-        if inSeconds == true {
-            return String(format:"%02i", seconds)
-        }else {
-            return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
+    
+    // MARK: - RECORDING FUNCTIONALITY
+    
+    // MARK: - Perform  camera Actions
+
+    func performCamera(action:CameraAction) {
+        switch action {
+        case .capture:
+            takePhoto()
+            break
+        case .record:
+            print("prepare for record")
+            break
+        case .stop:
+            stopVideoRecording()
+            break
+        case .recording:
+            startVideoRecording()
+            break
         }
     }
     
+    // MARK: - Record Button Status
+
     func recordButtonTapped(isShow:Bool){
         isCaptureMode = false
         self.btnGallery.isHidden = isShow
@@ -73,11 +92,14 @@ extension CameraViewController {
         if isShow == true {
             self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
         }else {
-           self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
+            self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
             isCaptureMode = true
         }
     }
-     func updateButtonStatus(isEnable:Bool) {
+    
+    // MARK: -  Update Buttons
+
+    func updateButtonStatus(isEnable:Bool) {
         self.btnCamera.isUserInteractionEnabled = isEnable
         self.btnGallery.isUserInteractionEnabled = isEnable
         self.btnRecording.isUserInteractionEnabled = isEnable
@@ -86,6 +108,16 @@ extension CameraViewController {
     }
     
     
+    // MARK: -  Update Record time
+
+    @objc func updateRecordingTime(){
+        timeSec += 1
+        lblRecordTimer.text = timeString(time: TimeInterval(timeSec),inSeconds: false)
+    }
+    
+  
+    // MARK: - FLASH FUNCTIONALITY
+   
     func flashOption(options:FlashOptions){
         
         switch options {
@@ -118,20 +150,17 @@ extension CameraViewController {
         self.isFlashClicked = false
     }
     
-    func performCamera(action:CameraAction) {
-        switch action {
-        case .capture:
-            takePhoto()
-            break
-        case .record:
-            print("prepare for record")
-            break
-        case .stop:
-            stopVideoRecording()
-            break
-        case .recording:
-            startVideoRecording()
-            break
+    
+    // MARK: -  Convert Time
+    
+    func timeString(time:TimeInterval, inSeconds:Bool) -> String {
+        let hours = Int(time) / 3600
+        let minutes = Int(time) / 60 % 60
+        let seconds = Int(time) % 60
+        if inSeconds == true {
+            return String(format:"%02i", seconds)
+        }else {
+            return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
         }
     }
 }

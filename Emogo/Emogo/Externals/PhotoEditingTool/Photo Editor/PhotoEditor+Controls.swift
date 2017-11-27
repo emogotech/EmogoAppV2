@@ -113,11 +113,11 @@ extension PhotoEditorViewController {
         if self.isPencilSelected {
             self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon"), for: .normal)
             self.pencilView.isHidden = false
-            self.viewSlideInFromBottomToTop(views:self.pencilView)
+            Animation.viewSlideInFromBottomToTop(views:self.pencilView)
         }else {
             self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
             self.pencilView.isHidden = true
-            self.viewSlideInFromTopToBottom(views:self.pencilView)
+            Animation.viewSlideInFromTopToBottom(views:self.pencilView)
         }
     }
     @IBAction func colorShowButtonPressed(_ sender: Any) {
@@ -126,19 +126,19 @@ extension PhotoEditorViewController {
             let image = UIImage(named: "color_bucket_icon")
             self.colorButton.setImage(image, for: .normal)
             self.colorsCollectionView.isHidden = false
-            self.viewSlideInFromRightToLeft(view:self.colorsCollectionView)
+            Animation.viewSlideInFromRightToLeft(view:self.colorsCollectionView)
         }else {
             let image = UIImage(named: "color_bucket_icon_unactive")
             self.colorButton.setImage(image, for: .normal)
             self.colorsCollectionView.isHidden = true
-            self.viewSlideInFromLeftToRight(view:self.colorsCollectionView)
+            Animation.viewSlideInFromLeftToRight(view:self.colorsCollectionView)
         }
     }
     @IBAction func btnPencilSelectedPressed(_ sender: UIButton) {
         self.pencilView.isHidden = true
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
-        self.viewSlideInFromTopToBottom(views:self.pencilView)
+        Animation.viewSlideInFromTopToBottom(views:self.pencilView)
         switch sender.tag {
         case 11:
             self.drawWidth = 5.0
@@ -155,43 +155,6 @@ extension PhotoEditorViewController {
     }
     //MAKR: helper methods
     
-     func viewSlideInFromRightToLeft(view: UICollectionView) {
-        var transition: CATransition? = nil
-        transition = CATransition()
-        transition!.duration = 0.5
-        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition!.type = kCATransitionPush
-        transition!.subtype = kCATransitionFromRight
-        view.layer.add(transition!, forKey: nil)
-    }
-     func viewSlideInFromLeftToRight(view: UICollectionView) {
-        var transition: CATransition? = nil
-        transition = CATransition()
-        transition!.duration = 0.5
-        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition!.type = kCATransitionPush
-        transition!.subtype = kCATransitionFromLeft
-        view.layer.add(transition!, forKey: nil)
-    }
-    
-     func viewSlideInFromTopToBottom(views: UIView) {
-        var transition: CATransition? = nil
-        transition = CATransition()
-        transition!.duration = 0.5
-        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition!.type = kCATransitionPush
-        transition!.subtype = kCATransitionFromTop
-        views.layer.add(transition!, forKey: nil)
-    }
-     func viewSlideInFromBottomToTop(views: UIView) {
-        var transition: CATransition? = nil
-        transition = CATransition()
-        transition!.duration = 0.5
-        transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        transition!.type = kCATransitionPush
-        transition!.subtype = kCATransitionFromBottom
-        views.layer.add(transition!, forKey: nil)
-    }
     func doneButtonAction(){
         view.endEditing(true)
         doneButton.isHidden = true
@@ -203,7 +166,7 @@ extension PhotoEditorViewController {
         self.pencilView.isHidden = true
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
-        self.viewSlideInFromTopToBottom(views:self.pencilView)
+        Animation.viewSlideInFromTopToBottom(views:self.pencilView)
     }
 
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {

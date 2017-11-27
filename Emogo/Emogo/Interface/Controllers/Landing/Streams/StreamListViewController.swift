@@ -12,11 +12,26 @@ class StreamListViewController: UIViewController {
 
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
-    
+    @IBOutlet weak var viewMenu: UIView!
+    @IBOutlet weak var menuView: FSPagerView! {
+        didSet {
+            self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
+            menuView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
+            menuView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
+            menuView.currentIndex = 3
+            menuView.itemSize = CGSize(width: 130, height: 130)
+            menuView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
+            menuView.delegate = self
+            menuView.dataSource = self
+            menuView.isHidden = true
+        }
+    }
     // Varibales
      var arrayStreams = [StreamDAO]()
     private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
-
+    var menu = MenuDAO()
+    
+    
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -29,9 +44,17 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+      self.prepareLayoutForApper()
+    }
+    
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        
         // Attach datasource and delegate
+        
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
         
@@ -47,8 +70,17 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
 
         self.prepareDummyData()
+
     }
+    // MARK: - Prepare Layouts When View Appear
     
+    func prepareLayoutForApper(){
+        self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+        menuView.isAddBackground = false
+        menuView.isAddTitle = true
+        self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
+
+    }
     
     // MARK: -  Action Methods And Selector
     
@@ -66,6 +98,16 @@ class StreamListViewController: UIViewController {
     }
 
     
+    @IBAction func btnActionAdd(_ sender: Any) {
+        self.actionForAddStream()
+    }
+    
+    @IBAction func btnActionOpenMenu(_ sender: Any) {
+        self.viewMenu.isHidden = true
+        Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+        self.menuView.isHidden = false
+        Animation.viewSlideInFromBottomToTop(views:self.menuView)
+    }
 
     // MARK: - Class Methods
 

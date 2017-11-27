@@ -20,7 +20,6 @@ target 'Emogo' do
     # Pods for Emogo
     common_pods_for_target
     pod 'IQKeyboardManagerSwift'
-    pod 'CRNotifications'
     pod "SwiftyCam"
     pod 'DKImagePickerController'
 

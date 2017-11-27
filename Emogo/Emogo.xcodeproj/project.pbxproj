@@ -138,6 +138,11 @@
 		F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */; };
 		F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */; };
 		F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
+		F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522C9D1FCBF8B40021562D /* MenuDAO.swift */; };
+		F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */; };
+		F4522CA41FCC1AA50021562D /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA31FCC1AA50021562D /* Animation.swift */; };
+		F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */; };
+		F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA71FCC46D20021562D /* PMSwitch.swift */; };
 		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
@@ -333,6 +338,11 @@
 		F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
 		F4431AB21FC7044D00311C9A /* ASToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASToast.swift; sourceTree = "<group>"; };
+		F4522C9D1FCBF8B40021562D /* MenuDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDAO.swift; sourceTree = "<group>"; };
+		F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleMenuControls.swift; sourceTree = "<group>"; };
+		F4522CA31FCC1AA50021562D /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
+		F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStreamViewController.swift; sourceTree = "<group>"; };
+		F4522CA71FCC46D20021562D /* PMSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMSwitch.swift; sourceTree = "<group>"; };
 		F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
 		F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
@@ -631,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				33BCB0391FBB353E004FF634 /* SharedData.swift */,
+				F4522CA31FCC1AA50021562D /* Animation.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -674,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				33BCB0401FBB353E004FF634 /* PMButton.swift */,
+				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
 			);
 			path = "Custom UI";
 			sourceTree = "<group>";
@@ -785,10 +797,8 @@
 		F4148A101FBD770900081900 /* Landing */ = {
 			isa = PBXGroup;
 			children = (
-				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
-				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
-				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
-				F42864311FC4A12500E3549D /* PreviewController.swift */,
+				F4522CA01FCBFBF90021562D /* Camera */,
+				F4522C9F1FCBFBE60021562D /* Streams */,
 			);
 			path = Landing;
 			sourceTree = "<group>";
@@ -904,12 +914,33 @@
 			path = Toast;
 			sourceTree = "<group>";
 		};
+		F4522C9F1FCBFBE60021562D /* Streams */ = {
+			isa = PBXGroup;
+			children = (
+				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
+				F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */,
+				F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */,
+			);
+			path = Streams;
+			sourceTree = "<group>";
+		};
+		F4522CA01FCBFBF90021562D /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
+				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
+				F42864311FC4A12500E3549D /* PreviewController.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		F45A78751FBC67A0003FD6AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				F45A78761FBC68E1003FD6AB /* User */,
 				F4148A221FBD7DAA00081900 /* StreamDAO.swift */,
 				F42864371FC4A8C900E3549D /* CameraDAO.swift */,
+				F4522C9D1FCBF8B40021562D /* MenuDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1281,22 +1312,22 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CRNotifications/CRNotifications.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/CRNotifications/CRNotifications.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRNotifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRNotifications.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1313,22 +1344,22 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CRNotifications/CRNotifications.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/CRNotifications/CRNotifications.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRNotifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRNotifications.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1426,7 +1457,6 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CRNotifications/CRNotifications.framework",
 				"${BUILT_PRODUCTS_DIR}/DKImagePickerController/DKImagePickerController.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
@@ -1439,7 +1469,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CRNotifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DKImagePickerController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -1547,6 +1576,8 @@
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
+				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
+				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4431A931FC6DD2C00311C9A /* CropViewController.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
@@ -1555,8 +1586,11 @@
 				F4431AA91FC6DD2C00311C9A /* StickerCollectionViewCell.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				F4431A971FC6DD2C00311C9A /* GradientView.swift in Sources */,
+				F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */,
+				F4522CA41FCC1AA50021562D /* Animation.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
+				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */,
 				F4431AA31FC6DD2C00311C9A /* PhotoEditor+StickersViewController.swift in Sources */,

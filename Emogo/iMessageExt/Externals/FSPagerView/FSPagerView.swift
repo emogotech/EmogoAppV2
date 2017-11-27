@@ -87,7 +87,6 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
 
     @IBOutlet open weak var dataSource: FSPagerViewDataSource?
     @IBOutlet open weak var delegate: FSPagerViewDelegate?
-    
     open  var lblCurrentType : UILabel!
     /// The scroll direction of the pager view. Default is horizontal.
     open var scrollDirection: FSPagerViewScrollDirection = .horizontal {
@@ -96,6 +95,17 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         }
     }
     
+    open var isAddBackground: Bool = true {
+        didSet {
+            self.configurebackGround()
+        }
+    }
+    
+    open var isAddTitle: Bool = true {
+        didSet {
+            self.configureTitleLabel()
+        }
+    }
     /// The time interval of automatic sliding. 0 means disabling automatic sliding. Default is 0.
     @IBInspectable
     open var automaticSlidingInterval: CGFloat = 0.0 {
@@ -524,20 +534,13 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     fileprivate func commonInit() {
         
         // Content View
-        
-      
-        
-        let imgView = UIImageView.init(frame: CGRect(x: self.frame.origin.x, y: -25, width: self.frame.size.width, height: self.frame.size.height+25))
-        imgView.image = #imageLiteral(resourceName: "bottomPager")
-        imgView.contentMode = .scaleAspectFill
-        self.addSubview(imgView)
+       // self.configurebackGround()
         
         let contentView = UIView(frame:CGRect.zero)
         contentView.backgroundColor = UIColor.clear
         self.addSubview(contentView)
         self.contentView = contentView
         
-      
         
         // UICollectionView
         let collectionViewLayout = FSPagerViewLayout()
@@ -549,13 +552,36 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         self.collectionView = collectionView
         self.collectionViewLayout = collectionViewLayout
         
-         self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
-        lblCurrentType.text = "Feature"
+    }
+    
+    func configureTitleLabel(){
+        self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
+        if self.isAddTitle == true {
+            lblCurrentType.text = "Add"
+        }else {
+            lblCurrentType.text = "Feature"
+        }
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center
         lblCurrentType.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         self.addSubview(lblCurrentType)
+    }
+    
+    func configurebackGround(){
         
+        let imgView = UIImageView.init(frame: CGRect(x: self.frame.origin.x, y: -25, width: self.frame.size.width, height: self.frame.size.height+25))
+        imgView.contentMode = .scaleAspectFill
+        imgView.tag = 999898
+        if self.viewWithTag(999898) != nil {
+            imgView.removeFromSuperview()
+        }
+        if self.isAddBackground == false {
+            imgView.image = nil
+            imgView.isHidden = true
+        }else {
+            imgView.image = #imageLiteral(resourceName: "bottomPager")
+            self.addSubview(imgView)
+        }
     }
     
     fileprivate func startTimer() {

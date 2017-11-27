@@ -127,6 +127,9 @@ class SharedData: NSObject {
             pagerView.delegate = controller as? FSPagerViewDelegate
             pagerView.dataSource = controller as? FSPagerViewDataSource
             pagerView.isHidden = true
+            pagerView.isAddBackground = true
+            pagerView.isAddTitle = false
+
     }
     
     func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {

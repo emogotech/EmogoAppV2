@@ -15,7 +15,7 @@ import QuartzCore
 extension UIColor {
     
     convenience init (r : CGFloat , g : CGFloat , b : CGFloat ) {
-        self.init(red: r / 255 , green: g / 255 , blue: b / 255 , alpha: 1.0)
+        self.init(red: r / 255.0 , green: g / 255.0 , blue: b / 255.0 , alpha: 1.0)
     }
     
 }
@@ -218,6 +218,28 @@ extension UIViewController {
         self.navigationItem.titleView = btnHome
     }
     
+    func configureNavigationWithTitle(){
+//        var fontFamilies = UIFont.familyNames
+//        for i in 0..<fontFamilies.count {
+//            let fontFamily: String = fontFamilies[i]
+//            let fontNames = UIFont.fontNames(forFamilyName: fontFamilies[i])
+//            print("\(fontFamily): \(fontNames)")
+//        }
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+             myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+              myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        let img = UIImage(named: "back_icon")
+        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
+        self.navigationItem.leftBarButtonItem = btnback
+    }
     @objc func btnMyProfileAction(){
         
     }
@@ -226,6 +248,9 @@ extension UIViewController {
     }
     @objc func btnHomeAction(){
         
+    }
+    @objc func btnBackAction(){
+        self.navigationController?.pop()
     }
     
 }
@@ -253,7 +278,17 @@ extension UINavigationController {
      */
     func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.5) {
         self.addTransition(transitionType: type, duration: duration)
-        self.pushViewController(vc, animated: false)
+        var isPop:Bool! = false
+        for obj in self.viewControllers {
+            if obj == vc {
+                isPop = true
+                self.popToViewController(obj, animated: false)
+                break
+            }
+        }
+        if isPop == false {
+            self.pushViewController(vc, animated: false)
+        }
     }
     
     func flipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
