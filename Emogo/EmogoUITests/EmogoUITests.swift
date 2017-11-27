@@ -58,7 +58,7 @@ class EmogoUITests: XCTestCase {
                     txtPhone_SignUp.clearAndEnterText(text: "75757")
                 }
                 else if i == 6 {
-                    txtPhone_SignUp.clearAndEnterText(text: "9710795507")
+                    txtPhone_SignUp.clearAndEnterText(text: "7596802834")
                 }
                 btnCode_SignUp.tap()
             }
@@ -127,9 +127,8 @@ class EmogoUITests: XCTestCase {
         }
     }
     
-    func testSignIn(){
+    func testSignInHappyCase(){
         
-        let app = XCUIApplication()
         app.buttons["sign in btn"].tap()
         
         let txtPhone = app.textFields["Please enter phone number"]
@@ -138,6 +137,28 @@ class EmogoUITests: XCTestCase {
         
         let btnDone = app.buttons["done btn"]
         btnDone.tap()
+        sleep(3)
+    }
+    
+    func testSignIn(){
+        app.buttons["sign in btn"].tap()
+        
+        let txtPhone = app.textFields["Please enter phone number"]
+        let btnDone = app.buttons["done btn"]
+        txtPhone.tap()
+        
+        for i in 0...3{
+            if i == 0 {
+                txtPhone.clearAndEnterText(text: "123")
+            }else if i == 1 {
+                txtPhone.clearAndEnterText(text: "1 2 3")
+            }else if i == 2 {
+                txtPhone.clearAndEnterText(text: "ABC123")
+            }else{
+                txtPhone.clearAndEnterText(text: "7509820455")
+            }
+            btnDone.tap()
+        }
         sleep(3)
     }
         
