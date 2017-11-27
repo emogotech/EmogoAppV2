@@ -31,7 +31,7 @@
         <!--Messages View Controller-->
         <scene sceneID="7MM-of-jgj">
             <objects>
-                <viewController id="ObA-dk-sSI" customClass="MessagesViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MessagesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ObA-dk-sSI" customClass="MessagesViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zMn-AG-sqS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,7 +95,35 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-774" y="52"/>
+            <point key="canvasLocation" x="-750" y="93"/>
+        </scene>
+        <!--Startup View Controller-->
+        <scene sceneID="Uvy-Ln-UPh">
+            <objects>
+                <viewController id="PJ3-PQ-Dmk" customClass="StartupViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YcV-hY-azT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-image" translatesAutoresizingMaskIntoConstraints="NO" id="EXE-0y-5cR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="EXE-0y-5cR" firstAttribute="leading" secondItem="Oh8-eD-pmh" secondAttribute="leading" id="1Ov-4K-iiS"/>
+                            <constraint firstItem="EXE-0y-5cR" firstAttribute="top" secondItem="YcV-hY-azT" secondAttribute="top" id="bPI-6H-faC"/>
+                            <constraint firstItem="EXE-0y-5cR" firstAttribute="trailing" secondItem="Oh8-eD-pmh" secondAttribute="trailing" id="ip0-MR-PHh"/>
+                            <constraint firstItem="EXE-0y-5cR" firstAttribute="bottom" secondItem="Oh8-eD-pmh" secondAttribute="bottom" id="oLa-JD-j1E"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Oh8-eD-pmh"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="528"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4xI-qJ-NvL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1558" y="93"/>
         </scene>
         <!--Sign Up Name View Controller-->
         <scene sceneID="sa7-sb-NJI">
@@ -199,7 +227,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NOV-qI-LHH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="186" y="94"/>
+            <point key="canvasLocation" x="193" y="118"/>
         </scene>
         <!--Sign Up Mobile View Controller-->
         <scene sceneID="8SF-yL-ops">
@@ -308,7 +336,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kcs-sU-vUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1103" y="93"/>
+            <point key="canvasLocation" x="986.25" y="92.957746478873247"/>
         </scene>
         <!--Sign Up Verify View Controller-->
         <scene sceneID="SrE-SR-N8Q">
@@ -324,7 +352,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s4g-1O-hxs">
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 4 digit code." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bj-tb-DKW">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Bj-tb-DKW">
                                         <rect key="frame" x="53" y="10" width="215" height="19"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="215" id="nqu-Vb-ZFJ"/>
@@ -421,7 +449,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Pa-3B-jte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1984" y="93"/>
+            <point key="canvasLocation" x="1785" y="94"/>
         </scene>
         <!--Sign Up Selected View Controller-->
         <scene sceneID="crR-Na-XJL">
@@ -513,7 +541,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vK4-TV-wYU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2837" y="93"/>
+            <point key="canvasLocation" x="2522" y="93"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="hS3-dm-L5E">
@@ -625,7 +653,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7a-bU-Cwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="71" y="1061"/>
+            <point key="canvasLocation" x="276" y="948"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="imd-C7-NIW">
@@ -776,14 +804,14 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fMW-lg-n7J">
-                                                                    <rect key="frame" x="52" y="13" width="34" height="21"/>
+                                                                    <rect key="frame" x="38" y="13" width="34" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lqM-8m-jtU">
-                                                                    <rect key="frame" x="9" y="9" width="83" height="30"/>
+                                                                    <rect key="frame" x="14" y="9" width="66" height="30"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <state key="normal" image="share-icon"/>
                                                                 </button>
@@ -796,14 +824,14 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eN3-qB-ZU2">
-                                                                    <rect key="frame" x="44" y="63" width="42" height="21"/>
+                                                                    <rect key="frame" x="38" y="63" width="34" height="21"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1z-uR-n4L">
-                                                                    <rect key="frame" x="9" y="58" width="83" height="30"/>
+                                                                    <rect key="frame" x="14" y="58" width="65" height="30"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <state key="normal" image="view-icon"/>
                                                                 </button>
@@ -885,7 +913,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
             </objects>
-            <point key="canvasLocation" x="1883" y="1093"/>
+            <point key="canvasLocation" x="1387.5" y="859.85915492957747"/>
         </scene>
         <!--Home Detailed View Controller-->
         <scene sceneID="fnr-IV-7MP">
@@ -902,6 +930,7 @@
                                         <rect key="frame" x="110.5" y="11" width="100.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="og7-Bb-3nU"/>
+                                            <constraint firstAttribute="width" constant="91" id="qgE-Iy-QaQ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="15"/>
                                         <nil key="textColor"/>
@@ -1036,7 +1065,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k4e-dR-xZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2747" y="1094"/>
+            <point key="canvasLocation" x="2017.5" y="859.85915492957747"/>
         </scene>
     </scenes>
     <resources>
@@ -1060,7 +1089,7 @@
         <image name="view-icon" width="15" height="12"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="A1q-kX-4z3"/>
-        <segue reference="EwF-BA-GLV"/>
+        <segue reference="rWE-0e-NjR"/>
+        <segue reference="7X6-Js-wGB"/>
     </inferredMetricsTieBreakers>
 </document>

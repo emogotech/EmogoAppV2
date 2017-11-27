@@ -59,17 +59,17 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
             txtMobileNumber.shakeTextField()
         }
         else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: iMsgCharacterMinLength_MobileNumber)) {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertPhoneNumberLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+             self.showToastIMsg(type: .error, strMSG: kAlertPhoneNumberLengthMsg)
         }
         else {
-            self.txtMobileNumber.resignFirstResponder()
+            self.view.endEditing(true);
             self.userLogin()
         }
     }
     
     @IBAction func btnTapSignUp(_ sender : UIButton) {
+        self.view.endEditing(true);
+
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -135,16 +135,11 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
                     self.addTransitionAtPresentingControllerRight()
                 }
                 else {
-                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
         }else {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
 }

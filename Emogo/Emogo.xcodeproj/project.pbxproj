@@ -29,6 +29,7 @@
 		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */; };
 		331BCC471FC7FDD70009A8A8 /* HomeDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331BCC461FC7FDD70009A8A8 /* HomeDetailedViewController.swift */; };
+		332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
 		C71AEB264DE58044D1D8AEC5 /* Pods_ShareExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */; };
 		C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */; };
+		C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */; };
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
@@ -281,6 +283,7 @@
 		9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShareExt.release.xcconfig"; path = "Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt.release.xcconfig"; sourceTree = "<group>"; };
 		C0116CE7C51A614A0E9157D1 /* Pods-Emogo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.release.xcconfig"; sourceTree = "<group>"; };
 		C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCUITests.swift; sourceTree = "<group>"; };
+		C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewControllerTests.swift; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -466,6 +469,7 @@
 		335B1A251FBB238A006DA9D9 /* EmogoTests */ = {
 			isa = PBXGroup;
 			children = (
+				C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */,
 				F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */,
 				335B1A261FBB238A006DA9D9 /* EmogoTests.swift */,
 				335B1A281FBB238A006DA9D9 /* Info.plist */,
@@ -1609,6 +1613,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */,
+				C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */,
 				335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1641,6 +1646,7 @@
 				33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */,
 				330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
+				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
 				331BCC471FC7FDD70009A8A8 /* HomeDetailedViewController.swift in Sources */,

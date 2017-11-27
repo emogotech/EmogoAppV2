@@ -108,12 +108,8 @@ open class FSPagerViewCell: UICollectionViewCell {
         self.contentView.layer.shadowOpacity = 0.75
         self.contentView.layer.shadowOffset = .zero
         
-        print(contentView.frame)
     }
-    
-    
-    
-    
+        
     deinit {
         if let textLabel = _textLabel {
             textLabel.removeObserver(self, forKeyPath: "font", context: kvoContext)
