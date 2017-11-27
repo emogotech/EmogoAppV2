@@ -29,6 +29,7 @@
 		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB8A1FC459E100552260 /* HomeCollectionViewCell.swift */; };
 		331BCC471FC7FDD70009A8A8 /* HomeDetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331BCC461FC7FDD70009A8A8 /* HomeDetailedViewController.swift */; };
+		332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
@@ -1607,6 +1608,7 @@
 				33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */,
 				330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
+				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
 				331BCC471FC7FDD70009A8A8 /* HomeDetailedViewController.swift in Sources */,

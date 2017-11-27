@@ -10,7 +10,7 @@ import UIKit
 import Messages
 
 class HomeViewController: MSMessagesAppViewController {
-
+    
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
     @IBOutlet weak var searchView : UIView!
@@ -19,16 +19,35 @@ class HomeViewController: MSMessagesAppViewController {
     
     // Varibales
     var arrayStreams = [StreamDAO]()
+    var hudView: LoadingView!
+    var lastIndex : Int = 10
+    
+    
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","Peoples"]
-
+    
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         
-        prepareLayout()
+        setupLoader()
+        self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+    }
+    
+    // MARK:- LoaderSetup
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
     }
     
     @objc func requestMessageScreenChangeSize(){
@@ -38,18 +57,17 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func changeUI(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             SharedData.sharedInstance.showPager(controller: self)
-             btnFeature.tag = 1
+            btnFeature.tag = 1
         }else{
             SharedData.sharedInstance.hidePager(controller: self)
-             btnFeature.tag = 0
+            btnFeature.tag = 0
         }
     }
-
-    func prepareLayout() {
+    
+    
+    @objc func prepareLayout() {
         self.searchView.layer.cornerRadius = 15
         self.searchView.clipsToBounds = true
-       
-        prepareDummyData()
     }
     
     func prepareDummyData(){
@@ -65,6 +83,8 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
         layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2-15, height: 100)
@@ -74,27 +94,27 @@ class HomeViewController: MSMessagesAppViewController {
         
         collectionStream.delegate = self
         collectionStream.dataSource = self
+        self.prepareDummyData()
         
-        collectionStream.reloadData()
+        SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 260, width: self.view.frame.size.width, height: 220), controller: self)
         
-         SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 260, width: self.view.frame.size.width, height: 220), controller: self)
-
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             SharedData.sharedInstance.showPager(controller: self)
             btnFeature.tag = 1
         }
-
+        
+        hudView.stopLoaderWithAnimation()
     }
     
     // MARK:- Action methods
     @IBAction func btmnSearchAction(_ sender: UIButton){
-       self.searchText.resignFirstResponder()
+        self.searchText.resignFirstResponder()
         
     }
     
     @IBAction func btnFeaturedTap(_ sender: UIButton){
         if(btnFeature.tag == 1){
-              SharedData.sharedInstance.hidePager(controller: self)
+            SharedData.sharedInstance.hidePager(controller: self)
             btnFeature.tag = 0
         } else {
             if(SharedData.sharedInstance.isMessageWindowExpand) {
@@ -119,7 +139,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
     }
-   
+    
 }
 
 // MARK:- collection-view delegate methods
@@ -173,12 +193,21 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                 if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
                     if(sender == (sel as! HomeCollectionViewCell).imgStream?.tag){
                         (sel as! HomeCollectionViewCell).viewShowHide.isHidden = false
+                        addTransition(vi : (sel as! HomeCollectionViewCell))
                     } else {
                         (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
                     }
                 }
             }
         }
+    }
+    
+    func addTransition(vi : HomeCollectionViewCell){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = "flip"
+        transition.subtype = kCATransitionFromRight
+        vi.layer.add(transition, forKey: kCATransition)
     }
     
 }
@@ -242,9 +271,14 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
-        pagerView.deselectItem(at: index, animated: false)
-        pagerView.scrollToItem(at: index, animated: true)
-        changeCellImageAnimationt(index, pagerView: pagerView)
+         pagerView.deselectItem(at: index, animated: false)
+        if(lastIndex != index){
+            lastIndex = index
+            pagerView.scrollToItem(at: index, animated: true)
+            changeCellImageAnimationt(index, pagerView: pagerView)
+        }
+       
+   
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {

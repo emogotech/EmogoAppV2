@@ -111,6 +111,21 @@ class Validator {
         return  true
     }
     
+    static func isNameLengthMin(text: String, lenghtMin : Int) -> Bool {
+        if (text.trim().count) < lenghtMin {
+            return false
+        }
+        return  true
+    }
+    
+    static func isNameLengthMax(text: String, lenghtMax : Int) -> Bool {
+        if (text.trim().count) > lenghtMax {
+            return false
+        }
+        return  true
+    }
+    
+    
     static func isNameLength(text: String, lenghtMin : Int, lengthMax : Int) -> Bool {
         if (text.trim().count) < lenghtMin || (text.trim().count) > lengthMax {
             return false
@@ -118,7 +133,7 @@ class Validator {
         return  true
     }
     
-//
+    //
 }
 
 extension String {
@@ -143,3 +158,4 @@ extension String {
     }
     
 }
+

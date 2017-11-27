@@ -58,9 +58,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             txtVeryficationCode.shakeTextField()
         }
         else if !(Validator.isMobileLength(text: txtVeryficationCode.text!, lenght: iMsgCharacterMaxLength_VerificationCode)) {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertVerificationLengthMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            self.showToastIMsg(type: .error, strMSG: kAlertVerificationLengthMsg)
         }
         else {
             self.view.endEditing(true)
@@ -117,12 +115,10 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
-   
-
         
         if Reachability.isNetworkAvailable() {
                  self.hudView.startLoaderWithAnimation()
-            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.OTP!,phone: self.phone!) { (isSuccess, errorMsg) in
+            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: txtVeryficationCode.text!,phone: self.phone!) { (isSuccess, errorMsg) in
                 self.hudView.stopLoaderWithAnimation()
                 if isSuccess == true {
                     let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
@@ -130,15 +126,11 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.present(obj, animated: false, completion: nil)
                 }
                 else {
-                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:errorMsg , preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
         }else {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
     
@@ -153,9 +145,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 }
             }
         }else {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
 }

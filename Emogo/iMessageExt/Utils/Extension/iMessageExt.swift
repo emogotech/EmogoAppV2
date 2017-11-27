@@ -58,6 +58,17 @@ extension MSMessagesAppViewController {
         transition.type = "rippleEffect"
         view.window!.layer.add(transition, forKey: kCATransition)
     }
+    
+    func showToastIMsg(type:AlertType,strMSG:String) {
+        self.view.makeToast(message: strMSG,
+                            duration: TimeInterval(3.0),
+                            position: .top,
+                            image: nil,
+                            backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                            titleColor: UIColor.yellow,
+                            messageColor: UIColor.white,
+                            font: nil)
+    }
 }
 
 // MARK: - UITextField
@@ -86,3 +97,6 @@ extension UIApplication {
         return nil
     }
 }
+
+
+

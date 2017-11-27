@@ -56,18 +56,20 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     @IBAction func btnNext(_ sender : UIButton){
         if !(Validator.isEmpty(text: txtName.text!)) {
             txtName.shakeTextField()
-        } else if(!Validator.isNameLength(text: txtName.text!, lenghtMin: iMsgNameMinLength, lengthMax: iMsgNameMaxLength)) {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertInvalidUserNameMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+        } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: iMsgNameMinLength)) {
+            self.showToastIMsg(type: .error, strMSG: kAlertInvalidUserNameMsg)
+        } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: iMsgNameMaxLength)){
+            self.showToastIMsg(type: .error, strMSG: kAlertInvalidUserNameMsg)
         }
         else {
-            txtName.resignFirstResponder()
+            self.view.endEditing(true);
             self.verifyUserName()
         }
     }
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
+        self.view.endEditing(true);
+
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -136,15 +138,12 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                     self.addRippleTransition()
                     self.present(obj, animated: false, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertUserNameAlreayExistsMsg , preferredStyle: UIAlertControllerStyle.alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    self.showToastIMsg(type: .error, strMSG: kAlertUserNameAlreayExistsMsg)
                 }
             }
-        }else {
-            let alert = UIAlertController(title: iMsgAlertTitle_Alert, message:kAlertNetworkErrorMsg , preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+        }
+        else {
+             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
 }

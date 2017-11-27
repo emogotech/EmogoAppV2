@@ -550,7 +550,10 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         self.collectionViewLayout = collectionViewLayout
         
          self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
+        
+        lblCurrentType.font = UIFont(name: "SFProDisplay-Semibold", size: 16)
         lblCurrentType.text = "Feature"
+        lblCurrentType.textColor = #colorLiteral(red: 0.5725490196, green: 0.5725490196, blue: 0.5725490196, alpha: 1)
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center
         lblCurrentType.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
