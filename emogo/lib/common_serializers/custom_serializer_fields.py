@@ -33,7 +33,12 @@ class CustomDictField(DictField):
         self.default_error_messages.update({
             'does_not_have_key': _('Expected dictionary does not have key:"{input_type}".')
         })
-        self.keys = kwargs.pop('has_key')
+        self.keys = False
+        if kwargs.get('has_key') is not None:
+            self.keys = kwargs.pop('has_key')
+
+        if kwargs.get('child') is not None:
+            self.child = kwargs.pop('child')
         super(DictField, self).__init__(*args, **kwargs)
 
     def to_internal_value(self, data):

@@ -1,9 +1,9 @@
-#common messages
+# common messages
 MSG_DATA_VALIDATION_ERROR = "Data validation error."
 MSG_DATA_INSERTION_ERROR = "Data insertion error."
 MSG_DATA_UPDATE_ERROR = "Data update error."
 
-#user
+# user
 MSG_REGISTRATION_CONFIRMATION = "Thank you. User registered successfully."
 MSG_PHONE_NUMBER_EXISTS = "Phone number already exists."
 MSG_USER_VERIFICATION = "User verified successfully."
