@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import UniqueValidator
-
 from emogo import settings
 from emogo.apps.users.models import UserProfile
 from emogo.constants import messages
@@ -17,9 +16,10 @@ class UserSerializer(DynamicFieldsModelSerializer):
     """
     User model Serializer
     """
+
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
-    phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all())])
+    phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all(), message='Phone number already exists.')])
 
     class Meta:
         model = User
@@ -40,7 +40,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
         return user
 
     def validate_user_name(self, value):
-        if UserProfile.objects.filter(full_name__iexact=value).exists():
+        if UserProfile.objects.filter(full_name__iexact=value, otp__isnull=True).exists():
             raise serializers.ValidationError(messages.MSG_USER_NAME_EXISTS)
         return value
 
@@ -49,6 +49,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
             return value
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
 
 class UserProfileSerializer(DynamicFieldsModelSerializer):
     """

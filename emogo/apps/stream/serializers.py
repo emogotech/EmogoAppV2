@@ -7,9 +7,9 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     """
     Stream model Serializer
     """
-    collaborator = CustomListField(child=CustomDictField())
-    content = CustomListField(child=CustomDictField())
-    collaborator_permission = CustomDictField()
+    # collaborator = CustomListField(child=CustomDictField())
+    # content = CustomListField(child=CustomDictField())
+    # collaborator_permission = CustomDictField()
 
     class Meta:
         model = Stream

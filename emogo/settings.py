@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
         # 'rest_framework.parsers.FormParser',
         # 'rest_framework.parsers.MultiPartParser',
     ),
-    'EXCEPTION_HANDLER': 'emogo.lib.utils.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'emogo.lib.helpers.utils.custom_exception_handler',
 
 }
 
