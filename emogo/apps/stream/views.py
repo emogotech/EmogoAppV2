@@ -28,6 +28,6 @@ class StreamAPI(CreateAPIView):
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
+        serializer.create(serializer.validated_data)
+        # headers = self.get_success_headers(serializer.data)
         return custom_render_response(status_code=status.HTTP_201_CREATED)

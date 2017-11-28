@@ -44,8 +44,8 @@ class Stream(DefaultStatusModel):
 
 
 class Content(DefaultStatusModel):
-    name = models.CharField(max_length=45, null=True, blank=True)
-    url = models.CharField(max_length=45, null=True, blank=True)
+    name = models.CharField(max_length=75, null=True, blank=True)
+    url = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     stream = models.ForeignKey(Stream, null=True, blank=True)
     created_by = models.ForeignKey(User, null=True, blank=True)
