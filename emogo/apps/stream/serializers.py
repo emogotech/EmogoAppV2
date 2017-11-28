@@ -16,10 +16,16 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         child=CustomDictField(child=serializers.CharField(allow_blank=True), has_key=('name', 'url')), read_only=True)
     collaborator_permission = CustomDictField(child=serializers.BooleanField(), read_only=True)
 
+    delete_collaborator = CustomListField(child=serializers.IntegerField(), read_only=True)
+    delete_content = CustomListField(child=serializers.IntegerField(), read_only=True)
+
     class Meta:
         model = Stream
         fields = '__all__'
-        extra_kwargs = {'name': {'required': True}, 'type': {'required': True}, 'image': {'required': True}}
+        extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'type': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'image': {'required': True, 'allow_blank': False, 'allow_null': False}
+                        }
 
     def create(self, validated_data):
         """
@@ -34,7 +40,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
                     collaborators = self.initial_data.get('collaborator')
                     if contents is not None:
                         if contents.__len__() > 0:
-                            self.create_component(stream)
+                            self.create_content(stream)
                     if collaborators is not None:
                         if collaborators.__len__() > 0:
                             self.create_collaborator(stream)
@@ -69,29 +75,29 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         collaborator.save()
         return collaborator
 
-    def create_component(self, stream):
+    def create_content(self, stream):
         """
         :param stream: Stream object
-        :return: Add Stream Component
+        :return: Add Stream content
         """
         content_list = self.initial_data.get('content')
-        contents = map(self.save_component, content_list, itertools.repeat(stream, content_list.__len__()))
+        contents = map(self.save_content, content_list, itertools.repeat(stream, content_list.__len__()))
         return contents
 
-    def save_component(self, data, stream):
+    def save_content(self, data, stream):
         """
-        :param data: Component data
+        :param data: content data
         :param stream: Stream object
-        :return: Save Component  object
+        :return: Save content  object
         """
-        component = Content.objects.create(
+        content = Content.objects.create(
             name=data.get('name'),
             url=data.get('url'),
             type=data.get('type'),
             stream=stream,
             created_by=self.context['request'].user
         ).save()
-        return component
+        return content
 
     def create_stream(self):
         """
