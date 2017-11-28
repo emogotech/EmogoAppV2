@@ -170,4 +170,51 @@ class APIServiceManager: NSObject {
     }
     
     
+    // MARK: - LANDING API'S
+    
+    // MARK: - Create Stream API
+    
+    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let collaboratorPermission = ["can_add_content":canAddContent,"can_add_people":canAddPeople]
+        var jsonCollaborator = [[String:Any]]()
+        for obj in collaborator {
+            let value = ["name":obj.name!,"phone_number":obj.phone!]
+            jsonCollaborator.append(value)
+        }
+        print(jsonCollaborator)
+        let params:[String:Any] = ["name":streamName,description:streamDescription,"image":coverImage,"category":"","type":streamType,"any_one_can_edit":anyOneCanEdit,"content":"","collaborator":jsonCollaborator,"collaborator":collaboratorPermission]
+        
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAddStreamAPI, Param: params) { (result) in
+            
+        }
+    }
+    
+    /*
+     URL : http://54.196.89.61/api/stream/
+     Mandatory Fields- Name, Image, Type
+     Request Type : POST
+     Header :
+     Content-Type:application/json
+     Authorization:token 3d9936ffb460924612f9083dd002b176bb004ddb
+     Request: {
+     "name" :"The first stream",
+     "description":"Stream Description",
+     "category": null,
+     "image": "https://trello.com/image.png",
+     "type" : "Public",
+     "any_one_can_edit":true,
+     "content":[
+     { "name" : "Component-1","url" : "~~~??~>@/-1http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"},{ "name" : "Component-2","url" : "http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"}, { "name" : "","url" : "http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"}
+     ],
+     "collaborator":[
+     { "name" : "Ranjeet singh","phone_number" : "+917921215626262"},{ "name" : "Ranjeet singh","phone_number" : "+917921215626262"},{ "name" : "Ranjeet singh","phone_number" : "+917921215626262"}
+     ],
+     "collaborator_permission":{
+     "can_add_content":true,
+     "can_add_people":false
+     }
+     }
+
+ */
+
 }

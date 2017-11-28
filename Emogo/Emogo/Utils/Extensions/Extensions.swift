@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import CRNotifications
 import QuartzCore
 
 // MARK: - UIColor

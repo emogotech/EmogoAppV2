@@ -20,5 +20,6 @@
 - (UIImage *) resizedImageByHeight: (NSUInteger) height;
 - (UIImage *) resizedImageWithMaximumSize: (CGSize) size;
 - (UIImage *) resizedImageWithMinimumSize: (CGSize) size;
+- (UIImage *)imageWithImage:(UIImage *)image scaledToMaxWidth:(CGFloat)width maxHeight:(CGFloat)height;
 
 @end

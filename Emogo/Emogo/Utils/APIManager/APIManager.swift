@@ -32,9 +32,10 @@ class APIManager: NSObject {
     // MARK: - REQUEST WITH HEADER
     func POSTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
+        
         let url = "\(kBaseURL)\(strURL)"
-        let headers : HTTPHeaders = ["Authorization" :"Token "]
-        Alamofire.request(url, method: .post, parameters: Param, encoding: URLEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
+        Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
@@ -55,8 +56,8 @@ class APIManager: NSObject {
     func GETRequestWithHeader(strURL: String, callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
-        let headers : HTTPHeaders = ["Authorization" :"Token "]
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
+        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
@@ -78,7 +79,7 @@ class APIManager: NSObject {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
         let headers : HTTPHeaders = ["Authorization" :"Token "]
-        Alamofire.request(url, method: .put, parameters: Param, encoding: URLEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+        Alamofire.request(url, method: .put, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]

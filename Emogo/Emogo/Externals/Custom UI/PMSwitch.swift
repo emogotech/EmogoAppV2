@@ -10,7 +10,7 @@ import UIKit
 
 @IBDesignable class PMSwitch : UISwitch {
     
-    @IBInspectable var OnColor : UIColor! = UIColor.blue
+    @IBInspectable var OnColor : UIColor! = kaddStreamSwitchOnColor
     @IBInspectable var OffColor : UIColor! = kaddStreamSwitchOffColor
      var scaleValue: CGFloat! = 1.0
     

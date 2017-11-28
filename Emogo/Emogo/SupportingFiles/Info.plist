@@ -29,6 +29,8 @@
 	<string>media</string>
 	<key>NSCameraUsageDescription</key>
 	<string>camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>access contacts.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

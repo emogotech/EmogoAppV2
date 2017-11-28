@@ -23,6 +23,7 @@ let kPhoneFormat                         = "##########"
 
 let kNavigationColor = UIColor(red: 247.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
 let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+let kaddStreamSwitchOnColor = UIColor(red: 33.0/255.0, green: 155.0/255.0, blue: 218.0/255.0, alpha: 1.0)
 
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"
@@ -40,6 +41,7 @@ let kStoryboardID_StreamListView = "streamListView"
 let kStoryboardID_CameraView = "cameraView"
 let kStoryboardID_PreView = "preView"
 let kStoryboardID_AddStreamView = "addStreamView"
+let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 
 
 
@@ -50,6 +52,8 @@ let kCell_StreamCell = "streamCell"
 let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
 let kFooter_Preview = "previewFooterView"
+let kCell_AddCollaboratorsView = "addCollaboratorsViewCell"
+
 
 
 // MARK: - StoryboardSegue Identifier

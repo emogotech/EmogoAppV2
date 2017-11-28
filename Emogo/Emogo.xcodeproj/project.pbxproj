@@ -105,6 +105,14 @@
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */; };
+		F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */; };
+		F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */; };
+		F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */; };
+		F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F701FCD918300152D01 /* SkyFloatingLabelTextField.swift */; };
+		F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F711FCD918300152D01 /* SkyFloatingLabelTextFieldWithIcon.swift */; };
+		F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F721FCD918300152D01 /* UITextField+fixCaretPosition.swift */; };
+		F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */; };
 		F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6A1FC6DD2900311C9A /* ColorCollectionViewCell.swift */; };
 		F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4431A6B1FC6DD2900311C9A /* ColorCollectionViewCell.xib */; };
 		F4431A901FC6DD2C00311C9A /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6C1FC6DD2900311C9A /* ColorsCollectionViewDelegate.swift */; };
@@ -306,6 +314,13 @@
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
+		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
+		F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewCell.swift; sourceTree = "<group>"; };
+		F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Letters.swift"; sourceTree = "<group>"; };
+		F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorDAO.swift; sourceTree = "<group>"; };
+		F4402F701FCD918300152D01 /* SkyFloatingLabelTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextField.swift; sourceTree = "<group>"; };
+		F4402F711FCD918300152D01 /* SkyFloatingLabelTextFieldWithIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyFloatingLabelTextFieldWithIcon.swift; sourceTree = "<group>"; };
+		F4402F721FCD918300152D01 /* UITextField+fixCaretPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+fixCaretPosition.swift"; sourceTree = "<group>"; };
 		F4431A6A1FC6DD2900311C9A /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4431A6B1FC6DD2900311C9A /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
 		F4431A6C1FC6DD2900311C9A /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -688,7 +703,9 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4402F6F1FCD917900152D01 /* TextField */,
 				33BCB0401FBB353E004FF634 /* PMButton.swift */,
+				F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */,
 				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
 			);
 			path = "Custom UI";
@@ -830,6 +847,7 @@
 			children = (
 				F4148A201FBD7C7C00081900 /* StreamCell.swift */,
 				F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */,
+				F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
 			);
 			path = Streams;
@@ -859,6 +877,16 @@
 				F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */,
 			);
 			path = PhoneValidation;
+			sourceTree = "<group>";
+		};
+		F4402F6F1FCD917900152D01 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				F4402F701FCD918300152D01 /* SkyFloatingLabelTextField.swift */,
+				F4402F711FCD918300152D01 /* SkyFloatingLabelTextFieldWithIcon.swift */,
+				F4402F721FCD918300152D01 /* UITextField+fixCaretPosition.swift */,
+			);
+			path = TextField;
 			sourceTree = "<group>";
 		};
 		F4431A661FC6DD1A00311C9A /* PhotoEditingTool */ = {
@@ -924,6 +952,7 @@
 				F4148A131FBD78A600081900 /* StreamListViewController.swift */,
 				F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */,
 				F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */,
+				F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -945,6 +974,7 @@
 				F4148A221FBD7DAA00081900 /* StreamDAO.swift */,
 				F42864371FC4A8C900E3549D /* CameraDAO.swift */,
 				F4522C9D1FCBF8B40021562D /* MenuDAO.swift */,
+				F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1533,6 +1563,8 @@
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
+				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
+				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
@@ -1541,6 +1573,7 @@
 				F4431A911FC6DD2C00311C9A /* CropRectView.swift in Sources */,
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
+				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
 				F4431A9E1FC6DD2C00311C9A /* PhotoEditor+Crop.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
@@ -1552,6 +1585,7 @@
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
+				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
@@ -1562,7 +1596,9 @@
 				F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */,
 				F4431A921FC6DD2C00311C9A /* CropView.swift in Sources */,
 				F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */,
+				F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */,
 				F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */,
+				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4431AA11FC6DD2C00311C9A /* PhotoEditor+Gestures.swift in Sources */,
@@ -1600,6 +1636,7 @@
 				F4431AA31FC6DD2C00311C9A /* PhotoEditor+StickersViewController.swift in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
+				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
@@ -1659,6 +1696,7 @@
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
 				337B8FA81FBEEF6C00CFACE3 /* AWSManager.swift in Sources */,
+				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
