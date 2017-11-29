@@ -105,6 +105,8 @@
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
+		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */; };
 		F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */; };
 		F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */; };
@@ -314,6 +316,7 @@
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
+		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
 		F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewCell.swift; sourceTree = "<group>"; };
 		F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Letters.swift"; sourceTree = "<group>"; };
@@ -661,6 +664,7 @@
 			children = (
 				33BCB0391FBB353E004FF634 /* SharedData.swift */,
 				F4522CA31FCC1AA50021562D /* Animation.swift */,
+				F43E92D21FCEB43100AF3FAC /* Document.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1603,6 +1607,7 @@
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F4431AA11FC6DD2C00311C9A /* PhotoEditor+Gestures.swift in Sources */,
 				F4FF7F6C1FC7FC66000FB678 /* UIImage+ResizeMagick.m in Sources */,
+				F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
@@ -1706,6 +1711,7 @@
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
+				F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
 				330FEB8B1FC459E100552260 /* HomeCollectionViewCell.swift in Sources */,

@@ -73,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func keyboardToolBar(disable:Bool){
         IQKeyboardManager.sharedManager().enableAutoToolbar = disable
         IQKeyboardManager.sharedManager().shouldShowToolbarPlaceholder = disable
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
     }
   
 }

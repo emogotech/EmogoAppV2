@@ -47,6 +47,7 @@ class AWSManager: NSObject {
     
     override init() {
         super.init()
+        self.initAWS()
     }
     
     // MARK: -  Init AWS
@@ -107,6 +108,37 @@ class AWSManager: NSObject {
         let percentage = CGFloat(percentageInt)
         let value = percentage/100.0
         self.TotalProgress(value)
+    }
+    
+    
+    func uploadImage(_ fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void) {
+        let key = NSString(format: "%@", name).pathExtension
+        var type:String! = "image/png"
+        if key.lowercased() == "jpg" ||  key.lowercased() == "jpeg" {
+            type = "image/jpeg"
+        }
+        let uploadRequest = AWSS3TransferManagerUploadRequest()!
+        uploadRequest.body = fileURL
+        uploadRequest.key = name
+        uploadRequest.bucket = kBucketStreamMedia
+        uploadRequest.contentType = type
+        uploadRequest.acl = .publicRead
+        
+        let transferManager = AWSS3TransferManager.default()
+        transferManager.upload(uploadRequest).continueWith { (task) -> Any? in
+            if let error = task.error {
+                completion(nil, error)
+            }
+            if task.result != nil {
+                let url = AWSS3.default().configuration.endpoint.url
+                let publicURL = url?.appendingPathComponent(uploadRequest.bucket!).appendingPathComponent(uploadRequest.key!)
+                if let absoluteString = publicURL?.absoluteString {
+                    Document.deleteImage(name: name)
+                    completion(absoluteString, nil)
+                }
+            }
+            return nil
+        }
     }
     
 }

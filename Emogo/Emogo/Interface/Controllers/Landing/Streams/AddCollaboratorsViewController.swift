@@ -155,6 +155,19 @@ extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionVi
         collaborator.isSelected = !collaborator.isSelected
         self.arrayCollaborators[indexPath.row] = collaborator
         self.contactCollection.reloadData()
+        
+        if let obj = self.parent {
+            let parentView:AddStreamViewController = obj as! AddStreamViewController
+            let array = self.arrayCollaborators.filter({ (colab) -> Bool in
+                if colab.isSelected == true {
+                    return true
+                }else {
+                    return false
+                }
+            })
+            parentView.selectedCollaborator(colabs: array)
+        }
     }
+    
    
 }
