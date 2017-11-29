@@ -69,7 +69,7 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
 
-        self.prepareDummyData()
+        self.getStreamList()
 
     }
     // MARK: - Prepare Layouts When View Appear
@@ -112,18 +112,15 @@ class StreamListViewController: UIViewController {
     // MARK: - Class Methods
 
 
-    func prepareDummyData(){
-        for i in 1..<8 {
-            let obj = StreamDAO(title: "Cover Image \(i)", image: UIImage(named: "image\(i)")!)
-            self.arrayStreams.append(obj)
-        }
-        self.streamCollectionView.reloadData()
-        
-    }
+   
     
     // MARK: - API Methods
-
-    
+    private func getStreamList(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForGetStreamList { (results, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+        }
+    }
     /*
     // MARK: - Navigation
 

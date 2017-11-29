@@ -218,8 +218,8 @@ class APIServiceManager: NSObject {
         }
     }
     
-    func apiForGetStreamList(completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void) {
-        
+    func apiForGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
+        var objects = [StreamDAO]()
         APIManager.sharedInstance.GETRequestWithHeader(strURL: kStreamAPI) { (result) in
             switch(result){
             case .success(let value):
@@ -227,44 +227,18 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"")
+                        completionHandler(objects,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(false,errorMessage)
+                        completionHandler(objects,errorMessage)
                     }
                 }
             case .error(let error):
                 print(error.localizedDescription)
-                completionHandler(false,error.localizedDescription)
+                completionHandler(objects,error.localizedDescription)
             }
         }
     }
-    /*
-     URL : http://54.196.89.61/api/stream/
-     Mandatory Fields- Name, Image, Type
-     Request Type : POST
-     Header :
-     Content-Type:application/json
-     Authorization:token 3d9936ffb460924612f9083dd002b176bb004ddb
-     Request: {
-     "name" :"The first stream",
-     "description":"Stream Description",
-     "category": null,
-     "image": "https://trello.com/image.png",
-     "type" : "Public",
-     "any_one_can_edit":true,
-     "content":[
-     { "name" : "Component-1","url" : "~~~??~>@/-1http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"},{ "name" : "Component-2","url" : "http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"}, { "name" : "","url" : "http://localhost/phppgadmin/images/themes/default/Export.png","type" : "Picture"}
-     ],
-     "collaborator":[
-     { "name" : "Ranjeet singh","phone_number" : "+917921215626262"},{ "name" : "Ranjeet singh","phone_number" : "+917921215626262"},{ "name" : "Ranjeet singh","phone_number" : "+917921215626262"}
-     ],
-     "collaborator_permission":{
-     "can_add_content":true,
-     "can_add_people":false
-     }
-     }
-     
-     */
+ 
     
 }

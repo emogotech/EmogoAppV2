@@ -9,12 +9,29 @@
 import Foundation
 import UIKit
 class StreamDAO {
-    var title:String! = ""
-    var imgCover:UIImage!
-    
-    init(title:String, image:UIImage) {
-        self.title = title
-        self.imgCover = image
-    }
+    var ID:String! = ""
+    var Author:String! = ""
+    var Title:String! = ""
+    var CoverImage:String! = ""
+    var IDcreatedBy:String! = ""
 
+    init(streamData:[String:Any]) {
+        if let obj  = streamData["name"] {
+            self.Title = obj as! String
+        }
+        if let obj  = streamData["author"] {
+            self.Author = obj as! String
+        }
+        if let obj  = streamData["image"] {
+            self.CoverImage = obj as! String
+        }
+        if let obj  = streamData["id"] {
+            self.ID = "\(obj)"
+        }
+        if let obj  = streamData["created_by"] {
+            self.IDcreatedBy = "\(obj)"
+        }
+    }
 }
+
+

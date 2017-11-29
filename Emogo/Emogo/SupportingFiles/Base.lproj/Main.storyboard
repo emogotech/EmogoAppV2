@@ -1005,7 +1005,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="9" width="87.5" height="17"/>
+                                                    <rect key="frame" x="10" y="9" width="84" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6Mf-BA-iy0"/>
                                                     </constraints>

@@ -23,8 +23,7 @@ let kPhoneFormat                         = "##########"
 
 let kNavigationColor = UIColor(red: 247.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
 let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-let kaddStreamSwitchOnColor = UIColor(red: 33.0/255.0, green: 155.0/255.0, blue: 218.0/255.0, alpha: 1.0)
-
+let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0, alpha: 1.0)
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"
 let kFontMedium = "SF Pro Display Medium"

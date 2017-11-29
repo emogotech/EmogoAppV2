@@ -157,6 +157,7 @@ class AddStreamViewController: UITableViewController {
     }
    
    private func uploadCoverImage(){
+        HUDManager.sharedInstance.showHUD()
         let url = Document.saveImage(image: self.coverImage, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
         AWSManager.sharedInstance.uploadImage(fileUrl, name: self.fileName) { (imageUrl,error) in
@@ -164,6 +165,8 @@ class AddStreamViewController: UITableViewController {
                 DispatchQueue.main.async {
                     self.createStream(cover: imageUrl!)
                 }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
             }
         }
     }
@@ -171,7 +174,12 @@ class AddStreamViewController: UITableViewController {
    private func createStream(cover:String){
    
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: "Public", anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
-            
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true{
+                
+            }else {
+                
+            }
         }
     }
     
