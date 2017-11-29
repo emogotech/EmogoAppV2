@@ -142,8 +142,6 @@ open class FSPagerViewCell: UICollectionViewCell {
     
     func addLayerInImageView(isTrue : Bool){
         if isTrue {
-            
-//            
             let zoomInAndOut = CABasicAnimation(keyPath: "transform.scale")
             zoomInAndOut.fromValue = 0.5
             zoomInAndOut.toValue = 1.0

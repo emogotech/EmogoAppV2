@@ -42,7 +42,7 @@
 		<key>DKImagePickerController.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>16</integer>
 		</dict>
 		<key>IQKeyboardManagerSwift.xcscheme</key>
 		<dict>
@@ -68,12 +68,12 @@
 		<key>Pods-EmogoTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>17</integer>
 		</dict>
 		<key>Pods-EmogoUITests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>19</integer>
+			<integer>18</integer>
 		</dict>
 		<key>Pods-ShareExt.xcscheme</key>
 		<dict>
@@ -106,7 +106,7 @@
 		<key>SwiftyCam.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>20</integer>
+			<integer>19</integer>
 		</dict>
 		<key>SwiftyJSON.xcscheme</key>
 		<dict>

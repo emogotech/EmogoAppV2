@@ -59,7 +59,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: iMsgNameMinLength)) {
             self.showToastIMsg(type: .error, strMSG: kAlertInvalidUserNameMsg)
         } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: iMsgNameMaxLength)){
-            self.showToastIMsg(type: .error, strMSG: kAlertInvalidUserNameMsg)
+            self.showToastIMsg(type: .error, strMSG: iMsgError_NameMax)
         }
         else {
             self.view.endEditing(true);
@@ -73,6 +73,11 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+        self.txtName.resignFirstResponder()
     }
     
     // MARK:- TextField Delegate method
@@ -96,17 +101,20 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             return false
         }
         
+        if( ( textFieldText == iMsg_String_singleSpace )){
+            return false
+        }
         if(textFieldText.count > 0){
             let charPrevious = textFieldText[textFieldText.count - 1]
             if( ( charPrevious == iMsg_String_singleSpace ) && ( string == iMsg_String_singleSpace )){
                 return false
             }
         }
-        
-        let characterSet = CharacterSet.init(charactersIn: iMsgCharacterSet)
-        if string.rangeOfCharacter(from: characterSet) == nil{
-            return false
-        }
+
+//        let characterSet = CharacterSet.init(charactersIn: iMsgCharacterSet)
+//        if string.rangeOfCharacter(from: characterSet) == nil{
+//            return false
+//        }
         
         return true
     }

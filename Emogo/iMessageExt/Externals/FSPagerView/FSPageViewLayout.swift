@@ -59,7 +59,7 @@ class FSPagerViewLayout: UICollectionViewLayout {
         self.needsReprepare = false
         
         self.collectionViewSize = collectionView.frame.size
-
+        
         // Calculate basic parameters/variables
         self.numberOfSections = pagerView.numberOfSections(in: collectionView)
         self.numberOfItems = pagerView.collectionView(collectionView, numberOfItemsInSection: 0)
@@ -85,18 +85,18 @@ class FSPagerViewLayout: UICollectionViewLayout {
         self.contentSize = {
             let numberOfItems = self.numberOfItems*self.numberOfSections
             switch self.scrollDirection {
-                case .horizontal:
-                    var contentSizeWidth: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
-                    contentSizeWidth += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
-                    contentSizeWidth += CGFloat(numberOfItems)*self.actualItemSize.width // Item sizes
-                    let contentSize = CGSize(width: contentSizeWidth, height: collectionView.frame.height)
-                    return contentSize
-                case .vertical:
-                    var contentSizeHeight: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
-                    contentSizeHeight += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
-                    contentSizeHeight += CGFloat(numberOfItems)*self.actualItemSize.height // Item sizes
-                    let contentSize = CGSize(width: collectionView.frame.width, height: contentSizeHeight)
-                    return contentSize
+            case .horizontal:
+                var contentSizeWidth: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
+                contentSizeWidth += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
+                contentSizeWidth += CGFloat(numberOfItems)*self.actualItemSize.width // Item sizes
+                let contentSize = CGSize(width: contentSizeWidth, height: collectionView.frame.height)
+                return contentSize
+            case .vertical:
+                var contentSizeHeight: CGFloat = self.leadingSpacing*2 // Leading & trailing spacing
+                contentSizeHeight += CGFloat(numberOfItems-1)*self.actualInteritemSpacing // Interitem spacing
+                contentSizeHeight += CGFloat(numberOfItems)*self.actualItemSize.height // Item sizes
+                let contentSize = CGSize(width: collectionView.frame.width, height: contentSizeHeight)
+                return contentSize
             }
         }()
         self.adjustCollectionViewBounds()
@@ -284,7 +284,7 @@ class FSPagerViewLayout: UICollectionViewLayout {
         attributes.zIndex = Int(self.numberOfItems)-Int(attributes.position)
         transformer.applyTransform(to: attributes)
     }
-
+    
 }
 
 
