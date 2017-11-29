@@ -77,14 +77,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.searchView.clipsToBounds = true
     }
     
-    func prepareDummyData(){
-        for i in 1..<8 {
-            let obj = StreamDAO(title: "Cover Image \(i)", image: UIImage(named: "image\(i)")!)
-            self.arrayStreams.append(obj)
-        }
-        self.collectionStream.reloadData()
-    }
-    
+  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -100,7 +93,6 @@ class HomeViewController: MSMessagesAppViewController {
         
         collectionStream.delegate = self
         collectionStream.dataSource = self
-        self.prepareDummyData()
         
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 260, width: self.view.frame.size.width, height: 220), controller: self)

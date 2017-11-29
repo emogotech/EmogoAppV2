@@ -92,9 +92,9 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: -Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
-        self.imgStream.image = stream.imgCover
-        self.lblStreamTitle.text = stream.title
-        self.lblStreamName.text = stream.title
+       // self.imgStream.image = stream.imgCover
+        self.lblStreamTitle.text = stream.Title
+        self.lblStreamName.text = stream.Title
         self.lblStreamDesc.text = "Posted By Jon"
     }
     

@@ -128,7 +128,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     //MARK: -Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
-        self.lblStreamTitle.text = stream.title
+        self.lblStreamTitle.text = stream.Title!
     }
     
     //MARK: -Enable/Disable - Next/Previous Button
