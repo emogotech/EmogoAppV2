@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
@@ -10,7 +10,7 @@ from models import Stream
 from serializers import StreamSerializer, ViewStreamSerializer
 
 
-class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView):
+class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
     """
     Stream CRUD API
     """
@@ -67,3 +67,15 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        """
+        :param request:
+        :param args:
+        :param kwargs:
+        :return: Soft Delete Stream and it's attribute
+        """
+        instance = self.get_object()
+        # Perform delete operation
+        self.perform_destroy(instance)
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.contrib.auth.models import User
 from django.db import models
-
 from emogo.lib.default_models.default_model import DefaultStatusModel
+import itertools
 
 STREAM_TYPE = (
     ('Private', 'Private'),
@@ -42,12 +41,26 @@ class Stream(DefaultStatusModel):
     class Meta:
         db_table = 'stream'
 
+    def delete(self, using=None, keep_parents=False):
+        collaborators = self.collaborator_list.filter(status='Active')
+        contents = self.content_list.filter(status='Active')
+        # Delete collaborators
+        map(self.update_status, collaborators,itertools.repeat('Inactive', collaborators.__len__()))
+        # Delete Contents
+        map(self.update_status, contents, itertools.repeat('Inactive', contents.__len__()))
+        # Delete stream
+        self.update_status(self,'Inactive')
+        return None
+
+    def update_status(self, instance, status):
+        instance.status = status
+        instance.save(update_fields=['status'])
 
 class Content(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
     url = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
-    stream = models.ForeignKey(Stream, null=True, blank=True)
+    stream = models.ForeignKey(Stream, null=True, blank=True, related_name='content_list')
     created_by = models.ForeignKey(User, null=True, blank=True)
 
     class Meta:
