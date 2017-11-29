@@ -124,6 +124,8 @@ REST_FRAMEWORK = {
         # 'rest_framework.parsers.MultiPartParser',
     ),
     'EXCEPTION_HANDLER': 'emogo.lib.helpers.utils.custom_exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'emogo.lib.default_paginations.pagination.CustomPagination',
+    'PAGE_SIZE': 10
 
 }
 

@@ -182,3 +182,16 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             stream.any_one_can_edit = self.validated_data.get('any_one_can_edit', False)
             stream.save()
         return stream
+
+
+class ViewStreamSerializer(StreamSerializer):
+    """
+    This serializer is used to show Serializer view section
+    """
+    author = serializers.SerializerMethodField()
+
+    def get_author(self,obj):
+        try:
+            return obj.created_by.user_data.full_name
+        except AttributeError:
+            return None

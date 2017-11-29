@@ -2,22 +2,40 @@
 from __future__ import unicode_literals
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream
-from serializers import StreamSerializer
+from serializers import StreamSerializer, ViewStreamSerializer
 
 
-class StreamAPI(CreateAPIView, UpdateAPIView):
+class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView):
     """
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    queryset = Stream.actives.all()
+    queryset = Stream.actives.all().order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewStreamSerializer
+        self.serializer_class = ViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        #  Customized field list
+        fields = ('id', 'name', 'image', 'author', 'created_by')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """
