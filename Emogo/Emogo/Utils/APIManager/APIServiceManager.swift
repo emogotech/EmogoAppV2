@@ -45,7 +45,7 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Signup API
-
+    
     
     func apiForUserSignup(userName:String, phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let params:[String:Any] = ["phone_number":phone,"user_name":userName]
@@ -87,11 +87,11 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-
+                        
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
                             kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
-                              UserDAO.sharedInstance.parseUserInfo()
+                            UserDAO.sharedInstance.parseUserInfo()
                             kDefault.set(true, forKey: kUserLogggedIn)
                         }
                         completionHandler(true,"")
@@ -108,7 +108,7 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Resend OTP API
-
+    
     func apiForResendOTP( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let params:[String:Any] = ["phone_number":phone]
         APIManager.sharedInstance.POSTRequest(strURL: kResendAPI, Param: params) { (result) in
@@ -151,7 +151,7 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                        kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
                             print(UserDAO.sharedInstance.user.fullName)
                             kDefault.set(true, forKey: kUserLogggedIn)
@@ -177,20 +177,68 @@ class APIServiceManager: NSObject {
     // MARK: - Create Stream API
     
     func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let collaboratorPermission = ["can_add_content":canAddContent,"can_add_people":canAddPeople]
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
-            let value = ["name":obj.name!,"phone_number":obj.phone!]
+            let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
             jsonCollaborator.append(value)
         }
-        print(jsonCollaborator)
-        let params:[String:Any] = ["name":streamName,description:streamDescription,"image":coverImage,"category":"","type":streamType,"any_one_can_edit":anyOneCanEdit,"content":"","collaborator":jsonCollaborator,"collaborator":collaboratorPermission]
         
-        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAddStreamAPI, Param: params) { (result) in
+        let params: [String: Any] = [
+            "name" : streamName,
+            "description" : streamDescription,
+            "image" : "coverImage",
+            "type":streamType,
+            "any_one_can_edit":anyOneCanEdit,
+            "collaborator":jsonCollaborator ,
+            "collaborator_permission": [
+                "can_add_content" : canAddContent,
+                "can_add_people": canAddPeople
+            ]
+        ]
+        print(params)
+        
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamAPI, Param: params) { (result) in
             
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
         }
     }
     
+    func apiForGetStreamList(completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void) {
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: kStreamAPI) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
     /*
      URL : http://54.196.89.61/api/stream/
      Mandatory Fields- Name, Image, Type
@@ -216,7 +264,7 @@ class APIServiceManager: NSObject {
      "can_add_people":false
      }
      }
-
- */
-
+     
+     */
+    
 }

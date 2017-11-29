@@ -8,7 +8,8 @@
 
 import UIKit
 import DKImagePickerController
-
+import Photos
+import PhotosUI
 class AddStreamViewController: UITableViewController {
     
     // MARK: - UI Elements
@@ -31,8 +32,9 @@ class AddStreamViewController: UITableViewController {
             self.configureCollaboatorsRowExpandCollapse()
         }
     }
-    
-    
+    var coverImage:UIImage!
+    var fileName:String! = ""
+    var selectedCollaborators = [CollaboratorDAO]()
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -59,24 +61,35 @@ class AddStreamViewController: UITableViewController {
         self.title = "Create a Stream"
         self.configureNavigationWithTitle()
         txtStreamName.title = "Stream Name"
-      //  let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
-       // self.view.addGestureRecognizer(tap)
-
+        
     }
     
     func prepareLayoutForApper(){
         self.viewGradient.layer.contents = UIImage(named: "strems_name_gradient")?.cgImage
     }
 
+    // MARK: -  Action Methods And Selector
+
     @IBAction func addContentAction(_ sender: PMSwitch) {
+        self.switchAddContent.isOn = sender.isOn
+        print(self.switchAddContent.isOn)
     }
     @IBAction func addPeopleAction(_ sender: PMSwitch) {
+        self.switchAddPeople.isOn = sender.isOn
     }
     @IBAction func anyOneCanEditAction(_ sender: PMSwitch) {
+        self.switchAnyOneCanEdit.isOn = sender.isOn
     }
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
+        self.switchMakePrivate.isOn = sender.isOn
+        if sender.isOn {
+            self.switchAnyOneCanEdit.isEnabled = false
+        }else {
+            self.switchAnyOneCanEdit.isEnabled = true
+        }
     }
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
+        self.switchAddCollaborators.isOn = sender.isOn
         if sender.isOn {
             self.rowHieght.constant = 325.0
             self.isExpandRow = true
@@ -86,6 +99,17 @@ class AddStreamViewController: UITableViewController {
         }
     }
     @IBAction func btnActionDone(_ sender: Any) {
+        if (self.txtStreamName.text?.trim().isEmpty)! {
+            self.txtStreamName.errorColor = .red
+            self.txtStreamName.errorMessage = kAlertStreamNameEmpty
+        }else if (self.txtStreamCaption.text?.trim().isEmpty)! {
+            
+        }else if coverImage == nil {
+        
+        }else  {
+            // api for Add Stream
+            self.uploadCoverImage()
+        }
     }
     
     @IBAction func btnActionCamera(_ sender: Any) {
@@ -122,12 +146,38 @@ class AddStreamViewController: UITableViewController {
 
         asset.fetchOriginalImageWithCompleteBlock { (image, info) in
             if let img = image {
-                self.imgCover.image = img.withImage(img, scaledToMaxWidth: width, maxHeight: height)
+                self.imgCover.image = img.scaled(to: CGSize(width: width, height: height))
+                self.coverImage = image
+                if let file =  asset.originalAsset?.value(forKey: "filename"){
+                   self.fileName =  file as! String
+                    print(self.fileName)
+                }
             }
         }
     }
-    @objc func disMissKeyboard(){
-        self.view.endEditing(true)
+   
+   private func uploadCoverImage(){
+        let url = Document.saveImage(image: self.coverImage, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadImage(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.createStream(cover: imageUrl!)
+                }
+            }
+        }
+    }
+    
+   private func createStream(cover:String){
+   
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: "Public", anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
+            
+        }
+    }
+    
+    func selectedCollaborator(colabs:[CollaboratorDAO]){
+        print(colabs.count)
+        self.selectedCollaborators = colabs
     }
     /*
     // MARK: - Navigation

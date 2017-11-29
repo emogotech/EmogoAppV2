@@ -80,6 +80,7 @@ let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with 
 let kAlertInvalidUserNameMsg            = "User Name limit is maximum 30 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
+let kAlertStreamNameEmpty = "Please enter Stream Name."
 
 
 // MARK: -  AlertMessage
