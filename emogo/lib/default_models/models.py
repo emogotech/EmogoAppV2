@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import models
 
-from emogo.lib.custom_managers.custom_manager import ActiveManager
+from emogo.lib.custom_managers.manager import ActiveManager
 
 
 class DefaultDateModel(models.Model):

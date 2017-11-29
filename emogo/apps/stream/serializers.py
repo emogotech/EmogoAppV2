@@ -1,5 +1,5 @@
-from emogo.lib.common_serializers.custom_serializer_fields import CustomListField, CustomDictField
-from emogo.lib.common_serializers.custom_serializers import DynamicFieldsModelSerializer
+from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
+from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Stream, Content
 from emogo.apps.collaborator.models import Collaborator
 from rest_framework import serializers

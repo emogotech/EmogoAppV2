@@ -4,11 +4,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from rest_framework.validators import UniqueValidator
 from emogo import settings
 from emogo.apps.users.models import UserProfile
 from emogo.constants import messages
-from emogo.lib.common_serializers.custom_serializers import DynamicFieldsModelSerializer
+from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
+from emogo.lib.custom_validator.validators import CustomUniqueValidator
+
 from emogo.lib.helpers.utils import generate_pin
 
 
@@ -19,7 +20,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
-    phone_number = serializers.CharField(source='username', validators=[UniqueValidator(queryset=User.objects.all(), message='Phone number already exists.')])
+    phone_number = serializers.CharField(source='username', validators=[CustomUniqueValidator(queryset=User.objects.all(), message='Phone number already exists.')])
 
     class Meta:
         model = User
@@ -31,17 +32,37 @@ class UserSerializer(DynamicFieldsModelSerializer):
         :param validated_data:
         :return: Create User and user profile object
         """
-        user = User.objects.create(username=validated_data.get('username'))
+        setattr(self, 'user_pin', generate_pin())
+        # The code is run while user was not verified but try to sign-up with different user_name or phone number
+        # 1. While user request with same user_name and different phone number
+        try:
+            user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
+            user_profile.otp = self.user_pin
+            user_profile.save()
+
+            user_profile.user.username = validated_data.get('username')
+            user_profile.user.save()
+            return user_profile.user
+        except UserProfile.DoesNotExist :
+            pass
+
+        # 2. While user request with same phone number and different user_name
+        user, created = User.objects.get_or_create(username=validated_data.get('username'))
         user.set_password(settings.DEFAULT_PASSWORD)
         user.save()
-        setattr(self, 'user_pin', generate_pin())
-        user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
-        user_profile.save()
+        if created:
+            user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
+            user_profile.save()
+        else:
+            user.user_data.full_name = validated_data.get('user_name')
+            user.user_data.otp = self.user_pin
+            user.user_data.save()
+
         return user
 
     def validate_user_name(self, value):
         if UserProfile.objects.filter(full_name__iexact=value, otp__isnull=True).exists():
-            raise serializers.ValidationError(messages.MSG_USER_NAME_EXISTS)
+            raise serializers.ValidationError(messages.MSG_USER_NAME_EXISTS.format(value))
         return value
 
     def validate_phone_number(self, value):

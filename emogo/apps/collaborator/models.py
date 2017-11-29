@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from emogo.apps.stream.models import Stream
-from emogo.lib.default_models.default_model import DefaultStatusModel
+from emogo.lib.default_models.models import DefaultStatusModel
 
 
 class Collaborator(DefaultStatusModel):

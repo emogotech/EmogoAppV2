@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
-from emogo.lib.default_models.default_model import DefaultStatusModel
+from emogo.lib.default_models.models import DefaultStatusModel
 import itertools
 
 STREAM_TYPE = (
