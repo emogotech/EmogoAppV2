@@ -42,6 +42,7 @@ class StreamListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
+        self.getStreamList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,7 +70,6 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
 
-        self.getStreamList()
 
     }
     // MARK: - Prepare Layouts When View Appear
@@ -82,6 +82,7 @@ class StreamListViewController: UIViewController {
 
     }
     
+  
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {

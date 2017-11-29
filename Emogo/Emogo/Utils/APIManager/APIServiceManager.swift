@@ -182,19 +182,32 @@ class APIServiceManager: NSObject {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
             jsonCollaborator.append(value)
         }
-        
-        let params: [String: Any] = [
+        var  params: [String: Any]!
+        if anyOneCanEdit == true {
+            params = [
             "name" : streamName,
             "description" : streamDescription,
-            "image" : "coverImage",
+            "image" : coverImage,
+            "type":streamType,
+            "any_one_can_edit":anyOneCanEdit,
+            "collaborator":jsonCollaborator
+            ]
+        }else {
+            params = [
+            "name" : streamName,
+            "description" : streamDescription,
+            "image" : coverImage,
             "type":streamType,
             "any_one_can_edit":anyOneCanEdit,
             "collaborator":jsonCollaborator ,
             "collaborator_permission": [
-                "can_add_content" : canAddContent,
-                "can_add_people": canAddPeople
+            "can_add_content" : canAddContent,
+            "can_add_people": canAddPeople
             ]
-        ]
+            ]
+        }
+      
+        
         print(params)
         
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamAPI, Param: params) { (result) in

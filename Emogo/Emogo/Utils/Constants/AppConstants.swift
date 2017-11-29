@@ -80,6 +80,9 @@ let kAlertInvalidUserNameMsg            = "User Name limit is maximum 30 charact
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
 let kAlertStreamNameEmpty = "Please enter Stream Name."
+let kAlertStreamAddedSuccess = "Stream Added Successfully."
+let kAlertStreamCaptionEmpty = "Please enter Stream Caption."
+let kAlertStreamCoverEmpty = "Please Select Stream Cover Image."
 
 
 // MARK: -  AlertMessage

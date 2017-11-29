@@ -35,6 +35,8 @@ class AddStreamViewController: UITableViewController {
     var coverImage:UIImage!
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
+    var streamType:String! = "Public"
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -83,8 +85,10 @@ class AddStreamViewController: UITableViewController {
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
         self.switchMakePrivate.isOn = sender.isOn
         if sender.isOn {
+            streamType = "Private"
             self.switchAnyOneCanEdit.isEnabled = false
         }else {
+            streamType = "Public"
             self.switchAnyOneCanEdit.isEnabled = true
         }
     }
@@ -100,14 +104,12 @@ class AddStreamViewController: UITableViewController {
     }
     @IBAction func btnActionDone(_ sender: Any) {
         if (self.txtStreamName.text?.trim().isEmpty)! {
-            self.txtStreamName.errorColor = .red
-            self.txtStreamName.errorMessage = kAlertStreamNameEmpty
+            txtStreamName.shake()
         }else if (self.txtStreamCaption.text?.trim().isEmpty)! {
-            
+            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamCaptionEmpty)
         }else if coverImage == nil {
-        
+            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamCoverEmpty)
         }else  {
-            // api for Add Stream
             self.uploadCoverImage()
         }
     }
@@ -172,13 +174,17 @@ class AddStreamViewController: UITableViewController {
     }
     
    private func createStream(cover:String){
-   
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: "Public", anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
+
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                
+                SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamAddedSuccess)
+                let when = DispatchTime.now() + 3
+                DispatchQueue.main.asyncAfter(deadline: when) {
+                    self.navigationController?.pop()
+                }
             }else {
-                
+                SharedData.sharedInstance.showToast(ViewController: self, strMSG: errorMsg!)
             }
         }
     }

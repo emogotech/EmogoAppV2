@@ -605,7 +605,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ExW-6G-kMP" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Enf-EU-hU2">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="Enf-EU-hU2">
                                                             <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="saV-Va-Rjo">
@@ -1968,6 +1968,7 @@
         <image name="edit_icon" width="24" height="24"/>
         <image name="emogo_stream" width="155" height="45"/>
         <image name="flash-icon" width="12" height="17"/>
+        <image name="image7" width="1000" height="666"/>
         <image name="input_text_iphone" width="253" height="42"/>
         <image name="lapse-icon" width="23" height="23"/>
         <image name="logo-iPhone" width="126" height="33"/>
