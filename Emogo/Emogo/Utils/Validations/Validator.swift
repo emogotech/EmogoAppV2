@@ -125,7 +125,6 @@ class Validator {
         return  true
     }
     
-    
     static func isNameLength(text: String, lenghtMin : Int, lengthMax : Int) -> Bool {
         if (text.trim().count) < lenghtMin || (text.trim().count) > lengthMax {
             return false

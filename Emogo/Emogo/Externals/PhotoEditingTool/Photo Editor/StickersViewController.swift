@@ -111,10 +111,10 @@ class StickersViewController: UIViewController, UIGestureRecognizerDelegate {
                                      width: frame.width,
                                      height: UIScreen.main.bounds.height - self.partialView)
         }
-        var width = scrollView.frame.width
-        var height = scrollView.frame.height
-        var newPosition = scrollView.contentOffset.x + width
-        var toVisible = CGRect(x: newPosition, y: 0, width: width, height: height)
+        let width = scrollView.frame.width
+        let height = scrollView.frame.height
+        let newPosition = scrollView.contentOffset.x + width
+        let toVisible = CGRect(x: newPosition, y: 0, width: width, height: height)
         scrollView.scrollRectToVisible(toVisible, animated: true)
 
 

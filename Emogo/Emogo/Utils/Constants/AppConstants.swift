@@ -111,18 +111,22 @@ let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
 let iMsgSegue_SignUpVerify                      = "SignUpVerifyViewController"
 let iMsgSegue_SignUpSelected                    = "SignUpSelectedViewController"
 let iMsgSegue_Home                              = "HomeViewController"
-let iMsgSegue_HomeDetailed                       = "HomeDetailedViewController"
+let iMsgSegue_Stream                            = "StreamViewController"
+let iMsgSegue_StreamContent                     = "StreamContentViewController"
+
+let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
+let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
 let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages
-let iMsgError_NameMsg                           = "User Name limit is maximum 30 characters."
+let iMsgError_NameMsg                           = "Please enter the name and minimum three characters."
 let iMsgError_CodeMsg                           = "Please enter 4 digit code."
 let iMsgError_Mobile                            = "Please enter mobile number."
 let iMsgError_Name                              = "Please enter the name."
-
+let iMsgError_NameMax                           = "User Name limit is maximum 30 characters"
 
 //Alert Types
 let iMsgAlertType_One = "1"

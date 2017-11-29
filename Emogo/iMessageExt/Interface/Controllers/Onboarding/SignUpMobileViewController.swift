@@ -109,6 +109,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
         self.txtMobileNumber.resignFirstResponder()
     }
     

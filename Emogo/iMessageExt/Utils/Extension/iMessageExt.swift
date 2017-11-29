@@ -59,6 +59,22 @@ extension MSMessagesAppViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
     }
     
+    func addRightTransitionImage(imgV:UIImageView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
+    func addLeftTransitionImage(imgV:UIImageView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
     func showToastIMsg(type:AlertType,strMSG:String) {
         self.view.makeToast(message: strMSG,
                             duration: TimeInterval(3.0),

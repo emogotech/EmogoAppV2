@@ -155,6 +155,8 @@ class APIServiceManager: NSObject {
                             UserDAO.sharedInstance.parseUserInfo()
                             print(UserDAO.sharedInstance.user.fullName)
                             kDefault.set(true, forKey: kUserLogggedIn)
+                            
+                            SharedData.sharedInstance.setUserInfo(dictObject: dictUserData)
                         }
                         completionHandler(true,"")
                     }else {

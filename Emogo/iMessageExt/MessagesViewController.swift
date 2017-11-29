@@ -11,18 +11,58 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
+    //MARK: - Outlets
+    @IBOutlet weak var container: UIView!
+    
+    //MARK: - Variables
+    var hudView: LoadingView!
+    
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepareLayout()
-        
+        setupLoader()
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
-        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    // MARK:- LoaderSetup
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+       
+        self.perform(#selector(self.isUserLogedIn), with: nil, afterDelay: 2.0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.container.frame = self.view.bounds
+    }
+    
+    @objc func isUserLogedIn(){
+        if SharedData.sharedInstance.dictUserInfo().count > 0 {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            self.addChildViewController(vc)
+            vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
+            self.container.addSubview(vc.view)
+            vc.didMove(toParentViewController: self)
+             self.hudView.stopLoaderWithAnimation()
+            self.container.isHidden = false
+        }
+        else {
+            self.hudView.stopLoaderWithAnimation()
+            self.container.isHidden = true
+        }
     }
     
     // MARK: - PrepareLayout
@@ -33,11 +73,6 @@ class MessagesViewController: MSMessagesAppViewController {
                 SharedData.sharedInstance.countryCode = code
             }
         }
-    }
-    
-    // MARK: - Screen Size Handling
-    @objc func requestMessageScreenChangeStyle(){
-        requestPresentationStyle(.expanded)
     }
     
     // MARK: - Action methods
@@ -51,6 +86,15 @@ class MessagesViewController: MSMessagesAppViewController {
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
+    }
+    
+    // MARK: - Screen Size Handling
+    @objc func requestMessageScreenChangeStyle(){
+        requestPresentationStyle(.expanded)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     // MARK: - Conversation Handling
@@ -87,17 +131,13 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
-        
         if(presentationStyle == .expanded) {
             SharedData.sharedInstance.isMessageWindowExpand = true
-
         }
         else {
             SharedData.sharedInstance.isMessageWindowExpand = false
-
         }
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageScreen), object: nil)
-
         // Called before the extension transitions to a new presentation style.
         // Use this method to prepare for the change in presentation style.
     }
@@ -114,3 +154,4 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
 }
+
