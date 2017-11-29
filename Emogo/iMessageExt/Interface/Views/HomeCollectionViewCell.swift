@@ -36,8 +36,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
-        self.imgStream.image = stream.imgCover
-        self.lblStreamName.text = stream.title
+      //  self.imgStream.image = stream.cover
+        self.lblStreamName.text = stream.Title
         self.lblShortDesc.text = "Posted By Jon"
     }
     

@@ -119,6 +119,12 @@ class StreamListViewController: UIViewController {
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetStreamList { (results, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.arrayStreams = results!
+                self.streamCollectionView.reloadData()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
         }
     }
     /*

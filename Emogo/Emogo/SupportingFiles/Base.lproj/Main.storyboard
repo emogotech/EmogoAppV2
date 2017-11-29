@@ -1201,7 +1201,7 @@
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select_icon" translatesAutoresizingMaskIntoConstraints="NO" id="fcT-BG-mxQ">
                                                     <rect key="frame" x="15" y="6" width="70" height="70"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.67843137254901964" blue="0.5607843137254902" alpha="0.796875" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.67843137254901964" blue="0.95294117647058818" alpha="0.796875" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="70" id="Gn2-4N-bxe"/>
                                                         <constraint firstAttribute="width" constant="70" id="uLk-eQ-tdO"/>

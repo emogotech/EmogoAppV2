@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import QuartzCore
+import SDWebImage
 
 // MARK: - UIColor
 extension UIColor {
@@ -159,6 +160,11 @@ extension String {
         return boundingBox.width
     }
     
+    var firstUppercased: String {
+        guard let first = first else { return "" }
+        return String(first).uppercased() + dropFirst()
+    }
+    
 //    func trim() -> String{
 //        return self.trimmingCharacters(in: CharacterSet.whitespaces)
 //    }
@@ -169,7 +175,20 @@ extension String {
 extension UIView {
     
 }
-
+// MARK: - UIImageView
+extension UIImageView {
+    
+    func setImageWithURL(strImage:String, placeholder:String){
+        if strImage.isEmpty{
+            return
+        }
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        //self.sd_setImage(with: url)
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        self.sd_setShowActivityIndicatorView(true)
+        self.sd_setIndicatorStyle(.gray)
+    }
+}
 
 // MARK: - UIButton
 extension UIButton {

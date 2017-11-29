@@ -227,6 +227,13 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                         if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: obj as! [String : Any])
+                               objects.append(stream)
+                            }
+                        }
                         completionHandler(objects,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
