@@ -125,7 +125,7 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'emogo.lib.helpers.utils.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'emogo.lib.default_paginations.pagination.CustomPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 20
 
 }
 
