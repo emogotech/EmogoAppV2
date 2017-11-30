@@ -2,6 +2,7 @@ from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from models import Stream, Content
 from emogo.apps.collaborator.models import Collaborator
+from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
 import itertools
 from django.db import transaction
@@ -189,9 +190,52 @@ class ViewStreamSerializer(StreamSerializer):
     This serializer is used to show Serializer view section
     """
     author = serializers.SerializerMethodField()
+    collaborators = serializers.SerializerMethodField()
+    contents = serializers.SerializerMethodField()
+    stream_permission = serializers.SerializerMethodField()
 
-    def get_author(self,obj):
+    def get_author(self, obj):
         try:
-            return obj.created_by.user_data.full_name
+            return self.instance.created_by.user_data.full_name
+        except AttributeError:
+            return None
+
+    def get_collaborators(self, obj):
+        fields = ('name', 'phone_number', 'can_add_content', 'can_add_people')
+        return ViewCollaboratorSerializer(self.instance.collaborator_list.filter(status='Active'),
+                                          many=True, fields=fields).data
+
+    def get_contents(self, obj):
+        fields = ('name', 'url', 'type')
+        return ViewContentSerializer(self.instance.content_list.filter(status='Active'), many=True,
+                                     fields=fields).data
+
+    def get_stream_permission(self, obj):
+        qs = self.instance.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
+        if qs.exists():
+            fields = ('can_add_content', 'can_add_people')
+            return ViewCollaboratorSerializer(qs[0], fields=fields).data
+        return None
+
+
+class ContentSerializer(DynamicFieldsModelSerializer):
+    """
+    Collaborator model Serializer
+    """
+
+    class Meta:
+        model = Content
+        fields = '__all__'
+
+
+class ViewContentSerializer(ContentSerializer):
+    """
+    This serializer is used to show Content view section
+    """
+    stream = serializers.SerializerMethodField()
+
+    def get_stream(self, obj):
+        try:
+            return self.instance.stream.name
         except AttributeError:
             return None

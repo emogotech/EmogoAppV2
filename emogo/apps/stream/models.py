@@ -37,6 +37,7 @@ class Stream(DefaultStatusModel):
     type = models.CharField(max_length=10, choices=STREAM_TYPE, default=STREAM_TYPE[0][0])
     any_one_can_edit = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, null=True, blank=True)
+    view_count = models.IntegerField(null=True, blank=True, default=0)
 
     class Meta:
         db_table = 'stream'
@@ -55,6 +56,13 @@ class Stream(DefaultStatusModel):
     def update_status(self, instance, status):
         instance.status = status
         instance.save(update_fields=['status'])
+
+    def update_view_count(self):
+        # Update view count increment by 1
+        self.view_count += 1
+        self.save()
+        return self.view_count
+
 
 class Content(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)

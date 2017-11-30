@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
@@ -10,7 +10,7 @@ from models import Stream
 from serializers import StreamSerializer, ViewStreamSerializer
 
 
-class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
+class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
     Stream CRUD API
     """
@@ -18,6 +18,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
     queryset = Stream.actives.all().order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -25,6 +26,27 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView):
         """
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get(self, request, *args, **kwargs):
+        if kwargs.get('pk') is not None:
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            return self.list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+
+        instance = self.get_object()
+        # Update stream view count
+        instance.update_view_count()
+        self.serializer_class = ViewStreamSerializer
+        serializer = self.get_serializer(instance)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
