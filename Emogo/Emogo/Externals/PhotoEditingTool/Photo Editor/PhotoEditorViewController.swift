@@ -41,8 +41,13 @@ import UIKit
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var pencilButton: UIButton!
     @IBOutlet weak var colorButton: UIButton!
+    @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var pencilView: UIView!
     @IBOutlet weak var drawViewButton: UIStackView!
+    @IBOutlet weak var filterViewButton: UIStackView!
+    @IBOutlet weak var filterView: UIView!
+    @IBOutlet weak var filterSliderView: UIView!
+    @IBOutlet weak var filterSlider: UISlider!
 
     public var image: UIImage?
     /**
@@ -75,6 +80,8 @@ import UIKit
     var isTyping: Bool = false
     var isColorSelected: Bool = false
     var isPencilSelected: Bool = false
+    var isFilterSelected: Bool = false
+
     var drawWidth:CGFloat = 5.0
     var stickersViewController: StickersViewController!
 

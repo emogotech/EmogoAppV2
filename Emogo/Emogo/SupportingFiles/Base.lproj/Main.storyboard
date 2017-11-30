@@ -757,7 +757,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_cover_images" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-RK-sDO">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-stream-cover-image-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-RK-sDO">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Io-kd-XCi">
@@ -1005,7 +1005,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="9" width="84" height="17"/>
+                                                    <rect key="frame" x="10" y="9" width="87.5" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6Mf-BA-iy0"/>
                                                     </constraints>
@@ -1952,6 +1952,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add-stream-cover-image-placeholder" width="320" height="152"/>
         <image name="add_galery" width="20" height="20"/>
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_photo" width="20" height="17"/>
@@ -1961,7 +1962,6 @@
         <image name="camera_icon_cover_images" width="33" height="33"/>
         <image name="capture-icon" width="54" height="54"/>
         <image name="delete_icon-cover_image" width="24" height="24"/>
-        <image name="demo_cover_images" width="320" height="152"/>
         <image name="done-btn" width="137" height="45"/>
         <image name="done_button" width="137" height="45"/>
         <image name="done_icon" width="14" height="13"/>

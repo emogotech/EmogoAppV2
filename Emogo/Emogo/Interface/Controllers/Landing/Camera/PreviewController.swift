@@ -30,7 +30,7 @@ class PreviewController: UIViewController {
     var isPreviewOpen:Bool! = false
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
-    
+    let shapes = ShapeDAO()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,6 +160,7 @@ class PreviewController: UIViewController {
         //PhotoEditorDelegate
          photoEditor.photoEditorDelegate = self
          photoEditor.hiddenControls = [.share]
+        photoEditor.stickers = shapes.shapes
          photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
           present(photoEditor, animated: true) {
         }

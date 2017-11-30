@@ -243,7 +243,7 @@ class APIServiceManager: NSObject {
                          if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
                             for obj in result {
-                                let stream = StreamDAO(streamData: obj as! [String : Any])
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                objects.append(stream)
                             }
                         }
