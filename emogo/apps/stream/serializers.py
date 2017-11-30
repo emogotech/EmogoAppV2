@@ -196,22 +196,22 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_author(self, obj):
         try:
-            return self.instance.created_by.user_data.full_name
+            return obj.created_by.user_data.full_name
         except AttributeError:
             return None
 
     def get_collaborators(self, obj):
         fields = ('name', 'phone_number', 'can_add_content', 'can_add_people')
-        return ViewCollaboratorSerializer(self.instance.collaborator_list.filter(status='Active'),
+        return ViewCollaboratorSerializer(obj.collaborator_list.filter(status='Active'),
                                           many=True, fields=fields).data
 
     def get_contents(self, obj):
         fields = ('name', 'url', 'type')
-        return ViewContentSerializer(self.instance.content_list.filter(status='Active'), many=True,
+        return ViewContentSerializer(obj.content_list.filter(status='Active'), many=True,
                                      fields=fields).data
 
     def get_stream_permission(self, obj):
-        qs = self.instance.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
+        qs = obj.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
         if qs.exists():
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
@@ -236,6 +236,6 @@ class ViewContentSerializer(ContentSerializer):
 
     def get_stream(self, obj):
         try:
-            return self.instance.stream.name
+            return obj.stream.name
         except AttributeError:
             return None

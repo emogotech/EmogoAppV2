@@ -69,7 +69,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer.validated_data)
-        return custom_render_response(status_code=status.HTTP_201_CREATED)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
 
     def update(self, request, *args, **kwargs):
         """
