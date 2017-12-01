@@ -109,13 +109,12 @@ class AddStreamViewController: UITableViewController {
     }
     @IBAction func btnActionDone(_ sender: Any) {
         if coverImage == nil {
-            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamCoverEmpty)
+            self.showToast(strMSG: kAlertStreamCoverEmpty)
         }
        else if (self.txtStreamName.text?.trim().isEmpty)! {
             txtStreamName.shake()
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
-        
-            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamColabEmpty)
+            self.showToast(strMSG: kAlertStreamColabEmpty)
         }else {
             self.uploadCoverImage()
         }
@@ -185,13 +184,13 @@ class AddStreamViewController: UITableViewController {
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamAddedSuccess)
+                self.showToast(strMSG: kAlertStreamAddedSuccess)
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
                 }
             }else {
-                SharedData.sharedInstance.showToast(ViewController: self, strMSG: errorMsg!)
+                self.showToast(strMSG: errorMsg!)
             }
         }
     }

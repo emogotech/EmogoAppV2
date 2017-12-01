@@ -434,3 +434,18 @@ extension UIImage {
     }
     
 }
+
+extension UITableViewController {
+    func showToast(strMSG:String) {
+        
+        AppDelegate.appDelegate.window?.makeToast(message: strMSG,
+                                                  duration: TimeInterval(3.0),
+                                                  position: .top,
+                                                  image: nil,
+                                                  backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                                                  titleColor: UIColor.yellow,
+                                                  messageColor: UIColor.white,
+                                                  font: nil)
+        
+    }
+}

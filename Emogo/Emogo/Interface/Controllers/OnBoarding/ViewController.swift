@@ -33,7 +33,9 @@ class ViewController: UIViewController {
    
    // MARK: - Prepare Layouts
     func prepareLayouts(){
-       self.getCountryCode()
+        if SharedData.sharedInstance.countryCode.trim().isEmpty {
+            self.getCountryCode()
+        }
     }
 
     // MARK: -  Action Methods And Selector

@@ -165,7 +165,12 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
-        self.navigationController?.pop()
+        if self.isCaptureMode == false {
+            self.isRecording = false
+            self.recordButtonTapped(isShow: false)
+        }else {
+            self.navigationController?.pop()
+        }
     }
     
     @IBAction func btnAnimateViewAction(_ sender: Any) {

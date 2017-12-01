@@ -45,6 +45,8 @@ class UserNameViewController: UIViewController {
             self.txtUserName.shake()
         }else if (txtUserName.text?.trim().count)! < 3 || (txtUserName.text?.trim().count)! > 30 {
             self.showToast(type: .error, strMSG: kAlertInvalidUserNameMsg)
+        }else if (txtUserName.text?.trim().contains(iMsg_String_singleSpace))!{
+            self.showToast(type: .error, strMSG: kAlertInvalidUserSpaceMsg)
         }else {
             self.verifyUserName()
         }
