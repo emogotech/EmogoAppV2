@@ -21,9 +21,9 @@ class UserDAO {
     }
     
     func parseUserInfo(){
-        if kDefault.value(forKey: kUserLogggedInData) != nil {
-            if kDefault.value(forKey: kUserLogggedInData) is [String:Any] {
-                let dict = kDefault.value(forKey: kUserLogggedInData) as! [String : Any]
+        if kDefault?.value(forKey: kUserLogggedInData) != nil {
+            if kDefault?.value(forKey: kUserLogggedInData) is [String:Any] {
+                let dict = kDefault?.value(forKey: kUserLogggedInData) as! [String : Any]
                 self.user = User(userData: dict)
             }
         }

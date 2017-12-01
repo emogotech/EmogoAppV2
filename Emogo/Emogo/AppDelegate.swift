@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.appDelegate = self
        
         // If User already logged in
-        if kDefault.bool(forKey: kUserLogggedIn) == true {
+        if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }

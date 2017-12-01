@@ -90,9 +90,9 @@ class APIServiceManager: NSObject {
                         
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
-                            kDefault.set(true, forKey: kUserLogggedIn)
+                            kDefault?.set(true, forKey: kUserLogggedIn)
                         }
                         completionHandler(true,"")
                     }else {
@@ -151,10 +151,10 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                            kDefault.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
                             print(UserDAO.sharedInstance.user.fullName)
-                            kDefault.set(true, forKey: kUserLogggedIn)
+                            kDefault?.set(true, forKey: kUserLogggedIn)
                             
                             SharedData.sharedInstance.setUserInfo(dictObject: dictUserData)
                         }
