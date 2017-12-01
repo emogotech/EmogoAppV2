@@ -7,7 +7,6 @@ def common_pods_for_target
     pod 'Alamofire'
     pod 'SDWebImage'
     pod 'SwiftyJSON'
-    pod 'SnapKit'
     pod 'AWSS3'
   
 end

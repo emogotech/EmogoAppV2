@@ -135,6 +135,7 @@ class Validator {
     //
 }
 
+
 extension String {
     var length: Int {
         return self.count
@@ -157,4 +158,5 @@ extension String {
     }
     
 }
+
 

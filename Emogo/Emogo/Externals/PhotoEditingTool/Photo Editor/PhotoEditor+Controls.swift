@@ -153,6 +153,67 @@ extension PhotoEditorViewController {
             break
         }
     }
+    
+    @IBAction func btnFilterPressed(_ sender: UIButton) {
+        self.isFilterSelected = !self.isFilterSelected
+        Animation.viewSlideInFromTopToBottom(views:self.filterView)
+        if self.isFilterSelected  {
+            hideToolbar(hide: true)
+            self.filterView.isHidden = false
+            self.filterViewButton.isHidden = false
+            self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon_selected"), for: .normal)
+        }else {
+            self.filterViewButton.isHidden = true
+            hideToolbar(hide: false)
+            self.filterView.isHidden = true
+            self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        }
+    }
+    @IBAction func btnFilterOptionSelected(_ sender: UIButton) {
+        self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.isFilterSelected = false
+        self.filterViewButton.isHidden = true
+        self.filterSliderView.isHidden = false
+        Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
+        switch sender.tag {
+        case 11:
+            
+            break
+        case 22:
+            
+            break
+        case 33:
+            
+            break
+        case 44:
+            
+            break
+        default:
+            break
+        }
+    }
+    @IBAction func btnFilterOkPressed(_ sender: UIButton) {
+        self.filterView.isHidden = true
+        Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
+        self.filterViewButton.isHidden = true
+        self.filterSliderView.isHidden = true
+        hideToolbar(hide: false)
+        self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.isFilterSelected = false
+
+    }
+    @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
+        self.filterView.isHidden = true
+        Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
+        self.filterViewButton.isHidden = true
+        self.filterSliderView.isHidden = true
+        hideToolbar(hide: false)
+        self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.isFilterSelected = false
+
+    }
+    
+    
     //MAKR: helper methods
     
     func doneButtonAction(){

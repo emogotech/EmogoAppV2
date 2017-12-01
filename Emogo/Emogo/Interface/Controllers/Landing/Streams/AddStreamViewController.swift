@@ -32,6 +32,7 @@ class AddStreamViewController: UITableViewController {
             self.configureCollaboatorsRowExpandCollapse()
         }
     }
+  
     var coverImage:UIImage!
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
@@ -84,9 +85,13 @@ class AddStreamViewController: UITableViewController {
     }
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
         self.switchMakePrivate.isOn = sender.isOn
+        self.switchAddContent.isOn = false
+        self.switchAddPeople.isOn = false
+        self.switchAddPeople.isEnabled = sender.isOn
+        self.switchAddContent.isEnabled = sender.isOn
         if sender.isOn {
             streamType = "Private"
-            self.switchAnyOneCanEdit.isEnabled = false
+             self.switchAnyOneCanEdit.isEnabled = false
         }else {
             streamType = "Public"
             self.switchAnyOneCanEdit.isEnabled = true
@@ -103,13 +108,15 @@ class AddStreamViewController: UITableViewController {
         }
     }
     @IBAction func btnActionDone(_ sender: Any) {
-        if (self.txtStreamName.text?.trim().isEmpty)! {
-            txtStreamName.shake()
-        }else if (self.txtStreamCaption.text?.trim().isEmpty)! {
-            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamCaptionEmpty)
-        }else if coverImage == nil {
+        if coverImage == nil {
             SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamCoverEmpty)
-        }else  {
+        }
+       else if (self.txtStreamName.text?.trim().isEmpty)! {
+            txtStreamName.shake()
+        }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
+        
+            SharedData.sharedInstance.showToast(ViewController: self, strMSG: kAlertStreamColabEmpty)
+        }else {
             self.uploadCoverImage()
         }
     }
@@ -219,6 +226,24 @@ extension AddStreamViewController {
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
+    }
+    
+}
+
+
+extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == txtStreamName {
+            txtStreamCaption.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            return false
+        }
+        return true
     }
     
 }

@@ -43,6 +43,8 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
         self.getStreamList()
+        menuView.isHidden = true
+        self.viewMenu.isHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

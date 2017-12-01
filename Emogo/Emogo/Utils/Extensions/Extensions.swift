@@ -165,13 +165,11 @@ extension String {
         return String(first).uppercased() + dropFirst()
     }
     
-//    func trim() -> String{
-//        return self.trimmingCharacters(in: CharacterSet.whitespaces)
-//    }
-    
 }
+    
 
-// MARK: - String
+
+// MARK: - UIView
 extension UIView {
     
 }
