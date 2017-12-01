@@ -8,6 +8,9 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import Fabric
+import Crashlytics
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -49,7 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
-       
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
         // If User already logged in
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
@@ -67,12 +71,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     
-    
     }
     func keyboardToolBar(disable:Bool){
         IQKeyboardManager.sharedManager().enableAutoToolbar = disable
         IQKeyboardManager.sharedManager().shouldShowToolbarPlaceholder = disable
-        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
+        self.keyboardResign(isActive: true)
     }
   
     func keyboardResign(isActive:Bool){
