@@ -9,7 +9,7 @@
 import UIKit
 
 class HomeCollectionViewCell: UICollectionViewCell {
-  
+    
     @IBOutlet weak var imgStream : UIImageView!
     @IBOutlet weak var lblStreamName : UILabel!
     @IBOutlet weak var lblShortDesc : UILabel!
@@ -35,10 +35,12 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Prepare Layouts
+    // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
-      //  self.imgStream.image = stream.cover
-        self.lblStreamName.text = stream.Title
-        self.lblShortDesc.text = "Posted By Jon"
+        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "image7")
+        self.lblStreamName.text = stream.Title.trim()
+        self.lblShortDesc.text = "by \(stream.Author!)"
     }
+
     
 }

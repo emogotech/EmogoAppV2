@@ -559,7 +559,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         if self.isAddTitle == true {
             lblCurrentType.text = "Add"
         }else {
-            lblCurrentType.text = "Feature"
+            lblCurrentType.text = "Featured"
         }
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center

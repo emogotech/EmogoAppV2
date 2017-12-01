@@ -16,6 +16,8 @@ class SharedData: NSObject {
     
     
     var countryCode:String! = ""
+    var nextStreamString:String! = ""
+    var isMoreContentAvailable : Bool = false
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {

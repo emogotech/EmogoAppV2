@@ -233,10 +233,13 @@ class APIServiceManager: NSObject {
     
     func apiForGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
         var objects = [StreamDAO]()
-        APIManager.sharedInstance.GETRequestWithHeader(strURL: kStreamAPI) { (result) in
+        var strURL = kStreamAPI
+        if(SharedData.sharedInstance.nextStreamString != ""){
+            strURL = "\(kStreamAPI)\(SharedData.sharedInstance.nextStreamString!)"
+        }
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: strURL) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -244,8 +247,15 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                               objects.append(stream)
+                                objects.append(stream)
                             }
+                        }
+                        if let nextPagningUrl = (value as! [String:Any])["next"] as? String  {
+                            let lastIndexFromUrl = (nextPagningUrl ).components(separatedBy: "/")
+                                SharedData.sharedInstance.nextStreamString = lastIndexFromUrl.last
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                        }else{
+                            SharedData.sharedInstance.isMoreContentAvailable = false
                         }
                         completionHandler(objects,"")
                     }else {
@@ -259,6 +269,4 @@ class APIServiceManager: NSObject {
             }
         }
     }
- 
-    
 }

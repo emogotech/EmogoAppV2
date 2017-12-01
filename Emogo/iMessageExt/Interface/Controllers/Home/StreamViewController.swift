@@ -29,13 +29,23 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        requestMessageScreenChangeSize()
         self.prepareLayout()
+    }
+    
+    // MARK:- Selector Methods
+    @objc func requestMessageScreenChangeSize(){
+        if(SharedData.sharedInstance.isMessageWindowExpand == false){
+            imgGradient.isUserInteractionEnabled = false
+        }else{
+            imgGradient.isUserInteractionEnabled = true
+        }
     }
     
     // MARK: -PrepareLayout
     func prepareLayout() {
-        
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -62,7 +72,6 @@ class StreamViewController: MSMessagesAppViewController {
                 if currentStreamIndex !=  arrStream.count-1 {
                     self.nextImageLoad()
                 }
-                print("Swiped left")
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
@@ -83,6 +92,8 @@ class StreamViewController: MSMessagesAppViewController {
             let tempDict = NSMutableDictionary()
             tempDict.setObject("food\(v)", forKey: "img" as NSCopying)
             tempDict.setObject("FOOD \(v)", forKey: "title" as NSCopying)
+            tempDict.setObject("FOOD \(v)", forKey: "titleName" as NSCopying)
+            tempDict.setObject("FOOD Description for FOOD Description for FOOD Description for \(v)", forKey: "titleDescription" as NSCopying)
             self.arrContentData.add(tempDict)
         }
         self.collectionStreams.reloadData()
@@ -92,10 +103,10 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: -Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
-       // self.imgStream.image = stream.imgCover
+        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "image7")
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
-        self.lblStreamDesc.text = "Posted By Jon"
+        self.lblStreamDesc.text = "by \(stream.Author!)"
     }
     
     // MARK: -Enable/Disable - Next/Previous Button
@@ -112,7 +123,6 @@ class StreamViewController: MSMessagesAppViewController {
         else {
             btnNextStream.isEnabled = true
         }
-        
     }
     
     // MARK: - Action Methods
@@ -168,9 +178,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
             cell.viewAddContent.isHidden = true
             cell.imgFood.image = UIImage(named: "\(tempDict.object(forKey: "img") as! String)")
             cell.lblFoodName.text = "\(tempDict.object(forKey: "title") as! String)"
-            
-        }
-        
+        }        
         return cell
     }
     
@@ -186,7 +194,6 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         self.addRippleTransition()
-        
         
         obj.currentStreamIndex = currentStreamIndex
         obj.currentContentIndex  = indexPath.row
