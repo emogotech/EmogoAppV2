@@ -37,7 +37,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     // MARK: - Prepare Layouts
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
-        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "image7")
+        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblStreamName.text = stream.Title.trim()
         self.lblShortDesc.text = "by \(stream.Author!)"
     }

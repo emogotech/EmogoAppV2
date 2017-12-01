@@ -279,6 +279,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         obj.arrStream = self.arrayStreams
         obj.currentStreamIndex = sender.tag
         self.present(obj, animated: false, completion: nil)
+        self.changeCellImageAnimation(sender.tag)
     }
     
     @objc func btnShareAction(_ sender:UIButton){
@@ -297,7 +298,12 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             let indexPath = NSIndexPath(row: row, section: 0)
             if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
                 if(sender == (sel as! HomeCollectionViewCell).imgStream?.tag){
-                    (sel as! HomeCollectionViewCell).viewShowHide.isHidden = false
+                    if((sel as! HomeCollectionViewCell).viewShowHide.isHidden == false){
+                        (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
+                    }
+                    else{
+                        (sel as! HomeCollectionViewCell).viewShowHide.isHidden = false
+                    }
                     addTransition(vi : (sel as! HomeCollectionViewCell))
                 } else {
                     (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
@@ -378,11 +384,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
             lastIndex = index
-            pagerView.scrollToItem(at: index, animated: true)
+            
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
             })
         }
+        pagerView.scrollToItem(at: index, animated: true)
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {

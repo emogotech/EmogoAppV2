@@ -39,7 +39,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         txtVeryficationCode.layer.cornerRadius = iMsg_CornorRadius
         txtVeryficationCode.clipsToBounds = true
         
-        txtVeryficationCode.text = self.OTP
+//        txtVeryficationCode.text = self.OTP
     }
     
     func setupLoader() {

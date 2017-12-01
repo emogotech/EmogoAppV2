@@ -130,6 +130,11 @@ class StreamViewController: MSMessagesAppViewController {
         nextImageLoad()
     }
     
+    
+    @IBAction func btnClose(_ sender:UIButton){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     func nextImageLoad(){
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1

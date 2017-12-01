@@ -57,11 +57,12 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         if !(Validator.isEmpty(text: txtName.text!)) {
             txtName.shakeTextField()
         } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: iMsgNameMinLength)) {
-            self.showToastIMsg(type: .error, strMSG: kAlertInvalidUserNameMsg)
+            self.showToastIMsg(type: .error, strMSG: iMsgError_NameMsg)
         } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: iMsgNameMaxLength)){
             self.showToastIMsg(type: .error, strMSG: iMsgError_NameMax)
-        }
-        else {
+        } else if(!Validator.isNameContainSpace(text: txtName.text!)){
+            self.showToastIMsg(type: .error, strMSG: iMsgError_NameSpace)
+        } else {
             self.view.endEditing(true);
             self.verifyUserName()
         }

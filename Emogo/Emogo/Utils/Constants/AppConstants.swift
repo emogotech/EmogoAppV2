@@ -144,11 +144,13 @@ let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
 let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages
-let iMsgError_NameMsg                           = "Please enter the name and minimum three characters."
+let iMsgError_NameMsg                           = "Please enter minimum three characters."
 let iMsgError_CodeMsg                           = "Please enter 4 digit code."
 let iMsgError_Mobile                            = "Please enter mobile number."
 let iMsgError_Name                              = "Please enter the name."
 let iMsgError_NameMax                           = "User Name limit is maximum 30 characters"
+let iMsgError_NameSpace                         = "Space not allowed"
+
 
 //Alert Types
 let iMsgAlertType_One = "1"
