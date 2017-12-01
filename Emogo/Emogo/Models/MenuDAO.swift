@@ -36,7 +36,7 @@ class MenuDAO {
         let menu5 = Menu(icon: #imageLiteral(resourceName: "ProfileDeselected"), name: "Profile")
         menu5.iconSelected = #imageLiteral(resourceName: "Profile")
         arrayMenu.append(menu5)
-        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "Peoples")
+        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "People")
         menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
         arrayMenu.append(menu6)
     }

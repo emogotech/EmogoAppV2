@@ -25,7 +25,7 @@ class StreamCell: UICollectionViewCell {
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
-        self.lblTitle.attributedText = setInfo(cover: stream.Title.trim(), postedBy: "\nPosted By \(stream.Author!)")
+        self.lblTitle.attributedText = setInfo(cover: stream.Title.trim(), postedBy: "\nBy \(stream.Author!)")
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblTitle.numberOfLines = 0
     }

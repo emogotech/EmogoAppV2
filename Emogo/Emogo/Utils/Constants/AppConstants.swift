@@ -83,6 +83,7 @@ let kAlertStreamNameEmpty = "Please enter Stream Name."
 let kAlertStreamAddedSuccess = "Stream Added Successfully."
 let kAlertStreamCaptionEmpty = "Please enter Stream Caption."
 let kAlertStreamCoverEmpty = "Please Select Stream Cover Image."
+let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 
 
 // MARK: -  AlertMessage
