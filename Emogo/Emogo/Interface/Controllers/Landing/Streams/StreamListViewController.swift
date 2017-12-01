@@ -87,6 +87,7 @@ class StreamListViewController: UIViewController {
     func configureLoadMoreAndRefresh(){
         
         self.streamCollectionView.es.addPullToRefresh {
+            UIApplication.shared.beginIgnoringInteractionEvents()
             self.getStreamList(type:.up)
         }
 
@@ -142,6 +143,7 @@ class StreamListViewController: UIViewController {
     // MARK: - API Methods
     private func getStreamList(type:RefreshType){
         if type == .start {
+            UIApplication.shared.endIgnoringInteractionEvents()
             HUDManager.sharedInstance.showHUD()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type) { (refreshType, errorMsg) in
@@ -153,6 +155,7 @@ class StreamListViewController: UIViewController {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
                 if type == .up {
+                    UIApplication.shared.endIgnoringInteractionEvents()
                     self.streamCollectionView.es.stopPullToRefresh()
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
