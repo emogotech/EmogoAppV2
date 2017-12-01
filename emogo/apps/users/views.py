@@ -7,14 +7,13 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 # django rest
 from rest_framework.views import APIView
-
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer
 # constants
 from emogo.constants import messages
 # util method
-from emogo.lib.helpers.utils import custom_render_response
+from emogo.lib.helpers.utils import custom_render_response, send_otp
 
 
 class Signup(APIView):

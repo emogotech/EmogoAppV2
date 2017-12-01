@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'emogo.apps.users',
     'emogo.apps.stream',
     'emogo.apps.collaborator',
-    'django_twilio',
+    # 'django_twilio',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
+    # 'twilio-python',
 ]
 
 MIDDLEWARE = [
@@ -125,7 +127,8 @@ REST_FRAMEWORK = {
     ),
     'EXCEPTION_HANDLER': 'emogo.lib.helpers.utils.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS': 'emogo.lib.default_paginations.pagination.CustomPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 
 }
 

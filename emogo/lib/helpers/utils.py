@@ -1,11 +1,12 @@
 from rest_framework.response import Response
 from django.conf import settings
-from django_twilio.client import TwilioRestClient
 import random
-
+from emogo import settings
 from rest_framework.views import exception_handler, status
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
 
 
 def custom_exception_handler(exc, context):
@@ -58,10 +59,9 @@ def send_otp(phone_number):
     :return: Sending sms to verify user registration
     """
     pin = generate_pin()
-    client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
-    message = client.messages.create(
-        body="%s" % pin,
-        to=phone_number,
-        from_=settings.TWILIO_FROM_NUMBER,
-    )
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    try:
+        client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="Emogo sign up OTP : {0}".format(pin))
+    except TwilioRestException as e:
+        raise e
     return pin

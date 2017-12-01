@@ -10,7 +10,7 @@ from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 
-from emogo.lib.helpers.utils import generate_pin
+from emogo.lib.helpers.utils import generate_pin, send_otp
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -32,9 +32,10 @@ class UserSerializer(DynamicFieldsModelSerializer):
         :param validated_data:
         :return: Create User and user profile object
         """
-        setattr(self, 'user_pin', generate_pin())
+
         # The code is run while user was not verified but try to sign-up with different user_name or phone number
         # 1. While user request with same user_name and different phone number
+        setattr(self, 'user_pin', send_otp(validated_data.get('username')))
         try:
             user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
             user_profile.otp = self.user_pin
