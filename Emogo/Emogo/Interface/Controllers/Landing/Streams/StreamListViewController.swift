@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ESPullToRefresh
 
 class StreamListViewController: UIViewController {
 
@@ -27,10 +28,9 @@ class StreamListViewController: UIViewController {
         }
     }
     // Varibales
-     var arrayStreams = [StreamDAO]()
     private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
     var menu = MenuDAO()
-    
+    var isMenuOpen:Bool! = false
     
     // MARK: - Override Functions
     
@@ -42,7 +42,7 @@ class StreamListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
-        self.getStreamList()
+        self.getStreamList(type:.start)
         menuView.isHidden = true
         self.viewMenu.isHidden = false
     }
@@ -71,7 +71,7 @@ class StreamListViewController: UIViewController {
         }
         
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
-
+        self.configureLoadMoreAndRefresh()
 
     }
     // MARK: - Prepare Layouts When View Appear
@@ -84,6 +84,16 @@ class StreamListViewController: UIViewController {
 
     }
     
+    func configureLoadMoreAndRefresh(){
+        
+        self.streamCollectionView.es.addPullToRefresh {
+            self.getStreamList(type:.up)
+        }
+
+        self.streamCollectionView.es.addInfiniteScrolling {
+            self.getStreamList(type:.down)
+        }
+    }
   
     // MARK: -  Action Methods And Selector
     
@@ -97,7 +107,9 @@ class StreamListViewController: UIViewController {
     }
     
     override func btnMyProfileAction() {
-        
+        kDefault?.set(false, forKey: kUserLogggedIn)
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+        self.navigationController?.reverseFlipPush(viewController: obj!)
     }
 
     
@@ -107,6 +119,7 @@ class StreamListViewController: UIViewController {
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {
         self.viewMenu.isHidden = true
+        isMenuOpen = true
         Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         self.menuView.isHidden = false
         Animation.viewSlideInFromBottomToTop(views:self.menuView)
@@ -114,21 +127,32 @@ class StreamListViewController: UIViewController {
 
     // MARK: - Class Methods
 
-
    
     
     // MARK: - API Methods
-    private func getStreamList(){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForGetStreamList { (results, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
+    private func getStreamList(type:RefreshType){
+        if type == .start {
+            HUDManager.sharedInstance.showHUD()
+        }
+        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type) { (refreshType, errorMsg) in
+             if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
             if (errorMsg?.isEmpty)! {
-                self.arrayStreams = results!
+                if refreshType == .end {
+                    self.streamCollectionView.es.stopLoadingMore()
+                }
+                if type == .up {
+                    self.streamCollectionView.es.stopPullToRefresh()
+                }else if type == .down {
+                    self.streamCollectionView.es.stopLoadingMore()
+                }
                 self.streamCollectionView.reloadData()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
+       
     }
     /*
     // MARK: - Navigation
@@ -144,11 +168,11 @@ class StreamListViewController: UIViewController {
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
-extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrayStreams.count
+        return StreamList.sharedInstance.arrayStream.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -156,7 +180,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
-        let stream = self.arrayStreams[indexPath.row]
+        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
         cell.prepareLayouts(stream: stream)
         return cell
     }
@@ -178,7 +202,18 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         
         return cell
     }
-
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if isMenuOpen {
+            isMenuOpen = false
+            self.menuView.isHidden = true
+            Animation.viewSlideInFromTopToBottom(views: self.menuView)
+            self.viewMenu.isHidden = false
+            Animation.viewSlideInFromBottomToTop(views:self.viewMenu)
+        }
+       
+    }
+    
 }
 
 

@@ -21,6 +21,7 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod "SwiftyCam"
     pod 'DKImagePickerController'
+pod "ESPullToRefresh"
 
 
 

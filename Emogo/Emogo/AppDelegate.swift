@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.appDelegate = self
        
         // If User already logged in
-        if kDefault.bool(forKey: kUserLogggedIn) == true {
+        if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
@@ -75,6 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
     }
   
+    func keyboardResign(isActive:Bool){
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = isActive
+    }
 }
 
 

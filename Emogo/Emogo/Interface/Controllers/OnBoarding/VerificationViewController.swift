@@ -38,7 +38,6 @@ class VerificationViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
-        self.txtOtP.text = self.OTP
     }
     
     // MARK: -  Action Methods And Selector

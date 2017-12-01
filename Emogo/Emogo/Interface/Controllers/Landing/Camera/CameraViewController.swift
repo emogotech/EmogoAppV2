@@ -205,7 +205,7 @@ class CameraViewController: SwiftyCamViewController {
                 }else {
                     camera  = ImageDAO(type: .image, image: image!)
                 }
-                Gallery.sharedInstance.Images.append(camera)
+                Gallery.sharedInstance.Images.insert(camera, at: 0)
                 group.leave()
             })
            

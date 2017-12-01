@@ -555,12 +555,16 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     }
     
     func configureTitleLabel(){
+        if self.viewWithTag(9999) != nil {
+            lblCurrentType.removeFromSuperview()
+        }
         self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
         if self.isAddTitle == true {
             lblCurrentType.text = "Add"
         }else {
             lblCurrentType.text = "Featured"
         }
+        lblCurrentType.tag = 9999
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center
         lblCurrentType.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)

@@ -55,7 +55,11 @@ class APIManager: NSObject {
     
     func GETRequestWithHeader(strURL: String, callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
-        let url = "\(kBaseURL)\(strURL)"
+        var url = "\(kBaseURL)\(strURL)"
+        if strURL.contains(kBaseURL) {
+            url = strURL
+        }
+        print(url)
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {

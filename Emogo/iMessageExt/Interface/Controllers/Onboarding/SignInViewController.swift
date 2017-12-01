@@ -132,7 +132,7 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
                 self.hudView.stopLoaderWithAnimation()
                 if isSuccess == true {
                     let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                    if kDefault.bool(forKey: kUserLogggedIn) == true {
+                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
                         UserDAO.sharedInstance.parseUserInfo()
                     }
                     self.present(obj, animated: false, completion: nil)

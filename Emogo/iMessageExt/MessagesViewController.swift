@@ -51,7 +51,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     @objc func isUserLogedIn(){
-        if kDefault.bool(forKey: kUserLogggedIn) == true {
+        if kDefault?.bool(forKey: kUserLogggedIn) == true {
               UserDAO.sharedInstance.parseUserInfo()
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.addChildViewController(vc)
@@ -69,7 +69,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
-        if kDefault.bool(forKey: kUserLogggedIn) == true {
+        if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
         }
         APIManager.sharedInstance.getCountryCode { (code) in

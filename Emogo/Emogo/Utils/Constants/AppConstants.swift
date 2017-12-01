@@ -42,6 +42,7 @@ let kStoryboardID_CameraView = "cameraView"
 let kStoryboardID_PreView = "preView"
 let kStoryboardID_AddStreamView = "addStreamView"
 let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
+let kStoryboardID_InitialView = "initialView"
 
 
 
@@ -106,6 +107,7 @@ enum StreamInputType: String {
 // MARK: -  Refresh Type
 
 enum RefreshType:String {
+    case start = "0"
     case up = "1"
     case down = "2"
     case end = "3"
