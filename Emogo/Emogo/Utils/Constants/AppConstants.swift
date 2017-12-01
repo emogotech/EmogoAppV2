@@ -16,7 +16,8 @@ import UIKit
 // MARK: -  Constants Variables
 let kFrame                               = UIScreen.main.bounds
 
-let kDefault                             = UserDefaults.standard
+let kDefault                             = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+
 
 let kStoryboardMain                      = UIStoryboard(name: "Main", bundle: nil)
 let kPhoneFormat                         = "##########"

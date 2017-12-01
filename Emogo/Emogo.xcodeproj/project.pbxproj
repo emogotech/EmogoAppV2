@@ -240,6 +240,8 @@
 		2BDC4AAD1FD1188D0018FC6E /* HomeCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeCollectionReusableView.xib; sourceTree = "<group>"; };
 		330FEB751FC3F5CC00552260 /* KDLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDLoadingView.swift; sourceTree = "<group>"; };
 		330FEB771FC3F5F200552260 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		3346053D1FD13DFC0040BD98 /* Emogo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Emogo.entitlements; sourceTree = "<group>"; };
+		3346053E1FD13FEF0040BD98 /* EmogoShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EmogoShare.entitlements; sourceTree = "<group>"; };
 		335B1A0E1FBB238A006DA9D9 /* Emogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Emogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A111FBB238A006DA9D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		335B1A161FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 		335B1A101FBB238A006DA9D9 /* Emogo */ = {
 			isa = PBXGroup;
 			children = (
+				3346053D1FD13DFC0040BD98 /* Emogo.entitlements */,
 				335B1A111FBB238A006DA9D9 /* AppDelegate.swift */,
 				33BCB0681FBB353E004FF634 /* Interface */,
 				33BCB0321FBB353E004FF634 /* Utils */,
@@ -545,6 +548,7 @@
 		335B1A441FBB23FE006DA9D9 /* ShareExt */ = {
 			isa = PBXGroup;
 			children = (
+				3346053E1FD13FEF0040BD98 /* EmogoShare.entitlements */,
 				335B1A451FBB23FE006DA9D9 /* ShareViewController.swift */,
 				335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */,
 				335B1A4A1FBB23FE006DA9D9 /* Info.plist */,
@@ -1210,7 +1214,12 @@
 					335B1A0D1FBB238A006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					335B1A211FBB238A006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
@@ -1224,12 +1233,22 @@
 					};
 					335B1A421FBB23FE006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					335B1A551FBB2413006DA9D9 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1935,17 +1954,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ca42a489-e726-4b7f-bd6e-1ea17dc7da30";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -1960,17 +1980,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "ca42a489-e726-4b7f-bd6e-1ea17dc7da30";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "Emogo/SupportingFiles/Emogo-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2072,16 +2093,17 @@
 			baseConfigurationReference = 93F17F61E2C943C5CC266208 /* Pods-ShareExt.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CODE_SIGN_ENTITLEMENTS = ShareExt/EmogoShare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "eabfee55-61f2-4fa9-b9a1-ddb858dbe0b0";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDev;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2093,16 +2115,17 @@
 			baseConfigurationReference = 9A3F8EE33050623A851BF111 /* Pods-ShareExt.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
+				CODE_SIGN_ENTITLEMENTS = ShareExt/EmogoShare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "eabfee55-61f2-4fa9-b9a1-ddb858dbe0b0";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoShareExtDev;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2116,16 +2139,17 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = Emogo;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9dfcdc88-faa5-442e-81b3-eb871b1c92af";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoiMsgDev;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2141,16 +2165,17 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "iMessage App Icon";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Emogo/Emogo.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = iMessageExt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.iMessageExt;
 				PRODUCT_NAME = Emogo;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "9dfcdc88-faa5-442e-81b3-eb871b1c92af";
+				PROVISIONING_PROFILE_SPECIFIER = EmogoiMsgDev;
 				SKIP_INSTALL = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "iMessageExt/iMessageExt-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
