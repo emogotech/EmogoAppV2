@@ -63,5 +63,5 @@ def send_otp(phone_number):
     try:
         client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="Emogo sign up OTP : {0}".format(pin))
     except TwilioRestException as e:
-        raise e
+        return None  # Todo : developer return here is None it should return proper error from TwilioRestException class
     return pin

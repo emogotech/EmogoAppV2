@@ -35,7 +35,12 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
         # The code is run while user was not verified but try to sign-up with different user_name or phone number
         # 1. While user request with same user_name and different phone number
-        setattr(self, 'user_pin', send_otp(validated_data.get('username')))
+        sent_otp = send_otp(validated_data.get('username'))
+        if sent_otp is not None:
+            setattr(self, 'user_pin', send_otp(validated_data.get('username')))
+        else:
+            raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(validated_data.get('username'))})
+
         try:
             user_profile = UserProfile.objects.get(full_name=validated_data.get('user_name'), otp__isnull=False)
             user_profile.otp = self.user_pin
