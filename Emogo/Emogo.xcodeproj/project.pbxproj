@@ -606,8 +606,8 @@
 			isa = PBXGroup;
 			children = (
 				339518551FBF1B0000DCC085 /* HomeViewController.swift */,
-				336618A91FCED13B008BC84A /* StreamContentViewController.swift */,
 				336618AA1FCED13B008BC84A /* StreamViewController.swift */,
+				336618A91FCED13B008BC84A /* StreamContentViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";

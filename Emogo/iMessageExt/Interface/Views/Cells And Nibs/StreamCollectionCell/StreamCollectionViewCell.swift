@@ -12,4 +12,9 @@ class StreamCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewAddContent : UIView!
     @IBOutlet weak var lblFoodName : UILabel!
     @IBOutlet weak var imgFood : UIImageView!
+  
+    override func awakeFromNib() {
+        self.layer.cornerRadius = 5.0
+        self.clipsToBounds = true
+    }
 }

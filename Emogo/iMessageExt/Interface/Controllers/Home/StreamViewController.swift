@@ -63,6 +63,19 @@ class StreamViewController: MSMessagesAppViewController {
         }
         dummyArrData()
         loadViewForUI()
+        setupCollectionProperties()
+    }
+    
+    func setupCollectionProperties() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+        layout.itemSize = CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 100)
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 10
+        collectionStreams!.collectionViewLayout = layout
+        
+        collectionStreams.delegate = self
+        collectionStreams.dataSource = self
     }
     
    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -188,10 +201,8 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if (indexPath.row == 0) {
-            return CGSize(width: self.collectionStreams.frame.size.width/2-15, height: self.collectionStreams.frame.size.width/2-50)
-        }
-        return CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 140)
+       
+        return CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
