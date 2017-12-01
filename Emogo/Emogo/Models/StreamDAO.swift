@@ -35,3 +35,18 @@ class StreamDAO {
 }
 
 
+class StreamList{
+    
+    var arrayStream:[StreamDAO]!
+    var requestURl:String! = ""
+    class var sharedInstance: StreamList {
+        struct Static {
+            static let instance: StreamList = StreamList()
+        }
+        return Static.instance
+    }
+    init() {
+        arrayStream = [StreamDAO]()
+    }
+    
+}

@@ -75,6 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
     }
   
+    func keyboardResign(isActive:Bool){
+        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = isActive
+    }
 }
 
 

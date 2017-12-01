@@ -273,7 +273,51 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Get All Stream API iPhone
-    func apiForiPhoneGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
+    
+    func apiForiPhoneGetStreamList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        if type == .start || type == .up{
+            StreamList.sharedInstance.requestURl = kStreamAPI + "?page=1"
+            StreamList.sharedInstance.arrayStream.removeAll()
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                StreamList.sharedInstance.arrayStream.append(stream)
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURl = ""
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURl = obj as! String
+                                completionHandler(.down,"")
+                            }
+                            print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        
     }
     
+}
 }

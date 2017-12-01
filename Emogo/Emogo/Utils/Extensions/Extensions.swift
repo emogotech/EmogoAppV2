@@ -312,6 +312,21 @@ extension UINavigationController {
         self.pushViewController(vc, animated: false)
     }
     
+    func reverseFlipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+        self.addReverseFlipTransition(transitionType: type, duration: duration)
+        var isPop:Bool! = false
+        for obj in self.viewControllers {
+            if obj == vc {
+                isPop = true
+                self.popToViewController(obj, animated: false)
+                break
+            }
+        }
+        if isPop == false {
+            self.pushViewController(vc, animated: false)
+        }
+        
+    }
     private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.5) {
     
         let transition = CATransition()
@@ -331,6 +346,16 @@ extension UINavigationController {
         self.view.layer.add(transition, forKey: nil)
         
     }
+    
+    private func addReverseFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+        let transition = CATransition()
+        transition.duration = duration
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        transition.type = type
+        transition.subtype = kCATransitionFromLeft
+        self.view.layer.add(transition, forKey: nil)
+    }
+    
     
     func pushNormal(viewController vc: UIViewController){
         self.pushViewController(vc, animated: true)

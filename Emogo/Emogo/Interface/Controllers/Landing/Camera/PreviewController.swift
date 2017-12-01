@@ -41,7 +41,6 @@ class PreviewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-         self.preparePreview(index: 0)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -52,6 +51,7 @@ class PreviewController: UIViewController {
     
     func prepareLayouts(){
         // Preview Height
+        self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
         imgPreview.backgroundColor = .black
@@ -160,6 +160,7 @@ class PreviewController: UIViewController {
    
     
     private func openEditor(image:UIImage){
+        AppDelegate.appDelegate.keyboardResign(isActive: false)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
            photoEditor.image = image
         //PhotoEditorDelegate
@@ -224,7 +225,9 @@ extension PreviewController:PhotoEditorDelegate
 {
     func doneEditing(image: UIImage) {
         // the edited image
-        let camera = ImageDAO(type: .image, image: image)
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        let camera =  Gallery.sharedInstance.Images[selectedIndex]
+        camera.imgPreview = image
         Gallery.sharedInstance.Images[selectedIndex] = camera
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
@@ -232,6 +235,7 @@ extension PreviewController:PhotoEditorDelegate
     
     func canceledEditing() {
         print("Canceled")
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
 
