@@ -20,6 +20,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+       // SharedData.sharedInstance.resetAllData()
         prepareLayout()
         setupLoader()
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
@@ -50,7 +51,8 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     @objc func isUserLogedIn(){
-        if SharedData.sharedInstance.dictUserInfo().count > 0 {
+        if kDefault.bool(forKey: kUserLogggedIn) == true {
+              UserDAO.sharedInstance.parseUserInfo()
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
@@ -67,6 +69,9 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
+        if kDefault.bool(forKey: kUserLogggedIn) == true {
+            UserDAO.sharedInstance.parseUserInfo()
+        }
         APIManager.sharedInstance.getCountryCode { (code) in
             if !(code?.isEmpty)! {
                 let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"

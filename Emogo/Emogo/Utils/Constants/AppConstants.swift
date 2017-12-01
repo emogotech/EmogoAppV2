@@ -93,6 +93,16 @@ enum AlertType: String {
     
 }
 
+
+// MARK: -  Service Type
+enum StreamInputType: String {
+    case pullToRefresh = "1"
+    case bottomScrolling = "2"
+    case normal = "3"
+    
+}
+
+
 //**********
 //==== iMessage Constants=====
 //**********
@@ -118,6 +128,8 @@ let iMsgSegue_StreamContent                     = "StreamContentViewController"
 
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
+let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
+
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"

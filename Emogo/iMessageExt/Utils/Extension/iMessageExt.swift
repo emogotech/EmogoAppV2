@@ -10,6 +10,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 import Messages
+import SDWebImage
 
 // MARK: - String
 extension String {
@@ -29,6 +30,21 @@ extension String {
         return self.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
+}
+
+// MARK: - UIImageView
+extension UIImageView {
+    
+    func setImageWithURL(strImage:String, placeholder:String){
+        if strImage.isEmpty{
+            return
+        }
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        //self.sd_setImage(with: url)
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        self.sd_setShowActivityIndicatorView(true)
+        self.sd_setIndicatorStyle(.gray)
+    }
 }
 
 // MARK: - MSMessagesAppViewController
@@ -113,6 +129,5 @@ extension UIApplication {
         return nil
     }
 }
-
 
 
