@@ -8,7 +8,7 @@ def common_pods_for_target
     pod 'SDWebImage'
     pod 'SwiftyJSON'
     pod 'AWSS3'
-  
+    
 end
 
 
@@ -21,28 +21,28 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod "SwiftyCam"
     pod 'DKImagePickerController'
-pod "ESPullToRefresh"
-
-
-
-target 'EmogoTests' do
-    inherit! :search_paths
-    common_pods_for_target
-    pod 'IQKeyboardManagerSwift'
+    pod "ESPullToRefresh"
+    pod 'Fabric'
+    pod 'Crashlytics'
     
-    # Pods for testing
-end
-
-target 'EmogoUITests' do
-    inherit! :search_paths
-    # Pods for testing
-    common_pods_for_target
-    pod 'IQKeyboardManagerSwift'
+    target 'EmogoTests' do
+        inherit! :search_paths
+        common_pods_for_target
+        pod 'IQKeyboardManagerSwift'
+        
+        # Pods for testing
+    end
     
-end
-
-
-
+    target 'EmogoUITests' do
+        inherit! :search_paths
+        # Pods for testing
+        common_pods_for_target
+        pod 'IQKeyboardManagerSwift'
+        
+    end
+    
+    
+    
 end
 
 target 'iMessageExt' do

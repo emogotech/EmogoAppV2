@@ -78,7 +78,7 @@ let kPleaseEnterNameMsg                 = "Please Enter User Name."
 let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 digits."
 let kAlertVerificationLengthMsg         = "Verification Code must be 5 digits."
 let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg            = "User Name limit is maximum 30 characters."
+let kAlertInvalidUserNameMsg            = "Username limit is between 3-30 characters."
 let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
 let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
 let kAlertStreamNameEmpty = "Please enter Stream Name."
@@ -150,7 +150,7 @@ let iMsgError_NameMsg                           = "Please enter minimum three ch
 let iMsgError_CodeMsg                           = "Please enter 4 digit code."
 let iMsgError_Mobile                            = "Please enter mobile number."
 let iMsgError_Name                              = "Please enter the name."
-let iMsgError_NameMax                           = "User Name limit is maximum 30 characters"
+let iMsgError_NameMax                           = "Username limit is between 3-30 characters."
 let iMsgError_NameSpace                         = "Space not allowed"
 
 
