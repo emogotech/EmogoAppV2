@@ -54,6 +54,8 @@ class PreviewController: UIViewController {
         // Preview Height
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
+        imgPreview.backgroundColor = .black
+        self.imgPreview.contentMode = .scaleAspectFit
         viewOptions.isHidden = true
         // Preview Footer
         self.previewCollection.reloadData()
@@ -142,14 +144,17 @@ class PreviewController: UIViewController {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
+               self.imgPreview.contentMode = .scaleAspectFit
+
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+               self.imgPreview.contentMode = .scaleToFill
+
             }
             self.view.updateConstraintsIfNeeded()
-            print(self.imgPreview.bounds)
-            self.imgPreview.image = Gallery.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
+         //   self.imgPreview.image = Gallery.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
         }
     }
    

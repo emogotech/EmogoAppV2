@@ -1553,7 +1553,7 @@
                                     <constraint firstAttribute="height" constant="50" id="ejR-4C-3w3"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="white_back_icon"/>
+                                <state key="normal" image="back-circle-icon"/>
                                 <connections>
                                     <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="y34-cl-nr8"/>
                                     <action selector="btnBackAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="OzY-Wq-DhN"/>
@@ -1808,7 +1808,7 @@
                                     <constraint firstAttribute="height" constant="30" id="jl1-1I-lF6"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3RP-cT-R1w">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3RP-cT-R1w">
                                 <rect key="frame" x="116" y="160.5" width="88" height="88"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="88" id="k2x-yz-ZPJ"/>
@@ -1963,6 +1963,7 @@
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_photo" width="20" height="17"/>
         <image name="add_stream_icon" width="14" height="14"/>
+        <image name="back-circle-icon" width="24" height="24"/>
         <image name="background-iPhone" width="320" height="568"/>
         <image name="browse_streams" width="155" height="45"/>
         <image name="camera_icon_cover_images" width="33" height="33"/>
