@@ -102,7 +102,13 @@ enum StreamInputType: String {
     case normal = "3"
     
 }
+// MARK: -  Refresh Type
 
+enum RefreshType:String {
+    case up = "1"
+    case down = "2"
+    case end = "3"
+}
 
 //**********
 //==== iMessage Constants=====

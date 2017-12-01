@@ -231,6 +231,8 @@ class APIServiceManager: NSObject {
         }
     }
     
+    // MARK: - Get All Stream API
+
     func apiForGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
         var objects = [StreamDAO]()
         var strURL = kStreamAPI
@@ -269,4 +271,9 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    // MARK: - Get All Stream API iPhone
+    func apiForiPhoneGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
+    }
+    
 }
