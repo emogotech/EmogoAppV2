@@ -21,7 +21,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var imgGradient : UIImageView!
     @IBOutlet weak var collectionStreams : UICollectionView!
     
-    // MARK: -Variables
+    // MARK: - Variables
     var arrStream = [StreamDAO]()
     var currentStreamIndex : Int!
     var arrContentData : NSMutableArray = NSMutableArray()
@@ -44,7 +44,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
     
-    // MARK: -PrepareLayout
+    // MARK: - PrepareLayout
     func prepareLayout() {
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -99,7 +99,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
 
-    // MARK: -Dummmy Data
+    // MARK: - Dummmy Data
     func dummyArrData(){
         for v in 1...5 {
             let tempDict = NSMutableDictionary()
@@ -113,7 +113,7 @@ class StreamViewController: MSMessagesAppViewController {
     }
     //-------------------------//
     
-    // MARK: -Load Data in UI
+    // MARK: - Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "image7")
@@ -122,7 +122,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamDesc.text = "by \(stream.Author!)"
     }
     
-    // MARK: -Enable/Disable - Next/Previous Button
+    // MARK: - Enable/Disable - Next/Previous Button
     func btnEnableDisable() {
         if currentStreamIndex ==  0 {
             btnPreviousStream.isEnabled = false
@@ -142,7 +142,6 @@ class StreamViewController: MSMessagesAppViewController {
     @IBAction func btnNextAction(_ sender:UIButton){
         nextImageLoad()
     }
-    
     
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
@@ -176,7 +175,7 @@ class StreamViewController: MSMessagesAppViewController {
     
 }
 
-
+// MARK: -  Extension CollcetionView Delegates
 extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
