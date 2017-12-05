@@ -26,13 +26,13 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var viewAddStream: UIView!
 
     
-    // MARK: -Variables
+    // MARK: - Variables
     var arrStream = [StreamDAO]()
     var arrContentData : NSMutableArray!
     var currentStreamIndex : Int!
     var currentContentIndex : Int!
     
-    // MARK: -Life-cycle Methods
+    // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayout()
@@ -56,7 +56,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     
-    // MARK: -PrepareLayouy
+    // MARK: - PrepareLayout
     func prepareLayout(){
         
         loadViewForUI()
@@ -112,7 +112,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         loadViewForUI()
     }
     
-    //MARK: -Load Data in UI
+    //MARK: - Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
         self.lblStreamTitle.text = stream.Title
@@ -127,7 +127,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         contentProgressView.setProgress(currenProgressValue, animated: true)
     }
     
-    //MARK: -Enable/Disable - Next/Previous Button
+    //MARK: - Enable/Disable - Next/Previous Button
     func btnEnableDisable() {
         if currentStreamIndex ==  0 {
             btnPreviousStream.isEnabled = false
@@ -171,5 +171,3 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
 }
-
-

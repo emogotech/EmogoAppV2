@@ -9,7 +9,7 @@
 import UIKit
 import Messages
 
-class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
+class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber : UITextField!
@@ -75,7 +75,43 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
         self.present(obj, animated: false, completion: nil)
     }
     
-    // MARK:- TextField Delegate method
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+        self.txtMobileNumber.resignFirstResponder()
+    }
+    
+    //MARK: - Delegate Methods of Segue
+    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
+        return false
+    }
+    
+    // MARK: - API Methods
+    func userLogin() {
+        if Reachability.isNetworkAvailable() {
+            hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
+                self.hudView.stopLoaderWithAnimation()
+                if isSuccess == true {
+                    let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
+                        UserDAO.sharedInstance.parseUserInfo()
+                    }
+                    self.present(obj, animated: false, completion: nil)
+                    self.addTransitionAtPresentingControllerRight()
+                }
+                else {
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
+                }
+            }
+        }else {
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+        }
+    }
+}
+
+// MARK:- Extension TextField Delegate
+extension SignInViewController: UITextFieldDelegate {
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
@@ -113,37 +149,5 @@ class SignInViewController: MSMessagesAppViewController,UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-        self.txtMobileNumber.resignFirstResponder()
-    }
-    
-    //MARK: - Delegate Methods of Segue
-    override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
-        return false
-    }
-    
-    // MARK: - API Methods
-    func userLogin() {
-        if Reachability.isNetworkAvailable() {
-            hudView.startLoaderWithAnimation()
-            APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
-                if isSuccess == true {
-                    let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
-                        UserDAO.sharedInstance.parseUserInfo()
-                    }
-                    self.present(obj, animated: false, completion: nil)
-                    self.addTransitionAtPresentingControllerRight()
-                }
-                else {
-                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
-                }
-            }
-        }else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
-        }
-    }
+
 }
