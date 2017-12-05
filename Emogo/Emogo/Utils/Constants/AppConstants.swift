@@ -89,8 +89,13 @@ let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
-let ktypeProfile = "Profile"
-let ktypePeople = "People"
+let kDeepLinkURL = "Emogo://emogo/"
+let kDeepLinkTypeProfile = "Profile"
+let kDeepLinkTypePeople = "People"
+let kDeepLinkTypeAddStream = "AddStream"
+let kDeepLinkTypeAddContent = "AddStreamContent"
+
+
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"

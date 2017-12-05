@@ -162,6 +162,11 @@ class StreamContentViewController: MSMessagesAppViewController {
         loadViewForUI()
     }
     
+    @IBAction func btnAddStreamContent(_ sender:UIButton){
+        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+    }
+    
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
     }

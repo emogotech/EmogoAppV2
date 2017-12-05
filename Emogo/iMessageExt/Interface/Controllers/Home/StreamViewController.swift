@@ -169,6 +169,12 @@ class StreamViewController: MSMessagesAppViewController {
       previousImageLoad()
     }
     
+    @IBAction func btnAddStreamContent(_ sender: UIButton) {
+        
+        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+        
+        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

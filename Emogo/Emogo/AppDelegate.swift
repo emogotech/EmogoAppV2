@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.initializeApplication()
         return true
-      
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -54,10 +53,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let splitStr = "\(url)"
         let splitArr = splitStr.components(separatedBy: "/") as [String]
         if (splitArr.last) != nil {
-            if splitArr.last == ktypeProfile as String{
-                return setTypeOfViewController(objType: ktypeProfile)
-            }else if splitArr.last == ktypePeople as String {
-                 return setTypeOfViewController(objType: ktypePeople)
+            if splitArr.last == kDeepLinkTypeProfile as String{
+                return setTypeOfViewController(objType: kDeepLinkTypeProfile)
+            }else if splitArr.last == kDeepLinkTypePeople as String {
+                 return setTypeOfViewController(objType: kDeepLinkTypePeople)
+            }else if splitArr.last == kDeepLinkTypeAddStream as String {
+                return setTypeOfViewController(objType: kDeepLinkTypeAddStream)
+            }
+            else if splitArr.last == kDeepLinkTypeAddContent as String {
+                return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
             }
             return false
         }
@@ -65,27 +69,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func setTypeOfViewController(objType:String) -> Bool {
-        
-         if objType == ktypePeople {
-              let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-            self.prepareViewController(obj: objHome)
+        if objType == kDeepLinkTypePeople {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypePeople
+            self.prepareViewController()
+        }else if objType == kDeepLinkTypeProfile {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeProfile
+            self.prepareViewController()
+         }else if objType == kDeepLinkTypeAddStream {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddStream
+            self.prepareViewController()
+         }else if objType == kDeepLinkTypeAddContent {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddContent
+            self.prepareViewController()
         }
-        if objType == ktypeProfile {
-            let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-            self.prepareViewController(obj: objHome)
-        }
-        
         return true
     }
     
     
-    private func prepareViewController(obj:Any) {
+    private func prepareViewController() {
+         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         self.window = UIWindow(frame:  UIScreen.main.bounds)
-       
-        let navigation = UINavigationController(rootViewController: obj as! UIViewController)
+        let navigation = UINavigationController(rootViewController: objHome as! UIViewController)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
-       
     }
     
     // MARK: - Initialize
@@ -100,19 +106,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
-        
         self.keyboardToolBar(disable:false)
     }
     
    fileprivate func openLandingScreen(){
-        
         self.window = UIWindow(frame:  UIScreen.main.bounds)
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = UINavigationController(rootViewController: objHome)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
-    
     }
+    
     func keyboardToolBar(disable:Bool){
         IQKeyboardManager.sharedManager().enableAutoToolbar = disable
         IQKeyboardManager.sharedManager().shouldShowToolbarPlaceholder = disable
