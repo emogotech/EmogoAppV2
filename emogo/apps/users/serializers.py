@@ -37,7 +37,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
         # 1. While user request with same user_name and different phone number
         sent_otp = send_otp(validated_data.get('username'))
         if sent_otp is not None:
-            setattr(self, 'user_pin', send_otp(validated_data.get('username')))
+            setattr(self, 'user_pin', sent_otp)
         else:
             raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(validated_data.get('username'))})
 
@@ -84,27 +84,30 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     """
     token = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
+    user_profile_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ['full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number']
+        fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number']
 
     def get_token(self, obj):
-        if self.instance is not None:
-            return self.instance.user.auth_token.key
+        if hasattr(obj.user, 'auth_token'):
+            return obj.user.auth_token.key
         return None
 
     def get_phone_number(self, obj):
-        if self.instance is not None:
-            return self.instance.user.username
-        return None
+        return obj.user.username
+
+    def save(self, **kwargs):
+        self.instance.user.username = self.initial_data.get('phone_number')
+        self.instance.user.save()
+        return self.instance
 
 
 class UserDetailSerializer(UserProfileSerializer):
     """
     UserDetail Serializer to show user detail.
     """
-    pass
 
 
 class UserOtpSerializer(UserProfileSerializer):

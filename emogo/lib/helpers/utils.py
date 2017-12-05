@@ -65,3 +65,4 @@ def send_otp(phone_number):
     except TwilioRestException as e:
         return None  # Todo : developer return here is None it should return proper error from TwilioRestException class
     return pin
+

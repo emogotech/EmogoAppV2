@@ -3,7 +3,7 @@
 from django.conf import settings
 from django.db import models
 
-from emogo.lib.custom_managers.manager import ActiveManager
+from emogo.lib.custom_managers.manager import ActiveManager, UserActiveManager
 
 
 class DefaultDateModel(models.Model):
@@ -22,6 +22,16 @@ class DefaultStatusModel(DefaultDateModel):
     status = models.CharField(max_length=10, choices=settings.STATUSES, default=settings.STATUSES[0][0])
     objects = models.Manager()  # The default manager.
     actives = ActiveManager()  # The custom Active manager.
+
+    class Meta:
+        abstract = True
+
+
+class UsersStatusModel(DefaultStatusModel):
+    """ Abstract Model for status field"""
+
+    objects = models.Manager()  # The default manager.
+    actives = UserActiveManager()  # The custom Active manager.
 
     class Meta:
         abstract = True

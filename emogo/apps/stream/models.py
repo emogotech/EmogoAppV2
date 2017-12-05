@@ -38,6 +38,8 @@ class Stream(DefaultStatusModel):
     any_one_can_edit = models.BooleanField(default=False)
     created_by = models.ForeignKey(User, null=True, blank=True)
     view_count = models.IntegerField(null=True, blank=True, default=0)
+    featured = models.BooleanField(default=False)
+    emogo = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'stream'

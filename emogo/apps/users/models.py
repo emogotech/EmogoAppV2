@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
-from emogo.lib.default_models.models import DefaultDateModel, DefaultStatusModel
+from emogo.lib.default_models.models import DefaultDateModel, DefaultStatusModel, UsersStatusModel
 
 DEVICE_TYPE = (
     ('Android', 'Android'),
@@ -17,14 +17,13 @@ MESSAGE_STATUS = (
 )
 
 
-class UserProfile(DefaultStatusModel):
+class UserProfile(UsersStatusModel):
     full_name = models.CharField(max_length=45, null=True, blank=True)
     country_code = models.CharField(max_length=5, null=True, blank=True)
     user_image = models.CharField(max_length=255, null=True, blank=True)
     is_admin = models.BooleanField(default=False)
     user = models.OneToOneField(User, null=True, blank=True, related_name="user_data")
     otp = models.CharField(max_length=10, null=True, blank=True)
-    objects = models.Manager()  # The default manager.
 
     class Meta:
         db_table = 'user_profile'
