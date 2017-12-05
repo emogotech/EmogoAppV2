@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         self.initializeApplication()
         return true
-      
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -46,8 +45,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // MARK: - Initialize
+    func application(_: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return url.scheme == "Emogo" && executeDeepLink(with: url)
+    }
     
+    private func executeDeepLink(with url: URL) -> Bool {
+        let splitStr = "\(url)"
+        let splitArr = splitStr.components(separatedBy: "/") as [String]
+        if (splitArr.last) != nil {
+            if splitArr.last == kDeepLinkTypeProfile as String{
+                return setTypeOfViewController(objType: kDeepLinkTypeProfile)
+            }else if splitArr.last == kDeepLinkTypePeople as String {
+                 return setTypeOfViewController(objType: kDeepLinkTypePeople)
+            }else if splitArr.last == kDeepLinkTypeAddStream as String {
+                return setTypeOfViewController(objType: kDeepLinkTypeAddStream)
+            }
+            else if splitArr.last == kDeepLinkTypeAddContent as String {
+                return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
+            }
+            return false
+        }
+       return false
+    }
+
+    private func setTypeOfViewController(objType:String) -> Bool {
+        if objType == kDeepLinkTypePeople {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypePeople
+        }else if objType == kDeepLinkTypeProfile {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeProfile
+         }else if objType == kDeepLinkTypeAddStream {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddStream
+         }else if objType == kDeepLinkTypeAddContent {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddContent
+        }
+        self.prepareViewController()
+
+        return true
+    }
+    
+    private func prepareViewController() {
+         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+        self.window = UIWindow(frame:  UIScreen.main.bounds)
+        let navigation = UINavigationController(rootViewController: objHome)
+        self.window?.rootViewController = navigation
+        self.window?.makeKeyAndVisible()
+    }
+    
+    // MARK: - Initialize
     fileprivate func initializeApplication(){
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
@@ -59,19 +103,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
-        
         self.keyboardToolBar(disable:false)
     }
     
    fileprivate func openLandingScreen(){
-        
         self.window = UIWindow(frame:  UIScreen.main.bounds)
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         let navigation = UINavigationController(rootViewController: objHome)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
-    
     }
+    
     func keyboardToolBar(disable:Bool){
         IQKeyboardManager.sharedManager().enableAutoToolbar = disable
         IQKeyboardManager.sharedManager().shouldShowToolbarPlaceholder = disable

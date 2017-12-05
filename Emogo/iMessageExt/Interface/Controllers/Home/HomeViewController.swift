@@ -17,7 +17,7 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var searchText : UITextField!
     @IBOutlet weak var btnFeature : UIButton!
     
-    // MARK: -Varibales
+    // MARK: - Varibales
     var arrayStreams = [StreamDAO]()
     var hudView: LoadingView!
     var hudRefreshView: LoadingView!
@@ -30,8 +30,8 @@ class HomeViewController: MSMessagesAppViewController {
     var currentIndex : Int = 1
     var fectchingStreamData : Bool = false
     
-    
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
+    
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     
     // MARK:- Life-cycle methods
@@ -122,14 +122,16 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @objc func pullToDownAction() {
+        self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
         SharedData.sharedInstance.nextStreamString = ""
         hudRefreshView.startLoaderWithAnimation()
         self.getStreamList(type: .pullToRefresh)
     }
     
     @objc func resignRefreshLoader(){
-        hudRefreshView.stopLoaderWithAnimation()
         self.refresher?.endRefreshing()
+        hudRefreshView.stopLoaderWithAnimation()
+        self.refresher?.frame = CGRect.zero
         self.collectionStream.reloadData()
     }
     
@@ -215,10 +217,9 @@ class HomeViewController: MSMessagesAppViewController {
             self.resignRefreshLoader()
         }
     }
-    
 }
 
-// MARK:- collection-view delegate methods
+// MARK:- Extension collectionview delegate
 extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -322,7 +323,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     
 }
 
-// MARK:- TextField delegate methods
+// MARK:- Extension TextField delegate
 extension HomeViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -350,6 +351,7 @@ extension HomeViewController : UITextFieldDelegate {
     
 }
 
+// MARK:- Extension FSPagerView delegate
 extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     
     // MARK:- FSPagerViewDataSource
@@ -387,10 +389,24 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
+                
+//                if(self.arrImagesSelected[index] == kDeepLinkTypePeople){
+//                    let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
+//                    obj.strTitle = "People List"
+//                    self.present(obj, animated: true, completion: nil)
+//                }
+               
             })
+            
+            if(self.arrImagesSelected[index] == kDeepLinkTypeProfile || self.arrImagesSelected[index] == kDeepLinkTypePeople){
+                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+            }
         }
         pagerView.scrollToItem(at: index, animated: true)
     }
+    
+    
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         if(lastIndex != pagerView.currentIndex){
@@ -398,6 +414,15 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
+            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypeProfile){
+                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+            }
+//            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypePeople){
+//                let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
+//                obj.strTitle = "People List"
+//                self.present(obj, animated: true, completion: nil)
+//            }
         }
     }
     
@@ -422,6 +447,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     }
 }
 
+// MARK:- Extension ScrollView delegate
 extension HomeViewController : UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -463,4 +489,3 @@ extension HomeViewController : UIScrollViewDelegate {
     }
     
 }
-

@@ -84,6 +84,13 @@ import UIKit
 
     var drawWidth:CGFloat = 5.0
     var stickersViewController: StickersViewController!
+    
+    var selectedItem : PMEditingModel? = nil
+
+    lazy var editingService : PMPhotoEditingManager = { [unowned self] in
+        return PMPhotoEditingManager.create()
+    } ()
+    
 
     //Register Custom font before we load XIB
     public override func loadView() {
@@ -117,6 +124,9 @@ import UIKit
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         hideControls()
         activeTextView?.keyboardAppearance = .dark
+        
+        filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+        editingService.setImage (image: image!)
     }
     
     func configureCollectionView() {

@@ -37,14 +37,19 @@ class StreamListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
-        self.getStreamList(type:.start)
         menuView.isHidden = true
         self.viewMenu.isHidden = false
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
+            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,9 +60,9 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        
+        self.getStreamList(type:.start)
         // Attach datasource and delegate
-        
+
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
         
@@ -86,14 +91,16 @@ class StreamListViewController: UIViewController {
     
     func configureLoadMoreAndRefresh(){
         
-        self.streamCollectionView.es.addPullToRefresh {
-            UIApplication.shared.beginIgnoringInteractionEvents()
-            self.getStreamList(type:.up)
+      let header = RefreshHeaderAnimator(frame: .zero)
+      let  footer = RefreshFooterAnimator(frame: .zero)
+        
+        self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            self?.getStreamList(type:.up)
         }
-
-        self.streamCollectionView.es.addInfiniteScrolling {
-            self.getStreamList(type:.down)
+        self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            self?.getStreamList(type:.down)
         }
+        
     }
   
     // MARK: -  Action Methods And Selector
@@ -131,9 +138,9 @@ class StreamListViewController: UIViewController {
     @IBAction func btnActionOpenMenu(_ sender: Any) {
         self.viewMenu.isHidden = true
         isMenuOpen = true
-        Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         self.menuView.isHidden = false
-        Animation.viewSlideInFromBottomToTop(views:self.menuView)
+        Animation.viewSlideInFromTopToBottom(views: self.menuView)
+      //  Animation.viewSlideInFromBottomToTop(views:self.menuView)
     }
 
     // MARK: - Class Methods
@@ -144,13 +151,14 @@ class StreamListViewController: UIViewController {
     private func getStreamList(type:RefreshType){
         if type == .start {
             UIApplication.shared.endIgnoringInteractionEvents()
+            StreamList.sharedInstance.arrayStream.removeAll()
+            self.streamCollectionView.reloadData()
             HUDManager.sharedInstance.showHUD()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type) { (refreshType, errorMsg) in
              if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
-            if (errorMsg?.isEmpty)! {
                 if refreshType == .end {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
@@ -161,7 +169,7 @@ class StreamListViewController: UIViewController {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
                 self.streamCollectionView.reloadData()
-            }else {
+            if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
@@ -218,11 +226,10 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isMenuOpen {
-            isMenuOpen = false
             self.menuView.isHidden = true
-            Animation.viewSlideInFromTopToBottom(views: self.menuView)
             self.viewMenu.isHidden = false
-            Animation.viewSlideInFromBottomToTop(views:self.viewMenu)
+            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            isMenuOpen = false
         }
        
     }

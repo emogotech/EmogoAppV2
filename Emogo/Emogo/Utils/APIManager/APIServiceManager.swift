@@ -277,7 +277,6 @@ class APIServiceManager: NSObject {
     func apiForiPhoneGetStreamList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
             StreamList.sharedInstance.requestURl = kStreamAPI + "?page=1"
-            StreamList.sharedInstance.arrayStream.removeAll()
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")

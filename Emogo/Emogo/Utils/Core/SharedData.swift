@@ -18,6 +18,7 @@ class SharedData: NSObject {
     var countryCode:String! = ""
     var nextStreamString:String! = ""
     var isMoreContentAvailable : Bool = false
+    var deepLinkType : String = ""
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
@@ -198,7 +199,21 @@ class SharedData: NSObject {
         }
         return false
     }
-    
    
+    func presentAppViewWithDeepLink(strURL : String) {
+        guard let url = URL(string: strURL) else {
+            return
+        }
+        if UIApplication.shared.canOpenURL(url) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(url)
+            }
+        } else {
+//             UIApplication.shared.openURL(url)
+        }
+    }
+    
  }
 
