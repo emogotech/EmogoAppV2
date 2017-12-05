@@ -25,6 +25,30 @@ class EmogoUITests: XCTestCase {
         app         = nil
     }
     
+    func testUserName(){
+        sleep(3 )
+        app.buttons["sign up btn"].tap()
+        
+        let txtUserName_SignUp      =   app.textFields["Your text here"]
+        let btnNext_SignUp          =   app.buttons["next btn"]
+        
+        txtUserName_SignUp.tap()
+        for i in 0...3 {
+            if i == 0 {
+                txtUserName_SignUp.clearAndEnterText(text: "AB")
+            }else if i == 1 {
+                txtUserName_SignUp.clearAndEnterText(text: "A 1")
+            }else if i == 2 {
+                txtUserName_SignUp.clearAndEnterText(text: "AB")
+            }else if i == 3 {
+                txtUserName_SignUp.clearAndEnterText(text: "  1")
+            }
+            btnNext_SignUp.tap()
+        }
+        txtUserName_SignUp.clearAndEnterText(text: "Shyaamoo")
+        btnNext_SignUp.tap()
+    }
+    
     func testSignUp() {
         app.buttons["sign up btn"].tap()
         
@@ -35,7 +59,7 @@ class EmogoUITests: XCTestCase {
         txtUserName_SignUp.typeText("")
         btnNext_SignUp.tap()
         
-        txtUserName_SignUp.clearAndEnterText(text: "Shyaam")
+        txtUserName_SignUp.clearAndEnterText(text: "Shyaamoo")
         btnNext_SignUp.tap()
         
         sleep(2)
@@ -58,7 +82,7 @@ class EmogoUITests: XCTestCase {
                     txtPhone_SignUp.clearAndEnterText(text: "75757")
                 }
                 else if i == 6 {
-                    txtPhone_SignUp.clearAndEnterText(text: "7596802834")
+                    txtPhone_SignUp.clearAndEnterText(text: "7509875000")
                 }
                 btnCode_SignUp.tap()
             }
@@ -91,14 +115,10 @@ class EmogoUITests: XCTestCase {
         }else{
             print("name already exists")
         }
-        
-        
-        
     }
     
     func testTheHappyCaseForSignUp(){
         
-        let app = XCUIApplication()
         app.buttons["sign up btn"].tap()
         
         let txtName = app.textFields["Your text here"]
@@ -127,7 +147,7 @@ class EmogoUITests: XCTestCase {
         }
     }
     
-    func testSignInHappyCase(){
+    func testSignInHappyCase101(){
         
         app.buttons["sign in btn"].tap()
         
@@ -160,6 +180,38 @@ class EmogoUITests: XCTestCase {
             btnDone.tap()
         }
         sleep(3)
+    }
+    
+    
+    
+    func testSignInHappyCase(){
+        
+        app.buttons["sign in btn"].tap()
+        
+        let txtPhone = app.textFields["Please enter phone number"]
+        txtPhone.tap()
+        txtPhone.tap()
+        txtPhone.typeText("7509820455")
+        
+        let btnDone =   app.buttons["done btn"]
+        btnDone.tap()
+        
+    }
+    
+    func testSignIn_ForPhone_Screen(){
+        app.buttons["sign in btn"].tap()
+        
+        let btnDone =   app.buttons["done btn"]
+        
+        XCTAssertTrue(btnDone.exists, "Done button is not displayed, must be Phone screen not presented")
+        
+        let txtPhone = app.textFields["Please enter phone number"]
+        txtPhone.tap()
+        txtPhone.tap()
+        txtPhone.typeText("7509820455")
+        
+        btnDone.tap()
+        
     }
         
 }
