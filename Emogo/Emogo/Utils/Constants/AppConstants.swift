@@ -89,6 +89,8 @@ let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
+let ktypeProfile = "Profile"
+let ktypePeople = "People"
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"
@@ -113,6 +115,7 @@ enum RefreshType:String {
     case down = "2"
     case end = "3"
 }
+
 
 //**********
 //==== iMessage Constants=====

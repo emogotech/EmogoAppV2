@@ -46,8 +46,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    // MARK: - Initialize
+    func application(_: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return url.scheme == "Emogo" && executeDeepLink(with: url)
+    }
     
+    private func executeDeepLink(with url: URL) -> Bool {
+        let splitStr = "\(url)"
+        let splitArr = splitStr.components(separatedBy: "/") as [String]
+        if (splitArr.last) != nil {
+            if splitArr.last == ktypeProfile as String{
+                return setTypeOfViewController(objType: ktypeProfile)
+            }else if splitArr.last == ktypePeople as String {
+                 return setTypeOfViewController(objType: ktypePeople)
+            }
+            return false
+        }
+       return false
+    }
+
+    private func setTypeOfViewController(objType:String) -> Bool {
+        
+         if objType == ktypePeople {
+              let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+            self.prepareViewController(obj: objHome)
+        }
+        if objType == ktypeProfile {
+            let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+            self.prepareViewController(obj: objHome)
+        }
+        
+        return true
+    }
+    
+    
+    private func prepareViewController(obj:Any) {
+        self.window = UIWindow(frame:  UIScreen.main.bounds)
+       
+        let navigation = UINavigationController(rootViewController: obj as! UIViewController)
+        self.window?.rootViewController = navigation
+        self.window?.makeKeyAndVisible()
+       
+    }
+    
+    // MARK: - Initialize
     fileprivate func initializeApplication(){
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
