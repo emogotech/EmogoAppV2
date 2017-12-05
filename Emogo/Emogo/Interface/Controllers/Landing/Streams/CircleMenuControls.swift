@@ -76,8 +76,9 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func navigateToSelectedItem(index:Int){
-        self.viewMenu.isHidden = false
         self.menuView.isHidden = true
+        self.viewMenu.isHidden = false
+        Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         isMenuOpen = false
         switch index {
         case 0:

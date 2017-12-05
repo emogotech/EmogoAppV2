@@ -20,13 +20,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "533821111.71933"
+            timestampString = "534154353.714885"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "212"
             endingLineNumber = "212"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "apiForCreateStream(streamName:streamDescription:coverImage:streamType:anyOneCanEdit:collaborator:canAddContent:canAddPeople:completionHandler:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -36,12 +36,12 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "533832091.704884"
+                  timestampString = "534173912.19374"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "213"
                   endingLineNumber = "213"
-                  offsetFromSymbolStart = "3771">
+                  offsetFromSymbolStart = "2904">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -51,12 +51,12 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "533832091.708624"
+                  timestampString = "534173912.199724"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "215"
                   endingLineNumber = "215"
-                  offsetFromSymbolStart = "56">
+                  offsetFromSymbolStart = "36">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -74,6 +74,134 @@
             startingLineNumber = "67"
             endingLineNumber = "67"
             landmarkName = "getErrorMessages(dict:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/RefreshControls/RefreshHeaderAnimator.swift"
+            timestampString = "534154353.715025"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "refreshAnimationBegin(view:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723521"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "applyFilterFor(adjustmentItem:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723611"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "applyFilters()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723686"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "applyMetalFilter(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723761"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "applyMetalFilter(image:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "applyCoreImageFilter()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723901"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "imageWithCIFilters()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/ImageFilter/PMPhotoEditingManager.swift"
+            timestampString = "534175427.723969"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "setImage(image:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

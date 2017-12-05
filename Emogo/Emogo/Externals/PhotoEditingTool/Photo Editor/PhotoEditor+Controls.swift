@@ -175,18 +175,27 @@ extension PhotoEditorViewController {
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = false
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
+        
         switch sender.tag {
         case 11:
-            
+          self.selectedItem = self.editingService.adjustmentItems[0]
+          self.updateSliderForItem(item: self.selectedItem!)
+          self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
         case 22:
-            
+             self.selectedItem = self.editingService.adjustmentItems[1]
+             self.updateSliderForItem(item: self.selectedItem!)
+             self.editingService.applyFilterImage(adjustmentItem:self.selectedItem!)
             break
         case 33:
-            
+             self.selectedItem  = self.editingService.adjustmentItems[2]
+             self.updateSliderForItem(item: self.selectedItem!)
+             self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
         case 44:
-            
+             self.selectedItem = self.editingService.adjustmentItems[3]
+             self.updateSliderForItem(item: self.selectedItem!)
+             self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
         default:
             break
@@ -200,6 +209,7 @@ extension PhotoEditorViewController {
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.isFilterSelected = false
+      
 
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
@@ -210,6 +220,9 @@ extension PhotoEditorViewController {
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.isFilterSelected = false
+        if self.selectedItem != nil {
+            
+        }
 
     }
     
@@ -229,9 +242,26 @@ extension PhotoEditorViewController {
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
     }
+    
+  @objc func sliderValueChanged (_ slider : UISlider) {
+        guard let item = self.selectedItem else { return }
+
+        if (item.currentValue != slider.value)
+        {
+            item.currentValue = slider.value
+            self.canvasImageView.image = self.editingService.applyFilterFor(adjustmentItem: item)
+        }
+    }
 
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
         self.showToast(type: .error, strMSG: "Image successfully saved to Photos library")
+    }
+    
+    fileprivate func updateSliderForItem (item : PMEditingModel)
+    {
+        self.filterSlider.maximumValue = item.maxValue
+        self.filterSlider.minimumValue = item.minValue
+        self.filterSlider.value = item.currentValue
     }
     
     func hideControls() {
