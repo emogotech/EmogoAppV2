@@ -89,8 +89,13 @@ let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
-let ktypeProfile = "Profile"
-let ktypePeople = "People"
+let kDeepLinkURL = "Emogo://emogo/"
+let kDeepLinkTypeProfile = "Profile"
+let kDeepLinkTypePeople = "People"
+let kDeepLinkTypeAddStream = "AddStream"
+let kDeepLinkTypeAddContent = "AddStreamContent"
+
+
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"
@@ -143,7 +148,7 @@ let iMsgSegue_StreamContent                     = "StreamContentViewController"
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
-
+let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"

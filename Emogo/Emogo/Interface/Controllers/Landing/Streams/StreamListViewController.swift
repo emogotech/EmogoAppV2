@@ -37,6 +37,7 @@ class StreamListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,6 +45,11 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewMenu.isHidden = false
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
+            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
