@@ -389,13 +389,19 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
+                
+//                if(self.arrImagesSelected[index] == kDeepLinkTypePeople){
+//                    let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
+//                    obj.strTitle = "People List"
+//                    self.present(obj, animated: true, completion: nil)
+//                }
+               
             })
             
             if(self.arrImagesSelected[index] == kDeepLinkTypeProfile || self.arrImagesSelected[index] == kDeepLinkTypePeople){
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
                 SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
             }
-            
         }
         pagerView.scrollToItem(at: index, animated: true)
     }
@@ -408,10 +414,15 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
-            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypeProfile || self.arrImagesSelected[lastIndex] == kDeepLinkTypePeople){
+            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypeProfile){
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
                 SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
             }
+//            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypePeople){
+//                let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
+//                obj.strTitle = "People List"
+//                self.present(obj, animated: true, completion: nil)
+//            }
         }
     }
     

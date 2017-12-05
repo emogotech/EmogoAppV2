@@ -71,25 +71,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setTypeOfViewController(objType:String) -> Bool {
         if objType == kDeepLinkTypePeople {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypePeople
-            self.prepareViewController()
         }else if objType == kDeepLinkTypeProfile {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeProfile
-            self.prepareViewController()
          }else if objType == kDeepLinkTypeAddStream {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddStream
-            self.prepareViewController()
          }else if objType == kDeepLinkTypeAddContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddContent
-            self.prepareViewController()
         }
+        self.prepareViewController()
+
         return true
     }
-    
     
     private func prepareViewController() {
          let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         self.window = UIWindow(frame:  UIScreen.main.bounds)
-        let navigation = UINavigationController(rootViewController: objHome as! UIViewController)
+        let navigation = UINavigationController(rootViewController: objHome)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     }

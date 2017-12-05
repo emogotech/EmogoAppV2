@@ -148,7 +148,7 @@ let iMsgSegue_StreamContent                     = "StreamContentViewController"
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
-
+let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 
 //Notification Name
 let iMsgNotificationManageRequestStyle          = "manageRequestStyle"

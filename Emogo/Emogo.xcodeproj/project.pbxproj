@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
+		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
+		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
 		2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */; };
 		2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */; };
 		2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */; };
@@ -234,6 +236,8 @@
 		0D8A6D18B2B24A50F79CC2C6 /* Pods_ShareExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareExt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F310BC23B336DA3B9A94C58 /* Pods-Emogo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.debug.xcconfig"; sourceTree = "<group>"; };
 		23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorViewController.swift; sourceTree = "<group>"; };
+		2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionReusableView.swift; sourceTree = "<group>"; };
@@ -455,9 +459,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BA272711FD6AB8900543957 /* CollaboratorCollectonCell */ = {
+			isa = PBXGroup;
+			children = (
+				2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */,
+			);
+			path = CollaboratorCollectonCell;
+			sourceTree = "<group>";
+		};
 		2BDC4A9C1FD117350018FC6E /* Cells And Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				2BA272711FD6AB8900543957 /* CollaboratorCollectonCell */,
 				2BDC4AA21FD1178C0018FC6E /* HomeCollectionCell */,
 				2BDC4A9D1FD1178C0018FC6E /* StreamCollectionCell */,
 			);
@@ -608,6 +621,7 @@
 				339518551FBF1B0000DCC085 /* HomeViewController.swift */,
 				336618AA1FCED13B008BC84A /* StreamViewController.swift */,
 				336618A91FCED13B008BC84A /* StreamContentViewController.swift */,
+				2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1772,6 +1786,7 @@
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */,
+				2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */,
 				336618AC1FCED13B008BC84A /* StreamContentViewController.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */,
@@ -1779,6 +1794,7 @@
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
 				33DAB2F71FC6B9020053AC23 /* FSPageViewLayout.swift in Sources */,
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
+				2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
 				F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */,
