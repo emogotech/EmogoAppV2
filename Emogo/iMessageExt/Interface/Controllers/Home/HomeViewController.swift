@@ -391,7 +391,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
             })
             
-            if(self.arrImagesSelected[index] == "Profile" || self.arrImagesSelected[index] == "People"){
+            if(self.arrImagesSelected[index] == ktypeProfile || self.arrImagesSelected[index] == ktypePeople){
                 let strUrl = "Emogo://emogo/\(self.arrImagesSelected[index])"
                 self.presentAppViewWithDeepLink(strURL: strUrl)
             }

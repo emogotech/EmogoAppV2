@@ -90,7 +90,7 @@ let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
 let ktypeProfile = "Profile"
-let ktypePeople = ""
+let ktypePeople = "People"
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"
