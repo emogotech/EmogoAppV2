@@ -886,15 +886,25 @@
                                     <constraint firstItem="zD8-Bj-ORS" firstAttribute="top" secondItem="FCY-Zh-6B5" secondAttribute="top" id="z47-BO-QeP"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ukx-00-3TF">
+                                <rect key="frame" x="0.0" y="308" width="320" height="220"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="QgL-Md-1M7"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="FCY-Zh-6B5" firstAttribute="trailing" secondItem="p9Q-Mn-43p" secondAttribute="trailing" id="4ot-QL-bje"/>
                             <constraint firstItem="p9Q-Mn-43p" firstAttribute="bottom" secondItem="FCY-Zh-6B5" secondAttribute="bottom" id="7lH-46-y77"/>
+                            <constraint firstItem="ukx-00-3TF" firstAttribute="bottom" secondItem="p9Q-Mn-43p" secondAttribute="bottom" id="9AI-fM-RhI"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="top" secondItem="p9Q-Mn-43p" secondAttribute="top" id="Dif-N7-D3K"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="trailing" secondItem="p9Q-Mn-43p" secondAttribute="trailing" id="FuN-bM-Bpc"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="leading" secondItem="p9Q-Mn-43p" secondAttribute="leading" id="GlO-6h-tbW"/>
+                            <constraint firstItem="ukx-00-3TF" firstAttribute="trailing" secondItem="p9Q-Mn-43p" secondAttribute="trailing" id="GzJ-5X-NJI"/>
                             <constraint firstItem="FCY-Zh-6B5" firstAttribute="top" secondItem="sQl-z1-FpY" secondAttribute="bottom" constant="2" id="NLt-N7-3DA"/>
+                            <constraint firstItem="ukx-00-3TF" firstAttribute="leading" secondItem="p9Q-Mn-43p" secondAttribute="leading" id="OK7-OG-M6L"/>
                             <constraint firstItem="FCY-Zh-6B5" firstAttribute="leading" secondItem="p9Q-Mn-43p" secondAttribute="leading" id="xXQ-Jt-Obk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="p9Q-Mn-43p"/>
@@ -904,117 +914,12 @@
                     <connections>
                         <outlet property="btnFeature" destination="wQr-0I-T8n" id="WpA-ua-zxk"/>
                         <outlet property="collectionStream" destination="zD8-Bj-ORS" id="e1h-Ts-Itf"/>
+                        <outlet property="pagerContent" destination="ukx-00-3TF" id="3yy-4E-6pQ"/>
                         <outlet property="searchText" destination="cIj-e9-fjI" id="3nQ-X2-oJg"/>
                         <outlet property="searchView" destination="2st-yn-GXI" id="535-cB-Xli"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qKQ-UQ-zmJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="HomeCollectionViewCell" id="aeu-bi-mOX" customClass="HomeCollectionViewCell" customModule="Emogo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="Mtf-hM-52I">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="Sui-Oo-zBD" userLabel="gradient image">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emogo Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H0u-0n-iGg">
-                                <rect key="frame" x="5" y="60" width="95" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="hUJ-Wj-xSS"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="11"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by emogo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xLP-GK-b78">
-                                <rect key="frame" x="5" y="78" width="95" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="QLt-7c-RKM"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="11"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tf4-dP-Wzk">
-                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stream-box" translatesAutoresizingMaskIntoConstraints="NO" id="q55-va-Cvz">
-                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4mF-vX-VS0">
-                                        <rect key="frame" x="38" y="13" width="34" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wN3-kS-KjP">
-                                        <rect key="frame" x="14" y="9" width="66" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="share-icon"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA8-YS-gYi">
-                                        <rect key="frame" x="0.0" y="50" width="100" height="1"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="View" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QI8-7S-YdZ">
-                                        <rect key="frame" x="38" y="63" width="34" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D2A-uh-FmA">
-                                        <rect key="frame" x="14" y="58" width="65" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="view-icon"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.22459086780000001" green="0.6891257167" blue="0.88835960629999999" alpha="0.9118067782" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                        </subviews>
-                    </view>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="tf4-dP-Wzk" secondAttribute="trailing" id="5k4-fH-7ju"/>
-                        <constraint firstAttribute="trailing" secondItem="Sui-Oo-zBD" secondAttribute="trailing" id="64N-Su-qwb"/>
-                        <constraint firstAttribute="bottom" secondItem="xLP-GK-b78" secondAttribute="bottom" constant="2" id="BGe-jK-KUL"/>
-                        <constraint firstItem="H0u-0n-iGg" firstAttribute="leading" secondItem="aeu-bi-mOX" secondAttribute="leading" constant="5" id="Jut-oC-qCU"/>
-                        <constraint firstAttribute="bottom" secondItem="Sui-Oo-zBD" secondAttribute="bottom" id="Leo-1f-moa"/>
-                        <constraint firstItem="Mtf-hM-52I" firstAttribute="leading" secondItem="aeu-bi-mOX" secondAttribute="leading" id="Sil-UG-PeB"/>
-                        <constraint firstItem="Sui-Oo-zBD" firstAttribute="top" secondItem="aeu-bi-mOX" secondAttribute="top" id="UhN-Zv-j5m"/>
-                        <constraint firstItem="tf4-dP-Wzk" firstAttribute="top" secondItem="aeu-bi-mOX" secondAttribute="top" id="VX1-7w-afG"/>
-                        <constraint firstItem="xLP-GK-b78" firstAttribute="top" secondItem="H0u-0n-iGg" secondAttribute="bottom" constant="-2" id="ZwC-VZ-bhC"/>
-                        <constraint firstAttribute="bottom" secondItem="tf4-dP-Wzk" secondAttribute="bottom" id="b75-n3-ubB"/>
-                        <constraint firstItem="Sui-Oo-zBD" firstAttribute="leading" secondItem="aeu-bi-mOX" secondAttribute="leading" id="d4H-zF-GGS"/>
-                        <constraint firstAttribute="trailing" secondItem="Mtf-hM-52I" secondAttribute="trailing" id="d5F-0C-Dzc"/>
-                        <constraint firstItem="Mtf-hM-52I" firstAttribute="top" secondItem="aeu-bi-mOX" secondAttribute="top" id="jpr-mV-q95"/>
-                        <constraint firstItem="xLP-GK-b78" firstAttribute="leading" secondItem="aeu-bi-mOX" secondAttribute="leading" constant="5" id="jzf-io-nje"/>
-                        <constraint firstAttribute="trailing" secondItem="xLP-GK-b78" secondAttribute="trailing" id="lxv-c1-5en"/>
-                        <constraint firstItem="tf4-dP-Wzk" firstAttribute="leading" secondItem="aeu-bi-mOX" secondAttribute="leading" id="s6v-jz-ADM"/>
-                        <constraint firstAttribute="bottom" secondItem="Mtf-hM-52I" secondAttribute="bottom" id="wxY-YE-tC4"/>
-                        <constraint firstAttribute="trailing" secondItem="H0u-0n-iGg" secondAttribute="trailing" id="xYO-75-JkF"/>
-                    </constraints>
-                    <viewLayoutGuide key="safeArea" id="8e3-HP-fCk"/>
-                    <connections>
-                        <outlet property="btnShare" destination="wN3-kS-KjP" id="Xde-2U-XnO"/>
-                        <outlet property="btnView" destination="D2A-uh-FmA" id="kle-in-ABH"/>
-                        <outlet property="imgStream" destination="Mtf-hM-52I" id="OxG-BZ-Qlq"/>
-                        <outlet property="lblShortDesc" destination="xLP-GK-b78" id="olH-uZ-i1m"/>
-                        <outlet property="lblStreamName" destination="H0u-0n-iGg" id="Hyt-hu-AVk"/>
-                        <outlet property="viewShowHide" destination="tf4-dP-Wzk" id="ucd-E6-O1Y"/>
-                    </connections>
-                </collectionViewCell>
             </objects>
             <point key="canvasLocation" x="571.875" y="810.21126760563379"/>
         </scene>

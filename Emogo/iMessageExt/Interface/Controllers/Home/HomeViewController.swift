@@ -16,6 +16,7 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var searchView : UIView!
     @IBOutlet weak var searchText : UITextField!
     @IBOutlet weak var btnFeature : UIButton!
+    @IBOutlet weak var pagerContent : UIView!
     
     // MARK: - Varibales
     var arrayStreams = [StreamDAO]()
@@ -41,6 +42,7 @@ class HomeViewController: MSMessagesAppViewController {
         setupLoader()
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+      
     }
     
     // MARK:- prepareLayout
@@ -63,6 +65,24 @@ class HomeViewController: MSMessagesAppViewController {
         DispatchQueue.main.async {
             self.hudView.startLoaderWithAnimation()
         }
+    }
+    
+    func preparePagerFrame() {
+        let pagerView = FSPagerView()
+        pagerView.frame = pagerContent.bounds
+        pagerContent.addSubview(pagerView)
+        pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
+        pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
+        pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
+        pagerView.currentIndex = 2
+        pagerView.itemSize = CGSize(width: 130, height: 130)
+        pagerView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
+        pagerView.delegate = self
+        pagerView.dataSource = self
+        pagerView.isHidden = false
+        pagerView.isAddBackground = false
+        pagerView.isAddTitle = false
+        pagerView.layer.contents = UIImage(named: "bottomPager")?.cgImage
     }
     
     // MARK:- pull to refresh LoaderSetup
@@ -109,15 +129,15 @@ class HomeViewController: MSMessagesAppViewController {
             self.performSelector(inBackground: #selector(self.changeUIInBackground), with: nil)
             btnFeature.tag = 1
         }else{
-            SharedData.sharedInstance.hidePager(controller: self)
+            pagerContent.isHidden = true
             btnFeature.tag = 0
         }
     }
     
     @objc func changeUIInBackground(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 220, width: self.view.frame.size.width, height: 220), controller: self)
-            SharedData.sharedInstance.showPager(controller: self)
+            pagerContent.isHidden = false
+            
         }
     }
     
@@ -140,12 +160,10 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        
+        preparePagerFrame()
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            SharedData.sharedInstance.preparePagerFrame(frame: CGRect(x: 0, y: self.view.frame.size.height - 260, width: self.view.frame.size.width, height: 220), controller: self)
-            
-            SharedData.sharedInstance.showPager(controller: self)
+            pagerContent.isHidden = false
             btnFeature.tag = 1
         }
         self.setupRefreshLoader()
@@ -158,11 +176,11 @@ class HomeViewController: MSMessagesAppViewController {
     
     @IBAction func btnFeaturedTap(_ sender: UIButton){
         if(btnFeature.tag == 1){
-            SharedData.sharedInstance.hidePager(controller: self)
+            pagerContent.isHidden = true
             btnFeature.tag = 0
         } else {
             if(SharedData.sharedInstance.isMessageWindowExpand) {
-                SharedData.sharedInstance.showPager(controller: self)
+                pagerContent.isHidden = false
                 btnFeature.tag = 1
             }else{
                 NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
@@ -289,7 +307,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        SharedData.sharedInstance.hidePager(controller: self)
+        pagerContent.isHidden = true
         btnFeature.tag = 0
         self.changeCellImageAnimation(indexPath.row)
     }
@@ -339,7 +357,7 @@ extension HomeViewController : UITextFieldDelegate {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
         }else{
-            SharedData.sharedInstance.hidePager(controller: self)
+            pagerContent.isHidden = true
             btnFeature.tag = 0
         }
         return true
@@ -452,7 +470,7 @@ extension HomeViewController : UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
-        SharedData.sharedInstance.hidePager(controller: self)
+        pagerContent.isHidden = true
         btnFeature.tag = 0
         
         let threshold   = 100.0 ;
