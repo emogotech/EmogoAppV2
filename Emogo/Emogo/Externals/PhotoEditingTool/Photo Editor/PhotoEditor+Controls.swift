@@ -2,7 +2,7 @@
 //  PhotoEditor+Controls.swift
 //  Pods
 //
-//  Created by Mohamed Hamed on 6/16/17.
+//  Created by Pushpendra on 13/12/17.
 //
 //
 
@@ -175,25 +175,29 @@ extension PhotoEditorViewController {
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = false
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
-        
+
         switch sender.tag {
         case 11:
           self.selectedItem = self.editingService.adjustmentItems[0]
+          self.selectedItem?.reset()
           self.updateSliderForItem(item: self.selectedItem!)
           self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
         case 22:
              self.selectedItem = self.editingService.adjustmentItems[1]
+             self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem:self.selectedItem!)
             break
         case 33:
              self.selectedItem  = self.editingService.adjustmentItems[2]
+             self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
         case 44:
              self.selectedItem = self.editingService.adjustmentItems[3]
+             self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
@@ -209,7 +213,8 @@ extension PhotoEditorViewController {
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.isFilterSelected = false
-      
+        self.canvasImageView.image = self.editingService.posterImage()
+        self.editingService.setImage(image: self.canvasImageView.image!)
 
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
@@ -221,7 +226,8 @@ extension PhotoEditorViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.isFilterSelected = false
         if self.selectedItem != nil {
-            
+            self.editingService.removeAllFilters()
+            self.canvasImageView.image = self.editingService.modifiedImage
         }
 
     }

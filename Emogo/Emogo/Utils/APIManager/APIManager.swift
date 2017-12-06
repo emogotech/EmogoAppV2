@@ -71,9 +71,13 @@ class APIManager: NSObject {
                 // TODO deal with error
                 print(error.localizedDescription)
                 if response.response != nil {
-                    let statusCode = (response.response?.statusCode)!
+                    let statusCode = (response.response?.statusCode)! //example : 200
                     print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
                 }
+                    
                 callback!(.error(error))
             }
         }
@@ -93,8 +97,11 @@ class APIManager: NSObject {
                 // TODO deal with error
                 print(error.localizedDescription)
                 if response.response != nil {
-                    let statusCode = (response.response?.statusCode)!
+                    let statusCode = (response.response?.statusCode)! //example : 200
                     print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
                 }
                 callback!(.error(error))
             }
@@ -183,8 +190,11 @@ class APIManager: NSObject {
                 // TODO deal with error
                 print(error.localizedDescription)
                 if response.response != nil {
-                    let statusCode = (response.response?.statusCode)!
+                    let statusCode = (response.response?.statusCode)! //example : 200
                     print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
                 }
                 callback!(.error(error))
             }

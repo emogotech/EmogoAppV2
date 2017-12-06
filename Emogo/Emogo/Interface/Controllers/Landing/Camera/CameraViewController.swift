@@ -272,7 +272,7 @@ class CameraViewController: SwiftyCamViewController {
 extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        let camera = ImageDAO(type: .image, image: photo)
+        let camera = ImageDAO(type: .image, image: photo.fixOrientation())
         if Gallery.sharedInstance.Images.count == 0 {
             self.viewUP()
         }

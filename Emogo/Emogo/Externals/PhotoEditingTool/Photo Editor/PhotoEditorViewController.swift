@@ -50,6 +50,7 @@ import UIKit
     @IBOutlet weak var filterSlider: UISlider!
 
     public var image: UIImage?
+    var imageToFilter:UIImage?
     /**
      Array of Stickers -UIImage- that the user will choose from
      */

@@ -43,6 +43,7 @@ let kStoryboardID_PreView = "preView"
 let kStoryboardID_AddStreamView = "addStreamView"
 let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 let kStoryboardID_InitialView = "initialView"
+let kStoryboardID_PeopleListView = "peopleListView"
 
 
 
@@ -54,6 +55,7 @@ let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
 let kFooter_Preview = "previewFooterView"
 let kCell_AddCollaboratorsView = "addCollaboratorsViewCell"
+let kCell_PeopleCell = "peopleCell"
 
 
 
@@ -66,6 +68,7 @@ let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
 
 // MARK: - Notification Observer Identifier
+let kLogoutIdentifier = "LogoutNavigationIdentifier"
 
 
 
@@ -90,6 +93,7 @@ let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
 let kDeepLinkURL = "Emogo://emogo/"
+//let kDeepLinkImessage = "EmogoImessage://emogo/"
 let kDeepLinkTypeProfile = "Profile"
 let kDeepLinkTypePeople = "People"
 let kDeepLinkTypeAddStream = "AddStream"
@@ -151,7 +155,8 @@ let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 
 //Notification Name
-let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
+let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpand"
+let iMsgNotificationManageRequestStyleCompact          = "manageRequestStyleExpand"
 let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages

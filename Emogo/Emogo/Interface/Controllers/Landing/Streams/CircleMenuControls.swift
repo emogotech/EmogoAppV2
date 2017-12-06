@@ -41,15 +41,14 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
         pagerView.scrollToItem(at: index, animated: true)
-        changeCellImageAnimationt(index, pagerView: pagerView)
-        self.navigateToSelectedItem(index:index)
+        changeCellImageAnimationt(index, pagerView: pagerView,isSelect:true)
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
-        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
+        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView,isSelect: false)
     }
     
-    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView){
+    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView, isSelect:Bool){
         var menu:Menu!
         for section in 0 ..< pagerView.numberOfSections {
             for row in 0 ..< pagerView.numberOfItems{
@@ -73,43 +72,60 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
          menu  = self.menu.arrayMenu[sender]
          pagerView.lblCurrentType.text = menu.iconName!
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
+        }
     }
     
-    func navigateToSelectedItem(index:Int){
-        self.menuView.isHidden = true
-        self.viewMenu.isHidden = false
-        Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
-        isMenuOpen = false
+    func navigateToSelectedItem(index:Int, isSelect:Bool){
+//        self.menuView.isHidden = true
+//        self.viewMenu.isHidden = false
+//       if isSelect == true {
+//            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+//        }
+//        isMenuOpen = false
         switch index {
         case 0:
-            print("first")
+            self.currentStreamType = StreamType.populer
             break
         case 1:
-            print("second")
+            self.currentStreamType = StreamType.myStream
             break
         case 2:
-            print("third")
+            self.currentStreamType = StreamType.featured
             break
         case 3:
-            print("add")
-           self.actionForAddStream()
+            if isSelect == true {
+                self.actionForAddStream()
+            }
             break
         case 4:
-            print("four")
+            self.currentStreamType = StreamType.emogoStreams
             break
         case 5:
-            print("five")
             break
         case 6:
-            print("six")
+            if isSelect == true {
+                self.actionForPeopleList()
+            }
             break
         default:
             break
+        }
+        print("currrent index--->\(index)")
+        if index == 0 || index == 1 || index == 2 || index == 4 {
+            HUDManager.sharedInstance.showHUD()
+            self.getStreamList(type:.start,filter: self.currentStreamType)
         }
     }
     
     func actionForAddStream(){
         let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+        self.navigationController?.push(viewController: obj!)
+    }
+    func actionForPeopleList(){
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView)
         self.navigationController?.push(viewController: obj!)
     }
 }

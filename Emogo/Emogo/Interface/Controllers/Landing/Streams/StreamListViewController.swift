@@ -14,12 +14,14 @@ class StreamListViewController: UIViewController {
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
     @IBOutlet weak var viewMenu: UIView!
+    @IBOutlet weak var lblNoResult: UILabel!
+
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
             menuView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
             menuView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
-            menuView.currentIndex = 3
+            menuView.currentIndex = 2
             menuView.itemSize = CGSize(width: 130, height: 130)
             menuView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
             menuView.delegate = self
@@ -31,7 +33,7 @@ class StreamListViewController: UIViewController {
     private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
     var menu = MenuDAO()
     var isMenuOpen:Bool! = false
-    
+    var currentStreamType:StreamType! = .featured
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -44,10 +46,11 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
         menuView.isHidden = true
+        
         self.viewMenu.isHidden = false
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
-            self.navigationController?.push(viewController: obj)
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
+            self.navigationController?.push(viewController: obj!)
             SharedData.sharedInstance.deepLinkType = ""
         }
     }
@@ -60,9 +63,19 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        self.getStreamList(type:.start)
-        // Attach datasource and delegate
+        
+        // Logout User if Token Is Expired
 
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
+            kDefault?.set(false, forKey: kUserLogggedIn)
+            kDefault?.removeObject(forKey: kUserLogggedInData)
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+            self.navigationController?.reverseFlipPush(viewController: obj!)
+        }
+        HUDManager.sharedInstance.showHUD()
+        self.getStreamList(type:.start,filter: .featured)
+        // Attach datasource and delegate
+        self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
         
@@ -85,6 +98,7 @@ class StreamListViewController: UIViewController {
         self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
+        menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
 
     }
@@ -95,12 +109,15 @@ class StreamListViewController: UIViewController {
       let  footer = RefreshFooterAnimator(frame: .zero)
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-            self?.getStreamList(type:.up)
+            self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
         }
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            self?.getStreamList(type:.down)
+            self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
         }
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.streamCollectionView.es.autoPullToRefresh()
+        }
     }
   
     // MARK: -  Action Methods And Selector
@@ -148,14 +165,13 @@ class StreamListViewController: UIViewController {
    
     
     // MARK: - API Methods
-    private func getStreamList(type:RefreshType){
-        if type == .start {
+    func getStreamList(type:RefreshType,filter:StreamType){
+        if type == .start || type == .up {
             UIApplication.shared.endIgnoringInteractionEvents()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
-            HUDManager.sharedInstance.showHUD()
         }
-        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
              if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
@@ -168,7 +184,11 @@ class StreamListViewController: UIViewController {
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
-                self.streamCollectionView.reloadData()
+            self.lblNoResult.isHidden = true
+            if StreamList.sharedInstance.arrayStream.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+            self.streamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

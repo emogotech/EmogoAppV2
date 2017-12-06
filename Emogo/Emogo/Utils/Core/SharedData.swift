@@ -15,10 +15,11 @@ class SharedData: NSObject {
     //MARK:- Variables
     
     
-    var countryCode:String! = ""
+    var countryCode:String!
     var nextStreamString:String! = ""
     var isMoreContentAvailable : Bool = false
     var deepLinkType : String = ""
+    var savedConversation: MSConversation?
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
@@ -30,7 +31,7 @@ class SharedData: NSObject {
     
     override init() {
         super.init()
-        
+        self.countryCode = ""
     }
     
     
@@ -214,6 +215,7 @@ class SharedData: NSObject {
 //             UIApplication.shared.openURL(url)
         }
     }
+    
     
  }
 
