@@ -2,7 +2,7 @@
 //  PhotoEditor+Drawing.swift
 //  Photo Editor
 //
-//  Created by Mohamed Hamed on 6/16/17.
+//  Created by Pushpendra on 13/12/17.
 //
 //
 

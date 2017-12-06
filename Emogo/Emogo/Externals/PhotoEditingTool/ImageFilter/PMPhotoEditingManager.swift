@@ -125,7 +125,7 @@ class PMPhotoEditingManager: NSObject {
     
   
     
-    func posterImage (editorImage : UIImage?) -> UIImage {
+    func posterImage () -> UIImage {
         guard let mainImage = self.applyFilters() else {
             return UIImage()
         }

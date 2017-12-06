@@ -82,29 +82,31 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         isMenuOpen = false
         switch index {
         case 0:
-            print("first")
+            self.currentStreamType = StreamType.populer
             break
         case 1:
-            print("second")
+            self.currentStreamType = StreamType.myStream
             break
         case 2:
-            print("third")
+            self.currentStreamType = StreamType.featured
             break
         case 3:
-            print("add")
-           self.actionForAddStream()
+            self.actionForAddStream()
             break
         case 4:
-            print("four")
+            self.currentStreamType = StreamType.emogoStreams
             break
         case 5:
-            print("five")
+            self.currentStreamType = StreamType.profile
             break
         case 6:
-            print("six")
+            self.currentStreamType = StreamType.people
             break
         default:
             break
+        }
+        if index != 3 {
+            self.getStreamList(type:.start,filter: self.currentStreamType)
         }
     }
     

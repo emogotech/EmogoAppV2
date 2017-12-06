@@ -274,18 +274,21 @@ class APIServiceManager: NSObject {
     
     // MARK: - Get All Stream API iPhone
     
-    func apiForiPhoneGetStreamList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+    func apiForiPhoneGetStreamList(type:RefreshType,filter:StreamType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        
         if type == .start || type == .up{
-            StreamList.sharedInstance.requestURl = kStreamAPI + "?page=1"
+        StreamList.sharedInstance.updateRequestType(filter: filter)
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")
             return
         }
+        print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -304,7 +307,6 @@ class APIServiceManager: NSObject {
                                 StreamList.sharedInstance.requestURl = obj as! String
                                 completionHandler(.down,"")
                             }
-                            print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
                         }
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -317,6 +319,5 @@ class APIServiceManager: NSObject {
             }
         
     }
-    
 }
 }

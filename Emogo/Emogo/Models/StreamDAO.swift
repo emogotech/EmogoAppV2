@@ -8,6 +8,17 @@
 
 import Foundation
 import UIKit
+
+enum StreamType:String{
+    case populer = "1"
+    case myStream = "2"
+    case featured = "3"
+    case emogoStreams = "4"
+    case profile = "5"
+    case people = "6"
+}
+
+
 class StreamDAO {
     var ID:String! = ""
     var Author:String! = ""
@@ -34,7 +45,6 @@ class StreamDAO {
     }
 }
 
-
 class StreamList{
     
     var arrayStream:[StreamDAO]!
@@ -47,6 +57,29 @@ class StreamList{
     }
     init() {
         arrayStream = [StreamDAO]()
+    }
+    
+    func updateRequestType(filter:StreamType){
+        switch filter {
+        case .populer:
+           self.requestURl =  kStreamAPI + "popular=True"
+            break
+        case .myStream:
+            self.requestURl =  kStreamAPI + "my_stream=True"
+            break
+        case .featured:
+            self.requestURl =  kStreamAPI + "featured=True"
+            break
+        case .emogoStreams:
+            self.requestURl =  kStreamAPI + "emogo=True"
+            break
+        case .profile:
+            self.requestURl =  kStreamAPI + ""
+            break
+        case .people:
+            self.requestURl =  "users?people"
+            break
+        }
     }
     
 }

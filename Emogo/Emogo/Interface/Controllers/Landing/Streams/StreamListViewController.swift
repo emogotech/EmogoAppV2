@@ -31,7 +31,7 @@ class StreamListViewController: UIViewController {
     private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
     var menu = MenuDAO()
     var isMenuOpen:Bool! = false
-    
+    var currentStreamType:StreamType! = .featured
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -60,7 +60,7 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        self.getStreamList(type:.start)
+        self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
 
         self.streamCollectionView.dataSource  = self
@@ -95,10 +95,10 @@ class StreamListViewController: UIViewController {
       let  footer = RefreshFooterAnimator(frame: .zero)
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-            self?.getStreamList(type:.up)
+            self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
         }
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            self?.getStreamList(type:.down)
+            self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
         }
         
     }
@@ -148,14 +148,14 @@ class StreamListViewController: UIViewController {
    
     
     // MARK: - API Methods
-    private func getStreamList(type:RefreshType){
+    func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start {
             UIApplication.shared.endIgnoringInteractionEvents()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
             HUDManager.sharedInstance.showHUD()
         }
-        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
              if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
