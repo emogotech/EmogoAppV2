@@ -60,6 +60,16 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        
+        // Logout User if Token Is Expired
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
+            kDefault?.set(false, forKey: kUserLogggedIn)
+            kDefault?.removeObject(forKey: kUserLogggedInData)
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+            self.navigationController?.reverseFlipPush(viewController: obj!)
+        }
+        
         self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
 

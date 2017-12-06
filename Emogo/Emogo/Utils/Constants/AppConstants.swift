@@ -68,6 +68,7 @@ let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
 
 // MARK: - Notification Observer Identifier
+let kLogoutIdentifier = "LogoutNavigationIdentifier"
 
 
 
