@@ -175,6 +175,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             category=self.validated_data.get('category'),
             image=self.validated_data.get('image'),
             type=self.validated_data.get('type'),
+            emogo=self.validated_data.get('emogo', False),
+            featured=self.validated_data.get('featured', False),
             created_by=self.context['request'].user
         )
         stream.save()
@@ -218,14 +220,33 @@ class ViewStreamSerializer(StreamSerializer):
         return None
 
 
+class ContentListSerializer(serializers.ListSerializer):
+    """
+    Content list Serializer
+    """
+    def create(self, validated_data):
+        contents = []
+        for item in validated_data:
+            item.update({'created_by':self.context['request'].user})
+            contents.append(Content(**item))
+        return Content.objects.bulk_create(contents)
+
+
 class ContentSerializer(DynamicFieldsModelSerializer):
     """
     Collaborator model Serializer
     """
+    # streams = CustomListField(child=serializers.IntegerField())
+    url = serializers.URLField()
 
     class Meta:
         model = Content
         fields = '__all__'
+        list_serializer_class = ContentListSerializer
+        extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'url': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'type': {'required': True, 'allow_blank': False, 'allow_null': False}
+                        }
 
 
 class ViewContentSerializer(ContentSerializer):
