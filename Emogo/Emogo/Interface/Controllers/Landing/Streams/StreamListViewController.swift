@@ -14,12 +14,14 @@ class StreamListViewController: UIViewController {
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
     @IBOutlet weak var viewMenu: UIView!
+    @IBOutlet weak var lblNoResult: UILabel!
+
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
             menuView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
             menuView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
-            menuView.currentIndex = 3
+            menuView.currentIndex = 2
             menuView.itemSize = CGSize(width: 130, height: 130)
             menuView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
             menuView.delegate = self
@@ -44,6 +46,7 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
         menuView.isHidden = true
+        
         self.viewMenu.isHidden = false
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
@@ -72,7 +75,7 @@ class StreamListViewController: UIViewController {
         
         self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
-
+        self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
         
@@ -178,7 +181,10 @@ class StreamListViewController: UIViewController {
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
-                self.streamCollectionView.reloadData()
+            if StreamList.sharedInstance.arrayStream.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+            self.streamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

@@ -73,6 +73,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
          menu  = self.menu.arrayMenu[sender]
          pagerView.lblCurrentType.text = menu.iconName!
+        let when = DispatchTime.now() + 0.3
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            self.navigateToSelectedItem(index:sender)
+        }
     }
     
     func navigateToSelectedItem(index:Int){
@@ -104,7 +108,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         default:
             break
         }
-        if index != 3 || index != 6 {
+        if index != 3 || index != 5 || index != 6 {
             self.getStreamList(type:.start,filter: self.currentStreamType)
         }
     }

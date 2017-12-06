@@ -24,7 +24,7 @@ target 'Emogo' do
     pod "ESPullToRefresh"
     pod 'Fabric'
     pod 'Crashlytics'
-    
+
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

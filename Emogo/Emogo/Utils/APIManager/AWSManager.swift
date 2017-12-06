@@ -141,6 +141,22 @@ class AWSManager: NSObject {
         }
     }
     
+    func removeFile(name:String, completion:@escaping (Bool?,Error?)->Void){
+        let s3 = AWSS3.default()
+        let deleteObjectRequest = AWSS3DeleteObjectRequest()
+        deleteObjectRequest?.bucket = kBucketStreamMedia
+        deleteObjectRequest?.key = name
+        s3.deleteObject(deleteObjectRequest!).continueWith { (task:AWSTask) -> AnyObject? in
+            if let error = task.error {
+                print("Error occurred: \(error)")
+                completion(false, error)
+                return nil
+            }
+            completion(true, nil)
+            print("Deleted successfully.")
+            return nil
+        }
+    }
 }
 
 

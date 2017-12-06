@@ -713,6 +713,16 @@
                                     <constraint firstAttribute="height" constant="115" id="HuH-Zh-8zZ"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vd-mo-vbD">
+                                <rect key="frame" x="16" y="273" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="HgH-9f-VDA"/>
+                                    <constraint firstAttribute="height" constant="21" id="Wp3-F1-b7m"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
+                                <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -720,7 +730,9 @@
                             <constraint firstItem="4oZ-wY-fIx" firstAttribute="top" secondItem="6d5-Fc-mfc" secondAttribute="top" id="3kk-PB-p3l"/>
                             <constraint firstItem="A6d-2Z-zOX" firstAttribute="bottom" secondItem="6d5-Fc-mfc" secondAttribute="bottom" id="EdF-gc-xpT"/>
                             <constraint firstItem="hpx-ps-f4v" firstAttribute="trailing" secondItem="6d5-Fc-mfc" secondAttribute="trailing" id="PKq-5q-7dO"/>
+                            <constraint firstItem="4Vd-mo-vbD" firstAttribute="centerX" secondItem="uga-uD-jRk" secondAttribute="centerX" id="Rhn-LE-9ab"/>
                             <constraint firstItem="hpx-ps-f4v" firstAttribute="bottom" secondItem="6d5-Fc-mfc" secondAttribute="bottom" id="Zqv-JA-PYW"/>
+                            <constraint firstItem="4Vd-mo-vbD" firstAttribute="centerY" secondItem="uga-uD-jRk" secondAttribute="centerY" id="d3i-jb-Sxq"/>
                             <constraint firstItem="A6d-2Z-zOX" firstAttribute="leading" secondItem="6d5-Fc-mfc" secondAttribute="leading" id="eOL-TW-EYo"/>
                             <constraint firstItem="hpx-ps-f4v" firstAttribute="leading" secondItem="6d5-Fc-mfc" secondAttribute="leading" id="fYs-JQ-q0Z"/>
                             <constraint firstItem="4oZ-wY-fIx" firstAttribute="leading" secondItem="6d5-Fc-mfc" secondAttribute="leading" id="oqG-1Y-dDL"/>
@@ -730,6 +742,7 @@
                         <viewLayoutGuide key="safeArea" id="6d5-Fc-mfc"/>
                     </view>
                     <connections>
+                        <outlet property="lblNoResult" destination="4Vd-mo-vbD" id="UYN-8R-zeN"/>
                         <outlet property="menuView" destination="A6d-2Z-zOX" id="Hc5-XB-iAv"/>
                         <outlet property="streamCollectionView" destination="4oZ-wY-fIx" id="iSd-bX-PWx"/>
                         <outlet property="viewMenu" destination="hpx-ps-f4v" id="wli-wU-vF1"/>
@@ -737,7 +750,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ONW-wa-62M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1076" y="762"/>
+            <point key="canvasLocation" x="1074.375" y="761.61971830985919"/>
         </scene>
         <!--Add Stream View Controller-->
         <scene sceneID="Ard-ef-JaY">
