@@ -97,21 +97,24 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             self.currentStreamType = StreamType.emogoStreams
             break
         case 5:
-            self.currentStreamType = StreamType.profile
             break
         case 6:
-            self.currentStreamType = StreamType.people
+            self.actionForPeopleList()
             break
         default:
             break
         }
-        if index != 3 {
+        if index != 3 || index != 6 {
             self.getStreamList(type:.start,filter: self.currentStreamType)
         }
     }
     
     func actionForAddStream(){
         let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+        self.navigationController?.push(viewController: obj!)
+    }
+    func actionForPeopleList(){
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView)
         self.navigationController?.push(viewController: obj!)
     }
 }

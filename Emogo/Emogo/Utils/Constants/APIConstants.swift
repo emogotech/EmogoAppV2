@@ -36,6 +36,7 @@ let kLoginAPI                                       = "login/"
 let kUserNameVerifyAPI                              = "unique_user_name/"
 let kResendAPI                                      = "resend_otp/"
 let kStreamAPI                                      = "stream?"
+let kPeopleAPI                                      = "users/"
 
 
 

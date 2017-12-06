@@ -43,6 +43,7 @@ let kStoryboardID_PreView = "preView"
 let kStoryboardID_AddStreamView = "addStreamView"
 let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 let kStoryboardID_InitialView = "initialView"
+let kStoryboardID_PeopleListView = "peopleListView"
 
 
 
@@ -54,6 +55,7 @@ let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
 let kFooter_Preview = "previewFooterView"
 let kCell_AddCollaboratorsView = "addCollaboratorsViewCell"
+let kCell_PeopleCell = "peopleCell"
 
 
 

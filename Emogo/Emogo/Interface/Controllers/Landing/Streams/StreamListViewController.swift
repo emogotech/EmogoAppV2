@@ -149,7 +149,7 @@ class StreamListViewController: UIViewController {
     
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
-        if type == .start {
+        if type == .start || type == .up {
             UIApplication.shared.endIgnoringInteractionEvents()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()

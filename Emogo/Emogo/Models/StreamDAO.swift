@@ -14,8 +14,6 @@ enum StreamType:String{
     case myStream = "2"
     case featured = "3"
     case emogoStreams = "4"
-    case profile = "5"
-    case people = "6"
 }
 
 
@@ -73,12 +71,7 @@ class StreamList{
         case .emogoStreams:
             self.requestURl =  kStreamAPI + "emogo=True"
             break
-        case .profile:
-            self.requestURl =  kStreamAPI + ""
-            break
-        case .people:
-            self.requestURl =  "users?people"
-            break
+    
         }
     }
     

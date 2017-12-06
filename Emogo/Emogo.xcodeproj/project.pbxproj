@@ -195,6 +195,10 @@
 		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
+		F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */; };
+		F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */; };
+		F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */; };
+		F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
@@ -445,6 +449,9 @@
 		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
+		F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewController.swift; sourceTree = "<group>"; };
+		F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDAO.swift; sourceTree = "<group>"; };
+		F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCell.swift; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
@@ -952,6 +959,7 @@
 			isa = PBXGroup;
 			children = (
 				F4148A201FBD7C7C00081900 /* StreamCell.swift */,
+				F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */,
 				F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */,
 				F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
@@ -1086,6 +1094,7 @@
 				F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */,
 				F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */,
 				F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */,
+				F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -1109,6 +1118,7 @@
 				F4522C9D1FCBF8B40021562D /* MenuDAO.swift */,
 				F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */,
 				F44FFC9F1FD0396E00F14469 /* ShapeDAO.swift */,
+				F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1745,6 +1755,7 @@
 				F43612E11FD69B0E00788FFE /* AGImagePipeline.swift in Sources */,
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
+				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4431A9E1FC6DD2C00311C9A /* PhotoEditor+Crop.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
@@ -1773,6 +1784,7 @@
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
+				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */,
 				F4431A921FC6DD2C00311C9A /* CropView.swift in Sources */,
 				F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */,
@@ -1828,6 +1840,7 @@
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
+				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F4431AA51FC6DD2C00311C9A /* PhotoEditorViewController.swift in Sources */,
@@ -1884,6 +1897,7 @@
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
+				F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */,
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,

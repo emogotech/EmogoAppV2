@@ -15,7 +15,7 @@ class SharedData: NSObject {
     //MARK:- Variables
     
     
-    var countryCode:String! = ""
+    var countryCode:String!
     var nextStreamString:String! = ""
     var isMoreContentAvailable : Bool = false
     var deepLinkType : String = ""
@@ -30,7 +30,7 @@ class SharedData: NSObject {
     
     override init() {
         super.init()
-        
+        self.countryCode = ""
     }
     
     
