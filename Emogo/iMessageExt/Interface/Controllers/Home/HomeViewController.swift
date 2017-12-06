@@ -165,7 +165,7 @@ class HomeViewController: MSMessagesAppViewController {
                 SharedData.sharedInstance.showPager(controller: self)
                 btnFeature.tag = 1
             }else{
-                NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
             }
         }
     }
@@ -337,7 +337,7 @@ extension HomeViewController : UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyle), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
         }else{
             SharedData.sharedInstance.hidePager(controller: self)
             btnFeature.tag = 0

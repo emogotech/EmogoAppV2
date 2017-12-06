@@ -90,6 +90,7 @@ let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 
 
 let kDeepLinkURL = "Emogo://emogo/"
+//let kDeepLinkImessage = "EmogoImessage://emogo/"
 let kDeepLinkTypeProfile = "Profile"
 let kDeepLinkTypePeople = "People"
 let kDeepLinkTypeAddStream = "AddStream"
@@ -151,7 +152,8 @@ let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 
 //Notification Name
-let iMsgNotificationManageRequestStyle          = "manageRequestStyle"
+let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpand"
+let iMsgNotificationManageRequestStyleCompact          = "manageRequestStyleExpand"
 let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
 
 //Alert Messages

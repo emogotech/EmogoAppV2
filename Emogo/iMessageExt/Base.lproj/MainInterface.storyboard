@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -773,7 +773,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="PrA-wz-xIs" userLabel="gradient image">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <rect key="frame" x="0.0" y="50" width="100" height="50"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emogo Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3b7-fL-ug8">
                                                             <rect key="frame" x="5" y="60" width="95" height="20"/>
@@ -846,7 +846,7 @@
                                                     <constraint firstItem="urY-uy-pHW" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" id="BMs-WS-i3p"/>
                                                     <constraint firstAttribute="bottom" secondItem="PrA-wz-xIs" secondAttribute="bottom" id="Bms-Ga-HFa"/>
                                                     <constraint firstAttribute="bottom" secondItem="MCr-yh-6GH" secondAttribute="bottom" id="Cxv-hd-82B"/>
-                                                    <constraint firstItem="PrA-wz-xIs" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" id="Dks-wJ-30o"/>
+                                                    <constraint firstItem="PrA-wz-xIs" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" constant="50" id="Dks-wJ-30o"/>
                                                     <constraint firstItem="iAp-Z5-nt2" firstAttribute="top" secondItem="3b7-fL-ug8" secondAttribute="bottom" constant="-2" id="MeM-Wo-svP"/>
                                                     <constraint firstItem="MCr-yh-6GH" firstAttribute="leading" secondItem="Tl4-my-WrE" secondAttribute="leading" id="QAG-U5-5Ne"/>
                                                     <constraint firstAttribute="bottom" secondItem="iAp-Z5-nt2" secondAttribute="bottom" constant="2" id="UGB-j9-k8w"/>
@@ -1016,7 +1016,7 @@
                     </connections>
                 </collectionViewCell>
             </objects>
-            <point key="canvasLocation" x="572" y="811"/>
+            <point key="canvasLocation" x="571.875" y="810.21126760563379"/>
         </scene>
         <!--Stream View Controller-->
         <scene sceneID="fnr-IV-7MP">
@@ -1109,10 +1109,10 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="osM-O3-pVz">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="156"/>
                                     </imageView>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="uk2-Ah-W1c">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="156"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-iMessage" translatesAutoresizingMaskIntoConstraints="NO" id="uk2-Ah-W1c">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="70"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="uk2-Ah-W1c" secondAttribute="height" multiplier="80:39" id="YyM-cd-yob"/>
+                                            <constraint firstAttribute="width" secondItem="uk2-Ah-W1c" secondAttribute="height" multiplier="80:39" constant="176.41025641025641" id="YyM-cd-yob"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emogo Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fQ3-ZA-XqI">
@@ -1161,7 +1161,7 @@
                                     <constraint firstItem="osM-O3-pVz" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" id="jk0-LF-rpi"/>
                                     <constraint firstAttribute="bottom" secondItem="uk2-Ah-W1c" secondAttribute="bottom" id="kin-cf-sc1"/>
                                     <constraint firstAttribute="trailing" secondItem="osM-O3-pVz" secondAttribute="trailing" id="nPa-jT-v7c"/>
-                                    <constraint firstItem="uk2-Ah-W1c" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" id="o79-KR-b2d"/>
+                                    <constraint firstItem="uk2-Ah-W1c" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" constant="86" id="o79-KR-b2d"/>
                                     <constraint firstItem="45f-Fx-ooe" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" constant="15" id="p3h-h2-Jl2"/>
                                     <constraint firstAttribute="trailing" secondItem="uk2-Ah-W1c" secondAttribute="trailing" id="sJd-tS-ReD"/>
                                     <constraint firstAttribute="trailing" secondItem="fQ3-ZA-XqI" secondAttribute="trailing" constant="15" id="wr3-FZ-s0i"/>
@@ -1392,10 +1392,10 @@ Content</string>
                                         </constraints>
                                     </view>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food1" translatesAutoresizingMaskIntoConstraints="NO" id="Nx8-M5-gcS">
-                                        <rect key="frame" x="0.0" y="3" width="320" height="483"/>
+                                        <rect key="frame" x="0.0" y="11" width="320" height="475"/>
                                     </imageView>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="fhi-fs-DcP">
-                                        <rect key="frame" x="0.0" y="315" width="320" height="173"/>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-iMessage" translatesAutoresizingMaskIntoConstraints="NO" id="fhi-fs-DcP">
+                                        <rect key="frame" x="0.0" y="363" width="320" height="125"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baw-tE-Uc5">
                                         <rect key="frame" x="0.0" y="8" width="320" height="40"/>
@@ -1472,6 +1472,9 @@ Content</string>
                                                     <constraint firstAttribute="height" constant="60" id="Uxn-W7-60Y"/>
                                                 </constraints>
                                                 <state key="normal" image="send-icon"/>
+                                                <connections>
+                                                    <action selector="btnsendAction:" destination="DDU-wj-KnI" eventType="touchUpInside" id="QXo-UF-bPz"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1520,7 +1523,7 @@ Content</string>
                                     <constraint firstAttribute="bottom" secondItem="Nx8-M5-gcS" secondAttribute="bottom" constant="2" id="8IA-tv-bQj"/>
                                     <constraint firstAttribute="bottom" secondItem="fhi-fs-DcP" secondAttribute="bottom" id="9MD-Xi-Xvg"/>
                                     <constraint firstItem="baw-tE-Uc5" firstAttribute="top" secondItem="smC-SE-zm5" secondAttribute="bottom" constant="5" id="9gQ-Md-NSo"/>
-                                    <constraint firstItem="Nx8-M5-gcS" firstAttribute="top" secondItem="smC-SE-zm5" secondAttribute="bottom" id="BvN-iH-GHa"/>
+                                    <constraint firstItem="Nx8-M5-gcS" firstAttribute="top" secondItem="smC-SE-zm5" secondAttribute="bottom" constant="8" id="BvN-iH-GHa"/>
                                     <constraint firstItem="fhi-fs-DcP" firstAttribute="leading" secondItem="joA-H8-5F9" secondAttribute="leading" id="EBF-dS-Nzh"/>
                                     <constraint firstAttribute="trailing" secondItem="smC-SE-zm5" secondAttribute="trailing" id="J3v-dt-Rp4"/>
                                     <constraint firstAttribute="trailing" secondItem="Nx8-M5-gcS" secondAttribute="trailing" id="NSN-9H-nMg"/>
@@ -1532,7 +1535,7 @@ Content</string>
                                     <constraint firstAttribute="trailing" secondItem="pv3-rq-CAB" secondAttribute="trailing" id="dKU-my-EgK"/>
                                     <constraint firstItem="Nx8-M5-gcS" firstAttribute="leading" secondItem="joA-H8-5F9" secondAttribute="leading" id="jm0-pn-mUL"/>
                                     <constraint firstAttribute="bottom" secondItem="Oba-Hb-XcN" secondAttribute="bottom" id="twy-Le-0As"/>
-                                    <constraint firstItem="fhi-fs-DcP" firstAttribute="top" secondItem="joA-H8-5F9" secondAttribute="top" constant="315" id="uJ0-UI-E9A"/>
+                                    <constraint firstItem="fhi-fs-DcP" firstAttribute="top" secondItem="joA-H8-5F9" secondAttribute="top" constant="363" id="uJ0-UI-E9A"/>
                                     <constraint firstItem="smC-SE-zm5" firstAttribute="leading" secondItem="joA-H8-5F9" secondAttribute="leading" id="vDn-eC-c1h"/>
                                     <constraint firstItem="Oba-Hb-XcN" firstAttribute="leading" secondItem="joA-H8-5F9" secondAttribute="leading" id="whR-kl-mAS"/>
                                     <constraint firstAttribute="trailing" secondItem="Oba-Hb-XcN" secondAttribute="trailing" id="zwM-UN-CY0"/>
@@ -1568,7 +1571,7 @@ Content</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htd-UC-YTt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="811"/>
+            <point key="canvasLocation" x="1927.5" y="810.21126760563379"/>
         </scene>
         <!--Collaborator View Controller-->
         <scene sceneID="O9b-s4-dSe">
@@ -1713,6 +1716,7 @@ Content</string>
         <image name="food1" width="426" height="240"/>
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
         <image name="gradient" width="144" height="41"/>
+        <image name="gradient-iMessage" width="320" height="114"/>
         <image name="image1" width="597" height="593"/>
         <image name="next-btn" width="137" height="45"/>
         <image name="next-icon" width="8" height="14"/>
