@@ -22,6 +22,7 @@ class ColorCollectionViewCell: UICollectionViewCell {
         colorView.clipsToBounds = true
         colorView.layer.borderWidth = 1.0
         colorView.layer.borderColor = UIColor.white.cgColor
+        self.isAccessibilityElement =   true
     }
     
     override var isSelected: Bool {
