@@ -560,7 +560,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         }
         self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
         if self.isAddTitle == true {
-            lblCurrentType.text = "Add"
+            lblCurrentType.text =  "Featured"
         }else {
             lblCurrentType.text = "Featured"
         }

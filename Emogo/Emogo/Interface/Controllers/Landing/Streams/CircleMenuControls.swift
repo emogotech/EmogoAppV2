@@ -41,15 +41,14 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
         pagerView.scrollToItem(at: index, animated: true)
-        changeCellImageAnimationt(index, pagerView: pagerView)
-        self.navigateToSelectedItem(index:index)
+        changeCellImageAnimationt(index, pagerView: pagerView,isSelect:true)
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
-        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
+        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView,isSelect: false)
     }
     
-    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView){
+    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView, isSelect:Bool){
         var menu:Menu!
         for section in 0 ..< pagerView.numberOfSections {
             for row in 0 ..< pagerView.numberOfItems{
@@ -75,15 +74,17 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
          pagerView.lblCurrentType.text = menu.iconName!
         let when = DispatchTime.now() + 0.3
         DispatchQueue.main.asyncAfter(deadline: when) {
-            self.navigateToSelectedItem(index:sender)
+            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
         }
     }
     
-    func navigateToSelectedItem(index:Int){
-        self.menuView.isHidden = true
-        self.viewMenu.isHidden = false
-        Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
-        isMenuOpen = false
+    func navigateToSelectedItem(index:Int, isSelect:Bool){
+//        self.menuView.isHidden = true
+//        self.viewMenu.isHidden = false
+//       if isSelect == true {
+//            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+//        }
+//        isMenuOpen = false
         switch index {
         case 0:
             self.currentStreamType = StreamType.populer
@@ -95,7 +96,9 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             self.currentStreamType = StreamType.featured
             break
         case 3:
-            self.actionForAddStream()
+            if isSelect == true {
+                self.actionForAddStream()
+            }
             break
         case 4:
             self.currentStreamType = StreamType.emogoStreams
@@ -103,12 +106,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         case 5:
             break
         case 6:
-            self.actionForPeopleList()
+            if isSelect == true {
+                self.actionForPeopleList()
+            }
             break
         default:
             break
         }
-        if index != 3 || index != 5 || index != 6 {
+        print("currrent index--->\(index)")
+        if index == 0 || index == 1 || index == 2 || index == 4 {
+            HUDManager.sharedInstance.showHUD()
             self.getStreamList(type:.start,filter: self.currentStreamType)
         }
     }

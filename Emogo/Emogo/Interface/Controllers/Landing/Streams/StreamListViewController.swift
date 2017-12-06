@@ -49,8 +49,8 @@ class StreamListViewController: UIViewController {
         
         self.viewMenu.isHidden = false
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
-            self.navigationController?.push(viewController: obj)
+            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
+            self.navigationController?.push(viewController: obj!)
             SharedData.sharedInstance.deepLinkType = ""
         }
     }
@@ -72,7 +72,7 @@ class StreamListViewController: UIViewController {
             let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj!)
         }
-        
+        HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
         self.lblNoResult.isHidden = true
@@ -98,6 +98,7 @@ class StreamListViewController: UIViewController {
         self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
+        menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
 
     }
@@ -114,6 +115,9 @@ class StreamListViewController: UIViewController {
             self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
         }
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.streamCollectionView.es.autoPullToRefresh()
+        }
     }
   
     // MARK: -  Action Methods And Selector
@@ -166,7 +170,6 @@ class StreamListViewController: UIViewController {
             UIApplication.shared.endIgnoringInteractionEvents()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
-            HUDManager.sharedInstance.showHUD()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
              if type == .start {
@@ -181,6 +184,7 @@ class StreamListViewController: UIViewController {
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
+            self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
                 self.lblNoResult.isHidden = false
             }

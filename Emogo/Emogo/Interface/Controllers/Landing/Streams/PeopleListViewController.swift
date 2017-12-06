@@ -108,7 +108,7 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+        return CGSize(width: itemWidth, height: 100)
     }
     
     
