@@ -171,6 +171,21 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func btnsendAction(_ sender:UIButton){
+        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+        self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc func sendMessage(){
+        let message = MSMessage()
+        let layout = MSMessageTemplateLayout()
+        layout.caption = lblStreamName.text!
+        layout.image  = imgStream.image
+        layout.subcaption = lblStreamDesc.text
+        message.layout = layout
+        SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

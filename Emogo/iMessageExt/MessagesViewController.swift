@@ -16,14 +16,16 @@ class MessagesViewController: MSMessagesAppViewController {
     
     //MARK: - Variables
     var hudView: LoadingView!
-    
+   
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
        // SharedData.sharedInstance.resetAllData()
         prepareLayout()
         setupLoader()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyle), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyle), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyleExpand), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyleCompact), object: nil)
+        
     }
     
     // MARK:- LoaderSetup
@@ -94,8 +96,12 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - Screen Size Handling
-    @objc func requestMessageScreenChangeStyle(){
+    @objc func requestMessageScreenStyleExpand(){
         requestPresentationStyle(.expanded)
+    }
+    
+    @objc func requestMessageScreenChangeStyleCompact(){
+        requestPresentationStyle(.compact)
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,6 +110,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
+        SharedData.sharedInstance.savedConversation = conversation
         // Called when the extension is about to move from the inactive to active state.
         // This will happen when the extension is about to present UI.
         // Use this method to configure the extension and restore previously stored state.
@@ -153,7 +160,45 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
-    // MARK: - Delegate Methods of Segue
+    
+    
+    override func didSelect(_ message: MSMessage, conversation: MSConversation) {
+        
+//     if let message = conversation.selectedMessage {
+//            if let messageLayout = message.layout {
+//                print((messageLayout as! MSMessageTemplateLayout).caption as Any)
+//                print((messageLayout as! MSMessageTemplateLayout).image as Any)
+//                print((messageLayout as! MSMessageTemplateLayout).subcaption as Any)
+//                print((messageLayout as! MSMessageTemplateLayout).caption as Any)
+//            }
+//
+//         print(message.url as Any)
+//
+//        self.extensionContext?.open(message.url!, completionHandler: { (success: Bool) in
+//            print(success)
+//            })
+//        }
+//        let strUrl = "\(kDeepLinkImessage)abcd)"
+//        guard let url = URL(string: strUrl) else {
+//            return
+//        }
+//        if UIApplication.shared.canOpenURL(url) {
+//            if #available(iOS 10.0, *) {
+//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
+//        } else {
+//            if #available(iOS 10.0, *) {
+//                UIApplication.shared.open( URL(string: "itms://itunes.apple.com/app/")!, options: [:], completionHandler: nil)
+//            } else {
+//                UIApplication.shared.openURL( URL(string: "itms://itunes.apple.com/app/")!)
+//            }
+//        }
+        
+    }
+    
+		    // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return false
     }
