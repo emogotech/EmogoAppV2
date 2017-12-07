@@ -142,11 +142,11 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
-        #  Override serializer class : ViewStreamSerializer
+        #  Override serializer class : ViewContentSerializer
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count')
+        fields = ('id', 'name', 'description', 'stream', 'image', 'view_count')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)

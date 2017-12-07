@@ -126,7 +126,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)

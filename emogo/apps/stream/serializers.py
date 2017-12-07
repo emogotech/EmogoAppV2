@@ -231,6 +231,9 @@ class ContentListSerializer(serializers.ListSerializer):
             contents.append(Content(**item))
         return Content.objects.bulk_create(contents)
 
+    def delete(self, instance):
+        print('Rannnnnnnn')
+        return True
 
 class ContentSerializer(DynamicFieldsModelSerializer):
     """
