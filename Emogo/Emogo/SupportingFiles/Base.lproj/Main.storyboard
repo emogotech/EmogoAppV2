@@ -11,9 +11,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
         <array key="SF-Pro-Display-Bold.otf">
             <string>SFProDisplay-Bold</string>
         </array>
@@ -1878,7 +1875,6 @@
         <!--Stream List View Controller-->
         <scene sceneID="eOk-qf-Y3L">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Gqv-s2-G7h" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="streamListView" id="LkD-xK-LF9" customClass="StreamListViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NE6-Qq-178">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
@@ -1910,20 +1906,32 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsJ-YQ-3Am">
                                                             <rect key="frame" x="0.0" y="80" width="150" height="45"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fpU-A6-e4b">
-                                                                    <rect key="frame" x="4" y="0.0" width="142" height="45"/>
-                                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jHT-Sk-hEq">
+                                                                    <rect key="frame" x="5" y="0.0" width="140" height="21"/>
+                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="13"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Efb-VM-Lim">
+                                                                    <rect key="frame" x="5" y="21" width="140" height="21"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="21" id="Xic-FD-MlJ"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
+                                                                <constraint firstItem="Efb-VM-Lim" firstAttribute="leading" secondItem="hsJ-YQ-3Am" secondAttribute="leading" constant="5" id="5EQ-vr-Oyf"/>
                                                                 <constraint firstAttribute="height" constant="45" id="9Jl-a4-7jt"/>
-                                                                <constraint firstAttribute="bottom" secondItem="fpU-A6-e4b" secondAttribute="bottom" id="dCz-qW-Ha9"/>
-                                                                <constraint firstItem="fpU-A6-e4b" firstAttribute="leading" secondItem="hsJ-YQ-3Am" secondAttribute="leading" constant="4" id="i4l-JT-KAm"/>
-                                                                <constraint firstAttribute="trailing" secondItem="fpU-A6-e4b" secondAttribute="trailing" constant="4" id="llH-Td-2zr"/>
-                                                                <constraint firstItem="fpU-A6-e4b" firstAttribute="top" secondItem="hsJ-YQ-3Am" secondAttribute="top" id="pY3-JN-KrR"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Efb-VM-Lim" secondAttribute="trailing" constant="5" id="Qxl-ZI-b8J"/>
+                                                                <constraint firstItem="Efb-VM-Lim" firstAttribute="top" secondItem="jHT-Sk-hEq" secondAttribute="bottom" id="T8Q-19-0sK"/>
+                                                                <constraint firstAttribute="trailing" secondItem="jHT-Sk-hEq" secondAttribute="trailing" constant="5" id="X98-iC-vbT"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Efb-VM-Lim" secondAttribute="bottom" constant="3" id="ohA-It-V6I"/>
+                                                                <constraint firstItem="jHT-Sk-hEq" firstAttribute="top" secondItem="hsJ-YQ-3Am" secondAttribute="top" id="qTH-Im-5KR"/>
+                                                                <constraint firstItem="jHT-Sk-hEq" firstAttribute="leading" secondItem="hsJ-YQ-3Am" secondAttribute="leading" constant="5" id="yBI-NX-i5O"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -1955,8 +1963,9 @@
                                             <constraint firstAttribute="bottom" secondItem="4i9-4U-ZFW" secondAttribute="bottom" id="xFl-Vh-h2I"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imgCover" destination="3v3-R3-ow7" id="qqX-Wg-PTA"/>
-                                            <outlet property="lblTitle" destination="fpU-A6-e4b" id="Wp5-bh-7VO"/>
+                                            <outlet property="imgCover" destination="3v3-R3-ow7" id="6QV-3C-RJK"/>
+                                            <outlet property="lblName" destination="Efb-VM-Lim" id="aho-xT-mKm"/>
+                                            <outlet property="lblTitle" destination="jHT-Sk-hEq" id="mBy-ch-7Nz"/>
                                             <outlet property="viewContent" destination="hsJ-YQ-3Am" id="Iw8-IT-2h2"/>
                                         </connections>
                                     </collectionViewCell>
@@ -2041,12 +2050,14 @@
                         <viewLayoutGuide key="safeArea" id="jcT-Ln-C3k"/>
                     </view>
                     <connections>
+                        <outlet property="btnMenu" destination="srD-Qz-Wei" id="TeC-0h-JvT"/>
                         <outlet property="lblNoResult" destination="Ken-WH-2VU" id="agc-kf-DKw"/>
                         <outlet property="menuView" destination="rpK-pA-tyF" id="erO-Nu-2UC"/>
                         <outlet property="streamCollectionView" destination="a3r-1V-9Ax" id="4up-NN-W1p"/>
                         <outlet property="viewMenu" destination="ZlZ-60-RLW" id="gwU-HC-e8C"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gqv-s2-G7h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1161" y="747"/>
         </scene>

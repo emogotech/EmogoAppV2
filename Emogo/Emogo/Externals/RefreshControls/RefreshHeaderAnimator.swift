@@ -68,11 +68,16 @@ class RefreshHeaderAnimator: UIView,ESRefreshProtocol, ESRefreshAnimatorProtocol
         self.state = state
         
         switch state {
+        case .refreshing:
+            print("refreshing")
+            break
         case .pullToRefresh:
-            loadingView.startLoaderWithAnimation()
+            print("pull")
+          //  loadingView.startLoaderWithAnimation()
             break
         case .releaseToRefresh:
-            loadingView.startLoaderWithAnimation()
+            print("release")
+           // loadingView.startLoaderWithAnimation()
             break
         default:
             break
