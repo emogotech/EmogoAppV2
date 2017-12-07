@@ -70,7 +70,9 @@ class SharedData: NSObject {
                     print("key is - \(key) and value is - \(value)")
                     if value is [Any] {
                         let error:String = (value as! [Any])[0] as! String
-                        errors.append(error)
+                        errors.append(error.trim())
+                    }else if value is String {
+                        errors.append(value as! String)
                     }
                 }
                 errorMessage = errors.joined(separator: "\n")

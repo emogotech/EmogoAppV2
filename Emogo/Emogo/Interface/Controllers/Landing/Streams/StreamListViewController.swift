@@ -78,7 +78,8 @@ class StreamListViewController: UIViewController {
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
-        
+        streamCollectionView.alwaysBounceVertical = true
+
         if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
             layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
@@ -105,8 +106,8 @@ class StreamListViewController: UIViewController {
     
     func configureLoadMoreAndRefresh(){
         
-      let header = RefreshHeaderAnimator(frame: .zero)
-      let  footer = RefreshFooterAnimator(frame: .zero)
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
@@ -114,7 +115,7 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
         }
-        
+        self.streamCollectionView.expiredTimeInterval = 20.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.streamCollectionView.es.autoPullToRefresh()
         }

@@ -12,7 +12,7 @@ import ESPullToRefresh
 class RefreshHeaderAnimator: UIView,ESRefreshProtocol, ESRefreshAnimatorProtocol {
     
    
-    public var insets: UIEdgeInsets = UIEdgeInsets.zero
+    public var insets: UIEdgeInsets = UIEdgeInsetsMake(-10, 0, 0, 0)
     public var view: UIView { return self }
     public var duration: TimeInterval = 0.3
     public var trigger: CGFloat = 56.0
