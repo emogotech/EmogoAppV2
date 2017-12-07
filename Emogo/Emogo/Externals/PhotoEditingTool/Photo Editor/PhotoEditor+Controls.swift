@@ -48,6 +48,7 @@ extension PhotoEditorViewController {
         canvasImageView.isUserInteractionEnabled = false
         doneButton.isHidden = false
         colorPickerView.isHidden = false
+        self.filterButton.isHidden = true
         hideToolbar(hide: true)
     }
 
@@ -78,6 +79,7 @@ extension PhotoEditorViewController {
     }    
     
     @IBAction func doneButtonTapped(_ sender: Any) {
+        self.filterButton.isHidden = false
        self.doneButtonAction()
     }
 
@@ -174,6 +176,7 @@ extension PhotoEditorViewController {
         self.isFilterSelected = false
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = false
+        self.filterButton.isHidden = true
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
 
         switch sender.tag {
@@ -215,10 +218,12 @@ extension PhotoEditorViewController {
         self.isFilterSelected = false
         self.canvasImageView.image = self.editingService.posterImage()
         self.editingService.setImage(image: self.canvasImageView.image!)
+        self.filterButton.isHidden = false
 
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
+        self.filterButton.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = true

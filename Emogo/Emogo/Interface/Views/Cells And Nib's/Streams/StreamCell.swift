@@ -12,6 +12,7 @@ class StreamCell: UICollectionViewCell {
     
     // MARK: - UI Elements
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var viewContent: UIView!
 
@@ -25,11 +26,10 @@ class StreamCell: UICollectionViewCell {
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
-        self.lblTitle.attributedText = setInfo(cover: stream.Title.trim(), postedBy: "\nby \(stream.Author!)")
+         self.lblTitle.text = stream.Title.trim().capitalized
+         self.lblName.text =  "by \(stream.Author.trim().capitalized)"
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-        self.lblTitle.numberOfLines = 0
     }
-    
     func setInfo(cover:String,postedBy:String) -> NSMutableAttributedString {
     
         let coverAttribute:[NSAttributedStringKey:Any?] = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16.0)]

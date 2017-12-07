@@ -15,6 +15,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var streamCollectionView: UICollectionView!
     @IBOutlet weak var viewMenu: UIView!
     @IBOutlet weak var lblNoResult: UILabel!
+    @IBOutlet weak var btnMenu: UIButton!
 
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
@@ -27,6 +28,7 @@ class StreamListViewController: UIViewController {
             menuView.delegate = self
             menuView.dataSource = self
             menuView.isHidden = true
+            
         }
     }
     // Varibales
@@ -61,6 +63,7 @@ class StreamListViewController: UIViewController {
     }
     
     
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         
@@ -78,7 +81,8 @@ class StreamListViewController: UIViewController {
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
-        
+        streamCollectionView.alwaysBounceVertical = true
+
         if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
             layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
@@ -95,7 +99,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
-        self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+       // self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
@@ -105,16 +109,17 @@ class StreamListViewController: UIViewController {
     
     func configureLoadMoreAndRefresh(){
         
-      let header = RefreshHeaderAnimator(frame: .zero)
-      let  footer = RefreshFooterAnimator(frame: .zero)
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+             UIApplication.shared.beginIgnoringInteractionEvents()
             self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
         }
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
         }
-        
+        self.streamCollectionView.expiredTimeInterval = 20.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.streamCollectionView.es.autoPullToRefresh()
         }
@@ -162,12 +167,20 @@ class StreamListViewController: UIViewController {
 
     // MARK: - Class Methods
 
-   
+    func checkForListSize() {
+        if self.streamCollectionView.frame.size.height - 100 < self.streamCollectionView.contentSize.height {
+            print("Greater")
+            self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+        }else {
+            print("less")
+            self.viewMenu.layer.contents = nil
+            self.btnMenu.transform = CGAffineTransform.init(rotationAngle: 0)
+        }
+    }
     
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            UIApplication.shared.endIgnoringInteractionEvents()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
         }
