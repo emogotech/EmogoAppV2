@@ -364,7 +364,7 @@ class EmogoSignUpUITests: XCTestCase {
         let btnSignUp_Landing     =   app.buttons["sign up btn"]
         let btnNext_SignUp        =   app.buttons["next btn"]
         let txtUserName_SignUp    =   app.textFields["Your text here"]
-        let txtPhone_SignUp       =   app.staticTexts["Enter Your Phone Number"]
+        let lblPhone_SignUp       =   app.staticTexts["Enter Your Phone Number"]
         let btnTextCode_Phone     =   app.buttons["text me my code btn"]
 
         
@@ -389,11 +389,68 @@ class EmogoSignUpUITests: XCTestCase {
         
         sleep(3)
         
-        XCTAssertTrue(txtPhone_SignUp.exists, "txtPhone_SignUp not present , Presented screen is not Sign up with phone number must be an error in server or username already exists")
+        XCTAssertTrue(lblPhone_SignUp.exists, "txtPhone_SignUp not present , Presented screen is not Sign up with phone number must be an error in server or username already exists")
         
         btnTextCode_Phone.tap()
         
         
         sleep(2)
+    }
+    
+//    func testSignUP(){
+//        sleep(2)
+//        let btnSignUp_Landing     =   app.buttons["sign up btn"]
+//        let btnNext_SignUp        =   app.buttons["next btn"]
+//        let txtUserName_SignUp    =   app.textFields["Your text here"]
+//        let lblPhone_SignUp       =   app.staticTexts["Enter Your Phone Number"]
+//        let txtPhone_SignUp       =   app.textFields["Please enter phone number"]
+//        let btnTextCode_Phone     =   app.buttons["text me my code btn"]
+//
+//        let txtEnterOTP_OTP       =   app.textFields["Please enter the code"]
+//
+//
+//
+//
+//        XCTAssertTrue(btnSignUp_Landing.exists, "Sign up button not exists, Presented screen is not Landing Screen")
+//        XCTAssertFalse(btnNext_SignUp.exists, "Next button exists, Presented screen is not Landing Screen")
+//        XCTAssertFalse(txtUserName_SignUp.exists, "txtUserName_SignUp button exists, Presented screen is not Landing Screen")
+//
+//        let predicate   =  NSPredicate(format: "isHittable == 1")
+//        expectation(for: predicate, evaluatedWith: btnSignUp_Landing, handler: nil)
+//        waitForExpectations(timeout: 10, handler: nil)
+//
+//        btnSignUp_Landing.tap()
+//
+//        XCTAssertFalse(btnSignUp_Landing.exists, "Sign up button exists, Presented screen is not Sign Up Screen")
+//        XCTAssertTrue(btnNext_SignUp.exists, "Next button not exists, Presented screen is not Sign Up Screen")
+//        XCTAssertTrue(txtUserName_SignUp.exists, "txtUserName_SignUp button not exists, Presented screen is not Sign Up Screen")
+//
+//        txtUserName_SignUp.tap()
+//        txtUserName_SignUp.typeText("Sourabh102")
+//        btnNext_SignUp.tap()
+//
+//        sleep(3)
+//
+//        XCTAssertTrue(lblPhone_SignUp.exists, "txtPhone_SignUp not present , Presented screen is not Sign up with phone number must be an error in server or username already exists")
+//
+//        txtPhone_SignUp.tap()
+//        txtPhone_SignUp.typeText("7509820455")
+//        btnTextCode_Phone.tap()
+//        sleep(4)
+//
+//        let o : String = UserDefaults.standard.string(forKey: "OTP")!
+//        let otp : String = txtEnterOTP_OTP.accessibilityHint!
+//        print(otp)
+//
+//        sleep(2)
+//    }
+    
+    func test(){
+        
+        let pleaseEnterTheCodeTextField = XCUIApplication().textFields["Please enter the code"]
+        pleaseEnterTheCodeTextField.tap()
+        pleaseEnterTheCodeTextField.tap()
+        
+        
     }
 }

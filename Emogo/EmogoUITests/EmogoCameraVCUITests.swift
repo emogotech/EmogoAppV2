@@ -25,6 +25,252 @@ class EmogoCameraVCUITests: XCTestCase {
         app         = nil
     }
     
+    func testOpenCamera(){
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnCaptureIcon   = app.buttons["capture icon"]
+
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        
+        XCTAssertTrue(btnCaptureIcon.exists, "btnCaptureIcon not exists , screen not moved to camera screen")
+        
+        sleep(2)
+    }
+    
+    func testClickOnePicAndCheckItInCollectionView(){
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnCaptureIcon   = app.buttons["capture icon"]
+
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        btnCaptureIcon.tap()
+        
+        let collectionView = app.collectionViews.element.children(matching:.any)
+        
+        sleep(1)
+        XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 1 ), "Collection view not appeared!")
+        sleep(2)
+        
+    }
+    
+    func testClickTwoPhotosAndCheckThierPosition(){
+        
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnCaptureIcon   = app.buttons["capture icon"]
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        btnCaptureIcon.tap()
+        
+        let collectionView = app.collectionViews.element.children(matching:.any)
+        
+        let firstPic    =   collectionView.allElementsBoundByAccessibilityElement.first
+        btnCaptureIcon.tap()
+        let secondPic   =   collectionView.allElementsBoundByAccessibilityElement.first
+        
+        XCTAssertFalse(( firstPic == secondPic ), "Images are same that means updated image is not appearing in first position!")
+        
+        sleep(2)
+        
+    }
+    
+    func testImageGallery(){
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        
+        let btnGallery = app.buttons["add galery"]
+        btnGallery.tap()
+        let galleryNavBar = app.navigationBars["All Photos"]
+
+        XCTAssertTrue(galleryNavBar.exists, "Gallery view not appeared on tap of gallery Icon")
+    }
+    
+    func testChooseFromGallery(){
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        
+        let btnGallery = app.buttons["add galery"]
+        btnGallery.tap()
+        
+        let gg = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 0)
+        
+        if gg.exists {
+            gg.forceTapElement()
+        }
+        let galleryNavBar = app.navigationBars["All Photos"]
+        let btnSelect1     = galleryNavBar.buttons["Select(1)"]
+        
+        btnSelect1.tap()
+        
+        sleep(2)
+    }
+    
+    func testChooseImageFromGalleryAndCheckItsPositionINCollectionView(){
+        
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnCaptureIcon   = app.buttons["capture icon"]
+        
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        btnCaptureIcon.tap()
+        
+        let collectionView = app.collectionViews.element.children(matching:.any)
+        
+        sleep(1)
+        XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 1 ), "Collection view not appeared!")
+        
+        let picClicked  =   collectionView.allElementsBoundByAccessibilityElement.first
+        
+        let btnGallery = app.buttons["add galery"]
+        btnGallery.tap()
+        
+        let gg = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 0)
+        
+        if gg.exists {
+            gg.forceTapElement()
+        }
+        let galleryNavBar = app.navigationBars["All Photos"]
+        let btnSelect1     = galleryNavBar.buttons["Select(1)"]
+        
+        btnSelect1.tap()
+        
+        XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 2 ), "Collection view does not have 2 images as expected!")
+        
+        let picChoosed  =   collectionView.allElementsBoundByAccessibilityElement.first
+
+        XCTAssertFalse(( picClicked == picChoosed ), "Images are same that means updated image is not appearing in first position!")
+
+        
+        sleep(2)
+    }
+    
+    func testVideoRecording(){
+
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        
+        let btnVideo    =   app.buttons["video icon"]
+        let btnVideoPlay    =   app.buttons["video play"]
+        let btnVideoStop    =   app.buttons["video stop"]
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        btnCamera.tap()
+
+        XCTAssertTrue(btnVideo.exists, "camera button not exists , presented screen is not camera screen or btnVideo has been removed!")
+        XCTAssertFalse(btnVideoPlay.exists, "btnVideoPlay should not be seen after the camera button tapped!")
+
+        btnVideo.tap()
+        
+        XCTAssertTrue(btnVideoPlay.exists, "btnVideoPlay button not exists after btnVideo tappped")
+        XCTAssertFalse(btnVideo.exists, "btnVideo should not be seen after the btnVideo button tapped!")
+        
+        btnVideoPlay.tap()
+        
+        XCTAssertTrue(btnVideoStop.exists, "btnVideoStop button not exists after btnVideoPlay tappped")
+        XCTAssertFalse(btnVideoPlay.exists, "btnVideoPlay should not be seen after the btnVideoPlay button tapped!")
+        
+        sleep(2)
+        
+        btnVideoStop.tap()
+        
+        sleep(1)
+        
+        let collectionView = app.collectionViews.element.children(matching:.any)
+        
+        XCTAssertTrue((collectionView.allElementsBoundByAccessibilityElement.count == 1 ), "collectionView not exists after successfully stopped video recording as btnVideoStop tappped")
+        XCTAssertFalse(btnVideoStop.exists, "btnVideoStop should not be seen after the btnVideoStop button tapped!")
+
+        sleep(2)
+        
+        
+    }
+    
+    func testBackActionFromCameraView(){
+        
+        
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnBack         =   app.buttons["white back icon"]
+        
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+       
+        btnCamera.tap()
+        
+        XCTAssertTrue(btnBack.exists, "btnBack not exists , might not be in Camera view")
+        XCTAssertFalse(btnCamera.exists, "btnCamera should not be seen after the camera button tapped!")
+        
+        btnBack.tap()
+        
+        XCTAssertTrue(btnCamera.exists, "btnCamera not exists , might not be in Home Screen")
+        XCTAssertFalse(btnBack.exists, "btnBack should not be seen after the btnBack button tapped!")
+        
+        sleep(2)
+        
+    }
+    
+    func testGetBackFromEditView(){
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+        let btnCaptureIcon   = app.buttons["capture icon"]
+        let btnShare = app.buttons["share button"]
+        let btnBackEditImage =  app.buttons["back circle icon"]
+
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        btnCamera.tap()
+        btnCaptureIcon.tap()
+        
+        let collectionView = app.collectionViews.element.children(matching:.any)
+        
+        sleep(1)
+        XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 1 ), "Collection view not appeared!")
+
+        btnShare.tap()
+        
+        let predicate   =  NSPredicate(format: "exists == 1")
+        
+        expectation(for: predicate, evaluatedWith: btnBackEditImage, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        btnBackEditImage.tap()
+        
+        XCTAssertTrue(btnShare.exists, "btnShare is not present not in Camer view")
+        
+        sleep(2)
+        
+    }
+    
+    func testBackkk(){
+        XCUIApplication().buttons["back circle icon"].tap()
+        
+    }
+    
     func testCamera_Capture_Image_And_Edit_With_A_Line_And_SaveToPhotoLibrary(){
         
         sleep(2)
@@ -411,3 +657,17 @@ class EmogoCameraVCUITests: XCTestCase {
         }
     }
 }
+
+extension XCUIElement {
+
+    func forceTapElement() {
+        if self.isHittable {
+            self.tap()
+        }
+        else {
+            let coordinate: XCUICoordinate = self.coordinate(withNormalizedOffset: CGVector(dx:0.0, dy:0.0))
+            coordinate.tap()
+        }
+    }
+}
+
