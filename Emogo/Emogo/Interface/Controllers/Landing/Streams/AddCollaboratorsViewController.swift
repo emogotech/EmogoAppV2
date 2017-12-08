@@ -106,8 +106,9 @@ class AddCollaboratorsViewController: UIViewController {
                 phone = phone.components(separatedBy: allowedCharactersSet.inverted).joined(separator: "")
                 print(phone)
             }
-           
-            let collaborator = CollaboratorDAO(name: fullName, image: img, phone:phone)
+        
+            let dict = ["name":fullName,"phone_number":phone]
+            let collaborator = CollaboratorDAO(colabData: dict)
             self.arrayCollaborators.append(collaborator)
         }
         DispatchQueue.main.async {
@@ -133,8 +134,7 @@ extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionVi
         cell.imgSelect.layer.cornerRadius = cell.imgSelect.frame.size.width/2.0
         cell.imgSelect.layer.masksToBounds = true
         cell.imgSelect.isHidden = true
-        if collaborator.imgUser != nil {
-            cell.imgCover.image = collaborator.imgUser
+        if !collaborator.imgUser.isEmpty {
             cell.imgCover.layer.cornerRadius = cell.imgCover.frame.size.width/2.0
             cell.imgCover.layer.masksToBounds = true
         }else {

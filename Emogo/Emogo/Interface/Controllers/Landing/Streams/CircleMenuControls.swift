@@ -96,25 +96,19 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             self.currentStreamType = StreamType.featured
             break
         case 3:
-            if isSelect == true {
-                self.actionForAddStream()
-            }
-            break
-        case 4:
             self.currentStreamType = StreamType.emogoStreams
             break
-        case 5:
-            break
-        case 6:
+        case 4:
             if isSelect == true {
                 self.actionForPeopleList()
             }
             break
+    
         default:
             break
         }
         print("currrent index--->\(index)")
-        if index == 0 || index == 1 || index == 2 || index == 4 {
+        if  index != 4 {
             HUDManager.sharedInstance.showHUD()
             self.getStreamList(type:.start,filter: self.currentStreamType)
         }

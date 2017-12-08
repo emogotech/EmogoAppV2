@@ -28,7 +28,7 @@ class StreamListViewController: UIViewController {
             menuView.delegate = self
             menuView.dataSource = self
             menuView.isHidden = true
-            
+            menuView.isExclusiveTouch = true
         }
     }
     // Varibales
@@ -41,7 +41,7 @@ class StreamListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
-      
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +99,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
-       // self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+        self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
@@ -234,6 +234,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
+        cell.isExclusiveTouch = true
+
         let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
         cell.prepareLayouts(stream: stream)
         return cell
@@ -255,6 +257,13 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
         
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+         let obj:ViewStreamController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+          obj.objStream = stream
+        self.navigationController?.push(viewController: obj)
+        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

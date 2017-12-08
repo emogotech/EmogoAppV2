@@ -10,14 +10,34 @@ import Foundation
 import UIKit
 class CollaboratorDAO {
     var name:String! = ""
-    var imgUser:UIImage?
+    var colabID:String! = ""
+    var imgUser:String! = ""
     var isSelected:Bool! = false
     var phone:String! = ""
+    var canAddContent:Bool! = false
+    var canAddPeople:Bool! = false
 
-    init(name:String, image:UIImage?,phone:String) {
-        self.name = name
-        self.imgUser = image
-        self.phone = phone
+    init(colabData:[String:Any]) {
+        if let obj = colabData["id"] {
+            self.colabID = "\(obj)"
+        }
+        if let obj = colabData["phone_number"] {
+            self.phone = "\(obj)"
+        }
+        if let obj = colabData["name"] {
+            self.name = obj as! String
+        }
+        if let obj = colabData["full_name"] {
+            self.imgUser = obj as! String
+        }
+        if let obj = colabData["can_add_content"] {
+            self.canAddContent = obj as! Bool
+        }
+        if let obj = colabData["can_add_people"] {
+            self.canAddPeople = obj as! Bool
+        }
+       
+       
     }
     
 }
