@@ -106,7 +106,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
 
 class UserDetailSerializer(UserProfileSerializer):
 
-    user_image = serializers.URLField(read_only=True, source='user_image')
+    user_image = serializers.URLField(read_only=True)
 
     """
     UserDetail Serializer to show user detail.
