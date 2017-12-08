@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content
-from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer
+from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, ContentBulkDeleteSerializer
 import django_filters
 from emogo.lib.custom_filters.filterset import StreamFilter
 
@@ -115,6 +115,20 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def filter_queryset(self, queryset):
+        """
+        Given a queryset, filter it with whichever filter backend is in use.
+
+        You are unlikely to want to override this method, although you may need
+        to call it either from a list view, or from a custom `get_object`
+        method if you want to apply the configured filtering backend to the
+        default queryset.
+        """
+        queryset = queryset.filter(created_by=self.request.user)
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
+
     def get_paginated_response(self, data, status_code=None):
         """
         Return a paginated style `Response` object for the given output data.
@@ -146,7 +160,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'image', 'view_count')
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -184,7 +198,9 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :param kwargs:
         :return: Soft Delete Stream and it's attribute
         """
-        instance = self.get_object()
-        # Perform delete operation
-        self.perform_destroy(instance)
+        self.serializer_class = ContentBulkDeleteSerializer
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)

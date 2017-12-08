@@ -231,9 +231,6 @@ class ContentListSerializer(serializers.ListSerializer):
             contents.append(Content(**item))
         return Content.objects.bulk_create(contents)
 
-    def delete(self, instance):
-        print('Rannnnnnnn')
-        return True
 
 class ContentSerializer(DynamicFieldsModelSerializer):
     """
@@ -250,6 +247,18 @@ class ContentSerializer(DynamicFieldsModelSerializer):
                         'url': {'required': True, 'allow_blank': False, 'allow_null': False},
                         'type': {'required': True, 'allow_blank': False, 'allow_null': False}
                         }
+
+
+class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
+    """
+    Collaborator model Serializer
+    """
+    # streams = CustomListField(child=serializers.IntegerField())
+    content_list = CustomListField(child=serializers.IntegerField(min_value=1), min_length=1)
+
+    class Meta:
+        model = Content
+        fields = '__all__'
 
 
 class ViewContentSerializer(ContentSerializer):
