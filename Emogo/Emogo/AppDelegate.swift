@@ -96,14 +96,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
-        // Crashlytics
-        Fabric.with([Crashlytics.self])
+       
         // If User already logged in
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             self.openLandingScreen()
         }
         self.keyboardToolBar(disable:false)
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
     }
     
    fileprivate func openLandingScreen(){
