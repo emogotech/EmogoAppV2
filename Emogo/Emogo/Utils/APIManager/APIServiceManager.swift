@@ -396,4 +396,14 @@ class APIServiceManager: NSObject {
             
         }
     }
+    // MARK: - Create Content  API
+    func apiForCreateStream( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription]]
+        
+        print(params)
+
+    }
+
+   // {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA","type":"Picture","name":"component-1", "description":"This is first description."},
+
 }

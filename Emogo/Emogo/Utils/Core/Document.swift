@@ -8,6 +8,7 @@
 
 import UIKit
 import Foundation
+import AVFoundation
 
 class Document: NSObject {
 
@@ -58,4 +59,47 @@ class Document: NSObject {
             print("Something wrong.")
         }
     }
+    
+    
+    
+  static func compressVideoFile(inputURL: URL, handler:@escaping (_ url: URL?)-> Void){
+        guard let data = NSData(contentsOf: inputURL as URL) else {
+            return
+        }
+        
+        print("File size before compression: \(Double(data.length / 1048576)) mb")
+            
+      let urlAsset = AVURLAsset(url: inputURL, options: nil)
+       guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName:  AVAssetExportPresetMediumQuality) else {
+        handler(nil)
+        
+        return
+      }
+    
+      exportSession.outputURL = inputURL
+      exportSession.outputFileType = AVFileType.mov
+      exportSession.shouldOptimizeForNetworkUse = true
+      exportSession.exportAsynchronously { () -> Void in
+        
+        switch exportSession.status {
+        case .unknown:
+            break
+        case .waiting:
+            break
+        case .exporting:
+            break
+        case .completed:
+            guard let compressedData = NSData(contentsOf: inputURL) else {
+                return
+            }
+            print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+            handler(inputURL)
+        case .failed:
+            break
+        case .cancelled:
+            break
+        }
+        }
+    }
+    
 }

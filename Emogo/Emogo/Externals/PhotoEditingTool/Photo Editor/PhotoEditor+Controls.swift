@@ -48,7 +48,7 @@ extension PhotoEditorViewController {
         canvasImageView.isUserInteractionEnabled = false
         doneButton.isHidden = false
         colorPickerView.isHidden = false
-        self.filterButton.isHidden = true
+        self.filterButtonContainer.isHidden = true
         hideToolbar(hide: true)
     }
 
@@ -79,7 +79,7 @@ extension PhotoEditorViewController {
     }    
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        self.filterButton.isHidden = false
+        self.filterButtonContainer.isHidden = false
        self.doneButtonAction()
     }
 
@@ -164,19 +164,23 @@ extension PhotoEditorViewController {
             self.filterView.isHidden = false
             self.filterViewButton.isHidden = false
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon_selected"), for: .normal)
+            self.filterButtonContainer.backgroundColor = UIColor.clear
         }else {
             self.filterViewButton.isHidden = true
             hideToolbar(hide: false)
             self.filterView.isHidden = true
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+            self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+
         }
     }
     @IBAction func btnFilterOptionSelected(_ sender: UIButton) {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = false
-        self.filterButton.isHidden = true
+        self.filterButtonContainer.isHidden = true
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
 
         switch sender.tag {
@@ -215,20 +219,22 @@ extension PhotoEditorViewController {
         self.filterSliderView.isHidden = true
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
         self.canvasImageView.image = self.editingService.posterImage()
         self.editingService.setImage(image: self.canvasImageView.image!)
-        self.filterButton.isHidden = false
+        self.filterButtonContainer.isHidden = false
 
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
-        self.filterButton.isHidden = false
+        self.filterButtonContainer.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = true
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+        self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
         if self.selectedItem != nil {
             self.editingService.removeAllFilters()

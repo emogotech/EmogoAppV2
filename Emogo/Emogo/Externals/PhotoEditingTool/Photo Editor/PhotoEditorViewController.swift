@@ -48,6 +48,7 @@ import UIKit
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var filterSliderView: UIView!
     @IBOutlet weak var filterSlider: UISlider!
+    @IBOutlet weak var filterButtonContainer: UIView!
 
     public var image: UIImage?
     var imageToFilter:UIImage?
