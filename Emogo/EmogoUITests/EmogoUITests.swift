@@ -17,6 +17,12 @@ class EmogoUITests: XCTestCase {
         super.setUp()
         continueAfterFailure = false
         app = XCUIApplication()
+        
+        addUIInterruptionMonitor(withDescription: "“Emogo” Would Like to Access the Camera") { (alert) -> Bool in
+            alert.buttons["OK"].tap()
+            return true
+        }
+        
         app.launch()
     }
     
@@ -211,6 +217,37 @@ class EmogoUITests: XCTestCase {
         txtPhone.typeText("7509820455")
         
         btnDone.tap()
+    }
+    
+    
+    func testWithAlertInFreshSignIn(){
+        
+
+        
+        let btnCamera        = app.navigationBars.buttons["camera icon"]
+
+        sleep(2)
+        app.buttons["sign in btn"].tap()
+        
+        let btnDone =   app.buttons["done btn"]
+        
+        XCTAssertTrue(btnDone.exists, "Done button is not displayed, must be Phone screen not presented")
+        
+        let txtPhone = app.textFields["Please enter phone number"]
+        txtPhone.tap()
+        txtPhone.tap()
+        txtPhone.typeText("7389020926")
+        
+        btnDone.tap()
+        app.tap()
+        
+        let prediate = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediate, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        btnCamera.tap()
+        
+        
+        sleep(3)
         
     }
         
