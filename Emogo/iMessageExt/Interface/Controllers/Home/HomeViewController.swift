@@ -17,6 +17,7 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var searchText : UITextField!
     @IBOutlet weak var btnFeature : UIButton!
     @IBOutlet weak var pagerContent : UIView!
+    @IBOutlet weak var lblNoResult : UILabel!
     
     // MARK: - Varibales
     var arrayStreams = [StreamDAO]()
@@ -25,6 +26,7 @@ class HomeViewController: MSMessagesAppViewController {
     var lastIndex : Int = 10
     var refresher:UIRefreshControl?
     var footerView:HomeCollectionReusableView?
+    var streamType  : StreamType!
     
     //var Pagning
     var paging : Int = 1;
@@ -42,14 +44,15 @@ class HomeViewController: MSMessagesAppViewController {
         setupLoader()
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
-      
+        
     }
     
     // MARK:- prepareLayout
     @objc func prepareLayout() {
         self.searchView.layer.cornerRadius = 15
         self.searchView.clipsToBounds = true
-        self.getStreamList(type: .normal)
+        streamType = StreamType.featured
+        self.getStreamList(type:.start,filter:.featured)
         self.collectionStream.register(UINib(nibName: iMgsSegue_HomeCollectionReusableV, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: iMgsSegue_HomeCollectionReusableV)
     }
     
@@ -145,7 +148,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
         SharedData.sharedInstance.nextStreamString = ""
         hudRefreshView.startLoaderWithAnimation()
-        self.getStreamList(type: .pullToRefresh)
+        self.getStreamList(type:.start,filter:self.streamType)
     }
     
     @objc func resignRefreshLoader(){
@@ -189,47 +192,52 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     // MARK: - API Methods
-    private func getStreamList(type:StreamInputType){
+    func getStreamList(type:RefreshType,filter:StreamType){
         if Reachability.isNetworkAvailable() {
-            if(type == .normal){
+            if type == .start || type == .up {
+                StreamList.sharedInstance.arrayStream.removeAll()
+                self.collectionStream.reloadData()
                 self.hudView.startLoaderWithAnimation()
             }
-            APIServiceManager.sharedInstance.apiForGetStreamList { (results, errorMsg) in
+            APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
+                
                 self.streaminputDataType(type: type)
-                if (errorMsg?.isEmpty)! {
-                    if(type == .normal || type == .pullToRefresh){
-                        self.arrayStreams = results!
-                    }else{
-                        for stream in results!{
-                            self.arrayStreams.append(stream)
-                        }
+                
+                self.lblNoResult.isHidden = true
+                if StreamList.sharedInstance.arrayStream.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }
+               
+                if(type == .start || type == .up){
+                    self.arrayStreams = StreamList.sharedInstance.arrayStream!
+                }
+                else {
+                    for stream in StreamList.sharedInstance.arrayStream!{
+                        self.arrayStreams.append(stream)
                     }
-                    self.collectionStream.reloadData()
-                }else {
-                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                }
+                
+                self.collectionStream.reloadData()
+                if !(errorMsg?.isEmpty)! {
+                    // self.showToast(type: .success, strMSG: errorMsg!)
                 }
             }
-        }
-        else {
-            if(type == .normal){
-                self.hudView.startLoaderWithAnimation()
-            }else{
-                self.resignRefreshLoader()
-            }
+            
+        }else{
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
     
-    func streaminputDataType(type:StreamInputType){
+    func streaminputDataType(type:RefreshType){
         if(SharedData.sharedInstance.isMoreContentAvailable){
             self.fectchingStreamData = true
         }
         else {
             self.fectchingStreamData = false
         }
-        if(type == .bottomScrolling) {
+        if(type == .down) {
             self.footerView?.loadingView.stopLoaderWithAnimation()
-        } else  if(type == .normal){
+        } else  if(type == .start){
             self.hudView.stopLoaderWithAnimation()
         }else{
             self.resignRefreshLoader()
@@ -405,21 +413,46 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         if(lastIndex != index){
             lastIndex = index
             
-            UIView.animate(withDuration: 0.7, animations: {
-                self.changeCellImageAnimationt(index, pagerView: pagerView)
+            switch  lastIndex {
                 
-//                if(self.arrImagesSelected[index] == kDeepLinkTypePeople){
-//                    let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
-//                    obj.strTitle = "People List"
-//                    self.present(obj, animated: true, completion: nil)
-//                }
-               
-            })
-            
-            if(self.arrImagesSelected[index] == kDeepLinkTypeProfile || self.arrImagesSelected[index] == kDeepLinkTypePeople){
+            case 0:
+                self.streamType = StreamType.populer
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 1:
+                self.streamType = StreamType.myStream
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 2:
+                self.streamType = StreamType.featured
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 3:
+                self.streamType = StreamType.emogoStreams
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 4:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
                 SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                break
+                
+            case 5:
+                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                break
+                
+            default :
+                break
             }
+            
+            UIView.animate(withDuration: 0.7, animations: {
+                self.changeCellImageAnimationt(index, pagerView: pagerView)
+            })
+            
         }
         pagerView.scrollToItem(at: index, animated: true)
     }
@@ -429,18 +462,46 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         if(lastIndex != pagerView.currentIndex){
             lastIndex = pagerView.currentIndex
+            
+            switch  lastIndex {
+                
+            case 0:
+                self.streamType = StreamType.populer
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 1:
+                self.streamType = StreamType.myStream
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 2:
+                self.streamType = StreamType.featured
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 3:
+                self.streamType = StreamType.emogoStreams
+                self.getStreamList(type: .start, filter: self.streamType)
+                break
+                
+            case 4:
+                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                break
+                
+            case 5:
+                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                break
+                
+            default :
+                break
+            }
+            
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
-            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypeProfile){
-                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
-            }
-//            if(self.arrImagesSelected[lastIndex] == kDeepLinkTypePeople){
-//                let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
-//                obj.strTitle = "People List"
-//                self.present(obj, animated: true, completion: nil)
-//            }
         }
     }
     
@@ -501,7 +562,7 @@ extension HomeViewController : UIScrollViewDelegate {
                 DispatchQueue.main.async {
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
-                self.getStreamList(type: .bottomScrolling)
+                self.getStreamList(type:.start,filter:self.streamType)
             }
         }
     }
