@@ -403,7 +403,5 @@ class APIServiceManager: NSObject {
         print(params)
 
     }
-
-   // {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnkUxsZ0kpbI8nqOhCouv5YoTGCZFpbu3L3A__dggghttRsbWWZA","type":"Picture","name":"component-1", "description":"This is first description."},
-
+  
 }

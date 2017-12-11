@@ -64,7 +64,7 @@ class AddStreamViewController: UITableViewController {
         self.title = "Create a Stream"
         self.configureNavigationWithTitle()
         txtStreamName.title = "Stream Name"
-        
+        txtStreamCaption.delegate = self
     }
     
     func prepareLayoutForApper(){
@@ -166,9 +166,10 @@ class AddStreamViewController: UITableViewController {
    
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-        let url = Document.saveImage(image: self.coverImage, name: self.fileName)
+        let imageData = UIImageJPEGRepresentation(self.coverImage, 1.0)
+       let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadImage(fileUrl, name: self.fileName) { (imageUrl,error) in
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
             if error == nil {
                 DispatchQueue.main.async {
                     self.createStream(cover: imageUrl!)

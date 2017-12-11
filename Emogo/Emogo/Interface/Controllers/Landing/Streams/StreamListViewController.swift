@@ -261,7 +261,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
          let obj:ViewStreamController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-          obj.objStream = stream
+          obj.streamID = stream.ID
         self.navigationController?.push(viewController: obj)
         
     }

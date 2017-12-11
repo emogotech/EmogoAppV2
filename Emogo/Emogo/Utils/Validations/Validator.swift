@@ -164,6 +164,14 @@ extension String {
         return String(self[Range(start ..< end)])
     }
     
+    func toBool() -> Bool{
+        if self == "false" || self == "0" {
+            return false
+        }else{
+            return true
+        }
+    }
+    
 }
 
 

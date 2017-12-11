@@ -76,28 +76,11 @@ class StreamList{
     }
     
 }
-/*
- collaborators =     (
- {
- "can_add_content" = 1;
- "can_add_people" = 0;
- name = "Singham raj";
- "phone_number" = "+917921215626263";
- },
- {
- "can_add_content" = 1;
- "can_add_people" = 0;
- name = "Kant singh";
- "phone_number" = "+917921215626264";
- }
- );
-
-
- */
-
 
 class StreamViewDAO{
-    var anyOneCanEdit:String! = ""
+    var anyOneCanEdit:Bool! = false
+    var canAddContent:Bool! = false
+    var canAddPeople:Bool! = false
     var category:String! = ""
     var description:String! = ""
     var streamID:String! = ""
@@ -105,8 +88,8 @@ class StreamViewDAO{
     var title:String! = ""
     var coverImage:String! = ""
     var idCreatedBy:String! = ""
-    var emogo:String! = ""
-    var featured:String! = ""
+    var emogo:Bool! = false
+    var featured:Bool! = false
     var streamPermission:String! = ""
     var type:String! = ""
     var viewCount:String! = ""
@@ -115,8 +98,14 @@ class StreamViewDAO{
 
     init(streamData:[String:Any]) {
         if let obj  = streamData["any_one_can_edit"] {
-            self.anyOneCanEdit = "\(obj)"
+           let value  = "\(obj)"
+            self.anyOneCanEdit = value.toBool()
+            if anyOneCanEdit == true {
+                self.canAddContent = true
+                self.canAddPeople = false
+            }
         }
+       
         if let obj  = streamData["view_count"] {
             self.viewCount = "\(obj)"
         }
@@ -127,13 +116,25 @@ class StreamViewDAO{
             self.type = obj as! String
         }
         if let obj  = streamData["stream_permission"] {
-            print(obj)
+            if obj is [String:Any] {
+                let dict:[String:Any] = obj as! [String : Any]
+                if let obj  = dict["can_add_content"] {
+                    let value  = "\(obj)"
+                    self.canAddContent = value.toBool()
+                }
+                if let obj  = dict["can_add_people"] {
+                    let value  = "\(obj)"
+                    self.canAddPeople = value.toBool()
+                }
+            }
         }
         if let obj  = streamData["emogo"] {
-            self.emogo = "\(obj)"
+            let value  = "\(obj)"
+            self.emogo = value.toBool()
         }
         if let obj  = streamData["featured"] {
-            self.featured = "\(obj)"
+            let value  = "\(obj)"
+            self.featured = value.toBool()
         }
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
@@ -149,6 +150,11 @@ class StreamViewDAO{
                 let dict:NSDictionary = value as! NSDictionary
                 let conent = ContentDAO(contentData: dict.replacingNullsWithEmptyStrings() as! [String : Any])
                 self.arrayContent.append(conent)
+            }
+            if self.canAddContent == true {
+                let content = ContentDAO(contentData: [:])
+                content.isAdd = true
+                self.arrayContent.insert(content, at: 0)
             }
         }
         if let obj  = streamData["description"] {
@@ -169,6 +175,7 @@ class StreamViewDAO{
         if let obj  = streamData["created_by"] {
             self.idCreatedBy = "\(obj)"
         }
+     
     }
 }
 
@@ -178,6 +185,7 @@ class ContentDAO{
     var name:String! = ""
     var coverImage:String! = ""
     var type:String! = ""
+    var isAdd:Bool! = false
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
             self.name = obj as! String

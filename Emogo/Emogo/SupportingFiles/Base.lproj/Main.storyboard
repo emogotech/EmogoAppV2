@@ -1886,6 +1886,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Vi-lE-2i7">
                                 <rect key="frame" x="10" y="20" width="300" height="548"/>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sie-1y-1bk" customClass="IOStickyHeaderFlowLayout" customModule="Emogo" customModuleProvider="target">
                                     <size key="itemSize" width="145" height="110"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -1893,37 +1894,8 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addContentCell" id="S4g-dZ-InB" customClass="AddContentCell" customModule="Emogo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="19.5" width="145" height="110"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E1w-Rw-teS" customClass="CardView" customModule="Emogo" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
-                                                    <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cRadius">
-                                                            <real key="value" value="5"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                            </subviews>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="E1w-Rw-teS" secondAttribute="trailing" id="G1W-rE-T7p"/>
-                                            <constraint firstItem="E1w-Rw-teS" firstAttribute="leading" secondItem="S4g-dZ-InB" secondAttribute="leading" id="LUC-oS-ACb"/>
-                                            <constraint firstItem="E1w-Rw-teS" firstAttribute="top" secondItem="S4g-dZ-InB" secondAttribute="top" id="gJO-KM-kLY"/>
-                                            <constraint firstAttribute="bottom" secondItem="E1w-Rw-teS" secondAttribute="bottom" id="rKH-v6-Tus"/>
-                                        </constraints>
-                                        <size key="customSize" width="145" height="110"/>
-                                    </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="streamContentCell" id="nSD-kD-FXK" customClass="StreamContentCell" customModule="Emogo" customModuleProvider="target">
-                                        <rect key="frame" x="155" y="0.0" width="145" height="149"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
@@ -1954,6 +1926,14 @@
                                                                 <constraint firstItem="58K-eM-KCW" firstAttribute="leading" secondItem="v4d-Pd-GUD" secondAttribute="leading" constant="2" id="utm-oG-bEo"/>
                                                             </constraints>
                                                         </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4RX-qD-8xf">
+                                                            <rect key="frame" x="52.5" y="54.5" width="40" height="40"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="40" id="5FM-kU-wgD"/>
+                                                                <constraint firstAttribute="width" constant="40" id="u3H-kP-gJc"/>
+                                                            </constraints>
+                                                            <state key="normal" image="play_button"/>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -1963,7 +1943,9 @@
                                                         <constraint firstItem="v4d-Pd-GUD" firstAttribute="leading" secondItem="DMf-Uh-aZb" secondAttribute="leading" id="Nns-Ly-L7z"/>
                                                         <constraint firstAttribute="bottom" secondItem="tGB-ep-2ux" secondAttribute="bottom" id="Q5S-IB-wqq"/>
                                                         <constraint firstAttribute="trailing" secondItem="tGB-ep-2ux" secondAttribute="trailing" id="VJc-Y1-Fxb"/>
+                                                        <constraint firstItem="4RX-qD-8xf" firstAttribute="centerY" secondItem="tGB-ep-2ux" secondAttribute="centerY" id="hBa-xM-B9N"/>
                                                         <constraint firstAttribute="trailing" secondItem="v4d-Pd-GUD" secondAttribute="trailing" id="hdZ-m4-tYa"/>
+                                                        <constraint firstItem="4RX-qD-8xf" firstAttribute="centerX" secondItem="tGB-ep-2ux" secondAttribute="centerX" id="tjl-6c-Oyx"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1974,15 +1956,32 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr">
+                                                    <rect key="frame" x="0.0" y="30" width="145" height="88"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="88" id="EuE-SL-V22"/>
+                                                        <constraint firstAttribute="width" constant="145" id="cBq-mu-RPY"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="DMf-Uh-aZb" firstAttribute="leading" secondItem="nSD-kD-FXK" secondAttribute="leading" id="Auw-wf-JdJ"/>
+                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="centerY" secondItem="nSD-kD-FXK" secondAttribute="centerY" id="IXF-Fg-aXs"/>
                                             <constraint firstItem="DMf-Uh-aZb" firstAttribute="top" secondItem="nSD-kD-FXK" secondAttribute="top" id="L65-go-47f"/>
                                             <constraint firstAttribute="bottom" secondItem="DMf-Uh-aZb" secondAttribute="bottom" id="NRI-m1-XP1"/>
+                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="centerX" secondItem="nSD-kD-FXK" secondAttribute="centerX" id="Zl6-V4-rsk"/>
                                             <constraint firstAttribute="trailing" secondItem="DMf-Uh-aZb" secondAttribute="trailing" id="amh-ib-z90"/>
                                         </constraints>
                                         <size key="customSize" width="145" height="149"/>
+                                        <connections>
+                                            <outlet property="btnPlay" destination="4RX-qD-8xf" id="Av6-co-Gqf"/>
+                                            <outlet property="imgAdd" destination="ia8-fd-dtr" id="q25-yd-nVL"/>
+                                            <outlet property="imgCover" destination="tGB-ep-2ux" id="NZs-iY-EwC"/>
+                                            <outlet property="lblName" destination="58K-eM-KCW" id="VDL-rp-kFA"/>
+                                            <outlet property="viewCard" destination="DMf-Uh-aZb" id="1NG-EA-KhJ"/>
+                                            <outlet property="viewContent" destination="v4d-Pd-GUD" id="tB3-lx-Wnb"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -2202,6 +2201,7 @@
     </scenes>
     <resources>
         <image name="add-stream-cover-image-placeholder" width="320" height="152"/>
+        <image name="add_content_icon" width="154" height="88"/>
         <image name="add_galery" width="20" height="20"/>
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_photo" width="20" height="17"/>

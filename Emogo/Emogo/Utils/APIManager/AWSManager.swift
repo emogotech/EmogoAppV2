@@ -111,11 +111,13 @@ class AWSManager: NSObject {
     }
     
     
-    func uploadImage(_ fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void) {
+    func uploadFile(_ fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void) {
         let key = NSString(format: "%@", name).pathExtension
         var type:String! = "image/png"
         if key.lowercased() == "jpg" ||  key.lowercased() == "jpeg" {
             type = "image/jpeg"
+        }else if key.lowercased() == "mov"  {
+            type = "movie/mov"
         }
         let uploadRequest = AWSS3TransferManagerUploadRequest()!
         uploadRequest.body = fileURL
@@ -133,7 +135,7 @@ class AWSManager: NSObject {
                 let url = AWSS3.default().configuration.endpoint.url
                 let publicURL = url?.appendingPathComponent(uploadRequest.bucket!).appendingPathComponent(uploadRequest.key!)
                 if let absoluteString = publicURL?.absoluteString {
-                    Document.deleteImage(name: name)
+                    Document.deleteFile(name: name)
                     completion(absoluteString, nil)
                 }
             }

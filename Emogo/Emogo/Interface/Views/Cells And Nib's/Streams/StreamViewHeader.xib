@@ -113,6 +113,14 @@
                 <constraint firstItem="8Fc-OG-F5r" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rNt-8T-3DL"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="btnDelete" destination="BqU-VC-vt1" id="CHL-cD-AJZ"/>
+                <outlet property="btnEdit" destination="vxW-nQ-hQo" id="8eX-Fo-sqz"/>
+                <outlet property="imgCover" destination="dMD-rr-8vX" id="0dS-Me-Cld"/>
+                <outlet property="lblDescription" destination="sSt-hT-HMf" id="vzv-lB-CsD"/>
+                <outlet property="lblName" destination="ICf-Ub-PS9" id="lat-mJ-CWS"/>
+                <outlet property="viewContainer" destination="zlb-SC-3TG" id="nNz-NR-l70"/>
+            </connections>
             <point key="canvasLocation" x="-123" y="-21"/>
         </collectionViewCell>
     </objects>

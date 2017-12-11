@@ -15,7 +15,8 @@ class ViewStreamController: UIViewController {
     
     // Varibales
     private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
-    var objStream:StreamDAO!
+    var streamID:String!
+    var objStream:StreamViewDAO?
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -36,6 +37,7 @@ class ViewStreamController: UIViewController {
         self.configureNavigationWithTitle()
         
         // Attach datasource and delegate
+        
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
         
@@ -54,9 +56,12 @@ class ViewStreamController: UIViewController {
 
     func getStream(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.objStream.ID) { (stream, errorMsg) in
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
+                self.objStream = stream
+                self.viewStreamCollectionView.reloadData()
+            }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
@@ -79,33 +84,45 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if objStream != nil {
+            return objStream!.arrayContent.count
+        }else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
+         let content = objStream?.arrayContent[indexPath.row]
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
+        // for Add Content
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        cell.prepareLayout(content:content!)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+        let content = objStream?.arrayContent[indexPath.row]
+         let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
+        if content?.isAdd == true {
+            return CGSize(width: itemWidth, height: 110)
+        }else{
+            return CGSize(width: itemWidth, height: itemWidth)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        var cell = UICollectionReusableView()
+        let cell = UICollectionReusableView()
         switch kind {
         case IOStickyHeaderParallaxHeader:
-            cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
-            return cell
+            let  view:StreamViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
+            view.prepareLayout(stream:self.objStream)
+            return view
         default:
             assert(false, "Unexpected element kind")
         }
-        
         return cell
     }
    
