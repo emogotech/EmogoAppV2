@@ -191,6 +191,15 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             instance._prefetched_objects_cache = {}
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        if request.data.get('streams') is not None:
+            streams = request.data.pop('streams')
+            if isinstance(streams, list) and streams.__len__() > 0:
+                for _ in streams:
+                    self.get_object().streams.add(_)
+        return self.update(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         """
         :param request:
