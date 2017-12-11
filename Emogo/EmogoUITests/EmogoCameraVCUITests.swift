@@ -45,7 +45,7 @@ class EmogoCameraVCUITests: XCTestCase {
 //
 //        expectation(for: prediatForHittable, evaluatedWith: txtPhone, handler: nil)
 //        waitForExpectations(timeout: 10, handler: nil)
-//        txtPhone.clearAndEnterText(text: "9999999999")
+//        txtPhone.clearAndEnterText(text: "7389020926")
 //        btnDone.tap()
         
 //        sleep(2)
@@ -180,51 +180,45 @@ class EmogoCameraVCUITests: XCTestCase {
         cooridnate5.tap()
         cooridnate6.tap()
         
-        
-        cooridnate1.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate2)
-        cooridnate2.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate3)
-        cooridnate3.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate4)
-        cooridnate4.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate5)
-        cooridnate5.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate6)
-
-        
         sleep(1)
         let colorBucketIconUnactiveButton = app.buttons["color bucket icon unactive"]
         colorBucketIconUnactiveButton.tap()
         
         
         let collectionViewColors = app.collectionViews.element.children(matching:.any)
-        let count = collectionViewColors.count
-        print(count)
         
+        //pencil button for brush
+//        let penIconButton            = app.buttons["pen icon"]
+        let penIconUnactiveButton    = app.buttons["pen icon unactive"]
+        let brushContainer = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element
+        let firstBrush = brushContainer.children(matching: .button).element(boundBy: 0)
+        let secondBrush = brushContainer.children(matching: .button).element(boundBy: 1)
+        let thirdBrush = brushContainer.children(matching: .button).element(boundBy: 2)
+
         
-        for var i in 0..<count{
-            if i == 0 {
+        for (index, cell) in collectionViewColors.allElementsBoundByAccessibilityElement.enumerated() {
+            print("Item \(index): \(cell)")
+            cell.tap()
+            if index % 2 == 0  {
+                penIconUnactiveButton.tap()
+                firstBrush.tap()
                 
-            }else if i == 1 {
+                cooridnate1.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate2)
+                cooridnate2.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate3)
+
+            }else if index % 3 == 0{
+                penIconUnactiveButton.tap()
+                secondBrush.tap()
                 
-            }else if i == 2 {
-                
-            }else if i == 3 {
-                
-            }else if i == 4 {
-                
-            }else if i == 1 {
-                
+                cooridnate3.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate4)
+                cooridnate4.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate5)
+
+            }else{
+                penIconUnactiveButton.tap()
+                thirdBrush.tap()
+                cooridnate5.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate6)
             }
         }
-        for cell in  collectionViewColors.allElementsBoundByAccessibilityElement {
-            cell.tap()
-            
-            sleep(1)
-            cooridnate1.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate2)
-            cooridnate2.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate3)
-            cooridnate3.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate4)
-            cooridnate4.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate5)
-            cooridnate5.press(forDuration: TimeInterval.init(exactly: 0)!, thenDragTo: cooridnate6)
-
-        }
-        
         
         sleep(1)
         
@@ -234,8 +228,180 @@ class EmogoCameraVCUITests: XCTestCase {
         btnDownload.tap()
         
         
-        sleep(10)
         
+        let btnAddEmoji = app.buttons["emoji icon"]
+        btnAddEmoji.tap()
+        app.scrollViews.children(matching: .collectionView).element.swipeLeft()
+
+        let smileyEmoji = app.collectionViews.staticTexts["😃"]
+        smileyEmoji.tap()
+
+        btnAddEmoji.tap()
+        app.scrollViews.children(matching: .collectionView).element.swipeLeft()
+
+        let laughEmoji = app.collectionViews.staticTexts["😂"]
+        laughEmoji.tap()
+        
+        let emojiSmiley = app.staticTexts["😃"]
+        let emojiLaugh = app.staticTexts["😂"]
+
+    
+        emojiLaugh.swipeLeft()
+        emojiLaugh.swipeLeft()
+        
+        emojiSmiley.swipeRight()
+        emojiSmiley.swipeRight()
+        
+        sleep(1)
+        
+        let btnNext  =  app.buttons["next icon"]
+        btnNext.tap()
+        
+        let btnAddToStream = app.buttons["  Add to Stream"]
+        btnAddToStream.tap()
+        
+        doneButton.tap()
+        
+        sleep(1)
+        
+        XCTAssertEqual(titleYourImageTextField.value as! String, "Sourabh", "Title is not same as entered.")
+        XCTAssertEqual(descriptionTextTextField.value as! String, "Sourabh Desc", "description is not same as entered.")
+        
+        
+        let btnBackFromEdit = app.buttons["back circle icon"]
+        btnBackFromEdit.tap()
+        
+        btnBack.tap()
+        sleep(5)
+        
+        
+        //video rcording
+        let btnVideo    =   app.buttons["video icon"]
+        let btnVideoPlay    =   app.buttons["video play"]
+        let btnVideoStop    =   app.buttons["video stop"]
+        
+        let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        btnCamera.tap()
+        
+        XCTAssertTrue(btnVideo.exists, "camera button not exists , presented screen is not camera screen or btnVideo has been removed!")
+        XCTAssertFalse(btnVideoPlay.exists, "btnVideoPlay should not be seen after the camera button tapped!")
+        
+        btnVideo.tap()
+        
+        XCTAssertTrue(btnVideoPlay.exists, "btnVideoPlay button not exists after btnVideo tappped")
+        XCTAssertFalse(btnVideo.exists, "btnVideo should not be seen after the btnVideo button tapped!")
+        
+        btnVideoPlay.tap()
+        
+        XCTAssertTrue(btnVideoStop.exists, "btnVideoStop button not exists after btnVideoPlay tappped")
+        XCTAssertFalse(btnVideoPlay.exists, "btnVideoPlay should not be seen after the btnVideoPlay button tapped!")
+        
+        sleep(2)
+        
+        btnVideoStop.tap()
+        
+        sleep(1)
+        
+        let videoCollectionView = app.collectionViews.element.children(matching:.any)
+        
+        XCTAssertTrue((videoCollectionView.allElementsBoundByAccessibilityElement.count == 1 ), "collectionView not exists after successfully stopped video recording as btnVideoStop tappped")
+        XCTAssertFalse(btnVideoStop.exists, "btnVideoStop should not be seen after the btnVideoStop button tapped!")
+        
+        sleep(2)
+        
+        btnBack.tap()
+        
+        expectation(for: prediatForCamerabutton, evaluatedWith: btnCamera, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        btnCamera.tap()
+        
+        let btnTimer = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .other).element.children(matching: .button).element(boundBy: 3)
+        btnTimer.tap()
+        
+        let selectTimeSheet = app.sheets["Select Time"]
+        let cancelButton = selectTimeSheet.buttons["Cancel"]
+        cancelButton.tap()
+        btnTimer.tap()
+        cancelButton.tap()
+        btnTimer.tap()
+        selectTimeSheet.buttons["5s"].tap()
+        
+        sleep(8)
+        
+        app.buttons["share button"].tap()
+        
+        let title = app.textFields["Title your Image"]
+        title.clearAndEnterText(text: "Sourabh")
+        title.typeText("\n")
+        
+        
+        let desc = app.textFields["Description text"]
+        desc.clearAndEnterText(text: "Sourabh Desc")
+        desc.typeText("\n")
+        doneButton.tap()
+        
+        btnBackFromEdit.tap()
+        btnBack.tap()
+        
+        sleep(1)
+        let btnAdd = app.buttons["add icon home"]
+        btnAdd.tap()
+        sleep(4)
+
+    }
+    
+    func testestest(){
+        
+        let btnAdd = app.buttons["add icon home"]
+        btnAdd.tap()
+        
+        let tablesQuery = app.tables
+//        let txtStreamName = tablesQuery.textFields["Stream Name"]
+//
+//        let tvStreamCaption = tablesQuery.textViews["Stream Caption"]
+//
+//        let btnCameraForStream    =  tablesQuery.buttons["camera icon cover images"]
+        
+       // let switchPrivateStream     =   tablesQuery.switches["Make Private Stream"]
+       
+        var switchAddColab : XCUIElement? = nil
+        var switchMakePrivateStream : XCUIElement? = nil
+        var switchAnyOneCanEdit : XCUIElement? = nil
+        var switchAddPeople : XCUIElement? = nil
+        var switchAddContent : XCUIElement? = nil
+        
+        for switches in tablesQuery.switches.allElementsBoundByAccessibilityElement {
+            print(switches.identifier)
+            if switches.identifier == "Make Private Stream"{
+                switchMakePrivateStream = switches
+            }else if switches.identifier == "Add Collaborators"{
+                switchAddColab = switches
+            }else if switches.identifier == "Any one can edit"{
+                switchAnyOneCanEdit = switches
+            }else if switches.identifier == "Add People"{
+                switchAddPeople = switches
+            }else if switches.identifier == "Add Content"{
+                switchAddContent = switches
+            }
+        }
+        if switchMakePrivateStream != nil {
+            switchMakePrivateStream?.tap()
+        }
+        if switchAddColab != nil {
+            switchAddColab?.tap()
+        }
+        if switchAnyOneCanEdit != nil {
+            switchAnyOneCanEdit?.tap()
+        }
+        if switchAddPeople != nil {
+            switchAddPeople?.tap()
+        }
+        if switchAddContent != nil {
+            switchAddContent?.tap()
+        }
+
     }
     
     func testOpenCamera(){
