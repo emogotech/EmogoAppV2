@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -877,10 +877,22 @@
                                             <outlet property="delegate" destination="VaB-LN-Ug2" id="sIR-Ue-vsj"/>
                                         </connections>
                                     </collectionView>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvI-tI-alG">
+                                        <rect key="frame" x="81" y="221" width="158" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="8aJ-jm-jPI"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="158" id="WKd-U6-IHL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96070033311843872" green="0.96083813905715942" blue="0.96067017316818237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="cvI-tI-alG" firstAttribute="centerY" secondItem="FCY-Zh-6B5" secondAttribute="centerY" id="1uv-1P-w71"/>
                                     <constraint firstItem="zD8-Bj-ORS" firstAttribute="leading" secondItem="FCY-Zh-6B5" secondAttribute="leading" constant="6" id="2mb-nK-wDF"/>
+                                    <constraint firstItem="cvI-tI-alG" firstAttribute="centerX" secondItem="FCY-Zh-6B5" secondAttribute="centerX" id="UcI-RG-g5k"/>
                                     <constraint firstAttribute="bottom" secondItem="zD8-Bj-ORS" secondAttribute="bottom" constant="14" id="X4X-mX-OZU"/>
                                     <constraint firstAttribute="trailing" secondItem="zD8-Bj-ORS" secondAttribute="trailing" constant="5" id="pn1-yX-dZc"/>
                                     <constraint firstItem="zD8-Bj-ORS" firstAttribute="top" secondItem="FCY-Zh-6B5" secondAttribute="top" id="z47-BO-QeP"/>
@@ -914,6 +926,7 @@
                     <connections>
                         <outlet property="btnFeature" destination="wQr-0I-T8n" id="WpA-ua-zxk"/>
                         <outlet property="collectionStream" destination="zD8-Bj-ORS" id="e1h-Ts-Itf"/>
+                        <outlet property="lblNoResult" destination="cvI-tI-alG" id="aus-FA-tSm"/>
                         <outlet property="pagerContent" destination="ukx-00-3TF" id="3yy-4E-6pQ"/>
                         <outlet property="searchText" destination="cIj-e9-fjI" id="3nQ-X2-oJg"/>
                         <outlet property="searchView" destination="2st-yn-GXI" id="535-cB-Xli"/>
@@ -1620,7 +1633,7 @@ Content</string>
         <image name="emogo-logo-img" width="89" height="23"/>
         <image name="food1" width="426" height="240"/>
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
-        <image name="gradient" width="144" height="41"/>
+        <image name="gradient" width="144" height="36"/>
         <image name="gradient-iMessage" width="320" height="114"/>
         <image name="image1" width="597" height="593"/>
         <image name="next-btn" width="137" height="45"/>
