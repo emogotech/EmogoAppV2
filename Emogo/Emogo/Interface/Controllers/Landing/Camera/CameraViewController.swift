@@ -12,7 +12,6 @@ import DKImagePickerController
 
 class CameraViewController: SwiftyCamViewController {
     
-    
     // MARK: - UI Elements
     @IBOutlet weak var btnFlash:  UIButton!
     @IBOutlet weak var btnPreviewOpen: UIButton!
@@ -205,10 +204,14 @@ class CameraViewController: SwiftyCamViewController {
             group.enter()
             obj.fetchOriginalImageWithCompleteBlock({ (image, info) in
                 var camera:ImageDAO!
+               
                 if obj.isVideo == true {
                     camera  = ImageDAO(type: .video, image: image!)
                 }else {
                     camera  = ImageDAO(type: .image, image: image!)
+                }
+                if let file =  obj.originalAsset?.value(forKey: "filename"){
+                    camera.fileName = file as! String
                 }
                 Gallery.sharedInstance.Images.insert(camera, at: 0)
                 group.leave()
@@ -276,6 +279,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         if Gallery.sharedInstance.Images.count == 0 {
             self.viewUP()
         }
+        camera.fileName = NSUUID().uuidString + ".png"
         Gallery.sharedInstance.Images.insert(camera, at: 0)
         self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
@@ -299,6 +303,8 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
             let camera = ImageDAO(type: .video, image: image)
+            camera.fileName = url.absoluteString.getName()
+            print(camera.fileName)
             if Gallery.sharedInstance.Images.count == 0 {
                 self.viewUP()
             }

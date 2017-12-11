@@ -397,11 +397,30 @@ class APIServiceManager: NSObject {
         }
     }
     // MARK: - Create Content  API
-    func apiForCreateStream( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription]]
-        
         print(params)
-
+        APIManager.sharedInstance.post(params: params, strURL: kContentAPI) { (result) in
+            
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                          print(data)
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
     }
   
 }

@@ -113,7 +113,11 @@ class PreviewController: UIViewController {
         self.showToast(type: .success, strMSG: "Stream added Successfully.")
     }
     @IBAction func btnDoneAction(_ sender: Any) {
-        self.showToast(type: .success, strMSG: "Content added Successfully.")
+        if (self.txtTitleImage.text?.isEmpty)! {
+            self.txtTitleImage.shake()
+        }else {
+            self.uploadFile()
+        }
     }
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
@@ -180,6 +184,31 @@ class PreviewController: UIViewController {
             Gallery.sharedInstance.Images[selectedIndex] = obj
         }
     }
+    // MARK: - API Method
+    
+    func uploadFile(){
+        
+         let obj = Gallery.sharedInstance.Images[selectedIndex]
+        let image = obj.imgPreview.reduceSize()
+        let imageData = UIImageJPEGRepresentation(image, 1.0)
+        let url = Document.saveFile(data: imageData!, name: obj.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: obj.fileName) { (fileUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.addContent(fileUrl: fileUrl!)
+                }
+            }
+        }
+    }
+    
+    func addContent(fileUrl:String){
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: "Picture") { (isSuccess, errorMsg) in
+            
+        }
+    }
+
+    
     /*
     // MARK: - Navigation
 
@@ -214,8 +243,7 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
     }
     
-   
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.preparePreview(index: indexPath.row)
     }
     

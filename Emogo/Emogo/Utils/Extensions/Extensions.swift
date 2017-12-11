@@ -405,6 +405,44 @@ extension UILabel {
 
 extension UIImage {
     
+    func compressImage () -> UIImage {
+        
+        let actualHeight:CGFloat = self.size.height
+        let actualWidth:CGFloat = self.size.width
+        let imgRatio:CGFloat = actualWidth/actualHeight
+        let maxWidth:CGFloat = 1024.0
+        let resizedHeight:CGFloat = maxWidth/imgRatio
+        let compressionQuality:CGFloat = 0.5
+        
+        let rect:CGRect = CGRect(x: 0, y: 0, width: maxWidth, height: resizedHeight)
+        UIGraphicsBeginImageContext(rect.size)
+        self.draw(in: rect)
+        let img: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        let imageData:NSData = UIImageJPEGRepresentation(img, compressionQuality)! as NSData
+        UIGraphicsEndImageContext()
+        var imageToUpload = UIImage(data: imageData as Data)!
+        imageToUpload = imageToUpload.fixOrientation()
+        return imageToUpload
+    }
+    
+    func reduceSize() -> UIImage {
+        guard let data = UIImageJPEGRepresentation(self, 1.0)  else {
+            return self
+        }
+        let size =  data.count/1024/1024
+        print(size)
+        if size > 1 {
+            return self.compressImage()
+        }else {
+            return self
+        }
+//        let bcf = ByteCountFormatter()
+//        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+//        bcf.countStyle = .file
+//        let str = bcf.string(fromByteCount: Int64(data.count))
+//        print("formatted result: \(str)")
+    }
+   
     func resizeImage(targetSize: CGSize) -> UIImage {
         let size = self.size
         

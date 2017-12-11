@@ -171,6 +171,21 @@ extension String {
             return true
         }
     }
+    func getName() -> String{
+        let array = self.components(separatedBy: "/")
+        return array.last!
+    }
+    
+    func getType() -> String{
+        let key = NSString(format: "%@", self).pathExtension
+        var type:String! = ""
+        if key.lowercased() == "jpg" ||  key.lowercased() == "jpeg" {
+            type = "Picture"
+        }else if key.lowercased() == "mov"  ||  key.lowercased() == "mp4"{
+            type = "Video"
+        }
+        return type
+    }
     
 }
 

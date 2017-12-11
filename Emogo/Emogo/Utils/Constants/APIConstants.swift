@@ -38,6 +38,9 @@ let kResendAPI                                      = "resend_otp/"
 let kStreamAPI                                      = "stream?"
 let kPeopleAPI                                      = "users/"
 let kStreamViewAPI                                  = "stream/"
+let kContentAPI                                     = "content/"
+
+
 
 
 

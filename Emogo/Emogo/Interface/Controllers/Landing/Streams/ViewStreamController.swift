@@ -15,7 +15,7 @@ class ViewStreamController: UIViewController {
     
     // Varibales
     private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
-    var streamID:String!
+    var stream:StreamDAO!
     var objStream:StreamViewDAO?
     // MARK: - Override Functions
     
@@ -24,18 +24,23 @@ class ViewStreamController: UIViewController {
         // Do any additional setup after loading the view.
         self.prepareLayouts()
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    // MARK: - Prepare Layouts
-    func prepareLayouts(){
-        self.title = "Stream Name"
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.title = self.stream.Title.trim().capitalized
         self.configureNavigationWithTitle()
         
+    }
+    // MARK: - Prepare Layouts
+    func prepareLayouts(){
+       
         // Attach datasource and delegate
         
         self.viewStreamCollectionView.dataSource  = self
@@ -56,7 +61,7 @@ class ViewStreamController: UIViewController {
 
     func getStream(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.stream.ID) { (stream, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
@@ -126,5 +131,28 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return cell
     }
    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let content = objStream?.arrayContent[indexPath.row]
+        if content?.isAdd == true {
+            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            self.navigationController?.push(viewController: obj)
+        }else {
+            Gallery.sharedInstance.streamID = objStream?.streamID
+        
+            Document.getImage(strImage: (content?.coverImage)!, handler: { (image) in
+                if let img = image {
+                     let objImage = ImageDAO(type: .image, image: img)
+                    objImage.title = content?.name
+                    objImage.description = content?.description
+                    objImage.fileName = content?.coverImage.getName()
+                    Gallery.sharedInstance.Images.removeAll()
+                    Gallery.sharedInstance.Images.append(objImage)
+                    let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                    self.navigationController?.pushNormal(viewController: objPreview)
+                }
+            })
+         
+        }
+    }
     
 }

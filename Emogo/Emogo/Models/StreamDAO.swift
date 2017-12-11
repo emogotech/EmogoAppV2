@@ -186,6 +186,8 @@ class ContentDAO{
     var coverImage:String! = ""
     var type:String! = ""
     var isAdd:Bool! = false
+    var description:String! = ""
+
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
             self.name = obj as! String
@@ -199,7 +201,9 @@ class ContentDAO{
         if let obj  = contentData["id"] {
             self.contentID = "\(obj)"
         }
-       
+        if let obj  = contentData["description"] {
+            self.description = obj as! String
+        }
     }
 }
 

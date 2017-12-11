@@ -9,10 +9,13 @@
 import UIKit
 import Foundation
 import AVFoundation
+import SDWebImage
 
 class Document: NSObject {
 
     static func saveFile(data:Data,name:String) -> String{
+        let size =  data.count/1024/1024
+        print(size)
         let fileManager = FileManager.default
         let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(name)
         print(paths)
@@ -104,4 +107,37 @@ class Document: NSObject {
         }
     }
     
+    static func getImage(strImage:String,handler:@escaping (_ image: UIImage?)-> Void){
+           if strImage.isEmpty{
+            handler(nil)
+            return
+          }
+        let imageURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+            let sessionConfig = URLSessionConfiguration.default
+            let session = URLSession(configuration: sessionConfig)
+            let request = try! URLRequest(url: imageURL, method: .get)
+        
+        
+            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+                if let tempLocalUrl = tempLocalUrl, error == nil {
+                    // Success
+                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                        print("Success: \(statusCode)")
+                    }
+                    
+                    do {
+                        print(response?.mimeType)
+//                        try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
+//                        completion()
+                } catch (let writeError) {
+                     //  print("error writing file \(localUrl) : \(writeError)")
+                    }
+                    
+                } else {
+                    print("Failure: %@", error?.localizedDescription);
+                }
+            }
+            task.resume()
+    
+    }
 }

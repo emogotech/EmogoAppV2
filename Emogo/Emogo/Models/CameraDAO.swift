@@ -15,7 +15,7 @@ class ImageDAO {
     var imgPreview:UIImage!
     var title:String! = ""
     var description:String! = ""
-
+    var fileName:String! = ""
     init(type:PreviewType, image:UIImage) {
         self.type = type
         self.imgPreview = image
@@ -26,7 +26,7 @@ class ImageDAO {
 class Gallery{
     
     var Images:[ImageDAO]!
-    
+    var streamID:String! = ""
     class var sharedInstance: Gallery {
         struct Static {
             static let instance: Gallery = Gallery()
