@@ -7,6 +7,7 @@ from rest_framework import serializers
 import itertools
 from django.db import transaction
 from emogo.constants import messages
+from django.db.models import Q
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -35,9 +36,9 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         delete_collaborator = self.initial_data.get('delete_collaborator')
         # 1. Run validation for delete_content list
         if delete_content is not None:
-            if isinstance(delete_content, list) and delete_content.__len__()>0:
+            if isinstance(delete_content, list) and delete_content.__len__() > 0:
                 if all(isinstance(item, int) for item in delete_content):
-                    qs = Content.actives.filter(id__in=delete_content, stream=self.instance)
+                    qs = Content.actives.filter(id__in=delete_content, streams=self.instance)
                     if qs.exists():
                         attrs['delete_content'] = qs
                 else:
@@ -142,13 +143,14 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :param stream: Stream object
         :return: Save content  object
         """
-        content = Content.objects.create(
+        content = Content(
             name=data.get('name'),
             url=data.get('url'),
             type=data.get('type'),
-            stream=stream,
             created_by=self.context['request'].user
-        ).save()
+        )
+        content.save()
+        content.streams.add(stream)
         return content
 
     def delete_stream_content(self):
@@ -209,14 +211,16 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_contents(self, obj):
         fields = ('name', 'url', 'type')
-        return ViewContentSerializer(obj.content_list.filter(status='Active'), many=True,
-                                     fields=fields).data
+        return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
         if qs.exists():
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
+        else:
+            if obj.created_by.__str__() == self.context['request'].user.__str__():
+                return {'can_add_content': True, 'can_add_people':True}
         return None
 
 

@@ -47,13 +47,13 @@ class Stream(DefaultStatusModel):
 
     def delete(self, using=None, keep_parents=False):
         collaborators = self.collaborator_list.filter(status='Active')
-        contents = self.content_list.filter(status='Active')
+        contents = self.content_set.all()
         # Delete collaborators
-        map(self.update_status, collaborators,itertools.repeat('Inactive', collaborators.__len__()))
+        map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
         # Delete Contents
         map(self.update_status, contents, itertools.repeat('Inactive', contents.__len__()))
         # Delete stream
-        self.update_status(self,'Inactive')
+        self.update_status(self, 'Inactive')
         return None
 
     def update_status(self, instance, status):
@@ -72,7 +72,7 @@ class Content(DefaultStatusModel):
     description = models.CharField(max_length=255, null=True, blank=True)
     url = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
-    stream = models.ForeignKey(Stream, null=True, blank=True, related_name='content_list')
+    streams = models.ManyToManyField(Stream)
     created_by = models.ForeignKey(User, null=True, blank=True)
 
     class Meta:
