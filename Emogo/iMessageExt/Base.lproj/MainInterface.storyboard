@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -883,8 +883,8 @@
                                             <constraint firstAttribute="height" constant="21" id="8aJ-jm-jPI"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="158" id="WKd-U6-IHL"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
+                                        <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>

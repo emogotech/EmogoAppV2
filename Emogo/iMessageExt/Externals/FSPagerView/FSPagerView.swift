@@ -84,7 +84,7 @@ public enum FSPagerViewScrollDirection: Int {
 open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelegate {
     
     // MARK: - Public properties
-
+    
     @IBOutlet open weak var dataSource: FSPagerViewDataSource?
     @IBOutlet open weak var delegate: FSPagerViewDelegate?
     open  var lblCurrentType : UILabel!
@@ -381,7 +381,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
             let currentIndex = lround(Double(self.scrollOffset)) % self.numberOfItems
             if (currentIndex != self.currentIndex) {
                 self.currentIndex = currentIndex
-           }
+            }
         }
         guard let function = self.delegate?.pagerViewDidScroll else {
             return
@@ -534,7 +534,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     fileprivate func commonInit() {
         
         // Content View
-       // self.configurebackGround()
+        // self.configurebackGround()
         
         let contentView = UIView(frame:CGRect.zero)
         contentView.backgroundColor = UIColor.clear
@@ -558,7 +558,13 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         if self.viewWithTag(9999) != nil {
             lblCurrentType.removeFromSuperview()
         }
-        self.lblCurrentType = UILabel(frame: CGRect(x: (self.frame.size.width/2 - 100), y: (self.frame.size.height-50), width: 200, height: 30))
+        
+        
+        self.lblCurrentType = UILabel(frame: CGRect.zero)
+        self.lblCurrentType.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(lblCurrentType)
+        configureAnchorInLabel()
+        
         if self.isAddTitle == true {
             lblCurrentType.text =  "Featured"
         }else {
@@ -568,7 +574,14 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center
         lblCurrentType.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        self.addSubview(lblCurrentType)
+        
+    }
+    
+    func configureAnchorInLabel(){
+        self.lblCurrentType.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        self.lblCurrentType.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        self.lblCurrentType.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        self.lblCurrentType.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
     }
     
     func configurebackGround(){
