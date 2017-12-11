@@ -1115,7 +1115,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="27" id="Te9-ZL-0RY"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="11"/>
+                                                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="11"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -1168,8 +1168,8 @@ Content</string>
                                             <constraint firstItem="6l4-wc-RqV" firstAttribute="top" secondItem="A6O-Ux-aa1" secondAttribute="top" id="vWm-9G-oq5"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imgFood" destination="Qid-Sv-vxh" id="iG5-Kp-7IB"/>
-                                            <outlet property="lblFoodName" destination="tmx-kh-WjD" id="G2m-a5-hjr"/>
+                                            <outlet property="imgCover" destination="Qid-Sv-vxh" id="C7T-Si-R5V"/>
+                                            <outlet property="lblName" destination="tmx-kh-WjD" id="ZfJ-TQ-HXN"/>
                                             <outlet property="viewAddContent" destination="6l4-wc-RqV" id="jw6-9g-FkN"/>
                                         </connections>
                                     </collectionViewCell>
