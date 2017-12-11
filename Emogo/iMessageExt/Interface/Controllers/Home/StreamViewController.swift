@@ -22,10 +22,13 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var imgGradient : UIImageView!
     @IBOutlet weak var collectionStreams : UICollectionView!
     
+    var lblCount : UILabel!
     // MARK: - Variables
     var arrStream = [StreamDAO]()
     var currentStreamIndex : Int!
     var arrContentData : NSMutableArray = NSMutableArray()
+    var hudView: LoadingView!
+    var objStream:StreamViewDAO?
     
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
@@ -62,14 +65,13 @@ class StreamViewController: MSMessagesAppViewController {
         if currentStreamIndex == arrStream.count-1 {
             btnNextStream.isEnabled = false
         }
-        dummyArrData()
-        loadViewForUI()
-        setupCollectionProperties()
+        setupLoader()
         setupLabelInCollaboratorButton()
+        setupCollectionProperties()
     }
-
+    
     func setupLabelInCollaboratorButton(){
-        let lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
+        lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2
         lblCount.clipsToBounds = true
         lblCount.textAlignment = NSTextAlignment.center
@@ -81,7 +83,6 @@ class StreamViewController: MSMessagesAppViewController {
         
     }
     
-    
     func setupCollectionProperties() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
@@ -92,6 +93,18 @@ class StreamViewController: MSMessagesAppViewController {
         
         collectionStreams.delegate = self
         collectionStreams.dataSource = self
+    }
+    
+    // MARK:- LoaderSetup
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        getStream()
     }
     
    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -115,19 +128,6 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
 
-    // MARK: - Dummmy Data
-    func dummyArrData(){
-        for v in 1...5 {
-            let tempDict = NSMutableDictionary()
-            tempDict.setObject("food\(v)", forKey: "img" as NSCopying)
-            tempDict.setObject("FOOD \(v)", forKey: "title" as NSCopying)
-            tempDict.setObject("FOOD \(v)", forKey: "titleName" as NSCopying)
-            tempDict.setObject("FOOD Description for FOOD Description for FOOD Description for \(v)", forKey: "titleDescription" as NSCopying)
-            self.arrContentData.add(tempDict)
-        }
-        self.collectionStreams.reloadData()
-    }
-    //-------------------------//
     
     // MARK: - Load Data in UI
     func loadViewForUI(){
@@ -136,6 +136,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
         self.lblStreamDesc.text = "by \(stream.Author!)"
+        lblCount.text = objStream?.viewCount!
     }
     
     // MARK: - Enable/Disable - Next/Previous Button
@@ -168,8 +169,8 @@ class StreamViewController: MSMessagesAppViewController {
             currentStreamIndex = currentStreamIndex + 1
         }
         btnEnableDisable()
-        loadViewForUI()
         self.addRightTransitionImage(imgV: self.imgStream)
+        getStream()
     }
     
     func previousImageLoad(){
@@ -177,8 +178,8 @@ class StreamViewController: MSMessagesAppViewController {
             currentStreamIndex =  currentStreamIndex - 1
         }
         btnEnableDisable()
-        loadViewForUI()
         self.addLeftTransitionImage(imgV: self.imgStream)
+        getStream()
     }
     
     @IBAction func btnPreviousAction(_ sender:UIButton){
@@ -200,6 +201,27 @@ class StreamViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK:- calling webservice
+    func getStream(){
+        if Reachability.isNetworkAvailable() {
+            DispatchQueue.main.async {
+                self.hudView.startLoaderWithAnimation()
+            }
+            let stream = self.arrStream[currentStreamIndex]
+            APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                    self.objStream = stream
+                    self.loadViewForUI()
+                    self.collectionStreams.reloadData()
+                    self.hudView.stopLoaderWithAnimation()
+                }else {
+                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                }
+            }
+        }else{
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+        }
+    }
 }
 
 // MARK: -  Extension CollcetionView Delegates
@@ -210,25 +232,33 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrContentData.count
+        if objStream != nil {
+            return objStream!.arrayContent.count
+        }else {
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : StreamCollectionViewCell = self.collectionStreams.dequeueReusableCell(withReuseIdentifier: iMgsSegue_StreamCollection, for: indexPath) as! StreamCollectionViewCell
-        let tempDict : NSMutableDictionary = self.arrContentData.object(at: indexPath.row) as! NSMutableDictionary
-        if(indexPath.row == 0){
-            cell.viewAddContent.isHidden = false
-        } else {
-            cell.viewAddContent.isHidden = true
-            cell.imgFood.image = UIImage(named: "\(tempDict.object(forKey: "img") as! String)")
-            cell.lblFoodName.text = "\(tempDict.object(forKey: "title") as! String)"
-        }        
+        let content = objStream?.arrayContent[indexPath.row]
+        
+        // for Add Content
+        cell.layer.cornerRadius = 5.0
+        cell.layer.masksToBounds = true
+        cell.isExclusiveTouch = true
+        cell.prepareLayout(content:content!)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-       
-        return CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 100)
+        let content = objStream?.arrayContent[indexPath.row]
+        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
+        if content?.isAdd == true {
+            return CGSize(width: itemWidth, height: 110)
+        }else{
+            return CGSize(width: itemWidth, height: itemWidth)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

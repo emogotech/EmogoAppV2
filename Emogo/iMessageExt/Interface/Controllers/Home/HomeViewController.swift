@@ -145,10 +145,12 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @objc func pullToDownAction() {
-        self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
-        SharedData.sharedInstance.nextStreamString = ""
-        hudRefreshView.startLoaderWithAnimation()
-        self.getStreamList(type:.start,filter:self.streamType)
+        if StreamList.sharedInstance.arrayStream.count > 0 {
+            self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
+            SharedData.sharedInstance.nextStreamString = ""
+            hudRefreshView.startLoaderWithAnimation()
+            self.getStreamList(type:.up,filter:self.streamType)
+        }
     }
     
     @objc func resignRefreshLoader(){
@@ -185,7 +187,7 @@ class HomeViewController: MSMessagesAppViewController {
             if(SharedData.sharedInstance.isMessageWindowExpand) {
                 pagerContent.isHidden = false
                 btnFeature.tag = 1
-            }else{
+            }else {
                 NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
             }
         }
@@ -194,10 +196,13 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
         if Reachability.isNetworkAvailable() {
-            if type == .start || type == .up {
+            if type == .start {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 self.collectionStream.reloadData()
                 self.hudView.startLoaderWithAnimation()
+            }else if  type == .up {
+                StreamList.sharedInstance.arrayStream.removeAll()
+                self.collectionStream.reloadData()
             }
             APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
                 
@@ -239,7 +244,8 @@ class HomeViewController: MSMessagesAppViewController {
             self.footerView?.loadingView.stopLoaderWithAnimation()
         } else  if(type == .start){
             self.hudView.stopLoaderWithAnimation()
-        }else{
+            self.resignRefreshLoader()
+        } else{
             self.resignRefreshLoader()
         }
     }
