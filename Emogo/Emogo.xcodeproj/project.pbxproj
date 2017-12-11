@@ -683,6 +683,7 @@
 				3346053D1FD13DFC0040BD98 /* Emogo.entitlements */,
 				335B1A111FBB238A006DA9D9 /* AppDelegate.swift */,
 				33BCB0681FBB353E004FF634 /* Interface */,
+				33BCB0321FBB353E004FF634 /* Utils */,
 				33BCB03E1FBB353E004FF634 /* Externals */,
 				33BCB0411FBB353E004FF634 /* Resources */,
 				33BCB0A01FBB3555004FF634 /* SupportingFiles */,
@@ -1318,7 +1319,6 @@
 				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
 				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
 				F42864311FC4A12500E3549D /* PreviewController.swift */,
-				33BCB0321FBB353E004FF634 /* Utils */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
