@@ -166,7 +166,7 @@ class AddStreamViewController: UITableViewController {
    
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-         let image = imgCover.reduceSize()
+         let image = self.coverImage.reduceSize()
         let imageData = UIImageJPEGRepresentation(image, 1.0)
        let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
