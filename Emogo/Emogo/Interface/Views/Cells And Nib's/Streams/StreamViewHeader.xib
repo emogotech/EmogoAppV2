@@ -65,7 +65,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxW-nQ-hQo">
-                                <rect key="frame" x="269" y="3" width="50" height="50"/>
+                                <rect key="frame" x="263" y="3" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="CVg-cA-GXP"/>
                                     <constraint firstAttribute="width" constant="50" id="INm-dB-4zB"/>
@@ -73,7 +73,7 @@
                                 <state key="normal" image="edit_icon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqU-VC-vt1">
-                                <rect key="frame" x="216" y="3" width="50" height="50"/>
+                                <rect key="frame" x="210" y="3" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="7eK-5m-mtW"/>
                                     <constraint firstAttribute="height" constant="50" id="Jm0-Sz-NXi"/>
@@ -89,7 +89,7 @@
                             <constraint firstItem="zlb-SC-3TG" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" id="EVY-5g-aeG"/>
                             <constraint firstItem="BqU-VC-vt1" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="3" id="FFZ-53-M06"/>
                             <constraint firstAttribute="bottom" secondItem="dMD-rr-8vX" secondAttribute="bottom" id="IWj-iE-nR1"/>
-                            <constraint firstAttribute="trailing" secondItem="vxW-nQ-hQo" secondAttribute="trailing" constant="1" id="UEo-mQ-cMJ"/>
+                            <constraint firstAttribute="trailing" secondItem="vxW-nQ-hQo" secondAttribute="trailing" constant="7" id="UEo-mQ-cMJ"/>
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" id="VER-6O-ioR"/>
                             <constraint firstAttribute="trailing" secondItem="dMD-rr-8vX" secondAttribute="trailing" id="avl-UF-sPb"/>
                             <constraint firstItem="vxW-nQ-hQo" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="3" id="ef6-tQ-eaK"/>

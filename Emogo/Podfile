@@ -20,10 +20,10 @@ target 'Emogo' do
     common_pods_for_target
     pod 'IQKeyboardManagerSwift'
     pod "SwiftyCam"
-    pod 'DKImagePickerController'
     pod "ESPullToRefresh"
     pod 'Fabric'
     pod 'Crashlytics'
+pod 'Gallery'
 
     target 'EmogoTests' do
         inherit! :search_paths

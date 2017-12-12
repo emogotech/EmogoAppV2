@@ -68,7 +68,7 @@ class PreviewController: UIViewController {
         self.txtDescription.text = ""
         self.selectedIndex = index
        
-        let obj = Gallery.sharedInstance.Images[index]
+        let obj =  GalleryDAO.sharedInstance.Images[index]
         self.imgPreview.image = obj.imgPreview
         if obj.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -98,8 +98,8 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
-        if  Gallery.sharedInstance.Images.count != 0 {
-            let obj =  Gallery.sharedInstance.Images[selectedIndex]
+        if   GalleryDAO.sharedInstance.Images.count != 0 {
+            let obj =   GalleryDAO.sharedInstance.Images[selectedIndex]
             if obj.type == .image {
                 self.openEditor(image:obj.imgPreview)
             }
@@ -125,9 +125,9 @@ class PreviewController: UIViewController {
     @IBAction func btnPlayAction(_ sender: Any) {
     }
     @IBAction func btnDeleteAction(_ sender: Any) {
-        if Gallery.sharedInstance.Images.count != 0 {
-            Gallery.sharedInstance.Images.remove(at: self.selectedIndex)
-            if Gallery.sharedInstance.Images.count != 0 {
+        if  GalleryDAO.sharedInstance.Images.count != 0 {
+             GalleryDAO.sharedInstance.Images.remove(at: self.selectedIndex)
+            if  GalleryDAO.sharedInstance.Images.count != 0 {
                 self.preparePreview(index: 0)
             }else{
                 self.navigationController?.pop()
@@ -158,7 +158,7 @@ class PreviewController: UIViewController {
 
             }
             self.view.updateConstraintsIfNeeded()
-         //   self.imgPreview.image = Gallery.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
+         //   self.imgPreview.image =  GalleryDAO.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
         }
     }
    
@@ -177,37 +177,69 @@ class PreviewController: UIViewController {
     }
     
     func setPreviewContent(title:String, description:String) {
-        if Gallery.sharedInstance.Images.count != 0 {
-            let obj = Gallery.sharedInstance.Images[selectedIndex]
+        if  GalleryDAO.sharedInstance.Images.count != 0 {
+            let obj =  GalleryDAO.sharedInstance.Images[selectedIndex]
             obj.title = title
             obj.description = description
-            Gallery.sharedInstance.Images[selectedIndex] = obj
+            GalleryDAO.sharedInstance.Images[selectedIndex] = obj
         }
     }
     // MARK: - API Method
     
     func uploadFile(){
         
-         let obj = Gallery.sharedInstance.Images[selectedIndex]
-        let image = obj.imgPreview.reduceSize()
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
-        let url = Document.saveFile(data: imageData!, name: obj.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: obj.fileName) { (fileUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.addContent(fileUrl: fileUrl!)
+        HUDManager.sharedInstance.showProgress()
+        let dispatchGroup = DispatchGroup()
+        let obj =  GalleryDAO.sharedInstance.Images[selectedIndex]
+        var fileUrl:URL!
+        var type:String! = "Picture"
+        if obj.type == .video {
+            dispatchGroup.enter()
+            type = "Video"
+            Document.compressVideoFile(name: obj.fileName, inputURL: obj.fileUrl!, handler: { (compressed) in
+                if compressed != nil {
+                    fileUrl = URL(fileURLWithPath: compressed!)
+                    print(fileUrl)
+                }
+                dispatchGroup.leave()
+            })
+        }else {
+            dispatchGroup.enter()
+            let image = obj.imgPreview.reduceSize()
+            let compressedData = UIImageJPEGRepresentation(image, 1.0)
+            let url = Document.saveFile(data: compressedData!, name: obj.fileName)
+            fileUrl = URL(fileURLWithPath: url)
+            dispatchGroup.leave()
+        }
+        dispatchGroup.notify(queue: .main) {
+            print("Both functions complete 👍")
+            AWSManager.sharedInstance.uploadFile(fileUrl, name: obj.fileName) { (fileUrl,error) in
+                HUDManager.sharedInstance.hideProgress()
+                if error == nil {
+                    HUDManager.sharedInstance.showHUD()
+                    DispatchQueue.main.async {
+                        self.addContent(fileUrl: fileUrl!,type:type)
+                    }
                 }
             }
         }
+        
     }
     
-    func addContent(fileUrl:String){
-        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: "Picture") { (isSuccess, errorMsg) in
-            
+    func addContent(fileUrl:String,type:String){
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                self.showToast(type: .success, strMSG: kAlertContentAdded)
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
         }
     }
 
+    func addContentToStream(){
+        
+    }
     
     /*
     // MARK: - Navigation
@@ -225,13 +257,13 @@ class PreviewController: UIViewController {
 extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Gallery.sharedInstance.Images.count
+        return  GalleryDAO.sharedInstance.Images.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj = Gallery.sharedInstance.Images[indexPath.row]
+        let obj =  GalleryDAO.sharedInstance.Images[indexPath.row]
         cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
         cell.playIcon.tag = indexPath.row
         cell.playIcon.addTarget(self, action: #selector(self.playIconTapped(sender:)), for: .touchUpInside)
@@ -254,9 +286,9 @@ extension PreviewController:PhotoEditorDelegate
     func doneEditing(image: UIImage) {
         // the edited image
         AppDelegate.appDelegate.keyboardResign(isActive: true)
-        let camera =  Gallery.sharedInstance.Images[selectedIndex]
+        let camera =   GalleryDAO.sharedInstance.Images[selectedIndex]
         camera.imgPreview = image
-        Gallery.sharedInstance.Images[selectedIndex] = camera
+         GalleryDAO.sharedInstance.Images[selectedIndex] = camera
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
     }

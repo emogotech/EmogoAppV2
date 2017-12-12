@@ -396,7 +396,35 @@ class APIServiceManager: NSObject {
             
         }
     }
+    
+    
+    // MARK: - Delete Stream  API
+    
+    func apiForDeleteStream(streamID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kStreamViewAPI + "\(streamID)/"
+        APIManager.sharedInstance.delete(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.NoContent.rawValue{
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+
     // MARK: - Create Content  API
+    
+    
     func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription]]
         print(params)

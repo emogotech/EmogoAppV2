@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import DKImagePickerController
 import Photos
 import PhotosUI
+import Gallery
+
 class AddStreamViewController: UITableViewController {
     
     // MARK: - UI Elements
@@ -37,6 +38,7 @@ class AddStreamViewController: UITableViewController {
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
     var streamType:String! = "Public"
+    var gallery: GalleryController!
 
     // MARK: - Override Functions
     
@@ -65,6 +67,10 @@ class AddStreamViewController: UITableViewController {
         self.configureNavigationWithTitle()
         txtStreamName.title = "Stream Name"
         txtStreamCaption.delegate = self
+        Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
+        Gallery.Config.initialTab =  .cameraTab
+        Gallery.Config.Camera.imageLimit =  1
+        
     }
     
     func prepareLayoutForApper(){
@@ -109,30 +115,21 @@ class AddStreamViewController: UITableViewController {
     }
     @IBAction func btnActionDone(_ sender: Any) {
         if coverImage == nil {
-            self.showToast(strMSG: kAlertStreamCoverEmpty)
+            self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
         }
        else if (self.txtStreamName.text?.trim().isEmpty)! {
             txtStreamName.shake()
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
-            self.showToast(strMSG: kAlertStreamColabEmpty)
+            self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
         }else {
             self.uploadCoverImage()
         }
     }
     
     @IBAction func btnActionCamera(_ sender: Any) {
-        let pickerController = DKImagePickerController()
-        pickerController.sourceType = .both
-        pickerController.singleSelect = true
-        pickerController.allowMultipleTypes = false
-        pickerController.assetType = .allPhotos
-        pickerController.didSelectAssets = { (assets: [DKAsset]) in
-            if assets.count != 0 {
-                self.setCoverImage(asset: assets[0])
-            }
-        }
-        self.present(pickerController, animated: true, completion: nil)
-        
+        gallery = GalleryController()
+        gallery.delegate = self
+        present(gallery, animated: true, completion: nil)
     }
     
     // MARK: - CLASS FUNCTION
@@ -148,20 +145,20 @@ class AddStreamViewController: UITableViewController {
 
     // MARK: - Set Cover Image
 
-    func setCoverImage(asset:DKAsset) {
-        let width = self.imgCover.bounds.size.width * 2.0
-        let height = self.imgCover.bounds.size.height * 2.0
-
-        asset.fetchOriginalImageWithCompleteBlock { (image, info) in
-            if let img = image {
-                self.imgCover.image = img.scaled(to: CGSize(width: width, height: height))
-                self.coverImage = image
-                if let file =  asset.originalAsset?.value(forKey: "filename"){
-                   self.fileName =  file as! String
-                    print(self.fileName)
+    func setCoverImage(asset:Image) {
+        Image.resolve(images: [asset]) { (images) in
+            if images.count != 0 {
+                let image = images[0]
+                self.imgCover.image = image
+                                self.coverImage = image
+                                self.imgCover.contentMode = .scaleAspectFit
+                                if let file =  asset.asset.value(forKey: "filename"){
+                                   self.fileName =  file as! String
+                                    print(self.fileName)
                 }
             }
         }
+  
     }
    
    private func uploadCoverImage(){
@@ -186,13 +183,13 @@ class AddStreamViewController: UITableViewController {
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                self.showToast(strMSG: kAlertStreamAddedSuccess)
+                self.showToastOnWindow(strMSG: kAlertStreamAddedSuccess)
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
                 }
             }else {
-                self.showToast(strMSG: errorMsg!)
+                self.showToastOnWindow(strMSG: errorMsg!)
             }
         }
     }
@@ -246,5 +243,27 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         }
         return true
     }
+    
+}
+extension AddStreamViewController:GalleryControllerDelegate {
+    func galleryControllerDidCancel(_ controller: GalleryController) {
+        controller.dismiss(animated: true, completion: nil)
+        gallery = nil
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+        controller.dismiss(animated: true, completion: nil)
+        gallery = nil
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
+        controller.dismiss(animated: true, completion: nil)
+        self.setCoverImage(asset: images[0])
+        gallery = nil
+    }
+    
+    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
+    }
+    
     
 }

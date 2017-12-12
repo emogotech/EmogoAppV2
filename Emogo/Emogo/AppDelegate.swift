@@ -100,6 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If User already logged in
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
+            print("token-----\(UserDAO.sharedInstance.user.token)")
             self.openLandingScreen()
         }
         self.keyboardToolBar(disable:false)

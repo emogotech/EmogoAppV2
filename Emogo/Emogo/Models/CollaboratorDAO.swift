@@ -27,7 +27,7 @@ class CollaboratorDAO {
         if let obj = colabData["name"] {
             self.name = obj as! String
         }
-        if let obj = colabData["full_name"] {
+        if let obj = colabData["image"] {
             self.imgUser = obj as! String
         }
         if let obj = colabData["can_add_content"] {

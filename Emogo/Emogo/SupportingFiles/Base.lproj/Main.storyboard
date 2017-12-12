@@ -592,8 +592,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-stream-cover-image-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-RK-sDO">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add-stream-cover-image-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="t6E-RK-sDO">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Io-kd-XCi">
                                                     <rect key="frame" x="276" y="11" width="33" height="33"/>

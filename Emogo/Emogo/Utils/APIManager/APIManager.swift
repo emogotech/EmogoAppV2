@@ -239,6 +239,33 @@ class APIManager: NSObject {
             }
         }
     }
+    
+    func delete(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
+        let url = "\(kBaseURL)\(strURL)"
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
+        Alamofire.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                callback!(.success(dict))
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)! //example : 200
+                    print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
+                }
+                
+                callback!(.error(error))
+            }
+        }
+    }
+    
+    
     // MARK: - Get Country Code
 
     func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){

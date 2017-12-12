@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Photos
 class ImageDAO {
     
     var type:PreviewType!
@@ -16,6 +16,7 @@ class ImageDAO {
     var title:String! = ""
     var description:String! = ""
     var fileName:String! = ""
+    var fileUrl:URL?
     init(type:PreviewType, image:UIImage) {
         self.type = type
         self.imgPreview = image
@@ -23,13 +24,13 @@ class ImageDAO {
 }
 
 
-class Gallery{
+class GalleryDAO{
     
     var Images:[ImageDAO]!
     var streamID:String! = ""
-    class var sharedInstance: Gallery {
+    class var sharedInstance: GalleryDAO {
         struct Static {
-            static let instance: Gallery = Gallery()
+            static let instance: GalleryDAO = GalleryDAO()
         }
         return Static.instance
     }

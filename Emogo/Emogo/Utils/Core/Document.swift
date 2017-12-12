@@ -65,14 +65,16 @@ class Document: NSObject {
     
     
     
-    static func compressVideoFile(name:String,inputURL: URL, handler:@escaping (_ url: URL?)-> Void){
+    static func compressVideoFile(name:String,inputURL: URL, handler:@escaping (_ url: String?)-> Void){
         guard let data = NSData(contentsOf: inputURL as URL) else {
             return
         }
         
         print("File size before compression: \(Double(data.length / 1048576)) mb")
         print(name)
-        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + name)
+        let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(name)
+        print(paths)
+        let compressedURL = NSURL.fileURL(withPath: paths)
        print(compressedURL)
       let urlAsset = AVURLAsset(url: inputURL, options: nil)
        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName:  AVAssetExportPresetMediumQuality) else {
@@ -98,8 +100,9 @@ class Document: NSObject {
                 return
             }
             print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-            
-            handler(compressedURL)
+             Document.deleteFile(name: name)
+            let filePath = Document.saveFile(data: compressedData as Data, name: name)
+            handler(filePath)
         case .failed:
             break
         case .cancelled:
@@ -108,35 +111,30 @@ class Document: NSObject {
         }
     }
     
-    static func getImage(strImage:String,handler:@escaping (_ image: UIImage?)-> Void){
-           if strImage.isEmpty{
+    static func getFile(strUrl:String,handler:@escaping (_ image: UIImage?)-> Void){
+           if strUrl.isEmpty{
             handler(nil)
             return
           }
-        let imageURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        let imageURL = URL(string: strUrl.stringByAddingPercentEncodingForURLQueryParameter()!)!
             let sessionConfig = URLSessionConfiguration.default
             let session = URLSession(configuration: sessionConfig)
             let request = try! URLRequest(url: imageURL, method: .get)
-        
-            let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-                if let tempLocalUrl = tempLocalUrl, error == nil {
-                    // Success
-                    if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                        print("Success: \(statusCode)")
-                    }
-                    
-                    do {
-                        print(response?.mimeType)
-//                        try FileManager.default.copyItem(at: tempLocalUrl, to: localUrl)
-//                        completion()
-                } catch (let writeError) {
-                     //  print("error writing file \(localUrl) : \(writeError)")
-                    }
-                    
-                } else {
-                    print("Failure: %@", error?.localizedDescription);
+        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
+            if let tempLocalUrl = tempLocalUrl, error == nil {
+                // Success
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print("Success: \(statusCode)")
                 }
+                 print(tempLocalUrl)
+                 print(response?.mimeType)
+               
+            } else {
+                print("Failure: %@", error?.localizedDescription);
             }
+            
+           }
+        
             task.resume()
     
     }

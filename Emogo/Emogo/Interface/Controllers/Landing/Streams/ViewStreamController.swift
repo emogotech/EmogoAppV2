@@ -25,8 +25,6 @@ class ViewStreamController: UIViewController {
         self.prepareLayouts()
     }
     
-    
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,7 +43,7 @@ class ViewStreamController: UIViewController {
         
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
-        
+
         if let layout: IOStickyHeaderFlowLayout = self.viewStreamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 200.0)
             layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
@@ -54,10 +52,31 @@ class ViewStreamController: UIViewController {
             layout.disableStickyHeaders = true
             self.viewStreamCollectionView.collectionViewLayout = layout
         }
-        
+        viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
             self.getStream()
     }
+    
+    // MARK: -  Action Methods And Selector
+    @objc func deleteStreamAction(sender:UIButton){
+        
+        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                self.navigationController?.pop()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+   @objc func editStreamAction(sender:UIButton){
+        
+    }
+
+    // MARK: - Class Methods
+
+    
+    // MARK: - API Methods
 
     func getStream(){
         HUDManager.sharedInstance.showHUD()
@@ -123,6 +142,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         switch kind {
         case IOStickyHeaderParallaxHeader:
             let  view:StreamViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
+            view.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
+            view.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             view.prepareLayout(stream:self.objStream)
             return view
         default:
@@ -137,16 +158,15 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
             self.navigationController?.push(viewController: obj)
         }else {
-            Gallery.sharedInstance.streamID = objStream?.streamID
-        
-            Document.getImage(strImage: (content?.coverImage)!, handler: { (image) in
+             GalleryDAO.sharedInstance.streamID = objStream?.streamID
+            Document.getFile(strUrl: (content?.coverImage)!, handler: { (image) in
                 if let img = image {
                      let objImage = ImageDAO(type: .image, image: img)
                     objImage.title = content?.name
                     objImage.description = content?.description
                     objImage.fileName = content?.coverImage.getName()
-                    Gallery.sharedInstance.Images.removeAll()
-                    Gallery.sharedInstance.Images.append(objImage)
+                     GalleryDAO.sharedInstance.Images.removeAll()
+                     GalleryDAO.sharedInstance.Images.append(objImage)
                     let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
                     self.navigationController?.pushNormal(viewController: objPreview)
                 }

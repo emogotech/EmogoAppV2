@@ -94,6 +94,7 @@ let kAlertStreamCaptionEmpty = "Please enter Stream Caption."
 let kAlertStreamCoverEmpty = "Please Select Stream Cover Image."
 let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 let kAlertInvalidUserSpaceMsg            = "Space not allowed."
+let kAlertContentAdded                = "Content Created Successfully."
 
 
 let kDeepLinkURL = "Emogo://emogo/"
