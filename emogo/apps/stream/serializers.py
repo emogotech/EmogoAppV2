@@ -210,7 +210,7 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields).data
 
     def get_contents(self, obj):
-        fields = ('name', 'url', 'type')
+        fields = ('name', 'url', 'type', 'description', 'created_by')
         return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
