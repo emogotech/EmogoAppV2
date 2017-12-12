@@ -301,9 +301,16 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+            
             let camera = ImageDAO(type: .video, image: image)
+            
             camera.fileName = url.absoluteString.getName()
             print(camera.fileName)
+            DispatchQueue.main.async {
+                Document.compressVideoFile(name: camera.fileName, inputURL: url, handler: { (imageUrl) in
+                    print(imageUrl)
+                })
+            }
             if Gallery.sharedInstance.Images.count == 0 {
                 self.viewUP()
             }

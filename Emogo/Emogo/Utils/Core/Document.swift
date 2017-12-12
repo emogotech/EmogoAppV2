@@ -72,8 +72,8 @@ class Document: NSObject {
         
         print("File size before compression: \(Double(data.length / 1048576)) mb")
         print(name)
-        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + NSUUID().uuidString + ".mov")
-
+        let compressedURL = NSURL.fileURL(withPath: NSTemporaryDirectory() + name)
+       print(compressedURL)
       let urlAsset = AVURLAsset(url: inputURL, options: nil)
        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName:  AVAssetExportPresetMediumQuality) else {
         handler(nil)
@@ -98,7 +98,8 @@ class Document: NSObject {
                 return
             }
             print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
-            handler(inputURL)
+            
+            handler(compressedURL)
         case .failed:
             break
         case .cancelled:
@@ -116,7 +117,6 @@ class Document: NSObject {
             let sessionConfig = URLSessionConfiguration.default
             let session = URLSession(configuration: sessionConfig)
             let request = try! URLRequest(url: imageURL, method: .get)
-        
         
             let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
                 if let tempLocalUrl = tempLocalUrl, error == nil {
