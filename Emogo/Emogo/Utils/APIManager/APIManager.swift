@@ -266,6 +266,42 @@ class APIManager: NSObject {
     }
     
     
+    func patch(params:[Any],strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?){
+        //creates the request
+        let url = "\(kBaseURL)\(strURL)"
+        var request = URLRequest(url: try! url.asURL())
+        //some header examples
+        request.httpMethod = "PATCH"
+        request.setValue("Token \(UserDAO.sharedInstance.user.token!)",
+            forHTTPHeaderField: "Authorization")
+        
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = try! JSONSerialization.data(withJSONObject: params)
+        
+        //now just use the request with Alamofire
+        
+        Alamofire.request(request).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                callback!(.success(dict))
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)! //example : 200
+                    print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
+                }
+                callback!(.error(error))
+            }
+        }
+    }
+    
     // MARK: - Get Country Code
 
     func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){

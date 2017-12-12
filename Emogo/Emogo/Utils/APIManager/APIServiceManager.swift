@@ -450,5 +450,31 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    // MARK: - Add  Content To Stream API
+    
+    func apiForContentAddOnStream(contentID:String,streams:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void) {
+        let url = kContentAPI + "\(contentID)/"
+        APIManager.sharedInstance.patch(params: streams, strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
   
 }
