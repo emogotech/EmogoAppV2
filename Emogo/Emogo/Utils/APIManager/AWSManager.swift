@@ -113,11 +113,18 @@ class AWSManager: NSObject {
     
     func uploadFile(_ fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void) {
         let key = NSString(format: "%@", name).pathExtension
+        print(key.MIMEType())
         var type:String! = "image/png"
-        if key.lowercased() == "jpg" ||  key.lowercased() == "jpeg" {
-            type = "image/jpeg"
-        }else if key.lowercased() == "mov"  {
-            type = "movie/mov"
+        if let mimType = key.MIMEType() {
+            type = mimType
+        }else {
+            if key.lowercased() == "jpg" ||  key.lowercased() == "jpeg" {
+                type = "image/jpeg"
+            }else if key.lowercased() == "mov"  {
+                type = "movie/mov"
+            }else if key.lowercased() == "mp4" {
+                type = "video/mp4"
+            }
         }
         let uploadRequest = AWSS3TransferManagerUploadRequest()!
         uploadRequest.body = fileURL

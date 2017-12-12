@@ -48,8 +48,8 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
         menuView.isHidden = true
-        
         self.viewMenu.isHidden = false
+        self.streamCollectionView.reloadData()
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
             self.navigationController?.push(viewController: obj!)

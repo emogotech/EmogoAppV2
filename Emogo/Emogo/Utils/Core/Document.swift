@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 import AVFoundation
-import SDWebImage
 
 class Document: NSObject {
 
@@ -110,32 +109,7 @@ class Document: NSObject {
         }
         }
     }
-    
-    static func getFile(strUrl:String,handler:@escaping (_ image: UIImage?)-> Void){
-           if strUrl.isEmpty{
-            handler(nil)
-            return
-          }
-        let imageURL = URL(string: strUrl.stringByAddingPercentEncodingForURLQueryParameter()!)!
-            let sessionConfig = URLSessionConfiguration.default
-            let session = URLSession(configuration: sessionConfig)
-            let request = try! URLRequest(url: imageURL, method: .get)
-        let task = session.downloadTask(with: request) { (tempLocalUrl, response, error) in
-            if let tempLocalUrl = tempLocalUrl, error == nil {
-                // Success
-                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                    print("Success: \(statusCode)")
-                }
-                 print(tempLocalUrl)
-                 print(response?.mimeType)
-               
-            } else {
-                print("Failure: %@", error?.localizedDescription);
-            }
-            
-           }
-        
-            task.resume()
-    
-    }
 }
+   
+    
+

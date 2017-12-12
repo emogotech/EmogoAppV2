@@ -209,6 +209,7 @@ class CameraViewController: SwiftyCamViewController {
                 if let file =  assets[i].asset.value(forKey: "filename"){
                     camera.fileName = file as! String
                 }
+            GalleryDAO.sharedInstance.Images.insert(camera, at: 0)
             }
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()

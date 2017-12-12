@@ -11,6 +11,7 @@ import UIKit
 import QuartzCore
 import SDWebImage
 import Photos
+import MobileCoreServices
 
 // MARK: - UIColor
 extension UIColor {
@@ -166,6 +167,22 @@ extension String {
         return String(first).uppercased() + dropFirst()
     }
     
+    func MIMEType() -> String? {
+        if !self.isEmpty {
+            let UTIRef = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, self as CFString, nil)
+            let UTI = UTIRef?.takeUnretainedValue()
+            UTIRef?.release()
+            
+            let MIMETypeRef = UTTypeCopyPreferredTagWithClass(UTI!, kUTTagClassMIMEType)
+            if MIMETypeRef != nil
+            {
+                let MIMEType = MIMETypeRef?.takeUnretainedValue()
+                MIMETypeRef?.release()
+                return MIMEType! as String
+            }
+        }
+        return nil
+    }
 }
     
 

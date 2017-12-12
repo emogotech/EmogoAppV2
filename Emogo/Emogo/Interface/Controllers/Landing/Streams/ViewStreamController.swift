@@ -62,6 +62,10 @@ class ViewStreamController: UIViewController {
         
         APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
+                
+                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == self.stream.ID.trim() }) {
+                    StreamList.sharedInstance.arrayStream.remove(at: i)
+                }
                 self.navigationController?.pop()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -158,19 +162,25 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
             self.navigationController?.push(viewController: obj)
         }else {
-             GalleryDAO.sharedInstance.streamID = objStream?.streamID
-            Document.getFile(strUrl: (content?.coverImage)!, handler: { (image) in
-                if let img = image {
-                     let objImage = ImageDAO(type: .image, image: img)
-                    objImage.title = content?.name
-                    objImage.description = content?.description
-                    objImage.fileName = content?.coverImage.getName()
-                     GalleryDAO.sharedInstance.Images.removeAll()
-                     GalleryDAO.sharedInstance.Images.append(objImage)
-                    let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    self.navigationController?.pushNormal(viewController: objPreview)
-                }
+            SharedData.sharedInstance.downloadFile(strURl: (content?.coverImage)!, handler: { (image, type) in
+                
             })
+            /*
+            var image = UIImage(named: "")
+            if content?.type == "Picture" {
+            }else {
+                
+            }
+            GalleryDAO.sharedInstance.streamID = objStream?.streamID
+            let objImage = ImageDAO(type: .image, image: image!)
+            objImage.title = content?.name
+            objImage.description = content?.description
+            objImage.fileName = content?.coverImage.getName()
+            GalleryDAO.sharedInstance.Images.removeAll()
+            GalleryDAO.sharedInstance.Images.append(objImage)
+            let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            self.navigationController?.pushNormal(viewController: objPreview)
+ */
          
         }
     }

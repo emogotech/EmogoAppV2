@@ -233,5 +233,26 @@ class SharedData: NSObject {
     }
     
     
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
+    func downloadFile(strURl: String,handler:@escaping (_ image: UIImage?, _ type:String)-> Void){
+         let imageURL = URL(string: strURl.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        print("Download Started")
+        getDataFromUrl(url: imageURL) { data, response, error in
+            guard let data = data, error == nil else { return }
+            print(response?.suggestedFilename ?? imageURL.lastPathComponent)
+            print(response?.mimeType)
+            print("Download Finished")
+            DispatchQueue.main.async() {
+                print(data.count)
+                
+            }
+        }
+    }
+    
+    
  }
 
