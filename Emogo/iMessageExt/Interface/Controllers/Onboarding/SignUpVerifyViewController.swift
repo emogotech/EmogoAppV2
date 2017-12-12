@@ -12,12 +12,12 @@ import Messages
 class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     // MARK:- UI Elements
-    @IBOutlet weak var txtVeryficationCode : UITextField!
+    @IBOutlet weak var txtVeryficationCode  : UITextField!
     
     // MARK:- Variables
-    var OTP : String?
-    var phone : String?
-    var hudView: LoadingView!
+    var OTP                                 : String?
+    var phone                               : String?
+    var hudView                             : LoadingView!
     
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {

@@ -578,7 +578,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
     }
     
     func configureAnchorInLabel(){
-        self.lblCurrentType.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        self.lblCurrentType.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
         self.lblCurrentType.widthAnchor.constraint(equalToConstant: 300).isActive = true
         self.lblCurrentType.heightAnchor.constraint(equalToConstant: 30).isActive = true
         self.lblCurrentType.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true

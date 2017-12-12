@@ -11,8 +11,8 @@ import UIKit
 class LoadingView: UIView {
     
     // MARK: - Variables
-    var load : KDLoadingView?
-    var loaderImage : UIImageView?
+    var load            : KDLoadingView?
+    var loaderImage     : UIImageView?
     
     // MARK: - Override methods
     override init(frame: CGRect) {

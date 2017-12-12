@@ -12,11 +12,11 @@ import Messages
 class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     // MARK:- UI Elements
-    @IBOutlet weak var txtMobileNumber : UITextField!
+    @IBOutlet weak var txtMobileNumber  : UITextField!
     
     // MARK:- Variables
-    var userName :  String?
-    var hudView: LoadingView!
+    var userName                        :  String?
+    var hudView                         : LoadingView!
     
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {

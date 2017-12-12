@@ -24,16 +24,16 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblNoResult      : UILabel!
     
     // MARK: - Varibales
-    var arrayStreams        = [StreamDAO]()
-    var hudView             : LoadingView!
-    var hudRefreshView      : LoadingView!
-    var lastIndex           : Int = 10
-    var refresher           : UIRefreshControl?
-    var footerView          : HomeCollectionReusableView?
-    var streamType          : StreamType!
-    var paging              : Int = 1;
-    var currentIndex        : Int = 1
-    var fectchingStreamData : Bool = false
+    var arrayStreams                    = [StreamDAO]()
+    var hudView                         : LoadingView!
+    var hudRefreshView                  : LoadingView!
+    var lastIndex                       : Int = 10
+    var refresher                       : UIRefreshControl?
+    var footerView                      : HomeCollectionReusableView?
+    var streamType                      : StreamType!
+    var paging                          : Int = 1;
+    var currentIndex                    : Int = 1
+    var fectchingStreamData             : Bool = false
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
     
@@ -80,14 +80,14 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
         pagerView.currentIndex = 2
-        pagerView.itemSize = CGSize(width: 130, height: 130)
+        pagerView.itemSize = CGSize(width: 100, height: 100)
         pagerView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
         pagerView.delegate = self
         pagerView.dataSource = self
         pagerView.isHidden = false
         pagerView.isAddBackground = false
         pagerView.isAddTitle = false
-        pagerView.layer.contents = UIImage(named: "bottomPager")?.cgImage
+        pagerView.layer.contents = UIImage(named: "grad-bottom")?.cgImage
     }
     
     // MARK:- pull to refresh LoaderSetup
@@ -445,12 +445,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 4:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             default :
@@ -495,12 +495,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 4:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             default :
