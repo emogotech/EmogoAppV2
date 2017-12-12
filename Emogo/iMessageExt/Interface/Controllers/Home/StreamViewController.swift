@@ -12,21 +12,23 @@ import Messages
 class StreamViewController: MSMessagesAppViewController {
 
     // MARK:- UI Elements
-    @IBOutlet weak var lblStreamTitle : UILabel!
-    @IBOutlet weak var btnNextStream : UIButton!
-    @IBOutlet weak var btnPreviousStream : UIButton!
-    @IBOutlet weak var btnCollaborator : UIButton!
-    @IBOutlet weak var lblStreamName : UILabel!
-    @IBOutlet weak var lblStreamDesc : UILabel!
-    @IBOutlet weak var imgStream : UIImageView!
-    @IBOutlet weak var imgGradient : UIImageView!
-    @IBOutlet weak var collectionStreams : UICollectionView!
+    @IBOutlet weak var lblStreamTitle       : UILabel!
+    @IBOutlet weak var lblStreamName        : UILabel!
+    @IBOutlet weak var lblStreamDesc        : UILabel!
     
-    var lblCount : UILabel!
+    @IBOutlet weak var btnNextStream        : UIButton!
+    @IBOutlet weak var btnPreviousStream    : UIButton!
+    @IBOutlet weak var btnCollaborator      : UIButton!
+
+    @IBOutlet weak var imgStream            : UIImageView!
+    @IBOutlet weak var imgGradient          : UIImageView!
+    
+    @IBOutlet weak var collectionStreams    : UICollectionView!
+    
     // MARK: - Variables
+    var lblCount : UILabel!
     var arrStream = [StreamDAO]()
     var currentStreamIndex : Int!
-    var arrContentData : NSMutableArray = NSMutableArray()
     var hudView: LoadingView!
     var objStream:StreamViewDAO?
     
@@ -40,17 +42,17 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     // MARK:- Selector Methods
-    @objc func requestMessageScreenChangeSize(){
+    @objc func requestMessageScreenChangeSize() {
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
             imgGradient.isUserInteractionEnabled = false
-        }else{
+        }
+        else{
             imgGradient.isUserInteractionEnabled = true
         }
     }
     
     // MARK: - PrepareLayout
     func prepareLayout() {
-        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         imgGradient.addGestureRecognizer(swipeRight)
@@ -74,13 +76,13 @@ class StreamViewController: MSMessagesAppViewController {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2
         lblCount.clipsToBounds = true
+        lblCount.isHidden = true
         lblCount.textAlignment = NSTextAlignment.center
         lblCount.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         lblCount.font = UIFont.systemFont(ofSize: 10)
         lblCount.text = "1"
-        lblCount.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 0.9843137255, alpha: 0.8)
+        lblCount.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 0.9843137255, alpha: 0.9048360475)
         self.btnCollaborator.addSubview(lblCount)
-        
     }
     
     func setupCollectionProperties() {
@@ -128,7 +130,6 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
 
-    
     // MARK: - Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
@@ -136,7 +137,14 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
         self.lblStreamDesc.text = "by \(stream.Author!)"
-        lblCount.text = objStream?.viewCount!
+        lblCount.text = ""
+        btnCollaborator.isUserInteractionEnabled = false
+        lblCount.isHidden = true
+        if objStream?.arrayColab.count != 0 {
+            lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
+            btnCollaborator.isUserInteractionEnabled = true
+            lblCount.isHidden = false
+        }
     }
     
     // MARK: - Enable/Disable - Next/Previous Button
@@ -194,6 +202,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBAction func btnShowCollaborator(_ sender:UIButton){
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
         obj.strTitle = "Collaborator List"
+        obj.arrCollaborator = objStream?.arrayColab
         self.present(obj, animated: true, completion: nil)
     }
     
@@ -266,12 +275,9 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         self.addRippleTransition()
-        
         obj.currentStreamIndex = currentStreamIndex
         obj.currentContentIndex  = indexPath.row
         obj.arrStream = arrStream
-        obj.arrContentData = arrContentData
-        
         self.present(obj, animated: false, completion: nil)
     }
     
