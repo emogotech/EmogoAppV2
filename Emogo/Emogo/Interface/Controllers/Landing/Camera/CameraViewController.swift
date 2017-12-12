@@ -219,7 +219,6 @@ class CameraViewController: SwiftyCamViewController {
            
         }
         
-        
         group.notify(queue: .main, execute: {
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
