@@ -26,8 +26,8 @@ open class FSPagerViewTransformer: NSObject {
     open internal(set) weak var pagerView: FSPagerView?
     open internal(set) var type: FSPagerViewTransformerType
     
-    open var minimumScale: CGFloat = 0.65
-    open var minimumAlpha: CGFloat = 0.6
+    open var minimumScale: CGFloat = 0.67
+    open var minimumAlpha: CGFloat = 1.0
     
     @objc
     public init(type: FSPagerViewTransformerType) {
@@ -185,7 +185,7 @@ open class FSPagerViewTransformer: NSObject {
             case -5 ... 5:
                 let itemSpacing = attributes.bounds.width+self.proposedInteritemSpacing()
                 let count: CGFloat = 14
-                let circle: CGFloat = .pi * 2.0
+                let circle: CGFloat = .pi * 1.3
                 let radius = itemSpacing * count / circle
                 let ty = radius * (self.type == .ferrisWheel ? 1 : -1)
                 let theta = circle / count

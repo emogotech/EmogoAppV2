@@ -773,7 +773,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         </imageView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient" translatesAutoresizingMaskIntoConstraints="NO" id="PrA-wz-xIs" userLabel="gradient image">
-                                                            <rect key="frame" x="0.0" y="50" width="100" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emogo Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3b7-fL-ug8">
                                                             <rect key="frame" x="5" y="60" width="95" height="20"/>
@@ -846,7 +846,7 @@
                                                     <constraint firstItem="urY-uy-pHW" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" id="BMs-WS-i3p"/>
                                                     <constraint firstAttribute="bottom" secondItem="PrA-wz-xIs" secondAttribute="bottom" id="Bms-Ga-HFa"/>
                                                     <constraint firstAttribute="bottom" secondItem="MCr-yh-6GH" secondAttribute="bottom" id="Cxv-hd-82B"/>
-                                                    <constraint firstItem="PrA-wz-xIs" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" constant="50" id="Dks-wJ-30o"/>
+                                                    <constraint firstItem="PrA-wz-xIs" firstAttribute="top" secondItem="Tl4-my-WrE" secondAttribute="top" id="Dks-wJ-30o"/>
                                                     <constraint firstItem="iAp-Z5-nt2" firstAttribute="top" secondItem="3b7-fL-ug8" secondAttribute="bottom" constant="-2" id="MeM-Wo-svP"/>
                                                     <constraint firstItem="MCr-yh-6GH" firstAttribute="leading" secondItem="Tl4-my-WrE" secondAttribute="leading" id="QAG-U5-5Ne"/>
                                                     <constraint firstAttribute="bottom" secondItem="iAp-Z5-nt2" secondAttribute="bottom" constant="2" id="UGB-j9-k8w"/>
@@ -899,7 +899,7 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ukx-00-3TF">
-                                <rect key="frame" x="0.0" y="308" width="320" height="220"/>
+                                <rect key="frame" x="0.0" y="315" width="320" height="220"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="220" id="QgL-Md-1M7"/>
@@ -910,7 +910,7 @@
                         <constraints>
                             <constraint firstItem="FCY-Zh-6B5" firstAttribute="trailing" secondItem="p9Q-Mn-43p" secondAttribute="trailing" id="4ot-QL-bje"/>
                             <constraint firstItem="p9Q-Mn-43p" firstAttribute="bottom" secondItem="FCY-Zh-6B5" secondAttribute="bottom" id="7lH-46-y77"/>
-                            <constraint firstItem="ukx-00-3TF" firstAttribute="bottom" secondItem="p9Q-Mn-43p" secondAttribute="bottom" id="9AI-fM-RhI"/>
+                            <constraint firstItem="ukx-00-3TF" firstAttribute="bottom" secondItem="p9Q-Mn-43p" secondAttribute="bottom" constant="7" id="9AI-fM-RhI"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="top" secondItem="p9Q-Mn-43p" secondAttribute="top" id="Dif-N7-D3K"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="trailing" secondItem="p9Q-Mn-43p" secondAttribute="trailing" id="FuN-bM-Bpc"/>
                             <constraint firstItem="sQl-z1-FpY" firstAttribute="leading" secondItem="p9Q-Mn-43p" secondAttribute="leading" id="GlO-6h-tbW"/>
@@ -1565,7 +1565,7 @@ Content</string>
                                             <rect key="frame" x="0.0" y="0.0" width="137" height="113"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6El-R7-09a">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Collaborator1" translatesAutoresizingMaskIntoConstraints="NO" id="6El-R7-09a">
                                                     <rect key="frame" x="34" y="5" width="70" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1618,6 +1618,7 @@ Content</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Collaborator1" width="112" height="112"/>
         <image name="ProfileDeselected" width="56" height="56"/>
         <image name="addContent" width="24" height="24"/>
         <image name="addToStream-icon" width="14" height="14"/>

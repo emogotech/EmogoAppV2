@@ -12,14 +12,14 @@ import Messages
 class CollaboratorViewController: MSMessagesAppViewController {
 
     //MARK: - UI Elements
-    @IBOutlet weak var collectionCollaborator : UICollectionView!
-    @IBOutlet weak var btnBack : UIButton!
-    @IBOutlet weak var lblTitle : UILabel!
+    @IBOutlet weak var collectionCollaborator   : UICollectionView!
+    @IBOutlet weak var btnBack                  : UIButton!
+    @IBOutlet weak var lblTitle                 : UILabel!
     
     
     //MARK: - Variables
-    var arrCollaborator : [CollaboratorDAO]!
-    var strTitle : String!
+    var arrCollaborator                         : [CollaboratorDAO]!
+    var strTitle                                : String!
     
     //MARK: - Life-Cycle methods
     override func viewDidLoad() {
@@ -29,7 +29,6 @@ class CollaboratorViewController: MSMessagesAppViewController {
         self.prepareLayout()
         setupCollectionProperties()
     }
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

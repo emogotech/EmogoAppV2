@@ -105,7 +105,7 @@ open class FSPagerViewCell: UICollectionViewCell {
         self.backgroundColor = UIColor.clear
         self.contentView.layer.shadowColor = UIColor.black.cgColor
         self.contentView.layer.shadowRadius = 5
-        self.contentView.layer.shadowOpacity = 0.75
+        self.contentView.layer.shadowOpacity = 0.2
         self.contentView.layer.shadowOffset = .zero
         self.isExclusiveTouch = true
 

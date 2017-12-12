@@ -12,10 +12,10 @@ import Messages
 class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
-    @IBOutlet weak var txtMobileNumber : UITextField!
+    @IBOutlet weak var txtMobileNumber  : UITextField!
     
     // MARK: - Variables
-    var hudView: LoadingView!
+    var hudView                         : LoadingView!
     
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {

@@ -26,11 +26,11 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var collectionStreams    : UICollectionView!
     
     // MARK: - Variables
-    var lblCount : UILabel!
-    var arrStream = [StreamDAO]()
-    var currentStreamIndex : Int!
-    var hudView: LoadingView!
-    var objStream:StreamViewDAO?
+    var lblCount                            : UILabel!
+    var arrStream                           = [StreamDAO]()
+    var currentStreamIndex                  : Int!
+    var hudView                             : LoadingView!
+    var objStream                           :StreamViewDAO?
     
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
@@ -80,7 +80,7 @@ class StreamViewController: MSMessagesAppViewController {
         lblCount.textAlignment = NSTextAlignment.center
         lblCount.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         lblCount.font = UIFont.systemFont(ofSize: 10)
-        lblCount.text = "1"
+        lblCount.text = ""
         lblCount.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 0.9843137255, alpha: 0.9048360475)
         self.btnCollaborator.addSubview(lblCount)
     }
@@ -133,7 +133,7 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Load Data in UI
     func loadViewForUI(){
         let stream = self.arrStream[currentStreamIndex]
-        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "image7")
+        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
         self.lblStreamDesc.text = "by \(stream.Author!)"
@@ -223,11 +223,13 @@ class StreamViewController: MSMessagesAppViewController {
                     self.loadViewForUI()
                     self.collectionStreams.reloadData()
                     self.hudView.stopLoaderWithAnimation()
-                }else {
+                }
+                else {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
             }
-        }else{
+        }
+        else {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
