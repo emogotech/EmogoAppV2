@@ -17,4 +17,9 @@ class CollaboratorCollectionViewCell: UICollectionViewCell {
         imgCollaborator.layer.cornerRadius = self.imgCollaborator.frame.size.width/2
         imgCollaborator.clipsToBounds = true
     }
+    
+    func prepareLayout(content:CollaboratorDAO){
+        self.imgCollaborator.setImageWithURL(strImage: content.imgUser, placeholder: "stream-card-placeholder")
+        lblCollaboratorName.text = content.name!
+    }
 }

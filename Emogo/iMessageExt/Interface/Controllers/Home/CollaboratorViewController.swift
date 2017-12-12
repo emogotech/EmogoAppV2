@@ -18,7 +18,7 @@ class CollaboratorViewController: MSMessagesAppViewController {
     
     
     //MARK: - Variables
-    var arrCollaborator : NSMutableArray = NSMutableArray()
+    var arrCollaborator : [CollaboratorDAO]!
     var strTitle : String!
     
     //MARK: - Life-Cycle methods
@@ -26,22 +26,10 @@ class CollaboratorViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         
         setupCollectionProperties()
-        self.dummyData()
         self.prepareLayout()
         setupCollectionProperties()
     }
 
-    //MARK: - Dummy Data
-    func dummyData(){
-        arrCollaborator.removeAllObjects()
-        for tempIndex in 0...10 {
-            let tempDict = NSMutableDictionary()
-            tempDict.setObject("Collaborator\(tempIndex)", forKey: "Img" as NSCopying)
-            tempDict.setObject("Collaborator\(tempIndex)", forKey: "name" as NSCopying)
-            arrCollaborator.add(tempDict)
-        }
-        self.collectionCollaborator.reloadData()
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,12 +70,8 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell : CollaboratorCollectionViewCell = self.collectionCollaborator.dequeueReusableCell(withReuseIdentifier: iMgsSegue_CollaboratorCollectionCell, for: indexPath) as! CollaboratorCollectionViewCell
-        let tempDict : NSMutableDictionary = self.arrCollaborator.object(at: indexPath.row) as! NSMutableDictionary
-        
-        cell.imgCollaborator.image = UIImage(named:"\(tempDict.object(forKey: "Img")!)")
-        cell.lblCollaboratorName.text = tempDict.object(forKey: "name") as? String
+        cell.prepareLayout(content: self.arrCollaborator[indexPath.row])
         
         return cell
     }
-    
 }

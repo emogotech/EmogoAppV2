@@ -13,24 +13,26 @@ class HomeViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
-    @IBOutlet weak var searchView : UIView!
-    @IBOutlet weak var searchText : UITextField!
-    @IBOutlet weak var btnFeature : UIButton!
-    @IBOutlet weak var pagerContent : UIView!
-    @IBOutlet weak var lblNoResult : UILabel!
+    
+    @IBOutlet weak var pagerContent     : UIView!
+    @IBOutlet weak var searchView       : UIView!
+    
+    @IBOutlet weak var searchText       : UITextField!
+    
+    @IBOutlet weak var btnFeature       : UIButton!
+    
+    @IBOutlet weak var lblNoResult      : UILabel!
     
     // MARK: - Varibales
-    var arrayStreams = [StreamDAO]()
-    var hudView: LoadingView!
-    var hudRefreshView: LoadingView!
-    var lastIndex : Int = 10
-    var refresher:UIRefreshControl?
-    var footerView:HomeCollectionReusableView?
-    var streamType  : StreamType!
-    
-    //var Pagning
-    var paging : Int = 1;
-    var currentIndex : Int = 1
+    var arrayStreams        = [StreamDAO]()
+    var hudView             : LoadingView!
+    var hudRefreshView      : LoadingView!
+    var lastIndex           : Int = 10
+    var refresher           : UIRefreshControl?
+    var footerView          : HomeCollectionReusableView?
+    var streamType          : StreamType!
+    var paging              : Int = 1;
+    var currentIndex        : Int = 1
     var fectchingStreamData : Bool = false
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
@@ -529,6 +531,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             }
         }
         pagerView.lblCurrentType.text = "\(self.arrImagesSelected[sender])"
+        btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
     }
 }
 

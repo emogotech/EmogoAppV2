@@ -11,10 +11,10 @@ import Messages
 
 class MessagesViewController: MSMessagesAppViewController {
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     @IBOutlet weak var container: UIView!
     
-    //MARK: - Variables
+    // MARK: - Variables
     var hudView: LoadingView!
    
     // MARK: - Life-Cycle methods

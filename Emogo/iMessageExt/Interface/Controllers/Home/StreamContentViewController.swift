@@ -12,25 +12,27 @@ import Messages
 class StreamContentViewController: MSMessagesAppViewController {
 
     // MARK:- UI Elements
-    @IBOutlet weak var lblStreamTitle : UILabel!
-    @IBOutlet weak var btnNextStream : UIButton!
-    @IBOutlet weak var btnPreviousStream : UIButton!
+    @IBOutlet weak var lblStreamTitle       : UILabel!
+    @IBOutlet weak var lblStreamName        : UILabel!
+    @IBOutlet weak var lblStreamDesc        : UILabel!
+
+    @IBOutlet weak var btnNextStream        : UIButton!
+    @IBOutlet weak var btnPreviousStream    : UIButton!
+    
     @IBOutlet  weak var contentProgressView : UIProgressView!
-    @IBOutlet weak var lblStreamName : UILabel!
-    @IBOutlet weak var lblStreamDesc : UILabel!
     
-    @IBOutlet weak var imgStream : UIImageView!
-    @IBOutlet weak var imgGradient : UIImageView!
+    @IBOutlet weak var imgStream            : UIImageView!
+    @IBOutlet weak var imgGradient          : UIImageView!
     
-    @IBOutlet weak var viewAction : UIView!
-    @IBOutlet weak var viewAddStream: UIView!
+    @IBOutlet weak var viewAction           : UIView!
+    @IBOutlet weak var viewAddStream        : UIView!
 
     
     // MARK: - Variables
-    var arrStream = [StreamDAO]()
-    var arrContentData : NSMutableArray!
-    var currentStreamIndex : Int!
-    var currentContentIndex : Int!
+    var arrStream                           = [StreamDAO]()
+    var arrContentData                      : NSMutableArray!
+    var currentStreamIndex                  : Int!
+    var currentContentIndex                 : Int!
     
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
@@ -50,7 +52,8 @@ class StreamContentViewController: MSMessagesAppViewController {
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
             imgStream.isUserInteractionEnabled = false
             viewAddStream.isHidden = true
-        }else{
+        }
+        else{
             imgStream.isUserInteractionEnabled = true
             viewAddStream.isHidden = false
         }
