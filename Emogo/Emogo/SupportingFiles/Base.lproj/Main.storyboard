@@ -717,6 +717,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="4wo-pv-wS3" customClass="PMSwitch" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="263" y="14" width="49" height="31"/>
+                                                    <accessibility key="accessibilityConfiguration" hint="Make Private Stream" identifier="Make Private Stream"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="EcF-BO-vgl"/>
                                                         <constraint firstAttribute="height" constant="31" id="mTg-JP-YDj"/>
@@ -903,7 +904,6 @@
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add People" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLO-6Z-nf7">
                                                                     <rect key="frame" x="7" y="11" width="88" height="17"/>
-                                                                    <accessibility key="accessibilityConfiguration" hint="Add People" identifier="Add People"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="88" id="GPi-aK-dKo"/>
                                                                         <constraint firstAttribute="height" constant="17" id="Ixs-rT-dn2"/>
@@ -914,6 +914,7 @@
                                                                 </label>
                                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="lxs-vn-vvP" customClass="PMSwitch" customModule="Emogo" customModuleProvider="target">
                                                                     <rect key="frame" x="103" y="4" width="49" height="31"/>
+                                                                    <accessibility key="accessibilityConfiguration" hint="Add People" identifier="Add People"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="31" id="khC-uQ-tsD"/>
                                                                         <constraint firstAttribute="width" constant="47" id="moT-pw-Tqd"/>
