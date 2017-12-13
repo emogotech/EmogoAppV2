@@ -14,7 +14,9 @@ class Collaborator(DefaultStatusModel):
     stream = models.ForeignKey(Stream, null=True, blank=True, related_name='collaborator_list')
     can_add_content = models.BooleanField(default=False)
     can_add_people = models.BooleanField(default=False)
+    image = models.CharField(max_length=200, null=True, blank=True)
     created_by = models.ForeignKey(User, null=True, blank=True)
+
 
     class Meta:
         db_table = 'collaborator'

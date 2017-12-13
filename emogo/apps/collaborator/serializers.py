@@ -18,9 +18,3 @@ class ViewCollaboratorSerializer(CollaboratorSerializer):
     This serializer is used to show Collaborator view section
     """
     stream = serializers.SerializerMethodField()
-
-    def get_stream(self, obj):
-        try:
-            return obj.stream.name
-        except AttributeError:
-            return None
