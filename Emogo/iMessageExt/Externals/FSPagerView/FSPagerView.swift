@@ -568,7 +568,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         if self.isAddTitle == true {
             lblCurrentType.text =  "Featured"
         }else {
-            lblCurrentType.text = "Featured"
+            lblCurrentType.text = "FEATURED"
         }
         lblCurrentType.tag = 9999
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)

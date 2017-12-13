@@ -27,6 +27,13 @@ class StreamCollectionViewCell: UICollectionViewCell {
             self.lblName.text = content.name.trim().capitalized
             if content.type == "Picture" {
                 self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+            }else{
+                if !content.coverImage.isEmpty {
+                    let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                    if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
+                        self.imgCover.image = image
+                    }
+                }
             }
         }
     }

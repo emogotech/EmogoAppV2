@@ -80,7 +80,7 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
         pagerView.currentIndex = 2
-        pagerView.itemSize = CGSize(width: 100, height: 100)
+        pagerView.itemSize = CGSize(width: 120, height: 100)
         pagerView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
         pagerView.delegate = self
         pagerView.dataSource = self
@@ -202,19 +202,18 @@ class HomeViewController: MSMessagesAppViewController {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 self.collectionStream.reloadData()
                 self.hudView.startLoaderWithAnimation()
-            }else if  type == .up {
+            }
+            else if  type == .up {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 self.collectionStream.reloadData()
             }
             APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
                 
                 self.streaminputDataType(type: type)
-                
                 self.lblNoResult.isHidden = true
                 if StreamList.sharedInstance.arrayStream.count == 0 {
                     self.lblNoResult.isHidden = false
                 }
-               
                 if(type == .start || type == .up){
                     self.arrayStreams = StreamList.sharedInstance.arrayStream!
                 }
@@ -223,14 +222,13 @@ class HomeViewController: MSMessagesAppViewController {
                         self.arrayStreams.append(stream)
                     }
                 }
-                
                 self.collectionStream.reloadData()
                 if !(errorMsg?.isEmpty)! {
                     // self.showToast(type: .success, strMSG: errorMsg!)
                 }
             }
-            
-        }else{
+        }
+        else{
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
@@ -251,6 +249,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.resignRefreshLoader()
         }
     }
+    
 }
 
 // MARK:- Extension collectionview delegate
@@ -265,7 +264,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell : HomeCollectionViewCell = self.collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
+        let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
         
         let stream = self.arrayStreams[indexPath.row]
         cell.prepareLayouts(stream: stream)
@@ -273,7 +272,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         cell.btnView.tag = indexPath.row
         cell.btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
         cell.btnShare.tag = indexPath.row
-        cell.btnView.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
+        cell.btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
         
         return cell
     }
@@ -318,7 +317,24 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     @objc func btnShareAction(_ sender:UIButton){
-        
+        if(SharedData.sharedInstance.isMessageWindowExpand){
+             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+        }
+        let stream = self.arrayStreams[sender.tag]
+        self.sendMessage(content: stream, sender: sender.tag)
+    }
+    
+    func sendMessage(content:StreamDAO, sender:Int){
+        let indexPath = NSIndexPath(row: sender, section: 0)
+        if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
+            let message = MSMessage()
+            let layout = MSMessageTemplateLayout()
+            layout.caption = content.Title.trim()
+            layout.subcaption = "by \(content.Author!)"
+            layout.image  = (sel as! HomeCollectionViewCell).imgStream.image
+            message.layout = layout
+            SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -328,7 +344,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         self.changeCellImageAnimation(indexPath.row)
     }
     
-    func changeCellImageAnimation(_ sender : Int){
+    func changeCellImageAnimation(_ sender : Int) {
         for row in 0 ..< self.collectionStream.numberOfItems(inSection: 0){
             let indexPath = NSIndexPath(row: row, section: 0)
             if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
@@ -343,6 +359,15 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                 } else {
                     (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
                 }
+            }
+        }
+    }
+    
+    func resetAllCells() {
+        for row in 0 ..< self.collectionStream.numberOfItems(inSection: 0){
+            let indexPath = NSIndexPath(row: row, section: 0)
+            if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
+                 (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
             }
         }
     }
@@ -445,12 +470,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 4:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             default :
@@ -475,32 +500,40 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 0:
                 self.streamType = StreamType.populer
+                self.arrayStreams.removeAll()
+                self.collectionStream.reloadData()
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 1:
                 self.streamType = StreamType.myStream
+                self.arrayStreams.removeAll()
+                self.collectionStream.reloadData()
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 2:
                 self.streamType = StreamType.featured
+                self.arrayStreams.removeAll()
+                self.collectionStream.reloadData()
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 3:
                 self.streamType = StreamType.emogoStreams
+                self.arrayStreams.removeAll()
+                self.collectionStream.reloadData()
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 4:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-//                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             default :
@@ -530,8 +563,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 (sel as! FSPagerViewCell).imageView?.layer.cornerRadius = ((sel as! FSPagerViewCell).imageView?.frame.size.width)!/2
             }
         }
-        pagerView.lblCurrentType.text = "\(self.arrImagesSelected[sender])"
+        let strLbl = "\(self.arrImagesSelected[sender])"
+        pagerView.lblCurrentType.text = strLbl.uppercased()
         btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
+        resetAllCells()
     }
 }
 
@@ -575,5 +610,4 @@ extension HomeViewController : UIScrollViewDelegate {
             }
         }
     }
-    
 }
