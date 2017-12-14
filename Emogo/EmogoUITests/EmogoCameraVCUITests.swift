@@ -73,10 +73,8 @@ class EmogoCameraVCUITests: XCTestCase {
         if galleryCollectionViewCell.exists {
             galleryCollectionViewCell.forceTapElement()
         }
-        let galleryNavBar = app.navigationBars["All Photos"]
-        let btnSelect1     = galleryNavBar.buttons["Select(1)"]
-
-        btnSelect1.tap()
+        let btnDoneGallery = app.buttons["Done"]
+        btnDoneGallery.tap()
 
         sleep(2)
         XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 2 ), "Collection view does not have 2 images as expected!")
@@ -112,7 +110,7 @@ class EmogoCameraVCUITests: XCTestCase {
             galleryCollectionViewCell01.forceTapElement()
         }
         
-        btnSelect1.tap()
+        btnDoneGallery.tap()
         
         XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 2 ), "Collection view does not have 2 images as expected!")
         
@@ -352,55 +350,82 @@ class EmogoCameraVCUITests: XCTestCase {
 
     }
     
-    func testestest(){
+    func testForCreateStream(){
+        let prediatForHittable = NSPredicate(format: "isHittable == 1")
+        let prediatForExists   = NSPredicate(format: "exists == 1")
+
         
         let btnAdd = app.buttons["add icon home"]
         btnAdd.tap()
         
         let tablesQuery = app.tables
-//        let txtStreamName = tablesQuery.textFields["Stream Name"]
-//
-//        let tvStreamCaption = tablesQuery.textViews["Stream Caption"]
-//
-//        let btnCameraForStream    =  tablesQuery.buttons["camera icon cover images"]
+        let txtStreamName = tablesQuery.textFields["Stream Name"]
+
         
-       // let switchPrivateStream     =   tablesQuery.switches["Make Private Stream"]
-       
-        var switchAddColab : XCUIElement? = nil
-        var switchMakePrivateStream : XCUIElement? = nil
-        var switchAnyOneCanEdit : XCUIElement? = nil
-        var switchAddPeople : XCUIElement? = nil
-        var switchAddContent : XCUIElement? = nil
+        let tvStreamCaption = app.tables.cells.containing(.staticText, identifier:"Stream Caption").children(matching: .textView).element
+
+        let btnCameraForStream    =  tablesQuery.buttons["camera icon cover images"]
         
-        for switches in tablesQuery.switches.allElementsBoundByAccessibilityElement {
-            print(switches.identifier)
-            if switches.identifier == "Make Private Stream"{
-                switchMakePrivateStream = switches
-            }else if switches.identifier == "Add Collaborators"{
-                switchAddColab = switches
-            }else if switches.identifier == "Any one can edit"{
-                switchAnyOneCanEdit = switches
-            }else if switches.identifier == "Add People"{
-                switchAddPeople = switches
-            }else if switches.identifier == "Add Content"{
-                switchAddContent = switches
-            }
-        }
-        if switchMakePrivateStream != nil {
-            switchMakePrivateStream?.tap()
-        }
-        if switchAddColab != nil {
-            switchAddColab?.tap()
-        }
-        if switchAnyOneCanEdit != nil {
-            switchAnyOneCanEdit?.tap()
-        }
-        if switchAddPeople != nil {
-            switchAddPeople?.tap()
-        }
-        if switchAddContent != nil {
-            switchAddContent?.tap()
-        }
+        let btnDone         =       tablesQuery.buttons["done button"]
+        
+        btnCameraForStream.tap()
+        
+        let secondCell = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
+        secondCell.forceTapElement()
+        
+        
+        expectation(for: prediatForHittable, evaluatedWith: txtStreamName, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        txtStreamName.tap()
+        txtStreamName.typeText("Sourabh's Stream 102")
+        
+        tvStreamCaption.tap()
+        tvStreamCaption.typeText("Sourabh's Stream is Awesome!\n")
+        
+        let switchMakePrivateStream = tablesQuery.switches["Make Private Stream"]
+        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+        let switchAnyOneCanEdit     = tablesQuery.switches["Any one can edit"]
+        let switchAddContent        = tablesQuery.switches["Add Content"]
+        let switchAddPeople         = tablesQuery.switches["Add People"]
+        
+        switchMakePrivateStream.tap()
+        
+        btnDone.tap()
+        
+        expectation(for: prediatForExists, evaluatedWith: btnAdd, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
+        
+        
+    }
+    
+    func testPullToRefresh(){
+        
+        app.swipeDown()
+                sleep(4)
+    }
+    
+    func testMakeStream(){
+        
+        let btnAdd = app.buttons["add icon home"]
+        btnAdd.tap()
+        
+        let tablesQuery = app.tables
+        
+        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+
+        
+        switchAddColab.tap()
+//        app.swipeUp()
+          NSAttributedStringKey.font
+//        app.collectionViews.cells.element.children(matching: .any).element(boundBy: 0)
+        
+        print(app.debugDescription)
+        let cell = tablesQuery.cells.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
+        
+        cell.forceTapElement()//tablesQuery.cells.collectionViews.count
+
+        sleep(4)
 
     }
     
@@ -463,6 +488,26 @@ class EmogoCameraVCUITests: XCTestCase {
         
     }
     
+    func testGall(){
+
+        
+        app.navigationBars["home icon active"].buttons["camera icon"].tap()
+        
+        let addGaleryButton = app.buttons["add galery"]
+        addGaleryButton.tap()
+        
+        let collectionViewFirstCell = app.collectionViews.cells.allElementsBoundByAccessibilityElement[0]
+        print(collectionViewFirstCell.exists)
+        
+        collectionViewFirstCell.forceTapElement()
+        
+        let btnDoneGallery = app.buttons["Done"]
+        btnDoneGallery.tap()
+
+
+        sleep(3)
+    }
+    
     func testImageGallery(){
         let btnCamera        = app.navigationBars.buttons["camera icon"]
         let prediatForCamerabutton = NSPredicate(format: "isHittable == 1")
@@ -494,11 +539,8 @@ class EmogoCameraVCUITests: XCTestCase {
         if galleryCollectionViewCell.exists {
             galleryCollectionViewCell.forceTapElement()
         }
-        let galleryNavBar = app.navigationBars["All Photos"]
-        let btnSelect1     = galleryNavBar.buttons["Select(1)"]
-        
-        btnSelect1.tap()
-        
+        let btnDoneGallery = app.buttons["Done"]
+        btnDoneGallery.tap()
         sleep(2)
     }
     
@@ -530,10 +572,8 @@ class EmogoCameraVCUITests: XCTestCase {
         if galleryCollectionViewCell.exists {
             galleryCollectionViewCell.forceTapElement()
         }
-        let galleryNavBar = app.navigationBars["All Photos"]
-        let btnSelect1     = galleryNavBar.buttons["Select(1)"]
-        
-        btnSelect1.tap()
+        let btnDoneGallery = app.buttons["Done"]
+        btnDoneGallery.tap()
         
         XCTAssertTrue( (collectionView.allElementsBoundByAccessibilityElement.count == 2 ), "Collection view does not have 2 images as expected!")
         

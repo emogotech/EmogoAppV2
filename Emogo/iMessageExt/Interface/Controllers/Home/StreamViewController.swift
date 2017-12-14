@@ -276,10 +276,9 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
         
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+        obj.arrContentData = (objStream?.arrayContent)!
         self.addRippleTransition()
-        obj.currentStreamIndex = currentStreamIndex
         obj.currentContentIndex  = indexPath.row
-        obj.arrStream = arrStream
         self.present(obj, animated: false, completion: nil)
     }
     

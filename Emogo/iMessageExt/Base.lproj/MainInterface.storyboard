@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -1106,7 +1106,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o0u-Q0-02M">
                                                     <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food1" translatesAutoresizingMaskIntoConstraints="NO" id="Qid-Sv-vxh">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Collaborator0" translatesAutoresizingMaskIntoConstraints="NO" id="Qid-Sv-vxh">
                                                             <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FOOD 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmx-kh-WjD">
@@ -1229,36 +1229,11 @@ Content</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Emogo Stream" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vow-g8-8LG">
-                                        <rect key="frame" x="48" y="4" width="224" height="32"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="xBJ-z4-Lx3"/>
-                                        </constraints>
+                                        <rect key="frame" x="0.0" y="2" width="320" height="33"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IsN-RM-foG">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="Duq-1h-KUd"/>
-                                            <constraint firstAttribute="height" constant="40" id="QZb-jp-zZj"/>
-                                        </constraints>
-                                        <state key="normal" image="back-icon"/>
-                                        <connections>
-                                            <action selector="btnPreviousStreamAction:" destination="DDU-wj-KnI" eventType="touchUpInside" id="PFD-e9-eYm"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itg-23-qIy">
-                                        <rect key="frame" x="280" y="0.0" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="E30-vz-tzf"/>
-                                            <constraint firstAttribute="height" constant="40" id="yaE-W1-td8"/>
-                                        </constraints>
-                                        <state key="normal" image="next-icon"/>
-                                        <connections>
-                                            <action selector="btnNextStreamAction:" destination="DDU-wj-KnI" eventType="touchUpInside" id="1Jz-HB-PjH"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wa7-fm-1ll">
                                         <rect key="frame" x="0.0" y="37" width="320" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1274,18 +1249,11 @@ Content</string>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="wa7-fm-1ll" secondAttribute="bottom" constant="2" id="5fH-aw-b8B"/>
                                     <constraint firstItem="wa7-fm-1ll" firstAttribute="leading" secondItem="LbP-LY-0mf" secondAttribute="leading" id="GDQ-0O-gZg"/>
-                                    <constraint firstItem="itg-23-qIy" firstAttribute="leading" secondItem="vow-g8-8LG" secondAttribute="trailing" constant="8" id="HVE-ng-Fr9"/>
-                                    <constraint firstAttribute="bottom" secondItem="itg-23-qIy" secondAttribute="bottom" id="T55-Ty-9YN"/>
+                                    <constraint firstAttribute="trailing" secondItem="vow-g8-8LG" secondAttribute="trailing" id="Kb8-Kx-w23"/>
+                                    <constraint firstItem="vow-g8-8LG" firstAttribute="top" secondItem="LbP-LY-0mf" secondAttribute="top" constant="2" id="McR-CB-Bet"/>
                                     <constraint firstAttribute="trailing" secondItem="wa7-fm-1ll" secondAttribute="trailing" id="Z2V-YI-eyU"/>
-                                    <constraint firstItem="vow-g8-8LG" firstAttribute="top" secondItem="LbP-LY-0mf" secondAttribute="top" constant="4" id="Z7w-Df-73F"/>
-                                    <constraint firstItem="IsN-RM-foG" firstAttribute="leading" secondItem="LbP-LY-0mf" secondAttribute="leading" id="aqu-3O-h0K"/>
-                                    <constraint firstItem="IsN-RM-foG" firstAttribute="top" secondItem="LbP-LY-0mf" secondAttribute="top" id="bgC-bH-x8E"/>
-                                    <constraint firstAttribute="trailing" secondItem="itg-23-qIy" secondAttribute="trailing" id="gMG-34-xg9"/>
-                                    <constraint firstItem="vow-g8-8LG" firstAttribute="leading" secondItem="IsN-RM-foG" secondAttribute="trailing" constant="8" id="gaf-8R-fv2"/>
-                                    <constraint firstAttribute="bottom" secondItem="IsN-RM-foG" secondAttribute="bottom" id="jHB-0o-Qas"/>
-                                    <constraint firstItem="itg-23-qIy" firstAttribute="top" secondItem="LbP-LY-0mf" secondAttribute="top" id="k37-Dn-iK5"/>
-                                    <constraint firstItem="wa7-fm-1ll" firstAttribute="top" secondItem="vow-g8-8LG" secondAttribute="bottom" constant="1" id="oaT-e6-aQx"/>
-                                    <constraint firstItem="wa7-fm-1ll" firstAttribute="top" secondItem="vow-g8-8LG" secondAttribute="bottom" constant="1" id="sIW-UQ-DSD"/>
+                                    <constraint firstItem="vow-g8-8LG" firstAttribute="leading" secondItem="LbP-LY-0mf" secondAttribute="leading" id="ier-ax-dDE"/>
+                                    <constraint firstItem="wa7-fm-1ll" firstAttribute="top" secondItem="vow-g8-8LG" secondAttribute="bottom" constant="2" id="kiu-cK-SgT"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="joA-H8-5F9">
@@ -1309,7 +1277,7 @@ Content</string>
                                             <constraint firstItem="3Ve-fs-dWQ" firstAttribute="leading" secondItem="smC-SE-zm5" secondAttribute="leading" id="wRa-R2-JzL"/>
                                         </constraints>
                                     </view>
-                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food1" translatesAutoresizingMaskIntoConstraints="NO" id="Nx8-M5-gcS">
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Collaborator0" translatesAutoresizingMaskIntoConstraints="NO" id="Nx8-M5-gcS">
                                         <rect key="frame" x="0.0" y="11" width="320" height="475"/>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gradient-iMessage" translatesAutoresizingMaskIntoConstraints="NO" id="fhi-fs-DcP">
@@ -1475,8 +1443,6 @@ Content</string>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="528"/>
                     <connections>
-                        <outlet property="btnNextStream" destination="itg-23-qIy" id="iFJ-fT-LYx"/>
-                        <outlet property="btnPreviousStream" destination="IsN-RM-foG" id="3Yk-Lq-w92"/>
                         <outlet property="contentProgressView" destination="3Ve-fs-dWQ" id="YA1-cK-mCk"/>
                         <outlet property="imgGradient" destination="fhi-fs-DcP" id="I9n-fF-wha"/>
                         <outlet property="imgStream" destination="Nx8-M5-gcS" id="bAU-4p-qGB"/>
@@ -1618,6 +1584,7 @@ Content</string>
         </scene>
     </scenes>
     <resources>
+        <image name="Collaborator0" width="226" height="246"/>
         <image name="Collaborator1" width="112" height="112"/>
         <image name="ProfileDeselected" width="56" height="56"/>
         <image name="addContent" width="24" height="24"/>
@@ -1632,7 +1599,6 @@ Content</string>
         <image name="done-btn" width="137" height="45"/>
         <image name="edit-stream" width="24" height="24"/>
         <image name="emogo-logo-img" width="89" height="23"/>
-        <image name="food1" width="426" height="240"/>
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
         <image name="gradient" width="144" height="36"/>
         <image name="gradient-iMessage" width="320" height="114"/>

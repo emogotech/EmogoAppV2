@@ -15,9 +15,6 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblStreamTitle       : UILabel!
     @IBOutlet weak var lblStreamName        : UILabel!
     @IBOutlet weak var lblStreamDesc        : UILabel!
-
-    @IBOutlet weak var btnNextStream        : UIButton!
-    @IBOutlet weak var btnPreviousStream    : UIButton!
     
     @IBOutlet  weak var contentProgressView : UIProgressView!
     
@@ -26,13 +23,10 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var viewAction           : UIView!
     @IBOutlet weak var viewAddStream        : UIView!
-
     
     // MARK: - Variables
-    var arrStream                           = [StreamDAO]()
-    var arrContentData                      : NSMutableArray!
-    var currentStreamIndex                  : Int!
     var currentContentIndex                 : Int!
+    var arrContentData                      = [ContentDAO]()
     
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
@@ -71,13 +65,6 @@ class StreamContentViewController: MSMessagesAppViewController {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         imgStream.addGestureRecognizer(swipeLeft)
-        
-        if currentStreamIndex == 0 {
-            btnPreviousStream.isEnabled = false
-        }
-        if currentStreamIndex == arrStream.count-1 {
-            btnNextStream.isEnabled = false
-        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -117,54 +104,26 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     //MARK: - Load Data in UI
     func loadViewForUI(){
-        let stream = self.arrStream[currentStreamIndex]
-        self.lblStreamTitle.text = stream.Title
+        let content = self.arrContentData[currentContentIndex]
+        self.lblStreamName.text = content.name.trim().capitalized
         
-        let tempDict = self.arrContentData.object(at: currentContentIndex) as! NSMutableDictionary
-        debugPrint(tempDict)
-        imgStream.image = UIImage(named: tempDict.object(forKey: "img") as! String)
-        lblStreamName.text = tempDict.object(forKey: "titleName") as? String
-        lblStreamDesc.text = (tempDict.object(forKey: "titleDescription") as! String)
+        if content.type == "Picture" {
+            self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+        }else{
+            if !content.coverImage.isEmpty {
+                let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
+                    self.imgStream.image = image
+                }
+            }
+        }
         
+        lblStreamDesc.text = content.description.trim().capitalized
         let currenProgressValue = Float(currentContentIndex)/Float(arrContentData.count-1)
         contentProgressView.setProgress(currenProgressValue, animated: true)
     }
     
-    //MARK: - Enable/Disable - Next/Previous Button
-    func btnEnableDisable() {
-        if currentStreamIndex ==  0 {
-            btnPreviousStream.isEnabled = false
-        }
-        else {
-            btnPreviousStream.isEnabled = true
-        }
-        if currentStreamIndex ==  arrStream.count-1 {
-            btnNextStream.isEnabled = false
-        }
-        else {
-            btnNextStream.isEnabled = true
-        }
-    }
-    
     //MARK: - Action Methods
-    @IBAction func btnNextStreamAction(_ sender:UIButton){
-        if(currentStreamIndex < arrStream.count-1) {
-            currentStreamIndex = currentStreamIndex + 1
-        }
-        currentContentIndex = 0
-        btnEnableDisable()
-        loadViewForUI()
-    }
-    
-    @IBAction func btnPreviousStreamAction(_ sender:UIButton){
-        if currentStreamIndex != 0 {
-            currentStreamIndex =  currentStreamIndex - 1
-        }
-        currentContentIndex = 0
-        btnEnableDisable()
-        loadViewForUI()
-    }
-    
     @IBAction func btnAddStreamContent(_ sender:UIButton){
         let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
         SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
@@ -175,7 +134,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnsendAction(_ sender:UIButton){
-        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+        if(SharedData.sharedInstance.isMessageWindowExpand){
+            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+        }
         self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
     }
     
