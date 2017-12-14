@@ -39,14 +39,20 @@ class HomeViewController: MSMessagesAppViewController {
     
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     
-    // MARK:- Life-cycle methods
+    // MARK:- Life-cycle method	s
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        streamType  = StreamType.featured
         setupLoader()
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: iMsgNotificationReloadContenData), object: nil)
+        
+    }
+    
+    @objc func reloadStreamData(){
+         self.getStreamList(type:.start,filter:self.streamType)
     }
     
     // MARK:- prepareLayout
@@ -115,7 +121,8 @@ class HomeViewController: MSMessagesAppViewController {
     func setupCollectionProperties() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2-15, height: 100)
+        layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2 - 12.0)
+       
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 10
         collectionStream!.collectionViewLayout = layout

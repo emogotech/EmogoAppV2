@@ -19,6 +19,9 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnNextStream        : UIButton!
     @IBOutlet weak var btnPreviousStream    : UIButton!
     @IBOutlet weak var btnCollaborator      : UIButton!
+    @IBOutlet weak var btnEdit              : UIButton!
+    @IBOutlet weak var btnDelete            : UIButton!
+
 
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
@@ -140,10 +143,16 @@ class StreamViewController: MSMessagesAppViewController {
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
+        btnEdit.isHidden = true
+        btnDelete.isHidden = true
         if objStream?.arrayColab.count != 0 {
             lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
             btnCollaborator.isUserInteractionEnabled = true
             lblCount.isHidden = false
+        }
+        if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
+            btnEdit.isHidden = false
+            btnDelete.isHidden = false
         }
     }
     
@@ -170,6 +179,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
     }
     
     func nextImageLoad(){
@@ -204,6 +214,27 @@ class StreamViewController: MSMessagesAppViewController {
         obj.strTitle = "Collaborator List"
         obj.arrCollaborator = objStream?.arrayColab
         self.present(obj, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnDeleteStream(_ sender:UIButton) {
+        let stream = self.arrStream[currentStreamIndex]
+        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                self.arrStream.remove(at: self.currentStreamIndex)
+                StreamList.sharedInstance.arrayStream.remove(at:self.currentStreamIndex)
+                if(self.arrStream.count == 0){
+                    self.dismiss(animated: true, completion: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+                    return
+                }
+                if(self.currentStreamIndex != 0){
+                    self.currentStreamIndex = self.currentStreamIndex - 1
+                }
+               
+            } else {
+                self.showToastIMsg(type: .success, strMSG: errorMsg!)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -283,3 +314,4 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
 }
+
