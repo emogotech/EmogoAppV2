@@ -210,7 +210,7 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields).data
 
     def get_contents(self, obj):
-        fields = ('name', 'url', 'type', 'description', 'created_by')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by')
         return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
@@ -269,10 +269,11 @@ class ViewContentSerializer(ContentSerializer):
     """
     This serializer is used to show Content view section
     """
-    stream = serializers.SerializerMethodField()
-
-    def get_stream(self, obj):
-        try:
-            return obj.stream.name
-        except AttributeError:
-            return None
+    pass
+    # streams = serializers.SerializerMethodField()
+    #
+    # def get_stream(self, obj):
+    #     try:
+    #         return obj.stream.name
+    #     except AttributeError:
+    #         return None

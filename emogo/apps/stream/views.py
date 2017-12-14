@@ -169,8 +169,9 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
-        serializer.create(serializer.validated_data)
-        return custom_render_response(status_code=status.HTTP_201_CREATED, data={})
+        instances = serializer.create(serializer.validated_data)
+        serializer = ViewContentSerializer(instances, many=True ,fields=('id', 'type', 'name', 'url', 'description'))
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
         """

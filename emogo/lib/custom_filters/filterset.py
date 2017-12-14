@@ -13,9 +13,9 @@ class StreamFilter(django_filters.FilterSet):
         fields = ['featured', 'emogo', 'my_stream', 'popular']
 
     def filter_my_stream(self, qs, name, value):
-        return qs.filter(Q(created_by=self.request.user) | Q(collaborator_list__phone_number=self.request.user.username) |\
-            Q(collaborator_list__can_add_content=True)).distinct().order_by('-view_count')
-
+        return qs.filter(created_by = self.request.user)
+        # return qs.filter(collaborator_list__phone_number=self.request.user.username).filter(collaborator_list__can_add_content=True)
+        # | Q(created_by=self.request.user) ).distinct().order_by('-view_count')
 
     def filter_popular(self, qs, name, value):
         return qs.filter(

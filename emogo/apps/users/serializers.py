@@ -164,8 +164,10 @@ class UserLoginSerializer(UserSerializer):
         user = authenticate(username=self.validated_data.get('username'), password=settings.DEFAULT_PASSWORD)
         try:
             user_profile = UserProfile.objects.get(user=user)
-            user.auth_token.delete()
-            Token.objects.create(user=user)
+            if hasattr(user, 'auth_token'):
+                user.auth_token.delete()
+            token = Token.objects.create(user=user)
+            token.save()
         except UserProfile.DoesNotExist:
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
