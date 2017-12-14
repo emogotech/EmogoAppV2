@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func executeDeepLink(with url: URL) -> Bool {
         let splitStr = "\(url)"
         let splitArr = splitStr.components(separatedBy: "/") as [String]
+        print(splitArr)
         if (splitArr.last) != nil {
             if splitArr.last == kDeepLinkTypeProfile as String{
                 return setTypeOfViewController(objType: kDeepLinkTypeProfile)
@@ -62,6 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             else if splitArr.last == kDeepLinkTypeAddContent as String {
                 return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
+            }else if splitArr.last == kDeepLinkTypeEditContent as String {
+                SharedData.sharedInstance.streamID = splitArr[3]
+                print(SharedData.sharedInstance.streamID)
+                return setTypeOfViewController(objType: kDeepLinkTypeEditContent)
             }
             return false
         }
@@ -77,6 +82,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddStream
          }else if objType == kDeepLinkTypeAddContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddContent
+        }else if objType == kDeepLinkTypeEditContent {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditContent
         }
         self.prepareViewController()
 

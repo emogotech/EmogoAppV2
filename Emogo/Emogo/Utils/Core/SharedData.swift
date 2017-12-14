@@ -20,6 +20,7 @@ class SharedData: NSObject {
     var isMoreContentAvailable : Bool = false
     var deepLinkType : String = ""
     var savedConversation: MSConversation?
+    var streamID:String = ""
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {

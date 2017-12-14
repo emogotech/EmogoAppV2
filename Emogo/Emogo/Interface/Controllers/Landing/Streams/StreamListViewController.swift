@@ -55,14 +55,19 @@ class StreamListViewController: UIViewController {
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
+        
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent{
+            let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+            obj.streamID = SharedData.sharedInstance.streamID
+            self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
       self.prepareLayoutForApper()
     }
-    
-    
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){

@@ -120,6 +120,7 @@ let kDeepLinkTypeProfile = "Profile"
 let kDeepLinkTypePeople = "People"
 let kDeepLinkTypeAddStream = "AddStream"
 let kDeepLinkTypeAddContent = "AddStreamContent"
+let kDeepLinkTypeEditContent = "editStreamContent"
 
 
 // MARK: -  AlertMessage
