@@ -2,7 +2,7 @@ import django_filters
 from emogo.apps.stream.models import Stream
 from emogo.apps.users.models import UserProfile
 from django.db.models import Q
-
+from itertools import chain
 
 class StreamFilter(django_filters.FilterSet):
     my_stream = django_filters.filters.BooleanFilter(method='filter_my_stream')
@@ -13,9 +13,15 @@ class StreamFilter(django_filters.FilterSet):
         fields = ['featured', 'emogo', 'my_stream', 'popular']
 
     def filter_my_stream(self, qs, name, value):
-        return qs.filter(created_by = self.request.user)
-        # return qs.filter(collaborator_list__phone_number=self.request.user.username).filter(collaborator_list__can_add_content=True)
-        # | Q(created_by=self.request.user) ).distinct().order_by('-view_count')
+        # Get self created streams
+        owner_qs = qs.filter(created_by=self.request.user).distinct()
+
+        # Get streams user as collaborator and has add content permission
+        collaborator_permission = qs.filter(collaborator_list__phone_number=self.request.user.username, collaborator_list__can_add_content=True).distinct()
+
+        # merge result
+        result_list = list(chain(owner_qs,collaborator_permission))
+        return result_list
 
     def filter_popular(self, qs, name, value):
         return qs.filter(
