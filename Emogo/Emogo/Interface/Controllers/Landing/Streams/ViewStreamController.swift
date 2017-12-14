@@ -15,7 +15,8 @@ class ViewStreamController: UIViewController {
     
     // Varibales
     private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
-    var stream:StreamDAO!
+    var currentIndex = 0
+    var streamType:String! 
     var objStream:StreamViewDAO?
     // MARK: - Override Functions
     
@@ -32,10 +33,9 @@ class ViewStreamController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.title = self.stream.Title.trim().capitalized
-        self.configureNavigationWithTitle()
-        
+       self.prepareNavigation()
     }
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
        
@@ -54,41 +54,107 @@ class ViewStreamController: UIViewController {
         }
         viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
-            self.getStream()
+           let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+            self.getStream(currentStream:stream )
+    }
+    
+    func prepareNavigation(){
+        
+        self.title = streamType
+        self.configureNavigationTite()
+        // Cancel Button
+
+        let img1 = UIImage(named: "stream_cross_icon")
+        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
+        
+        // next Button
+        let img = UIImage(named: "forward_icon")
+        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
+        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
+        // previous Button
+        let imgP = UIImage(named: "back_icon")
+        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnPreviousAction))
+        self.navigationItem.leftBarButtonItem = btnback
+        
     }
     
     // MARK: -  Action Methods And Selector
     @objc func deleteStreamAction(sender:UIButton){
-        
-        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
+        let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete Stream?", preferredStyle: .alert)
+        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+           self.deleteStream()
+        }
+        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+    }
+    
+   @objc func editStreamAction(sender:UIButton){
+    if self.objStream != nil {
+        let obj:AddStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+        obj.streamID = self.objStream?.streamID
+        self.navigationController?.push(viewController: obj)
+    }
+}
+
+   @objc  func btnNextAction(){
+     self.currentIndex += 1
+    self.prepareList()
+    }
+    @objc  func btnPreviousAction(){
+        self.currentIndex -= 1
+        self.prepareList()
+    }
+    
+    @objc  func btnCancelAction(){
+        self.navigationController?.pop()
+    }
+    
+    // MARK: - Class Methods
+
+    func prepareList(){
+        print("index---->\(self.currentIndex)")
+        if self.currentIndex <= 0 {
+            return
+        }
+        if StreamList.sharedInstance.arrayStream.count > self.currentIndex  {
+            let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+            self.getStream(currentStream:stream )
+        }else {
+            self.currentIndex  =  StreamList.sharedInstance.arrayStream.count
+        }
+    }
+    
+    // MARK: - API Methods
+
+    func getStream(currentStream:StreamDAO){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStream.ID) { (stream, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
-                
-                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == self.stream.ID.trim() }) {
-                    StreamList.sharedInstance.arrayStream.remove(at: i)
-                }
-                self.navigationController?.pop()
+                self.objStream = stream
+                self.viewStreamCollectionView.reloadData()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
     }
     
-   @objc func editStreamAction(sender:UIButton){
-        
-    }
-
-    // MARK: - Class Methods
-
-    
-    // MARK: - API Methods
-
-    func getStream(){
+    func deleteStream(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.stream.ID) { (stream, errorMsg) in
+        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
+
             if (errorMsg?.isEmpty)! {
-                self.objStream = stream
-                self.viewStreamCollectionView.reloadData()
+                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == stream.ID.trim() }) {
+                    StreamList.sharedInstance.arrayStream.remove(at: i)
+                }
+                self.prepareList()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -162,26 +228,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
             self.navigationController?.push(viewController: obj)
         }else {
-            SharedData.sharedInstance.downloadFile(strURl: (content?.coverImage)!, handler: { (image, type) in
-                
-            })
-            /*
-            var image = UIImage(named: "")
-            if content?.type == "Picture" {
-            }else {
-                
-            }
-            GalleryDAO.sharedInstance.streamID = objStream?.streamID
-            let objImage = ImageDAO(type: .image, image: image!)
-            objImage.title = content?.name
-            objImage.description = content?.description
-            objImage.fileName = content?.coverImage.getName()
-            GalleryDAO.sharedInstance.Images.removeAll()
-            GalleryDAO.sharedInstance.Images.append(objImage)
-            let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            self.navigationController?.pushNormal(viewController: objPreview)
- */
-         
+            let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+             obj.objContent = content
+            self.navigationController?.push(viewController: obj)
+
         }
     }
     

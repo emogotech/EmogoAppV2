@@ -15,6 +15,8 @@ class AddCollaboratorsViewController: UIViewController {
 
     // Varibales
     var arrayCollaborators = [CollaboratorDAO]()
+    var arraySelected:[CollaboratorDAO]?
+    
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ class AddCollaboratorsViewController: UIViewController {
 
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        print(self.arraySelected)
         self.getContacts()
     }
     
@@ -90,7 +93,7 @@ class AddCollaboratorsViewController: UIViewController {
         
         for contact in cnContacts {
             let fullName = CNContactFormatter.string(from: contact, style: .fullName) ?? "No Name"
-            var img:UIImage!
+                var img:UIImage!
             if let contactImageData = contact.imageData {
                 img = UIImage(data: contactImageData)
             }
@@ -107,8 +110,13 @@ class AddCollaboratorsViewController: UIViewController {
                 print(phone)
             }
         
-            let dict = ["name":fullName,"phone_number":phone]
+            let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
             let collaborator = CollaboratorDAO(colabData: dict)
+            if self.arraySelected != nil {
+                if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim()}))! {
+                    collaborator.isSelected = true
+                }
+            }
             self.arrayCollaborators.append(collaborator)
         }
         DispatchQueue.main.async {
@@ -116,6 +124,8 @@ class AddCollaboratorsViewController: UIViewController {
         }
     
     }
+    
+   
 }
 
 

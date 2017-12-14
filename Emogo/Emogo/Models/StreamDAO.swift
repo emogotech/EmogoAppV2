@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 
 enum StreamType:String{
-    case populer = "1"
-    case myStream = "2"
-    case featured = "3"
-    case emogoStreams = "4"
+    case populer = "Populer"
+    case myStream = "My Stream"
+    case featured = "Featured Stream"
+    case emogoStreams = "Emogo Stream"
 }
 
 
@@ -23,7 +23,7 @@ class StreamDAO {
     var Title:String! = ""
     var CoverImage:String! = ""
     var IDcreatedBy:String! = ""
-
+    var isSelected:Bool! = false
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {
             self.Title = obj as! String
@@ -145,6 +145,7 @@ class StreamViewDAO{
             }
         }
         if let obj  = streamData["contents"] {
+        print(obj)
             let objContent:[Any] = obj as! [Any]
             for value in objContent {
                 let dict:NSDictionary = value as! NSDictionary
@@ -180,13 +181,14 @@ class StreamViewDAO{
 }
 
 class ContentDAO{
-   
+    
     var contentID:String! = ""
     var name:String! = ""
     var coverImage:String! = ""
     var type:String! = ""
     var isAdd:Bool! = false
     var description:String! = ""
+    var createdBy:String! = ""
 
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
@@ -203,6 +205,9 @@ class ContentDAO{
         }
         if let obj  = contentData["description"] {
             self.description = obj as! String
+        }
+        if let obj  = contentData["created_by"] {
+            self.createdBy = "\(obj)"
         }
     }
 }

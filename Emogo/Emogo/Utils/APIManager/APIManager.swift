@@ -29,7 +29,7 @@ class APIManager: NSObject {
         return Static.instance
     }
     
-    // MARK: - REQUEST WITH HEADER
+    // MARK: - POST REQUEST
     func POSTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         
@@ -53,41 +53,13 @@ class APIManager: NSObject {
         }
     }
     
-    func GETRequestWithHeader(strURL: String, callback: ((ApiResult<Any, Error>) -> Void)?) {
-        self.completionHandler = callback
-        var url = "\(kBaseURL)\(strURL)"
-        if strURL.contains(kBaseURL) {
-            url = strURL
-        }
-        print(url)
-        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
-        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
-            switch response.result {
-            case .success(let value):
-                let dict:[String:Any] = value as! [String : Any]
-                callback!(.success(dict))
-                break
-            case .failure(let error):
-                // TODO deal with error
-                print(error.localizedDescription)
-                if response.response != nil {
-                    let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
-                    if statusCode == 401 {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
-                    }
-                }
-                    
-                callback!(.error(error))
-            }
-        }
-    }
     
-    func PUTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?){
+    func POSTRequest(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
-        let headers : HTTPHeaders = ["Authorization" :"Token "]
-        Alamofire.request(url, method: .put, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+        print(url)
+        //   let headers : HTTPHeaders = ["Content-Type" : "application/json"]
+        Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
@@ -97,18 +69,15 @@ class APIManager: NSObject {
                 // TODO deal with error
                 print(error.localizedDescription)
                 if response.response != nil {
-                    let statusCode = (response.response?.statusCode)! //example : 200
+                    let statusCode = (response.response?.statusCode)!
                     print(statusCode)
-                    if statusCode == 401 {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
-                    }
                 }
                 callback!(.error(error))
             }
         }
     }
     
-    //MARK :- Upload Image to server
+    
     func POSTImageWith(strURL: String,img:UIImage ,callback: ((ApiResult<Any, Error>) -> Void)?){
         self.completionHandler = callback
         let parameters = [
@@ -152,55 +121,6 @@ class APIManager: NSObject {
         }
     }
     
-        
-    // MARK: - REQUEST WITHOUT HEADER
-    func POSTRequest(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
-        self.completionHandler = callback
-        let url = "\(kBaseURL)\(strURL)"
-        print(url)
-        //   let headers : HTTPHeaders = ["Content-Type" : "application/json"]
-        Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                let dict:[String:Any] = value as! [String : Any]
-                callback!(.success(dict))
-                break
-            case .failure(let error):
-                // TODO deal with error
-                print(error.localizedDescription)
-                if response.response != nil {
-                    let statusCode = (response.response?.statusCode)!
-                    print(statusCode)
-                }
-                callback!(.error(error))
-            }
-        }
-    }
-    
-    func GETRequest(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
-        self.completionHandler = callback
-        let url = "\(kBaseURL)\(strURL)"
-        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default).responseJSON { response in
-            switch response.result {
-            case .success(let value):
-                let dict:[String:Any] = value as! [String : Any]
-                callback!(.success(dict))
-                break
-            case .failure(let error):
-                // TODO deal with error
-                print(error.localizedDescription)
-                if response.response != nil {
-                    let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
-                    if statusCode == 401 {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
-                    }
-                }
-                callback!(.error(error))
-            }
-            
-        }
-    }
     
     // Post Param as Array
     
@@ -211,7 +131,7 @@ class APIManager: NSObject {
         //some header examples
         request.httpMethod = "POST"
         request.setValue("Token \(UserDAO.sharedInstance.user.token!)",
-                         forHTTPHeaderField: "Authorization")
+            forHTTPHeaderField: "Authorization")
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -240,6 +160,129 @@ class APIManager: NSObject {
         }
     }
     
+    
+    
+    // MARK: - GET REQUEST
+
+    
+    func GETRequestWithHeader(strURL: String, callback: ((ApiResult<Any, Error>) -> Void)?) {
+        self.completionHandler = callback
+        var url = "\(kBaseURL)\(strURL)"
+        if strURL.contains(kBaseURL) {
+            url = strURL
+        }
+        print(url)
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
+        Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                callback!(.success(dict))
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)! //example : 200
+                    print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
+                }
+                    
+                callback!(.error(error))
+            }
+        }
+    }
+    
+    // Get Request
+    
+    func GETRequest(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
+        self.completionHandler = callback
+        let url = "\(kBaseURL)\(strURL)"
+        Alamofire.request(url, method: .get, parameters: nil, encoding: URLEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                callback!(.success(dict))
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)! //example : 200
+                    print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
+                }
+                callback!(.error(error))
+            }
+            
+        }
+    }
+    
+    
+    
+    func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){
+        
+        Alamofire.request(kGetCountryCode,encoding: JSONEncoding.default).responseJSON { response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                print(dict)
+                guard let code = dict["country_code"] else {
+                    completionHandler("")
+                    return
+                }
+                completionHandler("\(code)")
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)!
+                    print(statusCode)
+                }
+                completionHandler("")
+            }
+        }
+        
+    }
+    
+    
+    
+    // MARK: - PUT REQUEST
+
+    func PUTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?){
+        self.completionHandler = callback
+        let url = "\(kBaseURL)\(strURL)"
+        let headers : HTTPHeaders = ["Authorization" :"Token "]
+        Alamofire.request(url, method: .put, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+            switch response.result {
+            case .success(let value):
+                let dict:[String:Any] = value as! [String : Any]
+                callback!(.success(dict))
+                break
+            case .failure(let error):
+                // TODO deal with error
+                print(error.localizedDescription)
+                if response.response != nil {
+                    let statusCode = (response.response?.statusCode)! //example : 200
+                    print(statusCode)
+                    if statusCode == 401 {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
+                    }
+                }
+                callback!(.error(error))
+            }
+        }
+    }
+    
+  
+    // MARK: - DELETE REQUEST
+
+   
     func delete(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
         let url = "\(kBaseURL)\(strURL)"
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
@@ -265,9 +308,12 @@ class APIManager: NSObject {
         }
     }
     
-    
+    // MARK: - PATCH REQUEST
+
     func patch(params:[Any],strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?){
         //creates the request
+        print(params)
+        self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
         var request = URLRequest(url: try! url.asURL())
         //some header examples
@@ -302,20 +348,16 @@ class APIManager: NSObject {
         }
     }
     
-    // MARK: - Get Country Code
-
-    func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){
+    func patch(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
+        self.completionHandler = callback
         
-        Alamofire.request(kGetCountryCode,encoding: JSONEncoding.default).responseJSON { response in
+        let url = "\(kBaseURL)\(strURL)"
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
+        Alamofire.request(url, method: .patch, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
-                print(dict)
-                guard let code = dict["country_code"] else {
-                    completionHandler("")
-                    return
-                }
-                completionHandler("\(code)")
+                callback!(.success(dict))
                 break
             case .failure(let error):
                 // TODO deal with error
@@ -324,9 +366,9 @@ class APIManager: NSObject {
                     let statusCode = (response.response?.statusCode)!
                     print(statusCode)
                 }
-                completionHandler("")
+                callback!(.error(error))
             }
         }
-
     }
+    
 }

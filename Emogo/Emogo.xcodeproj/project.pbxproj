@@ -167,6 +167,10 @@
 		F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2E1FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.m */; };
 		F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
+		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
+		F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */; };
+		F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */; };
+		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612DA1FD69AFE00788FFE /* AGImageChain.swift */; };
@@ -473,6 +477,10 @@
 		F4148A331FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHSPhoneNumberFormatter+UserConfig.h"; sourceTree = "<group>"; };
 		F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSPhoneTextField.m; sourceTree = "<group>"; };
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
+		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
+		F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
+		F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
+		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
 		F43612DA1FD69AFE00788FFE /* AGImageChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGImageChain.swift; sourceTree = "<group>"; };
@@ -936,6 +944,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F41C3ADE1FE13A90009CD942 /* BadgeButton */,
 				F403764A1FDE9F6B0007C696 /* Progress Bar */,
 				F4402F6F1FCD917900152D01 /* TextField */,
 				33BCB0401FBB353E004FF634 /* PMButton.swift */,
@@ -1256,6 +1265,8 @@
 				F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */,
 				F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */,
 				F404C06A1FDA951D00E8ACC2 /* StreamViewHeader.swift */,
+				F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */,
+				F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */,
 				F404C06B1FDA951D00E8ACC2 /* StreamViewHeader.xib */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
 			);
@@ -1286,6 +1297,14 @@
 				F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */,
 			);
 			path = PhoneValidation;
+			sourceTree = "<group>";
+		};
+		F41C3ADE1FE13A90009CD942 /* BadgeButton */ = {
+			isa = PBXGroup;
+			children = (
+				F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */,
+			);
+			path = BadgeButton;
 			sourceTree = "<group>";
 		};
 		F43612D91FD69AC700788FFE /* ImageFilter */ = {
@@ -1391,6 +1410,7 @@
 				F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */,
 				F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */,
 				F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */,
+				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -1702,6 +1722,7 @@
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4431A9C1FC6DD2C00311C9A /* PhotoCropEditorBorder@3x.png in Resources */,
+				F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F404C0B01FDABAF400E8ACC2 /* Info.plist in Resources */,
@@ -2039,6 +2060,7 @@
 				F4431AAD1FC6DD2C00311C9A /* UIImage+Crop.swift in Sources */,
 				F4431AAE1FC6DD2C00311C9A /* UIImage+Size.swift in Sources */,
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
+				F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F404C0C91FDABAF400E8ACC2 /* BasePreprocessor.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
@@ -2072,6 +2094,7 @@
 				F404C0D61FDABAF500E8ACC2 /* HeroDebugView.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F404C0CF1FDABAF400E8ACC2 /* SourcePreprocessor.swift in Sources */,
+				F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F4431A9F1FC6DD2C00311C9A /* PhotoEditor+Drawing.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
@@ -2105,6 +2128,7 @@
 				F404C0BE1FDABAF400E8ACC2 /* HeroTransition+Interactive.swift in Sources */,
 				F4431A921FC6DD2C00311C9A /* CropView.swift in Sources */,
 				F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */,
+				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F404C0BA1FDABAF400E8ACC2 /* HeroProgressRunner.swift in Sources */,
 				F404C0BB1FDABAF400E8ACC2 /* HeroTransition+Animate.swift in Sources */,
 				F404C0BF1FDABAF400E8ACC2 /* HeroTransition+Start.swift in Sources */,

@@ -15,6 +15,7 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var btnCollab: MIBadgeButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +29,7 @@ class StreamViewHeader: UICollectionViewCell {
         guard let objStream = stream  else {
             return
         }
+        btnCollab.badgeString = "\(objStream.arrayColab.count)"
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
         self.imgCover.setImageWithURL(strImage: objStream.coverImage, placeholder: "stream-card-placeholder")

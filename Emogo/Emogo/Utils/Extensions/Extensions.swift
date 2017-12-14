@@ -274,6 +274,21 @@ extension UIViewController {
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
         self.navigationItem.leftBarButtonItem = btnback
     }
+    
+    func configureNavigationTite(){
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+    }
+    
     @objc func btnMyProfileAction(){
         
     }
