@@ -362,9 +362,13 @@ class APIServiceManager: NSObject {
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {
                                 StreamList.sharedInstance.requestURl = ""
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+
                                 completionHandler(.end,"")
                             }else {
                                 StreamList.sharedInstance.requestURl = obj as! String
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+
                                 completionHandler(.down,"")
                             }
                         }

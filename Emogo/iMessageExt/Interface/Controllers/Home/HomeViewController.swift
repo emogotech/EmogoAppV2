@@ -613,7 +613,8 @@ extension HomeViewController : UIScrollViewDelegate {
                 DispatchQueue.main.async {
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
-                self.getStreamList(type:.start,filter:self.streamType)
+                
+                self.getStreamList(type:.down,filter:self.streamType)
             }
         }
     }
