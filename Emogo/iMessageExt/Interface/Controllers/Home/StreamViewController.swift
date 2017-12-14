@@ -216,6 +216,12 @@ class StreamViewController: MSMessagesAppViewController {
         self.present(obj, animated: true, completion: nil)
     }
     
+    @IBAction func btnEditStream(_ sender:UIButton) {
+        let stream = self.arrStream[currentStreamIndex]
+        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditContent)"
+        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+    }
+    
     @IBAction func btnDeleteStream(_ sender:UIButton) {
         let stream = self.arrStream[currentStreamIndex]
         APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in

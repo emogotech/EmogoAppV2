@@ -465,7 +465,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="18"/>
+                                        <rect key="frame" x="88" y="10" width="144.5" height="18"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="18" id="kFK-Tg-Dm9"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="141" id="zHn-up-qf6"/>
@@ -1127,6 +1127,9 @@
                                             <constraint firstAttribute="width" secondItem="yVt-Si-e3G" secondAttribute="height" multiplier="1:1" id="m19-EL-Tp7"/>
                                         </constraints>
                                         <state key="normal" image="edit-stream"/>
+                                        <connections>
+                                            <action selector="btnEditStream:" destination="z62-HT-68H" eventType="touchUpInside" id="hiE-ya-e6P"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
