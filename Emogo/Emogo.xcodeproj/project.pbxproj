@@ -99,6 +99,9 @@
 		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
 		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
 		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
+		F401DFB21FE2964B00BD7DDA /* LinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFB11FE2964B00BD7DDA /* LinkViewController.swift */; };
+		F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */; };
+		F401DFB61FE2967B00BD7DDA /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */; };
 		F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F403764D1FDE9F800007C696 /* GradientLoadingBar.swift */; };
 		F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40376511FDE9F820007C696 /* NotificationCenter+ObserveOnce.swift */; };
 		F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40376531FDE9F820007C696 /* UIColor+Initializers.swift */; };
@@ -408,6 +411,9 @@
 		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
 		F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffViewController.swift; sourceTree = "<group>"; };
+		F401DFB11FE2964B00BD7DDA /* LinkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkViewController.swift; sourceTree = "<group>"; };
+		F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyViewController.swift; sourceTree = "<group>"; };
+		F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewController.swift; sourceTree = "<group>"; };
 		F403764D1FDE9F800007C696 /* GradientLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientLoadingBar.swift; sourceTree = "<group>"; };
 		F40376511FDE9F820007C696 /* NotificationCenter+ObserveOnce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+ObserveOnce.swift"; sourceTree = "<group>"; };
 		F40376531FDE9F820007C696 /* UIColor+Initializers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Initializers.swift"; sourceTree = "<group>"; };
@@ -1061,6 +1067,9 @@
 			children = (
 				F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */,
 				F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */,
+				F401DFB11FE2964B00BD7DDA /* LinkViewController.swift */,
+				F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */,
+				F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */,
 			);
 			path = "Content & Stuff";
 			sourceTree = "<group>";
@@ -2075,6 +2084,7 @@
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
 				F4431A901FC6DD2C00311C9A /* ColorsCollectionViewDelegate.swift in Sources */,
 				F43612F31FD69B3200788FFE /* AGBrightnessFilter.swift in Sources */,
+				F401DFB21FE2964B00BD7DDA /* LinkViewController.swift in Sources */,
 				F4431AAD1FC6DD2C00311C9A /* UIImage+Crop.swift in Sources */,
 				F4431AAE1FC6DD2C00311C9A /* UIImage+Size.swift in Sources */,
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
@@ -2129,6 +2139,7 @@
 				F404C0D11FDABAF500E8ACC2 /* HeroTargetState.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
 				F404C0C01FDABAF400E8ACC2 /* HeroTransition+UINavigationControllerDelegate.swift in Sources */,
+				F401DFB61FE2967B00BD7DDA /* ImportViewController.swift in Sources */,
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F404C0B71FDABAF400E8ACC2 /* UIView+Hero.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
@@ -2226,6 +2237,7 @@
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F404C0CD1FDABAF400E8ACC2 /* IgnoreSubviewModifiersPreprocessor.swift in Sources */,
+				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,

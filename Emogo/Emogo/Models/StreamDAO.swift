@@ -180,6 +180,23 @@ class StreamViewDAO{
     }
 }
 
+class ContentList{
+    
+    var arrayContent:[ContentDAO]!
+    var requestURl:String! = ""
+    class var sharedInstance: ContentList {
+        struct Static {
+            static let instance: ContentList = ContentList()
+        }
+        return Static.instance
+    }
+    
+    init() {
+        arrayContent = [ContentDAO]()
+    }
+    
+}
+
 class ContentDAO{
     
     var contentID:String! = ""

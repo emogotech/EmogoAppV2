@@ -198,7 +198,6 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let content = objStream?.arrayContent[indexPath.row]
          let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
         return CGSize(width: itemWidth, height: itemWidth)
     }

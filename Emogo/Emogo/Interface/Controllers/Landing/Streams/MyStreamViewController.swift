@@ -38,6 +38,7 @@ class MyStreamViewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
     }
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         

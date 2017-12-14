@@ -515,6 +515,51 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    // MARK: - Content List API
+
+    func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        if type == .start{
+            ContentList.sharedInstance.requestURl = kContentAPI
+        }
+        if ContentList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: ContentList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                ContentList.sharedInstance.arrayContent.append(content)
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                ContentList.sharedInstance.requestURl = ""
+                                completionHandler(.end,"")
+                            }else {
+                                ContentList.sharedInstance.requestURl = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
     
     // MARK: - Add  Content To Stream API
     

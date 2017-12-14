@@ -50,6 +50,9 @@ let kStoryboardID_viewStream = "viewStream"
 let kStoryboardID_MyStreamView = "myStreamView"
 let kStoryboardID_ContainerView = "containerView"
 let kStoryboardID_MyStuffView = "myStuffView"
+let kStoryboardID_LinkView = "linkView"
+let kStoryboardID_GiphyView = "giphyView"
+let kStoryboardID_ImportView = "importView"
 
 
 
