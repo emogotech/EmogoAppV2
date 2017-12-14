@@ -175,8 +175,9 @@ let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewC
 
 //Notification Name
 let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpand"
-let iMsgNotificationManageRequestStyleCompact          = "manageRequestStyleExpand"
-let iMsgNotificationManageScreen                 = "notifyForChangeScreenSize"
+let iMsgNotificationManageRequestStyleCompact       = "manageRequestStyleExpand"
+let iMsgNotificationManageScreen                    = "notifyForChangeScreenSize"
+let iMsgNotificationReloadContenData                    = "notifyReloadContenData"
 
 //Alert Messages
 let iMsgError_NameMsg                           = "Please enter minimum three characters."
