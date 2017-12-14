@@ -39,6 +39,7 @@ class AddStreamViewController: UITableViewController {
     var selectedCollaborators = [CollaboratorDAO]()
     var streamType:String! = "Public"
     var gallery: GalleryController!
+    var streamID:String!
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
     // MARK: - Override Functions
@@ -49,11 +50,7 @@ class AddStreamViewController: UITableViewController {
         prepareLayouts()
 
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.prepareForEditStream()
-    }
-    
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
@@ -78,6 +75,9 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.Camera.imageLimit =  1
         self.switchAddContent.isOn = false
         self.switchAddPeople.isOn = false
+        if self.streamID != nil {
+            self.getStream()
+        }
     }
     
     
@@ -103,6 +103,11 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Private"
             }
             self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
+            self.selectedCollaborators = (self.objStream?.arrayColab)!
+            if self.selectedCollaborators.count != 0 {
+                self.rowHieght.constant = 325.0
+                self.isExpandRow = true
+            }
         }
     }
     // MARK: -  Action Methods And Selector
@@ -155,10 +160,14 @@ class AddStreamViewController: UITableViewController {
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
             self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
         }else {
-            if self.objStream == nil {
+            if self.streamID == nil {
                 self.uploadCoverImage()
             }else {
-            
+                if self.strCoverImage.isEmpty {
+                    self.uploadCoverImage()
+                }else {
+                    self.editStream(cover: self.strCoverImage)
+                }
             }
         }
     }
@@ -208,16 +217,44 @@ class AddStreamViewController: UITableViewController {
         AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
             if error == nil {
                 DispatchQueue.main.async {
-                    self.createStream(cover: imageUrl!)
+                    if self.streamID == nil   {
+                        self.createStream(cover: imageUrl!)
+                    } else {
+                        self.editStream(cover: imageUrl!)
+                    }
                 }
             }else {
                 HUDManager.sharedInstance.hideHUD()
             }
         }
     }
+   
+  
+   
+    func selectedCollaborator(colabs:[CollaboratorDAO]){
+        print(colabs.count)
+        self.selectedCollaborators = colabs
+    }
     
-   private func createStream(cover:String){
-
+    // MARK: - API Methods
+    
+   
+    
+    func getStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.objStream = stream
+                self.prepareForEditStream()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    private func createStream(cover:String){
+        
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
@@ -231,11 +268,21 @@ class AddStreamViewController: UITableViewController {
             }
         }
     }
-    
-    func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(colabs.count)
-        self.selectedCollaborators = colabs
+    private func editStream(cover:String){
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true{
+                self.showToastOnWindow(strMSG: kAlertStreamEditedSuccess)
+                let when = DispatchTime.now() + 3
+                DispatchQueue.main.asyncAfter(deadline: when) {
+                    self.navigationController?.pop()
+                }
+            }else {
+                self.showToastOnWindow(strMSG: errorMsg!)
+            }
+        }
     }
+    
    
     // MARK: - Navigation
 

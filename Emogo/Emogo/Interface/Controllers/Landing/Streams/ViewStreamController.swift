@@ -96,7 +96,7 @@ class ViewStreamController: UIViewController {
    @objc func editStreamAction(sender:UIButton){
     if self.objStream != nil {
         let obj:AddStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-        obj.objStream = self.objStream
+        obj.streamID = self.objStream?.streamID
         self.navigationController?.push(viewController: obj)
     }
 }

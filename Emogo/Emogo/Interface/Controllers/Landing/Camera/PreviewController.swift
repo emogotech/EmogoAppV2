@@ -238,10 +238,12 @@ class PreviewController: UIViewController {
     }
     
     func addContent(fileUrl:String,type:String){
-        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
+            if (errorMsg?.isEmpty)! {
                 if self.isContentAdded {
+                    self.objContent = content
+                    self.addContentToStream()
                 }else {
                     self.showToast(type: .success, strMSG: kAlertContentAdded)
                 }
@@ -252,9 +254,11 @@ class PreviewController: UIViewController {
     }
 
     func addContentToStream(){
-        let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-        obj.objContent = objContent
-        self.navigationController?.push(viewController: obj)
+        if objContent != nil {
+            let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+            obj.objContent = objContent
+            self.navigationController?.push(viewController: obj)
+        }
     }
     
     /*

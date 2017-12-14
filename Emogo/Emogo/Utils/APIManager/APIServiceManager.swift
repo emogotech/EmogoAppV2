@@ -233,6 +233,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Edit Stream API
     func apiForEditStream(streamID:String,streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
@@ -262,12 +263,9 @@ class APIServiceManager: NSObject {
                 ]
             ]
         }
-        
-        
         print(params)
-        
-        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamAPI, Param: params) { (result) in
-            
+        let url = kStreamViewAPI + "\(streamID)/"
+        APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
@@ -285,6 +283,7 @@ class APIServiceManager: NSObject {
                 completionHandler(false,error.localizedDescription)
             }
         }
+      
     }
     
     
@@ -486,7 +485,7 @@ class APIServiceManager: NSObject {
     // MARK: - Create Content  API
     
     
-    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
         let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription]]
         print(params)
         APIManager.sharedInstance.post(params: params, strURL: kContentAPI) { (result) in
@@ -497,10 +496,17 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"")
+                        var objContent:ContentDAO?
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                objContent = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            }
+                        }
+                        completionHandler(objContent,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(false,errorMessage)
+                        completionHandler(nil,errorMessage)
                     }
                 }
             case .error(let error):
@@ -521,9 +527,7 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        if let data = (value as! [String:Any])["data"] {
-                            print(data)
-                        }
+                        completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(false,errorMessage)

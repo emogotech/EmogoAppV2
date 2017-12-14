@@ -30,15 +30,5 @@ class StreamCell: UICollectionViewCell {
          self.lblName.text =  "by \(stream.Author.trim().capitalized)"
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
     }
-    func setInfo(cover:String,postedBy:String) -> NSMutableAttributedString {
-    
-        let coverAttribute:[NSAttributedStringKey:Any?] = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16.0)]
-        
-        let nameAttribute:[NSAttributedStringKey:Any?] = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0)]
-
-        let coverStr =  NSMutableAttributedString(string: cover, attributes: coverAttribute)
-        let nameStr =  NSMutableAttributedString(string: postedBy, attributes: nameAttribute)
-        coverStr.append(nameStr)
-        return coverStr
-    }
+   
 }
