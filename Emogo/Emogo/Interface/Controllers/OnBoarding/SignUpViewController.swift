@@ -59,7 +59,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func btnActionSignin(_ sender: Any) {
-        let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
+        let obj:SignInViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
         self.navigationController?.push(viewController: obj)
     }
     @IBAction func btnActionBack(_ sender: Any) {
@@ -78,7 +78,7 @@ class SignUpViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName, phone: (txtPhoneNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    let obj:VerificationViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
+                    let obj:VerificationViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
                     obj.OTP = errorMsg
                     obj.phone = self.txtPhoneNumber.text?.trim()
                     self.navigationController?.push(viewController: obj)

@@ -34,11 +34,11 @@ class WelcomeViewController: UIViewController {
         //   self.showToast(type: "3", strMSG: kAlertResendCodeMsg)
     }
     @IBAction func btnActionBrowseStream(_ sender: Any) {
-        let obj:StreamListViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+        let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         self.navigationController?.flipPush(viewController: obj)
     }
     @IBAction func btnActionEmogoStream(_ sender: Any) {
-        let obj:StreamListViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+        let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
         self.navigationController?.flipPush(viewController: obj)
     }
     /*

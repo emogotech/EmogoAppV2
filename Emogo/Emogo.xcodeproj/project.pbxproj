@@ -96,6 +96,9 @@
 		C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */; };
 		C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */; };
 		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
+		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
+		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
+		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
 		F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F403764D1FDE9F800007C696 /* GradientLoadingBar.swift */; };
 		F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40376511FDE9F820007C696 /* NotificationCenter+ObserveOnce.swift */; };
 		F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40376531FDE9F820007C696 /* UIColor+Initializers.swift */; };
@@ -402,6 +405,9 @@
 		C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoSignUpUITests.swift; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
+		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
+		F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffViewController.swift; sourceTree = "<group>"; };
 		F403764D1FDE9F800007C696 /* GradientLoadingBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientLoadingBar.swift; sourceTree = "<group>"; };
 		F40376511FDE9F820007C696 /* NotificationCenter+ObserveOnce.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+ObserveOnce.swift"; sourceTree = "<group>"; };
 		F40376531FDE9F820007C696 /* UIColor+Initializers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Initializers.swift"; sourceTree = "<group>"; };
@@ -1015,6 +1021,7 @@
 				335B1A151FBB238A006DA9D9 /* Main.storyboard */,
 				335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */,
 				335B1A1D1FBB238A006DA9D9 /* Info.plist */,
+				F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -1047,6 +1054,15 @@
 				512AC7A67B1967277A47AEDD /* Pods-EmogoUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F401DFAA1FE2890F00BD7DDA /* Content & Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */,
+				F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */,
+			);
+			path = "Content & Stuff";
 			sourceTree = "<group>";
 		};
 		F403764A1FDE9F6B0007C696 /* Progress Bar */ = {
@@ -1231,6 +1247,7 @@
 		F4148A101FBD770900081900 /* Landing */ = {
 			isa = PBXGroup;
 			children = (
+				F401DFAA1FE2890F00BD7DDA /* Content & Stuff */,
 				F4522CA01FCBFBF90021562D /* Camera */,
 				F4522C9F1FCBFBE60021562D /* Streams */,
 			);
@@ -1708,6 +1725,7 @@
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
 				F404C06D1FDA951D00E8ACC2 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
+				F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
@@ -2091,6 +2109,7 @@
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
+				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F404C0D61FDABAF500E8ACC2 /* HeroDebugView.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F404C0CF1FDABAF400E8ACC2 /* SourcePreprocessor.swift in Sources */,
@@ -2154,6 +2173,7 @@
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
+				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,

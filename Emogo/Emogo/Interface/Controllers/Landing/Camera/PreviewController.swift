@@ -255,7 +255,7 @@ class PreviewController: UIViewController {
 
     func addContentToStream(){
         if objContent != nil {
-            let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
             obj.objContent = objContent
             self.navigationController?.push(viewController: obj)
         }

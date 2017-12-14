@@ -53,7 +53,7 @@ class UserNameViewController: UIViewController {
     }
     
     @IBAction func btnActionSignin(_ sender: Any) {
-        let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
+        let obj:SignInViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_SigninView) as! SignInViewController
         self.navigationController?.push(viewController: obj)
     }
     
@@ -68,7 +68,7 @@ class UserNameViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtUserName.text?.trim())!) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    let obj:SignUpViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
+                    let obj:SignUpViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_SignUpView) as! SignUpViewController
                     obj.userName = self.txtUserName.text?.trim()
                     self.navigationController?.push(viewController: obj)
                 }else {

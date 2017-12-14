@@ -51,8 +51,8 @@ class StreamListViewController: UIViewController {
         self.viewMenu.isHidden = false
         self.streamCollectionView.reloadData()
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
-            self.navigationController?.push(viewController: obj!)
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
+            self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
     }
@@ -72,8 +72,8 @@ class StreamListViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
             kDefault?.set(false, forKey: kUserLogggedIn)
             kDefault?.removeObject(forKey: kUserLogggedInData)
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
-            self.navigationController?.reverseFlipPush(viewController: obj!)
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+            self.navigationController?.reverseFlipPush(viewController: obj)
         }
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
@@ -128,7 +128,7 @@ class StreamListViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
-        let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
         self.navigationController?.push(viewController: obj)
     }
     
@@ -141,8 +141,8 @@ class StreamListViewController: UIViewController {
         let yes = UIAlertAction(title: "YES", style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
             kDefault?.set(false, forKey: kUserLogggedIn)
-            let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
-            self.navigationController?.reverseFlipPush(viewController: obj!)
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+            self.navigationController?.reverseFlipPush(viewController: obj)
         }
         let no = UIAlertAction(title: "NO", style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -259,7 +259,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-         let obj:ViewStreamController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        
+         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
           obj.currentIndex = indexPath.row
         obj.streamType = currentStreamType.rawValue
         self.navigationController?.push(viewController: obj)

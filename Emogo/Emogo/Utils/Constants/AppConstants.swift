@@ -20,6 +20,8 @@ let kDefault                             = UserDefaults(suiteName: "group.com.em
 
 
 let kStoryboardMain                      = UIStoryboard(name: "Main", bundle: nil)
+let kStoryboardStuff                      = UIStoryboard(name: "Stuff", bundle: nil)
+
 let kPhoneFormat                         = "##########"
 
 let kNavigationColor = UIColor(red: 247.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
@@ -46,6 +48,8 @@ let kStoryboardID_InitialView = "initialView"
 let kStoryboardID_PeopleListView = "peopleListView"
 let kStoryboardID_viewStream = "viewStream"
 let kStoryboardID_MyStreamView = "myStreamView"
+let kStoryboardID_ContainerView = "containerView"
+let kStoryboardID_MyStuffView = "myStuffView"
 
 
 

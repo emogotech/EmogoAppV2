@@ -115,11 +115,11 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func actionForAddStream(){
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-        self.navigationController?.push(viewController: obj!)
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+        self.navigationController?.push(viewController: obj)
     }
     func actionForPeopleList(){
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView)
-        self.navigationController?.push(viewController: obj!)
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView)
+        self.navigationController?.push(viewController: obj)
     }
 }

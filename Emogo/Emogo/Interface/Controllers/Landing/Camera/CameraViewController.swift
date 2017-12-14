@@ -151,7 +151,7 @@ class CameraViewController: SwiftyCamViewController {
     
     @IBAction func btnActionShutter(_ sender: Any) {
         if   GalleryDAO.sharedInstance.Images.count != 0 {
-            let objPreview:PreviewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             self.navigationController?.pushNormal(viewController: objPreview)
         }
     }

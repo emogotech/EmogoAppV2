@@ -95,7 +95,7 @@ class ViewStreamController: UIViewController {
     
    @objc func editStreamAction(sender:UIButton){
     if self.objStream != nil {
-        let obj:AddStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
         obj.streamID = self.objStream?.streamID
         self.navigationController?.push(viewController: obj)
     }
@@ -200,11 +200,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let content = objStream?.arrayContent[indexPath.row]
          let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        if content?.isAdd == true {
-            return CGSize(width: itemWidth, height: 110)
-        }else{
-            return CGSize(width: itemWidth, height: itemWidth)
-        }
+        return CGSize(width: itemWidth, height: itemWidth)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -225,10 +221,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
-            let obj:CameraViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContainerView)
             self.navigationController?.push(viewController: obj)
         }else {
-            let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
              obj.objContent = content
             self.navigationController?.push(viewController: obj)
 
