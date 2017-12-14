@@ -15,6 +15,8 @@ class AddCollaboratorsViewController: UIViewController {
 
     // Varibales
     var arrayCollaborators = [CollaboratorDAO]()
+    var arraySelected:[CollaboratorDAO]?
+    
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -35,6 +37,7 @@ class AddCollaboratorsViewController: UIViewController {
 
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        print(self.arraySelected)
         self.getContacts()
     }
     
@@ -107,7 +110,7 @@ class AddCollaboratorsViewController: UIViewController {
                 print(phone)
             }
         
-            let dict = ["name":fullName,"phone_number":phone]
+            let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
             let collaborator = CollaboratorDAO(colabData: dict)
             self.arrayCollaborators.append(collaborator)
         }
@@ -116,6 +119,8 @@ class AddCollaboratorsViewController: UIViewController {
         }
     
     }
+    
+   
 }
 
 

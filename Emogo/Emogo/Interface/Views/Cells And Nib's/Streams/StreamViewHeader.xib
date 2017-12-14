@@ -30,7 +30,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Fc-OG-F5r" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-rr-8vX">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="dMD-rr-8vX">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlb-SC-3TG">
@@ -70,6 +70,7 @@
                                     <constraint firstAttribute="height" constant="50" id="CVg-cA-GXP"/>
                                     <constraint firstAttribute="width" constant="50" id="INm-dB-4zB"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="edit_icon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqU-VC-vt1">
@@ -78,12 +79,27 @@
                                     <constraint firstAttribute="width" constant="50" id="7eK-5m-mtW"/>
                                     <constraint firstAttribute="height" constant="50" id="Jm0-Sz-NXi"/>
                                 </constraints>
+                                <inset key="imageEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="delete_icon-cover_image"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VdJ-hy-5Ah" customClass="MIBadgeButton" customModule="Emogo" customModuleProvider="target">
+                                <rect key="frame" x="10" y="15" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="25" id="WYz-IH-yio"/>
+                                    <constraint firstAttribute="height" constant="25" id="xmE-4T-z4p"/>
+                                </constraints>
+                                <state key="normal" image="user_icon"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="badgeBackgroundColor">
+                                        <color key="value" red="0.17798337340354919" green="0.62045657634735107" blue="0.91360145807266235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" id="0k3-up-qCe"/>
+                            <constraint firstItem="VdJ-hy-5Ah" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="15" id="25O-jO-mwl"/>
                             <constraint firstAttribute="bottom" secondItem="zlb-SC-3TG" secondAttribute="bottom" id="3hJ-NV-h5b"/>
                             <constraint firstItem="vxW-nQ-hQo" firstAttribute="leading" secondItem="BqU-VC-vt1" secondAttribute="trailing" constant="3" id="8Sv-b0-tQ7"/>
                             <constraint firstItem="zlb-SC-3TG" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" id="EVY-5g-aeG"/>
@@ -93,6 +109,7 @@
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" id="VER-6O-ioR"/>
                             <constraint firstAttribute="trailing" secondItem="dMD-rr-8vX" secondAttribute="trailing" id="avl-UF-sPb"/>
                             <constraint firstItem="vxW-nQ-hQo" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="3" id="ef6-tQ-eaK"/>
+                            <constraint firstItem="VdJ-hy-5Ah" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" constant="10" id="gp7-Ud-NDH"/>
                             <constraint firstAttribute="trailing" secondItem="zlb-SC-3TG" secondAttribute="trailing" id="thT-t0-ILW"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
@@ -114,6 +131,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
+                <outlet property="btnCollab" destination="VdJ-hy-5Ah" id="cHD-9d-95p"/>
                 <outlet property="btnDelete" destination="BqU-VC-vt1" id="CHL-cD-AJZ"/>
                 <outlet property="btnEdit" destination="vxW-nQ-hQo" id="8eX-Fo-sqz"/>
                 <outlet property="imgCover" destination="dMD-rr-8vX" id="0dS-Me-Cld"/>
@@ -127,6 +145,7 @@
     <resources>
         <image name="delete_icon-cover_image" width="24" height="24"/>
         <image name="edit_icon" width="24" height="24"/>
-        <image name="image7" width="1000" height="666"/>
+        <image name="stream-card-placeholder" width="145" height="145"/>
+        <image name="user_icon" width="15" height="16"/>
     </resources>
 </document>

@@ -34,8 +34,7 @@ class PeopleListViewController: UIViewController {
     func prepareLayouts(){
         self.title = "People List"
         self.configureNavigationWithTitle()
-        peopleCollectionView.alwaysBounceVertical = true
-
+        PeopleList.sharedInstance.arrayPeople.removeAll()
         HUDManager.sharedInstance.showHUD()
         self.getUsersList(type:.start)
         let header = RefreshHeaderAnimator(frame: .zero)
@@ -47,7 +46,7 @@ class PeopleListViewController: UIViewController {
         self.peopleCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             self?.getUsersList(type:.down)
         }
-        
+        peopleCollectionView.alwaysBounceVertical = true
     }
 
     // MARK: -  Action Methods And Selector
@@ -57,9 +56,8 @@ class PeopleListViewController: UIViewController {
     
     // MARK: - API Methods
     func getUsersList(type:RefreshType){
-        if type == .start || type == .up {
+        if type == .up {
             UIApplication.shared.beginIgnoringInteractionEvents()
-            PeopleList.sharedInstance.arrayPeople.removeAll()
             self.peopleCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in

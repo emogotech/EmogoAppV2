@@ -31,7 +31,9 @@ class PreviewController: UIViewController {
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
-    
+    var objContent:ContentDAO?
+    var isContentAdded:Bool! = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -110,9 +112,19 @@ class PreviewController: UIViewController {
     @IBAction func btnActionShare(_ sender: Any) {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
-        self.showToast(type: .success, strMSG: "Stream added Successfully.")
+        isContentAdded = true
+        if objContent != nil {
+             addContentToStream()
+        }else {
+            if (self.txtTitleImage.text?.isEmpty)! {
+                self.txtTitleImage.shake()
+            }else {
+                self.uploadFile()
+            }
+        }
     }
     @IBAction func btnDoneAction(_ sender: Any) {
+         isContentAdded = false
         if (self.txtTitleImage.text?.isEmpty)! {
             self.txtTitleImage.shake()
         }else {
@@ -187,7 +199,6 @@ class PreviewController: UIViewController {
     // MARK: - API Method
     
     func uploadFile(){
-        
         HUDManager.sharedInstance.showProgress()
         let dispatchGroup = DispatchGroup()
         let obj =  GalleryDAO.sharedInstance.Images[selectedIndex]
@@ -230,7 +241,10 @@ class PreviewController: UIViewController {
         APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
-                self.showToast(type: .success, strMSG: kAlertContentAdded)
+                if self.isContentAdded {
+                }else {
+                    self.showToast(type: .success, strMSG: kAlertContentAdded)
+                }
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
@@ -238,7 +252,9 @@ class PreviewController: UIViewController {
     }
 
     func addContentToStream(){
-        
+        let obj:MyStreamViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+        obj.objContent = objContent
+        self.navigationController?.push(viewController: obj)
     }
     
     /*

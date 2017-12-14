@@ -39,7 +39,8 @@ class AddStreamViewController: UITableViewController {
     var selectedCollaborators = [CollaboratorDAO]()
     var streamType:String! = "Public"
     var gallery: GalleryController!
-
+    var objStream:StreamViewDAO?
+    var strCoverImage:String! = ""
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -48,12 +49,17 @@ class AddStreamViewController: UITableViewController {
         prepareLayouts()
 
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.prepareForEditStream()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
     }
     
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -70,13 +76,35 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
         Gallery.Config.initialTab =  .cameraTab
         Gallery.Config.Camera.imageLimit =  1
-        
+        self.switchAddContent.isOn = false
+        self.switchAddPeople.isOn = false
     }
+    
     
     func prepareLayoutForApper(){
         self.viewGradient.layer.contents = UIImage(named: "strems_name_gradient")?.cgImage
     }
 
+    func prepareForEditStream(){
+        if self.objStream != nil {
+             self.title =  self.objStream?.title
+            txtStreamName.text = self.objStream?.title
+            txtStreamCaption.text = self.objStream?.description
+            if !(objStream?.coverImage.trim().isEmpty)!  {
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
+                self.strCoverImage = objStream?.coverImage
+            }
+            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+            if self.objStream?.type.lowercased() == "public"{
+                self.switchMakePrivate.isOn = false
+            }else {
+             self.switchMakePrivate.isOn = true
+                streamType = "Private"
+            }
+            self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
+        }
+    }
     // MARK: -  Action Methods And Selector
 
     @IBAction func addContentAction(_ sender: PMSwitch) {
@@ -102,6 +130,11 @@ class AddStreamViewController: UITableViewController {
             streamType = "Public"
             self.switchAnyOneCanEdit.isEnabled = true
         }
+        if self.objStream?.arrayColab.count != 0 {
+            self.switchAddCollaborators.isOn = true
+            self.rowHieght.constant = 325.0
+            self.isExpandRow = true
+        }
     }
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
         self.switchAddCollaborators.isOn = sender.isOn
@@ -114,7 +147,7 @@ class AddStreamViewController: UITableViewController {
         }
     }
     @IBAction func btnActionDone(_ sender: Any) {
-        if coverImage == nil {
+        if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
         }
        else if (self.txtStreamName.text?.trim().isEmpty)! {
@@ -122,7 +155,11 @@ class AddStreamViewController: UITableViewController {
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
             self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
         }else {
-            self.uploadCoverImage()
+            if self.objStream == nil {
+                self.uploadCoverImage()
+            }else {
+            
+            }
         }
     }
     
@@ -151,6 +188,7 @@ class AddStreamViewController: UITableViewController {
                 let image = images[0]
                 self.imgCover.image = image
                                 self.coverImage = image
+                                self.strCoverImage = ""
                                 self.imgCover.contentMode = .scaleAspectFit
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
@@ -198,15 +236,20 @@ class AddStreamViewController: UITableViewController {
         print(colabs.count)
         self.selectedCollaborators = colabs
     }
-    /*
+   
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == kSegue_AddCollaboratorsView) {
+            let childViewController = segue.destination as! AddCollaboratorsViewController
+            if self.objStream != nil {
+                childViewController.arraySelected = self.objStream?.arrayColab
+            }
+            // Now you have a pointer to the child view controller.
+            // You can save the reference to it, or pass data to it.
+        }
     }
-    */
 
 }
 

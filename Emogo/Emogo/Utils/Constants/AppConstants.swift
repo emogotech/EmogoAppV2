@@ -45,6 +45,8 @@ let kStoryboardID_AddCollaboratorsView = "addCollaboratorsView"
 let kStoryboardID_InitialView = "initialView"
 let kStoryboardID_PeopleListView = "peopleListView"
 let kStoryboardID_viewStream = "viewStream"
+let kStoryboardID_MyStreamView = "myStreamView"
+
 
 
 
@@ -60,10 +62,13 @@ let kCell_PeopleCell = "peopleCell"
 let kHeader_ViewStreamHeaderView = "streamViewHeader"
 let kCell_AddContentCell = "addContentCell"
 let kCell_StreamContentCell = "streamContentCell"
+let kHeader_MyStreamHeaderView = "myStreamHeaderView"
+let kCell_MyStreamCell = "myStreamCell"
 
 
 
 // MARK: - StoryboardSegue Identifier
+let kSegue_AddCollaboratorsView = "addColabSegue"
 
 
 // MARK: - UserDefault Identifier
@@ -95,6 +100,10 @@ let kAlertStreamCoverEmpty = "Please Select Stream Cover Image."
 let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
 let kAlertInvalidUserSpaceMsg            = "Space not allowed."
 let kAlertContentAdded                = "Content Created Successfully."
+let kAlertContentAssociatedToStream                = "Content associated with selected Stream."
+let kAlertSelectStream                = "Please Select Atleast one Stream to add Content."
+
+
 
 
 let kDeepLinkURL = "Emogo://emogo/"
