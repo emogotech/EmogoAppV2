@@ -7,4 +7,5 @@ urlpatterns = [
     url('^stream', views.StreamAPI.as_view()),
     url(r'^content/(?P<pk>[0-9]+)/$', views.ContentAPI.as_view()),
     url(r'^content/$', views.ContentAPI.as_view()),
+    url(r'^move_content_to_stream/$', views.MoveContentToStream.as_view()),
 ]

@@ -7,9 +7,11 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content
-from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, ContentBulkDeleteSerializer
+from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
+    ContentBulkDeleteSerializer, MoveContentToStreamSerializer
 import django_filters
 from emogo.lib.custom_filters.filterset import StreamFilter
+from rest_framework.views import APIView
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -182,7 +184,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         """
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(data=request.data, many=True , partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
@@ -214,3 +216,26 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         queryset = self.filter_queryset(self.get_queryset())
         queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
+class MoveContentToStream(APIView):
+    """
+    View to list all users in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    serializer_class = MoveContentToStreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        if serializer.is_valid():
+            serializer.save()
+            return custom_render_response(status_code=status.HTTP_200_OK, data={})
+        else:
+            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)

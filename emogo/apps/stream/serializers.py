@@ -7,7 +7,7 @@ from rest_framework import serializers
 import itertools
 from django.db import transaction
 from emogo.constants import messages
-from django.db.models import Q
+
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -277,3 +277,64 @@ class ViewContentSerializer(ContentSerializer):
     #         return obj.stream.name
     #     except AttributeError:
     #         return None
+
+
+class MoveContentToStreamSerializer(ContentSerializer):
+    """
+    Move Content to Stream Serializer
+    """
+    contents = CustomListField(child=serializers.IntegerField(min_value=1), min_length=1)
+    streams = CustomListField(child=serializers.IntegerField(min_value=1), min_length=1)
+
+    class Meta:
+        model = Content
+        fields = ('contents', 'streams')
+
+    def validate_contents(self, value):
+        """
+        :param value: request content data.
+        :return: Validate contents data.
+        """
+        contents = set(self.initial_data.get('contents'))
+        contents = Content.actives.filter(created_by=self.context.user, id__in=contents)
+        if contents.exists():
+            self.initial_data['contents'] = contents
+        else:
+            raise serializers.ValidationError({'contents': messages.MSG_INVALID_ACCESS.format('contents')})
+        return value
+
+    def validate_streams(self, value):
+        """
+        :param value: request streams data
+        :return: Validate streams request data
+        """
+        streams = set(self.initial_data.get('streams'))
+        streams = Stream.actives.filter(id__in=streams)
+        if streams.exists():
+            for stream in streams:
+                collaborators = stream.collaborator_list.filter(phone_number=self.context.user.username, can_add_content=True)
+                if not collaborators.exists():
+                    raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
+            self.initial_data['streams'] = streams
+        else:
+            raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
+        return value
+
+    def save(self, **kwargs):
+        """
+        :param kwargs: validated data
+        :return: save serializer data
+        """
+        for stream in self.initial_data.get('streams'):
+            map(self.add_content_to_stream, self.initial_data.get('contents'),
+                                itertools.repeat(stream, self.initial_data.get('contents').__len__()))
+        return True
+
+    def add_content_to_stream(self, content, stream):
+        """
+        :param content: The content object
+        :param stream: The stream object
+        :return: Function add content to stream
+        """
+        content.streams.add(stream)
+        return self.initial_data['contents']
