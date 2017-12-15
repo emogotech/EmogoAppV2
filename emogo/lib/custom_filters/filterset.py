@@ -4,9 +4,11 @@ from emogo.apps.users.models import UserProfile
 from django.db.models import Q
 from itertools import chain
 
+
 class StreamFilter(django_filters.FilterSet):
     my_stream = django_filters.filters.BooleanFilter(method='filter_my_stream')
     popular = django_filters.filters.BooleanFilter(method='filter_popular')
+    global_search = django_filters.filters.CharFilter(method='filter_global_search')
 
     class Meta:
         model = Stream
@@ -25,8 +27,12 @@ class StreamFilter(django_filters.FilterSet):
 
     def filter_popular(self, qs, name, value):
         return qs.filter(
-            Q(type='Public') | Q(collaborator_list__phone_number=self.request.user.username) | \
+            Q(type='Public') | Q(collaborator_list__phone_number=self.request.user.username) |\
             Q(created_by=self.request.user)).distinct().order_by('-view_count')
+
+    def filter_global_search(self, qs, name, value):
+        qs = qs.filter(type='Public')
+        return qs.filter(Q(name__contains=value) | Q(content__name__contains=value)).distinct().order_by('-view_count')
 
 
 class UsersFilter(django_filters.FilterSet):
