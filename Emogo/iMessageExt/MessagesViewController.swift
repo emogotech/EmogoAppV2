@@ -60,11 +60,13 @@ class MessagesViewController: MSMessagesAppViewController {
             vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
             self.container.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
-             self.hudView.stopLoaderWithAnimation()
+            self.hudView.stopLoaderWithAnimation()
+             self.hudView.removeFromSuperview()
             self.container.isHidden = false
         }
         else {
             self.hudView.stopLoaderWithAnimation()
+            self.hudView.removeFromSuperview()
             self.container.isHidden = true
         }
     }

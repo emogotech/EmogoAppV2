@@ -174,13 +174,25 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        preparePagerFrame()
+        if !checkIsAvailableFilter() {
+             preparePagerFrame()
+        }
+       
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             pagerContent.isHidden = false
             btnFeature.tag = 1
         }
         self.setupRefreshLoader()
+    }
+    
+    func checkIsAvailableFilter() -> Bool {
+        for subView in pagerContent.subviews {
+            if subView.isKind(of: FSPagerView.self){
+                return true
+            }
+        }
+        return false
     }
     
     // MARK:- Action methods
@@ -221,14 +233,14 @@ class HomeViewController: MSMessagesAppViewController {
                 if StreamList.sharedInstance.arrayStream.count == 0 {
                     self.lblNoResult.isHidden = false
                 }
-                if(type == .start || type == .up){
+//                if(type == .start || type == .up){
                     self.arrayStreams = StreamList.sharedInstance.arrayStream!
-                }
-                else {
-                    for stream in StreamList.sharedInstance.arrayStream!{
-                        self.arrayStreams.append(stream)
-                    }
-                }
+//                }
+//                else {
+//                    for stream in StreamList.sharedInstance.arrayStream!{
+//                        self.arrayStreams.append(stream)
+//                    }
+//                }
                 self.collectionStream.reloadData()
                 if !(errorMsg?.isEmpty)! {
                     // self.showToast(type: .success, strMSG: errorMsg!)
@@ -256,7 +268,6 @@ class HomeViewController: MSMessagesAppViewController {
             self.resignRefreshLoader()
         }
     }
-    
 }
 
 // MARK:- Extension collectionview delegate
@@ -603,19 +614,14 @@ extension HomeViewController : UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let contentOffset = scrollView.contentOffset.y;
-        let contentHeight = scrollView.contentSize.height;
-        let diffHeight = contentHeight - contentOffset;
-        let frameHeight = scrollView.bounds.size.height;
-        let pullHeight  = fabs(diffHeight - frameHeight);
-        if pullHeight == 0.0 {
+       
             if(SharedData.sharedInstance.isMoreContentAvailable){
                 DispatchQueue.main.async {
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
                 
                 self.getStreamList(type:.down,filter:self.streamType)
+                
             }
-        }
     }
 }

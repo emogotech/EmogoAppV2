@@ -10,7 +10,7 @@ import UIKit
 import Messages
 
 class StreamViewController: MSMessagesAppViewController {
-
+    
     // MARK:- UI Elements
     @IBOutlet weak var lblStreamTitle       : UILabel!
     @IBOutlet weak var lblStreamName        : UILabel!
@@ -21,8 +21,8 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnCollaborator      : UIButton!
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
-
-
+    
+    
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
     

@@ -121,7 +121,11 @@ extension SignInViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: String! = textField.text
         
-        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank) {
+        if range.location < 3 {
+            return false
+        }
+        
+        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank ) {
             return false
         }
         

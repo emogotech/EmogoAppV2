@@ -84,6 +84,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: String! = textField.text
+        if range.location < 3 {
+            return false
+        }
         if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank) {
             return false
         }

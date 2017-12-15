@@ -158,12 +158,13 @@ let iMsgStoryBoard                              = "MainInterface"
 
 //PlaceHolder text
 let iMsgPlaceHolderText_SignIn                   = "Your number here"
-let iMsgPlaceHolderText_SignUpName               = "Choose a Username"
+//let iMsgPlaceHolderText_SignUpName               = "Choose a Username"
+let iMsgPlaceHolderText_SignUpName               = "Your text here"
 let iMsgPlaceHolderText_SignUpMobile             = "Your number here"
 let iMsgPlaceHolderText_SignUpVerify             = "Your code here"
 
 //Segue Identifires
-let iMsgSegue_SignIn                            = "SignInViewController"
+let iMsgSegue_SignIn                                = "SignInViewController"
 let iMsgSegue_SignUpName                        = "SignUpNameViewController"
 let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
 let iMsgSegue_SignUpVerify                      = "SignUpVerifyViewController"
@@ -177,7 +178,7 @@ let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 
-//Notification Name
+//Notification Name`
 let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpand"
 let iMsgNotificationManageRequestStyleCompact       = "manageRequestStyleExpand"
 let iMsgNotificationManageScreen                    = "notifyForChangeScreenSize"
@@ -213,7 +214,7 @@ let iMsg_String_singleSpace                     = " "
 //Constant
 let iMsg_CornorRadius : CGFloat                 = 18.0
 let iMsgCharacterMaxLength_Name                 = 30
-let iMsgCharacterMaxLength_VerificationCode     = 4
+let iMsgCharacterMaxLength_VerificationCode     = 5
 let iMsgCharacterMaxLength_MobileNumber         = 15
 let iMsgCharacterMinLength_MobileNumber         = 12
 
