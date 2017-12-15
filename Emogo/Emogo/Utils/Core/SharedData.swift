@@ -10,6 +10,7 @@ import UIKit
 import CoreTelephony
 import Photos
 import Messages
+import SDWebImage
 
 class SharedData: NSObject {
     //MARK:- Variables
@@ -252,6 +253,16 @@ class SharedData: NSObject {
                 
             }
         }
+    }
+    
+    
+    func downloadImage(url:String,handler:@escaping (_ image: UIImage?)-> Void){
+        let imageURL = URL(string: url.stringByAddingPercentEncodingForURLQueryParameter()!)!
+          let manager = SDWebImageManager.shared()
+        manager.imageDownloader?.downloadImage(with: imageURL, options: .continueInBackground, progress: nil, completed: { (image, data, error, finished) in
+            handler(image)
+           
+        })
     }
     
     

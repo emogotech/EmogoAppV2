@@ -220,8 +220,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
-            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContainerView)
+            
+            let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+                kContainerNav = "1"
             self.navigationController?.push(viewController: obj)
+          
+            //self.navigationController?.push(viewController: obj)
         }else {
             let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
              obj.objContent = content

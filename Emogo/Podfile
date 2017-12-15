@@ -24,6 +24,8 @@ target 'Emogo' do
     pod 'Fabric'
     pod 'Crashlytics'
 pod 'Gallery'
+    pod 'ReadabilityKit'
+
 
     target 'EmogoTests' do
         inherit! :search_paths

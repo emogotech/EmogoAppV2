@@ -17,6 +17,9 @@ class ImageDAO {
     var description:String! = ""
     var fileName:String! = ""
     var fileUrl:URL?
+    var isSelected:Bool! = false
+    var isUploaded:Bool! = false
+
     init(type:PreviewType, image:UIImage) {
         self.type = type
         self.imgPreview = image

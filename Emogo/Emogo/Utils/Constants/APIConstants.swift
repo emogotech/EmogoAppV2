@@ -39,6 +39,7 @@ let kStreamAPI                                      = "stream?"
 let kPeopleAPI                                      = "users/"
 let kStreamViewAPI                                  = "stream/"
 let kContentAPI                                     = "content/"
+let kContentAddToStreamAPI                          = "move_content_to_stream/"
 
 
 

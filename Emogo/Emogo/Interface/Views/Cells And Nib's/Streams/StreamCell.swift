@@ -25,6 +25,8 @@ class StreamCell: UICollectionViewCell {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
+        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.backgroundColor = .black
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
          self.lblTitle.text = stream.Title.trim().capitalized
          self.lblName.text =  "by \(stream.Author.trim().capitalized)"

@@ -25,6 +25,8 @@ class StreamContentCell: UICollectionViewCell {
             viewCard.isHidden = false
             self.lblName.text = content.name.trim().capitalized
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            self.imgCover.contentMode = .scaleAspectFit
+            self.imgCover.backgroundColor = .black
             if content.type == "Picture" {
                 self.btnPlay.isHidden = true
                 self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")

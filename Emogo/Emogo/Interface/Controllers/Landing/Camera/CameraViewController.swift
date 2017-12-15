@@ -36,10 +36,10 @@ class CameraViewController: SwiftyCamViewController {
     var isCaptureMode: Bool! = true
     var timer:Timer!
     var timeSec = 0
-
     var beepSound: Sound?
     var gallery: GalleryController!
     let editor: VideoEditing = VideoEditor()
+    let interactor = PMInteractor()
 
     // MARK: - Override Functions
 
@@ -51,14 +51,16 @@ class CameraViewController: SwiftyCamViewController {
         
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.previewCollection.reloadData()
 
     }
-   
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.prepareContainerToPresent()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -91,6 +93,12 @@ class CameraViewController: SwiftyCamViewController {
       
     }
     
+    func prepareContainerToPresent(){
+        if kContainerNav == "1" {
+            kContainerNav = "2"
+          performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
+        }
+    }
   
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
@@ -171,7 +179,12 @@ class CameraViewController: SwiftyCamViewController {
             self.isRecording = false
             self.recordButtonTapped(isShow: false)
         }else {
-            self.navigationController?.pop()
+            if kContainerNav.isEmpty {
+                self.navigationController?.pop()
+            }else {
+                 kContainerNav = "1"
+                self.prepareContainerToPresent()
+            }
         }
     }
     
@@ -246,15 +259,20 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - API Methods
 
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == kSegue_ContainerSegue {
+            if let destinationViewController = segue.destination as? ContainerViewController {
+                destinationViewController.transitioningDelegate = self
+                destinationViewController.interactor = interactor
+            }
+        }
+       
     }
-    */
 
 }
 
@@ -391,4 +409,15 @@ extension CameraViewController:GalleryControllerDelegate {
     }
 
   
+}
+
+
+extension CameraViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return DismissAnimator()
+    }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
+    }
 }

@@ -130,7 +130,7 @@ class MyStreamViewController: UIViewController {
 
     func associateContentToStream(id:[String]){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: objContent.contentID, streams: id) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: [objContent.contentID], streams: id) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.showToast(strMSG: kAlertContentAssociatedToStream)

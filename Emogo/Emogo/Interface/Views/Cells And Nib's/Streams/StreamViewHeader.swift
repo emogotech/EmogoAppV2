@@ -29,6 +29,8 @@ class StreamViewHeader: UICollectionViewCell {
         guard let objStream = stream  else {
             return
         }
+        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.backgroundColor = .black
         btnCollab.badgeString = "\(objStream.arrayColab.count)"
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()

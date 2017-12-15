@@ -44,7 +44,7 @@ class MyStuffViewController: UIViewController {
         // Load More
         
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-        
+         self.stuffCollectionView.es.removeRefreshHeader()
         self.stuffCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             print("reload more called")
             self?.getMyStuff(type:.down)
@@ -53,13 +53,51 @@ class MyStuffViewController: UIViewController {
         
     }
     
+    @IBAction func btnActionNext(_ sender: Any) {
+        HUDManager.sharedInstance.showHUD()
+        let group = DispatchGroup()
+        for obj in ContentList.sharedInstance.arrayContent {
+            group.enter()
+            var objImage:ImageDAO!
+            if obj.type == "Picture" {
+                SharedData.sharedInstance.downloadImage(url: obj.coverImage, handler: { (image) in
+                    if image != nil {
+                        objImage = ImageDAO(type: .image, image: image!)
+                        objImage.isUploaded = true
+                        objImage.fileUrl = URL(string: obj.coverImage)
+                        GalleryDAO.sharedInstance.Images.append(objImage)
+                    }
+                    group.leave()
+                })
+            }else {
+                let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
+                    objImage = ImageDAO(type: .video, image: image)
+                    objImage.isUploaded = true
+                    objImage.fileUrl = URL(string: obj.coverImage)
+                    GalleryDAO.sharedInstance.Images.append(objImage)
+                    group.leave()
+                }
+                
+            }
+         }
+        
+        group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
+            if   GalleryDAO.sharedInstance.Images.count != 0 {
+                let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                self.navigationController?.pushNormal(viewController: objPreview)
+            }
+        })
+    }
     
     // MARK: - API Methods
     
     func getMyStuff(type:RefreshType){
         if type == .start{
-            HUDManager.sharedInstance.showHUD()
-            StreamList.sharedInstance.arrayStream.removeAll()
+            if ContentList.sharedInstance.arrayContent.count == 0 {
+                HUDManager.sharedInstance.showHUD()
+            }
             self.stuffCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
@@ -104,7 +142,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let content = ContentList.sharedInstance.arrayContent[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
         // for Add Content
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
@@ -121,6 +159,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = ContentList.sharedInstance.arrayContent[indexPath.row]
+        content.isSelected = !content.isSelected
+       ContentList.sharedInstance.arrayContent[indexPath.row] = content
+        self.stuffCollectionView.reloadData()
     }
     
 }
