@@ -210,7 +210,7 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image')
         return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
@@ -312,9 +312,10 @@ class MoveContentToStreamSerializer(ContentSerializer):
         streams = Stream.actives.filter(id__in=streams)
         if streams.exists():
             for stream in streams:
-                collaborators = stream.collaborator_list.filter(phone_number=self.context.user.username, can_add_content=True)
-                if not collaborators.exists():
-                    raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
+                if stream.created_by != self.context.user :
+                    collaborators = stream.collaborator_list.filter(phone_number=self.context.user.username, can_add_content=True)
+                    if not collaborators.exists():
+                        raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
             self.initial_data['streams'] = streams
         else:
             raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
