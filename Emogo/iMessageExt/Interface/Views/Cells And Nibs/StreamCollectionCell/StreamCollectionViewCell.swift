@@ -25,7 +25,7 @@ class StreamCollectionViewCell: UICollectionViewCell {
         } else {
             viewAddContent.isHidden  = true
             self.lblName.text = content.name.trim().capitalized
-            if content.type == "Picture" {
+            if content.type == .image {
                 self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
             }else{
                 if !content.coverImage.isEmpty {

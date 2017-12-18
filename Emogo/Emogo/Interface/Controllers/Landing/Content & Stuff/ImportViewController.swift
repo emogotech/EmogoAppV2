@@ -17,7 +17,7 @@ class ImportViewController: UIViewController {
     // MARK: - Variables
     
     var arrayMedia:  PHFetchResult<PHAsset>!
-    var arrayContent = [ImageDAO]()
+    var arrayContent = [ContentDAO]()
     // MARK: - Override Functions
    
     override func viewDidLoad() {
@@ -115,11 +115,15 @@ class ImportViewController: UIViewController {
             PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: PHImageContentMode.aspectFill, options: requestOptions) { (image, userInfo) -> Void in
                 if image != nil {
                     print (i)
-                    var obj:ImageDAO!
+                    var obj:ContentDAO!
                     if asset.mediaType == .video {
-                        obj = ImageDAO(type: .video, image: image!)
+                        obj = ContentDAO(contentData: [:])
+                        obj.type = .video
+                        obj.imgPreview = image
                     }else if  asset.mediaType == .image {
-                        obj = ImageDAO(type: .image, image: image!)
+                        obj = ContentDAO(contentData: [:])
+                        obj.type = .image
+                        obj.imgPreview = image
                     }
                     if obj != nil {
                         if let file =  asset.value(forKey: "filename"){
@@ -203,9 +207,7 @@ extension ImportViewController:UICollectionViewDelegate,UICollectionViewDataSour
         let itemWidth = collectionView.bounds.size.width/2.0
         return CGSize(width: itemWidth, height: itemWidth)
     }
-    
-   
-    
+        
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = arrayContent[indexPath.row]
         content.isSelected = !content.isSelected

@@ -35,6 +35,8 @@ class StreamListViewController: UIViewController {
     private let headerNib = UINib(nibName: "StreamSearchCell", bundle: Bundle.main)
     var menu = MenuDAO()
     var isMenuOpen:Bool! = false
+    var isPeopleList:Bool! = false
+
     var currentStreamType:StreamType! = .featured
     // MARK: - Override Functions
     
@@ -119,10 +121,18 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
              UIApplication.shared.beginIgnoringInteractionEvents()
-            self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
+            if (self?.isPeopleList)!  {
+                self?.getUsersList(type:.up)
+            }else {
+                self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
+            }
         }
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
+            if (self?.isPeopleList)!  {
+                self?.getUsersList(type:.down)
+            }else {
+                self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
+            }
         }
         self.streamCollectionView.expiredTimeInterval = 20.0
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -184,8 +194,10 @@ class StreamListViewController: UIViewController {
     }
     
     // MARK: - API Methods
+    
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
+            PeopleList.sharedInstance.arrayPeople.removeAll()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
         }
@@ -213,6 +225,33 @@ class StreamListViewController: UIViewController {
         }
        
     }
+    
+    
+    func getUsersList(type:RefreshType){
+        if type == .up {
+            StreamList.sharedInstance.arrayStream.removeAll()
+            PeopleList.sharedInstance.arrayPeople.removeAll()
+            self.streamCollectionView.reloadData()
+        }
+        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.streamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            self.streamCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -231,24 +270,41 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return StreamList.sharedInstance.arrayStream.count
+        if isPeopleList {
+            return PeopleList.sharedInstance.arrayPeople.count
+        }else {
+            return StreamList.sharedInstance.arrayStream.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
-        cell.layer.cornerRadius = 5.0
-        cell.layer.masksToBounds = true
-        cell.isExclusiveTouch = true
-
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-        cell.prepareLayouts(stream: stream)
-        return cell
+        if isPeopleList {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
+            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+            cell.prepareData(people:people)
+            return cell
+            
+        }else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
+            cell.layer.cornerRadius = 5.0
+            cell.layer.masksToBounds = true
+            cell.isExclusiveTouch = true
+            
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            cell.prepareLayouts(stream: stream)
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+        if isPeopleList {
+            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+            return CGSize(width: itemWidth, height: 100)
+        }else {
+            let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
+            return CGSize(width: itemWidth, height: itemWidth)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -264,12 +320,12 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-          obj.currentIndex = indexPath.row
-        obj.streamType = currentStreamType.rawValue
-        self.navigationController?.push(viewController: obj)
-        
+           if isPeopleList  == false{
+            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            obj.currentIndex = indexPath.row
+            obj.streamType = currentStreamType.rawValue
+            self.navigationController?.push(viewController: obj)
+        }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -279,6 +279,7 @@
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
+		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
@@ -2356,6 +2357,7 @@
 				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
 				33DAB2F81FC6B9020053AC23 /* FSPageViewTransformer.swift in Sources */,
+				F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,

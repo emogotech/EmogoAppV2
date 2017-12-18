@@ -55,40 +55,16 @@ class MyStuffViewController: UIViewController {
     
     @IBAction func btnActionNext(_ sender: Any) {
         HUDManager.sharedInstance.showHUD()
-        let group = DispatchGroup()
+        
         for obj in ContentList.sharedInstance.arrayContent {
-            group.enter()
-            var objImage:ImageDAO!
-            if obj.type == "Picture" {
-                SharedData.sharedInstance.downloadImage(url: obj.coverImage, handler: { (image) in
-                    if image != nil {
-                        objImage = ImageDAO(type: .image, image: image!)
-                        objImage.isUploaded = true
-                        objImage.fileUrl = URL(string: obj.coverImage)
-                        GalleryDAO.sharedInstance.Images.append(objImage)
-                    }
-                    group.leave()
-                })
-            }else {
-                let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
-                    objImage = ImageDAO(type: .video, image: image)
-                    objImage.isUploaded = true
-                    objImage.fileUrl = URL(string: obj.coverImage)
-                    GalleryDAO.sharedInstance.Images.append(objImage)
-                    group.leave()
-                }
-                
+            if obj.isSelected {
+                ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
             }
          }
-        
-        group.notify(queue: .main, execute: {
-            HUDManager.sharedInstance.hideHUD()
-            if   GalleryDAO.sharedInstance.Images.count != 0 {
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                self.navigationController?.pushNormal(viewController: objPreview)
-            }
-        })
+            self.navigationController?.pushNormal(viewController: objPreview)
+    }
     }
     
     // MARK: - API Methods
@@ -117,7 +93,6 @@ class MyStuffViewController: UIViewController {
             }
         }
     }
-
 
     /*
     // MARK: - Navigation
@@ -160,7 +135,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = ContentList.sharedInstance.arrayContent[indexPath.row]
         content.isSelected = !content.isSelected
-       ContentList.sharedInstance.arrayContent[indexPath.row] = content
+        ContentList.sharedInstance.arrayContent[indexPath.row] = content
         self.stuffCollectionView.reloadData()
     }
     

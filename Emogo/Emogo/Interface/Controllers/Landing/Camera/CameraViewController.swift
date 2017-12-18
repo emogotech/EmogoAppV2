@@ -71,7 +71,7 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Prepare Layouts
 
     func prepareLayouts(){
-        GalleryDAO.sharedInstance.Images.removeAll()
+       ContentList.sharedInstance.arrayContent.removeAll()
         cameraDelegate = self
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true
@@ -158,7 +158,7 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
-        if   GalleryDAO.sharedInstance.Images.count != 0 {
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             self.navigationController?.pushNormal(viewController: objPreview)
         }
@@ -212,17 +212,19 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Class Methods
     
     func preparePreview(assets:[Image]){
-        if   GalleryDAO.sharedInstance.Images.count == 0  && assets.count != 0 {
+        if   ContentList.sharedInstance.arrayContent.count == 0  && assets.count != 0 {
             self.viewUP()
         }
         Image.resolve(images: assets, completion: {  resolvedImages in
             for i in 0..<resolvedImages.count {
                 let obj = resolvedImages[i]
-                let camera  = ImageDAO(type: .image, image: obj!)
+                let camera = ContentDAO(contentData: [:])
+                 camera.imgPreview = obj
+                 camera.type = .image
                 if let file =  assets[i].asset.value(forKey: "filename"){
                     camera.fileName = file as! String
                 }
-            GalleryDAO.sharedInstance.Images.insert(camera, at: 0)
+                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
             }
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
@@ -261,7 +263,7 @@ class CameraViewController: SwiftyCamViewController {
     
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // In a storyboard-based  application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
@@ -284,12 +286,14 @@ class CameraViewController: SwiftyCamViewController {
 extension CameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        let camera = ImageDAO(type: .image, image: photo.fixOrientation())
-        if  GalleryDAO.sharedInstance.Images.count == 0 {
+        let camera = ContentDAO(contentData: [:])
+        camera.type = .image
+        camera.imgPreview = photo.fixOrientation()
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
             self.viewUP()
         }
         camera.fileName = NSUUID().uuidString + ".png"
-         GalleryDAO.sharedInstance.Images.insert(camera, at: 0)
+        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
         self.btnPreviewOpen.isHidden = false
         self.previewCollection.reloadData()
     }
@@ -311,15 +315,16 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
-            
-            let camera = ImageDAO(type: .video, image: image)
+            let camera = ContentDAO(contentData: [:])
+            camera.type = .image
+            camera.imgPreview = image
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
             print(camera.fileName)
-            if  GalleryDAO.sharedInstance.Images.count == 0 {
+            if  ContentList.sharedInstance.arrayContent.count == 0 {
                 self.viewUP()
             }
-             GalleryDAO.sharedInstance.Images.insert(camera, at: 0)
+            ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
         }
@@ -347,14 +352,14 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
 
 extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return   GalleryDAO.sharedInstance.Images.count
+        return   ContentList.sharedInstance.arrayContent.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj =   GalleryDAO.sharedInstance.Images[indexPath.row]
-        cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
+        let obj =   ContentList.sharedInstance.arrayContent[indexPath.row]
+        cell.setupPreviewWithType(content: obj)
         return cell
         
     }
@@ -380,14 +385,15 @@ extension CameraViewController:GalleryControllerDelegate {
                 if let tempPath = tempPath {
                     print(tempPath)
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
-                        let camera = ImageDAO(type: .video, image: image)
+                         let camera = ContentDAO(contentData: [:])
+                        camera.imgPreview = image
                         camera.fileName = tempPath.absoluteString.getName()
                         camera.fileUrl = tempPath
                         print(camera.fileName)
-                        if  GalleryDAO.sharedInstance.Images.count == 0 {
+                        if  ContentList.sharedInstance.arrayContent.count == 0 {
                             self.viewUP()
                         }
-                        GalleryDAO.sharedInstance.Images.insert(camera, at: 0)
+                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
                         self.btnPreviewOpen.isHidden = false
                         self.previewCollection.reloadData()
                         HUDManager.sharedInstance.hideHUD()
@@ -404,7 +410,6 @@ extension CameraViewController:GalleryControllerDelegate {
     }
     
     func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-        
       
     }
 

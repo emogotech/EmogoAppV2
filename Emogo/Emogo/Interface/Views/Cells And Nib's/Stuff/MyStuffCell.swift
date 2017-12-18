@@ -31,7 +31,7 @@ class MyStuffCell: UICollectionViewCell {
             imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
         }
         
-        if content.type == "Picture" {
+        if content.type == .image {
             self.btnPlay.isHidden = true
             self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {

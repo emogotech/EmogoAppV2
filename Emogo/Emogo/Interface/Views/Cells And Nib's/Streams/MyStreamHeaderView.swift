@@ -32,7 +32,7 @@ class MyStreamHeaderView: UICollectionViewCell {
         self.lblDescription.numberOfLines = 3
         self.imgCover.contentMode = .scaleAspectFit
         self.imgCover.backgroundColor = .black
-        if content.type == "Picture" {
+        if content.type == .image {
             self.btnPlay.isHidden = true
             self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {

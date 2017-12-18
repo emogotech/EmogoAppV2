@@ -179,55 +179,7 @@ class StreamViewDAO{
     }
 }
 
-class ContentList{
-    
-    var arrayContent:[ContentDAO]!
-    var requestURl:String! = ""
-    class var sharedInstance: ContentList {
-        struct Static {
-            static let instance: ContentList = ContentList()
-        }
-        return Static.instance
-    }
-    
-    init() {
-        arrayContent = [ContentDAO]()
-    }
-    
-}
 
-class ContentDAO{
-    
-    var contentID:String! = ""
-    var name:String! = ""
-    var coverImage:String! = ""
-    var type:String! = ""
-    var isAdd:Bool! = false
-    var description:String! = ""
-    var createdBy:String! = ""
-    var isSelected:Bool! = false
-    
-    init(contentData:[String:Any]) {
-        if let obj  = contentData["name"] {
-            self.name = obj as! String
-        }
-        if let obj  = contentData["type"] {
-            self.type = obj as! String
-        }
-        if let obj  = contentData["url"] {
-            self.coverImage = obj as! String
-        }
-        if let obj  = contentData["id"] {
-            self.contentID = "\(obj)"
-        }
-        if let obj  = contentData["description"] {
-            self.description = obj as! String
-        }
-        if let obj  = contentData["created_by"] {
-            self.createdBy = "\(obj)"
-        }
-    }
-}
 
 
 

@@ -33,6 +33,7 @@ class PreviewController: UIViewController {
     let shapes = ShapeDAO()
     var objContent:ContentDAO?
     var isContentAdded:Bool! = false
+    var seletedImage:ContentDAO!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,21 +71,28 @@ class PreviewController: UIViewController {
         self.txtDescription.text = ""
         self.selectedIndex = index
        
-        let obj =  GalleryDAO.sharedInstance.Images[index]
-        self.imgPreview.image = obj.imgPreview
-        if obj.type == .image {
+        seletedImage =  ContentList.sharedInstance.arrayContent[index]
+        if  seletedImage.imgPreview != nil {
+            self.imgPreview.image = seletedImage.imgPreview
+        }else{
+            
+        }
+        if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
         }else {
             self.btnPlayIcon.isHidden = false
         }
-        if !obj.title.isEmpty {
-            self.txtTitleImage.text = obj.title.trim()
+        if !seletedImage.name.isEmpty {
+            self.txtTitleImage.text = seletedImage.name.trim()
         }
-        if !obj.description.isEmpty {
-            self.txtDescription.text = obj.description.trim()
+        if !seletedImage.description.isEmpty {
+            self.txtDescription.text = seletedImage.description.trim()
         }
         
-        self.imgPreview.image = obj.imgPreview.resizedImage(withMaximumSize: CGSize(width: self.imgPreview.frame.width * 2.0, height: self.imgPreview.frame.height * 2.0))
+        if seletedImage.imgPreview != nil {
+            self.imgPreview.image = seletedImage.imgPreview?.resizedImage(withMaximumSize: CGSize(width: self.imgPreview.frame.width * 2.0, height: self.imgPreview.frame.height * 2.0))
+        }
+        
     }
     
     
@@ -100,10 +108,9 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
-        if   GalleryDAO.sharedInstance.Images.count != 0 {
-            let obj =   GalleryDAO.sharedInstance.Images[selectedIndex]
-            if obj.type == .image {
-                self.openEditor(image:obj.imgPreview)
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            if seletedImage.type == .image {
+                self.openEditor(image:seletedImage.imgPreview!)
             }
         }else {
             self.showToast(type: .error, strMSG: "You don't have image to Edit.")
@@ -137,9 +144,9 @@ class PreviewController: UIViewController {
     @IBAction func btnPlayAction(_ sender: Any) {
     }
     @IBAction func btnDeleteAction(_ sender: Any) {
-        if  GalleryDAO.sharedInstance.Images.count != 0 {
-             GalleryDAO.sharedInstance.Images.remove(at: self.selectedIndex)
-            if  GalleryDAO.sharedInstance.Images.count != 0 {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+             ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+            if  ContentList.sharedInstance.arrayContent.count != 0 {
                 self.preparePreview(index: 0)
             }else{
                 self.navigationController?.pop()
@@ -189,11 +196,10 @@ class PreviewController: UIViewController {
     }
     
     func setPreviewContent(title:String, description:String) {
-        if  GalleryDAO.sharedInstance.Images.count != 0 {
-            let obj =  GalleryDAO.sharedInstance.Images[selectedIndex]
-            obj.title = title
-            obj.description = description
-            GalleryDAO.sharedInstance.Images[selectedIndex] = obj
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            seletedImage.name = title
+            seletedImage.description = description
+            ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
         }
     }
     // MARK: - API Method
@@ -201,13 +207,12 @@ class PreviewController: UIViewController {
     func uploadFile(){
         HUDManager.sharedInstance.showProgress()
         let dispatchGroup = DispatchGroup()
-        let obj =  GalleryDAO.sharedInstance.Images[selectedIndex]
         var fileUrl:URL!
         var type:String! = "Picture"
-        if obj.type == .video {
+        if seletedImage.type == .video {
             dispatchGroup.enter()
             type = "Video"
-            Document.compressVideoFile(name: obj.fileName, inputURL: obj.fileUrl!, handler: { (compressed) in
+            Document.compressVideoFile(name: seletedImage.fileName, inputURL: seletedImage.fileUrl!, handler: { (compressed) in
                 if compressed != nil {
                     fileUrl = URL(fileURLWithPath: compressed!)
                     print(fileUrl)
@@ -216,15 +221,15 @@ class PreviewController: UIViewController {
             })
         }else {
             dispatchGroup.enter()
-            let image = obj.imgPreview.reduceSize()
-            let compressedData = UIImageJPEGRepresentation(image, 1.0)
-            let url = Document.saveFile(data: compressedData!, name: obj.fileName)
+            let image = seletedImage.imgPreview?.reduceSize()
+            let compressedData = UIImageJPEGRepresentation(image!, 1.0)
+            let url = Document.saveFile(data: compressedData!, name: seletedImage.fileName)
             fileUrl = URL(fileURLWithPath: url)
             dispatchGroup.leave()
         }
         dispatchGroup.notify(queue: .main) {
             print("Both functions complete 👍")
-            AWSManager.sharedInstance.uploadFile(fileUrl, name: obj.fileName) { (fileUrl,error) in
+            AWSManager.sharedInstance.uploadFile(fileUrl, name: self.seletedImage.fileName) { (fileUrl,error) in
                 HUDManager.sharedInstance.hideProgress()
                 if error == nil {
                     HUDManager.sharedInstance.showHUD()
@@ -238,21 +243,26 @@ class PreviewController: UIViewController {
     }
     
     func addContent(fileUrl:String,type:String){
-        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (content, errorMsg) in
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (contents, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
-                if self.isContentAdded {
-                    self.objContent = content
-                    self.addContentToStream()
-                }else {
+                if !self.isContentAdded {
                     self.showToast(type: .success, strMSG: kAlertContentAdded)
                 }
+                self.modifyObjects(contents: contents!)
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
         }
     }
-
+    
+    func modifyObjects(contents:[ContentDAO]){
+        
+        if self.isContentAdded {
+            self.addContentToStream()
+        }
+    }
+    
     func addContentToStream(){
         if objContent != nil {
             let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
@@ -277,14 +287,14 @@ class PreviewController: UIViewController {
 extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return  GalleryDAO.sharedInstance.Images.count
+        return  ContentList.sharedInstance.arrayContent.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj =  GalleryDAO.sharedInstance.Images[indexPath.row]
-        cell.setupPreviewWithType(type: obj.type, image: obj.imgPreview)
+        let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        cell.setupPreviewWithType(content:obj)
         cell.playIcon.tag = indexPath.row
         cell.playIcon.addTarget(self, action: #selector(self.playIconTapped(sender:)), for: .touchUpInside)
         return cell
@@ -306,9 +316,8 @@ extension PreviewController:PhotoEditorDelegate
     func doneEditing(image: UIImage) {
         // the edited image
         AppDelegate.appDelegate.keyboardResign(isActive: true)
-        let camera =   GalleryDAO.sharedInstance.Images[selectedIndex]
-        camera.imgPreview = image
-         GalleryDAO.sharedInstance.Images[selectedIndex] = camera
+        seletedImage.imgPreview = image
+        ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
     }

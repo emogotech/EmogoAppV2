@@ -30,12 +30,11 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = menu.icon
         }
-        
         cell.imageView?.tag = index
         cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.size.width)!/2
         cell.imageView?.contentMode = .scaleAspectFill
         cell.imageView?.clipsToBounds = true
-        
+        cell.isExclusiveTouch = true
         return cell
     }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
@@ -99,16 +98,14 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             self.currentStreamType = StreamType.emogoStreams
             break
         case 4:
-            if isSelect == true {
-                self.actionForPeopleList()
-            }
+            self.actionForPeopleList()
             break
-    
         default:
             break
         }
         print("currrent index--->\(index)")
         if  index != 4 {
+            isPeopleList = false
             HUDManager.sharedInstance.showHUD()
             self.getStreamList(type:.start,filter: self.currentStreamType)
         }
@@ -119,7 +116,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         self.navigationController?.push(viewController: obj)
     }
     func actionForPeopleList(){
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView)
-        self.navigationController?.push(viewController: obj)
+        isPeopleList = true
+        StreamList.sharedInstance.arrayStream.removeAll()
+        PeopleList.sharedInstance.arrayPeople.removeAll()
+        HUDManager.sharedInstance.showHUD()
+        self.getUsersList(type:.start)
     }
 }

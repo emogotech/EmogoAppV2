@@ -8,23 +8,21 @@
 
 import UIKit
 
-enum PreviewType:String
-{
-    case image = "1"
-    case video = "2"
-}
-
 class PreviewCell: UICollectionViewCell {
     
     @IBOutlet weak var previewImage: UIImageView!
     @IBOutlet weak var playIcon: UIButton!
 
-    func setupPreviewWithType(type:PreviewType, image:UIImage){
-        if type == .image {
+    func setupPreviewWithType(content:ContentDAO){
+        if content.type == .image {
             self.playIcon.isHidden = true
         }else {
             self.playIcon.isHidden = false
         }
-        self.previewImage.image = image
+        if content.imgPreview != nil {
+            self.previewImage.image = content.imgPreview
+        }else {
+            self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
+        }
     }
 }

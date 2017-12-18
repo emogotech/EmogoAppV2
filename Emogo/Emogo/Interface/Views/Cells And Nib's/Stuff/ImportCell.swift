@@ -14,7 +14,7 @@ class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgSelect: UIImageView!
 
     
-    func prepareLayout(content:ImageDAO?){
+    func prepareLayout(content:ContentDAO?){
         guard let content = content  else {
             return
         }
@@ -23,8 +23,11 @@ class ImportCell: UICollectionViewCell {
         }else {
             imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
         }
-        imgCover.image = content.imgPreview
-        self.imgCover.backgroundColor = .black
+        if content.imgPreview !=  nil {
+            imgCover.image = content.imgPreview
+        }else {
+            imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "")
+        }
         if content.type == .image {
             self.btnPlay.isHidden = true
         }else {

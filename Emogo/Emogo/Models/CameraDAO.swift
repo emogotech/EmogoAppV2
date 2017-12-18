@@ -9,6 +9,17 @@
 import Foundation
 import UIKit
 import Photos
+
+
+
+enum PreviewType:String{
+    case image = "1"
+    case video = "2"
+    case link = "3"
+}
+
+
+/*
 class ImageDAO {
     
     var type:PreviewType!
@@ -41,6 +52,68 @@ class GalleryDAO{
     init() {
         Images = [ImageDAO]()
     }
-       
+}
+
+*/
+
+class ContentList{
+    var arrayContent:[ContentDAO]!
+    var streamID:String! = ""
+    var requestURl:String! = ""
+    class var sharedInstance: ContentList {
+        struct Static {
+            static let instance: ContentList = ContentList()
+        }
+        return Static.instance
+    }
+    
+    init() {
+        arrayContent = [ContentDAO]()
+    }
     
 }
+
+class ContentDAO{
+    
+    var contentID:String! = ""
+    var name:String! = ""
+    var coverImage:String! = ""
+    var description:String! = ""
+    var createdBy:String! = ""
+    var type:PreviewType!
+    var imgPreview:UIImage?
+    var fileName:String! = ""
+    var fileUrl:URL?
+    var isUploaded:Bool! = false
+    var isAdd:Bool! = false
+    var isSelected:Bool! = false
+    
+    init(contentData:[String:Any]) {
+        if let obj  = contentData["name"] {
+            self.name = obj as! String
+        }
+        if let obj  = contentData["type"] {
+            let strType:String = obj as! String
+            if strType.trim().lowercased() == "picture"{
+                self.type = .image
+            }else if strType.lowercased() == "video" {
+                self.type = .video
+            }else {
+                self.type = .link
+            }
+        }
+        if let obj  = contentData["url"] {
+            self.coverImage = obj as! String
+        }
+        if let obj  = contentData["id"] {
+            self.contentID = "\(obj)"
+        }
+        if let obj  = contentData["description"] {
+            self.description = obj as! String
+        }
+        if let obj  = contentData["created_by"] {
+            self.createdBy = "\(obj)"
+        }
+    }
+}
+

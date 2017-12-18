@@ -850,7 +850,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="9" width="87.5" height="17"/>
+                                                    <rect key="frame" x="10" y="9" width="84" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6Mf-BA-iy0"/>
                                                     </constraints>
@@ -2032,7 +2032,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="streamCell" id="AQd-uZ-odc" customClass="StreamCell" customModule="Emogo" customModuleProvider="target">
-                                        <rect key="frame" x="85" y="8" width="150" height="125"/>
+                                        <rect key="frame" x="8" y="8" width="150" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="125"/>
@@ -2108,6 +2108,45 @@
                                             <outlet property="lblName" destination="Efb-VM-Lim" id="aho-xT-mKm"/>
                                             <outlet property="lblTitle" destination="jHT-Sk-hEq" id="mBy-ch-7Nz"/>
                                             <outlet property="viewContent" destination="hsJ-YQ-3Am" id="Iw8-IT-2h2"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="peopleCell" reuseIdentifier="peopleCell" id="HGx-Lt-oXz" customClass="PeopleCell" customModule="Emogo" customModuleProvider="target">
+                                        <rect key="frame" x="166" y="20.5" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="s5I-ga-daG">
+                                                    <rect key="frame" x="15" y="6" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="7n9-gP-EdM"/>
+                                                        <constraint firstAttribute="width" constant="70" id="ETV-gu-Zfd"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nas-vR-PK2">
+                                                    <rect key="frame" x="0.0" y="79" width="100" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="VTK-WU-i4l"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
+                                                    <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="s5I-ga-daG" firstAttribute="top" secondItem="HGx-Lt-oXz" secondAttribute="top" constant="6" id="AqA-IM-88Z"/>
+                                            <constraint firstItem="nas-vR-PK2" firstAttribute="top" secondItem="s5I-ga-daG" secondAttribute="bottom" constant="3" id="aK0-XL-IcJ"/>
+                                            <constraint firstItem="s5I-ga-daG" firstAttribute="centerX" secondItem="HGx-Lt-oXz" secondAttribute="centerX" id="eRW-5R-5XL"/>
+                                            <constraint firstItem="nas-vR-PK2" firstAttribute="leading" secondItem="HGx-Lt-oXz" secondAttribute="leading" id="fUM-3n-YuO"/>
+                                            <constraint firstAttribute="trailing" secondItem="nas-vR-PK2" secondAttribute="trailing" id="q2P-gY-nde"/>
+                                        </constraints>
+                                        <size key="customSize" width="100" height="100"/>
+                                        <connections>
+                                            <outlet property="imgUser" destination="s5I-ga-daG" id="mF1-ix-hFk"/>
+                                            <outlet property="lblName" destination="nas-vR-PK2" id="CqZ-Nz-16c"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

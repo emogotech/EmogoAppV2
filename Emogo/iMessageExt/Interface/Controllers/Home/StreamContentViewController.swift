@@ -107,7 +107,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
         
-        if content.type == "Picture" {
+        if content.type == .image {
             self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else{
             if !content.coverImage.isEmpty {
