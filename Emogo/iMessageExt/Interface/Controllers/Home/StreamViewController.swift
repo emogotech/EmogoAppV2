@@ -38,7 +38,7 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         requestMessageScreenChangeSize()
         self.prepareLayout()
@@ -112,18 +112,26 @@ class StreamViewController: MSMessagesAppViewController {
         getStream()
     }
     
-   @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 if currentStreamIndex !=  arrStream.count-1 {
-                    self.nextImageLoad()
+                    if Reachability.isNetworkAvailable() {
+                        self.nextImageLoad()
+                    } else {
+                        self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+                    }
                 }
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
                 if currentStreamIndex != 0 {
-                    self.previousImageLoad()
+                    if Reachability.isNetworkAvailable() {
+                        self.previousImageLoad()
+                    } else {
+                        self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+                    }
                 }
                 break
                 
@@ -132,9 +140,9 @@ class StreamViewController: MSMessagesAppViewController {
             }
         }
     }
-
+    
     // MARK: - Load Data in UI
-    func loadViewForUI(){
+    func loadViewForUI() {
         let stream = self.arrStream[currentStreamIndex]
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblStreamTitle.text = stream.Title
@@ -173,16 +181,16 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     // MARK: - Action Methods
-    @IBAction func btnNextAction(_ sender:UIButton){
+    @IBAction func btnNextAction(_ sender:UIButton) {
         nextImageLoad()
     }
     
-    @IBAction func btnClose(_ sender:UIButton){
+    @IBAction func btnClose(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
     }
     
-    func nextImageLoad(){
+    func nextImageLoad() {
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1
         }
@@ -201,7 +209,7 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnPreviousAction(_ sender:UIButton){
-      previousImageLoad()
+        previousImageLoad()
     }
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
@@ -236,7 +244,7 @@ class StreamViewController: MSMessagesAppViewController {
                 if(self.currentStreamIndex != 0){
                     self.currentStreamIndex = self.currentStreamIndex - 1
                 }
-               
+                self.getStream()
             } else {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
             }
