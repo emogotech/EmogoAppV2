@@ -9,7 +9,6 @@ from django.db import transaction
 from emogo.constants import messages
 
 
-
 class StreamSerializer(DynamicFieldsModelSerializer):
     """
     Stream model Serializer

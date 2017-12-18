@@ -105,12 +105,15 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
 
 
 class UserDetailSerializer(UserProfileSerializer):
-
-    user_image = serializers.URLField(read_only=True)
-
     """
     UserDetail Serializer to show user detail.
     """
+
+    user_image = serializers.URLField(read_only=True)
+    streams = serializers.SerializerMethodField()
+
+    def get_streams(self, obj):
+        return True
 
 
 class UserOtpSerializer(UserProfileSerializer):

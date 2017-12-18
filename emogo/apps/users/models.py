@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from emogo.apps.stream.models import Stream, Content
+from emogo.apps.collaborator.models import Collaborator
 
 from emogo.lib.default_models.models import DefaultDateModel, DefaultStatusModel, UsersStatusModel
 
@@ -28,6 +30,21 @@ class UserProfile(UsersStatusModel):
     class Meta:
         db_table = 'user_profile'
 
+    def user_streams(self):
+        """
+        :return: The function will return all streams created by user.
+        """
+        return Stream.actives.filter(created_by=self.user)
+
+    def user_contents(self):
+        """
+        :return: The function will return all Contents created by user.
+        """
+        return Content.actives.filter(created_by=self.user)
+
+    def user_as_collaborators(self):
+        return Collaborator.actives.filter(phone_number=self.user.username).\
+            values('stream', 'can_add_content', 'can_add_people')
 
 class UserDevice(DefaultDateModel):
     user = models.ForeignKey(User, null=True, blank=True)

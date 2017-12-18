@@ -120,8 +120,23 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get(self, request, *args, **kwargs):
-        # if kwargs.get('pk') is not None:
-        return self.list(request, *args, **kwargs)
+
+        if kwargs.get('pk') is not None:
+            return self.retrieve(self, request, *args, **kwargs)
+        else:
+            return self.list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Get User profile API.
+        """
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number')
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, fields=fields)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

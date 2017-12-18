@@ -149,7 +149,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :param request: The request data
         :param args: list or tuple data
         :param kwargs: dict param
-        :return: Create Stream API.
+        :return: Get Stream detail API.
         """
 
         instance = self.get_object()
