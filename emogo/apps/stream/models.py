@@ -76,7 +76,6 @@ class Content(DefaultStatusModel):
     streams = models.ManyToManyField(Stream, null=True, blank=True)
     created_by = models.ForeignKey(User, null=True, blank=True)
 
-
     class Meta:
         db_table = 'content'
 

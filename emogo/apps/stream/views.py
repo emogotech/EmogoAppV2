@@ -10,7 +10,7 @@ from models import Stream, Content
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer
 import django_filters
-from emogo.lib.custom_filters.filterset import StreamFilter
+from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 
 
@@ -116,6 +116,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     queryset = Content.actives.all().order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    filter_class = ContentsFilter
 
     def filter_queryset(self, queryset):
         """

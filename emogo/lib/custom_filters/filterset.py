@@ -1,5 +1,5 @@
 import django_filters
-from emogo.apps.stream.models import Stream
+from emogo.apps.stream.models import Stream, Content
 from emogo.apps.users.models import UserProfile
 from django.db.models import Q
 from itertools import chain
@@ -44,3 +44,12 @@ class UsersFilter(django_filters.FilterSet):
 
     def filter_people(self, qs, name, value):
         return qs.filter(Q(full_name__contains=value) | Q(user__username__contains=value))
+
+
+class ContentsFilter(django_filters.FilterSet):
+    type = django_filters.CharFilter(name='type', lookup_expr='iexact')
+
+    class Meta:
+        model = Content
+        fields = ['type']
+
