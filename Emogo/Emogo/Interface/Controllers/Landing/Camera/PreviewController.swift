@@ -31,15 +31,19 @@ class PreviewController: UIViewController {
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
-    var objContent:ContentDAO?
     var isContentAdded:Bool! = false
     var seletedImage:ContentDAO!
+    var strPresented:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.prepareLayouts()
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -57,6 +61,9 @@ class PreviewController: UIViewController {
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
+        if self.strPresented != nil {
+            kWidthOptions.constant = 63.0
+        }
         imgPreview.backgroundColor = .black
         self.imgPreview.contentMode = .scaleAspectFit
         viewOptions.isHidden = true
@@ -64,7 +71,6 @@ class PreviewController: UIViewController {
         self.previewCollection.reloadData()
     }
    
-    
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
@@ -74,12 +80,12 @@ class PreviewController: UIViewController {
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
-        }else{
-            
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
+            self.imgPreview.setImageWithURL(strImage: seletedImage.coverImage, placeholder: "stream-card-placeholder")
         }else {
+            self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
             self.btnPlayIcon.isHidden = false
         }
         if !seletedImage.name.isEmpty {
@@ -104,13 +110,25 @@ class PreviewController: UIViewController {
 
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.navigationController?.popNormal()
+        if self.strPresented == nil {
+            self.navigationController?.popNormal()
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
-                self.openEditor(image:seletedImage.imgPreview!)
+                if self.seletedImage.imgPreview == nil {
+                    SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
+                        if image != nil {
+                            self.openEditor(image:image!)
+                        }
+                    })
+                }else {
+                    self.openEditor(image:seletedImage.imgPreview!)
+                }
             }
         }else {
             self.showToast(type: .error, strMSG: "You don't have image to Edit.")
@@ -120,7 +138,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         isContentAdded = true
-        if objContent != nil {
+        if seletedImage.isUploaded {
              addContentToStream()
         }else {
             if (self.txtTitleImage.text?.isEmpty)! {
@@ -144,14 +162,19 @@ class PreviewController: UIViewController {
     @IBAction func btnPlayAction(_ sender: Any) {
     }
     @IBAction func btnDeleteAction(_ sender: Any) {
+    
         if  ContentList.sharedInstance.arrayContent.count != 0 {
-             ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
-            if  ContentList.sharedInstance.arrayContent.count != 0 {
-                self.preparePreview(index: 0)
-            }else{
-                self.navigationController?.pop()
+            
+            let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete This Content?", preferredStyle: .alert)
+            let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+                self.deleteSelectedContent()
             }
-            self.previewCollection.reloadData()
+            let no = UIAlertAction(title: "NO", style: .default) { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(yes)
+            alert.addAction(no)
+            present(alert, animated: true, completion: nil)
         }
     }
     @objc func playIconTapped(sender:UIButton) {
@@ -160,6 +183,19 @@ class PreviewController: UIViewController {
     
     // MARK: - Class Methods
 
+    func deleteSelectedContent(){
+        if self.seletedImage.contentID.trim().isEmpty {
+            self.deleteContent()
+        }else {
+            ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+            if  ContentList.sharedInstance.arrayContent.count != 0 {
+                self.preparePreview(index: 0)
+            }else{
+                self.navigationController?.pop()
+            }
+            self.previewCollection.reloadData()
+        }
+    }
     private func animateView(){
         UIView.animate(withDuration: 0.5) {
             self.isPreviewOpen = !self.isPreviewOpen
@@ -202,48 +238,98 @@ class PreviewController: UIViewController {
             ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
         }
     }
+    
+    
     // MARK: - API Method
     
     func uploadFile(){
+        // Create a object array to upload file to AWS
         HUDManager.sharedInstance.showProgress()
-        let dispatchGroup = DispatchGroup()
-        var fileUrl:URL!
         var type:String! = "Picture"
-        if seletedImage.type == .video {
-            dispatchGroup.enter()
-            type = "Video"
-            Document.compressVideoFile(name: seletedImage.fileName, inputURL: seletedImage.fileUrl!, handler: { (compressed) in
-                if compressed != nil {
-                    fileUrl = URL(fileURLWithPath: compressed!)
-                    print(fileUrl)
-                }
-                dispatchGroup.leave()
-            })
-        }else {
-            dispatchGroup.enter()
-            let image = seletedImage.imgPreview?.reduceSize()
-            let compressedData = UIImageJPEGRepresentation(image!, 1.0)
-            let url = Document.saveFile(data: compressedData!, name: seletedImage.fileName)
-            fileUrl = URL(fileURLWithPath: url)
-            dispatchGroup.leave()
-        }
-        dispatchGroup.notify(queue: .main) {
-            print("Both functions complete 👍")
-            AWSManager.sharedInstance.uploadFile(fileUrl, name: self.seletedImage.fileName) { (fileUrl,error) in
-                HUDManager.sharedInstance.hideProgress()
-                if error == nil {
-                    HUDManager.sharedInstance.showHUD()
-                    DispatchQueue.main.async {
-                        self.addContent(fileUrl: fileUrl!,type:type)
+        if !self.seletedImage.isUploaded  {
+            var arrayURL = [Any]()
+            if seletedImage.type == .video {
+                type = "Video"
+                Document.compressVideoFile(name: seletedImage.fileName, inputURL: seletedImage.fileUrl!, handler: { (compressed) in
+                    if compressed != nil {
+                        let fileUrl = URL(fileURLWithPath: compressed!)
+                         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl) {
+                            let img = image.reduceSize()
+                            let compressedData = UIImageJPEGRepresentation(img, 1.0)
+                            let url = Document.saveFile(data: compressedData!, name:  NSUUID().uuidString + ".jpeg")
+                            let imgUrl = URL(fileURLWithPath: url)
+                            let obj1 = ["name":NSUUID().uuidString + ".jpeg","url":imgUrl] as [String : Any]
+                            arrayURL.append(obj1)
+                        }
+                        let obj = ["name":self.seletedImage.fileName!,"url":fileUrl] as [String : Any]
+                        arrayURL.append(obj)
+                        print(arrayURL)
+                        self.startUpload(arryUrl: arrayURL, type: type)
                     }
-                }
+                    
+                })
+
+            }else if seletedImage.type == .image {
+                let image = seletedImage.imgPreview?.reduceSize()
+                let compressedData = UIImageJPEGRepresentation(image!, 1.0)
+                let url = Document.saveFile(data: compressedData!, name: seletedImage.fileName)
+                 let fileUrl = URL(fileURLWithPath: url)
+                let obj = ["name":seletedImage.fileName!,"url":fileUrl] as [String : Any]
+                  arrayURL.append(obj)
+                self.startUpload(arryUrl: arrayURL, type: type)
             }
         }
-        
     }
     
-    func addContent(fileUrl:String,type:String){
-        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl, coverType: type) { (contents, errorMsg) in
+    func startUpload(arryUrl:[Any],type:String){
+        HUDManager.sharedInstance.showProgress()
+        var videoCover:String! = ""
+        var file:String! = ""
+        let dispatchGroup = DispatchGroup()
+        for url in arryUrl  {
+            let dict:[String:Any] = url as! [String : Any]
+            if let obj = dict["name"], let objurl = dict["url"]  {
+            print(obj)
+            print(objurl)
+            dispatchGroup.enter()
+            self.uploadFileToAWS(fileURL: objurl as! URL, name: obj as! String, completion: { (fileUrl,error) in
+                    if error == nil {
+                        if type == "Video" {
+                            if (fileUrl?.isImageType())! {
+                                videoCover = fileUrl
+                            }else {
+                               file = fileUrl
+                            }
+                        }
+                        dispatchGroup.leave()
+                }
+                })
+            }
+            
+        }
+       
+        dispatchGroup.notify(queue: .main) {
+            HUDManager.sharedInstance.hideProgress()
+            DispatchQueue.main.async {
+                print(videoCover)
+                HUDManager.sharedInstance.showHUD()
+                print(file)
+              self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
+            }
+            
+        }
+    }
+    
+    
+    func uploadFileToAWS(fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void){
+        
+        AWSManager.sharedInstance.uploadFile(fileURL, name: name) { (fileUrl,error) in
+            completion(fileUrl,error)
+            
+        }
+    }
+    func addContent(fileUrl:String,type:String,fileUrlVideo:String){
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl,coverImageVideo:fileUrlVideo, coverType: type) { (contents, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 if !self.isContentAdded {
@@ -256,7 +342,15 @@ class PreviewController: UIViewController {
         }
     }
     
+
+    
     func modifyObjects(contents:[ContentDAO]){
+        
+        if contents.count != 0 {
+        self.seletedImage = contents[0]
+        ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
+        self.preparePreview(index: selectedIndex)
+        }
         
         if self.isContentAdded {
             self.addContentToStream()
@@ -264,10 +358,26 @@ class PreviewController: UIViewController {
     }
     
     func addContentToStream(){
-        if objContent != nil {
+        if seletedImage.isUploaded {
             let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-            obj.objContent = objContent
+            obj.objContent = seletedImage
             self.navigationController?.push(viewController: obj)
+        }
+    }
+    
+    func deleteContent(){
+        APIServiceManager.sharedInstance.apiForDeleteContent(contentID: seletedImage.contentID) { (isSuccess, errorMsg) in
+            if isSuccess == true {
+                ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+                if  ContentList.sharedInstance.arrayContent.count != 0 {
+                    self.preparePreview(index: 0)
+                }else{
+                    self.navigationController?.pop()
+                }
+                self.previewCollection.reloadData()
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
         }
     }
     

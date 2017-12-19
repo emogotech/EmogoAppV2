@@ -1369,7 +1369,7 @@
                         <outlet property="lblRecordTimer" destination="q1G-sv-mO2" id="daD-0a-G9l"/>
                         <outlet property="previewCollection" destination="yDV-Ix-T4g" id="G6O-dq-lwV"/>
                         <outlet property="viewFlashOptions" destination="2JO-bu-Ais" id="jl4-Dn-BBI"/>
-                        <segue destination="jWd-JM-6cV" kind="presentation" identifier="containerSegue" id="qUl-Jb-Fvy"/>
+                        <segue destination="jWd-JM-6cV" kind="presentation" identifier="containerSegue" id="XLY-Ky-gYb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ae0-uw-c4H" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2519,6 +2519,7 @@
                             <outletCollection property="gestureRecognizers" destination="BPX-0H-TXU" appends="YES" id="aAY-77-GVz"/>
                         </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="agR-BJ-NiN"/>
                     <connections>
                         <outlet property="btnGiphy" destination="mPY-FZ-KEH" id="BhM-yj-HPc"/>
                         <outlet property="btnImport" destination="gDK-Kv-Ddd" id="ZTU-Uc-Vhg"/>
@@ -2535,7 +2536,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5392.5" y="655.9859154929577"/>
+            <point key="canvasLocation" x="5466" y="672"/>
         </scene>
     </scenes>
     <resources>

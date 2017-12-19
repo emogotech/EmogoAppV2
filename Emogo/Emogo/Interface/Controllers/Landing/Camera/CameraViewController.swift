@@ -389,6 +389,7 @@ extension CameraViewController:GalleryControllerDelegate {
                         camera.imgPreview = image
                         camera.fileName = tempPath.absoluteString.getName()
                         camera.fileUrl = tempPath
+                        camera.type = .video
                         print(camera.fileName)
                         if  ContentList.sharedInstance.arrayContent.count == 0 {
                             self.viewUP()
@@ -413,7 +414,6 @@ extension CameraViewController:GalleryControllerDelegate {
       
     }
 
-  
 }
 
 

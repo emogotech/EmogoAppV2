@@ -183,7 +183,22 @@ extension String {
         }
         return nil
     }
+    
+    
+    func isImageType() -> Bool {
+        // image formats which you want to check
+        let imageFormats = ["jpg", "png", "jpeg"]
+        
+        if URL(string: self) != nil  {
+            
+            let extensi = (self as NSString).pathExtension
+            
+            return imageFormats.contains(extensi)
+        }
+        return false
+    }
 }
+
     
 
 

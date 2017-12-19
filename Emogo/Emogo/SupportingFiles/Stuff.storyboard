@@ -276,7 +276,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VeK-cQ-oEQ" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="M0t-Ax-fma">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="M0t-Ax-fma">
                                                             <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                                         </imageView>
                                                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sz4-YJ-CC6">
@@ -581,6 +581,7 @@ riKzAAAAAAAAAgEAAAAAAAAAWQAAAAAAAAAAAAAAAAAAIrU
         <image name="play_button" width="30" height="30"/>
         <image name="search_bar_link_iphone" width="287" height="37"/>
         <image name="select_active_icon" width="20" height="20"/>
+        <image name="stream-card-placeholder" width="145" height="145"/>
         <image name="stream_icon_add" width="154" height="88"/>
     </resources>
 </document>

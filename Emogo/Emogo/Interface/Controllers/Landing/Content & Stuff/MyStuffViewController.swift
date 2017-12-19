@@ -54,17 +54,21 @@ class MyStuffViewController: UIViewController {
     }
     
     @IBAction func btnActionNext(_ sender: Any) {
-        HUDManager.sharedInstance.showHUD()
-        
+        var contents = [ContentDAO]()
         for obj in ContentList.sharedInstance.arrayContent {
             if obj.isSelected {
-                ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
+                contents.insert(obj, at: 0)
             }
          }
-        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            if  contents.count != 0 {
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            self.navigationController?.pushNormal(viewController: objPreview)
-    }
+                ContentList.sharedInstance.arrayContent.removeAll()
+                ContentList.sharedInstance.arrayContent = contents
+                objPreview.strPresented = "TRUE"
+                let nav = UINavigationController(rootViewController: objPreview)
+                self.parent?.present(nav, animated: true, completion: nil)
+        }
+       
     }
     
     // MARK: - API Methods
