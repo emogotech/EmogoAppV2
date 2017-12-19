@@ -283,10 +283,10 @@ class APIManager: NSObject {
     // MARK: - DELETE REQUEST
 
    
-    func delete(strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?) {
+    func delete(strURL: String,Param: [String: Any]? = nil,callback: ((ApiResult<Any, Error>) -> Void)?) {
         let url = "\(kBaseURL)\(strURL)"
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
-        Alamofire.request(url, method: .delete, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
+        Alamofire.request(url, method: .delete, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]

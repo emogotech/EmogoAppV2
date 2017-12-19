@@ -521,6 +521,13 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    // MARK: - Content Edit API
+
+    func apiForEditContent( contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+        
+    }
+    
     // MARK: - Content List API
 
     func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
@@ -570,9 +577,9 @@ class APIServiceManager: NSObject {
     
     // MARK: - Delete  Content API
     
-    func apiForDeleteContent(contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let url = kContentAPI + "\(contentID)/"
-        APIManager.sharedInstance.delete(strURL: url) { (result) in
+    func apiForDeleteContent(contents:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let param = ["content_list":contents]
+        APIManager.sharedInstance.delete(strURL: kContentAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
@@ -590,6 +597,7 @@ class APIServiceManager: NSObject {
                 completionHandler(false,error.localizedDescription)
             }
         }
+       
     }
     
     

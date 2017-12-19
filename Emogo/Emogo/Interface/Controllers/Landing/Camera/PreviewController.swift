@@ -61,12 +61,19 @@ class PreviewController: UIViewController {
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
+        viewOptions.isHidden = true
         if self.strPresented != nil {
             kWidthOptions.constant = 63.0
+            viewOptions.isHidden = false
         }
         imgPreview.backgroundColor = .black
         self.imgPreview.contentMode = .scaleAspectFit
-        viewOptions.isHidden = true
+        
+        if self.seletedImage.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+            self.btnDelete.isHidden = true
+            self.btnEdit.isHidden = true
+        }
+        
         // Preview Footer
         self.previewCollection.reloadData()
     }
@@ -366,7 +373,8 @@ class PreviewController: UIViewController {
     }
     
     func deleteContent(){
-        APIServiceManager.sharedInstance.apiForDeleteContent(contentID: seletedImage.contentID) { (isSuccess, errorMsg) in
+        let content = [seletedImage.contentID.trim()]
+        APIServiceManager.sharedInstance.apiForDeleteContent(contents: content) { (isSuccess, errorMsg) in
             if isSuccess == true {
                 ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
                 if  ContentList.sharedInstance.arrayContent.count != 0 {
@@ -379,6 +387,10 @@ class PreviewController: UIViewController {
                 self.showToast(strMSG: errorMsg!)
             }
         }
+    }
+    
+    func updateContent(){
+        
     }
     
     /*
