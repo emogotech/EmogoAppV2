@@ -489,10 +489,9 @@ class APIServiceManager: NSObject {
     // MARK: - Create Content  API
     
     
-    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
-        let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription]]
+    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+        let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
         print(params)
-        
         APIManager.sharedInstance.post(params: params, strURL: kContentAPI) { (result) in
             
             switch(result){
@@ -506,6 +505,7 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let objContent = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                objContent.isUploaded = true
                                 arrayContents.append(objContent)
                             }
                         }
@@ -534,7 +534,6 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: ContentList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -567,6 +566,32 @@ class APIServiceManager: NSObject {
             
         }
     }
+    
+    
+    // MARK: - Delete  Content API
+    
+    func apiForDeleteContent(contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kContentAPI + "\(contentID)/"
+        APIManager.sharedInstance.delete(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.NoContent.rawValue{
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+    
     
     // MARK: - Add  Content To Stream API
     

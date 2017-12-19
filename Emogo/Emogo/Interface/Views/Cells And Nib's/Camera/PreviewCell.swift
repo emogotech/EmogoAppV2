@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PreviewCell: UICollectionViewCell {
     
     @IBOutlet weak var previewImage: UIImageView!
@@ -16,13 +17,13 @@ class PreviewCell: UICollectionViewCell {
     func setupPreviewWithType(content:ContentDAO){
         if content.type == .image {
             self.playIcon.isHidden = true
+            self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }else {
             self.playIcon.isHidden = false
+            self.previewImage.setImageWithURL(strImage: content.coverImageVideo, placeholder: "")
         }
         if content.imgPreview != nil {
             self.previewImage.image = content.imgPreview
-        }else {
-            self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }
     }
 }

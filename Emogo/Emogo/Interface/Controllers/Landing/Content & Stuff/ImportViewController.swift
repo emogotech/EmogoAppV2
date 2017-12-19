@@ -56,6 +56,15 @@ class ImportViewController: UIViewController {
     
     @IBAction func btnActionNext(_ sender: Any) {
         
+        if self.arrayContent.count  != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent = arrayContent
+            objPreview.strPresented = "TRUE"
+            let nav = UINavigationController(rootViewController: objPreview)
+            self.parent?.present(nav, animated: true, completion: nil)
+        }
+       
     }
     
     func checkPhotoLibraryPermission() {

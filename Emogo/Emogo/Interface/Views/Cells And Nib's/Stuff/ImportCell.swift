@@ -26,6 +26,7 @@ class ImportCell: UICollectionViewCell {
         if content.imgPreview !=  nil {
             imgCover.image = content.imgPreview
         }else {
+            
             imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }
         if content.type == .image {

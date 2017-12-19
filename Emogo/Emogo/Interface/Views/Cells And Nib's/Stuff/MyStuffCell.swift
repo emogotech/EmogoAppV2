@@ -35,12 +35,7 @@ class MyStuffCell: UICollectionViewCell {
             self.btnPlay.isHidden = true
             self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {
-            if !content.coverImage.isEmpty {
-                let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
-                    self.imgCover.image = image
-                }
-            }
+            self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
             self.btnPlay.isHidden = false
         }
     }

@@ -78,6 +78,7 @@ class ContentDAO{
     var contentID:String! = ""
     var name:String! = ""
     var coverImage:String! = ""
+    var coverImageVideo:String! = ""
     var description:String! = ""
     var createdBy:String! = ""
     var type:PreviewType!
@@ -102,6 +103,7 @@ class ContentDAO{
                 self.type = .link
             }
         }
+        
         if let obj  = contentData["url"] {
             self.coverImage = obj as! String
         }
@@ -113,6 +115,9 @@ class ContentDAO{
         }
         if let obj  = contentData["created_by"] {
             self.createdBy = "\(obj)"
+        }
+        if let obj  = contentData["video_image"] {
+            self.coverImageVideo = obj as! String
         }
     }
 }
