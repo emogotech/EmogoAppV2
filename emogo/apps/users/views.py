@@ -133,7 +133,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number')
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'contents')
         instance = self.get_object()
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)

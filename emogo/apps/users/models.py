@@ -34,13 +34,13 @@ class UserProfile(UsersStatusModel):
         """
         :return: The function will return all streams created by user.
         """
-        return Stream.actives.filter(created_by=self.user)
+        return self.user.stream_set.model.actives.filter(created_by=self.user)
 
     def user_contents(self):
         """
         :return: The function will return all Contents created by user.
         """
-        return Content.actives.filter(created_by=self.user)
+        return self.user.content_set.model.actives.filter(created_by=self.user)
 
     def user_as_collaborators(self):
         return Collaborator.actives.filter(phone_number=self.user.username).\

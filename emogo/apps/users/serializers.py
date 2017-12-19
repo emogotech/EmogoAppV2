@@ -9,6 +9,7 @@ from emogo.apps.users.models import UserProfile
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
+from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
 
 from emogo.lib.helpers.utils import generate_pin, send_otp
 
@@ -49,7 +50,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user_profile.user.username = validated_data.get('username')
             user_profile.user.save()
             return user_profile.user
-        except UserProfile.DoesNotExist :
+        except UserProfile.DoesNotExist:
             pass
 
         # 2. While user request with same phone number and different user_name
@@ -108,12 +109,24 @@ class UserDetailSerializer(UserProfileSerializer):
     """
     UserDetail Serializer to show user detail.
     """
-
     user_image = serializers.URLField(read_only=True)
-    # streams = serializers.SerializerMethodField()
+    streams = serializers.SerializerMethodField()
+    contents = serializers.SerializerMethodField()
 
-    # def get_streams(self, obj):
-    #     return True
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        self.Meta.fields.append('streams')
+        self.Meta.fields.append('contents')
+        # self.Meta.fields.append('otp')
+
+        # Instantiate the superclass normally
+        super(UserDetailSerializer, self).__init__(*args, **kwargs)
+
+    def get_streams(self, obj):
+        return ViewStreamSerializer(obj.user_streams(), many=True, fields=('id', 'name', 'author', 'image')).data
+
+    def get_contents(self, obj):
+        return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
 
 
 class UserOtpSerializer(UserProfileSerializer):
