@@ -160,7 +160,9 @@ class PreviewController: UIViewController {
         if (self.txtTitleImage.text?.isEmpty)! {
             self.txtTitleImage.shake()
         }else {
-            self.uploadFile()
+            if self.seletedImage.imgPreview == nil {
+                self.uploadFile()
+            }
         }
     }
     @IBAction func btnAnimateViewAction(_ sender: Any) {
@@ -285,6 +287,11 @@ class PreviewController: UIViewController {
                   arrayURL.append(obj)
                 self.startUpload(arryUrl: arrayURL, type: type)
             }
+        }else {
+            if !self.seletedImage.contentID.trim().isEmpty {
+                HUDManager.sharedInstance.showHUD()
+                self.updateContent(coverImage: self.seletedImage.coverImage, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue)
+            }
         }
     }
     
@@ -321,7 +328,12 @@ class PreviewController: UIViewController {
                 print(videoCover)
                 HUDManager.sharedInstance.showHUD()
                 print(file)
-              self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
+                if self.seletedImage.contentID.trim().isEmpty {
+                    self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
+                }else{
+                
+                    self.updateContent(coverImage: file, coverVideo: videoCover, type: type)
+                }
             }
             
         }
@@ -389,8 +401,18 @@ class PreviewController: UIViewController {
         }
     }
     
-    func updateContent(){
-        
+    func updateContent(coverImage:String,coverVideo:String, type:String){
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (contents, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                if contents?.count != 0 {
+                
+                    ContentList.sharedInstance.arrayContent[self.selectedIndex] = contents![0]
+                }
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
     }
     
     /*
@@ -406,59 +428,4 @@ class PreviewController: UIViewController {
 }
 
 
-extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return  ContentList.sharedInstance.arrayContent.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create the cell and return the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        cell.setupPreviewWithType(content:obj)
-        cell.playIcon.tag = indexPath.row
-        cell.playIcon.addTarget(self, action: #selector(self.playIconTapped(sender:)), for: .touchUpInside)
-        return cell
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height)
-    }
-    
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.preparePreview(index: indexPath.row)
-    }
-    
-}
 
-extension PreviewController:PhotoEditorDelegate
-{
-    func doneEditing(image: UIImage) {
-        // the edited image
-        AppDelegate.appDelegate.keyboardResign(isActive: true)
-        seletedImage.imgPreview = image
-        ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
-        self.preparePreview(index: selectedIndex)
-        self.previewCollection.reloadData()
-    }
-    
-    func canceledEditing() {
-        print("Canceled")
-        AppDelegate.appDelegate.keyboardResign(isActive: true)
-    }
-}
-
-
-extension PreviewController:UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == txtTitleImage {
-            txtDescription.becomeFirstResponder()
-        }else {
-            textField.resignFirstResponder()
-            self.setPreviewContent(title: (txtTitleImage.text?.trim())!, description: (txtDescription.text?.trim())!)
-        }
-        return true
-    }
-}

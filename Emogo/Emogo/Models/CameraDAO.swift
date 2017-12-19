@@ -13,9 +13,9 @@ import Photos
 
 
 enum PreviewType:String{
-    case image = "1"
-    case video = "2"
-    case link = "3"
+    case image = "Picture"
+    case video = "Video"
+    case link = "Link"
 }
 
 

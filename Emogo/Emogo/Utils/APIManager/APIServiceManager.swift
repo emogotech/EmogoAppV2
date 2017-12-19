@@ -522,11 +522,7 @@ class APIServiceManager: NSObject {
         }
     }
     
-    // MARK: - Content Edit API
-
-    func apiForEditContent( contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
-        
-    }
+  
     
     // MARK: - Content List API
 
@@ -598,6 +594,31 @@ class APIServiceManager: NSObject {
             }
         }
        
+    }
+    
+    
+    // MARK: - Content Edit API
+    
+    func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+        let param = ["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]
+         let url = kContentAPI + "\(contentID)/"
+        
+        APIManager.sharedInstance.patch(strURL: url, Param: param) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                 }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
     }
     
     

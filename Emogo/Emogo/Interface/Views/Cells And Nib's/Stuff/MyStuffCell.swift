@@ -23,8 +23,8 @@ class MyStuffCell: UICollectionViewCell {
         self.lblTitle.text = content.name.trim().capitalized
         self.lblDescription.text =  content.description.trim()
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-        self.imgCover.backgroundColor = .black
-        imgCover.contentMode = .scaleAspectFit
+      //  self.imgCover.backgroundColor = .black
+       // imgCover.contentMode = .scaleAspectFit
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
         }else {

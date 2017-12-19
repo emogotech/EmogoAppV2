@@ -203,6 +203,7 @@
 		F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612EE1FD69B3100788FFE /* AGDetailsFilter.swift */; };
 		F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */; };
 		F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */; };
+		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */; };
@@ -526,6 +527,7 @@
 		F43612EE1FD69B3100788FFE /* AGDetailsFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGDetailsFilter.swift; sourceTree = "<group>"; };
 		F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMPhotoEditingManager.swift; sourceTree = "<group>"; };
 		F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMEditingModel.swift; sourceTree = "<group>"; };
+		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
 		F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewCell.swift; sourceTree = "<group>"; };
@@ -1490,6 +1492,7 @@
 				F4731FC41FC2D97000AA68D8 /* CameraViewController.swift */,
 				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
 				F42864311FC4A12500E3549D /* PreviewController.swift */,
+				F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -2272,6 +2275,7 @@
 				F404C0B91FDABAF400E8ACC2 /* HeroModifier+HeroStringConvertible.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
+				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F404C0CA1FDABAF400E8ACC2 /* CascadePreprocessor.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,

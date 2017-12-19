@@ -15,15 +15,15 @@ class PreviewCell: UICollectionViewCell {
     @IBOutlet weak var playIcon: UIButton!
 
     func setupPreviewWithType(content:ContentDAO){
-        if content.type == .image {
+    
+        if content.imgPreview != nil {
+            self.previewImage.image = content.imgPreview
+        }else  if content.type == .image {
             self.playIcon.isHidden = true
             self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }else {
             self.playIcon.isHidden = false
             self.previewImage.setImageWithURL(strImage: content.coverImageVideo, placeholder: "")
-        }
-        if content.imgPreview != nil {
-            self.previewImage.image = content.imgPreview
         }
     }
 }
