@@ -110,10 +110,10 @@ class UserDetailSerializer(UserProfileSerializer):
     """
 
     user_image = serializers.URLField(read_only=True)
-    streams = serializers.SerializerMethodField()
+    # streams = serializers.SerializerMethodField()
 
-    def get_streams(self, obj):
-        return True
+    # def get_streams(self, obj):
+    #     return True
 
 
 class UserOtpSerializer(UserProfileSerializer):
