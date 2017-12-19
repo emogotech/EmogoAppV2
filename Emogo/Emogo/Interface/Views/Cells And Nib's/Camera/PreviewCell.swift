@@ -18,12 +18,19 @@ class PreviewCell: UICollectionViewCell {
     
         if content.imgPreview != nil {
             self.previewImage.image = content.imgPreview
-        }else  if content.type == .image {
+        }else {
+            if content.type == .image {
+                self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
+            }else {
+                self.previewImage.setImageWithURL(strImage: content.coverImageVideo, placeholder: "")
+            }
+        }
+        if content.type == .image {
             self.playIcon.isHidden = true
-            self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }else {
             self.playIcon.isHidden = false
-            self.previewImage.setImageWithURL(strImage: content.coverImageVideo, placeholder: "")
         }
+       
+        
     }
 }

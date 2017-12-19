@@ -51,7 +51,6 @@ class ContainerViewController: UIViewController {
     
     func prepareLayouts(){
         self.btnStuff.setImage(#imageLiteral(resourceName: "my_stuff_active_icon"), for: .normal)
-        ContentList.sharedInstance.arrayContent.removeAll()
     }
         
     override func viewDidAppear(_ animated: Bool) {

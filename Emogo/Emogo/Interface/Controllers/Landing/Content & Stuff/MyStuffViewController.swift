@@ -35,7 +35,7 @@ class MyStuffViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
-        
+        ContentList.sharedInstance.arrayContent.removeAll()
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
