@@ -38,9 +38,13 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: iMsgNotificationReloadStreamContent), object: nil)
+        
         requestMessageScreenChangeSize()
+        
         self.prepareLayout()
     }
     
@@ -51,6 +55,16 @@ class StreamViewController: MSMessagesAppViewController {
         }
         else{
             imgGradient.isUserInteractionEnabled = true
+        }
+    }
+    
+    @objc func updateTblData() {
+        objStream!.arrayContent = ContentList.sharedInstance.arrayContent
+        if objStream!.arrayContent.count == 0{
+            self.dismiss(animated: false, completion: nil)
+             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+        }else{
+            self.collectionStreams.reloadData()
         }
     }
     
@@ -71,11 +85,16 @@ class StreamViewController: MSMessagesAppViewController {
             btnNextStream.isEnabled = false
         }
         setupLoader()
-        setupLabelInCollaboratorButton()
-        setupCollectionProperties()
+        self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
+        self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
+        self.perform(#selector(getStream), with: nil, afterDelay: 0.3)
     }
     
-    func setupLabelInCollaboratorButton(){
+    override func viewDidAppear(_ animated: Bool) {
+       
+    }
+    
+   @objc func setupLabelInCollaboratorButton() {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2
         lblCount.clipsToBounds = true
@@ -88,7 +107,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.btnCollaborator.addSubview(lblCount)
     }
     
-    func setupCollectionProperties() {
+    @objc func setupCollectionProperties() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
         layout.itemSize = CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 100)
@@ -109,7 +128,6 @@ class StreamViewController: MSMessagesAppViewController {
         hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        getStream()
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -199,7 +217,7 @@ class StreamViewController: MSMessagesAppViewController {
         getStream()
     }
     
-    func previousImageLoad(){
+    func previousImageLoad() {
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
@@ -208,7 +226,7 @@ class StreamViewController: MSMessagesAppViewController {
         getStream()
     }
     
-    @IBAction func btnPreviousAction(_ sender:UIButton){
+    @IBAction func btnPreviousAction(_ sender:UIButton) {
         previousImageLoad()
     }
     
@@ -217,7 +235,7 @@ class StreamViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
     }
     
-    @IBAction func btnShowCollaborator(_ sender:UIButton){
+    @IBAction func btnShowCollaborator(_ sender:UIButton) {
         let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
         obj.strTitle = "Collaborator List"
         obj.arrCollaborator = objStream?.arrayColab
@@ -256,7 +274,7 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     //MARK:- calling webservice
-    func getStream(){
+    @objc func getStream() {
         if Reachability.isNetworkAvailable() {
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()

@@ -30,9 +30,15 @@ class StreamCollectionViewCell: UICollectionViewCell {
             }else{
                 if !content.coverImage.isEmpty {
                     let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                    if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
-                        self.imgCover.image = image
+                    
+                    DispatchQueue.global(qos: .userInitiated).async {
+                       let image = SharedData.sharedInstance.getThumbnailImage(url: url!)
+                        // Bounce back to the main thread to update the UI
+                        DispatchQueue.main.async {
+                            self.imgCover.image = image
+                        }
                     }
+                    
                 }
             }
         }

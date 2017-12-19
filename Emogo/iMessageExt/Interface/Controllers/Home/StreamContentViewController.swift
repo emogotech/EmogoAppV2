@@ -10,7 +10,7 @@ import UIKit
 import Messages
 
 class StreamContentViewController: MSMessagesAppViewController {
-
+    
     // MARK:- UI Elements
     @IBOutlet weak var lblStreamTitle       : UILabel!
     @IBOutlet weak var lblStreamName        : UILabel!
@@ -24,22 +24,33 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var viewAction           : UIView!
     @IBOutlet weak var viewAddStream        : UIView!
     
+    @IBOutlet weak var btnEdit              : UIButton!
+    @IBOutlet weak var btnDelete            : UIButton!
+    
+    
     // MARK: - Variables
     var currentContentIndex                 : Int!
     var arrContentData                      = [ContentDAO]()
-    
+    var hudView                             : LoadingView!
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.prepareLayout()
+        setupLoader()
+        self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
+        ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
     }
+    
     
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize(){
@@ -53,8 +64,18 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     
+    // MARK:- LoaderSetup
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
     // MARK: - PrepareLayout
-    func prepareLayout(){
+    @objc func prepareLayout(){
         
         loadViewForUI()
         
@@ -72,12 +93,18 @@ class StreamContentViewController: MSMessagesAppViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 if currentContentIndex !=  arrContentData.count-1 {
-                    self.nextContentLoad()
+                    DispatchQueue.main.async {
+                        self.hudView.startLoaderWithAnimation()
+                    }
+                    self.perform(#selector(self.nextContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
             case UISwipeGestureRecognizerDirection.right:
                 if currentContentIndex != 0 {
-                    self.previousContentLoad()
+                    DispatchQueue.main.async {
+                        self.hudView.startLoaderWithAnimation()
+                    }
+                    self.perform(#selector(self.previousContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
             default:
@@ -86,27 +113,30 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     
-    func nextContentLoad() {
+    @objc func nextContentLoad() {
         if(currentContentIndex < arrContentData.count-1) {
             currentContentIndex = currentContentIndex + 1
         }
+        
         self.addRightTransitionImage(imgV: self.imgStream)
         loadViewForUI()
     }
     
-    func previousContentLoad(){
+    @objc func previousContentLoad(){
         if currentContentIndex != 0{
-             currentContentIndex = currentContentIndex - 1
+            currentContentIndex = currentContentIndex - 1
         }
+        
         self.addLeftTransitionImage(imgV: self.imgStream)
         loadViewForUI()
     }
-    
+        
     //MARK: - Load Data in UI
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
-        
+        btnEdit.isHidden = true
+        btnDelete.isHidden = true
         if content.type == .image {
             self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else{
@@ -121,6 +151,14 @@ class StreamContentViewController: MSMessagesAppViewController {
         lblStreamDesc.text = content.description.trim().capitalized
         let currenProgressValue = Float(currentContentIndex)/Float(arrContentData.count-1)
         contentProgressView.setProgress(currenProgressValue, animated: true)
+        
+        if content.contentID.trim() == UserDAO.sharedInstance.user.userId.trim(){
+            btnEdit.isHidden = false
+            btnDelete.isHidden = false
+        }
+        DispatchQueue.main.async {
+            self.hudView.stopLoaderWithAnimation()
+        }
     }
     
     //MARK: - Action Methods
@@ -131,6 +169,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
     }
     
     @IBAction func btnsendAction(_ sender:UIButton){
@@ -138,6 +177,28 @@ class StreamContentViewController: MSMessagesAppViewController {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
         }
         self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
+    }
+    
+    @IBAction func btnDeleteAction(_ sender:UIButton){
+        let content = self.arrContentData[currentContentIndex]
+        let contentIds = [content.contentID.trim()]
+        APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
+            if isSuccess == true {
+                ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+                self.arrContentData.remove(at: self.currentContentIndex)
+                if(self.arrContentData.count == 0){
+                    self.dismiss(animated: true, completion: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+                    return
+                }
+                if(self.currentContentIndex != 0){
+                    self.currentContentIndex = self.currentContentIndex - 1
+                }
+                self.loadViewForUI()
+            }else {
+                
+            }
+        }
     }
     
     @objc func sendMessage(){
@@ -154,4 +215,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
     
+    func deleteContent(contentObj:ContentDAO){
+        
+    }
 }
