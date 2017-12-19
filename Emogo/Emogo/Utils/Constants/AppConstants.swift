@@ -200,6 +200,9 @@ let iMsgError_Name                              = "Please enter the name."
 let iMsgError_NameMax                           = "Username limit is between 3-30 characters."
 let iMsgError_NameSpace                         = "Space not allowed"
 
+let iMsgAlert_ConfirmationDescription           = "We need to redirect on Emogo App for the Peoples list, Do you want to go on Emogo?"
+let iMsgAlert_ConfirmationTitle                 =  "Continue"
+let iMsgAlert_CancelTitle                 =  "Cancel"
 
 //Alert Types
 let iMsgAlertType_One = "1"
@@ -210,6 +213,7 @@ let iMsgAlertType_Three = "3"
 let iMsgAlertTitle_Success                       = "Message!"
 let iMsgAlertTitle_Alert                         = "Emogo"
 let iMsgAlertTitle_Info                          = "Info!"
+let iMsgAlertTitle_Confirmation                  = "Confirmation!"
 
 //Sets Constant
 let iMsgCharacterSet                            = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"

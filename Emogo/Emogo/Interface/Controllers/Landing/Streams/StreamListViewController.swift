@@ -52,6 +52,7 @@ class StreamListViewController: UIViewController {
         menuView.isHidden = true
         self.viewMenu.isHidden = false
         self.streamCollectionView.reloadData()
+      
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
             self.navigationController?.push(viewController: obj)
@@ -111,11 +112,17 @@ class StreamListViewController: UIViewController {
         menuView.isAddTitle = true
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
-
-    }
-    
-    func configureLoadMoreAndRefresh(){
         
+        if(SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople){
+            pagerView(menuView, didSelectItemAt: 4)
+            menuView.currentIndex = 4
+            self.viewMenu.isHidden = true
+            self.menuView.isHidden = false
+            SharedData.sharedInstance.deepLinkType = ""
+        }
+    }
+ 
+    func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         

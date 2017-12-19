@@ -10,7 +10,7 @@ import UIKit
 import Messages
 
 class HomeViewController: MSMessagesAppViewController {
-    
+
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
     
@@ -86,6 +86,7 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
         pagerView.currentIndex = 2
+        lastIndex = 2
         pagerView.itemSize = CGSize(width: 120, height: 100)
         pagerView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
         pagerView.delegate = self
@@ -462,44 +463,49 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
-            lastIndex = index
             
-            switch  lastIndex {
+            switch  index {
                 
             case 0:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.populer
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 1:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.myStream
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 2:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.featured
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 3:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.emogoStreams
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 4:
+//                lastIndex = pagerView.currentIndex
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
                 SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
-                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                  showAlert(index, pagerView: pagerView)
+               
                 break
                 
             default :
                 break
             }
             
+
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
             })
@@ -508,15 +514,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         pagerView.scrollToItem(at: index, animated: true)
     }
     
-    
-    
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
-        if(lastIndex != pagerView.currentIndex){
-            lastIndex = pagerView.currentIndex
+        if(lastIndex != pagerView.currentIndex) {
             
-            switch  lastIndex {
+            switch  pagerView.currentIndex {
                 
             case 0:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.populer
                 self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
@@ -524,6 +528,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 1:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.myStream
                 self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
@@ -531,6 +536,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 2:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.featured
                 self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
@@ -538,6 +544,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 3:
+                lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.emogoStreams
                 self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
@@ -545,29 +552,28 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
+
                 let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
                 SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                 break
                 
             case 5:
-                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                showAlert(pagerView.currentIndex, pagerView: pagerView)
                 break
                 
             default :
                 break
             }
-            
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
         }
     }
     
-    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView){
-        for row in 0 ..< pagerView.numberOfItems{
+    func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView) {
+        for row in 0 ..< pagerView.numberOfItems {
             let indexPath = NSIndexPath(row: row, section: 0)
-            if let sel = pagerView.collectionView.cellForItem(at: indexPath as IndexPath){
+            if let sel = pagerView.collectionView.cellForItem(at: indexPath as IndexPath) {
                 if(sender == (sel as! FSPagerViewCell).imageView?.tag){
                     (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
                     (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
@@ -586,6 +592,51 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
         resetAllCells()
     }
+    
+    func showAlert(_ index: Int, pagerView:FSPagerView) {
+        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescription, preferredStyle: UIAlertControllerStyle.alert)
+       
+        
+        alert.addAction(UIAlertAction(title: iMsgAlert_CancelTitle, style: UIAlertActionStyle.default, handler: { action in
+            switch action.style{
+            case .default:
+                UIView.animate(withDuration: 0.7, animations: {
+                    pagerView.currentIndex = self.lastIndex
+                    let strLbl = "\(self.arrImagesSelected[pagerView.currentIndex])"
+                    pagerView.lblCurrentType.text = strLbl.uppercased()
+                    self.btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
+                    pagerView.reloadData()
+                })
+                break
+            case .cancel:
+                break
+            case .destructive:
+                break
+            }}))
+        
+        alert.addAction(UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: UIAlertActionStyle.cancel, handler: { action in
+            switch action.style{
+            case .cancel:
+                switch index {
+                case 4:
+                    break
+                case 5:
+                    self.lastIndex = index
+                    let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypePeople)"
+                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                    break
+                    
+                default:
+                    break
+                }
+                break
+            case .default:
+                break
+            case .destructive:
+                break
+            }}))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK:- Extension ScrollView delegate
@@ -596,14 +647,14 @@ extension HomeViewController : UIScrollViewDelegate {
         pagerContent.isHidden = true
         btnFeature.tag = 0
         
-        let threshold   = 100.0 ;
-        let contentOffset = scrollView.contentOffset.y;
-        let contentHeight = scrollView.contentSize.height;
-        let diffHeight = contentHeight - contentOffset;
-        let frameHeight = scrollView.bounds.size.height;
-        var triggerThreshold  = Float((diffHeight - frameHeight))/Float(threshold);
+        let threshold   = 100.0
+        let contentOffset = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let diffHeight = contentHeight - contentOffset
+        let frameHeight = scrollView.bounds.size.height
+        var triggerThreshold  = Float((diffHeight - frameHeight))/Float(threshold)
         triggerThreshold   =  min(triggerThreshold, 0.0)
-        let pullRatio  = min(fabs(triggerThreshold),1.0);
+        let pullRatio  = min(fabs(triggerThreshold),1.0)
         if pullRatio >= 1 {
             if(SharedData.sharedInstance.isMoreContentAvailable){
                 self.footerView?.loadingView.isHidden = false
@@ -614,14 +665,18 @@ extension HomeViewController : UIScrollViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-       
+        let contentOffset = scrollView.contentOffset.y;
+        let contentHeight = scrollView.contentSize.height;
+        let diffHeight = contentHeight - contentOffset;
+        let frameHeight = scrollView.bounds.size.height;
+        let pullHeight  = fabs(diffHeight - frameHeight);
+        if pullHeight == 0.0 {
             if(SharedData.sharedInstance.isMoreContentAvailable){
                 DispatchQueue.main.async {
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
-                
                 self.getStreamList(type:.down,filter:self.streamType)
-                
             }
+        }
     }
 }
