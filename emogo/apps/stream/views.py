@@ -184,7 +184,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         """
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        serializer = self.get_serializer(data=request.data, many=True , partial=partial)
+        serializer = self.get_serializer(data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
@@ -208,7 +208,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :param request:
         :param args:
         :param kwargs:
-        :return: Soft Delete Stream and it's attribute
+        :return: Soft Delete Content and it's attribute
         """
         self.serializer_class = ContentBulkDeleteSerializer
         serializer = self.get_serializer(data=request.data)
