@@ -10,7 +10,7 @@ import UIKit
 import Messages
 
 class HomeViewController: MSMessagesAppViewController {
-
+    
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream : UICollectionView!
     
@@ -52,7 +52,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @objc func reloadStreamData(){
-         self.getStreamList(type:.start,filter:self.streamType)
+        self.getStreamList(type:.start,filter:self.streamType)
     }
     
     // MARK:- prepareLayout
@@ -123,7 +123,7 @@ class HomeViewController: MSMessagesAppViewController {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
         layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2 - 12.0)
-       
+        
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 10
         collectionStream!.collectionViewLayout = layout
@@ -176,9 +176,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if !checkIsAvailableFilter() {
-             preparePagerFrame()
+            preparePagerFrame()
         }
-       
+        
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             pagerContent.isHidden = false
@@ -234,17 +234,10 @@ class HomeViewController: MSMessagesAppViewController {
                 if StreamList.sharedInstance.arrayStream.count == 0 {
                     self.lblNoResult.isHidden = false
                 }
-//                if(type == .start || type == .up){
-                    self.arrayStreams = StreamList.sharedInstance.arrayStream!
-//                }
-//                else {
-//                    for stream in StreamList.sharedInstance.arrayStream!{
-//                        self.arrayStreams.append(stream)
-//                    }
-//                }
+                self.arrayStreams = StreamList.sharedInstance.arrayStream!
                 self.collectionStream.reloadData()
                 if !(errorMsg?.isEmpty)! {
-                    // self.showToast(type: .success, strMSG: errorMsg!)
+                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
             }
         }
@@ -337,7 +330,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     
     @objc func btnShareAction(_ sender:UIButton){
         if(SharedData.sharedInstance.isMessageWindowExpand){
-             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
         }
         let stream = self.arrayStreams[sender.tag]
         self.sendMessage(content: stream, sender: sender.tag)
@@ -386,7 +379,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         for row in 0 ..< self.collectionStream.numberOfItems(inSection: 0){
             let indexPath = NSIndexPath(row: row, section: 0)
             if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
-                 (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
+                (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
             }
         }
     }
@@ -467,49 +460,44 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             switch  index {
                 
             case 0:
-                lastIndex = pagerView.currentIndex
+                lastIndex = index
                 self.streamType = StreamType.populer
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 1:
-                lastIndex = pagerView.currentIndex
+                lastIndex = index
                 self.streamType = StreamType.myStream
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 2:
-                lastIndex = pagerView.currentIndex
+                lastIndex = index
                 self.streamType = StreamType.featured
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 3:
-                lastIndex = pagerView.currentIndex
+                lastIndex = index
                 self.streamType = StreamType.emogoStreams
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 4:
-//                lastIndex = pagerView.currentIndex
-                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[index])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+              showAlert(index, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForProfile)
                 break
                 
             case 5:
-                  showAlert(index, pagerView: pagerView)
-               
+                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForPeople)
+                
                 break
                 
             default :
                 break
             }
-            
-
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
             })
-            
         }
         pagerView.scrollToItem(at: index, animated: true)
     }
@@ -552,21 +540,21 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
-
-                let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[lastIndex])"
-                SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForProfile)
                 break
                 
             case 5:
-                showAlert(pagerView.currentIndex, pagerView: pagerView)
+                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForPeople)
                 break
                 
             default :
                 break
             }
+            
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
+            
         }
     }
     
@@ -593,9 +581,8 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         resetAllCells()
     }
     
-    func showAlert(_ index: Int, pagerView:FSPagerView) {
-        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescription, preferredStyle: UIAlertControllerStyle.alert)
-       
+    func showAlert(_ index: Int, pagerView:FSPagerView, alert:String, messgae:String) {
+        let alert = UIAlertController(title: alert, message: messgae, preferredStyle: UIAlertControllerStyle.alert)
         
         alert.addAction(UIAlertAction(title: iMsgAlert_CancelTitle, style: UIAlertActionStyle.default, handler: { action in
             switch action.style{
@@ -619,6 +606,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case .cancel:
                 switch index {
                 case 4:
+                    self.lastIndex = index
+                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
+                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                     break
                 case 5:
                     self.lastIndex = index
