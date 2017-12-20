@@ -73,7 +73,7 @@ class Content(DefaultStatusModel):
     url = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     video_image = models.CharField(max_length=255, null=True, blank=True)
-    streams = models.ManyToManyField(Stream, null=True, blank=True)
+    streams = models.ManyToManyField(Stream)
     created_by = models.ForeignKey(User, null=True, blank=True)
 
     class Meta:

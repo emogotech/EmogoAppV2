@@ -120,7 +120,6 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get(self, request, *args, **kwargs):
-
         if kwargs.get('pk') is not None:
             return self.retrieve(self, request, *args, **kwargs)
         else:

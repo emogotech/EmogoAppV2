@@ -124,7 +124,13 @@ class UserDetailSerializer(UserProfileSerializer):
         super(UserDetailSerializer, self).__init__(*args, **kwargs)
 
     def get_streams(self, obj):
-        return ViewStreamSerializer(obj.user_streams(), many=True, fields=('id', 'name', 'author', 'image')).data
+        instances = obj.user_streams()
+        collaborators_streams = obj.user_as_collaborators()
+        if collaborators_streams.exists():
+            collaborators_streams = [x.stream for x in collaborators_streams]
+            self_created = [x for x in obj.user_streams()]
+            instances = collaborators_streams + self_created
+        return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data

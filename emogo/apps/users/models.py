@@ -43,8 +43,9 @@ class UserProfile(UsersStatusModel):
         return self.user.content_set.model.actives.filter(created_by=self.user)
 
     def user_as_collaborators(self):
-        return Collaborator.actives.filter(phone_number=self.user.username).\
-            values('stream', 'can_add_content', 'can_add_people')
+        return Collaborator.actives.filter(phone_number=self.user.username, stream__status='Active')
+
+
 
 class UserDevice(DefaultDateModel):
     user = models.ForeignKey(User, null=True, blank=True)

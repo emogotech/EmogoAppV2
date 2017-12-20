@@ -17,7 +17,6 @@ class Collaborator(DefaultStatusModel):
     image = models.CharField(max_length=200, null=True, blank=True)
     created_by = models.ForeignKey(User, null=True, blank=True)
 
-
     class Meta:
         db_table = 'collaborator'
 
