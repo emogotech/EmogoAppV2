@@ -95,6 +95,22 @@ class MyStuffViewController: UIViewController {
             if type == .down {
                 self.stuffCollectionView.es.stopLoadingMore()
             }
+            
+            if let parentVC = self.parent {
+                let array = (parentVC as! ContainerViewController).arraySelectedContent
+                for i in 0..<ContentList.sharedInstance.arrayContent.count {
+                    let con = ContentList.sharedInstance.arrayContent[i]
+                    if array.count != 0 {
+                        if let index =  array.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
+                            if array[index].isSelected == true {
+                                con.isSelected = true
+                                ContentList.sharedInstance.arrayContent[i] = con
+                            }
+                        }
+                    }
+                }
+            }
+            
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)

@@ -29,6 +29,7 @@ let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blu
 let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0, alpha: 1.0)
 
 var kContainerNav = ""
+var kBackNav = ""
 
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"

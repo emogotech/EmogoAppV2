@@ -12,4 +12,6 @@ import UIKit
 class PMInteractor: UIPercentDrivenInteractiveTransition {
     var hasStarted = false
     var shouldFinish = false
+    var isBackClicked = false
+
 }

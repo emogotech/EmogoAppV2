@@ -236,6 +236,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             
             let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
                 kContainerNav = "1"
+            ContentList.sharedInstance.objStream = self.objStream
+            ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
           
             //self.navigationController?.push(viewController: obj)

@@ -34,6 +34,7 @@ class CameraViewController: SwiftyCamViewController {
     var isPreviewOpen:Bool! = false
     var isFlashClicked:Bool! = false
     var isCaptureMode: Bool! = true
+
     var timer:Timer!
     var timeSec = 0
     var beepSound: Sound?
@@ -54,6 +55,7 @@ class CameraViewController: SwiftyCamViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.previewCollection.reloadData()
+        self.view.setNeedsDisplay()
 
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -96,6 +98,11 @@ class CameraViewController: SwiftyCamViewController {
         if kContainerNav == "1" {
             kContainerNav = "2"
           performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
+        }
+        
+        if !kBackNav.isEmpty {
+            kBackNav = ""
+            self.navigationController?.popNormal()
         }
     }
   
@@ -415,10 +422,13 @@ extension CameraViewController:GalleryControllerDelegate {
 
 extension CameraViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        print("dissmiss")
+        print(interactor.isBackClicked)
         return DismissAnimator()
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
+        print("dissmiss down")
+         return interactor.hasStarted ? interactor : nil
     }
 }

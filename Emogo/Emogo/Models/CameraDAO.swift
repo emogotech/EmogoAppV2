@@ -58,7 +58,7 @@ class GalleryDAO{
 
 class ContentList{
     var arrayContent:[ContentDAO]!
-    var streamID:String! = ""
+    var objStream:StreamViewDAO?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
         struct Static {

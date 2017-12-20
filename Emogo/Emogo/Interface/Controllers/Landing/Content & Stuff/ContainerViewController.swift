@@ -46,7 +46,6 @@ class ContainerViewController: UIViewController {
         return btn
     }()
     var interactor:PMInteractor? = nil
-
     var captureSession = AVCaptureSession();
     var sessionOutput = AVCapturePhotoOutput();
     var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG]);
@@ -171,6 +170,10 @@ class ContainerViewController: UIViewController {
     
     @IBAction func btnActionController(_ sender: UIButton) {
        self.updateSegment(selected: sender.tag)
+    }
+    @IBAction func btnBackAction(_ sender: UIButton) {
+        kBackNav = "2"
+        self.dismiss(animated: true, completion: nil)
     }
     
     

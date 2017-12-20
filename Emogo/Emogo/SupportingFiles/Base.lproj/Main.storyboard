@@ -2504,6 +2504,19 @@
                                     <action selector="btnActionCamera:" destination="jWd-JM-6cV" eventType="touchUpInside" id="pPY-XF-jtF"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0b-0E-Iyf">
+                                <rect key="frame" x="4" y="24" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="M7x-yF-0y2"/>
+                                    <constraint firstAttribute="height" constant="40" id="O6V-hG-to1"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="-6" minY="-3" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="back-circle-icon"/>
+                                <connections>
+                                    <action selector="btnActionCamera:" destination="jWd-JM-6cV" eventType="touchUpInside" id="gth-JH-wV5"/>
+                                    <action selector="btnBackAction:" destination="jWd-JM-6cV" eventType="touchUpInside" id="1QI-LH-MBM"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTx-5G-VXp">
                                 <rect key="frame" x="100" y="502" width="121" height="45"/>
                                 <constraints>
@@ -2525,7 +2538,9 @@
                             <constraint firstItem="Tec-Th-ubp" firstAttribute="centerX" secondItem="sF9-u0-U6t" secondAttribute="centerX" id="CR5-gL-PeS"/>
                             <constraint firstItem="XaE-Kn-iiX" firstAttribute="trailing" secondItem="MBU-p9-pkf" secondAttribute="trailing" id="IxN-ww-pb4"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="top" secondItem="sF9-u0-U6t" secondAttribute="bottom" id="QyB-p0-MBI"/>
+                            <constraint firstItem="z0b-0E-Iyf" firstAttribute="top" secondItem="MBU-p9-pkf" secondAttribute="top" constant="4" id="VLs-PP-PmE"/>
                             <constraint firstItem="KTx-5G-VXp" firstAttribute="centerX" secondItem="XaE-Kn-iiX" secondAttribute="centerX" id="Vxe-cF-BCL"/>
+                            <constraint firstItem="z0b-0E-Iyf" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" constant="4" id="WtK-7l-PuM"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="trailing" secondItem="MBU-p9-pkf" secondAttribute="trailing" id="Xs2-vC-pFp"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="ZyO-Hh-J6m"/>
                             <constraint firstItem="sF9-u0-U6t" firstAttribute="top" secondItem="MBU-p9-pkf" secondAttribute="top" id="h67-bE-u7s"/>
