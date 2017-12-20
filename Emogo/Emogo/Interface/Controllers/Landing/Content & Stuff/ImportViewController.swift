@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import PhotosUI
+import Lightbox
 
 private extension UICollectionView {
     func indexPathsForElements(in rect: CGRect) -> [IndexPath] {

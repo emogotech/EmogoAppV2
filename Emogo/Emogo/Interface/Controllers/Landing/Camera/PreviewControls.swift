@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Gallery
+import Lightbox
 
 
 extension PreviewController {
@@ -18,9 +19,37 @@ extension PreviewController {
         gallery.delegate = self
         present(gallery, animated: true, completion: nil)
     }
-     
+    
+   @objc func openFullView(){
+        var arrayContents = [LightboxImage]()
+        for obj in ContentList.sharedInstance.arrayContent {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!)
+                }
+            }else {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: self.selectedIndex)
+        controller.dynamicBackground = true
+        present(controller, animated: true, completion: nil)
+    }
 }
-
 
 
 extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewDelegate,UICollectionViewDataSource {

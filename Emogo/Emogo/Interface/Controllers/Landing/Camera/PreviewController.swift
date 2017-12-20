@@ -81,7 +81,9 @@ class PreviewController: UIViewController {
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
-        
+        self.imgPreview.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
+        self.imgPreview.addGestureRecognizer(tap)
         // Preview Footer
         self.previewCollection.reloadData()
     }
@@ -181,6 +183,7 @@ class PreviewController: UIViewController {
         self.animateView()
     }
     @IBAction func btnPlayAction(_ sender: Any) {
+        self.openFullView()
     }
     
     @IBAction func btnGalleryAction(_ sender: Any) {
@@ -210,6 +213,7 @@ class PreviewController: UIViewController {
     @objc func playIconTapped(sender:UIButton) {
         self.preparePreview(index: sender.tag)
     }
+    
     
     // MARK: - Class Methods
 
