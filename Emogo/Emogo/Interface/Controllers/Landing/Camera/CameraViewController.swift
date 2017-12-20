@@ -55,8 +55,7 @@ class CameraViewController: SwiftyCamViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.previewCollection.reloadData()
-        self.view.setNeedsDisplay()
-
+        print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -423,12 +422,11 @@ extension CameraViewController:GalleryControllerDelegate {
 extension CameraViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         print("dissmiss")
-        print(interactor.isBackClicked)
         return DismissAnimator()
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        print("dissmiss down")
-         return interactor.hasStarted ? interactor : nil
+        session.startRunning()
+       return interactor.hasStarted ? interactor : nil
     }
 }
