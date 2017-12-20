@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class StreamListViewController: UIViewController {
 

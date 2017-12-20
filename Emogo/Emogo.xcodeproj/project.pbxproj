@@ -249,6 +249,16 @@
 		F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */; };
 		F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */; };
 		F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
+		F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D11FEA566900AE2FCA /* ESRefreshAnimator.swift */; };
+		F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D21FEA566A00AE2FCA /* ESRefreshComponent.swift */; };
+		F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D31FEA566B00AE2FCA /* ESPullToRefresh.swift */; };
+		F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F44939D51FEA566E00AE2FCA /* Localizable.strings */; };
+		F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D71FEA566E00AE2FCA /* ESRefreshFooterAnimator.swift */; };
+		F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D81FEA566E00AE2FCA /* ESRefreshHeaderAnimator.swift */; };
+		F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F44939D91FEA566E00AE2FCA /* icon_pull_to_refresh_arrow@2x.png */; };
+		F44939E61FEA567800AE2FCA /* ES.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939DC1FEA567400AE2FCA /* ES.swift */; };
+		F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939DD1FEA567500AE2FCA /* ESPullToRefresh+Manager.swift */; };
+		F44939E81FEA567800AE2FCA /* ESRefreshProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939DE1FEA567700AE2FCA /* ESRefreshProtocol.swift */; };
 		F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44FFC9F1FD0396E00F14469 /* ShapeDAO.swift */; };
 		F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522C9D1FCBF8B40021562D /* MenuDAO.swift */; };
 		F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA11FCBFC2B0021562D /* CircleMenuControls.swift */; };
@@ -571,6 +581,18 @@
 		F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
 		F4431AB21FC7044D00311C9A /* ASToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASToast.swift; sourceTree = "<group>"; };
+		F44939D11FEA566900AE2FCA /* ESRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshAnimator.swift; sourceTree = "<group>"; };
+		F44939D21FEA566A00AE2FCA /* ESRefreshComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshComponent.swift; sourceTree = "<group>"; };
+		F44939D31FEA566B00AE2FCA /* ESPullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESPullToRefresh.swift; sourceTree = "<group>"; };
+		F44939D61FEA566E00AE2FCA /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F44939D71FEA566E00AE2FCA /* ESRefreshFooterAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshFooterAnimator.swift; sourceTree = "<group>"; };
+		F44939D81FEA566E00AE2FCA /* ESRefreshHeaderAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshHeaderAnimator.swift; sourceTree = "<group>"; };
+		F44939D91FEA566E00AE2FCA /* icon_pull_to_refresh_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_pull_to_refresh_arrow@2x.png"; sourceTree = "<group>"; };
+		F44939DA1FEA566E00AE2FCA /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F44939DB1FEA566E00AE2FCA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F44939DC1FEA567400AE2FCA /* ES.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ES.swift; sourceTree = "<group>"; };
+		F44939DD1FEA567500AE2FCA /* ESPullToRefresh+Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ESPullToRefresh+Manager.swift"; sourceTree = "<group>"; };
+		F44939DE1FEA567700AE2FCA /* ESRefreshProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshProtocol.swift; sourceTree = "<group>"; };
 		F44FFC9E1FD01FE800F14469 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		F44FFC9F1FD0396E00F14469 /* ShapeDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeDAO.swift; sourceTree = "<group>"; };
 		F4522C9D1FCBF8B40021562D /* MenuDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuDAO.swift; sourceTree = "<group>"; };
@@ -950,6 +972,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
 				F409FC701FE3DF280093E0E7 /* SwipeViewController */,
 				F409FC6D1FE3D8B90093E0E7 /* CustomLayout */,
 				F404C0761FDABA7B00E8ACC2 /* Animation */,
@@ -1472,6 +1495,31 @@
 			path = Toast;
 			sourceTree = "<group>";
 		};
+		F44939BC1FEA549600AE2FCA /* Pull To Refresh */ = {
+			isa = PBXGroup;
+			children = (
+				F44939D41FEA566E00AE2FCA /* Animator */,
+				F44939DC1FEA567400AE2FCA /* ES.swift */,
+				F44939D31FEA566B00AE2FCA /* ESPullToRefresh.swift */,
+				F44939DD1FEA567500AE2FCA /* ESPullToRefresh+Manager.swift */,
+				F44939D11FEA566900AE2FCA /* ESRefreshAnimator.swift */,
+				F44939D21FEA566A00AE2FCA /* ESRefreshComponent.swift */,
+				F44939DE1FEA567700AE2FCA /* ESRefreshProtocol.swift */,
+			);
+			path = "Pull To Refresh";
+			sourceTree = "<group>";
+		};
+		F44939D41FEA566E00AE2FCA /* Animator */ = {
+			isa = PBXGroup;
+			children = (
+				F44939D51FEA566E00AE2FCA /* Localizable.strings */,
+				F44939D71FEA566E00AE2FCA /* ESRefreshFooterAnimator.swift */,
+				F44939D81FEA566E00AE2FCA /* ESRefreshHeaderAnimator.swift */,
+				F44939D91FEA566E00AE2FCA /* icon_pull_to_refresh_arrow@2x.png */,
+			);
+			path = Animator;
+			sourceTree = "<group>";
+		};
 		F4522C9F1FCBFBE60021562D /* Streams */ = {
 			isa = PBXGroup;
 			children = (
@@ -1753,6 +1801,8 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 335B1A051FBB238A006DA9D9;
 			productRefGroup = 335B1A0F1FBB238A006DA9D9 /* Products */;
@@ -1781,6 +1831,7 @@
 				F404C06D1FDA951D00E8ACC2 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */,
+				F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
@@ -1790,6 +1841,7 @@
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
+				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
 				F4431A9B1FC6DD2C00311C9A /* PhotoCropEditorBorder@2x.png in Resources */,
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
@@ -2041,7 +2093,6 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/ESPullToRefresh/ESPullToRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Ji/Ji.framework",
@@ -2055,7 +2106,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ESPullToRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Ji.framework",
@@ -2166,6 +2216,7 @@
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
+				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F404C0D61FDABAF500E8ACC2 /* HeroDebugView.swift in Sources */,
@@ -2191,10 +2242,12 @@
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F404C0B71FDABAF400E8ACC2 /* UIView+Hero.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
+				F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */,
 				F404C0CB1FDABAF400E8ACC2 /* ConditionalPreprocessor.swift in Sources */,
 				F404C0D01FDABAF500E8ACC2 /* HeroContext.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
+				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
@@ -2214,6 +2267,7 @@
 				F404C0CC1FDABAF400E8ACC2 /* DefaultAnimationPreprocessor.swift in Sources */,
 				F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
+				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
 				F404C0B41FDABAF400E8ACC2 /* CG+Hero.swift in Sources */,
 				F404C0C71FDABAF400E8ACC2 /* HeroDefaultAnimator.swift in Sources */,
@@ -2233,6 +2287,7 @@
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
+				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,
@@ -2272,6 +2327,7 @@
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
+				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
 				F404C0CA1FDABAF400E8ACC2 /* CascadePreprocessor.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
@@ -2293,6 +2349,7 @@
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
+				F44939E81FEA567800AE2FCA /* ESRefreshProtocol.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F404C0CE1FDABAF400E8ACC2 /* MatchPreprocessor.swift in Sources */,
@@ -2305,6 +2362,7 @@
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F4431AA51FC6DD2C00311C9A /* PhotoEditorViewController.swift in Sources */,
+				F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2441,6 +2499,16 @@
 				335B1A5E1FBB2413006DA9D9 /* Base */,
 			);
 			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		F44939D51FEA566E00AE2FCA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F44939D61FEA566E00AE2FCA /* Base */,
+				F44939DA1FEA566E00AE2FCA /* zh-Hans */,
+				F44939DB1FEA566E00AE2FCA /* zh-Hant */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

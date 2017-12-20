@@ -261,7 +261,6 @@ class SharedData: NSObject {
           let manager = SDWebImageManager.shared()
         manager.imageDownloader?.downloadImage(with: imageURL, options: .continueInBackground, progress: nil, completed: { (image, data, error, finished) in
             handler(image)
-           
         })
     }
     

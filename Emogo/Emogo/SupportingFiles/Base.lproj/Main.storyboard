@@ -2421,7 +2421,7 @@
         <!--Container View Controller-->
         <scene sceneID="9tf-pP-Z8B">
             <objects>
-                <viewController storyboardIdentifier="containerView" id="jWd-JM-6cV" customClass="ContainerViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="containerView" autoresizesArchivedViewToFullSize="NO" id="jWd-JM-6cV" customClass="ContainerViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ni9-bk-E0i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2504,9 +2504,20 @@
                                     <action selector="btnActionCamera:" destination="jWd-JM-6cV" eventType="touchUpInside" id="pPY-XF-jtF"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTx-5G-VXp">
+                                <rect key="frame" x="100" y="502" width="121" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="KTx-5G-VXp" secondAttribute="height" multiplier="121:45" id="4cg-jP-jzO"/>
+                                </constraints>
+                                <state key="normal" image="content_next_btn"/>
+                                <connections>
+                                    <action selector="btnActionNext:" destination="jWd-JM-6cV" eventType="touchUpInside" id="Ihk-QA-PW7"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="KTx-5G-VXp" firstAttribute="top" secondItem="XaE-Kn-iiX" secondAttribute="bottom" constant="-66" id="0BN-oo-bI9"/>
                             <constraint firstItem="Tec-Th-ubp" firstAttribute="centerY" secondItem="sF9-u0-U6t" secondAttribute="centerY" id="5j4-dq-UiU"/>
                             <constraint firstItem="XaE-Kn-iiX" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="60o-ux-PEH"/>
                             <constraint firstItem="sF9-u0-U6t" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="8Yg-gF-qfT"/>
@@ -2514,6 +2525,7 @@
                             <constraint firstItem="Tec-Th-ubp" firstAttribute="centerX" secondItem="sF9-u0-U6t" secondAttribute="centerX" id="CR5-gL-PeS"/>
                             <constraint firstItem="XaE-Kn-iiX" firstAttribute="trailing" secondItem="MBU-p9-pkf" secondAttribute="trailing" id="IxN-ww-pb4"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="top" secondItem="sF9-u0-U6t" secondAttribute="bottom" id="QyB-p0-MBI"/>
+                            <constraint firstItem="KTx-5G-VXp" firstAttribute="centerX" secondItem="XaE-Kn-iiX" secondAttribute="centerX" id="Vxe-cF-BCL"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="trailing" secondItem="MBU-p9-pkf" secondAttribute="trailing" id="Xs2-vC-pFp"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="ZyO-Hh-J6m"/>
                             <constraint firstItem="sF9-u0-U6t" firstAttribute="top" secondItem="MBU-p9-pkf" secondAttribute="top" id="h67-bE-u7s"/>
@@ -2531,6 +2543,7 @@
                         <outlet property="btnImport" destination="gDK-Kv-Ddd" id="ZTU-Uc-Vhg"/>
                         <outlet property="btnLink" destination="mFj-Li-slu" id="rmX-kw-c8J"/>
                         <outlet property="btnStuff" destination="Dl4-Pf-Hqj" id="9GW-Xe-Ljt"/>
+                        <outlet property="buttonNext" destination="KTx-5G-VXp" id="bkJ-cR-DHf"/>
                         <outlet property="cameraView" destination="sF9-u0-U6t" id="XCP-oZ-5TU"/>
                         <outlet property="viewContainer" destination="XaE-Kn-iiX" id="WjP-1b-MYd"/>
                     </connections>
@@ -2558,6 +2571,7 @@
         <image name="camera_icon_cover_images" width="33" height="33"/>
         <image name="camera_icon_top" width="25" height="21"/>
         <image name="capture-icon" width="54" height="54"/>
+        <image name="content_next_btn" width="121" height="45"/>
         <image name="delete_icon-cover_image" width="24" height="24"/>
         <image name="done-btn" width="137" height="45"/>
         <image name="done_button" width="137" height="45"/>

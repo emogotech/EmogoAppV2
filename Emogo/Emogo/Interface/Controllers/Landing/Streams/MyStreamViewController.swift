@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class MyStreamViewController: UIViewController {
     
@@ -116,9 +115,9 @@ class MyStreamViewController: UIViewController {
             if type == .down {
                 self.myStreamCollectionView.es.stopLoadingMore()
             }
-            self.lblNoResult.isHidden = true
+          //  self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
-                self.lblNoResult.isHidden = false
+             //   self.lblNoResult.isHidden = false
             }
             self.currentType = refreshType
             self.myStreamCollectionView.reloadData()

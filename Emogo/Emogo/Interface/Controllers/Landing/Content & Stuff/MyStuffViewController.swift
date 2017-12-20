@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class MyStuffViewController: UIViewController {
     
     // MARK: - UI Elements
     
     @IBOutlet weak var stuffCollectionView: UICollectionView!
+    
     
     // MARK: - Variables
 
@@ -35,7 +35,6 @@ class MyStuffViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
-        ContentList.sharedInstance.arrayContent.removeAll()
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
@@ -54,20 +53,27 @@ class MyStuffViewController: UIViewController {
     }
     
     @IBAction func btnActionNext(_ sender: Any) {
-        var contents = [ContentDAO]()
-        for obj in ContentList.sharedInstance.arrayContent {
-            if obj.isSelected {
-                contents.insert(obj, at: 0)
+        if let parent = self.parent {
+            for obj in ContentList.sharedInstance.arrayContent {
+                if obj.isSelected {
+                    (parent as! ContainerViewController).arraySelectedContent.insert(obj, at: 0)
+                }
             }
-         }
-            if  contents.count != 0 {
+        if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
+            HUDManager.sharedInstance.showHUD()
+
+            (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
+                HUDManager.sharedInstance.hideHUD()
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                ContentList.sharedInstance.arrayContent.removeAll()
-                ContentList.sharedInstance.arrayContent = contents
+                ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
                 objPreview.strPresented = "TRUE"
                 let nav = UINavigationController(rootViewController: objPreview)
                 self.parent?.present(nav, animated: true, completion: nil)
+            })
+            (parent as! ContainerViewController).arrayAssests.removeAll()
+            }
         }
+       
        
     }
     
@@ -75,9 +81,7 @@ class MyStuffViewController: UIViewController {
     
     func getMyStuff(type:RefreshType){
         if type == .start{
-            if ContentList.sharedInstance.arrayContent.count == 0 {
-                HUDManager.sharedInstance.showHUD()
-            }
+            ContentList.sharedInstance.arrayContent.removeAll()
             self.stuffCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in

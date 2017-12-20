@@ -71,9 +71,11 @@ class PreviewController: UIViewController {
         imgPreview.backgroundColor = .black
         self.imgPreview.contentMode = .scaleAspectFit
         
-        if self.seletedImage.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
-            self.btnDelete.isHidden = true
-            self.btnEdit.isHidden = true
+        if !self.seletedImage.createdBy.trim().isEmpty {
+            if self.seletedImage.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+                self.btnDelete.isHidden = true
+                self.btnEdit.isHidden = true
+            }
         }
         
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true

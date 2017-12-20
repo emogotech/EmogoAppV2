@@ -18,14 +18,15 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var txtStreamName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtStreamCaption: UITextView!
     @IBOutlet weak var switchMakePrivate: PMSwitch!
-    @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var switchAnyOneCanEdit: PMSwitch!
     @IBOutlet weak var switchAddContent: PMSwitch!
     @IBOutlet weak var switchAddPeople: PMSwitch!
     @IBOutlet weak var lblAnyOneCanEdit: UILabel!
     @IBOutlet weak var rowHieght: NSLayoutConstraint!
     @IBOutlet weak var imgCover: UIImageView!
-
+    @IBOutlet weak var switchAddCollaborators: PMSwitch!
+    
+    
     // Varibales
 
     var isExpandRow: Bool = false {
@@ -42,6 +43,7 @@ class AddStreamViewController: UITableViewController {
     var streamID:String!
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
+    var isPerform:Bool! = false
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -73,10 +75,12 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
         Gallery.Config.initialTab =  .cameraTab
         Gallery.Config.Camera.imageLimit =  1
-        self.switchAddContent.isOn = false
-        self.switchAddPeople.isOn = false
+        self.switchAddContent.isEnabled = false
+        self.switchAddPeople.isEnabled = false
         if self.streamID != nil {
             self.getStream()
+        }else {
+            isPerform = true
         }
     }
     
@@ -87,9 +91,9 @@ class AddStreamViewController: UITableViewController {
 
     func prepareForEditStream(){
         if self.objStream != nil {
-             self.title =  self.objStream?.title
-            txtStreamName.text = self.objStream?.title
-            txtStreamCaption.text = self.objStream?.description
+            self.title =  self.objStream?.title.trim()
+            txtStreamName.text = self.objStream?.title.trim()
+            txtStreamCaption.text = self.objStream?.description.trim()
             if !(objStream?.coverImage.trim().isEmpty)!  {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
@@ -107,7 +111,11 @@ class AddStreamViewController: UITableViewController {
             if self.selectedCollaborators.count != 0 {
                 self.rowHieght.constant = 325.0
                 self.isExpandRow = true
+                self.switchAddCollaborators.isOn = true
             }
+            isPerform = true
+            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            self.tableView.reloadData()
         }
     }
     // MARK: -  Action Methods And Selector
@@ -143,13 +151,19 @@ class AddStreamViewController: UITableViewController {
     }
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
         self.switchAddCollaborators.isOn = sender.isOn
+       
         if sender.isOn {
             self.rowHieght.constant = 325.0
             self.isExpandRow = true
+            
         }else {
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
+            selectedCollaborators.removeAll()
         }
+        self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
         if coverImage == nil && strCoverImage.isEmpty{
@@ -297,6 +311,10 @@ class AddStreamViewController: UITableViewController {
             // You can save the reference to it, or pass data to it.
         }
     }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return isPerform
+    }
 
 }
 
@@ -329,6 +347,7 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
+           txtStreamCaption.resignFirstResponder()
             return false
         }
         return true

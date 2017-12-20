@@ -166,8 +166,8 @@ class ViewStreamController: UIViewController {
                 if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == stream.ID.trim() }) {
                     StreamList.sharedInstance.arrayStream.remove(at: i)
                 }
-            //    self.navigationController?.pop()
-              self.prepareList()
+                self.navigationController?.pop()
+              //self.prepareList()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class RefreshHeaderAnimator: UIView,ESRefreshProtocol, ESRefreshAnimatorProtocol {
     

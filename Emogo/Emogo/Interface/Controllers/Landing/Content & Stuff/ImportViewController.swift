@@ -6,8 +6,6 @@
 //  Copyright © 2017 Vikas Goyal. All rights reserved.
 //
 
-/*
-
 import UIKit
 import Photos
 import PhotosUI
@@ -19,13 +17,7 @@ private extension UICollectionView {
     }
 }
 
-
-class ImportViewController: UIViewController {
-    
-    // MARK: - UI Elements
-    @IBOutlet weak var importCollectionView: UICollectionView!
-
-// MARK: - Variables
+class ImportViewController: UICollectionViewController {
     
     var fetchResult: PHFetchResult<PHAsset>!
     
@@ -33,7 +25,8 @@ class ImportViewController: UIViewController {
     fileprivate var thumbnailSize: CGSize!
     fileprivate var previousPreheatRect = CGRect.zero
     
-
+    var arraySelected = [ImportDAO]()
+    
     // MARK: UIViewController / Lifecycle
     
     override func viewDidLoad() {
@@ -48,8 +41,14 @@ class ImportViewController: UIViewController {
             let allPhotosOptions = PHFetchOptions()
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
+            
+            for i in 0..<fetchResult.count {
+                let asset = fetchResult.object(at: i)
+                let obj = ImportDAO(id:asset.localIdentifier,isSelected:false)
+                obj.assest = asset
+                arraySelected.append(obj)
+            }
         }
-        self.importCollectionView.reloadData()
     }
     
     deinit {
@@ -61,10 +60,10 @@ class ImportViewController: UIViewController {
         
         // Determine the size of the thumbnails to request from the PHCachingImageManager
         let scale = UIScreen.main.scale
-        
-        let cellSize = (importCollectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
+        let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
         thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
         
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -73,37 +72,39 @@ class ImportViewController: UIViewController {
     }
     
    
-    @IBAction func btnActionNext(_ sender: Any) {
-        ContentList.sharedInstance.arrayContent.removeAll()
-    }
-    
-    
     // MARK: UICollectionView
     
-     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fetchResult.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let asset = fetchResult.object(at: indexPath.item)
-        
+         let imp = arraySelected[indexPath.item]
         // Dequeue a GridViewCell.
- //       guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridViewCell.self), for: indexPath) as? GridViewCell
-         //   else { fatalError("unexpected cell in collection view") }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridViewCell.self), for: indexPath) as? GridViewCell
+            else { fatalError("unexpected cell in collection view") }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ImportCell, for: indexPath) as! ImportCell
-
+        
         // Request an image for the asset from the PHCachingImageManager.
         cell.representedAssetIdentifier = asset.localIdentifier
-        if asset.mediaType == .video {
-            cell.mediaType = "2"
-        }else {
-            cell.mediaType = "1"
-        }
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset.
             if cell.representedAssetIdentifier == asset.localIdentifier {
+                if asset.mediaType == .video {
+                    cell.btnPlay.isHidden = false
+                }else {
+                    cell.btnPlay.isHidden = true
+                }
+                
+                if imp.strID == asset.localIdentifier {
+                    if imp.isSelected {
+                        cell.imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                    }else {
+                        cell.imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                    }
+                }
                 cell.thumbnailImage = image
             }
         })
@@ -112,10 +113,38 @@ class ImportViewController: UIViewController {
         
     }
     
-   
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = self.collectionView?.cellForItem(at: indexPath) {
+            let imp = arraySelected[indexPath.item]
+            imp.isSelected = !imp.isSelected
+            arraySelected[indexPath.item] = imp
+            if imp.isSelected {
+                (cell as! GridViewCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! GridViewCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+            self.updateAssest(obj: imp)
+        }
+    }
+    
+    func updateAssest(obj:ImportDAO){
+        if let parent = self.parent {
+            let parentVC:ContainerViewController = parent as! ContainerViewController
+                if let index =  parentVC.arrayAssests.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+                    parentVC.arrayAssests.remove(at: index)
+                }else {
+                parentVC.arrayAssests.append(obj)
+               }
+            print(parentVC.arrayAssests.count)
+        }
+        
+    }
+    
+    
     // MARK: UIScrollView
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateCachedAssets()
     }
     
@@ -131,7 +160,7 @@ class ImportViewController: UIViewController {
         guard isViewLoaded && view.window != nil else { return }
         
         // The preheat window is twice the height of the visible rect.
-        let visibleRect = CGRect(origin: importCollectionView.contentOffset, size: importCollectionView.bounds.size)
+        let visibleRect = CGRect(origin: collectionView!.contentOffset, size: collectionView!.bounds.size)
         let preheatRect = visibleRect.insetBy(dx: 0, dy: -0.5 * visibleRect.height)
         
         // Update only if the visible area is significantly different from the last preheated area.
@@ -141,10 +170,10 @@ class ImportViewController: UIViewController {
         // Compute the assets to start caching and to stop caching.
         let (addedRects, removedRects) = differencesBetweenRects(previousPreheatRect, preheatRect)
         let addedAssets = addedRects
-            .flatMap { rect in importCollectionView.indexPathsForElements(in: rect) }
+            .flatMap { rect in collectionView!.indexPathsForElements(in: rect) }
             .map { indexPath in fetchResult.object(at: indexPath.item) }
         let removedAssets = removedRects
-            .flatMap { rect in importCollectionView.indexPathsForElements(in: rect) }
+            .flatMap { rect in collectionView!.indexPathsForElements(in: rect) }
             .map { indexPath in fetchResult.object(at: indexPath.item) }
         
         // Update the assets the PHCachingImageManager is caching.
@@ -185,7 +214,6 @@ class ImportViewController: UIViewController {
 
 }
 
-
 // MARK: PHPhotoLibraryChangeObserver
 extension ImportViewController: PHPhotoLibraryChangeObserver {
     func photoLibraryDidChange(_ changeInstance: PHChange) {
@@ -200,7 +228,7 @@ extension ImportViewController: PHPhotoLibraryChangeObserver {
             fetchResult = changes.fetchResultAfterChanges
             if changes.hasIncrementalChanges {
                 // If we have incremental diffs, animate them in the collection view.
-                guard let collectionView = self.importCollectionView else { fatalError() }
+                guard let collectionView = self.collectionView else { fatalError() }
                 collectionView.performBatchUpdates({
                     // For indexes to make sense, updates must be in this order:
                     // delete, insert, reload, move
@@ -220,269 +248,10 @@ extension ImportViewController: PHPhotoLibraryChangeObserver {
                 })
             } else {
                 // Reload the collection view if incremental diffs are not available.
-                importCollectionView.reloadData()
+                collectionView!.reloadData()
             }
             resetCachedAssets()
         }
     }
 }
-
- */
-
-import UIKit
-import Photos
-import PhotosUI
-
-class ImportViewController: UIViewController {
-
-    // MARK: - UI Elements
-    @IBOutlet weak var importCollectionView: UICollectionView!
-
-    // MARK: - Variables
-    
-    var arrayMedia:  PHFetchResult<PHAsset>!
-    var arrayContent = [ContentDAO]()
-    // MARK: - Override Functions
-   
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        self.prepareLayouts()
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func prepareLayouts(){
-        self.importCollectionView.dataSource  = self
-        self.importCollectionView.delegate = self
-        
-        // Create a waterfall layout
-        let layout = CHTCollectionViewWaterfallLayout()
-        
-        // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 3.0
-        layout.minimumInteritemSpacing = 3.0
-        layout.columnCount = 4
-        // Collection view attributes
-        self.importCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        self.importCollectionView.alwaysBounceVertical = true
-        
-        // Add the waterfall layout to your collection view
-        self.importCollectionView.collectionViewLayout = layout
-        
-         self.checkPhotoLibraryPermission()
-    }
-    
-    @IBAction func btnActionNext(_ sender: Any) {
-        ContentList.sharedInstance.arrayContent.removeAll()
-        
-        for obj in self.arrayContent {
-           if obj.isSelected {
-                ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
-            }
-        }
-      
-        if ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            objPreview.strPresented = "TRUE"
-            let nav = UINavigationController(rootViewController: objPreview)
-            self.parent?.present(nav, animated: true, completion: nil)
-        }
-        
-    }
-    
-    func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized:
-            //handle authorized status
-            self.getAssetForAll()
-            break
-        case .denied, .restricted :
-        //handle denied status
-            break
-        case .notDetermined:
-            // ask for permissions
-            PHPhotoLibrary.requestAuthorization() { status in
-                switch status {
-                case .authorized:
-                // as above
-                    self.getAssetForAll()
-                    break
-                case .denied, .restricted:
-                // as above
-                    break
-                case .notDetermined:
-                    // won't happen but still
-                    break
-                }
-            }
-        }
-    }
-    
-    func getAssetForAll() {
-        let options = PHFetchOptions()
-        options.sortDescriptors = [ NSSortDescriptor(key: "creationDate", ascending: false) ]
-        options.predicate = NSPredicate(format: "mediaType == %d || mediaType == %d",
-                                        PHAssetMediaType.image.rawValue,
-                                        PHAssetMediaType.video.rawValue)
-        arrayMedia = PHAsset.fetchAssets(with: options)
-        print( self.arrayMedia)
-
-        let group = DispatchGroup()
-        
-        let requestOptions = PHImageRequestOptions()
-        requestOptions.deliveryMode = PHImageRequestOptionsDeliveryMode.fastFormat
-        requestOptions.isSynchronous = false
-        requestOptions.isNetworkAccessAllowed = true
-        
-        DispatchQueue.main.async { // Correct
-            for i in 0 ..< self.arrayMedia.count {
-                group.enter()
-                let asset = self.arrayMedia!.object(at: i)
-                if asset.mediaType == .video {
-                    self.getVideoURL(asset: asset, handler: { (url, image) in
-                        if let url = url, let img = image {
-                            let obj = ContentDAO(contentData: [:])
-                            obj.type = .video
-                            obj.imgPreview = img
-                            obj.fileUrl = url
-                            if let file =  asset.value(forKey: "filename"){
-                                obj.fileName = file as! String
-                            }
-                            self.arrayContent.append(obj)
-                        }
-                        
-                        group.leave()
-                    })
-                }else {
-                    self.getOrigianlImage(asset: asset, handler: { (image) in
-                        if  let img = image {
-                            let obj = ContentDAO(contentData: [:])
-                            obj.type = .image
-                            obj.imgPreview = img
-                            if let file =  asset.value(forKey: "filename"){
-                                obj.fileName = file as! String
-                            }
-                            self.arrayContent.append(obj)
-                        }
-                        group.leave()
-                    })
-                }
-                
-            }
-            
-        }
-        
-      
-            /*
-            
-            PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: PHImageContentMode.aspectFill, options: requestOptions) { (image, userInfo) -> Void in
-                if image != nil {
-                    print (i)
-                    var obj:ContentDAO!
-                    if asset.mediaType == .video {
-                        obj = ContentDAO(contentData: [:])
-                        obj.type = .video
-                        obj.imgPreview = image
-                    }else if  asset.mediaType == .image {
-                        obj = ContentDAO(contentData: [:])
-                        obj.type = .image
-                        obj.imgPreview = image
-                    }
-                    if obj != nil {
-                        if let file =  asset.value(forKey: "filename"){
-                            obj.fileName = file as! String
-                        }
-                        self.arrayContent.append(obj)
-                    }
-                }
-                group.leave()
-            }
-        }
-        */
-        group.notify(queue: .main, execute: {
-            self.importCollectionView.reloadData()
-        })
-        // Image
-        print( self.arrayContent.count)
-    }
-  
-    func getVideoURL(asset:PHAsset,handler:@escaping (_ tempURL:URL?,_ image:UIImage?)->Void){
-      
-        let options = PHVideoRequestOptions()
-        options.version = .original
-        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, _, _) in
-            
-            if let urlAsset = asset as? AVURLAsset {
-                if let image = SharedData.sharedInstance.getThumbnailImage(url: urlAsset.url) {
-                    handler(urlAsset.url,image)
-                }
-            } else {
-                handler( nil, nil)
-            }
-        }
-        
-    }
-    
-    func getOrigianlImage(asset:PHAsset,handler:@escaping (_ image:UIImage?)->Void){
-        let options = PHImageRequestOptions()
-        options.isSynchronous = true
-        options.resizeMode = .exact
-        options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestImage(for: asset, targetSize: self.view.bounds.size, contentMode: PHImageContentMode.aspectFill, options: options) { (image, userInfo) -> Void in
-            handler(image)
-        }
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-}
-
-
-extension ImportViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
-    
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return arrayContent.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create the cell and return the cell
-        let content = arrayContent[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ImportCell, for: indexPath) as! ImportCell
-        // for Add Content
-        cell.layer.cornerRadius = 5.0
-        cell.layer.masksToBounds = true
-        cell.isExclusiveTouch = true
-        cell.prepareLayout(content:content)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0
-        return CGSize(width: itemWidth, height: itemWidth)
-    }
-        
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let content = arrayContent[indexPath.row]
-        content.isSelected = !content.isSelected
-        arrayContent[indexPath.row] = content
-        self.importCollectionView.reloadData()
-    }
-    
-}
-
 
