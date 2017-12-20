@@ -191,6 +191,7 @@ let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpan
 let iMsgNotificationManageRequestStyleCompact       = "manageRequestStyleExpand"
 let iMsgNotificationManageScreen                    = "notifyForChangeScreenSize"
 let iMsgNotificationReloadContenData                    = "notifyReloadContenData"
+let iMsgNotificationReloadStreamContent                    = "notifyReloadStreamContent"
 
 //Alert Messages
 let iMsgError_NameMsg                           = "Please enter minimum three characters."
