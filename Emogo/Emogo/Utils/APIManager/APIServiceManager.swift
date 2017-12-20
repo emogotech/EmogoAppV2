@@ -599,7 +599,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Content Edit API
     
-    func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+    func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
         let param = ["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]
          let url = kContentAPI + "\(contentID)/"
         
@@ -610,8 +610,17 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        
+                        if let data = (value as! [String:Any])["data"] {
+                                let content = ContentDAO(contentData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                content.isUploaded = true
+                            completionHandler(content,"")
+                        }
+                        
                  }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+
                     }
                 }
             case .error(let error):

@@ -37,7 +37,6 @@ class CameraViewController: SwiftyCamViewController {
     var timer:Timer!
     var timeSec = 0
     var beepSound: Sound?
-    var gallery: GalleryController!
     let editor: VideoEditing = VideoEditor()
     let interactor = PMInteractor()
 
@@ -151,7 +150,7 @@ class CameraViewController: SwiftyCamViewController {
     }
 
     @IBAction func btnActionGallery(_ sender: Any) {
-        gallery = GalleryController()
+       let gallery = GalleryController()
         gallery.delegate = self
         present(gallery, animated: true, completion: nil)
     
@@ -373,12 +372,10 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
 extension CameraViewController:GalleryControllerDelegate {
     func galleryControllerDidCancel(_ controller: GalleryController) {
         controller.dismiss(animated: true, completion: nil)
-        gallery = nil
     }
     
     func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
         controller.dismiss(animated: true, completion: nil)
-        gallery = nil
         HUDManager.sharedInstance.showHUD()
         editor.edit(video: video) { (editedVideo: Video?, tempPath: URL?) in
             DispatchQueue.main.async {
@@ -407,7 +404,6 @@ extension CameraViewController:GalleryControllerDelegate {
     func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
         controller.dismiss(animated: true, completion: nil)
         self.preparePreview(assets: images)
-        gallery = nil
     }
     
     func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {

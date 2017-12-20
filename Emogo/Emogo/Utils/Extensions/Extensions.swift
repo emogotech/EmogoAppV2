@@ -474,6 +474,7 @@ extension UIImage {
     }
     
     func reduceSize() -> UIImage {
+    
         guard let data = UIImageJPEGRepresentation(self, 1.0)  else {
             return self
         }

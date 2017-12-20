@@ -18,19 +18,21 @@ target 'Emogo' do
     
     # Pods for Emogo
     common_pods_for_target
-    pod 'IQKeyboardManagerSwift'
-    pod "SwiftyCam"
+
+ 	pod "SwiftyCam"
     pod "ESPullToRefresh"
     pod 'Fabric'
     pod 'Crashlytics'
-pod 'Gallery'
+    pod 'Gallery'
+    pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
 
+    
 
+       
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target
-        pod 'IQKeyboardManagerSwift'
         
         # Pods for testing
     end
@@ -39,7 +41,6 @@ pod 'Gallery'
         inherit! :search_paths
         # Pods for testing
         common_pods_for_target
-        pod 'IQKeyboardManagerSwift'
         
     end
     

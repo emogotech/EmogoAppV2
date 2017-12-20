@@ -8,12 +8,15 @@
 
 import Foundation
 import UIKit
+import Gallery
 
 
 extension PreviewController {
     
     func openGallery(){
-        
+        let gallery = GalleryController()
+        gallery.delegate = self
+        present(gallery, animated: true, completion: nil)
     }
      
 }
@@ -77,3 +80,64 @@ extension PreviewController:UITextFieldDelegate {
         return true
     }
 }
+
+
+extension PreviewController:GalleryControllerDelegate {
+    func galleryControllerDidCancel(_ controller: GalleryController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+        controller.dismiss(animated: true, completion: nil)
+        HUDManager.sharedInstance.showHUD()
+        editor.edit(video: video) { (editedVideo: Video?, tempPath: URL?) in
+            DispatchQueue.main.async {
+                if let tempPath = tempPath {
+                    print(tempPath)
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
+                        let camera = ContentDAO(contentData: [:])
+                        camera.imgPreview = image
+                        camera.fileName = tempPath.absoluteString.getName()
+                        camera.fileUrl = tempPath
+                        camera.type = .video
+                        print(camera.fileName)
+                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                        self.btnPreviewOpen.isHidden = false
+                        self.previewCollection.reloadData()
+                        HUDManager.sharedInstance.hideHUD()
+                    }
+                }
+            }
+        }
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
+        controller.dismiss(animated: true, completion: nil)
+        self.preparePreview(assets: images)
+    }
+    
+    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
+        
+
+    }
+    
+  private func preparePreview(assets:[Image]){
+    
+        Image.resolve(images: assets, completion: {  resolvedImages in
+            for i in 0..<resolvedImages.count {
+                let obj = resolvedImages[i]
+                let camera = ContentDAO(contentData: [:])
+                camera.imgPreview = obj
+                camera.type = .image
+                if let file =  assets[i].asset.value(forKey: "filename"){
+                    camera.fileName = file as! String
+                }
+                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+            }
+            self.previewCollection.reloadData()
+        })
+        
+    }
+    
+}
+

@@ -12,6 +12,25 @@ class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var imgSelect: UIImageView!
+    
+    var representedAssetIdentifier: String!
+
+    var thumbnailImage: UIImage! {
+        didSet {
+            imgCover.image = thumbnailImage
+        }
+    }
+    
+    var mediaType: String! = "" {
+        didSet {
+            if mediaType == "1" {
+                self.btnPlay.isHidden = true
+            }else {
+                self.btnPlay.isHidden = false
+            }
+        }
+    }
+    
 
     
     func prepareLayout(content:ContentDAO?){
@@ -25,9 +44,6 @@ class ImportCell: UICollectionViewCell {
         }
         if content.imgPreview !=  nil {
             imgCover.image = content.imgPreview
-        }else {
-            
-            imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }
         if content.type == .image {
             self.btnPlay.isHidden = true
@@ -36,4 +52,34 @@ class ImportCell: UICollectionViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imgCover.image = nil
+    }
+}
+
+
+class GridViewCell: UICollectionViewCell {
+    
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var livePhotoBadgeImageView: UIImageView!
+    
+    var representedAssetIdentifier: String!
+    
+    var thumbnailImage: UIImage! {
+        didSet {
+            imageView.image = thumbnailImage
+        }
+    }
+    var livePhotoBadgeImage: UIImage! {
+        didSet {
+            livePhotoBadgeImageView.image = livePhotoBadgeImage
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        livePhotoBadgeImageView.image = nil
+    }
 }

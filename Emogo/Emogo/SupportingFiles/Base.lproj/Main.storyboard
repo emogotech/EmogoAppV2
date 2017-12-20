@@ -1578,10 +1578,16 @@
                                                             <constraint firstAttribute="height" constant="30" id="l58-e0-GFO"/>
                                                         </constraints>
                                                         <state key="normal" image="add_photo"/>
+                                                        <connections>
+                                                            <action selector="btnCameraAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="q6N-aJ-EEf"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YOW-ds-k86">
                                                         <rect key="frame" x="0.0" y="40" width="60" height="30"/>
                                                         <state key="normal" image="add_galery"/>
+                                                        <connections>
+                                                            <action selector="btnGalleryAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="fb4-8U-6af"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>

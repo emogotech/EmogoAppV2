@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ReadabilityKit
 
 class LinkViewController: UIViewController {
 
@@ -28,6 +27,7 @@ class LinkViewController: UIViewController {
     
     
     @IBAction func btnConfirmActiion(_ sender: Any) {
+        /*
         if Validator.verifyUrl(urlString: txtLink.text!) {
             let articleUrl = URL(string: txtLink.text!)
             Readability.parse(url: articleUrl!, completion: { data in
@@ -45,6 +45,7 @@ class LinkViewController: UIViewController {
 
             })
         }
+ */
     }
     
     /*
