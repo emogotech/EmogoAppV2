@@ -155,6 +155,7 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
+        self.showToast(type: .error, strMSG: "Content Will be shared by iMessage (work in progress).")
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         isContentAdded = true
@@ -408,9 +409,14 @@ class PreviewController: UIViewController {
     
     func addContentToStream(){
         if seletedImage.isUploaded {
-            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-            obj.objContent = seletedImage
-            self.navigationController?.push(viewController: obj)
+            if ContentList.sharedInstance.objStream != nil {
+                
+            }else {
+                let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+                obj.objContent = seletedImage
+                self.navigationController?.push(viewController: obj)
+            }
+           
         }
     }
     

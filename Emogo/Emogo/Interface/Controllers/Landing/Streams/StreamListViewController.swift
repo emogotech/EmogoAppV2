@@ -150,6 +150,7 @@ class StreamListViewController: UIViewController {
     
     override func btnCameraAction() {
         let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
     }
     
