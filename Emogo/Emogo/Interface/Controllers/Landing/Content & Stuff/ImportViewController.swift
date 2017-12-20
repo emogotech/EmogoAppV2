@@ -42,12 +42,23 @@ class ImportViewController: UICollectionViewController {
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
             
-            for i in 0..<fetchResult.count {
-                let asset = fetchResult.object(at: i)
-                let obj = ImportDAO(id:asset.localIdentifier,isSelected:false)
-                obj.assest = asset
-                arraySelected.append(obj)
+            if let parentVC = self.parent {
+                let array = (parentVC as! ContainerViewController).arrayAssests
+                for i in 0..<fetchResult.count {
+                    let asset = fetchResult.object(at: i)
+                    let obj = ImportDAO(id:asset.localIdentifier,isSelected:false)
+                    obj.assest = asset
+                    if array.count != 0 {
+                        if let index =  array.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+                            if array[index].isSelected == true {
+                                obj.isSelected = true
+                            }
+                        }
+                    }
+                    arraySelected.append(obj)
+                }
             }
+            
         }
     }
     

@@ -278,7 +278,7 @@ class ContainerViewController: UIViewController {
     let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
     objPreview.strPresented = "TRUE"
     let nav = UINavigationController(rootViewController: objPreview)
-    self.parent?.present(nav, animated: true, completion: nil)
+    self.present(nav, animated: true, completion: nil)
     }
    self.arrayAssests.removeAll()
     }
