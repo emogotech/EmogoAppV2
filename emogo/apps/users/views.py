@@ -38,7 +38,7 @@ class VerifyRegistration(APIView):
     """
 
     def post(self, request):
-        fields = ("otp", "phone_number")
+        fields = ("otp", "phone_number", )
         serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():

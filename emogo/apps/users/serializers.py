@@ -87,10 +87,13 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     token = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()
     user_profile_id = serializers.IntegerField(source='id', read_only=True)
+    streams = serializers.SerializerMethodField()
+    contents = serializers.SerializerMethodField()
+    collaborators = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
-        fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number']
+        fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number', 'streams', 'contents', 'collaborators']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -99,6 +102,15 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
 
     def get_phone_number(self, obj):
         return obj.user.username
+
+    def get_streams(self,obj):
+        return None
+
+    def get_contents(self,obj):
+        return None
+
+    def get_collaborators(self,obj):
+        return None
 
     def save(self, **kwargs):
         self.instance.user.username = self.initial_data.get('phone_number')
@@ -111,15 +123,10 @@ class UserDetailSerializer(UserProfileSerializer):
     UserDetail Serializer to show user detail.
     """
     user_image = serializers.URLField(read_only=True)
-    streams = serializers.SerializerMethodField()
-    contents = serializers.SerializerMethodField()
-    collaborators = serializers.SerializerMethodField()
+
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
-        self.Meta.fields.append('streams')
-        self.Meta.fields.append('contents')
-        self.Meta.fields.append('collaborators')
         # Instantiate the superclass normally
         super(UserDetailSerializer, self).__init__(*args, **kwargs)
 
@@ -164,6 +171,7 @@ class UserOtpSerializer(UserProfileSerializer):
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         self.Meta.fields.append('otp')
+        # self.Meta.fields.pop('streams')
         # self.Meta.fields.append('otp')
 
         # Instantiate the superclass normally
