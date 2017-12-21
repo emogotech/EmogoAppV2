@@ -35,6 +35,7 @@ class MyStuffCell: UICollectionViewCell {
             self.btnPlay.isHidden = true
             self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {
+            self.imgCover.image = nil
             self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
             self.btnPlay.isHidden = false
         }

@@ -26,14 +26,14 @@ extension PreviewController {
             var image:LightboxImage!
             if obj.type == .image {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!)
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
                 }else{
                     let url = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
                 }
             }else {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!)
+                image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
                 }else {
                     let url = URL(string: obj.coverImage)
                     let videoUrl = URL(string: obj.coverImage)

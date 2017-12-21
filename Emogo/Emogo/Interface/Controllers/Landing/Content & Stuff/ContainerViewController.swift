@@ -39,7 +39,6 @@ class ContainerViewController: UIViewController {
         }
     }
     
-    
     var btnNext:UIButton! = {
         let btn = UIButton()
         btn.setImage(#imageLiteral(resourceName: "content_next_btn"), for: .normal)
@@ -48,7 +47,7 @@ class ContainerViewController: UIViewController {
     var interactor:PMInteractor? = nil
     var captureSession = AVCaptureSession();
     var sessionOutput = AVCapturePhotoOutput();
-    var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG]);
+    var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg]);
     var previewLayer = AVCaptureVideoPreviewLayer();
     
     
@@ -391,6 +390,7 @@ class ContainerViewController: UIViewController {
     }
     
     
+    
     func getVideoURL(asset:PHAsset,handler:@escaping ( _ tempURL:URL?, _ image:UIImage?)->Void){
         
         let options = PHVideoRequestOptions()
@@ -408,6 +408,7 @@ class ContainerViewController: UIViewController {
         
     }
     
+    
     func getOrigianlImage(asset:PHAsset,handler:@escaping (_ image:UIImage?)->Void){
         let options = PHImageRequestOptions()
         options.isSynchronous = true
@@ -417,7 +418,6 @@ class ContainerViewController: UIViewController {
             handler(image)
         }
     }
-    
     
     /*
      // MARK: - Navigation

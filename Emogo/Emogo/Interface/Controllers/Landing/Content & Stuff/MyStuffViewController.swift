@@ -157,10 +157,17 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let content = ContentList.sharedInstance.arrayContent[indexPath.row]
-        content.isSelected = !content.isSelected
-        ContentList.sharedInstance.arrayContent[indexPath.row] = content
-        self.stuffCollectionView.reloadData()
+        
+        if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
+            let content = ContentList.sharedInstance.arrayContent[indexPath.row]
+            content.isSelected = !content.isSelected
+            ContentList.sharedInstance.arrayContent[indexPath.row] = content
+            if content.isSelected {
+               (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+        }
     }
     
 }

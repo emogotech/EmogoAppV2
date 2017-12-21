@@ -453,7 +453,7 @@ extension UILabel {
 
 extension UIImage {
     
-    func compressImage () -> UIImage {
+    func compressImageSwift () -> UIImage {
         
         let actualHeight:CGFloat = self.size.height
         let actualWidth:CGFloat = self.size.width
@@ -478,10 +478,10 @@ extension UIImage {
         guard let data = UIImageJPEGRepresentation(self, 1.0)  else {
             return self
         }
-        let size =  data.count/1024/1024
+        let size =  Int(data.count/1024/1024)
         print(size)
         if size > 1 {
-            return self.compressImage()
+            return self.compressImage(self, compressRatio: 0.7)
         }else {
             return self
         }
