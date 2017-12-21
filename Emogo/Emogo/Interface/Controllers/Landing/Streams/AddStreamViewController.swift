@@ -214,7 +214,7 @@ class AddStreamViewController: UITableViewController {
                 self.imgCover.image = image
                                 self.coverImage = image
                                 self.strCoverImage = ""
-                                self.imgCover.contentMode = .scaleAspectFit
+                                self.imgCover.contentMode = .redraw
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
                                     print(self.fileName)
@@ -278,6 +278,7 @@ class AddStreamViewController: UITableViewController {
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
+                      NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -292,6 +293,7 @@ class AddStreamViewController: UITableViewController {
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
+                  
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)

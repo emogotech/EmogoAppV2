@@ -84,6 +84,9 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateFilter)), object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotificationUpdateFilter), object: nil)
+        
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
@@ -123,6 +126,15 @@ class StreamListViewController: UIViewController {
         }
     }
  
+    @objc func createAfterStream(){
+        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.3)
+    }
+    
+    @objc func showMyStream(){
+        pagerView(menuView, didSelectItemAt: 1)
+        menuView.currentIndex = 1
+    }
+    
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
