@@ -39,12 +39,24 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
+        if(lastIndex != index){
+            lastIndex = index
+            self.navigateToSelectedItem(index:index,isSelect:true)
+            UIView.animate(withDuration: 0.7, animations: {
+                self.changeCellImageAnimationt(index, pagerView: pagerView,isSelect:true)
+            })
+        }
         pagerView.scrollToItem(at: index, animated: true)
-        changeCellImageAnimationt(index, pagerView: pagerView,isSelect:true)
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
-        changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView,isSelect: false)
+        if(lastIndex != pagerView.currentIndex) {
+            lastIndex = pagerView.currentIndex
+            self.navigateToSelectedItem(index:pagerView.currentIndex,isSelect:true)
+            UIView.animate(withDuration: 0.7, animations: {
+                self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView,isSelect: false)
+            })
+        }
     }
     
     func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView, isSelect:Bool){
@@ -71,10 +83,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
          menu  = self.menu.arrayMenu[sender]
          pagerView.lblCurrentType.text = menu.iconName!
-        let when = DispatchTime.now() + 0.3
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
-        }
+//        let when = DispatchTime.now() + 0.3
+//        DispatchQueue.main.asyncAfter(deadline: when) {
+//            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
+//        }
     }
     
     func navigateToSelectedItem(index:Int, isSelect:Bool){

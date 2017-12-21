@@ -16,6 +16,8 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var btnMenu: UIButton!
 
+    var lastIndex             : Int = 2
+    
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
