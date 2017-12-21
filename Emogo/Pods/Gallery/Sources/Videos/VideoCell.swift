@@ -44,7 +44,7 @@ class VideoCell: ImageCell {
   func makeCameraImageView() -> UIImageView {
     let imageView = UIImageView()
     imageView.image = GalleryBundle.image("gallery_video_cell_camera")
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
 
     return imageView
   }

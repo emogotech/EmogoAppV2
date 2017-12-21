@@ -120,7 +120,7 @@ let kAlertContentAdded                = "Content Created Successfully."
 let kAlertContentAssociatedToStream                = "Content associated with selected Stream."
 let kAlertSelectStream                = "Please Select Atleast one Stream to add Content."
 let kAlertStreamEditedSuccess = "Stream Updated Successfully."
-
+let kNotificationUpdateFilter                  = "updateFilterAfterCreateStream"
 
 
 

@@ -77,6 +77,7 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.Camera.imageLimit =  1
         self.switchAddContent.isEnabled = false
         self.switchAddPeople.isEnabled = false
+        self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
         }else {
@@ -168,6 +169,7 @@ class AddStreamViewController: UITableViewController {
         self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
+        self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
         }
@@ -211,12 +213,10 @@ class AddStreamViewController: UITableViewController {
         Image.resolve(images: [asset]) { (images) in
             if images.count != 0 {
                 let image = images[0]
-                let size = CGSize(width: self.imgCover.bounds.size.width * kScale, height: self.imgCover.bounds.size.height * kScale)
-                 self.imgCover.image = Toucan(image: image!).resize(size, fitMode: Toucan.Resize.FitMode.clip).image
-
-                            self.coverImage =  self.imgCover.image
+                self.imgCover.image = image
+                                self.coverImage = image
                                 self.strCoverImage = ""
-                              //  self.imgCover.contentMode = .scaleAspectFit
+                                self.imgCover.contentMode = .scaleAspectFill
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
                                     print(self.fileName)
@@ -228,7 +228,23 @@ class AddStreamViewController: UITableViewController {
    
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-        
+         let image = self.coverImage.reduceSize()
+        let imageData = UIImageJPEGRepresentation(image, 1.0)
+       let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    if self.streamID == nil   {
+                        self.createStream(cover: imageUrl!)
+                    } else {
+                        self.editStream(cover: imageUrl!)
+                    }
+                }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
     }
    
   
@@ -264,6 +280,7 @@ class AddStreamViewController: UITableViewController {
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
+                      NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -278,6 +295,7 @@ class AddStreamViewController: UITableViewController {
                 let when = DispatchTime.now() + 3
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     self.navigationController?.pop()
+                  
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)

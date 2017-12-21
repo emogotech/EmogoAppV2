@@ -69,7 +69,7 @@ class PreviewController: UIViewController {
             viewOptions.isHidden = false
         }
         imgPreview.backgroundColor = .black
-        self.imgPreview.contentMode = .scaleAspectFit
+        self.imgPreview.contentMode = .scaleAspectFill
         
         if !self.seletedImage.createdBy.trim().isEmpty {
             if self.seletedImage.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
@@ -237,13 +237,13 @@ class PreviewController: UIViewController {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
-               self.imgPreview.contentMode = .scaleAspectFit
+               self.imgPreview.contentMode = .scaleAspectFill
 
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-               self.imgPreview.contentMode = .scaleToFill
+               self.imgPreview.contentMode = .scaleAspectFill
 
             }
             self.view.updateConstraintsIfNeeded()

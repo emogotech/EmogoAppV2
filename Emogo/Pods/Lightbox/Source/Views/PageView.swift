@@ -12,7 +12,7 @@ class PageView: UIScrollView {
 
   lazy var imageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFit
+    imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
     imageView.isUserInteractionEnabled = true
 
