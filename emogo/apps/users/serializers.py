@@ -143,10 +143,12 @@ class UserDetailSerializer(UserProfileSerializer):
         return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
 
     def get_collaborators(self, obj):
-        collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-        if collaborators_streams.exists():
-            collaborators_streams = [x.stream for x in collaborators_streams]
-        return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
+        if self.context.get('request') is not None:
+            collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
+            if collaborators_streams.exists():
+                collaborators_streams = [x.stream for x in collaborators_streams]
+            return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
+        return list()
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data

@@ -38,11 +38,13 @@ class VerifyRegistration(APIView):
     """
 
     def post(self, request):
-        serializer = UserOtpSerializer(data=request.data)
+        fields = ("otp", "phone_number")
+        serializer = UserOtpSerializer(data=request.data, fields=fields)
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
                 instance = serializer.save()
-                serializer = UserDetailSerializer(instance=instance)
+                fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number")
+                serializer = UserDetailSerializer(instance=instance, fields=fields)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -55,7 +57,8 @@ class Login(APIView):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate()
-            serializer = UserDetailSerializer(instance=user_profile)
+            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number")
+            serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
