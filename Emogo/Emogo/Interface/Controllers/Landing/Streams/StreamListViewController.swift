@@ -127,7 +127,7 @@ class StreamListViewController: UIViewController {
     }
  
     @objc func createAfterStream(){
-        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.3)
+        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.5)
     }
     
     @objc func showMyStream(){

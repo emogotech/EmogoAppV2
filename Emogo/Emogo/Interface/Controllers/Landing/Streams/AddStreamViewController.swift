@@ -169,6 +169,7 @@ class AddStreamViewController: UITableViewController {
         self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
+        
         self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
@@ -178,6 +179,7 @@ class AddStreamViewController: UITableViewController {
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
             self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
         }else {
+             self.showToastOnWindow(strMSG: kAlertUploadWaitMsg)
             if self.streamID == nil {
                 self.uploadCoverImage()
             }else {
@@ -272,15 +274,15 @@ class AddStreamViewController: UITableViewController {
     }
     
     private func createStream(cover:String){
+       
         
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlertStreamAddedSuccess)
-                let when = DispatchTime.now() + 3
-                DispatchQueue.main.asyncAfter(deadline: when) {
-                    self.navigationController?.pop()
-                      NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
+                DispatchQueue.main.async{
+                      self.navigationController?.pop()
+                       NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -288,14 +290,13 @@ class AddStreamViewController: UITableViewController {
         }
     }
     private func editStream(cover:String){
+        
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlertStreamEditedSuccess)
-                let when = DispatchTime.now() + 3
-                DispatchQueue.main.asyncAfter(deadline: when) {
+                DispatchQueue.main.async{
                     self.navigationController?.pop()
-                  
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
