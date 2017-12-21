@@ -268,6 +268,13 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.streamCollectionView.reloadData()
+            
+            
+            self.lblNoResult.isHidden = true
+            if PeopleList.sharedInstance.arrayPeople.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+        
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

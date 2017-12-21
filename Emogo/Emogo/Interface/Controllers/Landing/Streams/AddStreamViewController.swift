@@ -75,8 +75,11 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
         Gallery.Config.initialTab =  .cameraTab
         Gallery.Config.Camera.imageLimit =  1
-        self.switchAddContent.isEnabled = false
-        self.switchAddPeople.isEnabled = false
+        self.switchAddContent.isUserInteractionEnabled = false
+        self.switchAddPeople.isUserInteractionEnabled = false
+
+//        self.switchAddContent.isEnabled = false
+//        self.switchAddPeople.isEnabled = false
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
@@ -134,34 +137,53 @@ class AddStreamViewController: UITableViewController {
         self.switchAnyOneCanEdit.isOn = sender.isOn
     }
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
-        self.switchMakePrivate.isOn = sender.isOn
-        self.switchAddContent.isOn = false
-        self.switchAddPeople.isOn = false
-        self.switchAddPeople.isEnabled = sender.isOn
-        self.switchAddContent.isEnabled = sender.isOn
-        if sender.isOn {
-            streamType = "Private"
-             self.switchAnyOneCanEdit.isEnabled = false
-        }else {
-            streamType = "Public"
-            self.switchAnyOneCanEdit.isEnabled = true
-        }
-        if self.objStream?.arrayColab.count != 0 {
-            self.switchAddCollaborators.isOn = true
-            self.rowHieght.constant = 325.0
-            self.isExpandRow = true
-        }
+            sender.isOn = !sender.isOn
+            if self.switchMakePrivate.isOn {
+                streamType = "Private"
+                self.switchAnyOneCanEdit.isOn = false
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+            }else{
+                streamType = "Public"
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+            }
+        
+        
+//        self.switchAddContent.isOn = false
+//        self.switchAddPeople.isOn = false
+//        self.switchAddPeople.isEnabled = sender.isOn
+//        self.switchAddContent.isEnabled = sender.isOn
+//        if sender.isOn {
+//            streamType = "Private"
+//             self.switchAnyOneCanEdit.isEnabled = false
+//        }else {
+//            streamType = "Public"
+//            self.switchAnyOneCanEdit.isEnabled = true
+//        }
+//        if self.objStream?.arrayColab.count != 0 {
+//            self.switchAddCollaborators.isOn = true
+//            self.rowHieght.constant = 325.0
+//            self.isExpandRow = true
+//        }
     }
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
-        self.switchAddCollaborators.isOn = sender.isOn
-       
-        if sender.isOn {
-            self.rowHieght.constant = 325.0
-            self.isExpandRow = true
-            
-        }else {
+        
+        if self.switchAddCollaborators.isOn {
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
+            self.switchAddContent.isEnabled = true
+            self.switchAddPeople.isEnabled = true
+            self.switchAddContent.isUserInteractionEnabled = true
+            self.switchAddPeople.isUserInteractionEnabled = true
+            if self.objStream?.arrayColab.count != 0 {
+                self.rowHieght.constant = 325.0
+                self.isExpandRow = true
+            }
+        }else{
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
             selectedCollaborators.removeAll()
