@@ -113,24 +113,34 @@ class UserDetailSerializer(UserProfileSerializer):
     user_image = serializers.URLField(read_only=True)
     streams = serializers.SerializerMethodField()
     contents = serializers.SerializerMethodField()
+    collaborators = serializers.SerializerMethodField()
 
     def __init__(self, *args, **kwargs):
         # Don't pass the 'fields' arg up to the superclass
         self.Meta.fields.append('streams')
         self.Meta.fields.append('contents')
-        # self.Meta.fields.append('otp')
-
+        self.Meta.fields.append('collaborators')
         # Instantiate the superclass normally
         super(UserDetailSerializer, self).__init__(*args, **kwargs)
 
     def get_streams(self, obj):
         instances = obj.user_streams()
+        # While logged-in user visits another user profile then will club user created and
+        # streams in which user as collaborators
+        if self.context.get('request') is not None:
+            if obj.user.id == self.context.get('request').user.id :
+                collaborators_streams = obj.user_as_collaborators()
+                if collaborators_streams.exists():
+                    collaborators_streams = [x.stream for x in collaborators_streams]
+                    self_created = [x for x in obj.user_streams()]
+                    instances = collaborators_streams + self_created
+        return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+
+    def get_collaborators(self, obj):
         collaborators_streams = obj.user_as_collaborators()
         if collaborators_streams.exists():
             collaborators_streams = [x.stream for x in collaborators_streams]
-            self_created = [x for x in obj.user_streams()]
-            instances = collaborators_streams + self_created
-        return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+        return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data

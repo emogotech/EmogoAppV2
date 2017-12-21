@@ -134,6 +134,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         """
         fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'contents')
         instance = self.get_object()
+        if self.request.user.id == instance.user.id:
+            fields = list(fields)
+            fields.append('contents')
+            fields.append('collaborators')
+            fields = tuple(fields)
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
