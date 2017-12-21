@@ -13,7 +13,7 @@ import UIKit
 class GradientLoadingBar {
 
     public struct DefaultValues {
-        public static let height = 2.5
+        public static let height = 5.0 //2.5
 
         public static let durations =
             Durations(fadeIn: 0.33, fadeOut: 0.66, progress: 3.33)
