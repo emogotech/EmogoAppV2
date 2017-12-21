@@ -97,7 +97,7 @@ class StreamListViewController: UIViewController {
 
         if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60)
             layout.itemSize = CGSize(width: UIScreen.main.bounds.size.width, height: layout.itemSize.height)
             layout.parallaxHeaderAlwaysOnTop = false
             layout.disableStickyHeaders = true

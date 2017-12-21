@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rmb-Nh-cOZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rmb-Nh-cOZ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -578,7 +578,7 @@
         <scene sceneID="Ard-ef-JaY">
             <objects>
                 <tableViewController storyboardIdentifier="addStreamView" id="fAt-sp-i4e" customClass="AddStreamViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lVa-6x-u2I">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lVa-6x-u2I">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -850,7 +850,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="9" width="87.5" height="17"/>
+                                                    <rect key="frame" x="10" y="9" width="84" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6Mf-BA-iy0"/>
                                                     </constraints>
@@ -1294,7 +1294,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="92"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="It1-bs-ei2">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="It1-bs-ei2">
                                                             <rect key="frame" x="0.0" y="0.0" width="70" height="92"/>
                                                         </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9e5-YA-GSb">
@@ -1529,7 +1529,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="70" height="97"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iwm-GO-5hk">
+                                                        <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iwm-GO-5hk">
                                                             <rect key="frame" x="0.0" y="0.0" width="70" height="97"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <bool key="isElement" value="YES"/>
@@ -1897,7 +1897,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="7Vi-lE-2i7">
-                                <rect key="frame" x="10" y="20" width="300" height="548"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sie-1y-1bk" customClass="IOStickyHeaderFlowLayout" customModule="Emogo" customModuleProvider="target">
@@ -1917,7 +1917,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMf-Uh-aZb" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="tGB-ep-2ux">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="tGB-ep-2ux">
                                                             <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4d-Pd-GUD">
@@ -1969,7 +1969,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr">
                                                     <rect key="frame" x="0.0" y="30" width="145" height="88"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="88" id="EuE-SL-V22"/>
@@ -2002,8 +2002,8 @@
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="7Vi-lE-2i7" firstAttribute="top" secondItem="Osh-Zg-mgi" secondAttribute="top" id="62g-1Z-TLQ"/>
-                            <constraint firstItem="Osh-Zg-mgi" firstAttribute="trailing" secondItem="7Vi-lE-2i7" secondAttribute="trailing" constant="10" id="FUI-Q0-ASh"/>
-                            <constraint firstItem="7Vi-lE-2i7" firstAttribute="leading" secondItem="Osh-Zg-mgi" secondAttribute="leading" constant="10" id="LKq-7H-v5U"/>
+                            <constraint firstItem="Osh-Zg-mgi" firstAttribute="trailing" secondItem="7Vi-lE-2i7" secondAttribute="trailing" id="FUI-Q0-ASh"/>
+                            <constraint firstItem="7Vi-lE-2i7" firstAttribute="leading" secondItem="Osh-Zg-mgi" secondAttribute="leading" id="LKq-7H-v5U"/>
                             <constraint firstItem="7Vi-lE-2i7" firstAttribute="bottom" secondItem="Osh-Zg-mgi" secondAttribute="bottom" id="moC-GK-Lk0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Osh-Zg-mgi"/>
@@ -2017,7 +2017,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2EY-T3-6S6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4493" y="1954"/>
+            <point key="canvasLocation" x="4492.5" y="1953.1690140845071"/>
         </scene>
         <!--Stream List View Controller-->
         <scene sceneID="eOk-qf-Y3L">

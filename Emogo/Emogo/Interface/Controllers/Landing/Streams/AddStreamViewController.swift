@@ -77,6 +77,7 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.Camera.imageLimit =  1
         self.switchAddContent.isEnabled = false
         self.switchAddPeople.isEnabled = false
+        self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
         }else {
@@ -168,6 +169,7 @@ class AddStreamViewController: UITableViewController {
         self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
+        self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
         }
@@ -214,7 +216,7 @@ class AddStreamViewController: UITableViewController {
                 self.imgCover.image = image
                                 self.coverImage = image
                                 self.strCoverImage = ""
-                                self.imgCover.contentMode = .redraw
+                                self.imgCover.contentMode = .scaleAspectFill
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
                                     print(self.fileName)

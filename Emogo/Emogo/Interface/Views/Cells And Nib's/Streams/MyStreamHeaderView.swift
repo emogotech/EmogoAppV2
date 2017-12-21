@@ -30,7 +30,7 @@ class MyStreamHeaderView: UICollectionViewCell {
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
-        //self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.contentMode = .scaleAspectFill
         //self.imgCover.backgroundColor = .black
         if content.type == .image {
             self.btnPlay.isHidden = true

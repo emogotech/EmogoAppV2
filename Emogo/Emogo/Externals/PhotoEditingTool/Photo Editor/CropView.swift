@@ -328,7 +328,7 @@ open class CropView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate, 
     fileprivate func setupImageView() {
         let imageView = UIImageView(frame: zoomingView!.bounds)
         imageView.backgroundColor = .clear
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.image = image
         zoomingView?.addSubview(imageView)
         self.imageView = imageView

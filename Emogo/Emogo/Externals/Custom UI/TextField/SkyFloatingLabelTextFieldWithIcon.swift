@@ -193,7 +193,7 @@ open class SkyFloatingLabelTextFieldWithIcon: SkyFloatingLabelTextField {
     fileprivate func createIconImageView() {
         let iconImageView = UIImageView()
         iconImageView.backgroundColor = .clear
-        iconImageView.contentMode = .scaleAspectFit
+        iconImageView.contentMode = .scaleAspectFill
         iconImageView.autoresizingMask = [.flexibleTopMargin, .flexibleRightMargin]
         self.iconImageView = iconImageView
         addSubview(iconImageView)
