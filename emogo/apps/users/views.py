@@ -132,7 +132,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'contents')
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams')
         instance = self.get_object()
         if self.request.user.id == instance.user.id:
             fields = list(fields)

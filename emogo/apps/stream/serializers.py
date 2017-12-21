@@ -240,17 +240,18 @@ class ContentSerializer(DynamicFieldsModelSerializer):
     Collaborator model Serializer
     """
     # streams = CustomListField(child=serializers.IntegerField())
-    url = serializers.URLField(required=False, read_only=True)
+    url = serializers.URLField(required=False, allow_blank=True)
 
     class Meta:
         model = Content
         fields = '__all__'
         list_serializer_class = ContentListSerializer
-        # extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
-        #                 'url': {'required': True, 'allow_blank': False, 'allow_null': False},
-        #                 'type': {'required': True, 'allow_blank': False, 'allow_null': False}
-        #                 }
-        extra_kwargs = {'streams': {'required': False}}
+        extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'url': {'required': False, 'allow_blank': True, 'allow_null': True},
+                        'type': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        'streams': {'required': False}
+                        }
+
 
 
 class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):

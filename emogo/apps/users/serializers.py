@@ -124,20 +124,26 @@ class UserDetailSerializer(UserProfileSerializer):
         super(UserDetailSerializer, self).__init__(*args, **kwargs)
 
     def get_streams(self, obj):
-        instances = obj.user_streams()
-        # While logged-in user visits another user profile then will club user created and
-        # streams in which user as collaborators
+
+        # By default user can see only public stream
+        instances = obj.user_streams().filter(type='Public')
+
         if self.context.get('request') is not None:
-            if obj.user.id == self.context.get('request').user.id :
-                collaborators_streams = obj.user_as_collaborators()
+            if obj.user.id == self.context.get('request').user.id:
+                instances = obj.user_streams()
+
+            # While logged-in user visits another user profile then will club user created streams and
+            # streams in which user as collaborators.
+            if obj.user.id != self.context.get('request').user.id:
+                collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
                 if collaborators_streams.exists():
                     collaborators_streams = [x.stream for x in collaborators_streams]
-                    self_created = [x for x in obj.user_streams()]
+                    self_created = [x for x in instances]
                     instances = collaborators_streams + self_created
         return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
 
     def get_collaborators(self, obj):
-        collaborators_streams = obj.user_as_collaborators()
+        collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
         if collaborators_streams.exists():
             collaborators_streams = [x.stream for x in collaborators_streams]
         return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
