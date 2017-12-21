@@ -246,12 +246,11 @@ class ContentSerializer(DynamicFieldsModelSerializer):
         model = Content
         fields = '__all__'
         list_serializer_class = ContentListSerializer
-        extra_kwargs = {'name': {'required': True, 'allow_blank': False, 'allow_null': False},
+        extra_kwargs = {'name': {'required': False, 'allow_blank': True, 'allow_null': True},
                         'url': {'required': False, 'allow_blank': True, 'allow_null': True},
                         'type': {'required': True, 'allow_blank': False, 'allow_null': False},
                         'streams': {'required': False}
                         }
-
 
 
 class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
