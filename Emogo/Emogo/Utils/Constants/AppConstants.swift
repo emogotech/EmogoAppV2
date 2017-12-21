@@ -123,7 +123,7 @@ let kAlertStreamEditedSuccess = "Stream Updated Successfully."
 let kNotificationUpdateFilter                  = "updateFilterAfterCreateStream"
 let kNotificationUpdateImageCover                 = "updateImageAfterEditStream"
 let kAlertUploadWaitMsg                  = "Please wait, it may take a while!"
-
+let kNotificationAddColaborator                  = "updateColaborator"
 
 
 let kDeepLinkURL = "Emogo://emogo/"

@@ -77,9 +77,6 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.Camera.imageLimit =  1
         self.switchAddContent.isUserInteractionEnabled = false
         self.switchAddPeople.isUserInteractionEnabled = false
-
-//        self.switchAddContent.isEnabled = false
-//        self.switchAddPeople.isEnabled = false
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
@@ -124,18 +121,21 @@ class AddStreamViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
+    
     // MARK: -  Action Methods And Selector
-
     @IBAction func addContentAction(_ sender: PMSwitch) {
         self.switchAddContent.isOn = sender.isOn
         print(self.switchAddContent.isOn)
     }
+    
     @IBAction func addPeopleAction(_ sender: PMSwitch) {
         self.switchAddPeople.isOn = sender.isOn
     }
+    
     @IBAction func anyOneCanEditAction(_ sender: PMSwitch) {
         self.switchAnyOneCanEdit.isOn = sender.isOn
     }
+    
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
             sender.isOn = !sender.isOn
             if self.switchMakePrivate.isOn {
@@ -156,10 +156,8 @@ class AddStreamViewController: UITableViewController {
             self.switchAddPeople.isEnabled = true
             self.switchAddContent.isUserInteractionEnabled = true
             self.switchAddPeople.isUserInteractionEnabled = true
-            if self.objStream?.arrayColab.count != 0 {
                 self.rowHieght.constant = 325.0
                 self.isExpandRow = true
-            }
         }else{
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
@@ -256,7 +254,7 @@ class AddStreamViewController: UITableViewController {
   
    
     func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(colabs.count)
+        print(self.selectedCollaborators)
         self.selectedCollaborators = colabs
     }
     
