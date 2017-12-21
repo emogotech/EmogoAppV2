@@ -413,9 +413,7 @@ extension CameraViewController:GalleryControllerDelegate {
     }
     
     func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-      
     }
-
 }
 
 
@@ -426,7 +424,9 @@ extension CameraViewController: UIViewControllerTransitioningDelegate {
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        session.startRunning()
+        DispatchQueue.main.async { // Correct
+            self.session.startRunning()
+        }
        return interactor.hasStarted ? interactor : nil
     }
 }

@@ -15,6 +15,11 @@ enum AWSResult<T, Error> {
     case error(Error)
 }
 
+enum UploadType:String {
+    case image = "1"
+    case video = "2"
+}
+
 
 class AWSManager: NSObject {
     
@@ -113,7 +118,6 @@ class AWSManager: NSObject {
     
     func uploadFile(_ fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void) {
         let key = NSString(format: "%@", name).pathExtension
-        print(key.MIMEType())
         var type:String! = "image/png"
         if let mimType = key.MIMEType() {
             type = mimType
@@ -168,5 +172,103 @@ class AWSManager: NSObject {
     }
 }
 
+
+class AWSRequestManager:NSObject {
+    
+    var arrayRequest:[String]!
+   
+    class var sharedInstance: AWSRequestManager {
+        struct Static {
+            static let instance: AWSRequestManager = AWSRequestManager()
+        }
+        return Static.instance
+    }
+    
+    override init() {
+        super.init()
+        arrayRequest = [String]()
+    }
+    
+    func imageUpload(image:UIImage,name:String,completion:@escaping (String?,Error?)->Void) {
+            let image = image.reduceSize()
+            let imageData = UIImageJPEGRepresentation(image, 1.0)
+            let url = Document.saveFile(data: imageData!, name: name)
+            let fileUrl = URL(fileURLWithPath: url)
+            self.arrayRequest.append(name)
+            AWSManager.sharedInstance.uploadFile(fileUrl, name: name) { (imageUrl,error) in
+                if let index = self.arrayRequest.index(of: name) {
+                    self.arrayRequest.remove(at: index)
+                }
+                self.completed()
+               completion(imageUrl, error)
+            }
+    }
+    
+    func prepareVideoToUpload(name:String,videoURL:URL,completion:@escaping (String?,String?,Error?)->Void) {
+            Document.compressVideoFile(name:name, inputURL: videoURL, handler: { (compressed) in
+                if compressed != nil {
+                    let fileUrl = URL(fileURLWithPath: compressed!)
+                   
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl) {
+                        var strThumb:String!
+                        var strVideo:String!
+                        self.imageUpload(image: image, name: NSUUID().uuidString + ".jpeg", completion: { (imageUrl,error) in
+                            if error == nil {
+                                strThumb = imageUrl
+                                if strThumb != nil &&  strVideo != nil {
+                                    completion(strThumb,strVideo,error)
+                                }
+                            }
+                        })
+                        self.uploadVideo(name: name, videoURL: fileUrl, completion: { ( video, error) in
+                            if error == nil {
+                                strVideo = video
+                            if strThumb != nil &&  strVideo != nil {
+                                completion(strThumb,strVideo,error)
+                            }
+                            }
+                        })
+                        
+                    }
+                }
+            })
+        }
+    
+  private func uploadVideo(name:String,videoURL:URL,completion:@escaping (String?,Error?)->Void) {
+        self.arrayRequest.append(name)
+        AWSManager.sharedInstance.uploadFile(videoURL, name: name) { (imageUrl,error) in
+            if let index = self.arrayRequest.index(of: name) {
+                self.arrayRequest.remove(at: index)
+            }
+            self.completed()
+            completion(imageUrl, error)
+        }
+        
+    }
+    
+    private func uploading() {
+        if self.arrayRequest.count != 0 {
+            HUDManager.sharedInstance.showProgress()
+        }
+    }
+    
+    private func completed() {
+        if arrayRequest.count == 0 {
+            HUDManager.sharedInstance.hideProgress()
+        }
+    }
+    
+    func associateContentToStream(streamID:String, contentID:[String],completion:@escaping (Bool?,String?)->Void){
+        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: contentID, streams: [streamID]) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                completion(true,"")
+            }else {
+                completion(false,errorMsg)
+            }
+        }
+    }
+    
+ }
 
 

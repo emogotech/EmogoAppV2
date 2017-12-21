@@ -96,7 +96,7 @@ class PreviewController: UIViewController {
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
-            self.imgPreview.image = seletedImage.imgPreview
+            self.imgPreview.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
@@ -218,7 +218,7 @@ class PreviewController: UIViewController {
     // MARK: - Class Methods
 
     func deleteSelectedContent(){
-        if self.seletedImage.contentID.trim().isEmpty {
+        if !self.seletedImage.contentID.trim().isEmpty {
             self.deleteContent()
         }else {
             ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
@@ -281,32 +281,25 @@ class PreviewController: UIViewController {
         var type:String! = "Picture"
         if !self.seletedImage.isUploaded  {
             HUDManager.sharedInstance.showProgress()
-            var arrayURL = [Any]()
             if seletedImage.type == .video {
                 type = "Video"
-                Document.compressVideoFile(name: seletedImage.fileName, inputURL: seletedImage.fileUrl!, handler: { (compressed) in
-                    if compressed != nil {
-                        let fileUrl = URL(fileURLWithPath: compressed!)
-                         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl) {
-                            let img = image.reduceSize()
-                            let compressedData = UIImageJPEGRepresentation(img, 1.0)
-                            let url = Document.saveFile(data: compressedData!, name:  NSUUID().uuidString + ".jpeg")
-                            let imgUrl = URL(fileURLWithPath: url)
-                            let obj1 = ["name":NSUUID().uuidString + ".jpeg","url":imgUrl] as [String : Any]
-                            arrayURL.append(obj1)
-                        }
-                        let obj = ["name":self.seletedImage.fileName!,"url":fileUrl] as [String : Any]
-                        arrayURL.append(obj)
-                        print(arrayURL)
-                        self.startUpload(arryUrl: arrayURL, type: type)
+                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
+                    if error == nil {
+                self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
                     }
-                    
                 })
 
             }else if seletedImage.type == .image {
+                AWSRequestManager.sharedInstance.imageUpload(image: seletedImage.imgPreview!, name: seletedImage.fileName!, completion: { (fileURL, error) in
+                    self.addContent(fileUrl: fileURL!, type: type, fileUrlVideo:"")
+            })
+            }
+        }
+    }
+                /*
                 let image = seletedImage.imgPreview?.reduceSize()
                 var compressedData:NSData?
-                compressedData = UIImageJPEGRepresentation(image!, 1.0) as NSData?
+                 compressedData = UIImageJPEGRepresentation(image!, 1.0) as NSData?
                 if compressedData == nil {
                     compressedData = UIImagePNGRepresentation(seletedImage.imgPreview!) as NSData?
                 }
@@ -328,7 +321,8 @@ class PreviewController: UIViewController {
             }
         }
     }
-    
+    */
+    /*
     func startUpload(arryUrl:[Any],type:String){
         var videoCover:String! = ""
         var file:String! = ""
@@ -356,7 +350,6 @@ class PreviewController: UIViewController {
             }
             
         }
-       
         dispatchGroup.notify(queue: .main) {
             HUDManager.sharedInstance.hideProgress()
             DispatchQueue.main.async {
@@ -372,9 +365,8 @@ class PreviewController: UIViewController {
             }
             
         }
-    }
-    
-    
+
+ 
     func uploadFileToAWS(fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void){
         
         AWSManager.sharedInstance.uploadFile(fileURL, name: name) { (fileUrl,error) in
@@ -382,6 +374,8 @@ class PreviewController: UIViewController {
             
         }
     }
+*/
+
     func addContent(fileUrl:String,type:String,fileUrlVideo:String){
         APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl,coverImageVideo:fileUrlVideo, coverType: type) { (contents, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
@@ -397,7 +391,6 @@ class PreviewController: UIViewController {
     }
     
 
-    
     func modifyObjects(contents:[ContentDAO]){
         
         if contents.count != 0 {
@@ -414,7 +407,7 @@ class PreviewController: UIViewController {
     func addContentToStream(){
         if seletedImage.isUploaded {
             if ContentList.sharedInstance.objStream != nil {
-                
+            
             }else {
                 let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
                 obj.objContent = seletedImage
@@ -452,6 +445,25 @@ class PreviewController: UIViewController {
         }
     }
     
+    func associateContent() {
+        let arrayContent = ContentList.sharedInstance.arrayContent
+        var contents = [String]()
+        for obj in arrayContent! {
+            if !obj.contentID.trim().isEmpty {
+                contents.append(obj.contentID.trim())
+            }
+        }
+        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                self.showToast(strMSG: kAlertContentAssociatedToStream)
+                }else {
+                self.showToast(strMSG: errorMsg!)
+                }
+            })
+        }
+        
+    }
     /*
     // MARK: - Navigation
 

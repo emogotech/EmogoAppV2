@@ -240,6 +240,9 @@ class SharedData: NSObject {
             completion(data, response, error)
             }.resume()
     }
+    
+    
+    
     func downloadFile(strURl: String,handler:@escaping (_ image: UIImage?, _ type:String)-> Void){
          let imageURL = URL(string: strURl.stringByAddingPercentEncodingForURLQueryParameter()!)!
         print("Download Started")
@@ -264,6 +267,7 @@ class SharedData: NSObject {
         })
     }
     
+   
     
  }
 

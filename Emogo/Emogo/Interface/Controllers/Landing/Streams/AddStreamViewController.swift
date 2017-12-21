@@ -211,10 +211,12 @@ class AddStreamViewController: UITableViewController {
         Image.resolve(images: [asset]) { (images) in
             if images.count != 0 {
                 let image = images[0]
-                self.imgCover.image = image
-                                self.coverImage = image
+                let size = CGSize(width: self.imgCover.bounds.size.width * kScale, height: self.imgCover.bounds.size.height * kScale)
+                 self.imgCover.image = Toucan(image: image!).resize(size, fitMode: Toucan.Resize.FitMode.clip).image
+
+                            self.coverImage =  self.imgCover.image
                                 self.strCoverImage = ""
-                                self.imgCover.contentMode = .scaleAspectFit
+                              //  self.imgCover.contentMode = .scaleAspectFit
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
                                     print(self.fileName)
@@ -226,23 +228,7 @@ class AddStreamViewController: UITableViewController {
    
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-         let image = self.coverImage.reduceSize()
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
-       let url = Document.saveFile(data: imageData!, name: self.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!)
-                    } else {
-                        self.editStream(cover: imageUrl!)
-                    }
-                }
-            }else {
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
+        
     }
    
   

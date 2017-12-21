@@ -25,6 +25,7 @@ class StreamContentCell: UICollectionViewCell {
             viewCard.isHidden = false
             self.lblName.text = content.name.trim().capitalized
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            imgAdd.contentMode = .scaleAspectFill
             //self.imgCover.contentMode = .scaleAspectFit
            // self.imgCover.backgroundColor = .black
             if content.type == .image {
