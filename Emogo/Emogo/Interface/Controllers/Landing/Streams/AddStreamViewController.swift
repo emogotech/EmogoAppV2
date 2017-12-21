@@ -146,27 +146,9 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Public"
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = true
             }
-        
-        
-//        self.switchAddContent.isOn = false
-//        self.switchAddPeople.isOn = false
-//        self.switchAddPeople.isEnabled = sender.isOn
-//        self.switchAddContent.isEnabled = sender.isOn
-//        if sender.isOn {
-//            streamType = "Private"
-//             self.switchAnyOneCanEdit.isEnabled = false
-//        }else {
-//            streamType = "Public"
-//            self.switchAnyOneCanEdit.isEnabled = true
-//        }
-//        if self.objStream?.arrayColab.count != 0 {
-//            self.switchAddCollaborators.isOn = true
-//            self.rowHieght.constant = 325.0
-//            self.isExpandRow = true
-//        }
     }
+    
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
-        
         if self.switchAddCollaborators.isOn {
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
@@ -319,6 +301,7 @@ class AddStreamViewController: UITableViewController {
                 self.showToastOnWindow(strMSG: kAlertStreamEditedSuccess)
                 DispatchQueue.main.async{
                     self.navigationController?.pop()
+                     NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateImageCover), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
