@@ -167,7 +167,23 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }else {
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
+            self.updateSelected(obj: content)
+        }
+        
+    }
+    
+    func updateSelected(obj:ContentDAO){
+        if let parent = self.parent {
+            let parentVC:ContainerViewController = parent as! ContainerViewController
+            if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+                parentVC.arraySelectedContent.remove(at: index)
+            }else {
+                parentVC.arraySelectedContent.append(obj)
+            }
+            print(parentVC.arrayAssests.count)
         }
     }
     
 }
+
+

@@ -17,9 +17,10 @@ class MyStreamViewController: UIViewController {
 
     // MARK: - Variables
     private let headerNib = UINib(nibName: "MyStreamHeaderView", bundle: Bundle.main)
-    var objContent:ContentDAO!
     var currentType:RefreshType! = .start
-
+    
+    var objContent:ContentDAO!
+    
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -128,15 +129,17 @@ class MyStreamViewController: UIViewController {
     }
 
     func associateContentToStream(id:[String]){
-        HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: [objContent.contentID], streams: id) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                self.showToast(strMSG: kAlertContentAssociatedToStream)
-            }else {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
+
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            let array = ContentList.sharedInstance.arrayContent
+            self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
+                if (errorMSG?.isEmpty)! {
+                }
+            })
+            ContentList.sharedInstance.arrayContent.removeAll()
         }
+        
     }
     /*
     // MARK: - Navigation
@@ -191,10 +194,17 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-        stream.isSelected = !stream.isSelected
-        StreamList.sharedInstance.arrayStream[indexPath.row] = stream
-        self.myStreamCollectionView.reloadData()
+        
+        if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            stream.isSelected = !stream.isSelected
+            StreamList.sharedInstance.arrayStream[indexPath.row] = stream
+            if stream.isSelected {
+                (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+        }
     }
     
 }

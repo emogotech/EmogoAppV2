@@ -85,6 +85,7 @@ class CameraViewController: SwiftyCamViewController {
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
+        Gallery.Config.Camera.imageLimit =  10
 
         // Configure Sound For timer
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
@@ -226,7 +227,8 @@ class CameraViewController: SwiftyCamViewController {
                 let camera = ContentDAO(contentData: [:])
                  camera.imgPreview = obj
                  camera.type = .image
-                if let file =  assets[i].asset.value(forKey: "filename"){
+                 camera.isUploaded = false
+                 if let file =  assets[i].asset.value(forKey: "filename"){
                     camera.fileName = file as! String
                 }
                 ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
@@ -260,7 +262,6 @@ class CameraViewController: SwiftyCamViewController {
             self.view.updateConstraintsIfNeeded()
         }
     }
-    
     
   
     // MARK: - API Methods
@@ -321,7 +322,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
             let camera = ContentDAO(contentData: [:])
-            camera.type = .image
+            camera.type = .video
             camera.imgPreview = image
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
@@ -390,6 +391,7 @@ extension CameraViewController:GalleryControllerDelegate {
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
                          let camera = ContentDAO(contentData: [:])
                         camera.imgPreview = image
+                        camera.isUploaded = false
                         camera.fileName = tempPath.absoluteString.getName()
                         camera.fileUrl = tempPath
                         camera.type = .video

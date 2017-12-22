@@ -176,7 +176,7 @@ class AWSManager: NSObject {
 class AWSRequestManager:NSObject {
     
     var arrayRequest:[String]!
-   
+    
     class var sharedInstance: AWSRequestManager {
         struct Static {
             static let instance: AWSRequestManager = AWSRequestManager()
@@ -190,21 +190,24 @@ class AWSRequestManager:NSObject {
     }
     
     func imageUpload(image:UIImage,name:String,completion:@escaping (String?,Error?)->Void) {
-            let image = image.reduceSize()
-            let imageData = UIImageJPEGRepresentation(image, 1.0)
+            let img = image.reduceSize()
+            let imageData = UIImageJPEGRepresentation(img, 1.0)
             let url = Document.saveFile(data: imageData!, name: name)
             let fileUrl = URL(fileURLWithPath: url)
             self.arrayRequest.append(name)
+        self.uploading()
             AWSManager.sharedInstance.uploadFile(fileUrl, name: name) { (imageUrl,error) in
                 if let index = self.arrayRequest.index(of: name) {
                     self.arrayRequest.remove(at: index)
                 }
+                print(imageUrl)
                 self.completed()
                completion(imageUrl, error)
             }
     }
     
     func prepareVideoToUpload(name:String,videoURL:URL,completion:@escaping (String?,String?,Error?)->Void) {
+              self.uploading()
             Document.compressVideoFile(name:name, inputURL: videoURL, handler: { (compressed) in
                 if compressed != nil {
                     let fileUrl = URL(fileURLWithPath: compressed!)
@@ -212,20 +215,22 @@ class AWSRequestManager:NSObject {
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl) {
                         var strThumb:String!
                         var strVideo:String!
+                        
+                        self.uploadVideo(name: name, videoURL: fileUrl, completion: { ( video, error) in
+                            if error == nil {
+                                strVideo = video
+                                if strThumb != nil &&  strVideo != nil {
+                                    completion(strThumb,strVideo,error)
+                                }
+                            }
+                        })
+                        
                         self.imageUpload(image: image, name: NSUUID().uuidString + ".jpeg", completion: { (imageUrl,error) in
                             if error == nil {
                                 strThumb = imageUrl
                                 if strThumb != nil &&  strVideo != nil {
                                     completion(strThumb,strVideo,error)
                                 }
-                            }
-                        })
-                        self.uploadVideo(name: name, videoURL: fileUrl, completion: { ( video, error) in
-                            if error == nil {
-                                strVideo = video
-                            if strThumb != nil &&  strVideo != nil {
-                                completion(strThumb,strVideo,error)
-                            }
                             }
                         })
                         
@@ -258,17 +263,111 @@ class AWSRequestManager:NSObject {
         }
     }
     
-    func associateContentToStream(streamID:String, contentID:[String],completion:@escaping (Bool?,String?)->Void){
-        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: contentID, streams: [streamID]) { (isSuccess, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
+    func startContentUpload(StreamID:[String],array:[ContentDAO]){
+        var arrayContentToCreate = [ContentDAO]()
+        let dispatchGroup = DispatchGroup()
+        for obj in array {
+            dispatchGroup.enter()
+           if obj.isUploaded == false  {
+                if obj.type == .image {
+                    self.imageUpload(image: obj.imgPreview!, name: obj.fileName, completion: { (imageUrl,error) in
+                        if error == nil {
+                            let ext = imageUrl?.getName()
+                            if let index = array.index(where: {$0.fileName == ext}) {
+                                let value = array[index]
+                                value.imgPreview = nil
+                                value.coverImage = imageUrl
+                                arrayContentToCreate.append(value)
+                                print(arrayContentToCreate.count)
+                                dispatchGroup.leave()
+                            }
+                        }
+                    })
+                }else {
+                    self.prepareVideoToUpload(name: obj.fileName, videoURL: obj.fileUrl!, completion: { (strThumb,strVideo,error) in
+                        if error == nil {
+                            let ext = strVideo?.getName()
+                            if let index = array.index(where: {$0.fileName == ext}) {
+                                let value = array[index]
+                                value.imgPreview = nil
+                                value.coverImage = strVideo
+                                value.coverImageVideo = strThumb
+                                arrayContentToCreate.append(value)
+                                dispatchGroup.leave()
+                                print(arrayContentToCreate.count)
+                            }
+                        }
+                    })
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            
+          print("contents Uploaded----->\(arrayContentToCreate.count)")
+            if arrayContentToCreate.count == array.count {
+                self.createContent(StreamID: StreamID, array: arrayContentToCreate)
+            }
+        }
+    }
+
+    
+    func createContent(StreamID:[String],array:[ContentDAO]){
+        var arrayParams = [Any]()
+        for obj in array {
+     let param = ["url":obj.coverImage!,"name":obj.name!,"type":obj.type.rawValue,"description":obj.description!,"video_image":obj.coverImageVideo!]
+            arrayParams.append(param)
+        }
+        print(arrayParams)
+        APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "") { (contents, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                if StreamID.count != 0 {
+                    self.associateContentToStream(streamID: StreamID, contents: contents!, completion: { (success, errorMsg) in
+                        
+                    })
+                }else {
+                    self.showToast(strMSG: kAlertContentAdded)
+                }
+            }
+        }
+    }
+    
+    func associateContentToStream(streamID:[String], contents:[ContentDAO],completion:@escaping (Bool?,String?)->Void){
+        var IDs = [String]()
+        var arrayWillUpload = [ContentDAO]()
+        for obj in contents {
+            if !obj.contentID.trim().isEmpty {
+                IDs.append(obj.contentID.trim())
+            }else {
+                arrayWillUpload.append(obj)
+            }
+        }
+        if arrayWillUpload.count != 0 {
+            self.startContentUpload(StreamID:streamID, array: arrayWillUpload)
+        }
+        if IDs.count == 0 {
+            return
+        }
+        APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
                 completion(true,"")
+        self.showToast(strMSG: "Content added to Stream.")
             }else {
                 completion(false,errorMsg)
             }
         }
     }
     
+    func showToast(strMSG:String){
+        AppDelegate.appDelegate.window?.makeToast(message: strMSG,
+                                                  duration: TimeInterval(3.0),
+                                                  position: .top,
+                                                  image: nil,
+                                                  backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                                                  titleColor: UIColor.white,
+                                                  messageColor: UIColor.white,
+                                                  font: nil)
+    }
  }
 
 

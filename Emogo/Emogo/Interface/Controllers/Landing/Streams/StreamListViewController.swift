@@ -52,7 +52,6 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewMenu.isHidden = false
-        self.streamCollectionView.reloadData()
       
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
@@ -66,6 +65,7 @@ class StreamListViewController: UIViewController {
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
+        self.streamCollectionView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -163,8 +163,10 @@ class StreamListViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
+        
         let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
         ContentList.sharedInstance.objStream = nil
+        kContainerNav = ""
         self.navigationController?.push(viewController: obj)
     }
     
@@ -235,7 +237,7 @@ class StreamListViewController: UIViewController {
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
-            self.lblNoResult.isHidden = true
+             self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
                 self.lblNoResult.isHidden = false
             }

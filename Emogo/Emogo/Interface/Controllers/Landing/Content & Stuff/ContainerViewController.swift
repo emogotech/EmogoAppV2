@@ -47,23 +47,24 @@ class ContainerViewController: UIViewController {
     var interactor:PMInteractor? = nil
     var captureSession = AVCaptureSession();
     var sessionOutput = AVCapturePhotoOutput();
-    var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecType.jpeg]);
+
+    var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG]);
     var previewLayer = AVCaptureVideoPreviewLayer();
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-       prepareLayouts()
      }
     
+    
     func prepareLayouts(){
-        self.btnStuff.setImage(#imageLiteral(resourceName: "my_stuff_active_icon"), for: .normal)
         self.buttonNext.isHidden = true
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        prepareLayouts()
         selectedConatiner = .stuff
         showHelperCircle()
         //  openPreviewCamera()

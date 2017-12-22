@@ -411,6 +411,20 @@ extension UINavigationController {
     func popNormal(){
         self.popViewController(animated: true)
     }
+    
+    func popToViewController(vc:UIViewController){
+        var isPop:Bool! = false
+        for obj in self.viewControllers {
+            if obj == vc {
+                isPop = true
+                self.popToViewController(vc, animated: true)
+                break
+            }
+        }
+        if isPop == false {
+            self.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 
@@ -600,7 +614,7 @@ extension UITableViewController {
                                                   position: .top,
                                                   image: nil,
                                                   backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                                  titleColor: UIColor.yellow,
+                                                  titleColor: UIColor.white,
                                                   messageColor: UIColor.white,
                                                   font: nil)
         

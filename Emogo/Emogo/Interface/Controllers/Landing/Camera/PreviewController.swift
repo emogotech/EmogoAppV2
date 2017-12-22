@@ -46,6 +46,7 @@ class PreviewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        self.previewCollection.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -81,8 +82,11 @@ class PreviewController: UIViewController {
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
+        Gallery.Config.Camera.imageLimit =  10
+
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
+        tap.numberOfTapsRequired = 2
         self.imgPreview.addGestureRecognizer(tap)
         // Preview Footer
         self.previewCollection.reloadData()
@@ -160,24 +164,57 @@ class PreviewController: UIViewController {
         self.showToast(type: .error, strMSG: "Content Will be shared by iMessage (work in progress).")
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
-        isContentAdded = true
-        if seletedImage.isUploaded {
-             addContentToStream()
-        }else {
-            if (self.txtTitleImage.text?.isEmpty)! {
-                self.txtTitleImage.shake()
-            }else {
-                self.uploadFile()
+//        isContentAdded = true
+//        if seletedImage.isUploaded {
+//             addContentToStream()
+//        }else {
+//            if (self.txtTitleImage.text?.isEmpty)! {
+//                self.txtTitleImage.shake()
+//            }else {
+//                self.uploadFile()
+//            }
+//        }
+
+        if ContentList.sharedInstance.objStream != nil {
+
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                let array = ContentList.sharedInstance.arrayContent
+                    self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
+                    AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream?.streamID)!], contents: array!, completion: { (isScuccess, errorMSG) in
+                        if (errorMSG?.isEmpty)! {
+                        }
+                    })
+                ContentList.sharedInstance.arrayContent.removeAll()
+                // Back Screen
+                let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+                self.navigationController?.popToViewController(vc: obj)
             }
+        }else {
+            // Navigate to View Stream
+            addContentToStream()
         }
+        
     }
     @IBAction func btnDoneAction(_ sender: Any) {
+        /*
          isContentAdded = false
         if (self.txtTitleImage.text?.isEmpty)! {
             self.txtTitleImage.shake()
         }else {
             self.uploadFile()
         }
+ */
+        
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
+            print(array.count)
+            let arrayC = [String]()
+            AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            ContentList.sharedInstance.arrayContent.removeAll()
+            self.navigationController?.pop()
+            self.showToast(strMSG: "It may take a while, All Content will be added in MyStuff, After Uploading!")
+        }
+       
     }
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
@@ -213,7 +250,6 @@ class PreviewController: UIViewController {
     @objc func playIconTapped(sender:UIButton) {
         self.preparePreview(index: sender.tag)
     }
-    
     
     // MARK: - Class Methods
 
@@ -405,21 +441,16 @@ class PreviewController: UIViewController {
     }
     
     func addContentToStream(){
-        if seletedImage.isUploaded {
-            if ContentList.sharedInstance.objStream != nil {
-            
-            }else {
-                let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-                obj.objContent = seletedImage
-                self.navigationController?.push(viewController: obj)
-            }
-           
+    let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+        obj.objContent = seletedImage
+        self.navigationController?.push(viewController: obj)
         }
-    }
     
     func deleteContent(){
+        HUDManager.sharedInstance.showHUD()
         let content = [seletedImage.contentID.trim()]
         APIServiceManager.sharedInstance.apiForDeleteContent(contents: content) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
                 if  ContentList.sharedInstance.arrayContent.count != 0 {
@@ -446,22 +477,16 @@ class PreviewController: UIViewController {
     }
     
     func associateContent() {
-        let arrayContent = ContentList.sharedInstance.arrayContent
-        var contents = [String]()
-        for obj in arrayContent! {
-            if !obj.contentID.trim().isEmpty {
-                contents.append(obj.contentID.trim())
-            }
-        }
-        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
-            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
-                if (errorMsg?.isEmpty)! {
-                self.showToast(strMSG: kAlertContentAssociatedToStream)
-                }else {
-                self.showToast(strMSG: errorMsg!)
-                }
-            })
-        }
+       
+//        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
+//            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
+//                if (errorMsg?.isEmpty)! {
+//                self.showToast(strMSG: kAlertContentAssociatedToStream)
+//                }else {
+//                self.showToast(strMSG: errorMsg!)
+//                }
+//            })
+//        }
         
     }
     /*

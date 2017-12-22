@@ -489,8 +489,13 @@ class APIServiceManager: NSObject {
     // MARK: - Create Content  API
     
     
-    func apiForCreateContent( contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
-        let  params: [Any] =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
+    func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+        var params:[Any]!
+        if contents == nil {
+        params =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
+        }else {
+            params = contents
+        }
         print(params)
         APIManager.sharedInstance.post(params: params, strURL: kContentAPI) { (result) in
             
