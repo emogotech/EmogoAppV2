@@ -127,7 +127,7 @@ class StreamListViewController: UIViewController {
     }
  
     @objc func createAfterStream(){
-        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.3)
+        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.5)
     }
     
     @objc func showMyStream(){
@@ -270,6 +270,13 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.streamCollectionView.reloadData()
+            
+            
+            self.lblNoResult.isHidden = true
+            if PeopleList.sharedInstance.arrayPeople.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+        
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

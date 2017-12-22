@@ -22,8 +22,22 @@ class ViewStreamController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateImageCover)), object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotificationUpdateImageCover), object: nil)
+        
+        
         // Do any additional setup after loading the view.
         self.prepareLayouts()
+    }
+    
+    @objc func updateImageAfterEdit(){
+        self.perform(#selector(updateLayOut), with: nil, afterDelay: 0.3)
+    }
+    
+   @objc func updateLayOut(){
+        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+        self.getStream(currentStream:stream )
     }
     
     override func didReceiveMemoryWarning() {

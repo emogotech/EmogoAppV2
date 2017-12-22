@@ -121,7 +121,9 @@ let kAlertContentAssociatedToStream                = "Content associated with se
 let kAlertSelectStream                = "Please Select Atleast one Stream to add Content."
 let kAlertStreamEditedSuccess = "Stream Updated Successfully."
 let kNotificationUpdateFilter                  = "updateFilterAfterCreateStream"
-
+let kNotificationUpdateImageCover                 = "updateImageAfterEditStream"
+let kAlertUploadWaitMsg                  = "Please wait, it may take a while!"
+let kNotificationAddColaborator                  = "updateColaborator"
 
 
 let kDeepLinkURL = "Emogo://emogo/"
