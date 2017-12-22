@@ -57,26 +57,23 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def save(self, **kwargs):
         self.instance = self.update(self.instance, self.validated_data)
-        #  1. Delete content
-        if self.validated_data.get('delete_content') is not None:
-            self.delete_stream_content()
 
-        # 2. Delete Collaborator
-        if self.validated_data.get('delete_collaborator') is not None:
-            self.delete_stream_collaborator()
-
-        # 3. Create Collaborator
+        # 1. Create Collaborator
         collaborators = self.initial_data.get('collaborator')
         if collaborators is not None:
+            # If collaborators list is empty then delete existing collaborator.
+            self.instance.collaborator_list.filter().delete()
+
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
 
-        # 4. Create Contents
+        # 2. Create Contents
         contents = self.initial_data.get('content')
         if contents is not None:
+            # If collaborators list is empty then delete existing  collaborator.
+            [self.instance.content_set.remove(x) for x in self.instance.content_set.all()]
             if contents.__len__() > 0:
                 self.create_content(self.instance)
-
         return kwargs
 
     def create(self, validated_data):
@@ -151,20 +148,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         content.save()
         content.streams.add(stream)
         return content
-
-    def delete_stream_content(self):
-        """
-        :return: Delete stream component
-        """
-        self.validated_data.get('delete_content').delete()
-        return None
-
-    def delete_stream_collaborator(self):
-        """
-        :return: Delete stream Collaborator
-        """
-        self.validated_data.get('delete_collaborator').delete()
-        return None
 
     def create_stream(self):
         """
