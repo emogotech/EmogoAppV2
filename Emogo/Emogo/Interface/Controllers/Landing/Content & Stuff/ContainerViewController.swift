@@ -60,16 +60,15 @@ class ContainerViewController: UIViewController {
     
     func prepareLayouts(){
         self.buttonNext.isHidden = true
+        selectedConatiner = .stuff
+        showHelperCircle()
+        //  openPreviewCamera()
+        self.checkCameraPermission()
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         prepareLayouts()
-        selectedConatiner = .stuff
-        showHelperCircle()
-        //  openPreviewCamera()
-       self.checkCameraPermission()
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -301,6 +300,10 @@ class ContainerViewController: UIViewController {
                             con.type = .video
                             con.imgPreview = image
                             con.fileUrl = url
+                            con.isUploaded = false
+                            if let file =  obj?.value(forKey: "filename"){
+                            con.fileName = file as! String
+                            }
                             //find(arr, "c")!              // 2
                             self.arraySelectedContent.insert(con, at: 0)
 
@@ -312,6 +315,10 @@ class ContainerViewController: UIViewController {
                         let con = ContentDAO(contentData: [:])
                         con.type = .image
                         con.imgPreview = image
+                        con.isUploaded = false
+                        if let file =  obj?.value(forKey: "filename"){
+                            con.fileName = file as! String
+                        }
                         self.arraySelectedContent.insert(con, at: 0)
                         group.leave()
                     })

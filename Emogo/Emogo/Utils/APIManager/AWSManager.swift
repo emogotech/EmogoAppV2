@@ -195,7 +195,7 @@ class AWSRequestManager:NSObject {
             let url = Document.saveFile(data: imageData!, name: name)
             let fileUrl = URL(fileURLWithPath: url)
             self.arrayRequest.append(name)
-        self.uploading()
+            self.uploading()
             AWSManager.sharedInstance.uploadFile(fileUrl, name: name) { (imageUrl,error) in
                 if let index = self.arrayRequest.index(of: name) {
                     self.arrayRequest.remove(at: index)

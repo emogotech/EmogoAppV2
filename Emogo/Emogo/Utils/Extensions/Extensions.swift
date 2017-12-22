@@ -262,7 +262,8 @@ extension UIViewController {
         let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
         self.navigationItem.rightBarButtonItem = btnCamera
         let img2 = UIImage(named: "home_icon_active")
-        let btnHome = UIButton(type: .custom)
+        let btnHome = UIButton()
+        btnHome.frame = CGRect(x: 0, y: 0, width: (img2?.size.width)!, height: (img2?.size.height)!)
         btnHome.setImage(img2, for: .normal)
         self.navigationItem.titleView = btnHome
     }

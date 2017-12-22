@@ -23,9 +23,9 @@ class ViewStreamController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateImageCover)), object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotificationUpdateImageCover), object: nil)
-        
+//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateImageCover)), object: self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotificationUpdateImageCover), object: nil)
+//
         
         // Do any additional setup after loading the view.
         self.prepareLayouts()
@@ -68,8 +68,6 @@ class ViewStreamController: UIViewController {
         }
         viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
-           let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
-            self.getStream(currentStream:stream )
     }
     
     func prepareNavigation(){
@@ -89,7 +87,7 @@ class ViewStreamController: UIViewController {
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
-        
+        self.updateLayOut()
     }
     
     // MARK: -  Action Methods And Selector
@@ -140,7 +138,9 @@ class ViewStreamController: UIViewController {
     }
     
     @objc  func btnCancelAction(){
-        self.navigationController?.pop()
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+        self.navigationController?.popToViewController(vc: obj)
+       // self.navigationController?.pop()
     }
     
     // MARK: - Class Methods
@@ -152,7 +152,6 @@ class ViewStreamController: UIViewController {
         }
         let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
         self.getStream(currentStream:stream )
-        
     }
     
     // MARK: - API Methods
@@ -254,9 +253,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             self.navigationController?.push(viewController: obj)
             //self.navigationController?.push(viewController: obj)
         }else {
-            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-             obj.objContent = content
-            self.navigationController?.push(viewController: obj)
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(content!)
+            if   ContentList.sharedInstance.arrayContent.count != 0 {
+                let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                self.navigationController?.pushNormal(viewController: objPreview)
+            }
 
         }
     }

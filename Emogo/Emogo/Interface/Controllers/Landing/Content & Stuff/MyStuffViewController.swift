@@ -54,14 +54,9 @@ class MyStuffViewController: UIViewController {
     
     @IBAction func btnActionNext(_ sender: Any) {
         if let parent = self.parent {
-            for obj in ContentList.sharedInstance.arrayContent {
-                if obj.isSelected {
-                    (parent as! ContainerViewController).arraySelectedContent.insert(obj, at: 0)
-                }
-            }
+          
         if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
             HUDManager.sharedInstance.showHUD()
-
             (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
                 HUDManager.sharedInstance.hideHUD()
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
@@ -70,6 +65,7 @@ class MyStuffViewController: UIViewController {
                 let nav = UINavigationController(rootViewController: objPreview)
                 self.parent?.present(nav, animated: true, completion: nil)
             })
+            (parent as! ContainerViewController).arraySelectedContent.removeAll()
             (parent as! ContainerViewController).arrayAssests.removeAll()
             }
         }
@@ -178,7 +174,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
                 parentVC.arraySelectedContent.remove(at: index)
             }else {
-                parentVC.arraySelectedContent.append(obj)
+                if obj.isSelected  {
+                    parentVC.arraySelectedContent.append(obj)
+                }
             }
             print(parentVC.arrayAssests.count)
         }
