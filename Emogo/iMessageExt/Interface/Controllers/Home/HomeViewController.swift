@@ -554,8 +554,6 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CustomFooterView", for: indexPath)
             return headerView
         }
-//        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CustomFooterView", for: indexPath)
-//        return headerView
     }
     
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -643,15 +641,6 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             }
         }
     }
-    
-    //    func resetAllCells() {
-    //        for row in 0 ..< self.collectionStream.numberOfItems(inSection: 0){
-    //            let indexPath = NSIndexPath(row: row, section: 0)
-    //            if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
-    //                (sel as! HomeCollectionViewCell).viewShowHide.isHidden = true
-    //            }
-    //        }
-    //    }
     
     func addTransition(vi : HomeCollectionViewCell) {
         let transition = CATransition()
