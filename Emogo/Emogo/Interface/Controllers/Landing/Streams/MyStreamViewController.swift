@@ -185,7 +185,6 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
             let  view:MyStreamHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_MyStreamHeaderView, for: indexPath) as! MyStreamHeaderView
             view.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
             view.btnPlay.addTarget(self, action: #selector(self.playButtonAction(sender:)), for: .touchUpInside)
-            view.prepareLayout(content: self.objContent)
             return view
         default:
             assert(false, "Unexpected element kind")

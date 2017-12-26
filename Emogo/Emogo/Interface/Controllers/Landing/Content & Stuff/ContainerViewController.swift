@@ -55,6 +55,7 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        arraySelectedContent = ContentList.sharedInstance.arrayContent
      }
     
     
@@ -211,8 +212,8 @@ class ContainerViewController: UIViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         kContainerNav = "2"
+        ContentList.sharedInstance.arrayContent = self.arraySelectedContent
         dismiss(animated: true, completion: nil)
-
     }
     
     func showHelperCircle(){
@@ -306,7 +307,6 @@ class ContainerViewController: UIViewController {
                             }
                             //find(arr, "c")!              // 2
                             self.arraySelectedContent.insert(con, at: 0)
-
                         }
                         group.leave()
                     })
@@ -396,7 +396,6 @@ class ContainerViewController: UIViewController {
             break
         }
     }
-    
     
     
     func getVideoURL(asset:PHAsset,handler:@escaping ( _ tempURL:URL?, _ image:UIImage?)->Void){

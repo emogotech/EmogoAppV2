@@ -30,9 +30,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ouf-oT-ywr" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="ZKE-fH-JHR">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Keq-7e-oZ3" customClass="KASlideShow">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
-                            </imageView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WcL-yO-nYs">
                                 <rect key="frame" x="0.0" y="185" width="320" height="45"/>
                                 <subviews>
@@ -88,16 +89,16 @@
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="WcL-yO-nYs" firstAttribute="leading" secondItem="Ouf-oT-ywr" secondAttribute="leading" id="0fW-SF-9w2"/>
+                            <constraint firstAttribute="bottom" secondItem="Keq-7e-oZ3" secondAttribute="bottom" id="1JO-tp-eMt"/>
                             <constraint firstAttribute="bottom" secondItem="WcL-yO-nYs" secondAttribute="bottom" id="2QV-tA-F3T"/>
-                            <constraint firstItem="ZKE-fH-JHR" firstAttribute="leading" secondItem="Ouf-oT-ywr" secondAttribute="leading" id="BrQ-6t-PYn"/>
-                            <constraint firstItem="ZKE-fH-JHR" firstAttribute="top" secondItem="Ouf-oT-ywr" secondAttribute="top" id="GfH-IZ-bmx"/>
                             <constraint firstItem="C56-fv-Lfi" firstAttribute="centerX" secondItem="Ouf-oT-ywr" secondAttribute="centerX" id="Iw2-xv-oz9"/>
                             <constraint firstAttribute="trailing" secondItem="WcL-yO-nYs" secondAttribute="trailing" id="Mku-oc-ELZ"/>
                             <constraint firstItem="E1x-l4-S3e" firstAttribute="leading" secondItem="Ouf-oT-ywr" secondAttribute="leading" id="TS0-x7-CHt"/>
                             <constraint firstItem="C56-fv-Lfi" firstAttribute="centerY" secondItem="Ouf-oT-ywr" secondAttribute="centerY" id="deG-gx-RL5"/>
+                            <constraint firstItem="Keq-7e-oZ3" firstAttribute="top" secondItem="Ouf-oT-ywr" secondAttribute="top" id="e7X-uL-E6Q"/>
                             <constraint firstItem="E1x-l4-S3e" firstAttribute="top" secondItem="Ouf-oT-ywr" secondAttribute="top" constant="3" id="jZP-Vs-c20"/>
-                            <constraint firstAttribute="bottom" secondItem="ZKE-fH-JHR" secondAttribute="bottom" id="rbY-E3-tJV"/>
-                            <constraint firstAttribute="trailing" secondItem="ZKE-fH-JHR" secondAttribute="trailing" id="tff-hZ-R1E"/>
+                            <constraint firstAttribute="trailing" secondItem="Keq-7e-oZ3" secondAttribute="trailing" id="lUi-dK-wnW"/>
+                            <constraint firstItem="Keq-7e-oZ3" firstAttribute="leading" secondItem="Ouf-oT-ywr" secondAttribute="leading" id="wfO-Rb-OyO"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -120,16 +121,15 @@
             <connections>
                 <outlet property="btnBack" destination="E1x-l4-S3e" id="wdr-Zg-CH1"/>
                 <outlet property="btnPlay" destination="C56-fv-Lfi" id="jKb-EK-M7q"/>
-                <outlet property="imgCover" destination="ZKE-fH-JHR" id="ue9-dG-7SO"/>
                 <outlet property="lblDescription" destination="fb0-bL-KMS" id="P10-SN-NVy"/>
                 <outlet property="lblName" destination="25H-yR-b3t" id="Rl7-Ln-7Bu"/>
+                <outlet property="sliderCover" destination="Keq-7e-oZ3" id="WP7-Qf-wHx"/>
                 <outlet property="viewContainer" destination="WcL-yO-nYs" id="LNs-ZP-Jlr"/>
             </connections>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="back-circle-icon" width="24" height="24"/>
-        <image name="image7" width="1000" height="666"/>
         <image name="play_button" width="30" height="30"/>
     </resources>
 </document>

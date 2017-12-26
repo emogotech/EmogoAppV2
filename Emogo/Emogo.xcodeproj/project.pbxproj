@@ -203,6 +203,7 @@
 		F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612EE1FD69B3100788FFE /* AGDetailsFilter.swift */; };
 		F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */; };
 		F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */; };
+		F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4361D391FF226F800553E8E /* KASlideShow.m */; };
 		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
@@ -539,6 +540,8 @@
 		F43612EE1FD69B3100788FFE /* AGDetailsFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGDetailsFilter.swift; sourceTree = "<group>"; };
 		F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMPhotoEditingManager.swift; sourceTree = "<group>"; };
 		F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMEditingModel.swift; sourceTree = "<group>"; };
+		F4361D391FF226F800553E8E /* KASlideShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KASlideShow.m; sourceTree = "<group>"; };
+		F4361D3A1FF226FA00553E8E /* KASlideShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KASlideShow.h; sourceTree = "<group>"; };
 		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
@@ -978,6 +981,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4361D381FF226F100553E8E /* Slider */,
 				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
 				F409FC701FE3DF280093E0E7 /* SwipeViewController */,
 				F409FC6D1FE3D8B90093E0E7 /* CustomLayout */,
@@ -1430,6 +1434,15 @@
 				F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */,
 			);
 			path = ImageFilter;
+			sourceTree = "<group>";
+		};
+		F4361D381FF226F100553E8E /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				F4361D3A1FF226FA00553E8E /* KASlideShow.h */,
+				F4361D391FF226F800553E8E /* KASlideShow.m */,
+			);
+			path = Slider;
 			sourceTree = "<group>";
 		};
 		F4402F6F1FCD917900152D01 /* TextField */ = {
@@ -2246,6 +2259,7 @@
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
 				F404C0BC1FDABAF400E8ACC2 /* HeroTransition+Complete.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
+				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F404C0B61FDABAF400E8ACC2 /* UIKit+Hero.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,

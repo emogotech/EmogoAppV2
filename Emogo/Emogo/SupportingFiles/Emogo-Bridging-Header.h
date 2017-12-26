@@ -5,3 +5,4 @@
 #import "SHSPhoneTextField.h"
 #import "NSDictionary+NullRemover.h"
 #import "UIImage+ImageCompress.h"
+#import "KASlideShow.h"

@@ -176,6 +176,9 @@ class AWSManager: NSObject {
 class AWSRequestManager:NSObject {
     
     var arrayRequest:[String]!
+    typealias isSuccess = (Bool) -> ()
+     var updateSuccessHandler:isSuccess!
+
     
     class var sharedInstance: AWSRequestManager {
         struct Static {
