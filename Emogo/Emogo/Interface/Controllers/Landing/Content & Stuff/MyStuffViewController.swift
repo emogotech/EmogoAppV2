@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class MyStuffViewController: UIViewController {
     
     // MARK: - UI Elements
     
     @IBOutlet weak var stuffCollectionView: UICollectionView!
+    
     
     // MARK: - Variables
 
@@ -35,7 +35,6 @@ class MyStuffViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
-        ContentList.sharedInstance.arrayContent.removeAll()
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
@@ -54,20 +53,23 @@ class MyStuffViewController: UIViewController {
     }
     
     @IBAction func btnActionNext(_ sender: Any) {
-        var contents = [ContentDAO]()
-        for obj in ContentList.sharedInstance.arrayContent {
-            if obj.isSelected {
-                contents.insert(obj, at: 0)
-            }
-         }
-            if  contents.count != 0 {
+        if let parent = self.parent {
+          
+        if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
+            HUDManager.sharedInstance.showHUD()
+            (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
+                HUDManager.sharedInstance.hideHUD()
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                ContentList.sharedInstance.arrayContent.removeAll()
-                ContentList.sharedInstance.arrayContent = contents
+                ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
                 objPreview.strPresented = "TRUE"
                 let nav = UINavigationController(rootViewController: objPreview)
                 self.parent?.present(nav, animated: true, completion: nil)
+            })
+            (parent as! ContainerViewController).arraySelectedContent.removeAll()
+            (parent as! ContainerViewController).arrayAssests.removeAll()
+            }
         }
+       
        
     }
     
@@ -75,9 +77,7 @@ class MyStuffViewController: UIViewController {
     
     func getMyStuff(type:RefreshType){
         if type == .start{
-            if ContentList.sharedInstance.arrayContent.count == 0 {
-                HUDManager.sharedInstance.showHUD()
-            }
+            ContentList.sharedInstance.arrayContent.removeAll()
             self.stuffCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
@@ -91,6 +91,22 @@ class MyStuffViewController: UIViewController {
             if type == .down {
                 self.stuffCollectionView.es.stopLoadingMore()
             }
+            
+            if let parentVC = self.parent {
+                let array = (parentVC as! ContainerViewController).arraySelectedContent
+                for i in 0..<ContentList.sharedInstance.arrayContent.count {
+                    let con = ContentList.sharedInstance.arrayContent[i]
+                    if array.count != 0 {
+                        if let index =  array.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
+                            if array[index].isSelected == true {
+                                con.isSelected = true
+                                ContentList.sharedInstance.arrayContent[i] = con
+                            }
+                        }
+                    }
+                }
+            }
+            
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -137,10 +153,35 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let content = ContentList.sharedInstance.arrayContent[indexPath.row]
-        content.isSelected = !content.isSelected
-        ContentList.sharedInstance.arrayContent[indexPath.row] = content
-        self.stuffCollectionView.reloadData()
+        
+        if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
+            let content = ContentList.sharedInstance.arrayContent[indexPath.row]
+            content.isSelected = !content.isSelected
+            ContentList.sharedInstance.arrayContent[indexPath.row] = content
+            if content.isSelected {
+               (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+            self.updateSelected(obj: content)
+        }
+        
+    }
+    
+    func updateSelected(obj:ContentDAO){
+        if let parent = self.parent {
+            let parentVC:ContainerViewController = parent as! ContainerViewController
+            if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+                parentVC.arraySelectedContent.remove(at: index)
+            }else {
+                if obj.isSelected  {
+                    parentVC.arraySelectedContent.append(obj)
+                }
+            }
+            print(parentVC.arrayAssests.count)
+        }
     }
     
 }
+
+

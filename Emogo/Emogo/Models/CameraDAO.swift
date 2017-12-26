@@ -58,7 +58,8 @@ class GalleryDAO{
 
 class ContentList{
     var arrayContent:[ContentDAO]!
-    var streamID:String! = ""
+    var arrayLink:[ContentDAO]!
+    var objStream:StreamViewDAO?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
         struct Static {
@@ -69,6 +70,7 @@ class ContentList{
     
     init() {
         arrayContent = [ContentDAO]()
+        arrayLink = [ContentDAO]()
     }
     
 }

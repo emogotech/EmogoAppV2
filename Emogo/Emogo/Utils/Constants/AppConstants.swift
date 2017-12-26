@@ -15,6 +15,7 @@ import UIKit
 
 // MARK: -  Constants Variables
 let kFrame                               = UIScreen.main.bounds
+let kScale                               = UIScreen.main.scale
 
 let kDefault                             = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
 
@@ -29,6 +30,7 @@ let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blu
 let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0, alpha: 1.0)
 
 var kContainerNav = ""
+var kBackNav = ""
 
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"
@@ -118,8 +120,10 @@ let kAlertContentAdded                = "Content Created Successfully."
 let kAlertContentAssociatedToStream                = "Content associated with selected Stream."
 let kAlertSelectStream                = "Please Select Atleast one Stream to add Content."
 let kAlertStreamEditedSuccess = "Stream Updated Successfully."
-
-
+let kNotificationUpdateFilter                  = "updateFilterAfterCreateStream"
+let kNotificationUpdateImageCover                 = "updateImageAfterEditStream"
+let kAlertUploadWaitMsg                  = "Please wait, it may take a while!"
+let kNotificationAddColaborator                  = "updateColaborator"
 
 
 let kDeepLinkURL = "Emogo://emogo/"

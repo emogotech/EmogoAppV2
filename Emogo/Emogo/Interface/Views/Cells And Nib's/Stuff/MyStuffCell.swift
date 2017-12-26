@@ -24,7 +24,7 @@ class MyStuffCell: UICollectionViewCell {
         self.lblDescription.text =  content.description.trim()
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
       //  self.imgCover.backgroundColor = .black
-       // imgCover.contentMode = .scaleAspectFit
+        imgCover.contentMode = .scaleAspectFill
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
         }else {
@@ -35,6 +35,7 @@ class MyStuffCell: UICollectionViewCell {
             self.btnPlay.isHidden = true
             self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {
+            self.imgCover.image = nil
             self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
             self.btnPlay.isHidden = false
         }

@@ -262,7 +262,8 @@ extension UIViewController {
         let btnCamera = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCameraAction))
         self.navigationItem.rightBarButtonItem = btnCamera
         let img2 = UIImage(named: "home_icon_active")
-        let btnHome = UIButton(type: .custom)
+        let btnHome = UIButton()
+        btnHome.frame = CGRect(x: 0, y: 0, width: (img2?.size.width)!, height: (img2?.size.height)!)
         btnHome.setImage(img2, for: .normal)
         self.navigationItem.titleView = btnHome
     }
@@ -411,6 +412,20 @@ extension UINavigationController {
     func popNormal(){
         self.popViewController(animated: true)
     }
+    
+    func popToViewController(vc:UIViewController){
+        var isPop:Bool! = false
+        for obj in self.viewControllers {
+            if obj == vc {
+                isPop = true
+                self.popToViewController(vc, animated: true)
+                break
+            }
+        }
+        if isPop == false {
+            self.pushViewController(vc, animated: true)
+        }
+    }
 }
 
 
@@ -453,7 +468,7 @@ extension UILabel {
 
 extension UIImage {
     
-    func compressImage () -> UIImage {
+    func compressImageSwift () -> UIImage {
         
         let actualHeight:CGFloat = self.size.height
         let actualWidth:CGFloat = self.size.width
@@ -474,13 +489,14 @@ extension UIImage {
     }
     
     func reduceSize() -> UIImage {
+    
         guard let data = UIImageJPEGRepresentation(self, 1.0)  else {
             return self
         }
-        let size =  data.count/1024/1024
+        let size =  Int(data.count/1024/1024)
         print(size)
         if size > 1 {
-            return self.compressImage()
+            return self.compressImage(self, compressRatio: 0.7)
         }else {
             return self
         }
@@ -599,7 +615,7 @@ extension UITableViewController {
                                                   position: .top,
                                                   image: nil,
                                                   backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                                  titleColor: UIColor.yellow,
+                                                  titleColor: UIColor.white,
                                                   messageColor: UIColor.white,
                                                   font: nil)
         

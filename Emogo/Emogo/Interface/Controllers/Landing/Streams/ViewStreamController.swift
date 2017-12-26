@@ -22,8 +22,22 @@ class ViewStreamController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateImageCover)), object: self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotificationUpdateImageCover), object: nil)
+//
+        
         // Do any additional setup after loading the view.
         self.prepareLayouts()
+    }
+    
+    @objc func updateImageAfterEdit(){
+        self.perform(#selector(updateLayOut), with: nil, afterDelay: 0.3)
+    }
+    
+   @objc func updateLayOut(){
+        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+        self.getStream(currentStream:stream )
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,8 +68,6 @@ class ViewStreamController: UIViewController {
         }
         viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
-           let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
-            self.getStream(currentStream:stream )
     }
     
     func prepareNavigation(){
@@ -64,18 +76,18 @@ class ViewStreamController: UIViewController {
         self.configureNavigationTite()
         // Cancel Button
 
-        let img1 = UIImage(named: "stream_cross_icon")
-        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
-        
+//        let img1 = UIImage(named: "stream_cross_icon")
+//        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
+//
         // next Button
-        let img = UIImage(named: "forward_icon")
-        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
-        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
+//        let img = UIImage(named: "forward_icon")
+//        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
+//        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
         // previous Button
         let imgP = UIImage(named: "back_icon")
-        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnPreviousAction))
+        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
-        
+        self.updateLayOut()
     }
     
     // MARK: -  Action Methods And Selector
@@ -102,16 +114,33 @@ class ViewStreamController: UIViewController {
 }
 
    @objc  func btnNextAction(){
-     self.currentIndex += 1
+    
+    if currentIndex == StreamList.sharedInstance.arrayStream.count - 1 {
+        currentIndex = 0
+    }
+    else {
+        currentIndex += 1
+    }
     self.prepareList()
     }
+    
     @objc  func btnPreviousAction(){
-        self.currentIndex -= 1
+        
+        if(self.currentIndex == 0)
+        {
+            self.currentIndex = StreamList.sharedInstance.arrayStream.count - 1
+        }
+        else
+        {
+            self.currentIndex  -= 1
+        }
         self.prepareList()
     }
     
     @objc  func btnCancelAction(){
-        self.navigationController?.pop()
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+        self.navigationController?.popToViewController(vc: obj)
+       // self.navigationController?.pop()
     }
     
     // MARK: - Class Methods
@@ -121,12 +150,8 @@ class ViewStreamController: UIViewController {
         if self.currentIndex <= 0 {
             return
         }
-        if StreamList.sharedInstance.arrayStream.count > self.currentIndex  {
-            let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
-            self.getStream(currentStream:stream )
-        }else {
-            self.currentIndex  =  StreamList.sharedInstance.arrayStream.count
-        }
+        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+        self.getStream(currentStream:stream )
     }
     
     // MARK: - API Methods
@@ -154,7 +179,8 @@ class ViewStreamController: UIViewController {
                 if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == stream.ID.trim() }) {
                     StreamList.sharedInstance.arrayStream.remove(at: i)
                 }
-                self.prepareList()
+                self.navigationController?.pop()
+              //self.prepareList()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -220,16 +246,19 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
-            
             let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
                 kContainerNav = "1"
+            ContentList.sharedInstance.objStream = self.objStream
+            ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
-          
             //self.navigationController?.push(viewController: obj)
         }else {
-            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-             obj.objContent = content
-            self.navigationController?.push(viewController: obj)
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(content!)
+            if   ContentList.sharedInstance.arrayContent.count != 0 {
+                let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                self.navigationController?.pushNormal(viewController: objPreview)
+            }
 
         }
     }

@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 import SwiftyCam
-
+import Photos
 
 enum ContainerType: String {
     case stuff = "200"
@@ -27,18 +27,27 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var btnLink: UIButton!
     @IBOutlet weak var btnGiphy: UIButton!
     @IBOutlet weak var cameraView: UIView!
-    
-    
+    @IBOutlet weak var buttonNext: UIButton!
+
+    var arraySelectedContent = [ContentDAO]()
+    var arrayAssests = [ImportDAO]()
+
     var selectedConatiner: ContainerType = .stuff {
         
         didSet {
             updateConatiner()
         }
     }
+    
+    var btnNext:UIButton! = {
+        let btn = UIButton()
+        btn.setImage(#imageLiteral(resourceName: "content_next_btn"), for: .normal)
+        return btn
+    }()
     var interactor:PMInteractor? = nil
-
     var captureSession = AVCaptureSession();
     var sessionOutput = AVCapturePhotoOutput();
+
     var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG]);
     var previewLayer = AVCaptureVideoPreviewLayer();
     
@@ -46,20 +55,21 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-       prepareLayouts()
+        arraySelectedContent = ContentList.sharedInstance.arrayContent
      }
     
+    
     func prepareLayouts(){
-        self.btnStuff.setImage(#imageLiteral(resourceName: "my_stuff_active_icon"), for: .normal)
+        self.buttonNext.isHidden = true
+        selectedConatiner = .stuff
+        showHelperCircle()
+        //  openPreviewCamera()
+        self.checkCameraPermission()
     }
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        selectedConatiner = .stuff
-        showHelperCircle()
-        //  openPreviewCamera()
-       self.checkCameraPermission()
-
+        prepareLayouts()
     }
     
     override func didReceiveMemoryWarning() {
@@ -161,6 +171,10 @@ class ContainerViewController: UIViewController {
     @IBAction func btnActionController(_ sender: UIButton) {
        self.updateSegment(selected: sender.tag)
     }
+    @IBAction func btnBackAction(_ sender: UIButton) {
+        kBackNav = "2"
+        self.dismiss(animated: true, completion: nil)
+    }
     
     
     @IBAction func handleGesture(_ sender: UIPanGestureRecognizer) {
@@ -198,8 +212,8 @@ class ContainerViewController: UIViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         kContainerNav = "2"
+        ContentList.sharedInstance.arrayContent = self.arraySelectedContent
         dismiss(animated: true, completion: nil)
-
     }
     
     func showHelperCircle(){
@@ -255,6 +269,71 @@ class ContainerViewController: UIViewController {
         return controller
     }
     
+    
+    @IBAction func btnActionNext(_ sender: Any) {
+        HUDManager.sharedInstance.showHUD()
+
+    self.updateConatentForGallery(array: self.arrayAssests) { (result) in
+        HUDManager.sharedInstance.hideHUD()
+        if self.arraySelectedContent.count
+                != 0 {
+    ContentList.sharedInstance.arrayContent = self.arraySelectedContent
+    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+    objPreview.strPresented = "TRUE"
+    let nav = UINavigationController(rootViewController: objPreview)
+    self.present(nav, animated: true, completion: nil)
+    }
+   self.arrayAssests.removeAll()
+    }
+        
+    }
+    
+    func updateConatentForGallery(array:[ImportDAO],completed:@escaping ( _ result:Bool?)->Void){
+        if array.count != 0 {
+            let group = DispatchGroup()
+            for imp in array {
+                group.enter()
+                let obj = imp.assest
+                if obj?.mediaType == .video {
+                    self.getVideoURL(asset: obj!, handler: { (url, image) in
+                        if let url = url, let image = image {
+                            let  con = ContentDAO(contentData: [:])
+                            con.type = .video
+                            con.imgPreview = image
+                            con.fileUrl = url
+                            con.isUploaded = false
+                            if let file =  obj?.value(forKey: "filename"){
+                            con.fileName = file as! String
+                            }
+                            //find(arr, "c")!              // 2
+                            self.arraySelectedContent.insert(con, at: 0)
+                        }
+                        group.leave()
+                    })
+                }else {
+                    self.getOrigianlImage(asset: obj!, handler: { (image) in
+                        let con = ContentDAO(contentData: [:])
+                        con.type = .image
+                        con.imgPreview = image
+                        con.isUploaded = false
+                        if let file =  obj?.value(forKey: "filename"){
+                            con.fileName = file as! String
+                        }
+                        self.arraySelectedContent.insert(con, at: 0)
+                        group.leave()
+                    })
+                }
+            }
+            
+            group.notify(queue: .main, execute: {
+                print(self.arraySelectedContent.count)
+                completed(true)
+            })
+        }else {
+            completed(true)
+        }
+    }
+    
     private func instantiatePreviewController() -> UIViewController  {
          let controller = PreviewCamera()
         return controller
@@ -282,6 +361,7 @@ class ContainerViewController: UIViewController {
     }
     
     func updateSegment(selected:Int){
+        self.buttonNext.isHidden = true
         switch selected {
         case 111:
             self.selectedConatiner = .stuff
@@ -302,6 +382,7 @@ class ContainerViewController: UIViewController {
             self.btnLink.setImage(#imageLiteral(resourceName: "link_unactive_icon"), for: .normal)
             self.btnImport.setImage(#imageLiteral(resourceName: "import_active_icon"), for: .normal)
             self.btnGiphy.setImage(#imageLiteral(resourceName: "giphy_unactive_icon"), for: .normal)
+            self.buttonNext.isHidden = false
             self.selectedConatiner = .gallery
             break
         case 444:
@@ -313,6 +394,35 @@ class ContainerViewController: UIViewController {
             break
         default:
             break
+        }
+    }
+    
+    
+    func getVideoURL(asset:PHAsset,handler:@escaping ( _ tempURL:URL?, _ image:UIImage?)->Void){
+        
+        let options = PHVideoRequestOptions()
+        options.version = .original
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, info,ss) in
+            
+            if let urlAsset = asset as? AVURLAsset {
+                if let image = SharedData.sharedInstance.getThumbnailImage(url: urlAsset.url) {
+                    handler(urlAsset.url,image)
+                }
+            } else {
+                handler( nil, nil)
+            }
+        }
+        
+    }
+    
+    
+    func getOrigianlImage(asset:PHAsset,handler:@escaping (_ image:UIImage?)->Void){
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        options.resizeMode = .exact
+        options.isNetworkAccessAllowed = true
+        PHImageManager.default().requestImage(for: asset, targetSize: self.view.bounds.size, contentMode: PHImageContentMode.aspectFill, options: options) { (image, userInfo) -> Void in
+            handler(image)
         }
     }
     

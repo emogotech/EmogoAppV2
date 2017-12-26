@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ESPullToRefresh
 
 class StreamListViewController: UIViewController {
 
@@ -17,6 +16,8 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var btnMenu: UIButton!
 
+    var lastIndex             : Int = 2
+    
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -51,7 +52,6 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewMenu.isHidden = false
-        self.streamCollectionView.reloadData()
       
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
@@ -65,6 +65,7 @@ class StreamListViewController: UIViewController {
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
+        self.streamCollectionView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,6 +84,9 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateFilter)), object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotificationUpdateFilter), object: nil)
+        
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
         // Attach datasource and delegate
@@ -93,7 +97,7 @@ class StreamListViewController: UIViewController {
 
         if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
+            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60)
             layout.itemSize = CGSize(width: UIScreen.main.bounds.size.width, height: layout.itemSize.height)
             layout.parallaxHeaderAlwaysOnTop = false
             layout.disableStickyHeaders = true
@@ -122,6 +126,15 @@ class StreamListViewController: UIViewController {
         }
     }
  
+    @objc func createAfterStream(){
+        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.5)
+    }
+    
+    @objc func showMyStream(){
+        pagerView(menuView, didSelectItemAt: 1)
+        menuView.currentIndex = 1
+    }
+    
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
@@ -150,7 +163,10 @@ class StreamListViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
+        
         let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        ContentList.sharedInstance.objStream = nil
+        kContainerNav = ""
         self.navigationController?.push(viewController: obj)
     }
     
@@ -221,7 +237,7 @@ class StreamListViewController: UIViewController {
                 }else if type == .down {
                     self.streamCollectionView.es.stopLoadingMore()
                 }
-            self.lblNoResult.isHidden = true
+             self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
                 self.lblNoResult.isHidden = false
             }
@@ -254,6 +270,13 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.streamCollectionView.reloadData()
+            
+            
+            self.lblNoResult.isHidden = true
+            if PeopleList.sharedInstance.arrayPeople.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+        
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

@@ -27,10 +27,15 @@ class Reachability: NSObject {
             return false
         }
         
-        let isReachable = flags == .reachable
-        let needsConnection = flags == .connectionRequired
-        
-        return isReachable && !needsConnection
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        let retVal = (isReachable && !needsConnection)
+        return retVal
+
+//        let isReachable = flags == .reachable
+//        let needsConnection = flags == .connectionRequired
+//
+//        return isReachable && !needsConnection
         
     }
 

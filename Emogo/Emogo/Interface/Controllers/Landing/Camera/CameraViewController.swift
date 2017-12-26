@@ -34,10 +34,10 @@ class CameraViewController: SwiftyCamViewController {
     var isPreviewOpen:Bool! = false
     var isFlashClicked:Bool! = false
     var isCaptureMode: Bool! = true
+
     var timer:Timer!
     var timeSec = 0
     var beepSound: Sound?
-    var gallery: GalleryController!
     let editor: VideoEditing = VideoEditor()
     let interactor = PMInteractor()
 
@@ -55,7 +55,7 @@ class CameraViewController: SwiftyCamViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         self.previewCollection.reloadData()
-
+        print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -85,6 +85,7 @@ class CameraViewController: SwiftyCamViewController {
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
+        Gallery.Config.Camera.imageLimit =  10
 
         // Configure Sound For timer
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
@@ -97,6 +98,11 @@ class CameraViewController: SwiftyCamViewController {
         if kContainerNav == "1" {
             kContainerNav = "2"
           performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
+        }
+        
+        if !kBackNav.isEmpty {
+            kBackNav = ""
+            self.navigationController?.popNormal()
         }
     }
   
@@ -151,7 +157,7 @@ class CameraViewController: SwiftyCamViewController {
     }
 
     @IBAction func btnActionGallery(_ sender: Any) {
-        gallery = GalleryController()
+       let gallery = GalleryController()
         gallery.delegate = self
         present(gallery, animated: true, completion: nil)
     
@@ -221,7 +227,8 @@ class CameraViewController: SwiftyCamViewController {
                 let camera = ContentDAO(contentData: [:])
                  camera.imgPreview = obj
                  camera.type = .image
-                if let file =  assets[i].asset.value(forKey: "filename"){
+                 camera.isUploaded = false
+                 if let file =  assets[i].asset.value(forKey: "filename"){
                     camera.fileName = file as! String
                 }
                 ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
@@ -255,7 +262,6 @@ class CameraViewController: SwiftyCamViewController {
             self.view.updateConstraintsIfNeeded()
         }
     }
-    
     
   
     // MARK: - API Methods
@@ -316,7 +322,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         // Returns a URL in the temporary directory where video is stored
         if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
             let camera = ContentDAO(contentData: [:])
-            camera.type = .image
+            camera.type = .video
             camera.imgPreview = image
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
@@ -373,12 +379,10 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
 extension CameraViewController:GalleryControllerDelegate {
     func galleryControllerDidCancel(_ controller: GalleryController) {
         controller.dismiss(animated: true, completion: nil)
-        gallery = nil
     }
     
     func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
         controller.dismiss(animated: true, completion: nil)
-        gallery = nil
         HUDManager.sharedInstance.showHUD()
         editor.edit(video: video) { (editedVideo: Video?, tempPath: URL?) in
             DispatchQueue.main.async {
@@ -387,6 +391,7 @@ extension CameraViewController:GalleryControllerDelegate {
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
                          let camera = ContentDAO(contentData: [:])
                         camera.imgPreview = image
+                        camera.isUploaded = false
                         camera.fileName = tempPath.absoluteString.getName()
                         camera.fileUrl = tempPath
                         camera.type = .video
@@ -407,22 +412,23 @@ extension CameraViewController:GalleryControllerDelegate {
     func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
         controller.dismiss(animated: true, completion: nil)
         self.preparePreview(assets: images)
-        gallery = nil
     }
     
     func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-      
     }
-
 }
 
 
 extension CameraViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        print("dissmiss")
         return DismissAnimator()
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return interactor.hasStarted ? interactor : nil
+        DispatchQueue.main.async { // Correct
+            self.session.startRunning()
+        }
+       return interactor.hasStarted ? interactor : nil
     }
 }

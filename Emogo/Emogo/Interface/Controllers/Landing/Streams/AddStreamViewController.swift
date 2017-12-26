@@ -18,14 +18,15 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var txtStreamName: SkyFloatingLabelTextField!
     @IBOutlet weak var txtStreamCaption: UITextView!
     @IBOutlet weak var switchMakePrivate: PMSwitch!
-    @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var switchAnyOneCanEdit: PMSwitch!
     @IBOutlet weak var switchAddContent: PMSwitch!
     @IBOutlet weak var switchAddPeople: PMSwitch!
     @IBOutlet weak var lblAnyOneCanEdit: UILabel!
     @IBOutlet weak var rowHieght: NSLayoutConstraint!
     @IBOutlet weak var imgCover: UIImageView!
-
+    @IBOutlet weak var switchAddCollaborators: PMSwitch!
+    
+    
     // Varibales
 
     var isExpandRow: Bool = false {
@@ -42,6 +43,7 @@ class AddStreamViewController: UITableViewController {
     var streamID:String!
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
+    var isPerform:Bool! = false
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -73,10 +75,15 @@ class AddStreamViewController: UITableViewController {
         Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
         Gallery.Config.initialTab =  .cameraTab
         Gallery.Config.Camera.imageLimit =  1
-        self.switchAddContent.isOn = false
-        self.switchAddPeople.isOn = false
+        self.switchAddContent.isUserInteractionEnabled = false
+        self.switchAddPeople.isUserInteractionEnabled = false
+        self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
+        }else {
+            isPerform = true
+            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            self.tableView.reloadData()
         }
     }
     
@@ -87,9 +94,9 @@ class AddStreamViewController: UITableViewController {
 
     func prepareForEditStream(){
         if self.objStream != nil {
-             self.title =  self.objStream?.title
-            txtStreamName.text = self.objStream?.title
-            txtStreamCaption.text = self.objStream?.description
+            self.title =  self.objStream?.title.trim()
+            txtStreamName.text = self.objStream?.title.trim()
+            txtStreamCaption.text = self.objStream?.description.trim()
             if !(objStream?.coverImage.trim().isEmpty)!  {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
@@ -107,51 +114,65 @@ class AddStreamViewController: UITableViewController {
             if self.selectedCollaborators.count != 0 {
                 self.rowHieght.constant = 325.0
                 self.isExpandRow = true
+                self.switchAddCollaborators.isOn = true
             }
+            isPerform = true
+            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            self.tableView.reloadData()
         }
     }
+    
     // MARK: -  Action Methods And Selector
-
     @IBAction func addContentAction(_ sender: PMSwitch) {
         self.switchAddContent.isOn = sender.isOn
         print(self.switchAddContent.isOn)
     }
+    
     @IBAction func addPeopleAction(_ sender: PMSwitch) {
         self.switchAddPeople.isOn = sender.isOn
     }
+    
     @IBAction func anyOneCanEditAction(_ sender: PMSwitch) {
         self.switchAnyOneCanEdit.isOn = sender.isOn
     }
+    
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
-        self.switchMakePrivate.isOn = sender.isOn
-        self.switchAddContent.isOn = false
-        self.switchAddPeople.isOn = false
-        self.switchAddPeople.isEnabled = sender.isOn
-        self.switchAddContent.isEnabled = sender.isOn
-        if sender.isOn {
-            streamType = "Private"
-             self.switchAnyOneCanEdit.isEnabled = false
-        }else {
-            streamType = "Public"
-            self.switchAnyOneCanEdit.isEnabled = true
-        }
-        if self.objStream?.arrayColab.count != 0 {
-            self.switchAddCollaborators.isOn = true
-            self.rowHieght.constant = 325.0
-            self.isExpandRow = true
-        }
+            sender.isOn = !sender.isOn
+            if self.switchMakePrivate.isOn {
+                streamType = "Private"
+                self.switchAnyOneCanEdit.isOn = false
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+            }else{
+                streamType = "Public"
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+            }
     }
+    
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {
-        self.switchAddCollaborators.isOn = sender.isOn
-        if sender.isOn {
-            self.rowHieght.constant = 325.0
-            self.isExpandRow = true
-        }else {
+        if self.switchAddCollaborators.isOn {
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isEnabled = true
+            self.switchAddPeople.isEnabled = true
+            self.switchAddContent.isUserInteractionEnabled = true
+            self.switchAddPeople.isUserInteractionEnabled = true
+                self.rowHieght.constant = 325.0
+                self.isExpandRow = true
+        }else{
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
+            selectedCollaborators.removeAll()
         }
+        self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
+        
+        self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
         }
@@ -160,6 +181,7 @@ class AddStreamViewController: UITableViewController {
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
             self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
         }else {
+             self.showToastOnWindow(strMSG: kAlertUploadWaitMsg)
             if self.streamID == nil {
                 self.uploadCoverImage()
             }else {
@@ -198,7 +220,7 @@ class AddStreamViewController: UITableViewController {
                 self.imgCover.image = image
                                 self.coverImage = image
                                 self.strCoverImage = ""
-                                self.imgCover.contentMode = .scaleAspectFit
+                                self.imgCover.contentMode = .scaleAspectFill
                                 if let file =  asset.asset.value(forKey: "filename"){
                                    self.fileName =  file as! String
                                     print(self.fileName)
@@ -232,7 +254,7 @@ class AddStreamViewController: UITableViewController {
   
    
     func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(colabs.count)
+        print(self.selectedCollaborators)
         self.selectedCollaborators = colabs
     }
     
@@ -254,14 +276,15 @@ class AddStreamViewController: UITableViewController {
     }
     
     private func createStream(cover:String){
+       
         
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlertStreamAddedSuccess)
-                let when = DispatchTime.now() + 3
-                DispatchQueue.main.asyncAfter(deadline: when) {
-                    self.navigationController?.pop()
+                DispatchQueue.main.async{
+                      self.navigationController?.pop()
+                       NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -269,13 +292,14 @@ class AddStreamViewController: UITableViewController {
         }
     }
     private func editStream(cover:String){
+        
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlertStreamEditedSuccess)
-                let when = DispatchTime.now() + 3
-                DispatchQueue.main.asyncAfter(deadline: when) {
+                DispatchQueue.main.async{
                     self.navigationController?.pop()
+                     NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateImageCover), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -296,6 +320,10 @@ class AddStreamViewController: UITableViewController {
             // Now you have a pointer to the child view controller.
             // You can save the reference to it, or pass data to it.
         }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return isPerform
     }
 
 }
@@ -329,6 +357,7 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
+           txtStreamCaption.resignFirstResponder()
             return false
         }
         return true

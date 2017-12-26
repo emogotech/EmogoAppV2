@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
@@ -25,9 +26,6 @@ class ImportCell: UICollectionViewCell {
         }
         if content.imgPreview !=  nil {
             imgCover.image = content.imgPreview
-        }else {
-            
-            imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "")
         }
         if content.type == .image {
             self.btnPlay.isHidden = true
@@ -37,3 +35,36 @@ class ImportCell: UICollectionViewCell {
     }
     
 }
+
+
+class GridViewCell: UICollectionViewCell {
+    
+    @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var btnPlay: UIButton!
+    @IBOutlet weak var imgSelect: UIImageView!
+    var representedAssetIdentifier: String!
+    
+    var thumbnailImage: UIImage! {
+        didSet {
+            imageView.image = thumbnailImage
+        }
+    }
+   
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+}
+
+
+class  ImportDAO {
+    var strID:String! = ""
+    var isSelected:Bool! = false
+    var assest:PHAsset!
+
+    init(id:String,isSelected:Bool) {
+        self.strID = id
+        self.isSelected = isSelected
+    }
+}
+

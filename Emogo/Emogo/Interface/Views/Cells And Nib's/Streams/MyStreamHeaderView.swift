@@ -8,21 +8,55 @@
 
 import UIKit
 
-class MyStreamHeaderView: UICollectionViewCell {
+class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDataSource {
     
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
-    @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var sliderCover: KASlideShow!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
 
+    var arrayContent = [Any]()
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.prepareLayout()
     }
 
-    func prepareLayout(content:ContentDAO?){
+    func prepareLayout(){
+        arrayContent = [Any]()
+        for obj in ContentList.sharedInstance.arrayContent {
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    arrayContent.append(obj.imgPreview!)
+                }else {
+                    let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                    arrayContent.append(url!)
+                }
+            }else {
+                if obj.imgPreview != nil {
+                    arrayContent.append(obj.imgPreview!)
+                }else {
+                    let url = URL(string: obj.coverImageVideo.stringByAddingPercentEncodingForURLQueryParameter()!)
+                    arrayContent.append(url!)
+                }
+            }
+        }
+        
+        sliderCover.datasource = self
+        sliderCover.delegate = self
+        sliderCover.delay = 1 // Delay between transitions
+        sliderCover.transitionDuration = 0.5 // Transition duration
+        sliderCover.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+        sliderCover.imagesContentMode = .scaleAspectFill // Choose a content mode for images to display
+        sliderCover.add(KASlideShowGestureType.all)
+        sliderCover.isExclusiveTouch = true
+        sliderCover.reloadData()
+        prepareLayout(content:ContentList.sharedInstance.arrayContent[0])
+    }
+    
+    func prepareLayout(content:ContentDAO?) {
         guard let content = content  else {
             return
         }
@@ -30,22 +64,37 @@ class MyStreamHeaderView: UICollectionViewCell {
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
-        //self.imgCover.contentMode = .scaleAspectFit
         //self.imgCover.backgroundColor = .black
         if content.type == .image {
             self.btnPlay.isHidden = true
-            self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else {
-            if !content.coverImage.isEmpty {
-                let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
-                    self.imgCover.image = image
-                }
-            }
             self.btnPlay.isHidden = false
         }
     }
 
+    
+    // MARK: - KASlideShow datasource
+    
+    func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
+        return arrayContent.count
+    }
+    func slideShow(_ slideShow: KASlideShow!, objectAt index: Int) -> NSObject! {
+        return arrayContent[index] as! NSObject
+    }
+    // MARK: - KASlideShow delegate
+    func slideShowDidShowNext(_ slideShow: KASlideShow!) {
+        let content = ContentList.sharedInstance.arrayContent[Int(slideShow.currentIndex)]
+        self.prepareLayout(content: content)
+    }
+    func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
+        let content = ContentList.sharedInstance.arrayContent[Int(slideShow.currentIndex)]
+        self.prepareLayout(content: content)
+    }
+    func slideShowDidSelect(_ slideShow: KASlideShow!) {
+      
+    }
+    
+    
 }
 
 

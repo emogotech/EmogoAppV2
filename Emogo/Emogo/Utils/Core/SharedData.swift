@@ -240,6 +240,9 @@ class SharedData: NSObject {
             completion(data, response, error)
             }.resume()
     }
+    
+    
+    
     func downloadFile(strURl: String,handler:@escaping (_ image: UIImage?, _ type:String)-> Void){
          let imageURL = URL(string: strURl.stringByAddingPercentEncodingForURLQueryParameter()!)!
         print("Download Started")
@@ -261,10 +264,11 @@ class SharedData: NSObject {
           let manager = SDWebImageManager.shared()
         manager.imageDownloader?.downloadImage(with: imageURL, options: .continueInBackground, progress: nil, completed: { (image, data, error, finished) in
             handler(image)
-           
         })
     }
     
+ 
+   
     
  }
 
