@@ -185,28 +185,28 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
-            "name" : streamName,
-            "description" : streamDescription,
-            "image" : coverImage,
-            "type":streamType,
-            "any_one_can_edit":anyOneCanEdit,
-            "collaborator":jsonCollaborator
+                "name" : streamName,
+                "description" : streamDescription,
+                "image" : coverImage,
+                "type":streamType,
+                "any_one_can_edit":anyOneCanEdit,
+                "collaborator":jsonCollaborator
             ]
         }else {
             params = [
-            "name" : streamName,
-            "description" : streamDescription,
-            "image" : coverImage,
-            "type":streamType,
-            "any_one_can_edit":anyOneCanEdit,
-            "collaborator":jsonCollaborator ,
-            "collaborator_permission": [
-            "can_add_content" : canAddContent,
-            "can_add_people": canAddPeople
-            ]
+                "name" : streamName,
+                "description" : streamDescription,
+                "image" : coverImage,
+                "type":streamType,
+                "any_one_can_edit":anyOneCanEdit,
+                "collaborator":jsonCollaborator ,
+                "collaborator_permission": [
+                    "can_add_content" : canAddContent,
+                    "can_add_people": canAddPeople
+                ]
             ]
         }
-      
+        
         
         print(params)
         
@@ -283,13 +283,13 @@ class APIServiceManager: NSObject {
                 completionHandler(false,error.localizedDescription)
             }
         }
-      
+        
     }
     
     
     
     // MARK: - Get All Stream API
-
+    
     func apiForGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
         var objects = [StreamDAO]()
         var strURL = kStreamAPI
@@ -302,7 +302,7 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                         if let data = (value as! [String:Any])["data"] {
+                        if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
@@ -311,8 +311,8 @@ class APIServiceManager: NSObject {
                         }
                         if let nextPagningUrl = (value as! [String:Any])["next"] as? String  {
                             let lastIndexFromUrl = (nextPagningUrl ).components(separatedBy: "/")
-                                SharedData.sharedInstance.nextStreamString = lastIndexFromUrl.last
-                                SharedData.sharedInstance.isMoreContentAvailable = true
+                            SharedData.sharedInstance.nextStreamString = lastIndexFromUrl.last
+                            SharedData.sharedInstance.isMoreContentAvailable = true
                         }else{
                             SharedData.sharedInstance.isMoreContentAvailable = false
                         }
@@ -334,7 +334,7 @@ class APIServiceManager: NSObject {
     func apiForiPhoneGetStreamList(type:RefreshType,filter:StreamType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         
         if type == .start || type == .up{
-        StreamList.sharedInstance.updateRequestType(filter: filter)
+            StreamList.sharedInstance.updateRequestType(filter: filter)
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")
@@ -356,50 +356,21 @@ class APIServiceManager: NSObject {
                                 if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
                                     // it exists, do something
                                 } else {
-                            StreamList.sharedInstance.arrayStream.append(stream)                                }
+                                    StreamList.sharedInstance.arrayStream.append(stream)                                }
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {
                                 StreamList.sharedInstance.requestURl = ""
                                 SharedData.sharedInstance.isMoreContentAvailable = false
-
+                                
                                 completionHandler(.end,"")
                             }else {
                                 StreamList.sharedInstance.requestURl = obj as! String
                                 SharedData.sharedInstance.isMoreContentAvailable = true
-
+                                
                                 completionHandler(.down,"")
                             }
-                        }
-                    }else {
-                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(nil,errorMessage)
-                    }
-                }
-            case .error(let error):
-                print(error.localizedDescription)
-                completionHandler(nil,error.localizedDescription)
-            }
-        
-    }
-}
-    // MARK: - People List API
-    func apiForViewStream(streamID:String,completionHandler:@escaping (_ stream:StreamViewDAO?, _ strError:String?)->Void){
-        let url = kStreamViewAPI + "\(streamID)/"
-    
-        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
-            switch(result){
-            case .success(let value):
-                print(value)
-                if let code = (value as! [String:Any])["status_code"] {
-                    let status = "\(code)"
-                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        if let data = (value as! [String:Any])["data"] {
-                          print(data)
-                            let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            completionHandler(stream,"")
-
                         }
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -413,9 +384,38 @@ class APIServiceManager: NSObject {
             
         }
     }
-
     // MARK: - People List API
-
+    func apiForViewStream(streamID:String,completionHandler:@escaping (_ stream:StreamViewDAO?, _ strError:String?)->Void){
+        let url = kStreamViewAPI + "\(streamID)/"
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                            let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            completionHandler(stream,"")
+                            
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    // MARK: - People List API
+    
     func apiForGetPeopleList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
             PeopleList.sharedInstance.requestURl = kPeopleAPI
@@ -485,14 +485,14 @@ class APIServiceManager: NSObject {
             }
         }
     }
-
+    
     // MARK: - Create Content  API
     
     
     func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
         var params:[Any]!
         if contents == nil {
-        params =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
+            params =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
         }else {
             params = contents
         }
@@ -527,10 +527,10 @@ class APIServiceManager: NSObject {
         }
     }
     
-  
+    
     
     // MARK: - Content List API
-
+    
     func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start{
             ContentList.sharedInstance.requestURl = kContentAPI
@@ -598,7 +598,7 @@ class APIServiceManager: NSObject {
                 completionHandler(false,error.localizedDescription)
             }
         }
-       
+        
     }
     
     
@@ -606,7 +606,7 @@ class APIServiceManager: NSObject {
     
     func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
         let param = ["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]
-         let url = kContentAPI + "\(contentID)/"
+        let url = kContentAPI + "\(contentID)/"
         
         APIManager.sharedInstance.patch(strURL: url, Param: param) { (result) in
             switch(result){
@@ -617,15 +617,15 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         
                         if let data = (value as! [String:Any])["data"] {
-                                let content = ContentDAO(contentData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                content.isUploaded = true
+                            let content = ContentDAO(contentData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            content.isUploaded = true
                             completionHandler(content,"")
                         }
                         
-                 }else {
+                    }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(nil,errorMessage)
-
+                        
                     }
                 }
             case .error(let error):
@@ -646,23 +646,23 @@ class APIServiceManager: NSObject {
             switch(result){
             case .success(let value):
                 print(value)
-            if let code = (value as! [String:Any])["status_code"] {
-                let status = "\(code)"
-                if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                    completionHandler(true,"")
-                }else {
-                    let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                    completionHandler(false,errorMessage)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
                 }
-            }
             case .error(let error):
-            print(error.localizedDescription)
-            completionHandler(nil,error.localizedDescription)
-        }
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
         }
         
     }
-  
+    
     func apiForGetLink(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
         if type == .start{
             let url = "content?type=link"
@@ -706,6 +706,84 @@ class APIServiceManager: NSObject {
             }
             
         }
-}
-
+    }
+    
+    // MARK: - Global seearch for People
+    func apiForGlobalSearchPeople(searchString:String,completionHandler:@escaping (_ peopleList:[PeopleDAO]?, _ strError:String?)->Void){
+        PeopleList.sharedInstance.requestURl = kGlobleSearchPeopleAPI+searchString
+        print(PeopleList.sharedInstance.requestURl)
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let people = PeopleDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                PeopleList.sharedInstance.arrayPeople.append(people)
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                PeopleList.sharedInstance.requestURl = ""
+                                completionHandler(nil,"")
+                            }else {
+                                PeopleList.sharedInstance.requestURl = obj as! String
+                                completionHandler(nil,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    // MARK: - Global seearch for People
+    func apiForGetStreamListFromGlobleSearch(strSearch:String, completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
+        var objects = [StreamDAO]()
+        let strURL = kGlobleSearchStreamAPI+strSearch
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: strURL) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                objects.append(stream)
+                            }
+                        }
+                        if let nextPagningUrl = (value as! [String:Any])["next"] as? String  {
+                            let lastIndexFromUrl = (nextPagningUrl ).components(separatedBy: "/")
+                            SharedData.sharedInstance.nextStreamString = lastIndexFromUrl.last
+                            SharedData.sharedInstance.isMoreContentAvailable = true
+                        }else{
+                            SharedData.sharedInstance.isMoreContentAvailable = false
+                        }
+                        completionHandler(objects,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(objects,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(objects,error.localizedDescription)
+            }
+        }
+    }
+    
 }

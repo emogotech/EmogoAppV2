@@ -52,7 +52,7 @@ class MessagesViewController: MSMessagesAppViewController {
         self.container.frame = self.view.bounds
     }
     
-    @objc func isUserLogedIn(){
+    @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
               UserDAO.sharedInstance.parseUserInfo()
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
@@ -85,7 +85,7 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - Action methods
-    @IBAction func btnTapSignIn(_ sender : UIButton){
+    @IBAction func btnTapSignIn(_ sender : UIButton) {
         let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -98,11 +98,11 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     // MARK: - Screen Size Handling
-    @objc func requestMessageScreenStyleExpand(){
+    @objc func requestMessageScreenStyleExpand() {
         requestPresentationStyle(.expanded)
     }
     
-    @objc func requestMessageScreenChangeStyleCompact(){
+    @objc func requestMessageScreenChangeStyleCompact() {
         requestPresentationStyle(.compact)
     }
     
@@ -203,6 +203,7 @@ class MessagesViewController: MSMessagesAppViewController {
 		    // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return false
+        
     }
     
 }
