@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
+		2B677A381FF27C1400709663 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
 		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
 		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
+		2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */; };
 		2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */; };
 		2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */; };
 		2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */; };
@@ -2331,6 +2333,7 @@
 				C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */,
 				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
 				C86918A61FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift in Sources */,
+				2B677A381FF27C1400709663 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2370,6 +2373,7 @@
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
+				2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */,
 				2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */,

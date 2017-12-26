@@ -16,7 +16,6 @@ class CollaboratorViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnBack                  : UIButton!
     @IBOutlet weak var lblTitle                 : UILabel!
     
-    
     //MARK: - Variables
     var arrCollaborator                         : [CollaboratorDAO]!
     var strTitle                                : String!
@@ -33,7 +32,7 @@ class CollaboratorViewController: MSMessagesAppViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     //MARK: - Life-Cycle methods
     func prepareLayout() {
         self.btnBack.transform = self.btnBack.transform.rotated(by: -CGFloat(Double.pi / 2))

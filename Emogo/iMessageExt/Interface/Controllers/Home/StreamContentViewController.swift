@@ -51,14 +51,13 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     
-    
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize(){
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
             imgStream.isUserInteractionEnabled = false
             viewAddStream.isHidden = true
         }
-        else{
+        else {
             imgStream.isUserInteractionEnabled = true
             viewAddStream.isHidden = false
         }
@@ -74,11 +73,10 @@ class StreamContentViewController: MSMessagesAppViewController {
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
+    
     // MARK: - PrepareLayout
     @objc func prepareLayout(){
-        
         loadViewForUI()
-        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         imgStream.addGestureRecognizer(swipeRight)

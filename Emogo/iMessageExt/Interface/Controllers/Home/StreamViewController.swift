@@ -22,7 +22,6 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
     
-    
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
     
