@@ -204,6 +204,7 @@
 		F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */; };
 		F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */; };
 		F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4361D391FF226F800553E8E /* KASlideShow.m */; };
+		F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */; };
 		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
@@ -542,6 +543,7 @@
 		F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMEditingModel.swift; sourceTree = "<group>"; };
 		F4361D391FF226F800553E8E /* KASlideShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KASlideShow.m; sourceTree = "<group>"; };
 		F4361D3A1FF226FA00553E8E /* KASlideShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KASlideShow.h; sourceTree = "<group>"; };
+		F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
@@ -1121,6 +1123,7 @@
 				F401DFB11FE2964B00BD7DDA /* LinkViewController.swift */,
 				F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */,
 				F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */,
+				F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */,
 			);
 			path = "Content & Stuff";
 			sourceTree = "<group>";
@@ -2254,6 +2257,7 @@
 				F4431A9F1FC6DD2C00311C9A /* PhotoEditor+Drawing.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
+				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,

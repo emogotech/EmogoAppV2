@@ -55,13 +55,14 @@ class ContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        arraySelectedContent = ContentList.sharedInstance.arrayContent
      }
     
     
     func prepareLayouts(){
         self.buttonNext.isHidden = true
-        selectedConatiner = .stuff
+        arraySelectedContent = ContentList.sharedInstance.arrayContent
+        print(arraySelectedContent.count)
+        self.updateSegment(selected: 111)
         showHelperCircle()
         //  openPreviewCamera()
         self.checkCameraPermission()
@@ -402,6 +403,7 @@ class ContainerViewController: UIViewController {
         
         let options = PHVideoRequestOptions()
         options.version = .original
+        options.isNetworkAccessAllowed = true
         PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, info,ss) in
             
             if let urlAsset = asset as? AVURLAsset {

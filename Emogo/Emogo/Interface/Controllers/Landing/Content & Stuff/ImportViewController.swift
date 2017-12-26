@@ -142,11 +142,15 @@ class ImportViewController: UICollectionViewController {
     
     func updateAssest(obj:ImportDAO){
         if let parent = self.parent {
+            
             let parentVC:ContainerViewController = parent as! ContainerViewController
+           
                 if let index =  parentVC.arrayAssests.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
                     parentVC.arrayAssests.remove(at: index)
                 }else {
-                parentVC.arrayAssests.append(obj)
+                    if obj.isSelected {
+                        parentVC.arrayAssests.append(obj)
+                    }
                }
             print(parentVC.arrayAssests.count)
         }

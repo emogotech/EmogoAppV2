@@ -465,16 +465,7 @@ class PreviewController: UIViewController {
         }
     }
     
-    func updateContent(coverImage:String,coverVideo:String, type:String){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (content, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-            ContentList.sharedInstance.arrayContent[self.selectedIndex] = content!
-            }else {
-                self.showToast(strMSG: errorMsg!)
-            }
-        }
-    }
+   
     
     func associateContent() {
        

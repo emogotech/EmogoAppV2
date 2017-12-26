@@ -343,17 +343,16 @@ extension UINavigationController {
      */
     func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.5) {
         self.addTransition(transitionType: type, duration: duration)
-        var isPop:Bool! = false
-        for obj in self.viewControllers {
-            if obj == vc {
-                isPop = true
-                self.popToViewController(obj, animated: false)
-                break
-            }
-        }
-        if isPop == false {
+        
+        let controllersArray = self.viewControllers
+        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
+        print(objContain)
+        if objContain {
+            self.popToViewController(vc, animated: false)
+        }else {
             self.pushViewController(vc, animated: false)
         }
+        
     }
     
     func flipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
@@ -363,15 +362,13 @@ extension UINavigationController {
     
     func reverseFlipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
         self.addReverseFlipTransition(transitionType: type, duration: duration)
-        var isPop:Bool! = false
-        for obj in self.viewControllers {
-            if obj == vc {
-                isPop = true
-                self.popToViewController(obj, animated: false)
-                break
-            }
-        }
-        if isPop == false {
+        
+        let controllersArray = self.viewControllers
+        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
+        print(objContain)
+        if objContain {
+            self.popToViewController(vc, animated: false)
+        }else {
             self.pushViewController(vc, animated: false)
         }
         
@@ -414,17 +411,25 @@ extension UINavigationController {
     }
     
     func popToViewController(vc:UIViewController){
-        var isPop:Bool! = false
-        for obj in self.viewControllers {
-            if obj == vc {
-                isPop = true
-                self.popToViewController(vc, animated: true)
-                break
-            }
-        }
-        if isPop == false {
+        let controllersArray = self.viewControllers
+        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
+        print(objContain)
+        if objContain {
+            self.popToViewController(vc, animated: true)
+        }else {
             self.pushViewController(vc, animated: true)
         }
+//        for obj in self.viewControllers {
+//            if "\(obj)" ==  "\(vc)"  {
+//                isPop = true
+//                print("pop called")
+//                self.popToViewController(vc, animated: true)
+//                break
+//            }
+//        }
+//        if isPop == false {
+//            self.pushViewController(vc, animated: true)
+//        }
     }
 }
 
@@ -647,5 +652,16 @@ extension PHAsset {
                 }
             })
         }
+    }
+}
+
+
+extension NSObject {
+    var className: String {
+        return String(describing: type(of: self))
+    }
+    
+    class var className: String {
+        return String(describing: self)
     }
 }

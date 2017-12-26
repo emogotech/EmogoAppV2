@@ -58,6 +58,7 @@ let kStoryboardID_MyStuffView = "myStuffView"
 let kStoryboardID_LinkView = "linkView"
 let kStoryboardID_GiphyView = "giphyView"
 let kStoryboardID_ImportView = "importView"
+let kStoryboardID_ContentView = "contentView"
 
 
 

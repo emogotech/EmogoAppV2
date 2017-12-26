@@ -35,7 +35,6 @@ class LinkViewController: UIViewController {
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
-        txtLink.text = "https://youtu.be/ymHSVlySxC8"
         // Attach datasource and delegate
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self
@@ -69,7 +68,20 @@ class LinkViewController: UIViewController {
                 print(keywords)
                 print(imageUrl)
                 print(videoUrl)
-
+                let content = ContentDAO(contentData: [:])
+                if let title = title {
+                    content.name = title.trim()
+                }
+                if let description = description {
+                    content.description = description.trim()
+                }
+                if let imageUrl = imageUrl {
+                    content.coverImageVideo = imageUrl.trim()
+                }
+                content.coverImage = articleUrl?.absoluteString
+                content.type = .link
+                content.isUploaded = false
+                self.createContentForExtractedData(content: content)
             })
         }else{
             print("Invalid")
@@ -79,7 +91,25 @@ class LinkViewController: UIViewController {
     
     // MARK: - Class Methods
 
-    func createContentForExtractedData(){
+    
+    func createContentForExtractedData(content:ContentDAO){
+        if let parent = self.parent {
+            (parent as! ContainerViewController).arraySelectedContent.append(content)
+            if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
+                HUDManager.sharedInstance.showHUD()
+                (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
+                    HUDManager.sharedInstance.hideHUD()
+                    ContentList.sharedInstance.arrayContent.removeAll()
+                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                    ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
+                    objPreview.strPresented = "TRUE"
+                    let nav = UINavigationController(rootViewController: objPreview)
+                    self.parent?.present(nav, animated: true, completion: nil)
+                })
+                (parent as! ContainerViewController).arraySelectedContent.removeAll()
+                (parent as! ContainerViewController).arrayAssests.removeAll()
+            }
+        }
         
     }
     

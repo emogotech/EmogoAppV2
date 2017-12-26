@@ -492,10 +492,10 @@
             </objects>
             <point key="canvasLocation" x="708" y="128"/>
         </scene>
-        <!--Preview Controller-->
+        <!--Content View Controller-->
         <scene sceneID="2V2-tg-Ovb">
             <objects>
-                <viewController id="MNQ-aF-Rr8" customClass="PreviewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="contentView" id="MNQ-aF-Rr8" customClass="ContentViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gBm-WB-fLJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -687,7 +687,7 @@
                         <outlet property="btnEdit" destination="eZs-OC-4Tr" id="xYt-Bj-2xd"/>
                         <outlet property="btnPlayIcon" destination="mOo-pa-hQ8" id="vCG-Xg-nxn"/>
                         <outlet property="btnShareAction" destination="J7x-1w-9lC" id="h78-e2-9E6"/>
-                        <outlet property="imgPreview" destination="aaS-iJ-os4" id="FbW-TP-KxP"/>
+                        <outlet property="imgCover" destination="aaS-iJ-os4" id="Fnl-CA-w3c"/>
                         <outlet property="txtDescription" destination="Qyr-WV-8PZ" id="DZT-zc-nFC"/>
                         <outlet property="txtTitleImage" destination="g9s-b1-CpL" id="alC-yv-Spc"/>
                     </connections>

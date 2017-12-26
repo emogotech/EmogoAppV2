@@ -286,7 +286,7 @@ class AWSRequestManager:NSObject {
                             }
                         }
                     })
-                }else {
+                }else if obj.type == .video {
                     self.prepareVideoToUpload(name: obj.fileName, videoURL: obj.fileUrl!, completion: { (strThumb,strVideo,error) in
                         if error == nil {
                             let ext = strVideo?.getName()
@@ -301,7 +301,10 @@ class AWSRequestManager:NSObject {
                             }
                         }
                     })
-                }
+                }else if obj.type == .link  {
+                   arrayContentToCreate.append(obj)
+                    dispatchGroup.leave()
+            }
             }
         }
         

@@ -59,6 +59,7 @@ class MyStuffViewController: UIViewController {
             HUDManager.sharedInstance.showHUD()
             (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
                 HUDManager.sharedInstance.hideHUD()
+                 ContentList.sharedInstance.arrayContent.removeAll()
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
                 ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
                 objPreview.strPresented = "TRUE"
@@ -70,14 +71,13 @@ class MyStuffViewController: UIViewController {
             }
         }
        
-       
     }
     
     // MARK: - API Methods
     
     func getMyStuff(type:RefreshType){
         if type == .start{
-            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayStuff.removeAll()
             self.stuffCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
@@ -94,13 +94,13 @@ class MyStuffViewController: UIViewController {
             
             if let parentVC = self.parent {
                 let array = (parentVC as! ContainerViewController).arraySelectedContent
-                for i in 0..<ContentList.sharedInstance.arrayContent.count {
-                    let con = ContentList.sharedInstance.arrayContent[i]
+                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                    let con = ContentList.sharedInstance.arrayStuff[i]
                     if array.count != 0 {
                         if let index =  array.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
                             if array[index].isSelected == true {
                                 con.isSelected = true
-                                ContentList.sharedInstance.arrayContent[i] = con
+                                ContentList.sharedInstance.arrayStuff[i] = con
                             }
                         }
                     }
@@ -131,12 +131,12 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ContentList.sharedInstance.arrayContent.count
+        return ContentList.sharedInstance.arrayStuff.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let content = ContentList.sharedInstance.arrayContent[indexPath.row]
+        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
         // for Add Content
         cell.layer.cornerRadius = 5.0
@@ -155,9 +155,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
-            let content = ContentList.sharedInstance.arrayContent[indexPath.row]
+            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             content.isSelected = !content.isSelected
-            ContentList.sharedInstance.arrayContent[indexPath.row] = content
+            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
             if content.isSelected {
                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
@@ -171,6 +171,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func updateSelected(obj:ContentDAO){
         if let parent = self.parent {
             let parentVC:ContainerViewController = parent as! ContainerViewController
+        
             if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
                 parentVC.arraySelectedContent.remove(at: index)
             }else {
@@ -178,7 +179,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     parentVC.arraySelectedContent.append(obj)
                 }
             }
-            print(parentVC.arrayAssests.count)
+            print(parentVC.arraySelectedContent.count)
         }
     }
     

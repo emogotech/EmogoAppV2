@@ -49,4 +49,21 @@ class Animation: NSObject {
         views.layer.add(transition!, forKey: nil)
     }
     
+    
+   class func addRightTransitionImage(imgV:UIImageView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
+  class  func addLeftTransitionImage(imgV:UIImageView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
 }

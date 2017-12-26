@@ -253,12 +253,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             self.navigationController?.push(viewController: obj)
             //self.navigationController?.push(viewController: obj)
         }else {
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent.append(content!)
-            if   ContentList.sharedInstance.arrayContent.count != 0 {
-                let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                ContentList.sharedInstance.arrayContent.removeAll()
+             let array = objStream?.arrayContent.filter { $0.isAdd == false }
+             ContentList.sharedInstance.arrayContent = array
+              let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = indexPath.row - 1
                 self.navigationController?.pushNormal(viewController: objPreview)
-            }
 
         }
     }

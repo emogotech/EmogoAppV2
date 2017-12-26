@@ -58,6 +58,7 @@ class GalleryDAO{
 
 class ContentList{
     var arrayContent:[ContentDAO]!
+    var arrayStuff:[ContentDAO]!
     var arrayLink:[ContentDAO]!
     var objStream:StreamViewDAO?
     var requestURl:String! = ""
@@ -71,6 +72,7 @@ class ContentList{
     init() {
         arrayContent = [ContentDAO]()
         arrayLink = [ContentDAO]()
+        arrayStuff = [ContentDAO]()
     }
     
 }
