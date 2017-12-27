@@ -131,12 +131,20 @@ class MyStreamViewController: UIViewController {
     func associateContentToStream(id:[String]){
 
         if ContentList.sharedInstance.arrayContent.count != 0 {
+            HUDManager.sharedInstance.showProgress()
             let array = ContentList.sharedInstance.arrayContent
-            self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
             AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
                 if (errorMSG?.isEmpty)! {
+                   
                 }
             })
+            
+            let when = DispatchTime.now() + 1.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+                self.navigationController?.popToViewController(vc: objStream)
+            }
+            
             ContentList.sharedInstance.arrayContent.removeAll()
         }
         

@@ -167,16 +167,19 @@ class PreviewController: UIViewController {
         if ContentList.sharedInstance.objStream != nil {
 
             if ContentList.sharedInstance.arrayContent.count != 0 {
+                HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayContent
-                    self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
                     AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream?.streamID)!], contents: array!, completion: { (isScuccess, errorMSG) in
+                      HUDManager.sharedInstance.hideProgress()
                         if (errorMSG?.isEmpty)! {
                         }
                     })
                 ContentList.sharedInstance.arrayContent.removeAll()
-                // Back Screen
-                let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
-                self.navigationController?.popToViewController(vc: obj)
+                let when = DispatchTime.now() + 1.5
+                DispatchQueue.main.asyncAfter(deadline: when) {
+                    // Back Screen
+                    let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+                    self.navigationController?.popToViewController(vc: obj)                }
             }
         }else {
             // Navigate to View Stream
@@ -185,23 +188,20 @@ class PreviewController: UIViewController {
         
     }
     @IBAction func btnDoneAction(_ sender: Any) {
-        /*
-         isContentAdded = false
-        if (self.txtTitleImage.text?.isEmpty)! {
-            self.txtTitleImage.shake()
-        }else {
-            self.uploadFile()
-        }
- */
-        
+       
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
+            HUDManager.sharedInstance.showProgress()
+
             print(array.count)
             let arrayC = [String]()
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
             ContentList.sharedInstance.arrayContent.removeAll()
-            self.navigationController?.pop()
-            self.showToast(strMSG: "It may take a while, All Content will be added in MyStuff, After Uploading!")
+            let when = DispatchTime.now() + 1.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+                self.navigationController?.popToViewController(vc: objStream)
+            }
         }
        
     }
@@ -217,7 +217,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnCameraAction(_ sender: Any) {
         let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
-        self.navigationController?.push(viewController: obj)
+        self.navigationController?.popToViewController(vc: obj)
     }
     
     @IBAction func btnDeleteAction(_ sender: Any) {

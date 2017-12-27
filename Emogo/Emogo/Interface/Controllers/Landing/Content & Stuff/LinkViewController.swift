@@ -220,7 +220,6 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
                 if obj.isSelected  {
                     arraySelectedContent?.append(obj)
                 }
-            print(arrayAssests?.count)
         }
     }
     

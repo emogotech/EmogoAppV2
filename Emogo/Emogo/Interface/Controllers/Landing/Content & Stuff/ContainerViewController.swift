@@ -330,7 +330,6 @@ class ContainerViewController: UIViewController {
             }
             
             group.notify(queue: .main, execute: {
-                print(arraySelectedContent?.count)
                 completed(true)
             })
         }else {
@@ -408,11 +407,29 @@ class ContainerViewController: UIViewController {
         let options = PHVideoRequestOptions()
         options.version = .original
         options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (asset, info,ss) in
+        
+        PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { (videoasset, info,ss) in
             
-            if let urlAsset = asset as? AVURLAsset {
+            if let urlAsset = videoasset as? AVURLAsset {
+                
                 if let image = SharedData.sharedInstance.getThumbnailImage(url: urlAsset.url) {
-                    handler(urlAsset.url,image)
+        let documentsPath = try? FileManager.default.url(for: .documentDirectory,
+                                                                     in: .userDomainMask, appropriateFor: nil, create: true)
+                    
+                    if let file =  asset.value(forKey: "filename"){
+                        let tempPathVideo = documentsPath?.appendingPathComponent(file as! String)
+                        guard let data = NSData(contentsOf: urlAsset.url) else {
+                            return
+                        }
+                        do {
+                            try data.write(to: tempPathVideo!)
+                        } catch {
+                            print(error)
+                        }
+                        print(tempPathVideo)
+                        handler(tempPathVideo,image)
+                    }
+
                 }
             } else {
                 handler( nil, nil)

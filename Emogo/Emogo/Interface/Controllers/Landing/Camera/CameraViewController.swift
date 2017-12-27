@@ -71,7 +71,6 @@ class CameraViewController: SwiftyCamViewController {
     // MARK: - Prepare Layouts
 
     func prepareLayouts(){
-       ContentList.sharedInstance.arrayContent.removeAll()
         cameraDelegate = self
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true

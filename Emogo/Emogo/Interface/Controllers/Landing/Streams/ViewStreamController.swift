@@ -36,9 +36,11 @@ class ViewStreamController: UIViewController {
     }
     
    @objc func updateLayOut(){
+    if StreamList.sharedInstance.arrayStream.count != 0 {
         let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
         self.getStream(currentStream:stream )
     }
+}
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -49,12 +51,13 @@ class ViewStreamController: UIViewController {
         super.viewWillAppear(animated)
        self.prepareNavigation()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
     // MARK: - Prepare Layouts
     func prepareLayouts(){
        
         // Attach datasource and delegate
-        
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
 
@@ -87,8 +90,17 @@ class ViewStreamController: UIViewController {
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
+        
+//
+//        AWSRequestManager.sharedInstance.updateSuccessHandler = { _ in
+////            if self.isRefresh == true {
+////                self.updateLayOut()
+////            }
+//        }
         self.updateLayOut()
     }
+    
+    
     
     // MARK: -  Action Methods And Selector
     @objc func deleteStreamAction(sender:UIButton){

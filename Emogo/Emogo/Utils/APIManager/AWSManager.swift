@@ -198,18 +198,15 @@ class AWSRequestManager:NSObject {
             let url = Document.saveFile(data: imageData!, name: name)
             let fileUrl = URL(fileURLWithPath: url)
             self.arrayRequest.append(name)
-            self.uploading()
             AWSManager.sharedInstance.uploadFile(fileUrl, name: name) { (imageUrl,error) in
                 if let index = self.arrayRequest.index(of: name) {
                     self.arrayRequest.remove(at: index)
                 }
-                self.completed()
                completion(imageUrl, error)
             }
     }
     
     func prepareVideoToUpload(name:String,videoURL:URL,completion:@escaping (String?,String?,Error?)->Void) {
-              self.uploading()
             Document.compressVideoFile(name:name, inputURL: videoURL, handler: { (compressed) in
                 if compressed != nil {
                     let fileUrl = URL(fileURLWithPath: compressed!)
@@ -247,16 +244,13 @@ class AWSRequestManager:NSObject {
             if let index = self.arrayRequest.index(of: name) {
                 self.arrayRequest.remove(at: index)
             }
-            self.completed()
             completion(imageUrl, error)
         }
         
     }
     
     private func uploading() {
-        if self.arrayRequest.count != 0 {
-            HUDManager.sharedInstance.showProgress()
-        }
+        HUDManager.sharedInstance.showProgress()
     }
     
     private func completed() {
@@ -266,6 +260,11 @@ class AWSRequestManager:NSObject {
     }
     
     func startContentUpload(StreamID:[String],array:[ContentDAO]){
+        if StreamID.count == 0 {
+            self.showToast(strMSG: "It may take a while, All Content will be added in MyStuff, After Uploading!")
+        }else {
+            self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
+        }
         var arrayContentToCreate = [ContentDAO]()
         let dispatchGroup = DispatchGroup()
         for obj in array {
@@ -281,9 +280,9 @@ class AWSRequestManager:NSObject {
                                 value.coverImage = imageUrl
                                 arrayContentToCreate.append(value)
                                 print(arrayContentToCreate.count)
-                                dispatchGroup.leave()
                             }
                         }
+                        dispatchGroup.leave()
                     })
                 }else if obj.type == .video {
                     self.prepareVideoToUpload(name: obj.fileName, videoURL: obj.fileUrl!, completion: { (strThumb,strVideo,error) in
@@ -295,10 +294,10 @@ class AWSRequestManager:NSObject {
                                 value.coverImage = strVideo
                                 value.coverImageVideo = strThumb
                                 arrayContentToCreate.append(value)
-                                dispatchGroup.leave()
                                 print(arrayContentToCreate.count)
                             }
                         }
+                        dispatchGroup.leave()
                     })
                 }else if obj.type == .link  {
                    arrayContentToCreate.append(obj)
@@ -326,6 +325,7 @@ class AWSRequestManager:NSObject {
         print(arrayParams)
         APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "") { (contents, errorMsg) in
             if (errorMsg?.isEmpty)! {
+                self.completed()
                 if StreamID.count != 0 {
                     self.associateContentToStream(streamID: StreamID, contents: contents!, completion: { (success, errorMsg) in
                         
@@ -355,7 +355,7 @@ class AWSRequestManager:NSObject {
         }
         APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
-                self.showToast(strMSG: "Content added to Stream.")
+                self.showToast(strMSG: "Content added successfully to Stream(s).")
                 completion(true,"")
             }else {
                 completion(false,errorMsg)

@@ -65,10 +65,18 @@ class Document: NSObject {
     
     
     static func compressVideoFile(name:String,inputURL: URL, handler:@escaping (_ url: String?)-> Void){
+        
+        
         guard let data = NSData(contentsOf: inputURL as URL) else {
+        
             return
         }
-        
+        let value = Int(data.length / 1048576)
+        if value < 5 {
+           let file =   self.saveFile(data: data as Data, name: name)
+            handler(file)
+            return
+        }
         print("File size before compression: \(Double(data.length / 1048576)) mb")
         print(name)
         let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(name)
@@ -77,9 +85,8 @@ class Document: NSObject {
        print(compressedURL)
       let urlAsset = AVURLAsset(url: inputURL, options: nil)
        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName:  AVAssetExportPresetMediumQuality) else {
-        handler(nil)
-        
-        return
+        handler(inputURL.absoluteString)
+                return
       }
     
       exportSession.outputURL = compressedURL
@@ -103,6 +110,13 @@ class Document: NSObject {
             let filePath = Document.saveFile(data: compressedData as Data, name: name)
             handler(filePath)
         case .failed:
+            guard let compressedData = NSData(contentsOf: inputURL) else {
+                return
+            }
+            print("File size after compression: \(Double(compressedData.length / 1048576)) mb")
+            Document.deleteFile(name: name)
+            let filePath = Document.saveFile(data: compressedData as Data, name: name)
+            handler(filePath)
             break
         case .cancelled:
             break

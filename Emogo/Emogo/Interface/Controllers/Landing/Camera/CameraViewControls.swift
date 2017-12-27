@@ -150,6 +150,12 @@ extension CameraViewController {
         self.isFlashClicked = false
     }
     
+    // MARK: -  Disable Interaction
+    
+    func disable(isOn:Bool) {
+        
+    }
+
     
     // MARK: -  Convert Time
     

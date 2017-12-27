@@ -11,7 +11,6 @@ import UIKit
 class HUDManager: NSObject {
     
     var overlayView         : UIView = UIView()
-    var gradientLoadingBar:GradientLoadingBar!
 
     class var sharedInstance: HUDManager {
         struct Static {
@@ -22,7 +21,6 @@ class HUDManager: NSObject {
     
     override init() {
         super.init()
-        gradientLoadingBar = GradientLoadingBar.shared
     }
     
     let activityIndicator : PMProgressHUD = {
@@ -47,11 +45,12 @@ class HUDManager: NSObject {
         self.activityIndicator.hide()
     }
     func showProgress(){
-        gradientLoadingBar.show()
+        print("Gradient bar shwoing")
+        GradientLoadingBar.shared.show()
     }
     
     func hideProgress(){
-        gradientLoadingBar.hide()
+        GradientLoadingBar.shared.hide()
     }
     
 }
