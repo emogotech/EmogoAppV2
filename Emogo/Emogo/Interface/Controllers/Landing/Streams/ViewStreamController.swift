@@ -248,7 +248,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         if content?.isAdd == true {
             let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
                 kContainerNav = "1"
+                currentTag = 111
             ContentList.sharedInstance.objStream = self.objStream
+             arraySelectedContent = [ContentDAO]()
+             arrayAssests = [ImportDAO]()
             ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
             //self.navigationController?.push(viewController: obj)
@@ -256,6 +259,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                 ContentList.sharedInstance.arrayContent.removeAll()
              let array = objStream?.arrayContent.filter { $0.isAdd == false }
              ContentList.sharedInstance.arrayContent = array
+             ContentList.sharedInstance.objStream = objStream
               let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = indexPath.row - 1
                 self.navigationController?.pushNormal(viewController: objPreview)

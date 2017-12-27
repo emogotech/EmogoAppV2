@@ -203,7 +203,6 @@ class AWSRequestManager:NSObject {
                 if let index = self.arrayRequest.index(of: name) {
                     self.arrayRequest.remove(at: index)
                 }
-                print(imageUrl)
                 self.completed()
                completion(imageUrl, error)
             }
@@ -356,8 +355,8 @@ class AWSRequestManager:NSObject {
         }
         APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
+                self.showToast(strMSG: "Content added to Stream.")
                 completion(true,"")
-        self.showToast(strMSG: "Content added to Stream.")
             }else {
                 completion(false,errorMsg)
             }

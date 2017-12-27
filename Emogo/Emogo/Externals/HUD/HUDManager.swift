@@ -22,7 +22,7 @@ class HUDManager: NSObject {
     
     override init() {
         super.init()
-        gradientLoadingBar = GradientLoadingBar()
+        gradientLoadingBar = GradientLoadingBar.shared
     }
     
     let activityIndicator : PMProgressHUD = {

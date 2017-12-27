@@ -94,20 +94,20 @@ class LinkViewController: UIViewController {
     
     func createContentForExtractedData(content:ContentDAO){
         if let parent = self.parent {
-            (parent as! ContainerViewController).arraySelectedContent.append(content)
-            if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
+            arraySelectedContent?.append(content)
+            if arraySelectedContent?.count != 0 {
                 HUDManager.sharedInstance.showHUD()
-                (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
+                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
                     HUDManager.sharedInstance.hideHUD()
                     ContentList.sharedInstance.arrayContent.removeAll()
                     let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
+                    ContentList.sharedInstance.arrayContent = arraySelectedContent
                     objPreview.strPresented = "TRUE"
                     let nav = UINavigationController(rootViewController: objPreview)
                     self.parent?.present(nav, animated: true, completion: nil)
                 })
-                (parent as! ContainerViewController).arraySelectedContent.removeAll()
-                (parent as! ContainerViewController).arrayAssests.removeAll()
+                arraySelectedContent?.removeAll()
+                arrayAssests?.removeAll()
             }
         }
         
@@ -128,24 +128,21 @@ class LinkViewController: UIViewController {
                 self.linkCollectionView.es.stopLoadingMore()
                 self.linkCollectionView.es.removeRefreshFooter()
             }
-            if type == .down {
-                self.linkCollectionView.es.stopLoadingMore()
-            }
-            
-            if let parentVC = self.parent {
-                let array = (parentVC as! ContainerViewController).arraySelectedContent
+               if type == .down {
+                 self.linkCollectionView.es.stopLoadingMore()
+               }
+                let array = arraySelectedContent
                 for i in 0..<ContentList.sharedInstance.arrayLink.count {
                     let con = ContentList.sharedInstance.arrayLink[i]
-                    if array.count != 0 {
-                        if let index =  array.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
-                            if array[index].isSelected == true {
+                    if array?.count != 0 {
+                        if let index =  array?.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
+                            if array![index].isSelected == true {
                                 con.isSelected = true
                                 ContentList.sharedInstance.arrayLink[i] = con
                             }
                         }
                     }
                 }
-            }
             
             self.linkCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -217,16 +214,13 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func updateSelected(obj:ContentDAO){
-        if let parent = self.parent {
-            let parentVC:ContainerViewController = parent as! ContainerViewController
-            if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
-                parentVC.arraySelectedContent.remove(at: index)
+            if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+                arraySelectedContent?.remove(at: index)
             }else {
                 if obj.isSelected  {
-                    parentVC.arraySelectedContent.append(obj)
+                    arraySelectedContent?.append(obj)
                 }
-            }
-            print(parentVC.arrayAssests.count)
+            print(arrayAssests?.count)
         }
     }
     

@@ -29,9 +29,7 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var buttonNext: UIButton!
 
-    var arraySelectedContent = [ContentDAO]()
-    var arrayAssests = [ImportDAO]()
-
+   
     var selectedConatiner: ContainerType = .stuff {
         
         didSet {
@@ -60,9 +58,11 @@ class ContainerViewController: UIViewController {
     
     func prepareLayouts(){
         self.buttonNext.isHidden = true
-        arraySelectedContent = ContentList.sharedInstance.arrayContent
-        print(arraySelectedContent.count)
-        self.updateSegment(selected: 111)
+        for obj in ContentList.sharedInstance.arrayContent {
+           arraySelectedContent?.append(obj)
+        }
+        print(arraySelectedContent?.count)
+        self.updateSegment(selected: currentTag)
         showHelperCircle()
         //  openPreviewCamera()
         self.checkCameraPermission()
@@ -81,6 +81,10 @@ class ContainerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         previewLayer.frame = cameraView.bounds
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     
@@ -213,7 +217,6 @@ class ContainerViewController: UIViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         kContainerNav = "2"
-        ContentList.sharedInstance.arrayContent = self.arraySelectedContent
         dismiss(animated: true, completion: nil)
     }
     
@@ -274,17 +277,17 @@ class ContainerViewController: UIViewController {
     @IBAction func btnActionNext(_ sender: Any) {
         HUDManager.sharedInstance.showHUD()
 
-    self.updateConatentForGallery(array: self.arrayAssests) { (result) in
+        self.updateConatentForGallery(array: arrayAssests!) { (result) in
         HUDManager.sharedInstance.hideHUD()
-        if self.arraySelectedContent.count
+        if arraySelectedContent?.count
                 != 0 {
-    ContentList.sharedInstance.arrayContent = self.arraySelectedContent
+    ContentList.sharedInstance.arrayContent = arraySelectedContent
     let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
     objPreview.strPresented = "TRUE"
     let nav = UINavigationController(rootViewController: objPreview)
     self.present(nav, animated: true, completion: nil)
     }
-   self.arrayAssests.removeAll()
+   arrayAssests?.removeAll()
     }
         
     }
@@ -307,7 +310,7 @@ class ContainerViewController: UIViewController {
                             con.fileName = file as! String
                             }
                             //find(arr, "c")!              // 2
-                            self.arraySelectedContent.insert(con, at: 0)
+                            arraySelectedContent?.insert(con, at: 0)
                         }
                         group.leave()
                     })
@@ -320,14 +323,14 @@ class ContainerViewController: UIViewController {
                         if let file =  obj?.value(forKey: "filename"){
                             con.fileName = file as! String
                         }
-                        self.arraySelectedContent.insert(con, at: 0)
+                        arraySelectedContent?.insert(con, at: 0)
                         group.leave()
                     })
                 }
             }
             
             group.notify(queue: .main, execute: {
-                print(self.arraySelectedContent.count)
+                print(arraySelectedContent?.count)
                 completed(true)
             })
         }else {
@@ -363,6 +366,7 @@ class ContainerViewController: UIViewController {
     
     func updateSegment(selected:Int){
         self.buttonNext.isHidden = true
+        currentTag = selected
         switch selected {
         case 111:
             self.selectedConatiner = .stuff

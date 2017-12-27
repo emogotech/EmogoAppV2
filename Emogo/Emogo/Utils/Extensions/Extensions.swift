@@ -343,16 +343,20 @@ extension UINavigationController {
      */
     func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.5) {
         self.addTransition(transitionType: type, duration: duration)
-        
         let controllersArray = self.viewControllers
-        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
-        print(objContain)
-        if objContain {
-            self.popToViewController(vc, animated: false)
+        var vcToPop : UIViewController!
+        for currentVC in controllersArray {
+            if currentVC.className == vc.className {
+                vcToPop = currentVC
+                break
+            }
+        }
+        print("vcToPop" , vcToPop)
+        if vcToPop != nil {
+            self.popToViewController(vcToPop, animated: false)
         }else {
             self.pushViewController(vc, animated: false)
         }
-        
     }
     
     func flipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
@@ -362,16 +366,20 @@ extension UINavigationController {
     
     func reverseFlipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
         self.addReverseFlipTransition(transitionType: type, duration: duration)
-        
         let controllersArray = self.viewControllers
-        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
-        print(objContain)
-        if objContain {
-            self.popToViewController(vc, animated: false)
+        var vcToPop : UIViewController!
+        for currentVC in controllersArray {
+            if currentVC.className == vc.className {
+                vcToPop = currentVC
+                break
+            }
+        }
+        print("vcToPop" , vcToPop)
+        if vcToPop != nil {
+            self.popToViewController(vcToPop, animated: false)
         }else {
             self.pushViewController(vc, animated: false)
         }
-        
     }
     private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.5) {
     
@@ -411,14 +419,24 @@ extension UINavigationController {
     }
     
     func popToViewController(vc:UIViewController){
+        
         let controllersArray = self.viewControllers
-        let objContain: Bool = controllersArray.contains(where: { $0 == vc })
-        print(objContain)
-        if objContain {
-            self.popToViewController(vc, animated: true)
+        //        let objContain: Bool = controllersArray.contains(where: { $0.className == vc.className })
+        var vcToPop : UIViewController!
+        for currentVC in controllersArray {
+            if currentVC.className == vc.className {
+                vcToPop = currentVC
+                break
+            }
+        }
+        print("vcToPop" , vcToPop)
+        if vcToPop != nil {
+            self.popToViewController(vcToPop, animated: true)
         }else {
             self.pushViewController(vc, animated: true)
         }
+        
+
 //        for obj in self.viewControllers {
 //            if "\(obj)" ==  "\(vc)"  {
 //                isPop = true

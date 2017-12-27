@@ -164,17 +164,6 @@ class PreviewController: UIViewController {
         self.showToast(type: .error, strMSG: "Content Will be shared by iMessage (work in progress).")
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
-//        isContentAdded = true
-//        if seletedImage.isUploaded {
-//             addContentToStream()
-//        }else {
-//            if (self.txtTitleImage.text?.isEmpty)! {
-//                self.txtTitleImage.shake()
-//            }else {
-//                self.uploadFile()
-//            }
-//        }
-
         if ContentList.sharedInstance.objStream != nil {
 
             if ContentList.sharedInstance.arrayContent.count != 0 {

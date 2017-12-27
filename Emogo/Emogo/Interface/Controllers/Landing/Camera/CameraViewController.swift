@@ -164,6 +164,11 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
+        if !kContainerNav.isEmpty {
+            kContainerNav = "1"
+            self.prepareContainerToPresent()
+            return
+        }
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             self.navigationController?.pushNormal(viewController: objPreview)

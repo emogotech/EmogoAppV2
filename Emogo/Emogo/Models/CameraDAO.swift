@@ -126,3 +126,16 @@ class ContentDAO{
     }
 }
 
+
+class  ImportDAO {
+    var strID:String! = ""
+    var isSelected:Bool! = false
+    var assest:PHAsset!
+    
+    init(id:String,isSelected:Bool) {
+        self.strID = id
+        self.isSelected = isSelected
+    }
+}
+
+

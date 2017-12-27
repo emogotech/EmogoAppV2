@@ -31,15 +31,19 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
                 if obj.imgPreview != nil {
                     arrayContent.append(obj.imgPreview!)
                 }else {
-                    let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                    arrayContent.append(url!)
+                    if !obj.coverImage.trim().isEmpty {
+                        let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                        arrayContent.append(url!)
+                    }
                 }
             }else {
                 if obj.imgPreview != nil {
                     arrayContent.append(obj.imgPreview!)
                 }else {
-                    let url = URL(string: obj.coverImageVideo.stringByAddingPercentEncodingForURLQueryParameter()!)
-                    arrayContent.append(url!)
+                    if !obj.coverImageVideo.trim().isEmpty {
+                        let url = URL(string: obj.coverImageVideo.stringByAddingPercentEncodingForURLQueryParameter()!)
+                        arrayContent.append(url!)
+                    }
                 }
             }
         }
@@ -109,7 +113,6 @@ class MyStreamCell:UICollectionViewCell {
         guard let stream = stream  else {
             return
         }
-        
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblTitle.text = stream.Title.trim().capitalized
         self.lblName.text =  "by \(stream.Author.trim().capitalized)"

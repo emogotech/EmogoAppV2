@@ -122,25 +122,29 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnActionAddStream(_ sender: Any) {
-       
-        if ContentList.sharedInstance.objStream != nil {
-            
-            if ContentList.sharedInstance.arrayContent.count != 0 {
-                let array = ContentList.sharedInstance.arrayContent
-                self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
-                AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream?.streamID)!], contents: array!, completion: { (isScuccess, errorMSG) in
-                    if (errorMSG?.isEmpty)! {
-                    }
-                })
-                ContentList.sharedInstance.arrayContent.removeAll()
-                // Back Screen
-                let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
-                self.navigationController?.popToViewController(vc: obj)
-            }
-        }
+        let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+        obj.objContent = seletedImage
+        self.navigationController?.push(viewController: obj)
     }
     @IBAction func btnDoneAction(_ sender: Any) {
        // Update Content
+    }
+    
+    @IBAction func btnDeleteAction(_ sender: Any) {
+        
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            
+            let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete This Content?", preferredStyle: .alert)
+            let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+                self.deleteSelectedContent()
+            }
+            let no = UIAlertAction(title: "NO", style: .default) { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(yes)
+            alert.addAction(no)
+            present(alert, animated: true, completion: nil)
+        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -148,13 +152,13 @@ class ContentViewController: UIViewController {
             switch swipeGesture.direction {
             case .left:
                 if currentIndex !=  ContentList.sharedInstance.arrayContent.count-1 {
-                    self.nextImageLoad()
+                    self.next()
                 }
                 break
                 
             case .right:
                 if currentIndex != 0 {
-                    self.previousImageLoad()
+                    self.previous()
                 }
                 break
                 
@@ -164,7 +168,7 @@ class ContentViewController: UIViewController {
         }
     }
     
-    func nextImageLoad() {
+    func next() {
         if(currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
             currentIndex = currentIndex + 1
         }
@@ -172,7 +176,7 @@ class ContentViewController: UIViewController {
         updateContent()
     }
     
-    func previousImageLoad() {
+    func previous() {
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }
@@ -192,8 +196,60 @@ class ContentViewController: UIViewController {
         present(photoEditor, animated: true) {
         }
     }
-    
 
+    func deleteSelectedContent(){
+        if !self.seletedImage.contentID.trim().isEmpty {
+            self.deleteContent()
+        }else {
+            ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+            if  ContentList.sharedInstance.arrayContent.count != 0 {
+                updateContent()
+            }else{
+                self.navigationController?.pop()
+            }
+        }
+    }
+    
+    func deleteContent(){
+        HUDManager.sharedInstance.showHUD()
+        let content = [seletedImage.contentID.trim()]
+        APIServiceManager.sharedInstance.apiForDeleteContent(contents: content) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                self.deleteFileFromAWS(content: self.seletedImage)
+                ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                if  ContentList.sharedInstance.arrayContent.count != 0 {
+                    self.updateContent()
+                }else{
+                    self.navigationController?.pop()
+                }
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func deleteFileFromAWS(content:ContentDAO){
+        if !content.coverImage.isEmpty {
+            AWSManager.sharedInstance.removeFile(name: content.coverImage.getName(), completion: { (isDeleted, error) in
+            })
+        }
+        if !content.coverImageVideo.isEmpty {
+            AWSManager.sharedInstance.removeFile(name: content.coverImageVideo.getName(), completion: { (isDeleted, error) in
+            })
+        }
+    }
+    
+    func updateContent(coverImage:String,coverVideo:String, type:String){
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (content, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 

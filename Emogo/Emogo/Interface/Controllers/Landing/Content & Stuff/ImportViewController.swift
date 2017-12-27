@@ -43,22 +43,20 @@ class ImportViewController: UICollectionViewController {
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
             
-            if let parentVC = self.parent {
-                let array = (parentVC as! ContainerViewController).arrayAssests
+                let array = arrayAssests
                 for i in 0..<fetchResult.count {
                     let asset = fetchResult.object(at: i)
                     let obj = ImportDAO(id:asset.localIdentifier,isSelected:false)
                     obj.assest = asset
-                    if array.count != 0 {
-                        if let index =  array.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
-                            if array[index].isSelected == true {
+                    if array?.count != 0 {
+                        if let index =  array?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+                            if array![index].isSelected == true {
                                 obj.isSelected = true
                             }
                         }
                     }
                     arraySelected.append(obj)
                 }
-            }
             
         }
     }
@@ -96,7 +94,6 @@ class ImportViewController: UICollectionViewController {
         // Dequeue a GridViewCell.
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridViewCell.self), for: indexPath) as? GridViewCell
             else { fatalError("unexpected cell in collection view") }
-        
         
         // Request an image for the asset from the PHCachingImageManager.
         cell.representedAssetIdentifier = asset.localIdentifier
@@ -141,20 +138,14 @@ class ImportViewController: UICollectionViewController {
     }
     
     func updateAssest(obj:ImportDAO){
-        if let parent = self.parent {
-            
-            let parentVC:ContainerViewController = parent as! ContainerViewController
-           
-                if let index =  parentVC.arrayAssests.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
-                    parentVC.arrayAssests.remove(at: index)
+                if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+                    arrayAssests?.remove(at: index)
                 }else {
                     if obj.isSelected {
-                        parentVC.arrayAssests.append(obj)
+                        arrayAssests?.append(obj)
                     }
                }
-            print(parentVC.arrayAssests.count)
-        }
-        
+            print(arrayAssests?.count)
     }
     
     

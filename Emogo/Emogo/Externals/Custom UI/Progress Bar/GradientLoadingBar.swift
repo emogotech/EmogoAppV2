@@ -137,7 +137,6 @@ class GradientLoadingBar {
     public func show() {
         if !isVisible {
             isVisible = true
-
             gradientView.show()
         }
     }

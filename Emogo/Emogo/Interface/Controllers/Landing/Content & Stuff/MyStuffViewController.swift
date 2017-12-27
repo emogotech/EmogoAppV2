@@ -38,6 +38,7 @@ class MyStuffViewController: UIViewController {
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
+        HUDManager.sharedInstance.showHUD()
         self.getMyStuff(type:.start)
         
         // Load More
@@ -54,20 +55,19 @@ class MyStuffViewController: UIViewController {
     
     @IBAction func btnActionNext(_ sender: Any) {
         if let parent = self.parent {
-          
-        if (parent as! ContainerViewController).arraySelectedContent.count != 0 {
+            if arraySelectedContent?.count != 0 {
             HUDManager.sharedInstance.showHUD()
-            (parent as! ContainerViewController).updateConatentForGallery(array: (parent as! ContainerViewController).arrayAssests, completed: { (result) in
+                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
                 HUDManager.sharedInstance.hideHUD()
                  ContentList.sharedInstance.arrayContent.removeAll()
                 let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                ContentList.sharedInstance.arrayContent = (parent as! ContainerViewController).arraySelectedContent
+                ContentList.sharedInstance.arrayContent = arraySelectedContent
                 objPreview.strPresented = "TRUE"
                 let nav = UINavigationController(rootViewController: objPreview)
                 self.parent?.present(nav, animated: true, completion: nil)
             })
-            (parent as! ContainerViewController).arraySelectedContent.removeAll()
-            (parent as! ContainerViewController).arrayAssests.removeAll()
+            arraySelectedContent?.removeAll()
+            arrayAssests?.removeAll()
             }
         }
        
@@ -92,20 +92,18 @@ class MyStuffViewController: UIViewController {
                 self.stuffCollectionView.es.stopLoadingMore()
             }
             
-            if let parentVC = self.parent {
-                let array = (parentVC as! ContainerViewController).arraySelectedContent
+                let array = arraySelectedContent
                 for i in 0..<ContentList.sharedInstance.arrayStuff.count {
                     let con = ContentList.sharedInstance.arrayStuff[i]
-                    if array.count != 0 {
-                        if let index =  array.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
-                            if array[index].isSelected == true {
+                    if array?.count != 0 {
+                        if let index =  array?.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
+                            if array![index].isSelected == true {
                                 con.isSelected = true
                                 ContentList.sharedInstance.arrayStuff[i] = con
                             }
                         }
                     }
                 }
-            }
             
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -169,18 +167,14 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func updateSelected(obj:ContentDAO){
-        if let parent = self.parent {
-            let parentVC:ContainerViewController = parent as! ContainerViewController
         
-            if let index =  parentVC.arraySelectedContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
-                parentVC.arraySelectedContent.remove(at: index)
+        if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+                arraySelectedContent?.remove(at: index)
             }else {
                 if obj.isSelected  {
-                    parentVC.arraySelectedContent.append(obj)
+                    arraySelectedContent?.append(obj)
                 }
             }
-            print(parentVC.arraySelectedContent.count)
-        }
     }
     
 }

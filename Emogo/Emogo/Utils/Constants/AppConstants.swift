@@ -32,6 +32,13 @@ let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0,
 var kContainerNav = ""
 var kBackNav = ""
 
+// Selected Tag For Container
+var currentTag = 111
+
+var arraySelectedContent:[ContentDAO]?
+var arrayAssests:[ImportDAO]?
+
+
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"
 let kFontMedium = "SF Pro Display Medium"
