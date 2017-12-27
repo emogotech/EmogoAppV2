@@ -71,6 +71,26 @@ class HomeViewController: MSMessagesAppViewController {
     
     // MARK:- prepareLayout
     @objc func prepareLayout() {
+        if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
+            var arrayTempStream  = [StreamDAO]()
+            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+            obj.arrStream = arrayTempStream
+            obj.currentStreamIndex = 0
+            self.present(obj, animated: false, completion: nil)
+        }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+            var arrayTempStream  = [StreamDAO]()
+            var streamDatas  = [String:Any]()
+            streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
+            SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
+            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+            
+            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+            obj.arrStream = arrayTempStream
+            obj.currentStreamIndex = 0
+            self.present(obj, animated: false, completion: nil)
+            
+        }
         
         lblStreamSearch.font = lblPeopleSearch.font
         
@@ -251,7 +271,6 @@ class HomeViewController: MSMessagesAppViewController {
                 }
             }
         }
-        
     }
     
     @objc func resignRefreshLoader(){
@@ -269,7 +288,7 @@ class HomeViewController: MSMessagesAppViewController {
         if !checkIsAvailableFilter() {
             preparePagerFrame()
         }
-        
+        SharedData.sharedInstance.tempViewController = self
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             pagerContent.isHidden = false
@@ -420,6 +439,7 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
         lblNoResult.text = "No Stream found"
+
         if Reachability.isNetworkAvailable() {
             if type == .start {
                 StreamList.sharedInstance.arrayStream.removeAll()
@@ -459,6 +479,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     func getUsersList(type:RefreshType){
         lblNoResult.text = "No User found"
+        if SharedData.sharedInstance.iMessageNavigation == "" {
         if Reachability.isNetworkAvailable() {
             if type == .start {
                 PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -493,7 +514,6 @@ class HomeViewController: MSMessagesAppViewController {
                 }
             }
         }
-        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
         }
     }
     
@@ -525,6 +545,8 @@ class HomeViewController: MSMessagesAppViewController {
     
     func getStreamGlobleSearch(searchText:String, type:RefreshType){
         lblNoResult.text = "No Stream found"
+        
+        if SharedData.sharedInstance.iMessageNavigation == "" {
         APIServiceManager.sharedInstance.apiForGetStreamListFromGlobleSearch(strSearch: searchText) { (values, errorMsg) in
             self.hudView.stopLoaderWithAnimation()
             if !(errorMsg?.isEmpty)! {
@@ -542,6 +564,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.streaminputDataType(type: type)
             self.viewCollections.isHidden = false
             self.expandStreamHeight()
+            }
         }
     }
     
@@ -654,6 +677,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         let indexPath = NSIndexPath(row: sender, section: 0)
         if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
             let message = MSMessage()
+            message.summaryText = "\(iMsg_NavigationStream) \(content.ID!) \(content.Author!) \(content.CoverImage!) \(content.IDcreatedBy!) \(content.Title!)"
             let layout = MSMessageTemplateLayout()
             layout.caption = content.Title.trim()
             layout.subcaption = "by \(content.Author!)"

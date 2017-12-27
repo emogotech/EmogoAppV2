@@ -238,6 +238,9 @@ let iMsgNumberSet                               = "0123456789"
 //String Check
 let iMsg_String_isBlank                         = ""
 let iMsg_String_singleSpace                     = " "
+let iMsg_NavigationStream                       = "Stream"
+let iMsg_NavigationContent                       = "Content"
+
 
 //Constant
 let iMsg_CornorRadius : CGFloat                 = 18.0

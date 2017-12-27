@@ -30,15 +30,18 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     // MARK: - Variables
     var currentContentIndex                 : Int!
+    var currentStreamID                     : String!
     var arrContentData                      = [ContentDAO]()
     var hudView                             : LoadingView!
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        SharedData.sharedInstance.tempViewController = self
         setupLoader()
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,6 +80,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     // MARK: - PrepareLayout
     @objc func prepareLayout(){
         loadViewForUI()
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         imgStream.addGestureRecognizer(swipeRight)
@@ -167,7 +171,13 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
-        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+        if SharedData.sharedInstance.iMessageNavigation != ""{
+            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+        }
+        else {
+            SharedData.sharedInstance.iMessageNavigation = ""
+              NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+        }
     }
     
     @IBAction func btnsendAction(_ sender:UIButton){
@@ -205,6 +215,9 @@ class StreamContentViewController: MSMessagesAppViewController {
         layout.caption = lblStreamName.text!
         layout.image  = imgStream.image
         layout.subcaption = lblStreamDesc.text
+        let content = self.arrContentData[currentContentIndex]
+        message.summaryText = "\(iMsg_NavigationContent) \(content.contentID!) \(currentStreamID!) "
+        
         message.layout = layout
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
     }

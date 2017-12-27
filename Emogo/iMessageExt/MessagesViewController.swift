@@ -16,11 +16,11 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Variables
     var hudView: LoadingView!
-   
+    
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-       // SharedData.sharedInstance.resetAllData()
+        // SharedData.sharedInstance.resetAllData()
         prepareLayout()
         setupLoader()
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyleExpand), object: nil)
@@ -37,7 +37,7 @@ class MessagesViewController: MSMessagesAppViewController {
         hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-       
+        
         self.perform(#selector(self.isUserLogedIn), with: nil, afterDelay: 2.0)
     }
     
@@ -54,14 +54,14 @@ class MessagesViewController: MSMessagesAppViewController {
     
     @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
-              UserDAO.sharedInstance.parseUserInfo()
+            UserDAO.sharedInstance.parseUserInfo()
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.addChildViewController(vc)
             vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
             self.container.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
             self.hudView.stopLoaderWithAnimation()
-             self.hudView.removeFromSuperview()
+            self.hudView.removeFromSuperview()
             self.container.isHidden = false
         }
         else {
@@ -158,52 +158,74 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         // Called after the extension transitions to a new presentation style.
-        
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
     
     
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
-        
-//     if let message = conversation.selectedMessage {
-//            if let messageLayout = message.layout {
-//                print((messageLayout as! MSMessageTemplateLayout).caption as Any)
-//                print((messageLayout as! MSMessageTemplateLayout).image as Any)
-//                print((messageLayout as! MSMessageTemplateLayout).subcaption as Any)
-//                print((messageLayout as! MSMessageTemplateLayout).caption as Any)
-//            }
-//
-//         print(message.url as Any)
-//
-//        self.extensionContext?.open(message.url!, completionHandler: { (success: Bool) in
-//            print(success)
-//            })
-//        }
-//        let strUrl = "\(kDeepLinkImessage)abcd)"
-//        guard let url = URL(string: strUrl) else {
-//            return
-//        }
-//        if UIApplication.shared.canOpenURL(url) {
-//            if #available(iOS 10.0, *) {
-//                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//            } else {
-//                UIApplication.shared.openURL(url)
-//            }
-//        } else {
-//            if #available(iOS 10.0, *) {
-//                UIApplication.shared.open( URL(string: "itms://itunes.apple.com/app/")!, options: [:], completionHandler: nil)
-//            } else {
-//                UIApplication.shared.openURL( URL(string: "itms://itunes.apple.com/app/")!)
-//            }
-//        }
-        
+        if let message = conversation.selectedMessage {
+
+            let msgSummry = message.summaryText!
+            let splitArr = msgSummry.components(separatedBy: " ")
+            var streamData  = [String:Any]()
+            
+            if splitArr[0] == iMsg_NavigationStream {
+                UserDAO.sharedInstance.parseUserInfo()
+                streamData["id"] = splitArr[1]
+                SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamData)
+            }
+            else if splitArr[0] == iMsg_NavigationContent {
+                SharedData.sharedInstance.iMessageNavigationCurrentStreamID = splitArr[2]
+                SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
+                SharedData.sharedInstance.contentData = ContentDAO.init(contentData: streamData)
+            }
+            if (SharedData.sharedInstance.tempViewController?.isKind(of: HomeViewController.self))!{
+                self.dismiss(animated: false, completion: nil)
+                navigateControllerAfterMessageSelected(type: splitArr[0])
+            }
+            else if (SharedData.sharedInstance.tempViewController?.isKind(of: StreamContentViewController.self))!{
+                self.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: false, completion: nil)
+                navigateControllerAfterMessageSelected(type: splitArr[0])
+            }
+            else{
+                SharedData.sharedInstance.iMessageNavigation = splitArr[0]
+                let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.addChildViewController(vc)
+                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height)
+                self.container.addSubview(vc.view)
+                vc.didMove(toParentViewController: self)
+                self.hudView.stopLoaderWithAnimation()
+                self.hudView.removeFromSuperview()
+                self.container.isHidden = false
+            }
+        }
     }
     
-		    // MARK: - Delegate Methods of Segue
+    func navigateControllerAfterMessageSelected(type:String){
+        SharedData.sharedInstance.iMessageNavigation = type
+        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+        if type == iMsg_NavigationStream {
+            var arrayTempStream  = [StreamDAO]()
+            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+            obj.arrStream = arrayTempStream
+            obj.currentStreamIndex = 0
+        }else if type == iMsg_NavigationContent {
+            var arrayTempStream  = [StreamDAO]()
+            var streamDatas  = [String:Any]()
+            streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
+            SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
+            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+            obj.arrStream = arrayTempStream
+            obj.currentStreamIndex = 0
+        }
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return false
-        
     }
     
 }

@@ -86,7 +86,13 @@ class StreamViewController: MSMessagesAppViewController {
         setupLoader()
         self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
-        self.perform(#selector(getStream), with: nil, afterDelay: 0.3)
+        
+        if SharedData.sharedInstance.iMessageNavigation != "" {
+            self.getStream(type: "Redirect")
+        }
+        else {
+             self.getStream(type: "Direct")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -204,6 +210,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnClose(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
+        SharedData.sharedInstance.iMessageNavigation = ""
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
     }
     
@@ -213,7 +220,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
         btnEnableDisable()
         self.addRightTransitionImage(imgV: self.imgStream)
-        getStream()
+        getStream(type: "Direct")
     }
     
     func previousImageLoad() {
@@ -222,7 +229,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
         btnEnableDisable()
         self.addLeftTransitionImage(imgV: self.imgStream)
-        getStream()
+        getStream(type: "Direct")
     }
     
     @IBAction func btnPreviousAction(_ sender:UIButton) {
@@ -261,7 +268,7 @@ class StreamViewController: MSMessagesAppViewController {
                 if(self.currentStreamIndex != 0){
                     self.currentStreamIndex = self.currentStreamIndex - 1
                 }
-                self.getStream()
+                self.getStream(type: "Direct")
             } else {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
             }
@@ -273,28 +280,65 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     //MARK:- calling webservice
-    @objc func getStream() {
+    @objc func getStream(type:String) {
         if Reachability.isNetworkAvailable() {
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()
             }
             let stream = self.arrStream[currentStreamIndex]
-            APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
-                if (errorMsg?.isEmpty)! {
-                    self.objStream = stream
-                    self.loadViewForUI()
-                    self.collectionStreams.reloadData()
-                    self.hudView.stopLoaderWithAnimation()
+            if type == "Direct"{
+                APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
+                    if (errorMsg?.isEmpty)! {
+                        self.objStream = stream
+                        self.loadViewForUI()
+                        self.collectionStreams.reloadData()
+                        self.hudView.stopLoaderWithAnimation()
+                        
+                    }
+                    else {
+                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                    }
                 }
-                else {
-                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
+            } else {
+                APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
+                    if (errorMsg?.isEmpty)! {
+                        self.objStream = stream
+                        self.loadViewForUI()
+                        self.collectionStreams.reloadData()
+                        self.hudView.stopLoaderWithAnimation()
+                        if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+                            let conntenData = self.objStream?.arrayContent
+                            for i in 0...(conntenData?.count)!-1 {
+                                let data : ContentDAO = conntenData![i]
+                                print(data.contentID)
+                                print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
+                                if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
+                                    let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+                                    obj.arrContentData = (self.objStream?.arrayContent)!
+                                    self.addRippleTransition()
+                                    obj.currentStreamID = self.objStream?.streamID!
+                                    obj.currentContentIndex  = i
+                                    self.present(obj, animated: false, completion: nil)
+                                    return
+                                }
+                            }
+                        }
+                        
+
+                   }
+                    else {
+                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                    }
                 }
             }
+            
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
+    
+    
 }
 
 // MARK: -  Extension CollcetionView Delegates
@@ -340,9 +384,9 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         obj.arrContentData = (objStream?.arrayContent)!
         self.addRippleTransition()
+        obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row
         self.present(obj, animated: false, completion: nil)
     }
-    
 }
 
