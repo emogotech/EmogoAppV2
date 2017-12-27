@@ -103,7 +103,7 @@ let kaddBackgroundImage                 = "menuBackGround"
 
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
-
+let kUpdateStreamViewIdentifier = "UpdateStreamIdentifier"
 
 
 // MARK: - Static Alert Messages

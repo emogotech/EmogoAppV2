@@ -44,7 +44,6 @@ class StreamListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -352,8 +351,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
            if isPeopleList  == false{
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = indexPath.row
+            StreamList.sharedInstance.selectedStream = stream
             obj.streamType = currentStreamType.rawValue
             self.navigationController?.push(viewController: obj)
         }

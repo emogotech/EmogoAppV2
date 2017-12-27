@@ -15,9 +15,9 @@ class ViewStreamController: UIViewController {
     
     // Varibales
     private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
-    var currentIndex = 0
-    var streamType:String! 
+    var streamType:String!
     var objStream:StreamViewDAO?
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -37,8 +37,9 @@ class ViewStreamController: UIViewController {
     
    @objc func updateLayOut(){
     if StreamList.sharedInstance.arrayStream.count != 0 {
-        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
-        self.getStream(currentStream:stream )
+        if StreamList.sharedInstance.selectedStream != nil {
+        self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+        }
     }
 }
     
@@ -53,6 +54,7 @@ class ViewStreamController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
     }
     // MARK: - Prepare Layouts
     func prepareLayouts(){
@@ -97,6 +99,16 @@ class ViewStreamController: UIViewController {
 ////                self.updateLayOut()
 ////            }
 //        }
+        
+        
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
+            if StreamList.sharedInstance.selectedStream != nil {
+                self.updateLayOut()
+            }
+        }
+        
         self.updateLayOut()
     }
     
@@ -124,14 +136,20 @@ class ViewStreamController: UIViewController {
         self.navigationController?.push(viewController: obj)
     }
 }
-
+    
+    @objc  func btnCancelAction(){
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+        self.navigationController?.popToViewController(vc: obj)
+        // self.navigationController?.pop()
+    }
+/*
    @objc  func btnNextAction(){
     
     if currentIndex == StreamList.sharedInstance.arrayStream.count - 1 {
-        currentIndex = 0
+        current = 0
     }
     else {
-        currentIndex += 1
+        current += 1
     }
     self.prepareList()
     }
@@ -149,12 +167,8 @@ class ViewStreamController: UIViewController {
         self.prepareList()
     }
     
-    @objc  func btnCancelAction(){
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-        self.navigationController?.popToViewController(vc: obj)
-       // self.navigationController?.pop()
-    }
-    
+   
+ 
     // MARK: - Class Methods
 
     func prepareList(){
@@ -162,10 +176,11 @@ class ViewStreamController: UIViewController {
         if self.currentIndex <= 0 {
             return
         }
-        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
+        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex!]
         self.getStream(currentStream:stream )
     }
-    
+     */
+
     // MARK: - API Methods
 
     func getStream(currentStream:StreamDAO){
@@ -183,12 +198,11 @@ class ViewStreamController: UIViewController {
     
     func deleteStream(){
         HUDManager.sharedInstance.showHUD()
-        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex]
-        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
+     APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
 
             if (errorMsg?.isEmpty)! {
-                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == stream.ID.trim() }) {
+                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
                     StreamList.sharedInstance.arrayStream.remove(at: i)
                 }
                 self.navigationController?.pop()
