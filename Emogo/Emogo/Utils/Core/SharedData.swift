@@ -22,6 +22,13 @@ class SharedData: NSObject {
     var deepLinkType : String = ""
     var savedConversation: MSConversation?
     var streamID:String = ""
+    var iMessageNavigation : String = ""
+    var iMessageNavigationStreamID : String = ""
+    var iMessageNavigationCurrentStreamID : String = ""
+    var iMessageNavigationCurrentContentID : String = ""
+    var streamContent : StreamDAO?
+    var contentData : ContentDAO?
+    var tempViewController : MSMessagesAppViewController?
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
