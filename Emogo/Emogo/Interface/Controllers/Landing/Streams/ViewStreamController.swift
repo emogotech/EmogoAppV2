@@ -17,6 +17,7 @@ class ViewStreamController: UIViewController {
     private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
     var streamType:String!
     var objStream:StreamViewDAO?
+    var currentIndex:Int!
 
     // MARK: - Override Functions
     
@@ -37,6 +38,8 @@ class ViewStreamController: UIViewController {
     
    @objc func updateLayOut(){
     if StreamList.sharedInstance.arrayStream.count != 0 {
+        let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
+        StreamList.sharedInstance.selectedStream = stream
         if StreamList.sharedInstance.selectedStream != nil {
         self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
         }
@@ -73,6 +76,17 @@ class ViewStreamController: UIViewController {
         }
         viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
+        
+        
+        viewStreamCollectionView.isUserInteractionEnabled = true
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        viewStreamCollectionView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        viewStreamCollectionView.addGestureRecognizer(swipeLeft)
+        
     }
     
     func prepareNavigation(){
@@ -142,6 +156,46 @@ class ViewStreamController: UIViewController {
         self.navigationController?.popToViewController(vc: obj)
         // self.navigationController?.pop()
     }
+    
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case .left:
+                if currentIndex !=  StreamList.sharedInstance.arrayStream.count-1 {
+                    self.next()
+                }
+                break
+                
+            case .right:
+                if currentIndex != 0 {
+                    self.previous()
+                }
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    func next() {
+        if(currentIndex < StreamList.sharedInstance.arrayStream.count-1) {
+            currentIndex = currentIndex + 1
+        }
+        Animation.addRightTransition(collection: self.viewStreamCollectionView)
+        self.updateLayOut()
+    }
+    
+    func previous() {
+        if currentIndex != 0{
+            currentIndex =  currentIndex - 1
+        }
+        Animation.addLeftTransition(collection: self.viewStreamCollectionView)
+       
+        self.updateLayOut()
+    }
+    
 /*
    @objc  func btnNextAction(){
     

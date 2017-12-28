@@ -66,4 +66,20 @@ class Animation: NSObject {
         imgV.layer.add(transition, forKey: kCATransition)
     }
     
+    class func addRightTransition(collection:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        collection.layer.add(transition, forKey: kCATransition)
+    }
+    
+    class  func addLeftTransition(collection:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.7
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        collection.layer.add(transition, forKey: kCATransition)
+    }
+    
 }
