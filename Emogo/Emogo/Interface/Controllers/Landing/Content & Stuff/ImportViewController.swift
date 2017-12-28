@@ -145,7 +145,6 @@ class ImportViewController: UICollectionViewController {
                         arrayAssests?.append(obj)
                     }
                }
-            print(arrayAssests?.count)
     }
     
     

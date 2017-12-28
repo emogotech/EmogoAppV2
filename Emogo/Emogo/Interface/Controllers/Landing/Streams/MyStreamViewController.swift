@@ -129,24 +129,35 @@ class MyStreamViewController: UIViewController {
     }
 
     func associateContentToStream(id:[String]){
-
-        if ContentList.sharedInstance.arrayContent.count != 0 {
-            HUDManager.sharedInstance.showProgress()
-            let array = ContentList.sharedInstance.arrayContent
-            AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
+        if self.objContent != nil {
+         HUDManager.sharedInstance.showHUD()
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: [self.objContent], completion: { (isScuccess, errorMSG) in
+              HUDManager.sharedInstance.hideHUD()
                 if (errorMSG?.isEmpty)! {
-                   
+                    self.navigationController?.pop()
                 }
             })
             
-            let when = DispatchTime.now() + 1.5
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-                self.navigationController?.popToViewController(vc: objStream)
+        }else {
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                HUDManager.sharedInstance.showProgress()
+                let array = ContentList.sharedInstance.arrayContent
+                AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
+                    if (errorMSG?.isEmpty)! {
+                        
+                    }
+                })
+                
+                let when = DispatchTime.now() + 1.5
+                DispatchQueue.main.asyncAfter(deadline: when) {
+                    let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+                    self.navigationController?.popToViewController(vc: objStream)
+                }
+                
+                ContentList.sharedInstance.arrayContent.removeAll()
             }
-            
-            ContentList.sharedInstance.arrayContent.removeAll()
         }
+       
         
     }
     /*
@@ -191,6 +202,11 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         switch kind {
         case IOStickyHeaderParallaxHeader:
             let  view:MyStreamHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_MyStreamHeaderView, for: indexPath) as! MyStreamHeaderView
+            if self.objContent != nil {
+                view.prepareLayout(contents: [self.objContent])
+            }else {
+                view.prepareLayout(contents: ContentList.sharedInstance.arrayContent)
+            }
             view.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
             view.btnPlay.addTarget(self, action: #selector(self.playButtonAction(sender:)), for: .touchUpInside)
             return view

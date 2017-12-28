@@ -353,7 +353,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
            if isPeopleList  == false{
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            StreamList.sharedInstance.selectedStream = stream
+            obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
             self.navigationController?.push(viewController: obj)
         }

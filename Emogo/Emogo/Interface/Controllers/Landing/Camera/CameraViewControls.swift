@@ -38,8 +38,9 @@ extension CameraViewController {
 
    func captreIn(time:Int) {
         timeSec = time
+      self.disable(isOn:false)
         self.lblRecordTimer.isHidden = false
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CameraViewController.countDown)), userInfo: nil, repeats: true)
+    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CameraViewController.countDown)), userInfo: nil, repeats: true)
     }
     
     // MARK: - Show CountDown
@@ -49,6 +50,7 @@ extension CameraViewController {
         if timeSec < 1 {
             timer.invalidate()
             self.lblRecordTimer.isHidden = true
+            self.disable(isOn:true)
             takePhoto()
         } else {
             beepSound?.play { completed in
@@ -153,7 +155,12 @@ extension CameraViewController {
     // MARK: -  Disable Interaction
     
     func disable(isOn:Bool) {
-        
+    self.btnFlash.isUserInteractionEnabled = isOn
+    self.btnCamera.isUserInteractionEnabled = isOn
+    self.btnRecording.isUserInteractionEnabled = isOn
+    self.btnGallery.isUserInteractionEnabled = isOn
+    self.btnShutter.isUserInteractionEnabled = isOn
+    self.btnTimer.isUserInteractionEnabled = isOn
     }
 
     
