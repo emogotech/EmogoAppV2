@@ -23,6 +23,7 @@ class MyStuffViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.stuffCollectionView.accessibilityLabel = "MyStuffCollectionView"
         self.prepareLayouts()
     }
 

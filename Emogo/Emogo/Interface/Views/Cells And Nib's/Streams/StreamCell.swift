@@ -29,6 +29,7 @@ class StreamCell: UICollectionViewCell {
      //   self.imgCover.backgroundColor = .black
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
          self.lblTitle.text = stream.Title.trim().capitalized
+        self.accessibilityLabel =   stream.Title.trim()
          self.lblName.text =  "by \(stream.Author.trim().capitalized)"
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
     }

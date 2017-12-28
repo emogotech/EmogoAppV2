@@ -25,6 +25,7 @@ class EmogoCameraVCUITests: XCTestCase {
         app         = nil
     }
     
+    //MARK:- Edit Image
     func testToPerformHAppyCase(){
         let btnSignIn = app.buttons["sign in btn"]
         let txtPhone = app.textFields["Please enter phone number"]
@@ -350,6 +351,32 @@ class EmogoCameraVCUITests: XCTestCase {
 
     }
     
+    func testTEst(){
+        XCUIApplication().scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0).buttons["Done"].tap()
+        
+        let app = XCUIApplication()
+        let element = app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        let element2 = element.children(matching: .other).element
+        let collectionView = element2.children(matching: .collectionView).element
+        collectionView.tap()
+        collectionView.tap()
+        collectionView.tap()
+        element.buttons["Done"]/*@START_MENU_TOKEN@*/.press(forDuration: 0.5);/*[[".tap()",".press(forDuration: 0.5);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        app.tables.cells.containing(.textField, identifier:"Stream Name").children(matching: .button).element.tap()
+        app.buttons["PHOTOS"].tap()
+        collectionView.swipeUp()
+        collectionView.swipeDown()
+        collectionView/*@START_MENU_TOKEN@*/.swipeRight()/*[[".swipeUp()",".swipeRight()"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        collectionView.swipeDown()
+        
+        let button = element2.children(matching: .other).element(boundBy: 0).children(matching: .button).element(boundBy: 1)
+        button.tap()
+        button.tap()
+        button.tap()
+        button.tap()
+        
+    }
+    
     func testForCreateStream(){
         let prediatForHittable = NSPredicate(format: "isHittable == 1")
         let prediatForExists   = NSPredicate(format: "exists == 1")
@@ -370,9 +397,16 @@ class EmogoCameraVCUITests: XCTestCase {
         
         btnCameraForStream.tap()
         
+        let btnGalleryPhoto = app.buttons["PHOTOS"]
+        
+        btnGalleryPhoto.tap()
+        
         let secondCell = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
         secondCell.forceTapElement()
         
+        let element = app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        element.buttons["Done"].tap()
+//                app.buttons["Done"].forceTapElement()
         
         expectation(for: prediatForHittable, evaluatedWith: txtStreamName, handler: nil)
         waitForExpectations(timeout: 10, handler: nil)
@@ -399,32 +433,207 @@ class EmogoCameraVCUITests: XCTestCase {
         
     }
     
-    func testPullToRefresh(){
+    func testStreamButtons(){
         
-        app.swipeDown()
-                sleep(4)
+        sleep(5)
+        let btnDownArrow = app.buttons["menu down arrow"]
+        
+        let predicate = NSPredicate.init(format:  "isHittable == 1")
+        let existsPredicate = NSPredicate.init(format:  "exists == 1")
+
+        expectation(for: predicate, evaluatedWith: btnDownArrow, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
+        
+        btnDownArrow.tap()
+        
+        let homeCollectionView = app.collectionViews["StreamCollectionView"]
+        let bottomMenuCollectionView = app.collectionViews["BottomMenuCollectionView"]
+
+        bottomMenuCollectionView.swipeRight()
+        
+        let secondCellForHomeCollectionView = homeCollectionView.cells.element(boundBy: 3)
+        
+        
+        expectation(for: existsPredicate, evaluatedWith: secondCellForHomeCollectionView, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
+        
+        secondCellForHomeCollectionView.forceTapElement()
+        
+        let addContentCell = app.collectionViews.cells["StreamContentCellAddContent"]
+        
+        expectation(for: existsPredicate, evaluatedWith: addContentCell, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
+        
+        addContentCell.forceTapElement()
+        
+        sleep(2)
+        let firstMyContentCell = app.collectionViews["MyStuffCollectionView"].cells.allElementsBoundByAccessibilityElement[0]
+        
+        expectation(for: existsPredicate, evaluatedWith: firstMyContentCell, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
+
+        firstMyContentCell.forceTapElement()
+        
+        let btnNext = app.buttons["content next btn"]
+        btnNext.tap()
+        
+        let btnDone = app.buttons["  Done"]
+        btnDone.tap()
+        
+        let btnAddToStream = app.buttons["  Add to Stream"]
+        btnAddToStream.tap()
+
+        
     }
     
-    func testMakeStream(){
+    func testMakePublicStream(){
+        let prediatForHittable = NSPredicate(format: "isHittable == 1")
+        let prediatForExists   = NSPredicate(format: "exists == 1")
+        let strStreamTitle = "Sourabh's 3rd Public Stream!"
         
         let btnAdd = app.buttons["add icon home"]
         btnAdd.tap()
         
         let tablesQuery = app.tables
+        let txtStreamName = tablesQuery.textFields["Stream Name"]
         
-        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+        
+        let tvStreamCaption = app.tables.cells.containing(.staticText, identifier:"Stream Caption").children(matching: .textView).element
+        
+        let btnCameraForStream    =  tablesQuery.buttons["camera icon cover images"]
+        
+        let btnDone         =       tablesQuery.buttons["done button"]
+        
+        btnCameraForStream.tap()
+        
+        let btnGalleryPhoto = app.buttons["PHOTOS"]
+        
+        btnGalleryPhoto.tap()
+        
+        let secondCell = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
+        secondCell.forceTapElement()
+        
+        let element = app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        element.buttons["Done"].tap()
+        //                app.buttons["Done"].forceTapElement()
+        
+        expectation(for: prediatForHittable, evaluatedWith: txtStreamName, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        txtStreamName.tap()
+        txtStreamName.typeText(strStreamTitle)
+        
+        tvStreamCaption.tap()
+        tvStreamCaption.typeText("Sourabh's Stream is Awesome!\n")
+        
+//        let switchMakePrivateStream = tablesQuery.switches["Make Private Stream"]
+//        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+//        let switchAnyOneCanEdit     = tablesQuery.switches["Any one can edit"]
+//        let switchAddContent        = tablesQuery.switches["Add Content"]
+//        let switchAddPeople         = tablesQuery.switches["Add People"]
+//
+//        switchMakePrivateStream.tap()
+        
+        btnDone.tap()
+        
+        expectation(for: prediatForExists, evaluatedWith: btnAdd, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
+        
+        sleep(3)
+        
+        XCTAssertTrue(app.collectionViews["StreamCollectionView"].cells[strStreamTitle].exists, "List not  updated for the new stream!")
+    }
+    
+    func testMakePrivateStream(){
+        
+        let strStreamTitle = "Sourabh's 1st Private Stream!"
+        let prediatForHittable = NSPredicate(format: "isHittable == 1")
+        let prediatForExists   = NSPredicate(format: "exists == 1")
+        
+        
+        let btnAdd = app.buttons["add icon home"]
+        btnAdd.tap()
+        
+        let tablesQuery = app.tables
+        let txtStreamName = tablesQuery.textFields["Stream Name"]
+        
+        
+        let tvStreamCaption = app.tables.cells.containing(.staticText, identifier:"Stream Caption").children(matching: .textView).element
+        
+        let btnCameraForStream    =  tablesQuery.buttons["camera icon cover images"]
+        
+        let btnDone         =       tablesQuery.buttons["done button"]
+        
+        btnCameraForStream.tap()
+        
+        let btnGalleryPhoto = app.buttons["PHOTOS"]
+        
+        btnGalleryPhoto.tap()
+        
+        let secondCell = app.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
+        secondCell.forceTapElement()
+        
+        let element = app.scrollViews.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        element.buttons["Done"].tap()
+        //                app.buttons["Done"].forceTapElement()
+        
+        expectation(for: prediatForHittable, evaluatedWith: txtStreamName, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
+        
+        txtStreamName.tap()
+        txtStreamName.typeText(strStreamTitle)
+        
+        tvStreamCaption.tap()
+        tvStreamCaption.typeText("Sourabh's Stream is Awesome!\n")
+        
+                let switchMakePrivateStream = tablesQuery.switches["Make Private Stream"]
+        //        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+        //        let switchAnyOneCanEdit     = tablesQuery.switches["Any one can edit"]
+        //        let switchAddContent        = tablesQuery.switches["Add Content"]
+        //        let switchAddPeople         = tablesQuery.switches["Add People"]
+        //
+                switchMakePrivateStream.tap()
+        
+        btnDone.tap()
+        
+        expectation(for: prediatForExists, evaluatedWith: btnAdd, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
+        
+        sleep(3)
+        
+        XCTAssertTrue(app.collectionViews["StreamCollectionView"].cells[strStreamTitle].exists, "List not  updated for the new stream!")
+    }
+    
+    func testTRTR(){
+        
+        let bottomMenuCollectionView = app.collectionViews["BottomMenuCollectionView"]
+        let middleCell = bottomMenuCollectionView.cells.allElementsBoundByAccessibilityElement[2]
+        let start = middleCell.coordinate(withNormalizedOffset: CGVector.init(dx: 0, dy: 0))
+        let finish = middleCell.coordinate(withNormalizedOffset: CGVector.init(dx: 6 , dy: 0))
+        start.press(forDuration: 0, thenDragTo: finish)
 
         
+    }
+    
+    func testMakeStream(){
+        
+        let btnAdd = app.buttons["add icon home"]
+        sleep(2)
+        btnAdd.tap()
+        
+        let tablesQuery = app.tables
+        
+        let switchAddColab          = tablesQuery.switches["Add Collaborators"]
+        
         switchAddColab.tap()
-//        app.swipeUp()
-          NSAttributedStringKey.font
-//        app.collectionViews.cells.element.children(matching: .any).element(boundBy: 0)
         
         print(app.debugDescription)
         let cell = tablesQuery.cells.collectionViews.cells.element.children(matching: .any).element(boundBy: 1)
         
         cell.forceTapElement()//tablesQuery.cells.collectionViews.count
-
+        
+//        let popularCollectionView
+        
         sleep(4)
 
     }
@@ -1197,5 +1406,18 @@ extension XCUIElement {
             coordinate.tap()
         }
     }
+    
+    func scrollLeftToElement(element: XCUIElement) {
+        while !element.visible() {
+            //swipeUp()
+            swipeLeft()
+        }
+    }
+    
+    func visible() -> Bool {
+        guard self.exists && !self.frame.isEmpty else { return false }
+        return XCUIApplication().windows.element(boundBy: 0).frame.contains(self.frame)
+    }
+
 }
 
