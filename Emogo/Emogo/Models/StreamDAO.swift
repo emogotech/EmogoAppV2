@@ -146,11 +146,17 @@ class StreamViewDAO{
                 self.arrayColab.append(colab)
             }
         }
+        if let obj  = streamData["created_by"] {
+            self.idCreatedBy = "\(obj)"
+        }
         if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]
             for value in objContent {
                 let dict:NSDictionary = value as! NSDictionary
                 let conent = ContentDAO(contentData: dict.replacingNullsWithEmptyStrings() as! [String : Any])
+                if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    conent.isDelete = true
+                }
                 self.arrayContent.append(conent)
             }
             if self.canAddContent == true {
@@ -174,10 +180,7 @@ class StreamViewDAO{
         if let obj  = streamData["id"] {
             self.streamID = "\(obj)"
         }
-        if let obj  = streamData["created_by"] {
-            self.idCreatedBy = "\(obj)"
-        }
-     
+       
     }
 }
 

@@ -92,7 +92,9 @@ class ContentDAO{
     var isUploaded:Bool! = false
     var isAdd:Bool! = false
     var isSelected:Bool! = false
-    
+    var isEdit:Bool! = false
+    var isDelete:Bool! = false
+
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
             self.name = obj as! String
@@ -122,6 +124,10 @@ class ContentDAO{
         }
         if let obj  = contentData["video_image"] {
             self.coverImageVideo = obj as! String
+        }
+        if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.isEdit = true
+            self.isDelete = true
         }
     }
 }

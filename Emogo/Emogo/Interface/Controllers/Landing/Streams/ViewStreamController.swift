@@ -288,7 +288,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
              ContentList.sharedInstance.objStream = objStream
               let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = indexPath.row - 1
-                self.navigationController?.pushNormal(viewController: objPreview)
+                self.navigationController?.push(viewController: objPreview)
 
         }
     }

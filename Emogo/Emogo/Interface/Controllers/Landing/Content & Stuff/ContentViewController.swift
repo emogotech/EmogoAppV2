@@ -85,6 +85,16 @@ class ContentViewController: UIViewController {
                 self.btnPlayIcon.isHidden = false
             }
         }
+        if self.seletedImage.isEdit == false {
+            self.btnEdit.isHidden = true
+        }else {
+            self.btnEdit.isHidden = false
+        }
+        if self.seletedImage.isDelete == false {
+            self.btnEdit.isHidden = true
+        }else {
+            self.btnEdit.isHidden = false
+        }
     }
     
 

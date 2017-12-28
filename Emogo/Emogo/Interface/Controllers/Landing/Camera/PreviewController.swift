@@ -73,9 +73,16 @@ class PreviewController: UIViewController {
         self.imgPreview.contentMode = .scaleAspectFill
         
         if !self.seletedImage.createdBy.trim().isEmpty {
-            if self.seletedImage.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
-                self.btnDelete.isHidden = true
+           
+            if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
+            }else {
+                self.btnEdit.isHidden = false
+            }
+            if self.seletedImage.isDelete == false {
+                self.btnEdit.isHidden = true
+            }else {
+                self.btnEdit.isHidden = false
             }
         }
         
