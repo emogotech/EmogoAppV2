@@ -625,7 +625,6 @@ class APIServiceManager: NSObject {
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(nil,errorMessage)
-                        
                     }
                 }
             case .error(let error):

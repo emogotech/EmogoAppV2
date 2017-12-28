@@ -61,6 +61,25 @@ class PreviewController: UIViewController {
     
     func prepareLayouts(){
         // Preview Height
+        // Remove Duplicate Objects
+        
+        var seen = Set<String>()
+        var unique = [ContentDAO]()
+        for obj in  ContentList.sharedInstance.arrayContent {
+            if obj.isUploaded {
+                if !seen.contains(obj.contentID) {
+                    unique.append(obj)
+                    seen.insert(obj.contentID)
+                }
+            }else {
+                if !seen.contains(obj.fileName.trim()) {
+                    unique.append(obj)
+                    seen.insert(obj.fileName.trim())
+                }
+            }
+        }
+        ContentList.sharedInstance.arrayContent = unique
+        
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
@@ -153,13 +172,12 @@ class PreviewController: UIViewController {
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
-                if self.seletedImage.imgPreview == nil {
-                    SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
-                        if image != nil {
-                            self.openEditor(image:image!)
-                        }
-                    })
-                }else {
+                if seletedImage.isUploaded {
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    objPreview.seletedImage = seletedImage
+                    objPreview.isEdit = true
+                    self.navigationController?.push(viewController: objPreview)
+                }else{
                     self.openEditor(image:seletedImage.imgPreview!)
                 }
             }

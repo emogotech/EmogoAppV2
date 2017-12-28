@@ -20,12 +20,14 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
-    
+    @IBOutlet weak var btnAddToStream: UIButton!
+    @IBOutlet weak var btnDone: UIButton!
     
     var currentIndex:Int!
     var seletedImage:ContentDAO!
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
+    var isEdit:Bool!
     
     
     override func viewDidLoad() {
@@ -43,20 +45,27 @@ class ContentViewController: UIViewController {
     // MARK: - PrepareLayout
     
     func prepareLayout() {
-        imgCover.isUserInteractionEnabled = true
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        imgCover.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        imgCover.addGestureRecognizer(swipeLeft)
+         if self.isEdit == nil {
+            isEdit = true
+            imgCover.isUserInteractionEnabled = true
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            imgCover.addGestureRecognizer(swipeRight)
+            
+            let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+            imgCover.addGestureRecognizer(swipeLeft)
+         }else {
+            self.btnAddToStream.isHidden = true
+        }
         self.updateContent()
     }
     
     
     func updateContent() {
-        seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
+        if self.seletedImage == nil {
+            seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
+        }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
         
@@ -261,7 +270,11 @@ class ContentViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
-                ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
+                if self.isEdit == nil {
+                    ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
+                }else {
+                    self.seletedImage = content
+                }
                 self.updateContent()
             }else {
                 self.showToast(strMSG: errorMsg!)

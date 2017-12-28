@@ -58,10 +58,26 @@ class ContainerViewController: UIViewController {
     
     func prepareLayouts(){
         self.buttonNext.isHidden = true
-        for obj in ContentList.sharedInstance.arrayContent {
-           arraySelectedContent?.append(obj)
+//        for obj in ContentList.sharedInstance.arrayContent {
+//            arraySelectedContent?.append(obj)
+//        }
+        var seen = Set<String>()
+        var unique = [ContentDAO]()
+        for obj in arraySelectedContent! {
+            if obj.isUploaded {
+                if !seen.contains(obj.contentID) {
+                    unique.append(obj)
+                    seen.insert(obj.contentID)
+                }
+            }else {
+                if !seen.contains(obj.fileName.trim()) {
+                    unique.append(obj)
+                    seen.insert(obj.fileName.trim())
+                }
+            }
         }
-        print(arraySelectedContent?.count)
+        arraySelectedContent = unique
+        
         self.updateSegment(selected: currentTag)
         showHelperCircle()
         //  openPreviewCamera()
@@ -287,7 +303,8 @@ class ContainerViewController: UIViewController {
     let nav = UINavigationController(rootViewController: objPreview)
     self.present(nav, animated: true, completion: nil)
     }
-   arrayAssests?.removeAll()
+//    arrayAssests?.removeAll()
+//    arraySelectedContent?.removeAll()
     }
         
     }
@@ -295,7 +312,16 @@ class ContainerViewController: UIViewController {
     func updateConatentForGallery(array:[ImportDAO],completed:@escaping ( _ result:Bool?)->Void){
         if array.count != 0 {
             let group = DispatchGroup()
-            for imp in array {
+            var seen = Set<String>()
+            var unique = [ImportDAO]()
+            for obj in array {
+                if !seen.contains(obj.assest.localIdentifier) {
+                    unique.append(obj)
+                    seen.insert(obj.assest.localIdentifier)
+                }
+            }
+            print("seleted count------>\(unique.count)")
+            for imp in unique {
                 group.enter()
                 let obj = imp.assest
                 if obj?.mediaType == .video {
@@ -307,6 +333,7 @@ class ContainerViewController: UIViewController {
                             con.fileUrl = url
                             con.isUploaded = false
                             if let file =  obj?.value(forKey: "filename"){
+                                print(file)
                             con.fileName = file as! String
                             }
                             //find(arr, "c")!              // 2
@@ -322,6 +349,7 @@ class ContainerViewController: UIViewController {
                         con.isUploaded = false
                         if let file =  obj?.value(forKey: "filename"){
                             con.fileName = file as! String
+                            print(file)
                         }
                         arraySelectedContent?.insert(con, at: 0)
                         group.leave()
@@ -426,7 +454,6 @@ class ContainerViewController: UIViewController {
                         } catch {
                             print(error)
                         }
-                        print(tempPathVideo)
                         handler(tempPathVideo,image)
                     }
 

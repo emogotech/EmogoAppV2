@@ -42,7 +42,7 @@ class ImportViewController: UICollectionViewController {
             let allPhotosOptions = PHFetchOptions()
             allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
-            
+           
                 let array = arrayAssests
                 for i in 0..<fetchResult.count {
                     let asset = fetchResult.object(at: i)
@@ -72,7 +72,6 @@ class ImportViewController: UICollectionViewController {
         let scale = UIScreen.main.scale
         let cellSize = (collectionViewLayout as! UICollectionViewFlowLayout).itemSize
         thumbnailSize = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
-        
        
     }
     
@@ -138,13 +137,29 @@ class ImportViewController: UICollectionViewController {
     }
     
     func updateAssest(obj:ImportDAO){
+        
+        if arrayAssests!.contains(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+            // it exists, do something
+            if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+                arrayAssests?.remove(at: index)
+            }
+        } else {
+            if obj.isSelected {
+                arrayAssests?.append(obj)
+            }else {
                 if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
                     arrayAssests?.remove(at: index)
-                }else {
-                    if obj.isSelected {
-                        arrayAssests?.append(obj)
-                    }
-               }
+                }
+            }
+        }
+       
+        
+      
+//                if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
+//                    arrayAssests?.remove(at: index)
+//                }else {
+//
+//               }
     }
     
     

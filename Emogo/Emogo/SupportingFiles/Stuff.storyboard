@@ -683,7 +683,9 @@
                         <viewLayoutGuide key="safeArea" id="0n0-nq-TIR"/>
                     </view>
                     <connections>
+                        <outlet property="btnAddToStream" destination="It5-Zm-EJE" id="6sa-pE-xxx"/>
                         <outlet property="btnDelete" destination="cwd-jO-oYc" id="5Ct-Hv-FCU"/>
+                        <outlet property="btnDone" destination="EtM-6m-P4y" id="it4-EI-uwO"/>
                         <outlet property="btnEdit" destination="eZs-OC-4Tr" id="xYt-Bj-2xd"/>
                         <outlet property="btnPlayIcon" destination="mOo-pa-hQ8" id="vCG-Xg-nxn"/>
                         <outlet property="btnShareAction" destination="J7x-1w-9lC" id="h78-e2-9E6"/>

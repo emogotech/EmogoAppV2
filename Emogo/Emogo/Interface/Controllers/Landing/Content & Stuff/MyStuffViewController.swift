@@ -66,8 +66,8 @@ class MyStuffViewController: UIViewController {
                 let nav = UINavigationController(rootViewController: objPreview)
                 self.parent?.present(nav, animated: true, completion: nil)
             })
-            arraySelectedContent?.removeAll()
-            arrayAssests?.removeAll()
+//            arraySelectedContent?.removeAll()
+//            arrayAssests?.removeAll()
             }
         }
        

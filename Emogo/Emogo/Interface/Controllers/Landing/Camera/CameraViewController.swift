@@ -106,6 +106,25 @@ class CameraViewController: SwiftyCamViewController {
     func prepareContainerToPresent(){
         if kContainerNav == "1" {
             kContainerNav = "2"
+           arraySelectedContent! += ContentList.sharedInstance.arrayContent
+            // remove all duplicate contents
+            var seen = Set<String>()
+            var unique = [ContentDAO]()
+            for obj in arraySelectedContent! {
+                if obj.isUploaded {
+                    if !seen.contains(obj.contentID) {
+                        unique.append(obj)
+                        seen.insert(obj.contentID)
+                    }
+                }else {
+                    if !seen.contains(obj.fileName.trim()) {
+                        unique.append(obj)
+                        seen.insert(obj.fileName.trim())
+                    }
+                }
+            }
+            arraySelectedContent = unique
+            ContentList.sharedInstance.arrayContent = unique
           performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
         }
         

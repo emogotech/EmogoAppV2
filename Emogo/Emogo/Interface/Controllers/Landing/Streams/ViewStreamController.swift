@@ -38,8 +38,10 @@ class ViewStreamController: UIViewController {
     
    @objc func updateLayOut(){
     if StreamList.sharedInstance.arrayStream.count != 0 {
-        let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
-        StreamList.sharedInstance.selectedStream = stream
+        if currentIndex != nil {
+            let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
+            StreamList.sharedInstance.selectedStream = stream
+        }
         if StreamList.sharedInstance.selectedStream != nil {
         self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
         }
