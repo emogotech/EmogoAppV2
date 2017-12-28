@@ -431,7 +431,6 @@ class PreviewController: UIViewController {
     
     func addContentToStream(){
     let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-        obj.objContent = seletedImage
         self.navigationController?.push(viewController: obj)
         }
     

@@ -27,6 +27,7 @@ class ContentViewController: UIViewController {
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -128,6 +129,12 @@ class ContentViewController: UIViewController {
     }
     @IBAction func btnDoneAction(_ sender: Any) {
        // Update Content
+        HUDManager.sharedInstance.showHUD()
+        if self.seletedImage.imgPreview != nil {
+            self.uploadFile()
+        }else {
+            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+        }
     }
     
     @IBAction func btnDeleteAction(_ sender: Any) {
@@ -245,11 +252,25 @@ class ContentViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
+                self.updateContent()
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
         }
     }
+    
+    func uploadFile(){
+        // Create a object array to upload file to AWS
+        self.deleteFileFromAWS(content: self.seletedImage)
+        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: self.seletedImage.coverImage.getName()) { (imageURL, error) in
+            if error == nil {
+            self.updateContent(coverImage: imageURL!, coverVideo: "", type: self.seletedImage.type.rawValue)
+            }else {
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

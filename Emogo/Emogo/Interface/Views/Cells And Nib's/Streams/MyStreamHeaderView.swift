@@ -21,12 +21,12 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.prepareLayout()
+        arrayContent = [Any]()
     }
 
-    func prepareLayout(){
-        arrayContent = [Any]()
-        for obj in ContentList.sharedInstance.arrayContent {
+    func prepareLayout(contents:[ContentDAO]){
+        
+        for obj in contents {
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     arrayContent.append(obj.imgPreview!)
@@ -56,14 +56,15 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
         sliderCover.imagesContentMode = .scaleAspectFill // Choose a content mode for images to display
         sliderCover.add(KASlideShowGestureType.all)
         sliderCover.isExclusiveTouch = true
+        prepareLayout(content:contents[0])
         sliderCover.reloadData()
-        prepareLayout(content:ContentList.sharedInstance.arrayContent[0])
     }
     
     func prepareLayout(content:ContentDAO?) {
         guard let content = content  else {
             return
         }
+    
         self.lblName.text = content.name.trim().capitalized
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
