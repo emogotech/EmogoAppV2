@@ -101,8 +101,8 @@ class AddStreamViewController: UITableViewController {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
             }
-            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+//            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+//            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
             if self.objStream?.type.lowercased() == "public"{
                 self.switchMakePrivate.isOn = false
             }else {
@@ -116,6 +116,20 @@ class AddStreamViewController: UITableViewController {
                 self.isExpandRow = true
                 self.switchAddCollaborators.isOn = true
             }
+
+            if self.switchAddCollaborators.isOn == false{
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled  = false
+                self.switchAddPeople.isOn       = false
+                self.switchAddContent.isOn      = false
+            }else{
+                self.switchAddContent.isUserInteractionEnabled = true
+                self.switchAddPeople.isUserInteractionEnabled  = true
+                self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+                self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+            }
+
+            
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()

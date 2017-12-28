@@ -21,7 +21,9 @@ class StreamContentCell: UICollectionViewCell {
         if content.isAdd == true {
             imgAdd.isHidden = false
             viewCard.isHidden = true
+            self.accessibilityLabel = "StreamContentCellAddContent"
         }else {
+            self.accessibilityLabel = "StreamContentCellContent"
             imgAdd.isHidden = true
             viewCard.isHidden = false
             self.lblName.text = content.name.trim().capitalized

@@ -22,6 +22,8 @@ class AddCollaboratorsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        contactCollection.accessibilityLabel = "CollaboratorCollectionView"
+        contactCollection.isAccessibilityElement = true
         self.prepareLayouts()
     }
 
@@ -153,6 +155,7 @@ extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionVi
         if collaborator.isSelected {
             cell.imgSelect.isHidden = false
         }
+        cell.isAccessibilityElement = true
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
