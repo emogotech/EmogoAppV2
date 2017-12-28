@@ -90,7 +90,17 @@ class CameraViewController: SwiftyCamViewController {
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
             beepSound = Sound(url: bUrl)
         }
-      
+        
+        // Configure record and capture Button
+        /*
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(captureModeTap(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        btnCamera.addGestureRecognizer(tapGesture)
+        
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
+        btnCamera.addGestureRecognizer(longGesture)
+ */
+        
     }
     
     func prepareContainerToPresent(){
@@ -216,6 +226,33 @@ class CameraViewController: SwiftyCamViewController {
          default:
             break
         }
+    }
+    
+    @objc func captureModeTap(_ sender: UIGestureRecognizer){
+        print("Normal tap")
+        self.performCamera(action: .capture)
+    }
+    
+    @objc func recordingModeTap(_ sender: UIGestureRecognizer){
+        print("Long tap")
+        switch sender.state {
+        case .began:
+            print("UIGestureRecognizerStateBegan.")
+            self.lblRecordTimer.text = "00:00:00"
+            self.timeSec = 0
+            self.lblRecordTimer.isHidden = false
+            self.performCamera(action: .recording)
+            self.recordButtonTapped(isShow: true)
+            break
+        case .ended:
+            print("UIGestureRecognizerStateEnded")
+            self.recordButtonTapped(isShow: false)
+            self.performCamera(action: .stop)
+            break
+            
+        default: break
+        }
+       
     }
     
     
