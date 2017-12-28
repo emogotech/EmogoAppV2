@@ -30,6 +30,7 @@ class StreamListViewController: UIViewController {
             menuView.dataSource = self
             menuView.isHidden = true
             menuView.isExclusiveTouch = true
+            menuView.collectionView.accessibilityLabel = "BottomMenuCollectionView"
         }
     }
     // Varibales
@@ -43,6 +44,7 @@ class StreamListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.streamCollectionView.accessibilityLabel = "StreamCollectionView"
         prepareLayouts()
     }
     
