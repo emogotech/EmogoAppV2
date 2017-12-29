@@ -104,6 +104,20 @@ class ContentViewController: UIViewController {
         }else {
             self.btnEdit.isHidden = false
         }
+
+        
+        if SharedData.sharedInstance.deepLinkType != "" {
+            if self.seletedImage.imgPreview == nil {
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
+                    if image != nil {
+                        self.openEditor(image:image!)
+                    }
+                })
+            }else {
+                self.openEditor(image:seletedImage.imgPreview!)
+            }
+            SharedData.sharedInstance.deepLinkType = ""
+        }
     }
     
 

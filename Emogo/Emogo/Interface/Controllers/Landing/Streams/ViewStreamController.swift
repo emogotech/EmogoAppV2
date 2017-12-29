@@ -44,7 +44,7 @@ class ViewStreamController: UIViewController {
             StreamList.sharedInstance.selectedStream = stream
         }
         if StreamList.sharedInstance.selectedStream != nil {
-        self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+            self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
         }
     }
 }

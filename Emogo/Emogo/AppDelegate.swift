@@ -64,11 +64,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             else if splitArr.last == kDeepLinkTypeAddContent as String {
                 return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
-            }else if splitArr.last == kDeepLinkTypeEditContent as String {
+            }else if splitArr.last == kDeepLinkTypeEditStream as String {
                 SharedData.sharedInstance.streamID = splitArr[3]
-                print(SharedData.sharedInstance.streamID)
-                return setTypeOfViewController(objType: kDeepLinkTypeEditContent)
+                return setTypeOfViewController(objType: kDeepLinkTypeEditStream)
+            } else if splitArr.last == kDeepLinkTypeEditContent as String{
+                    SharedData.sharedInstance.streamID = splitArr[3]
+                    SharedData.sharedInstance.contentID = splitArr[4]
+                  return setTypeOfViewController(objType: kDeepLinkTypeEditContent)
             }
+            
             return false
         }
        return false
@@ -83,6 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddStream
          }else if objType == kDeepLinkTypeAddContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeAddContent
+        }else if objType == kDeepLinkTypeEditStream {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditStream
         }else if objType == kDeepLinkTypeEditContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditContent
         }

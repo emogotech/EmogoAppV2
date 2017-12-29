@@ -49,9 +49,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
-        DispatchQueue.main.async {
-            self.hudView.startLoaderWithAnimation()
-        }
+        
     }
     
     // MARK:- Selector Methods
@@ -79,6 +77,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     @objc func prepareLayout(){
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
         loadViewForUI()
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -137,8 +138,6 @@ class StreamContentViewController: MSMessagesAppViewController {
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
-        btnEdit.isHidden = true
-        btnDelete.isHidden = true
         if content.type == .image {
             self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else{
@@ -153,13 +152,13 @@ class StreamContentViewController: MSMessagesAppViewController {
         lblStreamDesc.text = content.description.trim().capitalized
         let currenProgressValue = Float(currentContentIndex)/Float(arrContentData.count-1)
         contentProgressView.setProgress(currenProgressValue, animated: true)
+        btnEdit.isHidden = !content.isEdit
+        btnDelete.isHidden = !content.isDelete
         
-        if content.contentID.trim() == UserDAO.sharedInstance.user.userId.trim(){
-            btnEdit.isHidden = false
-            btnDelete.isHidden = false
-        }
         DispatchQueue.main.async {
-            self.hudView.stopLoaderWithAnimation()
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
         }
     }
     
@@ -190,35 +189,46 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBAction func btnDeleteAction(_ sender:UIButton){
         let content = self.arrContentData[currentContentIndex]
         let contentIds = [content.contentID.trim()]
-        APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
-            if isSuccess == true {
-                ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
-                self.arrContentData.remove(at: self.currentContentIndex)
-                if(self.arrContentData.count == 0){
-                    self.dismiss(animated: true, completion: nil)
-                    NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
-                    return
+        if Reachability.isNetworkAvailable() {
+            APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
+                if isSuccess == true {
+                    ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+                    self.arrContentData.remove(at: self.currentContentIndex)
+                    if(self.arrContentData.count == 0){
+                        self.dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+                        return
+                    }
+                    if(self.currentContentIndex != 0){
+                        self.currentContentIndex = self.currentContentIndex - 1
+                    }
+                    self.loadViewForUI()
+                } else {
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
-                if(self.currentContentIndex != 0){
-                    self.currentContentIndex = self.currentContentIndex - 1
-                }
-                self.loadViewForUI()
-            }else {
-                
             }
+        }
+        else {
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
     
+    @IBAction func btnEditAction(_ sender:UIButton){
+        let content = self.arrContentData[currentContentIndex]
+        let strUrl = "\(kDeepLinkURL)\(currentStreamID!)/\(content.contentID!)/\(kDeepLinkTypeEditContent)"
+        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+    }
+    
     @objc func sendMessage(){
-        let message = MSMessage()
+        let session = MSSession()
+        let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         layout.caption = lblStreamName.text!
         layout.image  = imgStream.image
         layout.subcaption = lblStreamDesc.text
         let content = self.arrContentData[currentContentIndex]
-        message.summaryText = "\(iMsg_NavigationContent) \(content.contentID!) \(currentStreamID!) "
-        
         message.layout = layout
+        message.url = URL(string: "\(iMsg_NavigationContent)/\(content.contentID!)/\(currentStreamID!)")
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
     }
     
@@ -226,7 +236,4 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func deleteContent(contentObj:ContentDAO){
-        
-    }
 }

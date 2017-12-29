@@ -19,7 +19,14 @@ class CollaboratorCollectionViewCell: UICollectionViewCell {
     }
     
     func prepareLayout(content:CollaboratorDAO){
-        self.imgCollaborator.setImageWithURL(strImage: content.imgUser, placeholder: "stream-card-placeholder")
+        if content.imgUser == "" {
+            
+            self.imgCollaborator.image = UIImage(named: "stream-card-placeholder")
+            
+        }else{
+            
+            self.imgCollaborator.setImageWithURL(strImage: content.imgUser, placeholder: "stream-card-placeholder")
+        }
         lblCollaboratorName.text = content.name!
     }
 }

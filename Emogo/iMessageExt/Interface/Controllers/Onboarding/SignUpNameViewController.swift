@@ -140,7 +140,9 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         if Reachability.isNetworkAvailable() {
               hudView.startLoaderWithAnimation()
             APIServiceManager.sharedInstance.apiForUserNameVerify(userName: (txtName.text?.trim())!) { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
                 if isSuccess == true {
                     let obj : SignUpMobileViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpMobile) as! SignUpMobileViewController
                     obj.userName = self.txtName.text?.trim()

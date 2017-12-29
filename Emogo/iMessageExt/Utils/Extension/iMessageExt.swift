@@ -66,6 +66,14 @@ extension MSMessagesAppViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
     }
     
+    func addTransitionAtNaviagtePrevious(){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        view.window!.layer.add(transition, forKey: kCATransition)
+    }
+    
     func addRippleTransition() {
         
         let transition = CATransition()

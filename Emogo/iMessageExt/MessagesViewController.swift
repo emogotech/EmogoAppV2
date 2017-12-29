@@ -55,17 +55,23 @@ class MessagesViewController: MSMessagesAppViewController {
     @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
-            let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            self.addChildViewController(vc)
-            vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
-            self.container.addSubview(vc.view)
-            vc.didMove(toParentViewController: self)
-            self.hudView.stopLoaderWithAnimation()
-            self.hudView.removeFromSuperview()
-            self.container.isHidden = false
+            if SharedData.sharedInstance.tempViewController == nil {
+                let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.addChildViewController(vc)
+                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
+                self.container.addSubview(vc.view)
+                vc.didMove(toParentViewController: self)
+                if hudView != nil {
+                    hudView.stopLoaderWithAnimation()
+                }
+                self.hudView.removeFromSuperview()
+                self.container.isHidden = false
+            }
         }
         else {
-            self.hudView.stopLoaderWithAnimation()
+            if hudView != nil {
+                hudView.stopLoaderWithAnimation()
+            }
             self.hudView.removeFromSuperview()
             self.container.isHidden = true
         }
@@ -100,6 +106,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Screen Size Handling
     @objc func requestMessageScreenStyleExpand() {
         requestPresentationStyle(.expanded)
+        SharedData.sharedInstance.isMessageWindowExpand = true
     }
     
     @objc func requestMessageScreenChangeStyleCompact() {
@@ -113,19 +120,15 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Conversation Handling
     override func willBecomeActive(with conversation: MSConversation) {
         SharedData.sharedInstance.savedConversation = conversation
-        // Called when the extension is about to move from the inactive to active state.
-        // This will happen when the extension is about to present UI.
-        // Use this method to configure the extension and restore previously stored state.
+        if conversation.selectedMessage != nil {
+            self.selectedMsgTap(conversation: conversation)
+        }
     }
     
-    override func didResignActive(with conversation: MSConversation) {
-        // Called when the extension is about to move from the active to inactive state.
-        // This will happen when the user dissmises the extension, changes to a different
-        // conversation or quits Messages.
-        
-        // Use this method to release shared resources, save user data, invalidate timers,
-        // and store enough state information to restore your extension to its current state
-        // in case it is terminated later.
+    override func willResignActive(with conversation: MSConversation) {
+        SharedData.sharedInstance.tempViewController = nil
+        SharedData.sharedInstance.iMessageNavigation = ""
+        SharedData.sharedInstance.iMessageNavigationCurrentStreamID = ""
     }
     
     override func didReceive(_ message: MSMessage, conversation: MSConversation) {
@@ -152,8 +155,6 @@ class MessagesViewController: MSMessagesAppViewController {
             SharedData.sharedInstance.isMessageWindowExpand = false
         }
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageScreen), object: nil)
-        // Called before the extension transitions to a new presentation style.
-        // Use this method to prepare for the change in presentation style.
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
@@ -161,13 +162,19 @@ class MessagesViewController: MSMessagesAppViewController {
         // Use this method to finalize any behaviors associated with the change in presentation style.
     }
     
-    
-    
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
+        self.selectedMsgTap(conversation: conversation)
+    }
+    
+    func selectedMsgTap(conversation: MSConversation) {
+        
         if let message = conversation.selectedMessage {
-
-            let msgSummry = message.summaryText!
-            let splitArr = msgSummry.components(separatedBy: " ")
+            
+            self.requestMessageScreenStyleExpand()
+            
+            let msgSummry = String(format: "%@", message.url! as CVarArg)
+            
+            let splitArr = msgSummry.components(separatedBy: "/")
             var streamData  = [String:Any]()
             
             if splitArr[0] == iMsg_NavigationStream {
@@ -180,25 +187,30 @@ class MessagesViewController: MSMessagesAppViewController {
                 SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
                 SharedData.sharedInstance.contentData = ContentDAO.init(contentData: streamData)
             }
-            if (SharedData.sharedInstance.tempViewController?.isKind(of: HomeViewController.self))!{
-                self.dismiss(animated: false, completion: nil)
-                navigateControllerAfterMessageSelected(type: splitArr[0])
-            }
-            else if (SharedData.sharedInstance.tempViewController?.isKind(of: StreamContentViewController.self))!{
-                self.dismiss(animated: false, completion: nil)
-                self.dismiss(animated: false, completion: nil)
-                navigateControllerAfterMessageSelected(type: splitArr[0])
-            }
-            else{
+            
+            if SharedData.sharedInstance.tempViewController == nil {
                 SharedData.sharedInstance.iMessageNavigation = splitArr[0]
                 let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height)
                 self.container.addSubview(vc.view)
                 vc.didMove(toParentViewController: self)
-                self.hudView.stopLoaderWithAnimation()
-                self.hudView.removeFromSuperview()
+                if hudView != nil {
+                    hudView.stopLoaderWithAnimation()
+                    self.hudView.removeFromSuperview()
+                }
                 self.container.isHidden = false
+            }
+            else {
+                if (SharedData.sharedInstance.tempViewController?.isKind(of: HomeViewController.self))!{
+                    self.dismiss(animated: false, completion: nil)
+                    navigateControllerAfterMessageSelected(type: splitArr[0])
+                }
+                else if (SharedData.sharedInstance.tempViewController?.isKind(of: StreamContentViewController.self))!{
+                    self.dismiss(animated: false, completion: nil)
+                    self.dismiss(animated: false, completion: nil)
+                    navigateControllerAfterMessageSelected(type: splitArr[0])
+                }
             }
         }
     }

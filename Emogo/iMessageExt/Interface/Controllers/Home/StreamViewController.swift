@@ -170,7 +170,6 @@ class StreamViewController: MSMessagesAppViewController {
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
-        self.lblStreamDesc.text = "by \(stream.Author!)"
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
@@ -250,7 +249,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnEditStream(_ sender:UIButton) {
         let stream = self.arrStream[currentStreamIndex]
-        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditContent)"
+        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
         SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
     }
     
@@ -290,10 +289,12 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
+                        self.lblStreamDesc.text = self.objStream?.description.trim()
                         self.loadViewForUI()
                         self.collectionStreams.reloadData()
-                        self.hudView.stopLoaderWithAnimation()
-                        
+                        if self.hudView != nil {
+                            self.hudView.stopLoaderWithAnimation()
+                        }
                     }
                     else {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -303,42 +304,45 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
-                        self.loadViewForUI()
-                        self.collectionStreams.reloadData()
-                        self.hudView.stopLoaderWithAnimation()
                         if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
                             let conntenData = self.objStream?.arrayContent
+                            var arrayTempStream  = [StreamDAO]()
+                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                            self.arrStream = arrayTempStream
+                            self.loadViewForUI()
                             for i in 0...(conntenData?.count)!-1 {
                                 let data : ContentDAO = conntenData![i]
-                                print(data.contentID)
-                                print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
                                 if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
                                     let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
                                     obj.arrContentData = (self.objStream?.arrayContent)!
-                                    self.addRippleTransition()
                                     obj.currentStreamID = self.objStream?.streamID!
                                     obj.currentContentIndex  = i
                                     self.present(obj, animated: false, completion: nil)
-                                    return
+                                    
+                                    break
                                 }
                             }
+                        }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream{
+                            var arrayTempStream  = [StreamDAO]()
+                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                            self.arrStream = arrayTempStream
                         }
-                        
-
+                        self.loadViewForUI()
+                        self.collectionStreams.reloadData()
+                         if self.hudView != nil {
+                            self.hudView.stopLoaderWithAnimation()
+                        }
                    }
                     else {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
             }
-            
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
-    
-    
 }
 
 // MARK: -  Extension CollcetionView Delegates
