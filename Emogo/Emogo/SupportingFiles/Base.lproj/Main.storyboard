@@ -1127,9 +1127,9 @@
                                             <constraint firstAttribute="height" constant="50" id="F0Y-Hg-vOb"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="8" minY="10" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="flash-icon"/>
+                                        <state key="normal" image="share_button"/>
                                         <connections>
-                                            <action selector="btnActionFlash:" destination="taN-Fu-ihg" eventType="touchUpInside" id="iR2-OU-Boa"/>
+                                            <action selector="btnActionShutter:" destination="taN-Fu-ihg" eventType="touchUpInside" id="Ved-Qd-xyC"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-sv-mO2">
@@ -1142,62 +1142,9 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="2JO-bu-Ais">
-                                        <rect key="frame" x="65" y="13" width="190" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lxu-mG-uwG">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="51o-NO-dwK"/>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="Cfi-ZN-hS9"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                                <state key="normal" title="On">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="ZJk-qr-WhP"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="222" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iDG-WE-kJq">
-                                                <rect key="frame" x="65" y="0.0" width="60" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="SSt-Ev-BqX"/>
-                                                    <constraint firstAttribute="height" constant="30" id="z1z-zO-bFb"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                                <state key="normal" title="Off">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="i5W-Wb-8FI"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZ3-kU-psB">
-                                                <rect key="frame" x="130" y="0.0" width="60" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="AnL-Fg-wc9"/>
-                                                    <constraint firstAttribute="height" constant="30" id="oet-aQ-mbC"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                                <state key="normal" title="Auto">
-                                                    <color key="titleColor" red="0.99607843137254903" green="0.81960784313725488" blue="0.32549019607843138" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="OCw-zP-1KQ"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="54E-nE-Btg"/>
-                                            <constraint firstAttribute="width" constant="190" id="v0P-4n-OaC"/>
-                                        </constraints>
-                                    </stackView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="2JO-bu-Ais" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" constant="13" id="LFb-Ld-b6i"/>
-                                    <constraint firstItem="2JO-bu-Ais" firstAttribute="centerX" secondItem="fUE-ZT-mbe" secondAttribute="centerX" id="MUm-PQ-ZsF"/>
                                     <constraint firstItem="SrP-ni-6K4" firstAttribute="leading" secondItem="fUE-ZT-mbe" secondAttribute="leading" id="XA8-oX-8Ux"/>
                                     <constraint firstItem="SrP-ni-6K4" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" id="YjM-Wl-97z"/>
                                     <constraint firstItem="q1G-sv-mO2" firstAttribute="centerX" secondItem="fUE-ZT-mbe" secondAttribute="centerX" id="a1r-Ll-bDr"/>
@@ -1237,16 +1184,16 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SeD-lR-VDE">
                                                 <rect key="frame" x="192" y="0.0" width="54" height="54"/>
-                                                <state key="normal" image="lapse-icon"/>
+                                                <state key="normal" image="flash-icon"/>
                                                 <connections>
-                                                    <action selector="btnActionTimer:" destination="taN-Fu-ihg" eventType="touchUpInside" id="rt3-h2-SX1"/>
+                                                    <action selector="btnActionFlash:" destination="taN-Fu-ihg" eventType="touchUpInside" id="uo9-Hw-wu5"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ktU-Wk-HJO">
                                                 <rect key="frame" x="256" y="0.0" width="54" height="54"/>
-                                                <state key="normal" image="share_button"/>
+                                                <state key="normal" image="lapse-icon"/>
                                                 <connections>
-                                                    <action selector="btnActionShutter:" destination="taN-Fu-ihg" eventType="touchUpInside" id="a4D-3c-xTT"/>
+                                                    <action selector="btnActionTimer:" destination="taN-Fu-ihg" eventType="touchUpInside" id="lRi-Rz-aP0"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1340,13 +1287,54 @@
                                     <constraint firstItem="yDV-Ix-T4g" firstAttribute="top" secondItem="K8V-sK-6fv" secondAttribute="bottom" id="wsC-8p-9if"/>
                                 </constraints>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tpj-6S-gZt">
+                                <rect key="frame" x="129" y="319" width="190" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJN-rX-A9K">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                        <state key="normal" title="On">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="jOU-Eq-Ja4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="222" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OMC-XF-89e">
+                                        <rect key="frame" x="65" y="0.0" width="60" height="30"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                        <state key="normal" title="Off">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="ftF-am-6re"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uwj-jT-WKh">
+                                        <rect key="frame" x="130" y="0.0" width="60" height="30"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                        <state key="normal" title="Auto">
+                                            <color key="titleColor" red="0.99607843139999996" green="0.81960784310000001" blue="0.32549019610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnActionFlashOptions:" destination="taN-Fu-ihg" eventType="touchUpInside" id="dCw-G8-oXO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="190" id="dNn-uT-uKw"/>
+                                    <constraint firstAttribute="height" constant="30" id="fNb-6x-8ra"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="rB4-zD-lus" firstAttribute="leading" secondItem="2jn-Ce-XYB" secondAttribute="leading" id="2tH-lo-yjV"/>
+                            <constraint firstItem="tpj-6S-gZt" firstAttribute="centerX" secondItem="SeD-lR-VDE" secondAttribute="centerX" id="6D8-Ry-JEM"/>
                             <constraint firstItem="rB4-zD-lus" firstAttribute="trailing" secondItem="2jn-Ce-XYB" secondAttribute="trailing" id="Bfw-A7-caK"/>
                             <constraint firstItem="fUE-ZT-mbe" firstAttribute="leading" secondItem="2jn-Ce-XYB" secondAttribute="leading" id="Vgp-aA-Pra"/>
                             <constraint firstItem="rB4-zD-lus" firstAttribute="top" secondItem="68Q-pV-hEa" secondAttribute="bottom" constant="30" id="bhB-Xz-3r5"/>
                             <constraint firstItem="68Q-pV-hEa" firstAttribute="leading" secondItem="2jn-Ce-XYB" secondAttribute="leading" id="dGd-tj-etI"/>
+                            <constraint firstItem="68Q-pV-hEa" firstAttribute="top" secondItem="tpj-6S-gZt" secondAttribute="bottom" id="dr5-wi-nIr"/>
                             <constraint firstItem="fUE-ZT-mbe" firstAttribute="trailing" secondItem="2jn-Ce-XYB" secondAttribute="trailing" id="gMV-Qo-qkf"/>
                             <constraint firstItem="rB4-zD-lus" firstAttribute="bottom" secondItem="2jn-Ce-XYB" secondAttribute="bottom" id="ltE-VY-qK9"/>
                             <constraint firstItem="fUE-ZT-mbe" firstAttribute="top" secondItem="NKB-cA-Xik" secondAttribute="top" id="sSM-jC-yYg"/>
@@ -1356,19 +1344,19 @@
                     </view>
                     <connections>
                         <outlet property="btnCamera" destination="DQ3-4K-5fI" id="QxG-Uj-XMg"/>
-                        <outlet property="btnFlash" destination="2Mn-zJ-uNp" id="DCL-54-T4o"/>
-                        <outlet property="btnFlashAuto" destination="dZ3-kU-psB" id="rqK-jb-MIE"/>
-                        <outlet property="btnFlashOff" destination="iDG-WE-kJq" id="3yI-J2-2rY"/>
-                        <outlet property="btnFlashOn" destination="Lxu-mG-uwG" id="9xd-7Q-IHN"/>
+                        <outlet property="btnFlash" destination="SeD-lR-VDE" id="xhL-Pz-AwL"/>
+                        <outlet property="btnFlashAuto" destination="Uwj-jT-WKh" id="Mok-7G-7DN"/>
+                        <outlet property="btnFlashOff" destination="OMC-XF-89e" id="6rv-re-gws"/>
+                        <outlet property="btnFlashOn" destination="BJN-rX-A9K" id="QqZ-Cf-uJB"/>
                         <outlet property="btnGallery" destination="NaH-8y-x67" id="cFX-eH-GD2"/>
                         <outlet property="btnPreviewOpen" destination="K8V-sK-6fv" id="hNr-xL-USV"/>
                         <outlet property="btnRecording" destination="dzE-wF-npS" id="0Qh-Up-afC"/>
-                        <outlet property="btnShutter" destination="ktU-Wk-HJO" id="OWS-sH-nTU"/>
-                        <outlet property="btnTimer" destination="SeD-lR-VDE" id="tE8-Sn-bDg"/>
+                        <outlet property="btnShutter" destination="2Mn-zJ-uNp" id="Iw9-GL-Jhe"/>
+                        <outlet property="btnTimer" destination="ktU-Wk-HJO" id="7no-gt-QOk"/>
                         <outlet property="kPreviewHeight" destination="7PC-vg-6WQ" id="gO8-Aj-GIb"/>
                         <outlet property="lblRecordTimer" destination="q1G-sv-mO2" id="daD-0a-G9l"/>
                         <outlet property="previewCollection" destination="yDV-Ix-T4g" id="G6O-dq-lwV"/>
-                        <outlet property="viewFlashOptions" destination="2JO-bu-Ais" id="jl4-Dn-BBI"/>
+                        <outlet property="viewFlashOptions" destination="tpj-6S-gZt" id="3SC-Ei-Qyd"/>
                         <segue destination="jWd-JM-6cV" kind="presentation" identifier="containerSegue" id="XLY-Ky-gYb"/>
                     </connections>
                 </viewController>
@@ -2008,9 +1996,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Osh-Zg-mgi"/>
                     </view>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="viewStreamCollectionView" destination="7Vi-lE-2i7" id="FfY-D1-yxl"/>
                     </connections>
@@ -2235,9 +2220,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jcT-Ln-C3k"/>
                     </view>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="btnMenu" destination="srD-Qz-Wei" id="TeC-0h-JvT"/>
                         <outlet property="lblNoResult" destination="Ken-WH-2VU" id="agc-kf-DKw"/>
@@ -2406,9 +2388,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AW0-j5-GuK"/>
                     </view>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
-                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="lblNoResult" destination="zC5-BK-aQJ" id="u2t-uy-o0h"/>
                         <outlet property="myStreamCollectionView" destination="sAF-19-Jhz" id="4Bk-MZ-992"/>

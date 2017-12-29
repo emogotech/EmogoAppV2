@@ -66,6 +66,7 @@ let kStoryboardID_LinkView = "linkView"
 let kStoryboardID_GiphyView = "giphyView"
 let kStoryboardID_ImportView = "importView"
 let kStoryboardID_ContentView = "contentView"
+let kStoryboardID_ProfileView = "profileView"
 
 
 
@@ -86,6 +87,7 @@ let kHeader_MyStreamHeaderView = "myStreamHeaderView"
 let kCell_MyStreamCell = "myStreamCell"
 let kCell_MyStuffCell = "myStuffCell"
 let kCell_ImportCell = "importCell"
+let kCell_ProfileStreamCell = "profileStreamCell"
 
 
 

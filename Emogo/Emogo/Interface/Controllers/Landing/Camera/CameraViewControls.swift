@@ -89,6 +89,7 @@ extension CameraViewController {
         isCaptureMode = false
         self.btnGallery.isHidden = isShow
         self.btnRecording.isHidden = isShow
+        self.btnFlash.isHidden = isShow
         self.btnShutter.isHidden = isShow
         self.btnTimer.isHidden = isShow
         if isShow == true {

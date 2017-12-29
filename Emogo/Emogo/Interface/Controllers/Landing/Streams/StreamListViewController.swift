@@ -177,6 +177,9 @@ class StreamListViewController: UIViewController {
     }
     
     override func btnMyProfileAction() {
+        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+        self.navigationController?.push(viewController: obj)
+        /*
         let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to logout?", preferredStyle: .alert)
         let yes = UIAlertAction(title: "YES", style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -190,6 +193,7 @@ class StreamListViewController: UIViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
+ */
     }
 
     
@@ -248,7 +252,6 @@ class StreamListViewController: UIViewController {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
-       
     }
     
     
@@ -272,7 +275,6 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.streamCollectionView.reloadData()
-            
             
             self.lblNoResult.isHidden = true
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
@@ -298,7 +300,7 @@ class StreamListViewController: UIViewController {
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
-extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
+extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -329,6 +331,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
     }
     
+   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
@@ -338,7 +341,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: itemWidth, height: itemWidth)
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var cell = UICollectionReusableView()
         switch kind {
@@ -353,7 +355,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
            if isPeopleList  == false{
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+           // let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue

@@ -607,6 +607,7 @@ class APIServiceManager: NSObject {
     func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
         let param = ["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]
         let url = kContentAPI + "\(contentID)/"
+        print(url)
         
         APIManager.sharedInstance.patch(strURL: url, Param: param) { (result) in
             switch(result){
@@ -784,5 +785,45 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    
+    func apiForGetUserInfo(user:String, completionHandler:@escaping (_ profile:ProfileDAO?, _ strError:String?)->Void) {
+        let url = kProfileAPI + "\(user)"
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                           // let result:[Any] = data as! [Any]
+                            let profile = ProfileDAO(profileData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            completionHandler(profile,"")
+                        }
+                        /*
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                PeopleList.sharedInstance.requestURl = ""
+                                completionHandler(nil,"")
+                            }else {
+                                PeopleList.sharedInstance.requestURl = obj as! String
+                                completionHandler(nil,"")
+                            }
+                        }
+ */
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+    
     
 }
