@@ -170,7 +170,6 @@ class StreamViewController: MSMessagesAppViewController {
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
         self.lblStreamTitle.text = stream.Title
         self.lblStreamName.text = stream.Title
-        self.lblStreamDesc.text = "by \(stream.Author!)"
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
@@ -290,6 +289,7 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
+                        self.lblStreamDesc.text = self.objStream?.description.trim()
                         self.loadViewForUI()
                         self.collectionStreams.reloadData()
                         if self.hudView != nil {
