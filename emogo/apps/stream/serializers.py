@@ -245,7 +245,7 @@ class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Content
-        fields = '__all__'
+        fields = ['content_list']
 
 
 class ViewContentSerializer(ContentSerializer):
