@@ -250,7 +250,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnEditStream(_ sender:UIButton) {
         let stream = self.arrStream[currentStreamIndex]
-        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditContent)"
+        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
         SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
     }
     
@@ -312,8 +312,6 @@ class StreamViewController: MSMessagesAppViewController {
                             self.loadViewForUI()
                             for i in 0...(conntenData?.count)!-1 {
                                 let data : ContentDAO = conntenData![i]
-                                print(data.contentID)
-                                print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
                                 if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
                                     let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
                                     obj.arrContentData = (self.objStream?.arrayContent)!
@@ -340,7 +338,6 @@ class StreamViewController: MSMessagesAppViewController {
                     }
                 }
             }
-            
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)

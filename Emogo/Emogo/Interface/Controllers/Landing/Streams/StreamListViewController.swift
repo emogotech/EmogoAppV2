@@ -60,12 +60,16 @@ class StreamListViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
         
-        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent{
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditStream{
             let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
             obj.streamID = SharedData.sharedInstance.streamID
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
+            getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: SharedData.sharedInstance.contentID)
+        }
+        
         self.streamCollectionView.reloadData()
     }
     
@@ -284,6 +288,37 @@ class StreamListViewController: UIViewController {
             }
         }
     }
+    
+    func getStream(currentStreamID:String, currentConytentID:String){
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                let allContents = stream?.arrayContent
+              
+                
+                if ((allContents?.count)! > 0){
+                    
+                      let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    
+                    for i in 0...(stream?.arrayContent.count)!-1 {
+                        let data : ContentDAO = allContents![i]
+                        print(data.contentID)
+                        print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
+                        if data.contentID ==  currentConytentID {
+                            objPreview.seletedImage = data
+                            self.navigationController?.push(viewController: objPreview)
+                            break
+                        }
+                    }
+                }
+               
+                
+            
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 

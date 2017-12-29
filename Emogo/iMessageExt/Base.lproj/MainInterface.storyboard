@@ -1512,6 +1512,9 @@ Content</string>
                                                     <constraint firstAttribute="width" constant="40" id="Uca-Jn-4pO"/>
                                                 </constraints>
                                                 <state key="normal" image="edit-stream"/>
+                                                <connections>
+                                                    <action selector="btnEditAction:" destination="DDU-wj-KnI" eventType="touchUpInside" id="mWI-t8-bFH"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="calibratedWhite"/>

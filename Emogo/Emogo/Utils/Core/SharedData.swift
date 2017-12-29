@@ -22,6 +22,7 @@ class SharedData: NSObject {
     var deepLinkType : String = ""
     var savedConversation: MSConversation?
     var streamID:String = ""
+    var contentID:String = ""
     var iMessageNavigation : String = ""
     var iMessageNavigationStreamID : String = ""
     var iMessageNavigationCurrentStreamID : String = ""
@@ -186,45 +187,6 @@ class SharedData: NSObject {
         }
     }
     
-    //MARK:- User Data Local Detailed set and reset all User Data
-    func setUserInfo(dictObject:NSDictionary)  {
-        let defaultUser = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-        let encodedData : Data = NSKeyedArchiver.archivedData(withRootObject: dictObject)
-        defaultUser?.set(encodedData, forKey: "USER_DATA")
-        defaultUser?.synchronize()
-    }
-    
-    func dictUserInfo() -> NSDictionary  {
-        let defaultUser = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-        
-        
-        if(defaultUser?.object(forKey: "USER_DATA") == nil){
-            let dict : NSDictionary = NSDictionary()
-            print(dict.allKeys.count)
-            return dict
-        }else{
-            let encodedData : Data = defaultUser!.object(forKey: "USER_DATA") as! Data
-            guard  let tempDict : NSDictionary = NSKeyedUnarchiver.unarchiveObject(with: encodedData) as? NSDictionary else {
-                let dict : NSDictionary = NSDictionary()
-                print(dict.allKeys.count)
-                return dict
-            }
-            return tempDict
-        }
-    }
-    
-    func  resetAllData()  {
-        let defaultUser = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-        defaultUser?.set(nil, forKey: "USER_DATA")
-        defaultUser?.synchronize()
-    }
-    
-    func checkUserExsting() -> Bool{
-        if (SharedData.sharedInstance.dictUserInfo().count>0){
-            return true
-        }
-        return false
-    }
    
     func presentAppViewWithDeepLink(strURL : String) {
         guard let url = URL(string: strURL) else {
@@ -255,9 +217,7 @@ class SharedData: NSObject {
         print("Download Started")
         getDataFromUrl(url: imageURL) { data, response, error in
             guard let data = data, error == nil else { return }
-            print(response?.suggestedFilename ?? imageURL.lastPathComponent)
-            print(response?.mimeType)
-            print("Download Finished")
+
             DispatchQueue.main.async() {
                 print(data.count)
                 

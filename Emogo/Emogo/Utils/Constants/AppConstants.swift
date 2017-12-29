@@ -140,8 +140,9 @@ let kDeepLinkTypeProfile = "Profile"
 let kDeepLinkTypePeople = "People"
 let kDeepLinkTypeAddStream = "AddStream"
 let kDeepLinkTypeAddContent = "AddStreamContent"
+let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
-
+let kUserDefaltForContentData = "editContentData"
 
 // MARK: -  AlertMessage
 enum AlertType: String {

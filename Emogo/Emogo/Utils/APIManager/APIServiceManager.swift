@@ -155,8 +155,6 @@ class APIServiceManager: NSObject {
                             UserDAO.sharedInstance.parseUserInfo()
                             print(UserDAO.sharedInstance.user.fullName)
                             kDefault?.set(true, forKey: kUserLogggedIn)
-                            
-                            SharedData.sharedInstance.setUserInfo(dictObject: dictUserData)
                         }
                         completionHandler(true,"")
                     }else {
@@ -387,8 +385,9 @@ class APIServiceManager: NSObject {
     // MARK: - People List API
     func apiForViewStream(streamID:String,completionHandler:@escaping (_ stream:StreamViewDAO?, _ strError:String?)->Void){
         let url = kStreamViewAPI + "\(streamID)/"
+        
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
-            switch(result) {
+            switch(result){
             case .success(let value):
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
@@ -397,9 +396,8 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             print(data)
                             let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            SharedData.sharedInstance.streamContent?.CoverImage = (data as! NSDictionary).object(forKey: "image") as! String
-                            SharedData.sharedInstance.streamContent?.Title = (data as! NSDictionary).object(forKey: "name") as! String
                             completionHandler(stream,"")
+                            
                         }
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -410,6 +408,7 @@ class APIServiceManager: NSObject {
                 print(error.localizedDescription)
                 completionHandler(nil,error.localizedDescription)
             }
+            
         }
     }
     

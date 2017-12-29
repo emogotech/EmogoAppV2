@@ -66,24 +66,10 @@ class HomeViewController: MSMessagesAppViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: iMsgNotificationReloadContenData), object: nil)
         
         if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
-            var arrayTempStream  = [StreamDAO]()
-            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
-            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
-            obj.arrStream = arrayTempStream
-            obj.currentStreamIndex = 0
-            self.present(obj, animated: false, completion: nil)
-        }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
-            var arrayTempStream  = [StreamDAO]()
-            var streamDatas  = [String:Any]()
-            streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
-            SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
-            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
-            
-            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
-            obj.arrStream = arrayTempStream
-            obj.currentStreamIndex = 0
-            self.present(obj, animated: false, completion: nil)
-            
+             self.getStream(streamID: (SharedData.sharedInstance.streamContent?.ID)!)
+        }
+        else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+             self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
         }
     }
     
@@ -444,7 +430,6 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
         lblNoResult.text = "No Stream found"
-        
     
         if(SharedData.sharedInstance.iMessageNavigation != ""){
             return
@@ -478,6 +463,39 @@ class HomeViewController: MSMessagesAppViewController {
                 self.collectionStream!.collectionViewLayout = layout
 
                 if !(errorMsg?.isEmpty)! {
+                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                }
+            }
+        }
+        else {
+            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+        }
+    }
+    
+    //MARK:- calling webservice
+    @objc func getStream(streamID:String) {
+        if Reachability.isNetworkAvailable() {
+            APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                    let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+                    if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
+                        var arrayTempStream  = [StreamDAO]()
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        obj.arrStream = arrayTempStream
+                        
+                    }
+                    else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+                        var arrayTempStream  = [StreamDAO]()
+                        var streamDatas  = [String:Any]()
+                        streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
+                        SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        obj.arrStream = arrayTempStream
+                    }
+                    obj.currentStreamIndex = 0
+                    self.present(obj, animated: false, completion: nil)
+                }
+                else {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
             }
