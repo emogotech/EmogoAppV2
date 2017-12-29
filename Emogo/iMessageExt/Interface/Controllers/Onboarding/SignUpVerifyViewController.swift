@@ -120,7 +120,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         if Reachability.isNetworkAvailable() {
                  self.hudView.startLoaderWithAnimation()
             APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: txtVeryficationCode.text!,phone: self.phone!) { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
                 if isSuccess == true {
                     let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
                     self.addTransitionAtPresentingControllerRight()
@@ -140,7 +142,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.hudView.startLoaderWithAnimation()
 
             APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone!) { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
                 if isSuccess == true {
                     self.txtVeryficationCode.text = errorMsg
                 }

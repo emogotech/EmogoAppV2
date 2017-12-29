@@ -126,7 +126,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         if Reachability.isNetworkAvailable() {
             hudView.startLoaderWithAnimation()
             APIServiceManager.sharedInstance.apiForUserSignup(userName: self.userName!, phone: (txtMobileNumber.text?.trim())!, completionHandler: { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
                 if isSuccess == true {
                     let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
                     obj.OTP = errorMsg

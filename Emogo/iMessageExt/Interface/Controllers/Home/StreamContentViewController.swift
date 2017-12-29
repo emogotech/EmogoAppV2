@@ -49,9 +49,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
-        DispatchQueue.main.async {
-            self.hudView.startLoaderWithAnimation()
-        }
+        
     }
     
     // MARK:- Selector Methods
@@ -79,6 +77,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     @objc func prepareLayout(){
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
         loadViewForUI()
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -159,7 +160,9 @@ class StreamContentViewController: MSMessagesAppViewController {
             btnDelete.isHidden = false
         }
         DispatchQueue.main.async {
-            self.hudView.stopLoaderWithAnimation()
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
         }
     }
     
@@ -210,15 +213,17 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @objc func sendMessage(){
-        let message = MSMessage()
+        
+        let session = MSSession()
+        let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         layout.caption = lblStreamName.text!
         layout.image  = imgStream.image
         layout.subcaption = lblStreamDesc.text
         let content = self.arrContentData[currentContentIndex]
-        message.summaryText = "\(iMsg_NavigationContent) \(content.contentID!) \(currentStreamID!) "
-        
         message.layout = layout
+        
+          message.url = URL(string: "\(iMsg_NavigationContent)/\(content.contentID!)/\(currentStreamID!)")
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
     }
     

@@ -59,18 +59,12 @@ class HomeViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         
         setupLoader()
+        SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: iMsgNotificationReloadContenData), object: nil)
-    }
-    
-    @objc func reloadStreamData(){
-        self.getStreamList(type:.start,filter:self.streamType)
-    }
-    
-    // MARK:- prepareLayout
-    @objc func prepareLayout() {
+        
         if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
             var arrayTempStream  = [StreamDAO]()
             let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
@@ -91,6 +85,15 @@ class HomeViewController: MSMessagesAppViewController {
             self.present(obj, animated: false, completion: nil)
             
         }
+    }
+    
+    @objc func reloadStreamData(){
+        self.getStreamList(type:.start,filter:self.streamType)
+    }
+    
+    // MARK:- prepareLayout
+    @objc func prepareLayout() {
+        
         
         lblStreamSearch.font = lblPeopleSearch.font
         
@@ -275,7 +278,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     @objc func resignRefreshLoader(){
         self.refresher?.endRefreshing()
-        hudRefreshView.stopLoaderWithAnimation()
+        if hudRefreshView != nil {
+            hudRefreshView.stopLoaderWithAnimation()
+        }
         self.refresher?.frame = CGRect.zero
         self.collectionStream.reloadData()
     }
@@ -439,6 +444,11 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
         lblNoResult.text = "No Stream found"
+        
+    
+        if(SharedData.sharedInstance.iMessageNavigation != ""){
+            return
+        }
 
         if Reachability.isNetworkAvailable() {
             if type == .start {
@@ -522,7 +532,11 @@ class HomeViewController: MSMessagesAppViewController {
         lblNoResult.text = "No User found"
         
         APIServiceManager.sharedInstance.apiForGlobalSearchPeople(searchString: searchText) { (values, errorMsg) in
-            self.hudView.stopLoaderWithAnimation()
+            
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
+            
             if !(errorMsg?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 return
@@ -548,7 +562,9 @@ class HomeViewController: MSMessagesAppViewController {
         
         if SharedData.sharedInstance.iMessageNavigation == "" {
         APIServiceManager.sharedInstance.apiForGetStreamListFromGlobleSearch(strSearch: searchText) { (values, errorMsg) in
-            self.hudView.stopLoaderWithAnimation()
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
             if !(errorMsg?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 return
@@ -579,7 +595,9 @@ class HomeViewController: MSMessagesAppViewController {
             self.footerView?.loadingView.stopLoaderWithAnimation()
         }
         else  if(type == .start){
-            self.hudView.stopLoaderWithAnimation()
+            if hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
             self.resignRefreshLoader()
         }
         else{
@@ -676,13 +694,14 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     func sendMessage(content:StreamDAO, sender:Int) {
         let indexPath = NSIndexPath(row: sender, section: 0)
         if let sel = self.collectionStream.cellForItem(at: indexPath as IndexPath){
-            let message = MSMessage()
-            message.summaryText = "\(iMsg_NavigationStream) \(content.ID!) \(content.Author!) \(content.CoverImage!) \(content.IDcreatedBy!) \(content.Title!)"
+            let session = MSSession()
+            let message = MSMessage(session: session)
             let layout = MSMessageTemplateLayout()
             layout.caption = content.Title.trim()
             layout.subcaption = "by \(content.Author!)"
             layout.image  = (sel as! HomeCollectionViewCell).imgStream.image
             message.layout = layout
+            message.url = URL(string: "\(iMsg_NavigationStream)/\(content.ID!)/\(content.Author!)/\(content.CoverImage!)/\(content.IDcreatedBy!)")
             SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
         }
     }

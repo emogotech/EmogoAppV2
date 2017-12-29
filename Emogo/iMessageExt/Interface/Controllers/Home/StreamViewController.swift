@@ -292,8 +292,9 @@ class StreamViewController: MSMessagesAppViewController {
                         self.objStream = stream
                         self.loadViewForUI()
                         self.collectionStreams.reloadData()
-                        self.hudView.stopLoaderWithAnimation()
-                        
+                        if self.hudView != nil {
+                            self.hudView.stopLoaderWithAnimation()
+                        }
                     }
                     else {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -303,11 +304,12 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
-                        self.loadViewForUI()
-                        self.collectionStreams.reloadData()
-                        self.hudView.stopLoaderWithAnimation()
                         if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
                             let conntenData = self.objStream?.arrayContent
+                            var arrayTempStream  = [StreamDAO]()
+                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                            self.arrStream = arrayTempStream
+                            self.loadViewForUI()
                             for i in 0...(conntenData?.count)!-1 {
                                 let data : ContentDAO = conntenData![i]
                                 print(data.contentID)
@@ -315,16 +317,23 @@ class StreamViewController: MSMessagesAppViewController {
                                 if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
                                     let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
                                     obj.arrContentData = (self.objStream?.arrayContent)!
-                                    self.addRippleTransition()
                                     obj.currentStreamID = self.objStream?.streamID!
                                     obj.currentContentIndex  = i
                                     self.present(obj, animated: false, completion: nil)
-                                    return
+                                    
+                                    break
                                 }
                             }
+                        }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream{
+                            var arrayTempStream  = [StreamDAO]()
+                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                            self.arrStream = arrayTempStream
                         }
-                        
-
+                        self.loadViewForUI()
+                        self.collectionStreams.reloadData()
+                         if self.hudView != nil {
+                            self.hudView.stopLoaderWithAnimation()
+                        }
                    }
                     else {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -337,8 +346,6 @@ class StreamViewController: MSMessagesAppViewController {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
         }
     }
-    
-    
 }
 
 // MARK: -  Extension CollcetionView Delegates

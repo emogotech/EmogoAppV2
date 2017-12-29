@@ -90,7 +90,9 @@ class SignInViewController: MSMessagesAppViewController {
         if Reachability.isNetworkAvailable() {
             hudView.startLoaderWithAnimation()
             APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtMobileNumber.text?.trim())!) { (isSuccess, errorMsg) in
-                self.hudView.stopLoaderWithAnimation()
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
                 if isSuccess == true {
                     let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
                     if kDefault?.bool(forKey: kUserLogggedIn) == true {
