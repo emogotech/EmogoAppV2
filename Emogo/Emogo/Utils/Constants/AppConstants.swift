@@ -185,6 +185,7 @@ let iMsgPlaceHolderText_SignUpMobile             = "Your number here"
 let iMsgPlaceHolderText_SignUpVerify             = "Your code here"
 
 //Segue Identifires
+let iMsgSegue_Root                            = "MessagesViewController"
 let iMsgSegue_SignIn                                = "SignInViewController"
 let iMsgSegue_SignUpName                        = "SignUpNameViewController"
 let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"

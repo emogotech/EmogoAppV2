@@ -61,6 +61,15 @@ class HomeViewController: MSMessagesAppViewController {
         setupLoader()
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
+            kDefault?.set(false, forKey: kUserLogggedIn)
+            kDefault?.removeObject(forKey: kUserLogggedInData)
+            let obj:MessagesViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_Root) as! MessagesViewController
+            self.addTransitionAtNaviagtePrevious()
+            self.present(obj, animated: false, completion: nil)
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: iMsgNotificationReloadContenData), object: nil)
@@ -496,6 +505,9 @@ class HomeViewController: MSMessagesAppViewController {
                     self.present(obj, animated: false, completion: nil)
                 }
                 else {
+                    if self.hudView != nil {
+                        self.hudView.stopLoaderWithAnimation()
+                    }
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
             }
