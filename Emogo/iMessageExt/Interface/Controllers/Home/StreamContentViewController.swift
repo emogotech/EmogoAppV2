@@ -41,6 +41,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         let content = arrContentData.first
         if (content?.isAdd)! {
             arrContentData.remove(at: 0)
+            currentContentIndex = currentContentIndex - 1
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
