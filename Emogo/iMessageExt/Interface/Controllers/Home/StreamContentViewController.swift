@@ -138,6 +138,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
+        
+        if content.type != nil {
         if content.type == .image {
             self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
         }else{
@@ -147,6 +149,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                     self.imgStream.image = image
                 }
             }
+        }
         }
         
         lblStreamDesc.text = content.description.trim().capitalized
@@ -189,10 +192,12 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBAction func btnDeleteAction(_ sender:UIButton){
         let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteContentMsg , preferredStyle: .alert)
         let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+            self.hudView.startLoaderWithAnimation()
             let content = self.arrContentData[self.currentContentIndex]
             let contentIds = [content.contentID.trim()]
             if Reachability.isNetworkAvailable() {
                 APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
+                    self.hudView.stopLoaderWithAnimation()
                     if isSuccess == true {
                         ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
                         self.arrContentData.remove(at: self.currentContentIndex)
@@ -211,6 +216,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 }
             }
             else {
+                self.hudView.stopLoaderWithAnimation()
                 self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
             }
         }
