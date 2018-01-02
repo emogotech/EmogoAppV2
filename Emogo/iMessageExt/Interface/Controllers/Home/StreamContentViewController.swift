@@ -187,36 +187,58 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnDeleteAction(_ sender:UIButton){
-        let content = self.arrContentData[currentContentIndex]
-        let contentIds = [content.contentID.trim()]
-        if Reachability.isNetworkAvailable() {
-            APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
-                if isSuccess == true {
-                    ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
-                    self.arrContentData.remove(at: self.currentContentIndex)
-                    if(self.arrContentData.count == 0){
-                        self.dismiss(animated: true, completion: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
-                        return
+        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteContentMsg , preferredStyle: .alert)
+        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+            let content = self.arrContentData[self.currentContentIndex]
+            let contentIds = [content.contentID.trim()]
+            if Reachability.isNetworkAvailable() {
+                APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
+                    if isSuccess == true {
+                        ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+                        self.arrContentData.remove(at: self.currentContentIndex)
+                        if(self.arrContentData.count == 0){
+                            self.dismiss(animated: true, completion: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+                            return
+                        }
+                        if(self.currentContentIndex != 0){
+                            self.currentContentIndex = self.currentContentIndex - 1
+                        }
+                        self.loadViewForUI()
+                    } else {
+                        self.showToastIMsg(type: .error, strMSG: errorMsg!)
                     }
-                    if(self.currentContentIndex != 0){
-                        self.currentContentIndex = self.currentContentIndex - 1
-                    }
-                    self.loadViewForUI()
-                } else {
-                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
+            else {
+                self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            }
         }
-        else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
         }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+        
+        
     }
     
     @IBAction func btnEditAction(_ sender:UIButton){
-        let content = self.arrContentData[currentContentIndex]
-        let strUrl = "\(kDeepLinkURL)\(currentStreamID!)/\(content.contentID!)/\(kDeepLinkTypeEditContent)"
-        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        
+        let alert = UIAlertController(title: "Confirmation!", message: iMsgAlert_ConfirmationDescriptionForEditContent , preferredStyle: .alert)
+        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+            let content = self.arrContentData[self.currentContentIndex]
+            let strUrl = "\(kDeepLinkURL)\(self.currentStreamID!)/\(content.contentID!)/\(kDeepLinkTypeEditContent)"
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        }
+        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+      
     }
     
     @objc func sendMessage(){

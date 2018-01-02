@@ -1052,7 +1052,6 @@ extension HomeViewController : UIScrollViewDelegate {
                     self.footerView?.loadingView.isHidden = false
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
-              
                 if (isSearch == true && isStreamEnable == false && btnFeature.titleLabel?.text == kSearchType){
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
                 } else if (isSearch == true && isStreamEnable == true && btnFeature.titleLabel?.text == kSearchType){
