@@ -38,6 +38,10 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         SharedData.sharedInstance.tempViewController = self
         setupLoader()
+        let content = arrContentData.first
+        if (content?.isAdd)! {
+            arrContentData.remove(at: 0)
+        }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
