@@ -236,8 +236,19 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
-        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
-        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        
+        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescriptionForAddContent, preferredStyle: .alert)
+        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        }
+        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+       
     }
     
     @IBAction func btnShowCollaborator(_ sender:UIButton) {
@@ -248,30 +259,49 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnEditStream(_ sender:UIButton) {
-        let stream = self.arrStream[currentStreamIndex]
-        let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
-        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        let alert = UIAlertController(title: "Confirmation!", message: iMsgAlert_ConfirmationDescriptionForEditStream , preferredStyle: .alert)
+        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+            let stream = self.arrStream[self.currentStreamIndex]
+            let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        }
+        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
     }
     
     @IBAction func btnDeleteStream(_ sender:UIButton) {
-        let stream = self.arrStream[currentStreamIndex]
-        APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
-            if (errorMsg?.isEmpty)! {
-                self.arrStream.remove(at: self.currentStreamIndex)
-                StreamList.sharedInstance.arrayStream.remove(at:self.currentStreamIndex)
-                if(self.arrStream.count == 0){
-                    self.dismiss(animated: true, completion: nil)
-                    NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
-                    return
+        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteStreamMsg, preferredStyle: .alert)
+        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+            let stream = self.arrStream[self.currentStreamIndex]
+            APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                    self.arrStream.remove(at: self.currentStreamIndex)
+                    StreamList.sharedInstance.arrayStream.remove(at:self.currentStreamIndex)
+                    if(self.arrStream.count == 0){
+                        self.dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+                        return
+                    }
+                    if(self.currentStreamIndex != 0){
+                        self.currentStreamIndex = self.currentStreamIndex - 1
+                    }
+                    self.getStream(type: "Direct")
+                } else {
+                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
-                if(self.currentStreamIndex != 0){
-                    self.currentStreamIndex = self.currentStreamIndex - 1
-                }
-                self.getStream(type: "Direct")
-            } else {
-                self.showToastIMsg(type: .success, strMSG: errorMsg!)
             }
         }
+        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {

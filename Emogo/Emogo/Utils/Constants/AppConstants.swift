@@ -146,6 +146,8 @@ let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
 let kUserDefaltForContentData = "editContentData"
 
+let kSearchType = "PEOPLE"
+
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"
@@ -221,8 +223,19 @@ let iMsgError_NameSpace                         = "Space not allowed"
 
 let iMsgAlert_ConfirmationDescriptionForPeople           = "We need to redirect on Emogo App for the Peoples list, Do you want to go on Emogo?"
 let iMsgAlert_ConfirmationDescriptionForProfile           = "We need to redirect on Emogo App for the My Profile, Do you want to go on Emogo?"
+
+let iMsgAlert_ConfirmationDescriptionForEditStream           = "We need to redirect on Emogo App for the Edit stream, Do you want to go on Emogo?"
+
+let iMsgAlert_ConfirmationDescriptionForEditContent          = "We need to redirect on Emogo App for the Edit content, Do you want to go on Emogo?"
+
+let iMsgAlert_ConfirmationDescriptionForAddContent          = "We need to redirect on Emogo App for the Add content, Do you want to go on Emogo?"
+
+
 let iMsgAlert_ConfirmationTitle                 =  "Continue"
 let iMsgAlert_CancelTitle                 =  "Cancel"
+
+let kAlert_DeleteStreamMsg = "Are you sure, You want to Delete This Stream"
+let kAlert_DeleteContentMsg = "Are you sure, You want to Delete This Content"
 
 //Alert Types
 let iMsgAlertType_One = "1"
