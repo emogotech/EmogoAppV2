@@ -6,3 +6,4 @@
 #import "NSDictionary+NullRemover.h"
 #import "UIImage+ImageCompress.h"
 #import "KASlideShow.h"
+#import "RMPZoomTransitionAnimator.h"

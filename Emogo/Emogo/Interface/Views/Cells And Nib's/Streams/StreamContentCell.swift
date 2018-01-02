@@ -31,9 +31,12 @@ class StreamContentCell: UICollectionViewCell {
             if content.type == .image {
                 self.btnPlay.isHidden = true
                 self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
-            }else {
+            }else if content.type == .video  {
                 self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
                 self.btnPlay.isHidden = false
+            }else  if content.type == .link {
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.btnPlay.isHidden = true
             }
         }
      

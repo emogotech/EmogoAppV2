@@ -230,6 +230,7 @@
 		F4522CA41FCC1AA50021562D /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA31FCC1AA50021562D /* Animation.swift */; };
 		F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */; };
 		F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA71FCC46D20021562D /* PMSwitch.swift */; };
+		F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */; };
 		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
@@ -536,6 +537,8 @@
 		F45430921FBD6E8900DE80E6 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
 		F45430931FBD6E8A00DE80E6 /* SF-Pro-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Medium.otf"; sourceTree = "<group>"; };
 		F45430941FBD6E8B00DE80E6 /* SF-Pro-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Light.otf"; sourceTree = "<group>"; };
+		F454C97F1FFBC9B800DE887B /* RMPZoomTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMPZoomTransitionAnimator.h; sourceTree = "<group>"; };
+		F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMPZoomTransitionAnimator.m; sourceTree = "<group>"; };
 		F45A786F1FBC46A2003FD6AB /* AWSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AWSManager.swift; sourceTree = "<group>"; };
 		F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDAO.swift; sourceTree = "<group>"; };
 		F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
@@ -1130,6 +1133,8 @@
 		F404C0761FDABA7B00E8ACC2 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
+				F454C97F1FFBC9B800DE887B /* RMPZoomTransitionAnimator.h */,
+				F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -2084,6 +2089,7 @@
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
+				F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */,
 				F43612F11FD69B3200788FFE /* AGContrastFilter.metal in Sources */,
 				F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */,
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,

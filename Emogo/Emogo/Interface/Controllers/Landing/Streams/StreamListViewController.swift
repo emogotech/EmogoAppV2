@@ -18,6 +18,8 @@ class StreamListViewController: UIViewController {
 
     var lastIndex             : Int = 2
     
+    
+    
     @IBOutlet weak var menuView: FSPagerView! {
         didSet {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -40,6 +42,8 @@ class StreamListViewController: UIViewController {
     var isPeopleList:Bool! = false
 
     var currentStreamType:StreamType! = .featured
+    
+    
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -80,9 +84,7 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        
         // Logout User if Token Is Expired
-
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
             kDefault?.set(false, forKey: kUserLogggedIn)
             kDefault?.removeObject(forKey: kUserLogggedInData)
@@ -376,6 +378,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
            if isPeopleList  == false{
+            
            // let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
@@ -394,6 +397,25 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
        
     }
     
+}
+
+
+extension StreamListViewController:UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        let sourceTransition = fromVC as? (RMPZoomTransitionAnimating & RMPZoomTransitionDelegate)
+        let destinationTransition = toVC as? (RMPZoomTransitionAnimating & RMPZoomTransitionDelegate)
+        if sourceTransition is RMPZoomTransitionAnimating && destinationTransition is RMPZoomTransitionAnimating {
+            let animator = RMPZoomTransitionAnimator()
+            animator.goingForward = operation == .push
+            animator.sourceTransition = sourceTransition
+            animator.destinationTransition = destinationTransition
+            return animator as? UIViewControllerAnimatedTransitioning
+        }
+        return nil
+     }
+
 }
 
 

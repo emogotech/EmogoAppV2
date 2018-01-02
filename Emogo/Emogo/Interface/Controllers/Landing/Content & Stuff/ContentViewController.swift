@@ -269,6 +269,13 @@ class ContentViewController: UIViewController {
     
     
     @objc func openFullView(){
+        if seletedImage.type == .link {
+            guard let url = URL(string: seletedImage.coverImage) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+            return
+        }
         var arrayContents = [LightboxImage]()
         var index:Int! = 0
         var arrayTemp = [ContentDAO]()

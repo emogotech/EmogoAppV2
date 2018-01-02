@@ -27,8 +27,10 @@ class PreviewCell: UICollectionViewCell {
         }
         if content.type == .image {
             self.playIcon.isHidden = true
-        }else {
+        }else if content.type == .video{
             self.playIcon.isHidden = false
+        }else {
+            self.playIcon.isHidden = true
         }
        
         

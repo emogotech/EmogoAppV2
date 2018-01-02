@@ -337,7 +337,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = kNavigationColor
-        let img = UIImage(named: "click_link_icon")
+        let img = UIImage(named: "forward_icon")
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
         self.navigationItem.rightBarButtonItem = btnback
         let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
@@ -368,18 +368,11 @@ extension UIViewController {
 
 extension UIViewController:SFSafariViewControllerDelegate {
     func openURL(url:URL) {
-            if UIApplication.shared.canOpenURL(url){
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }else{
+        
             if #available(iOS 9.0, *) {
                 let safariController = SFSafariViewController(url: url as URL)
                 safariController.delegate = self
-                safariController.view.tintColor = kNavigationColor
-                if #available(iOS 10.0, *) {
-                    safariController.preferredControlTintColor = kNavigationColor
-                } else {
-                    safariController.view.tintColor = kNavigationColor
-                }
+                
                 let navigationController = UINavigationController(rootViewController: safariController)
                 navigationController.setNavigationBarHidden(true, animated: false)
                 self.present(navigationController, animated: true, completion: nil)
@@ -387,7 +380,6 @@ extension UIViewController:SFSafariViewControllerDelegate {
                 if UIApplication.shared.canOpenURL(url){
                     UIApplication.shared.openURL(url)
                 }
-            }
         }
         
     }
