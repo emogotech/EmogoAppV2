@@ -1304,8 +1304,8 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Collaborator0" translatesAutoresizingMaskIntoConstraints="NO" id="Qid-Sv-vxh">
                                                             <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FOOD 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmx-kh-WjD">
-                                                            <rect key="frame" x="8" y="73" width="124" height="27"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmx-kh-WjD">
+                                                            <rect key="frame" x="0.0" y="73" width="140" height="27"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.25321852992957744" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="27" id="Te9-ZL-0RY"/>
@@ -1314,16 +1314,28 @@
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFi-rN-SNY">
+                                                            <rect key="frame" x="6" y="73" width="128" height="27"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="27" id="P0C-cM-EFq"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="11"/>
+                                                            <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="Qid-Sv-vxh" firstAttribute="top" secondItem="o0u-Q0-02M" secondAttribute="top" id="0c1-Gd-gpE"/>
-                                                        <constraint firstAttribute="trailing" secondItem="tmx-kh-WjD" secondAttribute="trailing" constant="8" id="0cN-ab-9jd"/>
+                                                        <constraint firstAttribute="trailing" secondItem="tmx-kh-WjD" secondAttribute="trailing" id="0cN-ab-9jd"/>
                                                         <constraint firstItem="Qid-Sv-vxh" firstAttribute="leading" secondItem="o0u-Q0-02M" secondAttribute="leading" id="8SF-KZ-VaS"/>
-                                                        <constraint firstItem="tmx-kh-WjD" firstAttribute="leading" secondItem="o0u-Q0-02M" secondAttribute="leading" constant="8" id="HnP-Rp-wJD"/>
+                                                        <constraint firstItem="tmx-kh-WjD" firstAttribute="leading" secondItem="o0u-Q0-02M" secondAttribute="leading" id="HnP-Rp-wJD"/>
+                                                        <constraint firstAttribute="trailing" secondItem="BFi-rN-SNY" secondAttribute="trailing" constant="6" id="KTZ-zI-QBD"/>
                                                         <constraint firstAttribute="bottom" secondItem="Qid-Sv-vxh" secondAttribute="bottom" id="Lne-px-Whu"/>
                                                         <constraint firstAttribute="bottom" secondItem="tmx-kh-WjD" secondAttribute="bottom" id="VgD-Rc-A7Q"/>
+                                                        <constraint firstItem="BFi-rN-SNY" firstAttribute="leading" secondItem="o0u-Q0-02M" secondAttribute="leading" constant="6" id="cYm-Rp-b1F"/>
                                                         <constraint firstAttribute="trailing" secondItem="Qid-Sv-vxh" secondAttribute="trailing" id="gXk-mf-hcc"/>
+                                                        <constraint firstAttribute="bottom" secondItem="BFi-rN-SNY" secondAttribute="bottom" id="qBV-n5-oQA"/>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6l4-wc-RqV">
@@ -1368,7 +1380,7 @@ Content</string>
                                         </constraints>
                                         <connections>
                                             <outlet property="imgCover" destination="Qid-Sv-vxh" id="C7T-Si-R5V"/>
-                                            <outlet property="lblName" destination="tmx-kh-WjD" id="ZfJ-TQ-HXN"/>
+                                            <outlet property="lblName" destination="BFi-rN-SNY" id="r5U-3A-tlf"/>
                                             <outlet property="viewAddContent" destination="6l4-wc-RqV" id="jw6-9g-FkN"/>
                                         </connections>
                                     </collectionViewCell>
