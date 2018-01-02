@@ -236,8 +236,19 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
-        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
-        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        
+        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescriptionForAddContent, preferredStyle: .alert)
+        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        }
+        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+       
     }
     
     @IBAction func btnShowCollaborator(_ sender:UIButton) {

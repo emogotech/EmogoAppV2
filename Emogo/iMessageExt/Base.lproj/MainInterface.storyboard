@@ -1342,8 +1342,12 @@ Content</string>
                                                             <rect key="frame" x="50" y="15" width="40" height="40"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                             <state key="normal" image="addContent"/>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nHh-I3-mTn">
+                                                            <rect key="frame" x="0.0" y="1" width="140" height="99"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <connections>
-                                                                <action selector="btnAddStreamContent:" destination="z62-HT-68H" eventType="touchUpInside" id="3NS-9Q-AMj"/>
+                                                                <action selector="btnAddStreamContent:" destination="z62-HT-68H" eventType="touchUpInside" id="HYB-vg-ywi"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
@@ -1412,7 +1416,7 @@ Content</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k4e-dR-xZK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1208" y="811"/>
+            <point key="canvasLocation" x="1207.5" y="810.21126760563379"/>
         </scene>
         <!--Stream Content View Controller-->
         <scene sceneID="aNg-sh-tVh">

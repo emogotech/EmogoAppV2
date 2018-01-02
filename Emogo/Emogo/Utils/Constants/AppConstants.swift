@@ -228,6 +228,8 @@ let iMsgAlert_ConfirmationDescriptionForEditStream           = "We need to redir
 
 let iMsgAlert_ConfirmationDescriptionForEditContent          = "We need to redirect on Emogo App for the Edit content, Do you want to go on Emogo?"
 
+let iMsgAlert_ConfirmationDescriptionForAddContent          = "We need to redirect on Emogo App for the Add content, Do you want to go on Emogo?"
+
 
 let iMsgAlert_ConfirmationTitle                 =  "Continue"
 let iMsgAlert_CancelTitle                 =  "Cancel"
