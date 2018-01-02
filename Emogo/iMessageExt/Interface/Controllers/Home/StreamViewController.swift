@@ -30,6 +30,7 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Variables
     var lblCount                            : UILabel!
     var arrStream                           = [StreamDAO]()
+    
     var currentStreamIndex                  : Int!
     var hudView                             : LoadingView!
     var objStream                           :StreamViewDAO?
@@ -166,10 +167,12 @@ class StreamViewController: MSMessagesAppViewController {
     
     // MARK: - Load Data in UI
     func loadViewForUI() {
-        let stream = self.arrStream[currentStreamIndex]
-        self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
-        self.lblStreamTitle.text = stream.Title
-        self.lblStreamName.text = stream.Title
+        self.imgStream.setImageWithURL(strImage: (self.objStream?.coverImage.trim())!, placeholder: "stream-card-placeholder")
+        self.lblStreamTitle.text = ""
+        self.lblStreamName.text = ""
+        self.lblStreamDesc.text = ""
+        self.lblStreamName.text = self.objStream?.title
+        self.lblStreamDesc.text = self.objStream?.description
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
@@ -180,7 +183,7 @@ class StreamViewController: MSMessagesAppViewController {
             btnCollaborator.isUserInteractionEnabled = true
             lblCount.isHidden = false
         }
-        if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
+        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
             btnEdit.isHidden = false
             btnDelete.isHidden = false
         }
