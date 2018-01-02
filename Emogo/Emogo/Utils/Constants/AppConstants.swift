@@ -146,6 +146,8 @@ let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
 let kUserDefaltForContentData = "editContentData"
 
+let kSearchType = "PEOPLE"
+
 // MARK: -  AlertMessage
 enum AlertType: String {
     case success = "1"
