@@ -183,21 +183,7 @@ class StreamListViewController: UIViewController {
     override func btnMyProfileAction() {
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
         self.navigationController?.push(viewController: obj)
-        /*
-        let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to logout?", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            kDefault?.set(false, forKey: kUserLogggedIn)
-            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
-            self.navigationController?.reverseFlipPush(viewController: obj)
-        }
-        let no = UIAlertAction(title: "NO", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(yes)
-        alert.addAction(no)
-        present(alert, animated: true, completion: nil)
- */
+       
     }
 
     

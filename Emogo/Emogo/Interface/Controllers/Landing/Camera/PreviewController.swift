@@ -136,8 +136,10 @@ class PreviewController: UIViewController {
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
-        }else {
+        }else if seletedImage.type == .video {
             self.btnPlayIcon.isHidden = false
+        }else {
+            self.btnPlayIcon.isHidden = true
         }
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview

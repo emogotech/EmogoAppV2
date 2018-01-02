@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lightbox
 
 class ViewStreamController: UIViewController {
     
@@ -160,6 +161,9 @@ class ViewStreamController: UIViewController {
         // self.navigationController?.pop()
     }
     
+    @objc func btnPlayAction(sender:UIButton){
+        self.openFullView(index: sender.tag)
+    }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -199,6 +203,11 @@ class ViewStreamController: UIViewController {
         self.updateLayOut()
     }
     
+   @objc func btnColabAction(){
+    let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
+    obj.arrayColab = self.objStream?.arrayColab
+    self.navigationController?.push(viewController: obj)
+    }
 /*
    @objc  func btnNextAction(){
     
@@ -237,6 +246,44 @@ class ViewStreamController: UIViewController {
         self.getStream(currentStream:stream )
     }
      */
+    
+   
+    
+    func openFullView(index:Int){
+            var arrayContents = [LightboxImage]()
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        for obj in array! {
+                var image:LightboxImage!
+                if obj.type == .image {
+                    if obj.imgPreview != nil {
+                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                    }else{
+                        let url = URL(string: obj.coverImage)
+                        if url != nil {
+                            image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                        }
+                    }
+                }else if obj.type == .video {
+                    if obj.imgPreview != nil {
+                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                    }else {
+                        let url = URL(string: obj.coverImage)
+                        let videoUrl = URL(string: obj.coverImage)
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                    }
+                }
+                if image != nil {
+                    arrayContents.append(image)
+                }
+            }
+            
+            let controller = LightboxController(images: arrayContents, startIndex: index - 1)
+            controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
+    }
+    
 
     // MARK: - API Methods
 
@@ -302,6 +349,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        cell.btnPlay.tag = indexPath.row
+        cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
         cell.prepareLayout(content:content!)
         return cell
     }
@@ -318,6 +367,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let  view:StreamViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
             view.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
             view.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
+            view.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
             view.prepareLayout(stream:self.objStream)
             return view
         default:

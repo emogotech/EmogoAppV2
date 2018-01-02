@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol MyStreamHeaderViewDelegate {
+    func selected(index:Int)
+}
+
 class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDataSource {
     
     @IBOutlet weak var lblName: UILabel!
@@ -16,16 +20,19 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
     @IBOutlet weak var sliderCover: KASlideShow!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
-
     var arrayContent = [Any]()
+    var arrayContents = [ContentDAO]()
+    var delegate:MyStreamHeaderViewDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         arrayContent = [Any]()
+        self.btnPlay.addTarget(self, action: #selector(self.playButtonAction(sender:)), for: .touchUpInside)
+
     }
 
     func prepareLayout(contents:[ContentDAO]){
-        
+        arrayContents = contents
         for obj in contents {
             if obj.type == .image {
                 if obj.imgPreview != nil {
@@ -60,6 +67,7 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
         sliderCover.reloadData()
     }
     
+    
     func prepareLayout(content:ContentDAO?) {
         guard let content = content  else {
             return
@@ -76,8 +84,15 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
             self.btnPlay.isHidden = false
         }
     }
-
     
+    
+    @objc func playButtonAction(sender:UIButton){
+        if self.delegate != nil {
+            self.delegate?.selected(index: Int(sliderCover.currentIndex))
+        }
+    }
+
+
     // MARK: - KASlideShow datasource
     
     func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
@@ -88,17 +103,20 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
     }
     // MARK: - KASlideShow delegate
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
-        let content = ContentList.sharedInstance.arrayContent[Int(slideShow.currentIndex)]
+        self.btnPlay.tag = Int(slideShow.currentIndex)
+        let content = arrayContents[Int(slideShow.currentIndex)]
         self.prepareLayout(content: content)
     }
     func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
-        let content = ContentList.sharedInstance.arrayContent[Int(slideShow.currentIndex)]
+        self.btnPlay.tag = Int(slideShow.currentIndex)
+        let content = arrayContents[Int(slideShow.currentIndex)]
         self.prepareLayout(content: content)
     }
     func slideShowDidSelect(_ slideShow: KASlideShow!) {
-      
+        if delegate != nil {
+            self.delegate?.selected(index: Int(slideShow.currentIndex))
+        }
     }
-    
     
 }
 

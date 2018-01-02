@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lightbox
 
 class MyStuffViewController: UIViewController {
     
@@ -72,6 +73,45 @@ class MyStuffViewController: UIViewController {
             }
         }
        
+    }
+    
+    @objc func btnPlayAction(sender:UIButton){
+        self.openFullView(index: sender.tag)
+    }
+    
+    // MARK: - Class Methods
+    func openFullView(index:Int){
+        var arrayContents = [LightboxImage]()
+        for obj in ContentList.sharedInstance.arrayStuff {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: index)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            self.parent?.present(controller, animated: true, completion: nil)
+        }
     }
     
     // MARK: - API Methods
@@ -141,6 +181,8 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        cell.btnPlay.tag = indexPath.row
+        cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
         cell.prepareLayout(content:content)
         return cell
     }
@@ -164,7 +206,6 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
             self.updateSelected(obj: content)
         }
-        
     }
     
     func updateSelected(obj:ContentDAO){

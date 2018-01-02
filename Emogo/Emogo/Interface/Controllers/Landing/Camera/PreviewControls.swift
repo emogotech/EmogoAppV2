@@ -21,6 +21,12 @@ extension PreviewController {
     }
     
    @objc func openFullView(){
+    if seletedImage.type == .link {
+        guard let url = URL(string: seletedImage.coverImage) else {
+            return //be safe
+        }
+        self.openURL(url: url)
+    }else {
         var arrayContents = [LightboxImage]()
         for obj in ContentList.sharedInstance.arrayContent {
             var image:LightboxImage!
@@ -33,7 +39,7 @@ extension PreviewController {
                 }
             }else {
                 if obj.imgPreview != nil {
-                image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
                 }else {
                     let url = URL(string: obj.coverImage)
                     let videoUrl = URL(string: obj.coverImage)
@@ -48,6 +54,8 @@ extension PreviewController {
         let controller = LightboxController(images: arrayContents, startIndex: self.selectedIndex)
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
+    }
+    
     }
 }
 

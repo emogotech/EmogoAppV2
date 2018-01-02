@@ -48,7 +48,9 @@ class ProfileViewController: UIViewController {
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
-        self.userProfile()
+        self.title = "Profile"
+        self.configureProfileNavigation()
+    //    self.userProfile()
     }
     
     
@@ -74,7 +76,7 @@ class ProfileViewController: UIViewController {
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .colabs
             break
-        case 102:
+        case 103:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
@@ -87,11 +89,27 @@ class ProfileViewController: UIViewController {
     }
     
     
+    override func btnLogoutAction() {
+         let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to logout?", preferredStyle: .alert)
+         let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+         alert.dismiss(animated: true, completion: nil)
+         kDefault?.set(false, forKey: kUserLogggedIn)
+         let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
+         self.navigationController?.reverseFlipPush(viewController: obj)
+         }
+         let no = UIAlertAction(title: "NO", style: .default) { (action) in
+         alert.dismiss(animated: true, completion: nil)
+         }
+         alert.addAction(yes)
+         alert.addAction(no)
+         present(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - API
 
     
     func userProfile(){
-        HUDManager.sharedInstance.showHUD()
+       // HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetUserInfo(user: UserDAO.sharedInstance.user.userId!) { (profile, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Lightbox
 
 class ContentViewController: UIViewController {
 
@@ -46,7 +47,6 @@ class ContentViewController: UIViewController {
     
     func prepareLayout() {
          if self.isEdit == nil {
-            isEdit = true
             imgCover.isUserInteractionEnabled = true
             let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -58,12 +58,18 @@ class ContentViewController: UIViewController {
          }else {
             self.btnAddToStream.isHidden = true
         }
+        
+        self.imgCover.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
+        tap.numberOfTapsRequired = 2
+        self.imgCover.addGestureRecognizer(tap)
+        
         self.updateContent()
     }
     
     
     func updateContent() {
-        if self.seletedImage == nil {
+        if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
         self.txtTitleImage.text = ""
@@ -72,7 +78,7 @@ class ContentViewController: UIViewController {
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
-        if !seletedImage.name.isEmpty {
+        if !seletedImage.name.trim().isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
@@ -89,9 +95,12 @@ class ContentViewController: UIViewController {
             if seletedImage.type == .image {
                 self.btnPlayIcon.isHidden = true
                 self.imgCover.setImageWithURL(strImage: seletedImage.coverImage, placeholder: "stream-card-placeholder")
-            }else {
+            }else   if seletedImage.type == .video {
                 self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
                 self.btnPlayIcon.isHidden = false
+            }else if seletedImage.type == .link {
+                self.btnPlayIcon.isHidden = true
+                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
             }
         }
         if self.seletedImage.isEdit == false {
@@ -170,6 +179,10 @@ class ContentViewController: UIViewController {
         }
     }
     
+    @IBAction func btnPlayAction(_ sender: Any) {
+        self.openFullView()
+    }
+    
     @IBAction func btnDeleteAction(_ sender: Any) {
         
         if  ContentList.sharedInstance.arrayContent.count != 0 {
@@ -242,14 +255,62 @@ class ContentViewController: UIViewController {
             self.deleteContent()
         }else {
             ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
-            if  ContentList.sharedInstance.arrayContent.count != 0 {
-                updateContent()
-            }else{
+            self.currentIndex =  self.currentIndex - 1
+            if(self.currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
+                self.next()
+            }else {
+                self.previous()
+            }
+            if  ContentList.sharedInstance.arrayContent.count == 0 {
                 self.navigationController?.pop()
             }
         }
     }
     
+    
+    @objc func openFullView(){
+        var arrayContents = [LightboxImage]()
+        var index:Int! = 0
+        var arrayTemp = [ContentDAO]()
+        if isEdit == nil {
+            index = self.currentIndex
+            arrayTemp = ContentList.sharedInstance.arrayContent
+        }else{
+            arrayTemp.append(seletedImage)
+        }
+        for obj in arrayTemp {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: index)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
+    }
+    
+   
     func deleteContent(){
         HUDManager.sharedInstance.showHUD()
         let content = [seletedImage.contentID.trim()]
@@ -257,12 +318,25 @@ class ContentViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 self.deleteFileFromAWS(content: self.seletedImage)
-                ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
-                if  ContentList.sharedInstance.arrayContent.count != 0 {
-                    self.updateContent()
-                }else{
-                    self.navigationController?.pop()
+                if self.isEdit == nil {
+                    ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    self.currentIndex =  self.currentIndex - 1
+                    if(self.currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
+                        self.next()
+                    }else {
+                        self.previous()
+                    }
+                    
+                    if  ContentList.sharedInstance.arrayContent.count == 0 {
+                        self.navigationController?.pop()
+                    }
+                }else {
+                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+                        ContentList.sharedInstance.arrayContent.remove(at: index)
+                        self.navigationController?.pop()
+                    }
                 }
+               
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
@@ -287,6 +361,9 @@ class ContentViewController: UIViewController {
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
                 }else {
+                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
+                        ContentList.sharedInstance.arrayContent[index] = content!
+                    }
                     self.seletedImage = content
                 }
                 self.updateContent()
@@ -334,5 +411,17 @@ extension ContentViewController:PhotoEditorDelegate
     func canceledEditing() {
         print("Canceled")
         AppDelegate.appDelegate.keyboardResign(isActive: true)
+    }
+}
+
+
+extension ContentViewController:UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == txtTitleImage {
+            txtDescription.becomeFirstResponder()
+        }else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 }

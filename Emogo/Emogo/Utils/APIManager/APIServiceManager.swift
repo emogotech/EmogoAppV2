@@ -796,8 +796,8 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                            // let result:[Any] = data as! [Any]
-                            let profile = ProfileDAO(profileData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            completionHandler(profile,"")
+                           // let profile = ProfileDAO(profileData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                         //   completionHandler(profile,"")
                         }
                         /*
                         if let obj = (value as! [String:Any])["next"]{

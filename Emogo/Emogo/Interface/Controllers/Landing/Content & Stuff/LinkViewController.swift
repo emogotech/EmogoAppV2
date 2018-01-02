@@ -58,30 +58,28 @@ class LinkViewController: UIViewController {
             let articleUrl = URL(string: txtLink.text!)
             Readability.parse(url: articleUrl!, completion: { data in
                 print(data)
-                let title = data?.title
-                let description = data?.description
-                let keywords = data?.keywords
-                let imageUrl = data?.topImage
-                let videoUrl = data?.topVideo
-                print(title)
-                print(description)
-                print(keywords)
-                print(imageUrl)
-                print(videoUrl)
-                let content = ContentDAO(contentData: [:])
-                if let title = title {
-                    content.name = title.trim()
+                if data != nil {
+                    let title = data?.title
+                    let description = data?.description
+                    let keywords = data?.keywords
+                    let imageUrl = data?.topImage
+                    let videoUrl = data?.topVideo
+                   
+                    let content = ContentDAO(contentData: [:])
+                    if let title = title {
+                        content.name = title.trim()
+                    }
+                    if let description = description {
+                        content.description = description.trim()
+                    }
+                    if let imageUrl = imageUrl {
+                        content.coverImageVideo = imageUrl.trim()
+                    }
+                    content.coverImage = articleUrl?.absoluteString
+                    content.type = .link
+                    content.isUploaded = false
+                    self.createContentForExtractedData(content: content)
                 }
-                if let description = description {
-                    content.description = description.trim()
-                }
-                if let imageUrl = imageUrl {
-                    content.coverImageVideo = imageUrl.trim()
-                }
-                content.coverImage = articleUrl?.absoluteString
-                content.type = .link
-                content.isUploaded = false
-                self.createContentForExtractedData(content: content)
             })
         }else{
             print("Invalid")
@@ -117,6 +115,7 @@ class LinkViewController: UIViewController {
     
     func getMyLinks(type:RefreshType){
         if type == .start{
+            HUDManager.sharedInstance.showHUD()
             ContentList.sharedInstance.arrayLink.removeAll()
             self.linkCollectionView.reloadData()
         }
@@ -224,4 +223,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
 }
+
+
+
 

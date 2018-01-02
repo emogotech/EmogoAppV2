@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Lightbox
+
 
 class MyStreamViewController: UIViewController {
     
@@ -90,12 +92,48 @@ class MyStreamViewController: UIViewController {
         self.navigationController?.pop()
     }
 
-    @objc func playButtonAction(sender:UIButton){
-        
-    }
+    
 
     // MARK: - Class Methods
-    
+    func openFullView(index:Int){
+        var arrayContents = [LightboxImage]()
+        var arrayTemp = [ContentDAO]()
+        if objContent == nil {
+            arrayTemp = ContentList.sharedInstance.arrayContent
+        }else{
+            arrayTemp.append(objContent)
+        }
+        for obj in arrayTemp {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: index)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
+    }
     
     // MARK: - API Methods
     
@@ -208,7 +246,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
                 view.prepareLayout(contents: ContentList.sharedInstance.arrayContent)
             }
             view.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
-            view.btnPlay.addTarget(self, action: #selector(self.playButtonAction(sender:)), for: .touchUpInside)
+            view.delegate = self
             return view
         default:
             assert(false, "Unexpected element kind")
@@ -232,3 +270,10 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
 }
 
+
+
+extension MyStreamViewController:MyStreamHeaderViewDelegate {
+    func selected(index: Int) {
+        self.openFullView(index:index)
+    }
+}

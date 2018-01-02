@@ -31,7 +31,11 @@ class StreamViewHeader: UICollectionViewCell {
         }
         self.imgCover.contentMode = .scaleAspectFill
      //   self.imgCover.backgroundColor = .black
-        btnCollab.badgeString = "\(objStream.arrayColab.count)"
+        if objStream.arrayColab.count == 0 {
+            btnCollab.badgeString = ""
+        }else {
+            btnCollab.badgeString = "\(objStream.arrayColab.count)"
+        }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
         self.imgCover.setImageWithURL(strImage: objStream.coverImage, placeholder: "stream-card-placeholder")

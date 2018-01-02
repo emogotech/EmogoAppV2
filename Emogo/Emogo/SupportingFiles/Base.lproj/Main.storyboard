@@ -1813,43 +1813,54 @@
                                     <inset key="sectionInset" minX="0.0" minY="40" maxX="0.0" maxY="40"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="peopleCell" reuseIdentifier="peopleCell" id="am4-zQ-ILX" customClass="PeopleCell" customModule="Emogo" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addCollaboratorsViewCell" id="Hd1-u3-I1Y" customClass="AddCollaboratorsViewCell" customModule="Emogo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="40" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iHJ-tx-JHl">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FVv-ks-Rhb">
                                                     <rect key="frame" x="15" y="6" width="70" height="70"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="70" id="y70-9X-Qgi"/>
-                                                        <constraint firstAttribute="width" constant="70" id="zIu-nn-nEI"/>
+                                                        <constraint firstAttribute="width" constant="70" id="APi-ON-OMj"/>
+                                                        <constraint firstAttribute="height" constant="70" id="jGe-fj-96m"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCG-0D-fUm">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WpF-zN-pjh">
                                                     <rect key="frame" x="0.0" y="79" width="100" height="21"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="0An-ac-pTa"/>
+                                                        <constraint firstAttribute="height" constant="21" id="H29-jv-oRt"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
                                                     <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select_icon" translatesAutoresizingMaskIntoConstraints="NO" id="otj-IO-Pzu">
+                                                    <rect key="frame" x="15" y="6" width="70" height="70"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.67843137249999996" blue="0.95294117649999999" alpha="0.796875" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="A0b-8H-i2Y"/>
+                                                        <constraint firstAttribute="width" constant="70" id="Pb1-Cu-mCV"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                         </view>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="iHJ-tx-JHl" firstAttribute="centerX" secondItem="am4-zQ-ILX" secondAttribute="centerX" id="6Uz-mE-Yhk"/>
-                                            <constraint firstItem="VCG-0D-fUm" firstAttribute="leading" secondItem="am4-zQ-ILX" secondAttribute="leading" id="Fhn-Bm-fNd"/>
-                                            <constraint firstItem="iHJ-tx-JHl" firstAttribute="top" secondItem="am4-zQ-ILX" secondAttribute="top" constant="6" id="P6P-qI-t33"/>
-                                            <constraint firstAttribute="trailing" secondItem="VCG-0D-fUm" secondAttribute="trailing" id="sgf-UV-J4h"/>
-                                            <constraint firstItem="VCG-0D-fUm" firstAttribute="top" secondItem="iHJ-tx-JHl" secondAttribute="bottom" constant="3" id="yqe-jM-6Qd"/>
+                                            <constraint firstItem="FVv-ks-Rhb" firstAttribute="top" secondItem="Hd1-u3-I1Y" secondAttribute="top" constant="6" id="2x7-JD-imy"/>
+                                            <constraint firstAttribute="trailing" secondItem="WpF-zN-pjh" secondAttribute="trailing" id="2yv-s4-qXt"/>
+                                            <constraint firstItem="otj-IO-Pzu" firstAttribute="centerX" secondItem="FVv-ks-Rhb" secondAttribute="centerX" id="6Nm-cK-hPU"/>
+                                            <constraint firstItem="WpF-zN-pjh" firstAttribute="top" secondItem="FVv-ks-Rhb" secondAttribute="bottom" constant="3" id="RCx-FM-0D7"/>
+                                            <constraint firstItem="FVv-ks-Rhb" firstAttribute="centerX" secondItem="Hd1-u3-I1Y" secondAttribute="centerX" id="X0k-gv-Km8"/>
+                                            <constraint firstItem="WpF-zN-pjh" firstAttribute="leading" secondItem="Hd1-u3-I1Y" secondAttribute="leading" id="fhS-DA-qiG"/>
+                                            <constraint firstItem="otj-IO-Pzu" firstAttribute="centerY" secondItem="FVv-ks-Rhb" secondAttribute="centerY" id="hGB-rk-kqf"/>
                                         </constraints>
                                         <size key="customSize" width="100" height="100"/>
                                         <connections>
-                                            <outlet property="imgUser" destination="iHJ-tx-JHl" id="OaY-Ha-zZS"/>
-                                            <outlet property="lblName" destination="VCG-0D-fUm" id="Ij9-hI-ObF"/>
+                                            <outlet property="imgCover" destination="FVv-ks-Rhb" id="KOD-Ve-Jmk"/>
+                                            <outlet property="imgSelect" destination="otj-IO-Pzu" id="B4g-At-RWU"/>
+                                            <outlet property="lblTitle" destination="WpF-zN-pjh" id="6Jl-uR-mYG"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

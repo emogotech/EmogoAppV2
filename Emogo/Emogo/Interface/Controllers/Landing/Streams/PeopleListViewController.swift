@@ -14,6 +14,7 @@ class PeopleListViewController: UIViewController {
     @IBOutlet weak var peopleCollectionView: UICollectionView!
     
     
+    var arrayColab:[CollaboratorDAO]!
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -28,56 +29,24 @@ class PeopleListViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.peopleCollectionView.reloadData()
+    }
+    
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
-        self.title = "People List"
+        self.title = "Collaborator List"
         self.configureNavigationWithTitle()
-        PeopleList.sharedInstance.arrayPeople.removeAll()
-        HUDManager.sharedInstance.showHUD()
-        self.getUsersList(type:.start)
-        let header = RefreshHeaderAnimator(frame: .zero)
-        let  footer = RefreshFooterAnimator(frame: .zero)
-        
-        self.peopleCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-            self?.getUsersList(type:.up)
-        }
-        self.peopleCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            self?.getUsersList(type:.down)
-        }
-        peopleCollectionView.alwaysBounceVertical = true
     }
+    
 
     // MARK: -  Action Methods And Selector
 
     // MARK: - Class Methods
 
     
-    // MARK: - API Methods
-    func getUsersList(type:RefreshType){
-        if type == .up {
-            UIApplication.shared.beginIgnoringInteractionEvents()
-            self.peopleCollectionView.reloadData()
-        }
-        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
-            if refreshType == .end {
-                self.peopleCollectionView.es.stopLoadingMore()
-            }
-            if type == .up {
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.peopleCollectionView.es.stopPullToRefresh()
-            }else if type == .down {
-                self.peopleCollectionView.es.stopLoadingMore()
-            }
-            self.peopleCollectionView.reloadData()
-            if !(errorMsg?.isEmpty)! {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
     /*
     // MARK: - Navigation
 
@@ -94,14 +63,26 @@ class PeopleListViewController: UIViewController {
 extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return PeopleList.sharedInstance.arrayPeople.count
+        if arrayColab == nil {
+            return 0
+        }else {
+            return arrayColab.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-           let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            cell.prepareData(people:people)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_AddCollaboratorsView, for: indexPath) as! AddCollaboratorsViewCell
+        let collaborator = self.arrayColab[indexPath.row]
+        cell.lblTitle.text = collaborator.name
+        cell.imgSelect.isHidden = true
+        if !collaborator.imgUser.isEmpty {
+            cell.imgCover.layer.cornerRadius = cell.imgCover.frame.size.width/2.0
+            cell.imgCover.layer.masksToBounds = true
+        }else {
+            cell.imgCover.setImage(string: collaborator.name, color: UIColor.colorHash(name: collaborator.name), circular: true)
+        }
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

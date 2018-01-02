@@ -80,7 +80,32 @@ class ImportViewController: UICollectionViewController {
         updateCachedAssets()
     }
     
-   
+    
+    @objc func btnPlayAction(sender:UIButton){
+        self.openFullView(index: sender.tag)
+    }
+    
+    // MARK: - Class Methods
+    func openFullView(index:Int){
+        let asset = fetchResult.object(at: index)
+        asset.getURL { (url) in
+            if let url = url {
+                    let obj = LightboxImage(image: #imageLiteral(resourceName: "stream-card-placeholder"), text: "", videoURL: url)
+                DispatchQueue.main.async {
+                    self.presentPlayer(array: [obj])
+                }
+            }
+        }
+    }
+    
+    func presentPlayer(array:[LightboxImage]){
+        let controller = LightboxController(images: array, startIndex: 0)
+        controller.dynamicBackground = true
+        if array.count != 0 {
+            self.parent?.present(controller, animated: true, completion: nil)
+        }
+    }
+    
     // MARK: UICollectionView
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -93,9 +118,11 @@ class ImportViewController: UICollectionViewController {
         // Dequeue a GridViewCell.
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: GridViewCell.self), for: indexPath) as? GridViewCell
             else { fatalError("unexpected cell in collection view") }
-        
         // Request an image for the asset from the PHCachingImageManager.
         cell.representedAssetIdentifier = asset.localIdentifier
+        cell.btnPlay.tag = indexPath.row
+        cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+
         imageManager.requestImage(for: asset, targetSize: thumbnailSize, contentMode: .aspectFill, options: nil, resultHandler: { image, _ in
             // The cell may have been recycled by the time this handler gets called;
             // set the cell's thumbnail image only if it's still showing the same asset.

@@ -12,6 +12,8 @@ import QuartzCore
 import SDWebImage
 import Photos
 import MobileCoreServices
+import SafariServices
+
 
 // MARK: - UIColor
 extension UIColor {
@@ -322,6 +324,27 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = kNavigationColor
     }
     
+    func configureProfileNavigation(){
+     
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        let img = UIImage(named: "click_link_icon")
+        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
+        self.navigationItem.rightBarButtonItem = btnback
+        let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
+        self.navigationItem.leftBarButtonItem = btnLogout
+
+    }
+    
     @objc func btnMyProfileAction(){
         
     }
@@ -331,11 +354,50 @@ extension UIViewController {
     @objc func btnHomeAction(){
         
     }
+    @objc func btnLogoutAction(){
+        
+    }
+    
     @objc func btnBackAction(){
         self.navigationController?.pop()
     }
     
 }
+
+
+
+extension UIViewController:SFSafariViewControllerDelegate {
+    func openURL(url:URL) {
+            if UIApplication.shared.canOpenURL(url){
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else{
+            if #available(iOS 9.0, *) {
+                let safariController = SFSafariViewController(url: url as URL)
+                safariController.delegate = self
+                safariController.view.tintColor = kNavigationColor
+                if #available(iOS 10.0, *) {
+                    safariController.preferredControlTintColor = kNavigationColor
+                } else {
+                    safariController.view.tintColor = kNavigationColor
+                }
+                let navigationController = UINavigationController(rootViewController: safariController)
+                navigationController.setNavigationBarHidden(true, animated: false)
+                self.present(navigationController, animated: true, completion: nil)
+            } else {
+                if UIApplication.shared.canOpenURL(url){
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        
+    }
+    @available(iOS 9.0, *)
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+}
+
 
 // MARK: - UINavigationController
 
@@ -678,6 +740,7 @@ extension PHAsset {
         } else if self.mediaType == .video {
             let options: PHVideoRequestOptions = PHVideoRequestOptions()
             options.version = .original
+            options.isNetworkAccessAllowed = true
             PHImageManager.default().requestAVAsset(forVideo: self, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
                 if let urlAsset = asset as? AVURLAsset {
                     let localVideoUrl: URL = urlAsset.url as URL
