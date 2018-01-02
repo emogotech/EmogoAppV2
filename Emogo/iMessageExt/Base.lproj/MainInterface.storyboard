@@ -1009,7 +1009,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTd-yv-VGc">
-                                                            <rect key="frame" x="19" y="5" width="65" height="65"/>
+                                                            <rect key="frame" x="20" y="5" width="65" height="65"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaL-7Z-Zud">
@@ -1301,7 +1301,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o0u-Q0-02M">
                                                     <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Collaborator0" translatesAutoresizingMaskIntoConstraints="NO" id="Qid-Sv-vxh">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qid-Sv-vxh">
                                                             <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmx-kh-WjD">
@@ -1341,20 +1341,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6l4-wc-RqV">
                                                     <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TQo-cr-6fF">
-                                                            <rect key="frame" x="49" y="57" width="43" height="29"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                            <string key="text">Add 
-Content</string>
-                                                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
-                                                            <color key="textColor" red="0.38438808917999268" green="0.6402582492147173" blue="0.8645598292350769" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEj-Vw-RDD">
-                                                            <rect key="frame" x="50" y="15" width="40" height="40"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                            <state key="normal" image="addContent"/>
-                                                        </button>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Tav-Ee-7oN">
+                                                            <rect key="frame" x="0.0" y="0.0" width="140" height="100"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        </imageView>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nHh-I3-mTn">
                                                             <rect key="frame" x="0.0" y="1" width="140" height="99"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1363,7 +1353,7 @@ Content</string>
                                                             </connections>
                                                         </button>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.89000000000000001" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                             </subviews>
                                         </view>
@@ -1806,10 +1796,9 @@ Content</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Collaborator0" width="226" height="246"/>
         <image name="ProfileDeselected" width="56" height="56"/>
-        <image name="addContent" width="24" height="24"/>
         <image name="addToStream-icon" width="14" height="14"/>
+        <image name="add_content_icon" width="156" height="117"/>
         <image name="back-icon" width="10" height="16"/>
         <image name="background-image" width="320" height="223"/>
         <image name="browse-streams-btn" width="155" height="45"/>
