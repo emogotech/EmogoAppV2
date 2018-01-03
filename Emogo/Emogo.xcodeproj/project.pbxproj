@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
-		2B677A381FF27C1400709663 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
 		2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */; };
 		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
 		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
@@ -2245,7 +2244,6 @@
 				C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */,
 				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
 				C86918A61FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift in Sources */,
-				2B677A381FF27C1400709663 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

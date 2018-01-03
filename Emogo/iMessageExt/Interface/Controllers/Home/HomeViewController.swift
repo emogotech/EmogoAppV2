@@ -238,6 +238,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
                 SharedData.sharedInstance.nextStreamString = ""
                 self.hudRefreshView.startLoaderWithAnimation()
+                self.collectionStream.isUserInteractionEnabled = false
                 self.getUsersList(type: .up)
             }
         }else{
@@ -251,21 +252,23 @@ class HomeViewController: MSMessagesAppViewController {
                         self.setupCollectionPropertiesForUsers()
                         self.collectionStream.reloadData()
                     }
-                    PeopleList.sharedInstance.arrayPeople.removeAll()
-                    collectionStream.reloadData()
+//                    PeopleList.sharedInstance.arrayPeople.removeAll()
+//                    collectionStream.reloadData()
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
                 } else if (isSearch == true && isStreamEnable == true || btnFeature.titleLabel?.text == kSearchType){
                     
                     DispatchQueue.main.async {
                         self.setupCollectionProperties()
                     }
-                    self.arrayStreams.removeAll()
-                    collectionStream.reloadData()
+//                    self.arrayStreams.removeAll()
+//                    collectionStream.reloadData()
+
                     self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
                 }
                 else {
-                    self.arrayStreams.removeAll()
-                    collectionStream.reloadData()
+//                    self.arrayStreams.removeAll()
+//                    collectionStream.reloadData()
+                    self.collectionStream.isUserInteractionEnabled = false
                     self.getStreamList(type:.up,filter:self.streamType)
                 }
             }
@@ -454,7 +457,8 @@ class HomeViewController: MSMessagesAppViewController {
                 self.arrayStreams = StreamList.sharedInstance.arrayStream!
                 self.collectionStream.reloadData()
                 self.setupCollectionProperties()
-                
+                self.collectionStream.isHidden = false
+                self.collectionStream.isUserInteractionEnabled = true
                 if !(errorMsg?.isEmpty)! {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
@@ -506,24 +510,21 @@ class HomeViewController: MSMessagesAppViewController {
         if SharedData.sharedInstance.iMessageNavigation == "" {
             if Reachability.isNetworkAvailable() {
                 if type == .start {
-                    PeopleList.sharedInstance.arrayPeople.removeAll()
-                    self.collectionStream.reloadData()
                     self.hudView.startLoaderWithAnimation()
                 }
                 else if  type == .up {
-                    PeopleList.sharedInstance.arrayPeople.removeAll()
-                    self.collectionStream.reloadData()
                 }
                 APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
-                    
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
+                    self.collectionStream.isHidden = false
                     if PeopleList.sharedInstance.arrayPeople.count == 0 {
                         self.lblNoResult.isHidden = false
                     }
                     DispatchQueue.main.async {
                         self.setupCollectionPropertiesForUsers()
                         self.collectionStream.reloadData()
+                        self.collectionStream.isUserInteractionEnabled = true
                     }
                     if !(errorMsg?.isEmpty)! {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -834,28 +835,24 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             switch  index {
                 
             case 0:
-                self.setupCollectionProperties()
                 lastIndex = index
                 self.streamType = StreamType.populer
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 1:
-                self.setupCollectionProperties()
                 lastIndex = index
                 self.streamType = StreamType.myStream
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 2:
-                self.setupCollectionProperties()
                 lastIndex = index
                 self.streamType = StreamType.featured
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 3:
-                self.setupCollectionProperties()
                 lastIndex = index
                 self.streamType = StreamType.emogoStreams
                 self.getStreamList(type: .start, filter: self.streamType)
@@ -890,7 +887,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             
             switch  pagerView.currentIndex {
             case 0:
-                self.setupCollectionProperties()
+                self.collectionStream.isHidden = true
                 lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.populer
                 self.arrayStreams.removeAll()
@@ -899,7 +896,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 1:
-                self.setupCollectionProperties()
+                self.collectionStream.isHidden = true
                 lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.myStream
                 self.arrayStreams.removeAll()
@@ -908,7 +905,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 2:
-                self.setupCollectionProperties()
+                self.collectionStream.isHidden = true
                 lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.featured
                 self.arrayStreams.removeAll()
@@ -917,7 +914,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 3:
-                self.setupCollectionProperties()
+                self.collectionStream.isHidden = true
                 lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.emogoStreams
                 self.arrayStreams.removeAll()
@@ -930,6 +927,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 5:
+                self.collectionStream.isHidden = true
                 lastIndex = pagerView.currentIndex
                 self.getUsersList(type: .start)
                 break
