@@ -63,6 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return setTypeOfViewController(objType: kDeepLinkTypeAddStream)
             }
             else if splitArr.last == kDeepLinkTypeAddContent as String {
+                 SharedData.sharedInstance.streamID = splitArr[3]
                 return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
             }else if splitArr.last == kDeepLinkTypeEditStream as String {
                 SharedData.sharedInstance.streamID = splitArr[3]

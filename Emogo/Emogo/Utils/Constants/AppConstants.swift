@@ -221,14 +221,14 @@ let iMsgError_Name                              = "Please enter the name."
 let iMsgError_NameMax                           = "Username limit is between 3-30 characters."
 let iMsgError_NameSpace                         = "Space not allowed"
 
-let iMsgAlert_ConfirmationDescriptionForPeople           = "We need to redirect on Emogo App for the Peoples list, Do you want to go on Emogo?"
-let iMsgAlert_ConfirmationDescriptionForProfile           = "We need to redirect on Emogo App for the My Profile, Do you want to go on Emogo?"
+let iMsgAlert_ConfirmationDescriptionForPeople           = "We need to redirect on Emogo App for the Peoples list, Do you want to go to Emogo?"
+let iMsgAlert_ConfirmationDescriptionForProfile           = "We need to redirect on Emogo App for the User Profile, Do you want to go to Emogo?"
 
-let iMsgAlert_ConfirmationDescriptionForEditStream           = "We need to redirect on Emogo App for the Edit stream, Do you want to go on Emogo?"
+let iMsgAlert_ConfirmationDescriptionForEditStream           = "We need to redirect on Emogo App for the Edit stream, Do you want to go to Emogo?"
 
-let iMsgAlert_ConfirmationDescriptionForEditContent          = "We need to redirect on Emogo App for the Edit content, Do you want to go on Emogo?"
+let iMsgAlert_ConfirmationDescriptionForEditContent          = "We need to redirect on Emogo App for the Edit content, Do you want to go to Emogo?"
 
-let iMsgAlert_ConfirmationDescriptionForAddContent          = "We need to redirect on Emogo App for the Add content, Do you want to go on Emogo?"
+let iMsgAlert_ConfirmationDescriptionForAddContent          = "We need to redirect on Emogo App for the Add content, Do you want to go to Emogo?"
 
 
 let iMsgAlert_ConfirmationTitle                 =  "Continue"

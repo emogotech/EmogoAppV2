@@ -33,6 +33,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     // MARK: - Variables
     var currentContentIndex                 : Int!
     var currentStreamID                     : String!
+    var currentStreamTitle                     : String?
     var arrContentData                      = [ContentDAO]()
     var hudView                             : LoadingView!
     // MARK: - Life-cycle Methods
@@ -145,7 +146,12 @@ class StreamContentViewController: MSMessagesAppViewController {
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
-        
+        if currentStreamTitle == "" {
+            lblStreamTitle.text = ""
+        }else{
+           lblStreamTitle.text   = currentStreamTitle!
+        }
+       
         if content.imgPreview != nil {
             self.imgStream.image = content.imgPreview
         }

@@ -16,6 +16,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblStreamTitle       : UILabel!
     @IBOutlet weak var lblStreamName        : UILabel!
     @IBOutlet weak var lblStreamDesc        : UILabel!
+    @IBOutlet weak var lblNoContent        : UILabel!
     
     @IBOutlet weak var btnNextStream        : UIButton!
     @IBOutlet weak var btnPreviousStream    : UIButton!
@@ -173,6 +174,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
         self.lblStreamName.text = self.objStream?.title
+         self.lblStreamTitle.text = self.objStream?.title
         self.lblStreamDesc.text = self.objStream?.description
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
@@ -183,6 +185,9 @@ class StreamViewController: MSMessagesAppViewController {
             lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
             btnCollaborator.isUserInteractionEnabled = true
             lblCount.isHidden = false
+            btnCollaborator.isHidden = false
+        }else{
+            btnCollaborator.isHidden = true
         }
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
             btnEdit.isHidden = false
@@ -243,7 +248,9 @@ class StreamViewController: MSMessagesAppViewController {
         
         let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescriptionForAddContent, preferredStyle: .alert)
         let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
-            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+            let streamID : String = (self.objStream?.streamID!)!
+            let strUrl = "\(kDeepLinkURL)\(streamID)/\(kDeepLinkTypeAddContent)"
+            SharedData.sharedInstance.streamView = self.objStream
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
         let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
@@ -325,6 +332,11 @@ class StreamViewController: MSMessagesAppViewController {
                         self.objStream = stream
                         self.lblStreamDesc.text = self.objStream?.description.trim()
                         self.loadViewForUI()
+                        if self.objStream!.arrayContent.count == 0 {
+                            self.lblNoContent.isHidden = false
+                        }else{
+                            self.lblNoContent.isHidden = true
+                        }
                         self.collectionStreams.reloadData()
                         if self.hudView != nil {
                             self.hudView.stopLoaderWithAnimation()
@@ -361,6 +373,13 @@ class StreamViewController: MSMessagesAppViewController {
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                             self.arrStream = arrayTempStream
                         }
+                        
+                        if self.objStream!.arrayContent.count == 0 {
+                            self.lblNoContent.isHidden = false
+                        }else{
+                            self.lblNoContent.isHidden = true
+                        }
+                        
                         self.loadViewForUI()
                         self.collectionStreams.reloadData()
                          if self.hudView != nil {
@@ -428,6 +447,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row
+        obj.currentStreamTitle = lblStreamTitle.text
         self.present(obj, animated: false, completion: nil)
     }
     
