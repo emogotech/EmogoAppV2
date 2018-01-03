@@ -72,6 +72,7 @@ class CameraViewController: SwiftyCamViewController {
 
     func prepareLayouts(){
         cameraDelegate = self
+        doubleTapCameraSwitch = false
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true
@@ -92,14 +93,12 @@ class CameraViewController: SwiftyCamViewController {
         }
         
         // Configure record and capture Button
-        /*
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(captureModeTap(_:)))
         tapGesture.numberOfTapsRequired = 1
         btnCamera.addGestureRecognizer(tapGesture)
         
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
         btnCamera.addGestureRecognizer(longGesture)
- */
         
     }
     
@@ -178,10 +177,8 @@ class CameraViewController: SwiftyCamViewController {
     }
     
    
-    @IBAction func btnActionRecord(_ sender: Any) {
-        timeSec = 0
-        self.btnPreviewOpen.isHidden = true
-        self.recordButtonTapped(isShow: true)
+    @IBAction func btnActionSwitchCamera(_ sender: Any) {
+        switchCamera()
     }
 
     @IBAction func btnActionGallery(_ sender: Any) {
@@ -265,6 +262,7 @@ class CameraViewController: SwiftyCamViewController {
             break
         case .ended:
             print("UIGestureRecognizerStateEnded")
+            self.lblRecordTimer.isHidden = true
             self.recordButtonTapped(isShow: false)
             self.performCamera(action: .stop)
             break

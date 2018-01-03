@@ -136,6 +136,7 @@
 		F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2E1FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.m */; };
 		F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
+		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
 		F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */; };
 		F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */; };
@@ -434,6 +435,7 @@
 		F4148A331FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHSPhoneNumberFormatter+UserConfig.h"; sourceTree = "<group>"; };
 		F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSPhoneTextField.m; sourceTree = "<group>"; };
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
+		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
 		F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
@@ -1242,6 +1244,7 @@
 		F41C3ADE1FE13A90009CD942 /* BadgeButton */ = {
 			isa = PBXGroup;
 			children = (
+				F4173F6C1FFCE59D00EC897E /* RecordButton.swift */,
 				F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */,
 			);
 			path = BadgeButton;
@@ -2123,6 +2126,7 @@
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
+				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
