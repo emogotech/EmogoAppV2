@@ -9,7 +9,7 @@ def common_pods_for_target
     pod 'SwiftyJSON'
     pod 'AWSS3'
     pod 'Lightbox'
-
+    
 end
 
 
@@ -19,16 +19,14 @@ target 'Emogo' do
     
     # Pods for Emogo
     common_pods_for_target
-
- 	pod "SwiftyCam"
+    
+    pod "SwiftyCam"
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'Gallery'
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
     
-
-       
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target
@@ -42,7 +40,6 @@ target 'Emogo' do
         common_pods_for_target
         
     end
-    
     
     
 end

@@ -215,11 +215,20 @@ extension UIImageView {
         if strImage.isEmpty{
             return
         }
-        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        //self.sd_setImage(with: url)
-        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder), options: .refreshCached) { (image, error, cahce, url) in
+            
+            if let img = image{
+                self.image = img.scalingAndCropping(for: self.bounds.size)
+            }
+            self.sd_setShowActivityIndicatorView(false)
+        }
+       
+        //self.sd_setImage(with: url)
+      //  self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+       
     }
     
     func setImageWithURL(strImage:String,handler : @escaping ((_ image : UIImage?) -> Void)){
@@ -628,11 +637,11 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage!
     }
-     func resizeImage(image: UIImage, targetSize: CGSize, alpha : CGFloat = 1.0) -> UIImage {
-        let size = image.size
+     func resizeImage(targetSize: CGSize, alpha : CGFloat = 1.0) -> UIImage {
+        let size = self.size
         
-        let widthRatio  = targetSize.width  / image.size.width
-        let heightRatio = targetSize.height / image.size.height
+        let widthRatio  = targetSize.width  / self.size.width
+        let heightRatio = targetSize.height / self.size.height
         
         // Figure out what our orientation is, and use that to form the rectangle
         var newSize: CGSize
@@ -648,7 +657,7 @@ extension UIImage {
         // Actually do the resizing to the rect using the ImageContext stuff
         UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         //            image.draw(in: rect)
-        image.draw(in: rect, blendMode: .normal, alpha: alpha)
+        self.draw(in: rect, blendMode: .normal, alpha: alpha)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

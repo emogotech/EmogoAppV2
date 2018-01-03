@@ -212,7 +212,7 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/AWSManager.swift"
-                  timestampString = "536594491.740297"
+                  timestampString = "536672457.410366"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "216"
@@ -227,7 +227,7 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Utils/APIManager/AWSManager.swift"
-                  timestampString = "536594491.745243"
+                  timestampString = "536672457.414336"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "216"
@@ -324,12 +324,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/Extensions/Extensions.swift"
-            timestampString = "536595394.446312"
+            timestampString = "536672684.338937"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
             landmarkName = "openURL(url:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Interface/Controllers/Landing/Camera/CameraViewController.swift"
+            timestampString = "536672684.339023"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
+            landmarkName = "prepareContainerToPresent()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
