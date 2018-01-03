@@ -8,7 +8,8 @@ def common_pods_for_target
     pod 'SDWebImage'
     pod 'SwiftyJSON'
     pod 'AWSS3'
-    
+    pod 'Lightbox'
+
 end
 
 
@@ -25,7 +26,6 @@ target 'Emogo' do
     pod 'Gallery'
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
-pod 'Lightbox'
     
 
        
