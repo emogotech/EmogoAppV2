@@ -59,8 +59,16 @@ class StreamListViewController: UIViewController {
         self.viewMenu.isHidden = false
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
+           
+            let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            kContainerNav = "1"
+            currentTag = 111
+            ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
+            arraySelectedContent = [ContentDAO]()
+            arrayAssests = [ImportDAO]()
+            ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
+            
             SharedData.sharedInstance.deepLinkType = ""
         }
         

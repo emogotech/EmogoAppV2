@@ -342,7 +342,8 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                     }
                     else {
-                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                            self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
             } else {
@@ -355,6 +356,7 @@ class StreamViewController: MSMessagesAppViewController {
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                             self.arrStream = arrayTempStream
                             self.loadViewForUI()
+                            var isNavigateContent = false
                             for i in 0...(conntenData?.count)!-1 {
                                 let data : ContentDAO = conntenData![i]
                                 if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
@@ -363,10 +365,14 @@ class StreamViewController: MSMessagesAppViewController {
                                     obj.currentStreamID = self.objStream?.streamID!
                                     obj.currentContentIndex  = i
                                     self.present(obj, animated: false, completion: nil)
-                                    
+                                    isNavigateContent = true
                                     break
                                 }
                             }
+                            if isNavigateContent {
+                                 self.showToastIMsg(type: .error, strMSG: kAlert_ContentNotFound)
+                            }
+                            
                         }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream{
                             var arrayTempStream  = [StreamDAO]()
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
@@ -386,7 +392,7 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                    }
                     else {
-                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                        self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
                     }
                 }
             }

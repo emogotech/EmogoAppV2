@@ -39,15 +39,21 @@ class ViewStreamController: UIViewController {
     }
     
    @objc func updateLayOut(){
-    if StreamList.sharedInstance.arrayStream.count != 0 {
-        if currentIndex != nil {
-            let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
-            StreamList.sharedInstance.selectedStream = stream
-        }
-        if StreamList.sharedInstance.selectedStream != nil {
-            self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+    if ContentList.sharedInstance.objStream != nil {
+        self.getStream(currentStream:nil,streamID:ContentList.sharedInstance.objStream)
+        ContentList.sharedInstance.objStream  = nil
+    }else {
+        if StreamList.sharedInstance.arrayStream.count != 0 {
+            if currentIndex != nil {
+                let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
+                StreamList.sharedInstance.selectedStream = stream
+            }
+            if StreamList.sharedInstance.selectedStream != nil {
+                self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+            }
         }
     }
+   
 }
     
     override func didReceiveMemoryWarning() {
@@ -81,16 +87,17 @@ class ViewStreamController: UIViewController {
         viewStreamCollectionView.alwaysBounceVertical = true
         self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
         
-        
-        viewStreamCollectionView.isUserInteractionEnabled = true
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        viewStreamCollectionView.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        viewStreamCollectionView.addGestureRecognizer(swipeLeft)
-        
+        if currentIndex != nil {
+            viewStreamCollectionView.isUserInteractionEnabled = true
+            let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeRight.direction = UISwipeGestureRecognizerDirection.right
+            viewStreamCollectionView.addGestureRecognizer(swipeRight)
+            
+            let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+            viewStreamCollectionView.addGestureRecognizer(swipeLeft)
+        }
+       
     }
     
     func prepareNavigation(){
@@ -287,9 +294,15 @@ class ViewStreamController: UIViewController {
 
     // MARK: - API Methods
 
-    func getStream(currentStream:StreamDAO){
+    func getStream(currentStream:StreamDAO?, streamID:String? = nil){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStream.ID) { (stream, errorMsg) in
+        var id:String! = ""
+        if streamID != nil {
+            id = streamID
+        }else {
+            id = currentStream?.ID
+        }
+        APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
@@ -382,7 +395,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
                 kContainerNav = "1"
                 currentTag = 111
-            ContentList.sharedInstance.objStream = self.objStream
+            ContentList.sharedInstance.objStream = self.objStream?.streamID
              arraySelectedContent = [ContentDAO]()
              arrayAssests = [ImportDAO]()
             ContentList.sharedInstance.arrayContent.removeAll()
@@ -392,7 +405,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                 ContentList.sharedInstance.arrayContent.removeAll()
              let array = objStream?.arrayContent.filter { $0.isAdd == false }
              ContentList.sharedInstance.arrayContent = array
-             ContentList.sharedInstance.objStream = objStream
+             ContentList.sharedInstance.objStream = objStream?.streamID
               let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = indexPath.row - 1
                 self.navigationController?.push(viewController: objPreview)
