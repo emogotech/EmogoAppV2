@@ -2213,7 +2213,7 @@
                                     <constraint firstItem="qux-yV-2ba" firstAttribute="centerX" secondItem="ZlZ-60-RLW" secondAttribute="centerX" id="c4R-kr-Yby"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ken-WH-2VU">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ken-WH-2VU">
                                 <rect key="frame" x="16" y="273" width="288" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Itw-Pa-qZ6"/>
