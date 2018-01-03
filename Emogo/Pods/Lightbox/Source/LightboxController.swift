@@ -164,7 +164,7 @@ open class LightboxController: UIViewController {
   open override func viewDidLoad() {
     super.viewDidLoad()
 
-    statusBarHidden = UIApplication.shared.isStatusBarHidden
+    statusBarHidden = true
 
     view.backgroundColor = UIColor.black
     transitionManager.lightboxController = self

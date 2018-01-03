@@ -8,6 +8,7 @@
 
 import UIKit
 import Messages
+import Lightbox
 
 class StreamContentViewController: MSMessagesAppViewController {
     
@@ -26,6 +27,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
+    @IBOutlet weak var btnPlay: UIButton!
     
     
     // MARK: - Variables
@@ -144,17 +146,22 @@ class StreamContentViewController: MSMessagesAppViewController {
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
         
-        if content.type != nil {
-        if content.type == .image {
-            self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
-        }else{
-            if !content.coverImage.isEmpty {
-                let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                if  let image = SharedData.sharedInstance.getThumbnailImage(url: url!) {
-                    self.imgStream.image = image
+        if content.imgPreview != nil {
+            self.imgStream.image = content.imgPreview
+        }
+        else {
+            if content.type != nil {
+                if content.type == .image {
+                    self.btnPlay.isHidden = true
+                    self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+                }else   if content.type == .video {
+                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                    self.btnPlay.isHidden = false
+                }else if content.type == .link {
+                    self.btnPlay.isHidden = true
+                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
                 }
             }
-        }
         }
         
         lblStreamDesc.text = content.description.trim().capitalized
@@ -192,6 +199,57 @@ class StreamContentViewController: MSMessagesAppViewController {
             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
         }
         self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
+    }
+    
+    @IBAction func btnPlayAction(_ sender: Any) {
+        self.openFullView()
+    }
+    
+    @objc func openFullView(){
+        
+//         let content = self.arrContentData[currentContentIndex]
+
+//        if content.type == .link {
+//            guard let url = URL(string: content.coverImage) else {
+//                return //be safe
+//            }
+//            self.openURL(url: url)
+//            return
+//        }
+        var arrayContents = [LightboxImage]()
+//        var index:Int! = 0
+        var arrayTemp = [ContentDAO]()
+        arrayTemp = ContentList.sharedInstance.arrayContent
+        for obj in arrayTemp {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+
+        let controller = LightboxController(images: arrayContents, startIndex: currentContentIndex)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
     }
     
     @IBAction func btnDeleteAction(_ sender:UIButton){

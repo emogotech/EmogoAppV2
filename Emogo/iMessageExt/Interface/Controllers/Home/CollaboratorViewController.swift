@@ -23,8 +23,6 @@ class CollaboratorViewController: MSMessagesAppViewController {
     //MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupCollectionProperties()
         self.prepareLayout()
         setupCollectionProperties()
     }
@@ -43,7 +41,7 @@ class CollaboratorViewController: MSMessagesAppViewController {
     func setupCollectionProperties() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionCollaborator.frame.size.width/3, height: 100)
+        layout.itemSize = CGSize(width: self.collectionCollaborator.frame.size.width/3 - 12, height: 100)
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 10
         collectionCollaborator!.collectionViewLayout = layout

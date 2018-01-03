@@ -755,7 +755,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FCY-Zh-6B5" userLabel="Collection">
                                 <rect key="frame" x="0.0" y="64" width="320" height="464"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82V-bc-ifO">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82V-bc-ifO">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="464"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtq-AH-nbJ">
@@ -1009,12 +1009,12 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cTd-yv-VGc">
-                                                            <rect key="frame" x="20" y="5" width="65" height="65"/>
+                                                            <rect key="frame" x="23" y="5" width="65" height="65"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaL-7Z-Zud">
-                                                            <rect key="frame" x="1" y="75" width="95" height="22"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <rect key="frame" x="19" y="75" width="75" height="22"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -1323,6 +1323,11 @@
                                                             <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KsZ-Pe-iYt">
+                                                            <rect key="frame" x="55" y="35" width="30" height="30"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                            <state key="normal" image="play_button"/>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1369,6 +1374,7 @@
                                             <constraint firstItem="6l4-wc-RqV" firstAttribute="top" secondItem="A6O-Ux-aa1" secondAttribute="top" id="vWm-9G-oq5"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="btnPlay" destination="KsZ-Pe-iYt" id="djm-dS-Shf"/>
                                             <outlet property="imgCover" destination="Qid-Sv-vxh" id="C7T-Si-R5V"/>
                                             <outlet property="lblName" destination="BFi-rN-SNY" id="r5U-3A-tlf"/>
                                             <outlet property="viewAddContent" destination="6l4-wc-RqV" id="jw6-9g-FkN"/>
@@ -1612,6 +1618,14 @@
                                             <constraint firstAttribute="height" constant="36" id="yVF-EU-qMv"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="flN-Fn-DZ9">
+                                        <rect key="frame" x="145" y="229" width="30" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="play_button"/>
+                                        <connections>
+                                            <action selector="btnPlayAction:" destination="DDU-wj-KnI" eventType="touchUpInside" id="cHi-eF-dXh"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="pv3-rq-CAB" firstAttribute="leading" secondItem="joA-H8-5F9" secondAttribute="leading" id="3Ri-yI-PH6"/>
@@ -1654,6 +1668,7 @@
                     <connections>
                         <outlet property="btnDelete" destination="UEo-8z-ehm" id="GKa-UT-L8o"/>
                         <outlet property="btnEdit" destination="e8z-BR-lVm" id="2Md-zf-mXi"/>
+                        <outlet property="btnPlay" destination="flN-Fn-DZ9" id="RlD-dN-vtA"/>
                         <outlet property="contentProgressView" destination="3Ve-fs-dWQ" id="YA1-cK-mCk"/>
                         <outlet property="imgGradient" destination="fhi-fs-DcP" id="I9n-fF-wha"/>
                         <outlet property="imgStream" destination="Nx8-M5-gcS" id="bAU-4p-qGB"/>
@@ -1815,6 +1830,7 @@
         <image name="image1" width="597" height="593"/>
         <image name="next-btn" width="137" height="45"/>
         <image name="next-icon" width="8" height="14"/>
+        <image name="play_button" width="30" height="30"/>
         <image name="search-icon-imessage" width="9" height="9"/>
         <image name="send-icon" width="50" height="50"/>
         <image name="share-icon" width="15" height="13"/>

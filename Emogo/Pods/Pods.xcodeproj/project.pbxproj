@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -841,15 +841,15 @@
 /* Begin PBXFileReference section */
 		009FA81AF373C96E780871729DEBD112 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		021175499933CDE0114ACB34F094BFA8 /* AWSIdentityProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSIdentityProvider.m; path = AWSCore/Authentication/AWSIdentityProvider.m; sourceTree = "<group>"; };
-		026B525AD0886155E76EF23FFB6FD7EC /* Imaginary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Imaginary.framework; path = Imaginary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		026B525AD0886155E76EF23FFB6FD7EC /* Imaginary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Imaginary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02DD8185FE90FD9E2C666CA1B51B96ED /* AWSKSReachability.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSKSReachability.h; path = AWSCore/KSReachability/AWSKSReachability.h; sourceTree = "<group>"; };
-		0393E1E94BA7F20342EA251ECA4BDDE0 /* SDWebImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SDWebImage.modulemap; sourceTree = "<group>"; };
+		0393E1E94BA7F20342EA251ECA4BDDE0 /* SDWebImage.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SDWebImage.modulemap; sourceTree = "<group>"; };
 		03C508EB062B39937218165DF1875DB8 /* SDImageCacheConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCacheConfig.m; path = SDWebImage/SDImageCacheConfig.m; sourceTree = "<group>"; };
 		03FDD1DC8436A3E3CB6DEA735D7F61F1 /* AWSS3TransferUtility.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSS3TransferUtility.m; path = AWSS3/AWSS3TransferUtility.m; sourceTree = "<group>"; };
 		04786E37F1A13B8D7A7FB7E3DB6C7344 /* schematron.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = schematron.h; path = "Ji-libxml/schematron.h"; sourceTree = "<group>"; };
 		04CCCB261013198FF43AFD8338CA0B97 /* SwiftyCam-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyCam-umbrella.h"; sourceTree = "<group>"; };
 		04E8C2644CBD852648CA35C600A101BF /* AWSDDContextFilterLogFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDContextFilterLogFormatter.h; path = AWSCore/Logging/Extensions/AWSDDContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		052748348CF5167A2619934BAC2025F9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftyJSON.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		052748348CF5167A2619934BAC2025F9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		05336D14175723D967EA23E064537F8E /* AWSS3Model.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSS3Model.h; path = AWSS3/AWSS3Model.h; sourceTree = "<group>"; };
 		058048D814E67A7F06F9C4996D3FAFEC /* IQKeyboardReturnKeyHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQKeyboardReturnKeyHandler.swift; path = IQKeyboardManagerSwift/IQKeyboardReturnKeyHandler.swift; sourceTree = "<group>"; };
 		0593ED1C49BFAACFBBE20B1BDE58DF9D /* AWSCancellationToken.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSCancellationToken.h; path = AWSCore/Bolts/AWSCancellationToken.h; sourceTree = "<group>"; };
@@ -864,7 +864,7 @@
 		0C2AAB57C0E34B0FD9EC4136570A1F7A /* AWSSTSResources.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSSTSResources.m; path = AWSCore/STS/AWSSTSResources.m; sourceTree = "<group>"; };
 		0CD3C6E37CDEA9065928FCDCFCC75512 /* xlink.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xlink.h; path = "Ji-libxml/xlink.h"; sourceTree = "<group>"; };
 		0D31CB73A9AF119FB6916D48A70D4813 /* AWSTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSTask.m; path = AWSCore/Bolts/AWSTask.m; sourceTree = "<group>"; };
-		0D6928DB8FC4F4BE7CEECB1D344DD3ED /* Cache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Cache.framework; path = Cache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0D6928DB8FC4F4BE7CEECB1D344DD3ED /* Cache.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Cache.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0DDB4CCBCE7CDAEBEBEC85A714CB7F9D /* schemasInternals.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = schemasInternals.h; path = "Ji-libxml/schemasInternals.h"; sourceTree = "<group>"; };
 		0DF4A7CB441B28DB2EABD6151E56A185 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCacheOperation.m"; path = "SDWebImage/UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		0E6C92D902D60034D219B014863D63C9 /* xmlunicode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlunicode.h; path = "Ji-libxml/xmlunicode.h"; sourceTree = "<group>"; };
@@ -884,7 +884,7 @@
 		15805F77B806FA05F43479AC19A41B4B /* AWSFMDatabase+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "AWSFMDatabase+Private.h"; path = "AWSCore/FMDB/AWSFMDatabase+Private.h"; sourceTree = "<group>"; };
 		15AF0F17ECD605CC464E0A9E45479FFE /* Validation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validation.swift; path = Source/Validation.swift; sourceTree = "<group>"; };
 		15CBDC447BB1B427E3FD61DF2DDD46D2 /* xmlautomata.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlautomata.h; path = "Ji-libxml/xmlautomata.h"; sourceTree = "<group>"; };
-		15F284ABB246CC9772CECC95E59FA84E /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Alamofire.modulemap; sourceTree = "<group>"; };
+		15F284ABB246CC9772CECC95E59FA84E /* Alamofire.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Alamofire.modulemap; sourceTree = "<group>"; };
 		166D7243A5EA8E62FF1CE9E80C9A9F8F /* HTMLtree.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HTMLtree.h; path = "Ji-libxml/HTMLtree.h"; sourceTree = "<group>"; };
 		16B458DDCF93C805B2F970848F63E588 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
 		16C2FBAF2A6EBC38BADC3B05D2678FE7 /* Pods-Emogo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Emogo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -900,7 +900,7 @@
 		1A58A6EDDCB3AA2B7C1D53716343018B /* Pods-iMessageExt-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-iMessageExt-acknowledgements.markdown"; sourceTree = "<group>"; };
 		1AB83658DD659087FEB7BAEDC69BE6EE /* Pods-iMessageExt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-iMessageExt.release.xcconfig"; sourceTree = "<group>"; };
 		1BD5CBE349F5E40BCCC77DD63F9A4081 /* AWSURLSessionManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSURLSessionManager.h; path = AWSCore/Networking/AWSURLSessionManager.h; sourceTree = "<group>"; };
-		1BFF8EA81FEC65140B1D6C57D36A3D79 /* AWSS3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AWSS3.framework; path = AWSS3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BFF8EA81FEC65140B1D6C57D36A3D79 /* AWSS3.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AWSS3.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C27A719B30C22908A9B4994874907A0 /* AWSMTLValueTransformer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSMTLValueTransformer.m; path = AWSCore/Mantle/AWSMTLValueTransformer.m; sourceTree = "<group>"; };
 		1C46015FF19C22E81379E4D67D2F060C /* AWSGZIP.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSGZIP.h; path = AWSCore/GZIP/AWSGZIP.h; sourceTree = "<group>"; };
 		1C4A0C7482213B7D9A39B8C81BFD7495 /* AWSDDFileLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDFileLogger.h; path = AWSCore/Logging/AWSDDFileLogger.h; sourceTree = "<group>"; };
@@ -909,10 +909,10 @@
 		1E775C59C2F9B9BC8C0976987F009F43 /* xpathInternals.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xpathInternals.h; path = "Ji-libxml/xpathInternals.h"; sourceTree = "<group>"; };
 		1E8338A4B9E39A149E985F606B3FE08C /* AWSS3Serializer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSS3Serializer.h; path = AWSS3/AWSS3Serializer.h; sourceTree = "<group>"; };
 		1E8963DA060F3A3016736E64F9B36002 /* AWSService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSService.h; path = AWSCore/Service/AWSService.h; sourceTree = "<group>"; };
-		1EC84626E7A1844DF46CFAE406A853BD /* Cache.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Cache.modulemap; sourceTree = "<group>"; };
+		1EC84626E7A1844DF46CFAE406A853BD /* Cache.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Cache.modulemap; sourceTree = "<group>"; };
 		1EDD341801E7C39CA502DC3CCDDE9845 /* AWSSTSService.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSSTSService.h; path = AWSCore/STS/AWSSTSService.h; sourceTree = "<group>"; };
-		1F2D082E7ADCEC33F9FEBC7C14973B21 /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SDWebImage.framework; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F8CF528D23DDCBDCBFE98CD282CB930 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_EmogoTests.framework; path = "Pods-EmogoTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F2D082E7ADCEC33F9FEBC7C14973B21 /* SDWebImage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SDWebImage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8CF528D23DDCBDCBFE98CD282CB930 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FA45BF56D3E8A48CEBFB5E8C94AE966 /* Pods-EmogoUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EmogoUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		1FC764CD6E66D1DAACC014C000971D53 /* AWSURLRequestSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSURLRequestSerialization.m; path = AWSCore/Serialization/AWSURLRequestSerialization.m; sourceTree = "<group>"; };
 		1FF7252DFB9D0E09416603009D384CA1 /* xmlschemastypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlschemastypes.h; path = "Ji-libxml/xmlschemastypes.h"; sourceTree = "<group>"; };
@@ -927,7 +927,7 @@
 		223014CE7A40F2CEB4EEDBF25106E1B9 /* AWSTMMemoryCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSTMMemoryCache.h; path = AWSCore/TMCache/AWSTMMemoryCache.h; sourceTree = "<group>"; };
 		2291C78BD9476A0705EC1771F359C51C /* Pods-Emogo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Emogo-frameworks.sh"; sourceTree = "<group>"; };
 		245F2E24539C7441C581817B0D8DACD3 /* Cache-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cache-prefix.pch"; sourceTree = "<group>"; };
-		249A5D3A2A650A2A268C9D0CF74E5B1A /* Hue.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Hue.modulemap; sourceTree = "<group>"; };
+		249A5D3A2A650A2A268C9D0CF74E5B1A /* Hue.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Hue.modulemap; sourceTree = "<group>"; };
 		24CA6C35E18DC695B58C066C8E2EDAEB /* AWSDDFileLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSDDFileLogger.m; path = AWSCore/Logging/AWSDDFileLogger.m; sourceTree = "<group>"; };
 		24CE7427CEC2154712F280DA0FF5EEF8 /* Cart.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cart.swift; path = Sources/Images/Cart.swift; sourceTree = "<group>"; };
 		24D4A0097FE9F671FDF0D8DD8C8B924F /* ImageWrapper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageWrapper.swift; path = Source/Shared/Library/ImageWrapper.swift; sourceTree = "<group>"; };
@@ -948,7 +948,7 @@
 		2CBFCEB427F0EF989885162E86E000FC /* SDWebImageDownloader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloader.m; path = SDWebImage/SDWebImageDownloader.m; sourceTree = "<group>"; };
 		2D29B2F8AC5463619553B084690A25F3 /* DropdownController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DropdownController.swift; path = Sources/Utils/Dropdown/DropdownController.swift; sourceTree = "<group>"; };
 		2D464BC1D0869CB51DBBDF11B4300441 /* AWSS3-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AWSS3-dummy.m"; sourceTree = "<group>"; };
-		2E56FFA05C1FD086BA596D9662B9EBD0 /* Pods_EmogoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_EmogoUITests.framework; path = "Pods-EmogoUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E56FFA05C1FD086BA596D9662B9EBD0 /* Pods_EmogoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ED01A58AC6289F714E17732A4E0C10C /* SwiftyJSON-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftyJSON-prefix.pch"; sourceTree = "<group>"; };
 		2EEF2F2C66E274BE163E43FAB2278389 /* AWSDDASLLogger.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSDDASLLogger.m; path = AWSCore/Logging/AWSDDASLLogger.m; sourceTree = "<group>"; };
 		2F109F2A72E281DC5F1587B7851E9DD4 /* AWSURLRequestRetryHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSURLRequestRetryHandler.m; path = AWSCore/Serialization/AWSURLRequestRetryHandler.m; sourceTree = "<group>"; };
@@ -967,7 +967,7 @@
 		33348C11EFA8B27ED40EC6729BE424CF /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		3382DEC619564CBF948758A80703FC66 /* Alamofire-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Alamofire-dummy.m"; sourceTree = "<group>"; };
 		339F7F306276782F336A5D2D16E01879 /* uri.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = uri.h; path = "Ji-libxml/uri.h"; sourceTree = "<group>"; };
-		33E9222BC10FEA4F910230118901552B /* Pods-Emogo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Emogo.modulemap"; sourceTree = "<group>"; };
+		33E9222BC10FEA4F910230118901552B /* Pods-Emogo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Emogo.modulemap"; sourceTree = "<group>"; };
 		34FDB2C88136B9AFA1349AD613A40A3F /* Pods-Emogo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Emogo-dummy.m"; sourceTree = "<group>"; };
 		3527FFD89D6FEAD612C118F4BDC86F86 /* Pods-ShareExt-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-ShareExt-umbrella.h"; sourceTree = "<group>"; };
 		358B2D0E37F6DD8C20439EA136501321 /* Request.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Source/Request.swift; sourceTree = "<group>"; };
@@ -977,7 +977,7 @@
 		37AF99C9CD82DCE48A4EDFF297407824 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIImage+Extensions.swift"; path = "Source/iOS/UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		37BFF42C9A95F5BE030B2B8DA3EA1C8E /* AWSDDLegacyMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDLegacyMacros.h; path = AWSCore/Logging/AWSDDLegacyMacros.h; sourceTree = "<group>"; };
 		3889B5839C6E67A2E160A96E9DB169D5 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		389E2EE9C64D910EB21551386C0A2B65 /* Lightbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Lightbox.framework; path = Lightbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		389E2EE9C64D910EB21551386C0A2B65 /* Lightbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lightbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38C02CD97415DF8A7DFAA2C42D6063CC /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/SDWebImageOperation.h; sourceTree = "<group>"; };
 		38E8298648D0D2E5DAEEC5104171A5F2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38E83C18A413F2A731F3A7A946021CEE /* ImaginaryError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImaginaryError.swift; path = Sources/Shared/Library/ImaginaryError.swift; sourceTree = "<group>"; };
@@ -991,7 +991,7 @@
 		3E31BF089918D22E8207B09A456B9268 /* AWSCancellationTokenSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSCancellationTokenSource.m; path = AWSCore/Bolts/AWSCancellationTokenSource.m; sourceTree = "<group>"; };
 		3E3365FF0FF7F815C03365E58917B7A6 /* AWSBolts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSBolts.m; path = AWSCore/Bolts/AWSBolts.m; sourceTree = "<group>"; };
 		3E57B68CD7794F83B4303CF84C0447CF /* Gallery.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Gallery.xcconfig; sourceTree = "<group>"; };
-		3EBB99B71D2631988FE42E91AF930DDF /* AWSCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = AWSCore.framework; path = AWSCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EBB99B71D2631988FE42E91AF930DDF /* AWSCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AWSCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECC56D1605BAF862F25416D7313BF10 /* Pods-EmogoUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-EmogoUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3FFCF11ACB9F38D2AA8D14E056BDAD8B /* Entry.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Entry.swift; path = Source/Shared/Library/Entry.swift; sourceTree = "<group>"; };
 		406D19179AA91919FDAA135E5108BC7D /* xmlmemory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlmemory.h; path = "Ji-libxml/xmlmemory.h"; sourceTree = "<group>"; };
@@ -1005,7 +1005,7 @@
 		42E66BA6BB6446A0632DFC2BE5A93FB5 /* ReadabilityKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadabilityKit-umbrella.h"; sourceTree = "<group>"; };
 		43AD5E7CE902806593EBD2D670E12422 /* AWSSTSResources.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSSTSResources.h; path = AWSCore/STS/AWSSTSResources.h; sourceTree = "<group>"; };
 		442DAFDB03A8A3E4EBD6E93E8F2935C0 /* AWSClientContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSClientContext.h; path = AWSCore/Service/AWSClientContext.h; sourceTree = "<group>"; };
-		44804201E1E71675EDDD183EA465E904 /* AWSS3.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AWSS3.modulemap; sourceTree = "<group>"; };
+		44804201E1E71675EDDD183EA465E904 /* AWSS3.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = AWSS3.modulemap; sourceTree = "<group>"; };
 		44AC01592BE931C2F8275D30B39F6674 /* AWSCocoaLumberjack.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSCocoaLumberjack.h; path = AWSCore/Logging/AWSCocoaLumberjack.h; sourceTree = "<group>"; };
 		44B2F8A4954AE776BDADC16A88451A2A /* ImageViewDisplayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageViewDisplayer.swift; path = Sources/iOS/ImageViewDisplayer.swift; sourceTree = "<group>"; };
 		44FC040C7926B6A4C054FC253905D7CB /* FABKitProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FABKitProtocol.h; path = AWSCore/Fabric/FABKitProtocol.h; sourceTree = "<group>"; };
@@ -1022,7 +1022,7 @@
 		497A94931751F3246B5EB5B381787C16 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		49CED819BCDF420852D26B8A637969DD /* AWSS3-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AWSS3-prefix.pch"; sourceTree = "<group>"; };
 		49D981D61C7FE45A391EF99A0694D0F8 /* AWSDDMultiFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDMultiFormatter.h; path = AWSCore/Logging/Extensions/AWSDDMultiFormatter.h; sourceTree = "<group>"; };
-		4A5608FB75450B18E15BEC96FC5B642A /* Gallery.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Gallery.framework; path = Gallery.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A5608FB75450B18E15BEC96FC5B642A /* Gallery.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Gallery.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A64CB22ADE99ECAE89E1B74413CBEB2 /* TypeWrapperStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TypeWrapperStorage.swift; path = Source/Shared/Storage/TypeWrapperStorage.swift; sourceTree = "<group>"; };
 		4AAF19E5D8064607688B04E835F63591 /* Utils.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Sources/Utils/Utils.swift; sourceTree = "<group>"; };
 		4B7AF26A1E3C4C5BEEC4B5DC037BDFAB /* AWSCredentialsProvider.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSCredentialsProvider.h; path = AWSCore/Authentication/AWSCredentialsProvider.h; sourceTree = "<group>"; };
@@ -1041,14 +1041,14 @@
 		52A4A81E3A6A4CCBE5805D1095BCB031 /* NSValueTransformer+AWSMTLInversionAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSValueTransformer+AWSMTLInversionAdditions.m"; path = "AWSCore/Mantle/NSValueTransformer+AWSMTLInversionAdditions.m"; sourceTree = "<group>"; };
 		533D0FE709482F07D047977150E9F8C3 /* Pods-ShareExt-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-ShareExt-dummy.m"; sourceTree = "<group>"; };
 		535DD92C18AF161BB62572703C0E5EAD /* Pods-EmogoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-EmogoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		53E37D70CB26BCEF8EB5283DEE581DF8 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		53E37D70CB26BCEF8EB5283DEE581DF8 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55DD5FAA6C36748295A075AA6AD0440C /* SDImageCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCache.m; path = SDWebImage/SDImageCache.m; sourceTree = "<group>"; };
 		563B02CDA8D4BFACDEEAC5D77CF0C374 /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "IQNSArray+Sort.swift"; path = "IQKeyboardManagerSwift/Categories/IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		567CF798767E387B445D9D4BDBB10E7D /* AWSS3Resources.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSS3Resources.m; path = AWSS3/AWSS3Resources.m; sourceTree = "<group>"; };
 		568F87A39AF8FABD34D2D8AF126A720F /* AsyncStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncStorage.swift; path = Source/Shared/Storage/AsyncStorage.swift; sourceTree = "<group>"; };
 		56B3039A783B4E41FAB53253FFC5F4C3 /* AWSCognitoIdentity.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSCognitoIdentity.h; path = AWSCore/CognitoIdentity/AWSCognitoIdentity.h; sourceTree = "<group>"; };
 		56D77C2DD9EEDE002F9C8F8EED928E01 /* MultipleImageFetcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MultipleImageFetcher.swift; path = Sources/Shared/Fetcher/MultipleImageFetcher.swift; sourceTree = "<group>"; };
-		5730B3DB6D19CAB4793BECDA7889DEEA /* Pods_ShareExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_ShareExt.framework; path = "Pods-ShareExt.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5730B3DB6D19CAB4793BECDA7889DEEA /* Pods_ShareExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShareExt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5759667F85019B5D2C120C2EBDE214E0 /* AWSSTS.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSSTS.h; path = AWSCore/STS/AWSSTS.h; sourceTree = "<group>"; };
 		576B68BDA25AD927C80A0B459343D62C /* Pods-Emogo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Emogo-umbrella.h"; sourceTree = "<group>"; };
 		5822DF3D2BDF3DDCE95716E4CE5D6CDD /* dict.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dict.h; path = "Ji-libxml/dict.h"; sourceTree = "<group>"; };
@@ -1095,12 +1095,12 @@
 		67BDB3529A196C174B8D0D7A0FA4AE7E /* GalleryBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GalleryBundle.swift; path = Sources/Utils/GalleryBundle.swift; sourceTree = "<group>"; };
 		68B2CF11097920055E46EF8F4022CCB1 /* DispatchQueue+Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Alamofire.swift"; path = "Source/DispatchQueue+Alamofire.swift"; sourceTree = "<group>"; };
 		69765D8A892EB9FA93F26D4C31756947 /* AWSCognitoIdentity+Fabric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "AWSCognitoIdentity+Fabric.h"; path = "AWSCore/CognitoIdentity/AWSCognitoIdentity+Fabric.h"; sourceTree = "<group>"; };
-		6990A821A51871C7B80F889D3056FDBB /* IQKeyboardManagerSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = IQKeyboardManagerSwift.modulemap; sourceTree = "<group>"; };
+		6990A821A51871C7B80F889D3056FDBB /* IQKeyboardManagerSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = IQKeyboardManagerSwift.modulemap; sourceTree = "<group>"; };
 		6A07ECA4EF9EBC1BA0C4F0A8C51B90BF /* SDWebImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SDWebImage.xcconfig; sourceTree = "<group>"; };
 		6AD1F1B434E5A4E892543BE8522A66CF /* valid.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = valid.h; path = "Ji-libxml/valid.h"; sourceTree = "<group>"; };
 		6B4C9A297E44B9C8E63AD140DD86237C /* AWSS3TransferManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSS3TransferManager.h; path = AWSS3/AWSS3TransferManager.h; sourceTree = "<group>"; };
 		6B6805B94BF2F6658D81A2C67129FF9C /* AWSFMDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSFMDatabase.m; path = AWSCore/FMDB/AWSFMDatabase.m; sourceTree = "<group>"; };
-		6B85349198AA5C104C0E43224B125829 /* Lightbox.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Lightbox.modulemap; sourceTree = "<group>"; };
+		6B85349198AA5C104C0E43224B125829 /* Lightbox.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Lightbox.modulemap; sourceTree = "<group>"; };
 		6C2409343D9C99A149E3923691A28D1D /* AWSDDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDDispatchQueueLogFormatter.h; path = AWSCore/Logging/Extensions/AWSDDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
 		6C44C3B4BEE456FA325B10F413B53A3B /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AVKit.framework; sourceTree = DEVELOPER_DIR; };
 		6D15971BFF0BCAF87936D6F0E4DEC866 /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderOperation.m; path = SDWebImage/SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
@@ -1111,12 +1111,12 @@
 		706AAB1E5EEBD71F6750962D26F3C4A4 /* IQKeyboardManagerSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "IQKeyboardManagerSwift-umbrella.h"; sourceTree = "<group>"; };
 		7088E30F723AD1084339D8C058D766B3 /* AWSEXTRuntimeExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSEXTRuntimeExtensions.m; path = AWSCore/Mantle/extobjc/AWSEXTRuntimeExtensions.m; sourceTree = "<group>"; };
 		708DA8347B25F343DE0E4EE18BE7F6AB /* SwiftyCam-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftyCam-dummy.m"; sourceTree = "<group>"; };
-		70E8623FDCF0030F08DE831EB4D3F169 /* SwiftyCam.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftyCam.modulemap; sourceTree = "<group>"; };
-		713C24BC5AF7D4D3E4EB68D0F132ECD0 /* ReadabilityKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = ReadabilityKit.modulemap; sourceTree = "<group>"; };
+		70E8623FDCF0030F08DE831EB4D3F169 /* SwiftyCam.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyCam.modulemap; sourceTree = "<group>"; };
+		713C24BC5AF7D4D3E4EB68D0F132ECD0 /* ReadabilityKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = ReadabilityKit.modulemap; sourceTree = "<group>"; };
 		71AB25151985FE8FAC101C5FB3CD843D /* AWSS3.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AWSS3.xcconfig; sourceTree = "<group>"; };
 		71ED728422865948F46A83595FC2FE97 /* AWSInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSInfo.m; path = AWSCore/Service/AWSInfo.m; sourceTree = "<group>"; };
 		733248204B12B1C8F4B50597D5243991 /* SAX2.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SAX2.h; path = "Ji-libxml/SAX2.h"; sourceTree = "<group>"; };
-		749AC6ADB46B53C96ABE5A0A1D1863E4 /* Pods-EmogoUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-EmogoUITests.modulemap"; sourceTree = "<group>"; };
+		749AC6ADB46B53C96ABE5A0A1D1863E4 /* Pods-EmogoUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-EmogoUITests.modulemap"; sourceTree = "<group>"; };
 		74BA1EB4785A83D12C5164B61ED6507D /* Pods-ShareExt-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-ShareExt-resources.sh"; sourceTree = "<group>"; };
 		74C377BEA159183970E9BEDD49A35ABD /* Pods-iMessageExt-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-iMessageExt-acknowledgements.plist"; sourceTree = "<group>"; };
 		7527BC13101852A4782472D819DB5A90 /* Pods-EmogoUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-EmogoUITests-umbrella.h"; sourceTree = "<group>"; };
@@ -1139,12 +1139,12 @@
 		7BB0CED58559B3B837B61C64B667A1DA /* Pods-ShareExt-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-ShareExt-acknowledgements.markdown"; sourceTree = "<group>"; };
 		7C371AAC6C9081AA22A0D7B96404080D /* Pods-EmogoUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-EmogoUITests-dummy.m"; sourceTree = "<group>"; };
 		7CA2A89BD97FF33880AFDAEACA6864BB /* UIImageView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "SDWebImage/UIImageView+WebCache.m"; sourceTree = "<group>"; };
-		7CF5B183451F1FF060EE0336330C81C4 /* Pods-iMessageExt.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-iMessageExt.modulemap"; sourceTree = "<group>"; };
+		7CF5B183451F1FF060EE0336330C81C4 /* Pods-iMessageExt.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-iMessageExt.modulemap"; sourceTree = "<group>"; };
 		7D113E7AA54F721C98E6F68616D811A4 /* Lightbox.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = Lightbox.bundle; path = Resources/Lightbox.bundle; sourceTree = "<group>"; };
-		7DB24291A943462F5AADC5FBF094F496 /* Pods-ShareExt.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-ShareExt.modulemap"; sourceTree = "<group>"; };
+		7DB24291A943462F5AADC5FBF094F496 /* Pods-ShareExt.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-ShareExt.modulemap"; sourceTree = "<group>"; };
 		7DBEF8B452FD70BF02F4EED35BCAD851 /* catalog.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = catalog.h; path = "Ji-libxml/catalog.h"; sourceTree = "<group>"; };
-		7E49068A1810D1314E593FE0DA882551 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Emogo.framework; path = "Pods-Emogo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81063EFE49BAE36037EE9107C03E1353 /* Ji.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Ji.framework; path = Ji.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E49068A1810D1314E593FE0DA882551 /* Pods_Emogo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Emogo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81063EFE49BAE36037EE9107C03E1353 /* Ji.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Ji.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		810B7247F294495EF78B013B950869D9 /* NSObject+AWSMTLComparisonAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+AWSMTLComparisonAdditions.m"; path = "AWSCore/Mantle/NSObject+AWSMTLComparisonAdditions.m"; sourceTree = "<group>"; };
 		8127154B15A939CC75D03AD3767319E9 /* LightboxImage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LightboxImage.swift; path = Source/LightboxImage.swift; sourceTree = "<group>"; };
 		814351679C722F5F98969BD78A9C60F3 /* Ji-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Ji-prefix.pch"; sourceTree = "<group>"; };
@@ -1153,18 +1153,18 @@
 		828B0BF1457348AA61C7B164CE09375D /* xmlstring.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlstring.h; path = "Ji-libxml/xmlstring.h"; sourceTree = "<group>"; };
 		831E2FF7320CFD1BB7F2070EC3204A61 /* AWSDDOSLogger.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSDDOSLogger.h; path = AWSCore/Logging/AWSDDOSLogger.h; sourceTree = "<group>"; };
 		83C6BB89772AFE544FDCAE1BD88A4A6B /* Cache-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Cache-dummy.m"; sourceTree = "<group>"; };
-		83F0AB6CEC75AC5F197DF9F305996A05 /* Hue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Hue.framework; path = Hue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		83F0AB6CEC75AC5F197DF9F305996A05 /* Hue.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hue.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8486562F6DDF54431BDE723672B4B121 /* Fetcher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fetcher.swift; path = Sources/Utils/Fetcher.swift; sourceTree = "<group>"; };
 		849EFE48FEE9DC9AFC7A7B25CF077C5F /* CameraView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CameraView.swift; path = Sources/Camera/CameraView.swift; sourceTree = "<group>"; };
 		84A1C50BD11090E487E2122F6625DF5B /* CameraMan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CameraMan.swift; path = Sources/Camera/CameraMan.swift; sourceTree = "<group>"; };
 		84CC553DF1F4B4E8677407BFF580D395 /* AssetManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetManager.swift; path = Source/AssetManager.swift; sourceTree = "<group>"; };
 		84D435461970EA80A0E319F74C34A38A /* AWSValidation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSValidation.h; path = AWSCore/Serialization/AWSValidation.h; sourceTree = "<group>"; };
-		85108206BE787E92D232E4693F81077C /* IQKeyboardManagerSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = IQKeyboardManagerSwift.framework; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85108206BE787E92D232E4693F81077C /* IQKeyboardManagerSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IQKeyboardManagerSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		869A70B8556EAEDED4DFBA52B666C03B /* Alamofire.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Alamofire.swift; path = Source/Alamofire.swift; sourceTree = "<group>"; };
 		87A4E2780F5B6D66EE328702DF155066 /* ImageDisplayer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageDisplayer.swift; path = Sources/Shared/Library/ImageDisplayer.swift; sourceTree = "<group>"; };
 		88AF330712C8F6B14DEC8412206CE82D /* Config.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Config.swift; path = Sources/Utils/Config.swift; sourceTree = "<group>"; };
 		88D13D173D77E6912DDC65B04085EEB2 /* LightboxController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LightboxController.swift; path = Source/LightboxController.swift; sourceTree = "<group>"; };
-		88EFB376357D7ABE9DA8609FE22B1F55 /* ReadabilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadabilityKit.framework; path = ReadabilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88EFB376357D7ABE9DA8609FE22B1F55 /* ReadabilityKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadabilityKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F320F5E082EF29DFF004E2266CD912 /* AWSCancellationToken.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSCancellationToken.m; path = AWSCore/Bolts/AWSCancellationToken.m; sourceTree = "<group>"; };
 		89D0BFF1766C57C2312891DC0BF396D9 /* Fabric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Fabric.h; path = iOS/Fabric.framework/Headers/Fabric.h; sourceTree = "<group>"; };
 		8AA1FE86082C6FC8FB7673D5C36EFE9F /* AWSMTLManagedObjectAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSMTLManagedObjectAdapter.h; path = AWSCore/Mantle/AWSMTLManagedObjectAdapter.h; sourceTree = "<group>"; };
@@ -1185,7 +1185,7 @@
 		92F99C3FFCD4AEF180A8AF195096005B /* EventHub.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EventHub.swift; path = Sources/Utils/EventHub.swift; sourceTree = "<group>"; };
 		9389D7B6950E2EF4F4ED3D3828D34664 /* Pods-Emogo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Emogo-resources.sh"; sourceTree = "<group>"; };
 		93951026AE6F164AFD8DC80F5BB459E0 /* IQKeyboardManagerConstantsInternal.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQKeyboardManagerConstantsInternal.swift; path = IQKeyboardManagerSwift/Constants/IQKeyboardManagerConstantsInternal.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93C87E9655B104C2A49D76241ABDE939 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = iOS/Crashlytics.framework; sourceTree = "<group>"; };
 		9485F1A3BF924F00C2F271D0C40146AB /* ReadabilityKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadabilityKit-prefix.pch"; sourceTree = "<group>"; };
 		94A15204E8105CFE0EB67F978E36EAA8 /* Pods-EmogoTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-EmogoTests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -1214,7 +1214,7 @@
 		A0726AF844F3C726F90F685D4F7402D6 /* AWSTMDiskCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSTMDiskCache.m; path = AWSCore/TMCache/AWSTMDiskCache.m; sourceTree = "<group>"; };
 		A08554A824EBCC68AAE2CEDD3D7C71B6 /* AWSKSReachability.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSKSReachability.m; path = AWSCore/KSReachability/AWSKSReachability.m; sourceTree = "<group>"; };
 		A0B3662ADF3A6DC3965D0D2B102085EF /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Types.swift; path = Sources/Shared/Library/Types.swift; sourceTree = "<group>"; };
-		A0DA1675B77B2E62092D729F7EAB7BA0 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
+		A0DA1675B77B2E62092D729F7EAB7BA0 /* SwiftyJSON.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SwiftyJSON.modulemap; sourceTree = "<group>"; };
 		A119189C36E9CF679ABDDB6073DF63E1 /* encoding.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = encoding.h; path = "Ji-libxml/encoding.h"; sourceTree = "<group>"; };
 		A211B9DE184D40A7D47AAA51C949F5D5 /* HybridStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HybridStorage.swift; path = Source/Shared/Storage/HybridStorage.swift; sourceTree = "<group>"; };
 		A25E6B70BCC31759F22A76FBF9D66C5F /* AWSGeneric.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSGeneric.h; path = AWSCore/Bolts/AWSGeneric.h; sourceTree = "<group>"; };
@@ -1282,14 +1282,14 @@
 		C120F6FD0A35D0869C6C07EDAC98FF35 /* AWSSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSSerialization.m; path = AWSCore/Serialization/AWSSerialization.m; sourceTree = "<group>"; };
 		C1E6C181D8CF156DB6DD0DE3B6826F92 /* IQKeyboardManagerConstants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IQKeyboardManagerConstants.swift; path = IQKeyboardManagerSwift/Constants/IQKeyboardManagerConstants.swift; sourceTree = "<group>"; };
 		C1FB58AC38A4ECBB27E317B661BEAC49 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2630A409FC1AE0E9C8D9C024A682AD5 /* AWSCore.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = AWSCore.modulemap; sourceTree = "<group>"; };
+		C2630A409FC1AE0E9C8D9C024A682AD5 /* AWSCore.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = AWSCore.modulemap; sourceTree = "<group>"; };
 		C29D69175584262C99F5E1C7536A89DF /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImagePrefetcher.h; path = SDWebImage/SDWebImagePrefetcher.h; sourceTree = "<group>"; };
 		C2C10FC07272A3511D87CD6B72287112 /* AWSS3TransferManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSS3TransferManager.m; path = AWSS3/AWSS3TransferManager.m; sourceTree = "<group>"; };
 		C2EBA02669CA80D073B0869ABEC5FA70 /* Cache.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cache.xcconfig; sourceTree = "<group>"; };
 		C339BECA00B8133D170A8BD48B04F814 /* ReadabilityKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReadabilityKit-dummy.m"; sourceTree = "<group>"; };
 		C3CACB7A6AB6A116CC5C6EF7A777D783 /* NSError+AWSMTLModelException.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSError+AWSMTLModelException.h"; path = "AWSCore/Mantle/NSError+AWSMTLModelException.h"; sourceTree = "<group>"; };
 		C43BA57628FA8182B4368B5B9393376C /* SDWebImage-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SDWebImage-umbrella.h"; sourceTree = "<group>"; };
-		C565108AFEC67BE49DAE226FA6AE69CE /* Ji.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Ji.modulemap; sourceTree = "<group>"; };
+		C565108AFEC67BE49DAE226FA6AE69CE /* Ji.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Ji.modulemap; sourceTree = "<group>"; };
 		C5B30A8C8C55EDE6CD7C04D54FB02283 /* VideoEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VideoEditor.swift; path = Sources/Utils/VideoEditor/VideoEditor.swift; sourceTree = "<group>"; };
 		C68BFC869007017C1FF1297A83740B42 /* AWSCognitoIdentity+Fabric.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "AWSCognitoIdentity+Fabric.m"; path = "AWSCore/CognitoIdentity/AWSCognitoIdentity+Fabric.m"; sourceTree = "<group>"; };
 		C6959D138A5B73AFBD4EDED9257FC371 /* VideoEditing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VideoEditing.swift; path = Sources/Utils/VideoEditor/VideoEditing.swift; sourceTree = "<group>"; };
@@ -1304,7 +1304,7 @@
 		CB5D5BC9F2DFE55081714B22969FD5D2 /* AWSServiceEnum.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSServiceEnum.h; path = AWSCore/Service/AWSServiceEnum.h; sourceTree = "<group>"; };
 		CBF3AE935D9667C11C7047FA818C1CC3 /* xmlversion.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlversion.h; path = "Ji-libxml/xmlversion.h"; sourceTree = "<group>"; };
 		CC64CED739AB005DC4F5E3D5DB3A1D60 /* AWSCancellationTokenRegistration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSCancellationTokenRegistration.h; path = AWSCore/Bolts/AWSCancellationTokenRegistration.h; sourceTree = "<group>"; };
-		CCE9899E9919ACE421BF6F01E54301D7 /* SwiftyCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftyCam.framework; path = SwiftyCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CCE9899E9919ACE421BF6F01E54301D7 /* SwiftyCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCFE458BCF03C9ED45E1090C44C7E174 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Sources/Shared/Library/Result.swift; sourceTree = "<group>"; };
 		CDDDCBF978C6FAF121B1F543373AA674 /* Imaginary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Imaginary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE47441721E5356F0B0F0526BE4A0571 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -1333,7 +1333,7 @@
 		D5FC55B413BC0B4F35538945D2AE75D6 /* AWSLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSLogging.h; path = AWSCore/Utility/AWSLogging.h; sourceTree = "<group>"; };
 		D60F87E881358B0F8F52B010E08778CF /* PageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PageView.swift; path = Source/Views/PageView.swift; sourceTree = "<group>"; };
 		D64A39D61C4D03408E122666F6F974EB /* CLSStackFrame.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSStackFrame.h; path = iOS/Crashlytics.framework/Headers/CLSStackFrame.h; sourceTree = "<group>"; };
-		D64AD0D819F94B49067B5E8CA4CE8118 /* Imaginary.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Imaginary.modulemap; sourceTree = "<group>"; };
+		D64AD0D819F94B49067B5E8CA4CE8118 /* Imaginary.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Imaginary.modulemap; sourceTree = "<group>"; };
 		D64FAD5CDC39ED870B802E8BBD3681B3 /* Readability+Networking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Readability+Networking.swift"; path = "Sources/Readability+Networking.swift"; sourceTree = "<group>"; };
 		D660C9C52119AD21474240EC2BE87E7B /* PermissionController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PermissionController.swift; path = Sources/Utils/Permission/PermissionController.swift; sourceTree = "<group>"; };
 		D6B60AEEA26B52E6BF52E36B045DC048 /* list.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = list.h; path = "Ji-libxml/list.h"; sourceTree = "<group>"; };
@@ -1343,7 +1343,7 @@
 		D7E57281959A6E1D13DB9BD1555DA809 /* AWSSTSModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSSTSModel.m; path = AWSCore/STS/AWSSTSModel.m; sourceTree = "<group>"; };
 		D7EEEADF02B729FE6B93D9D245D1A069 /* AsyncStorageAware.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncStorageAware.swift; path = Source/Shared/Storage/AsyncStorageAware.swift; sourceTree = "<group>"; };
 		D80B55CA080884F63675EBF7E3A0026B /* DataSerializer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataSerializer.swift; path = Source/Shared/Library/DataSerializer.swift; sourceTree = "<group>"; };
-		D81275BB459E96E3F153DA774A620F6F /* Pods-EmogoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-EmogoTests.modulemap"; sourceTree = "<group>"; };
+		D81275BB459E96E3F153DA774A620F6F /* Pods-EmogoTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-EmogoTests.modulemap"; sourceTree = "<group>"; };
 		D815163BFC272504CFB3C33DC682F073 /* hash.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = hash.h; path = "Ji-libxml/hash.h"; sourceTree = "<group>"; };
 		D8E08F171D2BFD2A92B8569DE56347BA /* CLSLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CLSLogging.h; path = iOS/Crashlytics.framework/Headers/CLSLogging.h; sourceTree = "<group>"; };
 		D9476ED5E9536C41E2A5F4A9D31FC107 /* UIImage+ForceDecode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ForceDecode.m"; path = "SDWebImage/UIImage+ForceDecode.m"; sourceTree = "<group>"; };
@@ -1370,7 +1370,7 @@
 		E38C4123E994E235C97176CB6EED747F /* xmlschemas.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = xmlschemas.h; path = "Ji-libxml/xmlschemas.h"; sourceTree = "<group>"; };
 		E4CEF7043EAD35ED527806E4A7BFFB99 /* AWSCore.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AWSCore.xcconfig; sourceTree = "<group>"; };
 		E5431AE11B7739C0E68DC659B51198DD /* AWSFMDatabaseAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSFMDatabaseAdditions.m; path = AWSCore/FMDB/AWSFMDatabaseAdditions.m; sourceTree = "<group>"; };
-		E5894E9AA12A4B18EC4015A847519DA5 /* Gallery.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = Gallery.modulemap; sourceTree = "<group>"; };
+		E5894E9AA12A4B18EC4015A847519DA5 /* Gallery.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = Gallery.modulemap; sourceTree = "<group>"; };
 		E6AA449C1950D53ED3950A76615B74CD /* AWSS3Service.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSS3Service.m; path = AWSS3/AWSS3Service.m; sourceTree = "<group>"; };
 		E6B8FC8DBA51E7163E746DF427000D42 /* AWSClientContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSClientContext.m; path = AWSCore/Service/AWSClientContext.m; sourceTree = "<group>"; };
 		E72C2B04F28B52F4E853590B8557F55E /* SDWebImageCodersManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCodersManager.m; path = SDWebImage/SDWebImageCodersManager.m; sourceTree = "<group>"; };
@@ -1430,7 +1430,7 @@
 		FD65314B9607E1E188738896A3E26389 /* InfoLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InfoLabel.swift; path = Source/Views/InfoLabel.swift; sourceTree = "<group>"; };
 		FDFCF21CABC005AF10FA46F36072EFB4 /* AWSDDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AWSDDDispatchQueueLogFormatter.m; path = AWSCore/Logging/Extensions/AWSDDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		FEBCAA06AAE560377B563F201020B99B /* AWSXMLDictionary.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSXMLDictionary.h; path = AWSCore/XMLDictionary/AWSXMLDictionary.h; sourceTree = "<group>"; };
-		FEE422D03E259DEDF5C48665EC28AB39 /* Pods_iMessageExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_iMessageExt.framework; path = "Pods-iMessageExt.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FEE422D03E259DEDF5C48665EC28AB39 /* Pods_iMessageExt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMessageExt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF02B14DB7E75C6AF694ABE14399B95A /* AWSURLRequestRetryHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSURLRequestRetryHandler.h; path = AWSCore/Serialization/AWSURLRequestRetryHandler.h; sourceTree = "<group>"; };
 		FF242D216E3A4509E0853586CF0F8D7C /* View+Imaginary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "View+Imaginary.swift"; path = "Sources/Shared/Extensions/View+Imaginary.swift"; sourceTree = "<group>"; };
 		FF28E567087F08D33CD5FA7B63F1654D /* AWSFMDatabase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AWSFMDatabase.h; path = AWSCore/FMDB/AWSFMDatabase.h; sourceTree = "<group>"; };
@@ -1640,7 +1640,6 @@
 				E3373A47296A4306679EEC2FA68BF987 /* Core */,
 				792BD43650587350D08B7632CFA93B82 /* Support Files */,
 			);
-			name = SDWebImage;
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
@@ -1713,7 +1712,6 @@
 				C9275E464FD01EAFE58FBBE674D4BDDA /* Crashlytics.h */,
 				7D0493C39D0F3196BDCD4237A2D764DA /* Frameworks */,
 			);
-			name = Crashlytics;
 			path = Crashlytics;
 			sourceTree = "<group>";
 		};
@@ -1739,7 +1737,6 @@
 				15AF0F17ECD605CC464E0A9E45479FFE /* Validation.swift */,
 				6BEB0104C9F25FF310C9343CF1F53472 /* Support Files */,
 			);
-			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -1765,7 +1762,6 @@
 				59EB96746D5D2C6F4B0796CCCC8F6CCE /* Resources */,
 				94DECC6ED08F8EA1AD8EA0D3ED1E2814 /* Support Files */,
 			);
-			name = IQKeyboardManagerSwift;
 			path = IQKeyboardManagerSwift;
 			sourceTree = "<group>";
 		};
@@ -1784,7 +1780,6 @@
 				99BDAC9CA6C4CA82B7669440A6467714 /* Ji-libxml */,
 				F31388B77ECDAB6C36CEFECB11A1D02C /* Support Files */,
 			);
-			name = Ji;
 			path = Ji;
 			sourceTree = "<group>";
 		};
@@ -1818,7 +1813,6 @@
 				03FDD1DC8436A3E3CB6DEA735D7F61F1 /* AWSS3TransferUtility.m */,
 				7DA5FD1ACE5FAD5D187C7A47B211CCB8 /* Support Files */,
 			);
-			name = AWSS3;
 			path = AWSS3;
 			sourceTree = "<group>";
 		};
@@ -1832,7 +1826,6 @@
 				F964B105306C1A916EF6FC713E5CDC86 /* StringExtension.swift */,
 				744A037A8359B9C91D24FDC9297858C6 /* Support Files */,
 			);
-			name = ReadabilityKit;
 			path = ReadabilityKit;
 			sourceTree = "<group>";
 		};
@@ -2049,7 +2042,6 @@
 				11AF9FF67554054E209932C8204A2D47 /* SwiftyCamViewControllerDelegate.swift */,
 				24BC809DB331B97F460B08508174F822 /* Support Files */,
 			);
-			name = SwiftyCam;
 			path = SwiftyCam;
 			sourceTree = "<group>";
 		};
@@ -2267,7 +2259,6 @@
 				B2A118EF953DDA00B306E5C2FAF5AF68 /* NSValueTransformer+AWSMTLPredefinedTransformerAdditions.m */,
 				786866C8176B32F37358360B8917F0E5 /* Support Files */,
 			);
-			name = AWSCore;
 			path = AWSCore;
 			sourceTree = "<group>";
 		};
@@ -2306,7 +2297,6 @@
 				75B51B461C6CD4822ED4332743B9255C /* UIImage+Hue.swift */,
 				FCB423D669D9DEA7407FE59AE03E059D /* Support Files */,
 			);
-			name = Hue;
 			path = Hue;
 			sourceTree = "<group>";
 		};
@@ -2381,7 +2371,6 @@
 				FF242D216E3A4509E0853586CF0F8D7C /* View+Imaginary.swift */,
 				8206775E8884BBE64929150CAE321B65 /* Support Files */,
 			);
-			name = Imaginary;
 			path = Imaginary;
 			sourceTree = "<group>";
 		};
@@ -2415,7 +2404,6 @@
 				37AF99C9CD82DCE48A4EDFF297407824 /* UIImage+Extensions.swift */,
 				FC8A01DF0000F91BB75E7766957793F6 /* Support Files */,
 			);
-			name = Cache;
 			path = Cache;
 			sourceTree = "<group>";
 		};
@@ -2425,7 +2413,6 @@
 				A7FDF6A515093E4F563E74D80EC3FE1E /* SwiftyJSON.swift */,
 				989C517CDCA9C34716537F3BD8F9A150 /* Support Files */,
 			);
-			name = SwiftyJSON;
 			path = SwiftyJSON;
 			sourceTree = "<group>";
 		};
@@ -2447,7 +2434,6 @@
 				B05911419C10AFDF1942C2FDC8732FAB /* Resources */,
 				62FC4AEAAC05D0133F68773FB6622175 /* Support Files */,
 			);
-			name = Lightbox;
 			path = Lightbox;
 			sourceTree = "<group>";
 		};
@@ -2519,7 +2505,6 @@
 				4DA88D8619E23F71B2849A69F4609A16 /* Resources */,
 				D2C6A344E9C1ED0EDE4ECF5E73CD6ABC /* Support Files */,
 			);
-			name = Gallery;
 			path = Gallery;
 			sourceTree = "<group>";
 		};
@@ -2592,7 +2577,6 @@
 				89D0BFF1766C57C2312891DC0BF396D9 /* Fabric.h */,
 				D8C4A65C5DEA28F422BA400E638431FA /* Frameworks */,
 			);
-			name = Fabric;
 			path = Fabric;
 			sourceTree = "<group>";
 		};
@@ -4151,7 +4135,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -4250,7 +4234,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";

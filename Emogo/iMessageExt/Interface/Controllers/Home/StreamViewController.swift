@@ -8,6 +8,7 @@
 
 import UIKit
 import Messages
+import Lightbox
 
 class StreamViewController: MSMessagesAppViewController {
     
@@ -401,6 +402,10 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        
+        cell.btnPlay.tag = indexPath.row
+        cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+        
         cell.prepareLayout(content:content!)
         return cell
     }
@@ -424,6 +429,45 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row
         self.present(obj, animated: false, completion: nil)
+    }
+    
+    @objc func btnPlayAction(sender:UIButton){
+        self.openFullView(index: sender.tag)
+    }
+    
+    func openFullView(index:Int){
+        var arrayContents = [LightboxImage]()
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        for obj in array! {
+            var image:LightboxImage!
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+
+        let controller = LightboxController(images: arrayContents, startIndex: index - 1)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
     }
 }
 

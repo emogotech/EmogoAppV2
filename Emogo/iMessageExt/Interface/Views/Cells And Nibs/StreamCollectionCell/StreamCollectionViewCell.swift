@@ -13,6 +13,7 @@ class StreamCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewAddContent   : UIView!
     @IBOutlet weak var imgCover         : UIImageView!
     @IBOutlet weak var lblName          : UILabel!
+    @IBOutlet weak var btnPlay          : UIButton!
     
     override func awakeFromNib() {
         self.layer.cornerRadius = 5.0
@@ -20,28 +21,23 @@ class StreamCollectionViewCell: UICollectionViewCell {
     }
     
     func prepareLayout(content:ContentDAO){
+        self.imgCover.contentMode = .scaleAspectFill
         if content.isAdd == true {
             viewAddContent.isHidden = false
-        } else {
+        }else {
             viewAddContent.isHidden  = true
             self.lblName.text = content.name.trim().capitalized
+            
             if content.type == .image {
                 self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
-            }else{
-                if !content.coverImage.isEmpty {
-                    let url = URL(string: content.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
-                    
-                    DispatchQueue.global(qos: .userInitiated).async {
-                       let image = SharedData.sharedInstance.getThumbnailImage(url: url!)
-                        // Bounce back to the main thread to update the UI
-                        DispatchQueue.main.async {
-                            self.imgCover.image = image
-                        }
-                    }
-                    
-                }
+                self.btnPlay.isHidden = true
+            }else if content.type == .video  {
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.btnPlay.isHidden = false
+            }else  if content.type == .link {
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.btnPlay.isHidden = true
             }
         }
     }
-    
 }
