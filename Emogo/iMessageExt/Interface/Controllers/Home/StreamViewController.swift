@@ -66,7 +66,7 @@ class StreamViewController: MSMessagesAppViewController {
             self.dismiss(animated: false, completion: nil)
              NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
         }else{
-            self.collectionStreams.reloadData()
+            self.getStream(type: "Direct")
         }
     }
     
@@ -306,6 +306,7 @@ class StreamViewController: MSMessagesAppViewController {
         let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteStreamMsg, preferredStyle: .alert)
         let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
+            
             APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
                 if (errorMsg?.isEmpty)! {
                     self.arrStream.remove(at: self.currentStreamIndex)

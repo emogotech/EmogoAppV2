@@ -407,10 +407,13 @@ class APIServiceManager: NSObject {
                     }
                 }
             case .error(let error):
-                print(error.localizedDescription)
-                completionHandler(nil,error.localizedDescription)
+                if error.localizedDescription.contains("\(APIStatus.NotFound.rawValue)") {
+                    completionHandler(nil,"\(APIStatus.NotFound.rawValue)")
+                    
+                }else{
+                 completionHandler(nil,error.localizedDescription)
+                }
             }
-            
         }
     }
     

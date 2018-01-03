@@ -237,8 +237,8 @@ let iMsgAlert_CancelTitle                 =  "Cancel"
 let kAlert_DeleteStreamMsg = "Are you sure, You want to Delete This Stream"
 let kAlert_DeleteContentMsg = "Are you sure, You want to Delete This Content"
 
-let kAlert_StreamNotFound = "The stream you requested do not exists"
-let kAlert_ContentNotFound = "The content you requested do not exists"
+let kAlert_StreamNotFound = "The stream you requested does not exists."
+let kAlert_ContentNotFound = "The content you requested does not exists."
 
 
 //Alert Types
