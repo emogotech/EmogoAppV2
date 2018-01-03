@@ -250,7 +250,6 @@ class StreamViewController: MSMessagesAppViewController {
         let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
             let streamID : String = (self.objStream?.streamID!)!
             let strUrl = "\(kDeepLinkURL)\(streamID)/\(kDeepLinkTypeAddContent)"
-            SharedData.sharedInstance.streamView = self.objStream
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
         let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in

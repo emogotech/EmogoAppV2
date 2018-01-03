@@ -82,7 +82,7 @@ class CameraViewController: SwiftyCamViewController {
         // Preview Height
         kPreviewHeight.constant = 24.0
         // Configure Gallery
-        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = true
+        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
         Gallery.Config.Camera.imageLimit =  10
