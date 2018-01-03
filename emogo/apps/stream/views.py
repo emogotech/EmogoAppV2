@@ -185,7 +185,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         """
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        serializer = self.get_serializer(data=request.data, partial=partial)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
@@ -194,15 +194,6 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        if request.data.get('streams') is not None:
-            streams = request.data.pop('streams')
-            if isinstance(streams, list) and streams.__len__() > 0:
-                for _ in streams:
-                    self.get_object().streams.add(_)
-        return self.update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         """

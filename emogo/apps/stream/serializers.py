@@ -232,7 +232,7 @@ class ContentSerializer(DynamicFieldsModelSerializer):
         extra_kwargs = {'name': {'required': False, 'allow_blank': True, 'allow_null': True},
                         'url': {'required': False, 'allow_blank': True, 'allow_null': True},
                         'type': {'required': True, 'allow_blank': False, 'allow_null': False},
-                        'streams': {'required': False}
+                        'streams': {'required': False, 'allow_null': False}
                         }
 
 
