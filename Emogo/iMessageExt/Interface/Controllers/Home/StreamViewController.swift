@@ -388,7 +388,7 @@ class StreamViewController: MSMessagesAppViewController {
                                     break
                                 }
                             }
-                            if isNavigateContent {
+                            if !isNavigateContent {
                                  self.showToastIMsg(type: .error, strMSG: kAlert_ContentNotFound)
                             }
                             
