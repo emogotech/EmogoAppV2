@@ -361,7 +361,6 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                     }
                     else {
-                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
                             self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
@@ -411,8 +410,10 @@ class StreamViewController: MSMessagesAppViewController {
                             self.hudView.stopLoaderWithAnimation()
                         }
                    }
-                    else {
+                    else if errorMsg == APIStatus.NotFound.rawValue{
                         self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
+                    }else{
+                        self.showToastIMsg(type: .error, strMSG: errorMsg!)
                     }
                 }
             }
