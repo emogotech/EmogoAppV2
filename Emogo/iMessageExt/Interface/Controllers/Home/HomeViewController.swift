@@ -1057,10 +1057,7 @@ extension HomeViewController : UIScrollViewDelegate {
                 } else if (isSearch == true && isStreamEnable == true && btnFeature.titleLabel?.text == kSearchType){
                     self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .down)
                 }
-                else if btnFeature.titleLabel?.text != kSearchType{
-                    self.arrayStreams.removeAll()
-                    collectionStream.reloadData()
-                    self.getStreamList(type:.down,filter:self.streamType)
+                else if btnFeature.titleLabel?.text != kSearchType {                    self.getStreamList(type:.down,filter:self.streamType)
                 }
                 else {
                     self.getUsersList(type: .down)

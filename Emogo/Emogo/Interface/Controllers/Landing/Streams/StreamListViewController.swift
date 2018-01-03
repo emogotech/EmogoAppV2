@@ -9,13 +9,13 @@
 import UIKit
 
 class StreamListViewController: UIViewController {
-
+    
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
     @IBOutlet weak var viewMenu: UIView!
     @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var btnMenu: UIButton!
-
+    
     var lastIndex             : Int = 2
     
     
@@ -40,7 +40,7 @@ class StreamListViewController: UIViewController {
     var menu = MenuDAO()
     var isMenuOpen:Bool! = false
     var isPeopleList:Bool! = false
-
+    
     var currentStreamType:StreamType! = .featured
     
     
@@ -57,7 +57,7 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewMenu.isHidden = false
-      
+        
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView)
             self.navigationController?.push(viewController: obj)
@@ -79,7 +79,7 @@ class StreamListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      self.prepareLayoutForApper()
+        self.prepareLayoutForApper()
     }
     
     // MARK: - Prepare Layouts
@@ -101,7 +101,7 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
         streamCollectionView.alwaysBounceVertical = true
-
+        
         if let layout: IOStickyHeaderFlowLayout = self.streamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
             layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60.0)
             layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 60)
@@ -113,7 +113,7 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
         self.configureLoadMoreAndRefresh()
-
+        
     }
     // MARK: - Prepare Layouts When View Appear
     
@@ -132,7 +132,7 @@ class StreamListViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
     }
- 
+    
     @objc func createAfterStream(){
         self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.5)
     }
@@ -147,7 +147,7 @@ class StreamListViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-             UIApplication.shared.beginIgnoringInteractionEvents()
+            UIApplication.shared.beginIgnoringInteractionEvents()
             if (self?.isPeopleList)!  {
                 self?.getUsersList(type:.up)
             }else {
@@ -166,7 +166,7 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.es.autoPullToRefresh()
         }
     }
-  
+    
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
@@ -185,9 +185,9 @@ class StreamListViewController: UIViewController {
     override func btnMyProfileAction() {
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
         self.navigationController?.push(viewController: obj)
-       
+        
     }
-
+    
     
     @IBAction func btnActionAdd(_ sender: Any) {
         self.actionForAddStream()
@@ -198,11 +198,11 @@ class StreamListViewController: UIViewController {
         isMenuOpen = true
         self.menuView.isHidden = false
         Animation.viewSlideInFromTopToBottom(views: self.menuView)
-      //  Animation.viewSlideInFromBottomToTop(views:self.menuView)
+        //  Animation.viewSlideInFromBottomToTop(views:self.menuView)
     }
-
+    
     // MARK: - Class Methods
-
+    
     func checkForListSize() {
         if self.streamCollectionView.frame.size.height - 100 < self.streamCollectionView.contentSize.height {
             print("Greater")
@@ -223,19 +223,19 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
-             if type == .start {
+            if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
-                if refreshType == .end {
-                    self.streamCollectionView.es.stopLoadingMore()
-                }
-                if type == .up {
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    self.streamCollectionView.es.stopPullToRefresh()
-                }else if type == .down {
-                    self.streamCollectionView.es.stopLoadingMore()
-                }
-             self.lblNoResult.isHidden = true
+            if refreshType == .end {
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.streamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
                 self.lblNoResult.isHidden = false
             }
@@ -272,7 +272,7 @@ class StreamListViewController: UIViewController {
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
                 self.lblNoResult.isHidden = false
             }
-        
+            
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -283,11 +283,11 @@ class StreamListViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
-              
+                
                 
                 if ((allContents?.count)! > 0){
                     
-                      let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                     
                     for i in 0...(stream?.arrayContent.count)!-1 {
                         let data : ContentDAO = allContents![i]
@@ -295,14 +295,15 @@ class StreamListViewController: UIViewController {
                         print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
                         if data.contentID ==  currentConytentID {
                             objPreview.seletedImage = data
+                            objPreview.isEdit = true
                             self.navigationController?.push(viewController: objPreview)
                             break
                         }
                     }
                 }
-               
                 
-            
+                
+                
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -310,22 +311,22 @@ class StreamListViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
 extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
     
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if isPeopleList {
             return PeopleList.sharedInstance.arrayPeople.count
@@ -354,7 +355,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
     }
     
-   
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
@@ -377,9 +378,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-           if isPeopleList  == false{
+        if isPeopleList  == false{
             
-           // let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            // let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
@@ -394,7 +395,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
             isMenuOpen = false
         }
-       
+        
     }
     
 }
@@ -414,8 +415,8 @@ extension StreamListViewController:UINavigationControllerDelegate {
             return animator as? UIViewControllerAnimatedTransitioning
         }
         return nil
-     }
-
+    }
+    
 }
 
 
