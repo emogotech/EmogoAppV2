@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^login/$', views.Login.as_view()),
     url(r'^unique_user_name/$', views.UniqueUserName.as_view()),
     url(r'^resend_otp/$', views.ResendOTP.as_view()),
+    url(r'^logout/$', views.Logout.as_view()),
 ]
