@@ -60,7 +60,7 @@ class ContentList{
     var arrayContent:[ContentDAO]!
     var arrayStuff:[ContentDAO]!
     var arrayLink:[ContentDAO]!
-    var objStream:StreamViewDAO?
+    var objStream:String?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
         struct Static {

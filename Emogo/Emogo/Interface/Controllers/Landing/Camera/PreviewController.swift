@@ -194,7 +194,7 @@ class PreviewController: UIViewController {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayContent
-                    AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream?.streamID)!], contents: array!, completion: { (isScuccess, errorMSG) in
+                    AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream)!], contents: array!, completion: { (isScuccess, errorMSG) in
                       HUDManager.sharedInstance.hideProgress()
                         if (errorMSG?.isEmpty)! {
                         }
@@ -204,7 +204,9 @@ class PreviewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Back Screen
                     let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
-                    self.navigationController?.popToViewController(vc: obj)                }
+                    self.navigationController?.popToViewController(vc: obj)
+                    
+                }
             }
         }else {
             // Navigate to View Stream
