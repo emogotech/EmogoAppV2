@@ -364,6 +364,7 @@ class StreamViewController: MSMessagesAppViewController {
                                     obj.arrContentData = (self.objStream?.arrayContent)!
                                     obj.currentStreamID = self.objStream?.streamID!
                                     obj.currentContentIndex  = i
+                                     obj.currentStreamTitle = self.objStream?.title
                                     self.present(obj, animated: false, completion: nil)
                                     isNavigateContent = true
                                     break
