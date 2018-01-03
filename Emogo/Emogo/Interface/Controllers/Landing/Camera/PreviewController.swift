@@ -106,6 +106,7 @@ class PreviewController: UIViewController {
         }
         
         Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
+        Gallery.Config.VideoEditor.maximumDuration = 30
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
         Gallery.Config.Camera.imageLimit =  10

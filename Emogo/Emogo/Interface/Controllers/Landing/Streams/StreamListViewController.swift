@@ -99,8 +99,8 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
-        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateFilter)), object: self)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotificationUpdateFilter), object: nil)
+//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateFilter)), object: self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotificationUpdateFilter), object: nil)
         
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
@@ -141,14 +141,7 @@ class StreamListViewController: UIViewController {
         }
     }
     
-    @objc func createAfterStream(){
-        self.perform(#selector(self.showMyStream), with: nil, afterDelay: 0.5)
-    }
-    
-    @objc func showMyStream(){
-        pagerView(menuView, didSelectItemAt: 1)
-        menuView.currentIndex = 1
-    }
+   
     
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
@@ -411,19 +404,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
 
 extension StreamListViewController:UINavigationControllerDelegate {
     
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        let sourceTransition = fromVC as? (RMPZoomTransitionAnimating & RMPZoomTransitionDelegate)
-        let destinationTransition = toVC as? (RMPZoomTransitionAnimating & RMPZoomTransitionDelegate)
-        if sourceTransition is RMPZoomTransitionAnimating && destinationTransition is RMPZoomTransitionAnimating {
-            let animator = RMPZoomTransitionAnimator()
-            animator.goingForward = operation == .push
-            animator.sourceTransition = sourceTransition
-            animator.destinationTransition = destinationTransition
-            return animator as? UIViewControllerAnimatedTransitioning
-        }
-        return nil
-    }
     
 }
 
