@@ -144,6 +144,7 @@ class StreamViewController: MSMessagesAppViewController {
             case UISwipeGestureRecognizerDirection.left:
                 if currentStreamIndex !=  arrStream.count-1 {
                     if Reachability.isNetworkAvailable() {
+                        
                         self.nextImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
@@ -154,6 +155,7 @@ class StreamViewController: MSMessagesAppViewController {
             case UISwipeGestureRecognizerDirection.right:
                 if currentStreamIndex != 0 {
                     if Reachability.isNetworkAvailable() {
+                        
                         self.previousImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
@@ -221,8 +223,17 @@ class StreamViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.iMessageNavigation = ""
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
     }
-    
+   
+
     func nextImageLoad() {
+        lblStreamTitle.text = ""
+        lblStreamName.text = ""
+        lblStreamDesc.text = ""
+        lblNoContent.text = ""
+        btnEdit.isHidden = true
+        btnCollaborator.isHidden = true
+        
+        imgStream.image = UIImage(named: "stream-card-placeholder")
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1
         }
@@ -232,6 +243,14 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     func previousImageLoad() {
+        lblStreamTitle.text = ""
+        lblStreamName.text = ""
+        lblStreamDesc.text = ""
+        lblNoContent.text = ""
+        btnEdit.isHidden = true
+        btnCollaborator.isHidden = true
+        
+        imgStream.image = UIImage(named: "stream-card-placeholder")
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
