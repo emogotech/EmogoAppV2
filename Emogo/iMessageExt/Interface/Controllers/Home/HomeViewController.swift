@@ -18,8 +18,11 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var pagerContent             : UIView!
     @IBOutlet weak var searchView               : UIView!
     @IBOutlet weak var viewStream               : UIView!
+    @IBOutlet weak var viewStreamHeader        : UIView!
     @IBOutlet weak var viewPeople               : UIView!
+    @IBOutlet weak var viewPeopleHeader         : UIView!
     @IBOutlet weak var viewCollections          : UIView!
+    @IBOutlet weak var viewCollectionsMain          : UIView!
     
     @IBOutlet weak var searchText               : UITextField!
     
@@ -56,7 +59,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     
-    // MARK:- Life-cycle method	s
+    // MARK:- Life-cycle method    s
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -189,10 +192,10 @@ class HomeViewController: MSMessagesAppViewController {
     
     func setupCollectionProperties() {
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2 - 12.0)
+        layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
         
         layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 10
+        layout.minimumLineSpacing = 15
         collectionStream!.collectionViewLayout = layout
         
         collectionStream.delegate = self
@@ -220,15 +223,34 @@ class HomeViewController: MSMessagesAppViewController {
             self.performSelector(inBackground: #selector(self.changeUIInBackground), with: nil)
             btnFeature.tag = 1
         }else{
+            //            self.performSelector(inBackground: #selector(self.changeUIInBackgroundCollapse), with: nil)
             pagerContent.isHidden = true
             btnFeature.tag = 0
         }
     }
     
     @objc func changeUIInBackground(){
+        print(self.viewCollections.frame)
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             pagerContent.isHidden = false
             collectionFrame = collectionStream.frame
+        }
+    }
+    
+    @objc func changeUIInBackgroundCollapse(){
+        print(self.viewCollections.frame)
+        if  self.isSearch == true && !isStreamEnable{
+            
+            //            self.collectionStream.frame = CGRect(x: self.viewPeople.frame.origin.x, y: self.viewCollectionsMain.frame.origin.y+80, width: self.viewPeople.frame.size.width, height: SharedData.sharedInstance.heightCollapse-40)
+            
+            
+            
+            //            self.collectionStream.topAnchor.constraint(equalTo: self.viewPeopleHeader.bottomAnchor).isActive = true
+            //            self.collectionStream.heightAnchor.constraint(equalToConstant: self.viewPeople.frame.size.height-self.viewPeopleHeader.frame.size.height).isActive = true
+            //            UIView.animate(withDuration: 0.1, animations: {
+            
+            //                self.view.layoutIfNeeded()
+            //            })
         }
     }
     
@@ -252,22 +274,22 @@ class HomeViewController: MSMessagesAppViewController {
                         self.setupCollectionPropertiesForUsers()
                         self.collectionStream.reloadData()
                     }
-//                    PeopleList.sharedInstance.arrayPeople.removeAll()
-//                    collectionStream.reloadData()
+                    //                    PeopleList.sharedInstance.arrayPeople.removeAll()
+                    //                    collectionStream.reloadData()
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
                 } else if (isSearch == true && isStreamEnable == true || btnFeature.titleLabel?.text == kSearchType){
                     
                     DispatchQueue.main.async {
                         self.setupCollectionProperties()
                     }
-//                    self.arrayStreams.removeAll()
-//                    collectionStream.reloadData()
-
+                    //                    self.arrayStreams.removeAll()
+                    //                    collectionStream.reloadData()
+                    
                     self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
                 }
                 else {
-//                    self.arrayStreams.removeAll()
-//                    collectionStream.reloadData()
+                    //                    self.arrayStreams.removeAll()
+                    //                    collectionStream.reloadData()
                     self.collectionStream.isUserInteractionEnabled = false
                     self.getStreamList(type:.up,filter:self.streamType)
                 }
@@ -492,20 +514,20 @@ class HomeViewController: MSMessagesAppViewController {
                     obj.currentStreamIndex = 0
                     self.present(obj, animated: false, completion: nil)
                 }
-            
-            else if errorMsg == APIStatus.NotFound.rawValue{
-                if self.hudView != nil {
-                    self.hudView.stopLoaderWithAnimation()
+                    
+                else if errorMsg == APIStatus.NotFound.rawValue{
+                    if self.hudView != nil {
+                        self.hudView.stopLoaderWithAnimation()
+                    }
+                    self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
+                }else{
+                    if self.hudView != nil {
+                        self.hudView.stopLoaderWithAnimation()
+                    }
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
-                self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
-            }else{
-                if self.hudView != nil {
-                    self.hudView.stopLoaderWithAnimation()
-                }
-                self.showToastIMsg(type: .error, strMSG: errorMsg!)
+                
             }
-
-        }
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
@@ -583,9 +605,10 @@ class HomeViewController: MSMessagesAppViewController {
                 self.lblNoResult.isHidden = true
                 if self.arrayStreams.count == 0 {
                     self.lblNoResult.isHidden = false
+                }else{
+                    self.viewCollections.isHidden = false
                 }
                 self.streaminputDataType(type: type)
-                self.viewCollections.isHidden = false
                 self.expandStreamHeight()
             }
         }
@@ -774,7 +797,7 @@ extension HomeViewController : UITextFieldDelegate {
             self.searchText.resignFirstResponder()
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
-            self.viewCollections.isHidden = false
+            
             self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
         }
         return true
@@ -890,7 +913,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
-
+            
             
             switch  pagerView.currentIndex {
             case 0:
@@ -1071,3 +1094,4 @@ extension HomeViewController : UIScrollViewDelegate {
         }
     }
 }
+
