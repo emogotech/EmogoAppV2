@@ -621,7 +621,7 @@
                                                                     <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
-                                                                    <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <color key="value" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                                                 </userDefinedRuntimeAttribute>
                                                                 <userDefinedRuntimeAttribute type="color" keyPath="titleColor">
                                                                     <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -669,17 +669,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7QJ-QL-sls">
-                                                    <rect key="frame" x="10" y="25" width="300" height="17"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="17" id="P8O-3X-G8t"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
-                                                    <color key="textColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-za-Kca">
-                                                    <rect key="frame" x="10" y="44" width="300" height="98"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-za-Kca" customClass="UIFloatLabelTextView">
+                                                    <rect key="frame" x="10" y="27" width="300" height="115"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
@@ -690,13 +681,10 @@
                                                 </textView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="7QJ-QL-sls" secondAttribute="bottom" constant="2" id="12E-yt-7Ea"/>
-                                                <constraint firstAttribute="trailing" secondItem="ZUq-za-Kca" secondAttribute="trailing" constant="10" id="FQe-4T-C4Y"/>
-                                                <constraint firstItem="7QJ-QL-sls" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="25" id="Noy-dV-oqq"/>
-                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="28" id="UV0-mK-EPn"/>
-                                                <constraint firstAttribute="trailing" secondItem="7QJ-QL-sls" secondAttribute="trailing" constant="10" id="Zpr-qK-WDN"/>
-                                                <constraint firstItem="7QJ-QL-sls" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="nXj-RF-q4c"/>
-                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="z2f-wc-GEJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZUq-za-Kca" secondAttribute="trailing" constant="10" id="M6h-EW-XrI"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="27" id="RH2-YF-Acg"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="28" id="X6T-hG-1bB"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="j8E-kd-jlB"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -997,7 +985,7 @@
                         <outlet property="switchAddPeople" destination="lxs-vn-vvP" id="b6S-Ha-8pn"/>
                         <outlet property="switchAnyOneCanEdit" destination="gcu-Kx-esw" id="7Mp-os-kSQ"/>
                         <outlet property="switchMakePrivate" destination="4wo-pv-wS3" id="ttN-4x-xVH"/>
-                        <outlet property="txtStreamCaption" destination="ZUq-za-Kca" id="2b5-36-lp4"/>
+                        <outlet property="txtStreamCaption" destination="ZUq-za-Kca" id="CeI-Ql-m1h"/>
                         <outlet property="txtStreamName" destination="IbN-dh-4pT" id="egN-Eo-wLF"/>
                         <outlet property="viewGradient" destination="0Dv-Y3-T6i" id="JHI-2R-4Ct"/>
                     </connections>

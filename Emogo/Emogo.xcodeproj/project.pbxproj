@@ -236,6 +236,7 @@
 		F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */; };
 		F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
 		F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
+		F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */; };
 		F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */; };
 		F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */; };
 		F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */; };
@@ -544,6 +545,8 @@
 		F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDAO.swift; sourceTree = "<group>"; };
 		F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
 		F45A78771FBC68EF003FD6AB /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
+		F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFloatLabelTextView.m; sourceTree = "<group>"; };
+		F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFloatLabelTextView.h; sourceTree = "<group>"; };
 		F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayoutAttributes.swift; sourceTree = "<group>"; };
 		F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayout.swift; sourceTree = "<group>"; };
 		F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamSearchCell.swift; sourceTree = "<group>"; };
@@ -933,6 +936,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4647C021FFE132800CCEDA3 /* TextView */,
 				F41C3ADE1FE13A90009CD942 /* BadgeButton */,
 				F403764A1FDE9F6B0007C696 /* Progress Bar */,
 				F4402F6F1FCD917900152D01 /* TextField */,
@@ -1440,6 +1444,15 @@
 				F45A78771FBC68EF003FD6AB /* UserDAO.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		F4647C021FFE132800CCEDA3 /* TextView */ = {
+			isa = PBXGroup;
+			children = (
+				F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */,
+				F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */,
+			);
+			path = TextView;
 			sourceTree = "<group>";
 		};
 		F4731FC61FC2E28700AA68D8 /* ExpandMenu */ = {
@@ -2123,6 +2136,7 @@
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
 				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
+				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
