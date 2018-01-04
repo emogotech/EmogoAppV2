@@ -399,16 +399,21 @@ class APIServiceManager: NSObject {
                             completionHandler(stream,"")
                             
                         }
-                    }else {
+                    }else if status == APIStatus.NotFound.rawValue {
+                        completionHandler(nil,"\(APIStatus.NotFound.rawValue)")
+                    }else{
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(nil,errorMessage)
                     }
                 }
             case .error(let error):
-                print(error.localizedDescription)
-                completionHandler(nil,error.localizedDescription)
+                if error.localizedDescription.contains("\(APIStatus.NotFound.rawValue)") {
+                    completionHandler(nil,"\(APIStatus.NotFound.rawValue)")
+                    
+                }else{
+                 completionHandler(nil,error.localizedDescription)
+                }
             }
-            
         }
     }
     

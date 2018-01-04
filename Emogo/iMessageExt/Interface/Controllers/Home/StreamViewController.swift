@@ -66,7 +66,7 @@ class StreamViewController: MSMessagesAppViewController {
             self.dismiss(animated: false, completion: nil)
              NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
         }else{
-            self.collectionStreams.reloadData()
+            self.getStream(type: "Direct")
         }
     }
     
@@ -144,6 +144,7 @@ class StreamViewController: MSMessagesAppViewController {
             case UISwipeGestureRecognizerDirection.left:
                 if currentStreamIndex !=  arrStream.count-1 {
                     if Reachability.isNetworkAvailable() {
+                        
                         self.nextImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
@@ -154,6 +155,7 @@ class StreamViewController: MSMessagesAppViewController {
             case UISwipeGestureRecognizerDirection.right:
                 if currentStreamIndex != 0 {
                     if Reachability.isNetworkAvailable() {
+                        
                         self.previousImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
@@ -221,8 +223,17 @@ class StreamViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.iMessageNavigation = ""
         NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
     }
-    
+   
+
     func nextImageLoad() {
+        lblStreamTitle.text = ""
+        lblStreamName.text = ""
+        lblStreamDesc.text = ""
+        lblNoContent.text = ""
+        btnEdit.isHidden = true
+        btnCollaborator.isHidden = true
+        
+        imgStream.image = UIImage(named: "stream-card-placeholder")
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1
         }
@@ -232,6 +243,14 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     func previousImageLoad() {
+        lblStreamTitle.text = ""
+        lblStreamName.text = ""
+        lblStreamDesc.text = ""
+        lblNoContent.text = ""
+        btnEdit.isHidden = true
+        btnCollaborator.isHidden = true
+        
+        imgStream.image = UIImage(named: "stream-card-placeholder")
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
@@ -287,6 +306,7 @@ class StreamViewController: MSMessagesAppViewController {
         let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteStreamMsg, preferredStyle: .alert)
         let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
+            
             APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
                 if (errorMsg?.isEmpty)! {
                     self.arrStream.remove(at: self.currentStreamIndex)
@@ -342,7 +362,6 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                     }
                     else {
-                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
                             self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
@@ -370,7 +389,7 @@ class StreamViewController: MSMessagesAppViewController {
                                     break
                                 }
                             }
-                            if isNavigateContent {
+                            if !isNavigateContent {
                                  self.showToastIMsg(type: .error, strMSG: kAlert_ContentNotFound)
                             }
                             
@@ -392,8 +411,10 @@ class StreamViewController: MSMessagesAppViewController {
                             self.hudView.stopLoaderWithAnimation()
                         }
                    }
-                    else {
+                    else if errorMsg == APIStatus.NotFound.rawValue{
                         self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
+                    }else{
+                        self.showToastIMsg(type: .error, strMSG: errorMsg!)
                     }
                 }
             }

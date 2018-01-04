@@ -492,13 +492,20 @@ class HomeViewController: MSMessagesAppViewController {
                     obj.currentStreamIndex = 0
                     self.present(obj, animated: false, completion: nil)
                 }
-                else {
-                    if self.hudView != nil {
-                        self.hudView.stopLoaderWithAnimation()
-                    }
-                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
+            
+            else if errorMsg == APIStatus.NotFound.rawValue{
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
                 }
+                self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
+            }else{
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
+                self.showToastIMsg(type: .error, strMSG: errorMsg!)
             }
+
+        }
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
