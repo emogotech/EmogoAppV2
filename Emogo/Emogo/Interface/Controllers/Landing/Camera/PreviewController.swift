@@ -169,6 +169,18 @@ class PreviewController: UIViewController {
             }
         }
         
+        if seletedImage.isUploaded {
+            if self.seletedImage.isEdit == false {
+                self.btnEdit.isHidden = true
+            }else {
+                self.btnEdit.isHidden = false
+            }
+            if self.seletedImage.isDelete == false {
+                self.btnDelete.isHidden = true
+            }else {
+                self.btnDelete.isHidden = false
+            }
+        }
     }
     
     

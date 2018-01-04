@@ -951,7 +951,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="add_content_icon" width="156" height="117"/>
+        <image name="add_content_icon" width="147" height="147"/>
         <image name="add_stream_icon" width="14" height="14"/>
         <image name="back-circle-icon" width="24" height="24"/>
         <image name="collabs_icon" width="39" height="37"/>
