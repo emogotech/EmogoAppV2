@@ -9,6 +9,7 @@
 import UIKit
 
 class StreamViewHeader: UICollectionViewCell {
+    @IBOutlet weak var btnDropDown: UIButton!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
@@ -20,7 +21,7 @@ class StreamViewHeader: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    
+        
     }
     
     func prepareLayout(stream:StreamViewDAO?){
