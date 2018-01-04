@@ -7,3 +7,4 @@
 #import "UIImage+ImageCompress.h"
 #import "KASlideShow.h"
 #import "RMPZoomTransitionAnimator.h"
+#import "UIFloatLabelTextView.h"

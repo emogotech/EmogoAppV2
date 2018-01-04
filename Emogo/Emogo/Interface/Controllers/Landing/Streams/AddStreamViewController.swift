@@ -16,7 +16,7 @@ class AddStreamViewController: UITableViewController {
     // MARK: - UI Elements
     @IBOutlet weak var viewGradient: UIView!
     @IBOutlet weak var txtStreamName: SkyFloatingLabelTextField!
-    @IBOutlet weak var txtStreamCaption: UITextView!
+    @IBOutlet weak var txtStreamCaption: UIFloatLabelTextView!
     @IBOutlet weak var switchMakePrivate: PMSwitch!
     @IBOutlet weak var switchAnyOneCanEdit: PMSwitch!
     @IBOutlet weak var switchAddContent: PMSwitch!
@@ -71,7 +71,11 @@ class AddStreamViewController: UITableViewController {
         self.title = "Create a Stream"
         self.configureNavigationWithTitle()
         txtStreamName.title = "Stream Name"
+        txtStreamCaption.placeholder = "Stream Caption"
+        txtStreamCaption.placeholderTextColor = UIColor(r: 245.0, g: 245.0, b: 245.0)
         txtStreamCaption.delegate = self
+        txtStreamCaption.floatLabelActiveColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
+        txtStreamCaption.floatLabelPassiveColor = UIColor.darkGray
         Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
         Gallery.Config.initialTab =  .cameraTab
         Gallery.Config.Camera.imageLimit =  1
@@ -265,7 +269,6 @@ class AddStreamViewController: UITableViewController {
         }
     }
    
-  
    
     func selectedCollaborator(colabs:[CollaboratorDAO]){
         print(self.selectedCollaborators)
