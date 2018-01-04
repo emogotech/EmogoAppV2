@@ -9,7 +9,6 @@
 import UIKit
 import Photos
 import PhotosUI
-import Gallery
 
 class AddStreamViewController: UITableViewController {
     
@@ -39,7 +38,6 @@ class AddStreamViewController: UITableViewController {
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
     var streamType:String! = "Public"
-    var gallery: GalleryController!
     var streamID:String!
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
@@ -76,9 +74,7 @@ class AddStreamViewController: UITableViewController {
         txtStreamCaption.delegate = self
         txtStreamCaption.floatLabelActiveColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.floatLabelPassiveColor = UIColor.darkGray
-        Gallery.Config.tabsToShow = [.imageTab, .cameraTab]
-        Gallery.Config.initialTab =  .cameraTab
-        Gallery.Config.Camera.imageLimit =  1
+       
         self.switchAddContent.isUserInteractionEnabled = false
         self.switchAddPeople.isUserInteractionEnabled = false
         self.imgCover.contentMode = .scaleAspectFill
@@ -212,10 +208,24 @@ class AddStreamViewController: UITableViewController {
         }
     }
     
+    
     @IBAction func btnActionCamera(_ sender: Any) {
-        gallery = GalleryController()
-        gallery.delegate = self
-        present(gallery, animated: true, completion: nil)
+        
+        let alert = UIAlertController(title: "Use", message: "", preferredStyle: .actionSheet)
+        let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
+            self.openCamera()
+        }
+        let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
+            self.openGallery()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            
+        }
+         alert.addAction(camera)
+        alert.addAction(gallery)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+
     }
     
     // MARK: - CLASS FUNCTION
@@ -231,23 +241,41 @@ class AddStreamViewController: UITableViewController {
 
     // MARK: - Set Cover Image
 
-    func setCoverImage(asset:Image) {
-        Image.resolve(images: [asset]) { (images) in
-            if images.count != 0 {
-                let image = images[0]
-                self.imgCover.image = image
-                                self.coverImage = image
-                                self.strCoverImage = ""
-                                self.imgCover.contentMode = .scaleAspectFill
-                                if let file =  asset.asset.value(forKey: "filename"){
-                                   self.fileName =  file as! String
-                                    print(self.fileName)
-                }
-            }
-        }
-  
+    func setCoverImage(image:UIImage) {
+        self.coverImage = image
+        self.imgCover.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+        self.strCoverImage = ""
+        self.imgCover.contentMode = .scaleAspectFill
+        print(self.fileName)
     }
    
+    
+   private func openCamera(){
+        if  UIImagePickerController.isSourceTypeAvailable(.camera){
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        }else {
+            
+        }
+    }
+    
+   private func openGallery(){
+        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }else {
+            
+        }
+        
+    }
+    
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
          let image = self.coverImage.reduceSize()
@@ -381,25 +409,23 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     }
     
 }
-extension AddStreamViewController:GalleryControllerDelegate {
-    func galleryControllerDidCancel(_ controller: GalleryController) {
-        controller.dismiss(animated: true, completion: nil)
-        gallery = nil
+extension AddStreamViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+   
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
-        controller.dismiss(animated: true, completion: nil)
-        gallery = nil
-    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+       
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.setCoverImage(image: pickedImage)
+        }
+}
     
-    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
-        controller.dismiss(animated: true, completion: nil)
-        self.setCoverImage(asset: images[0])
-        gallery = nil
-    }
     
-    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-    }
-    
+
     
 }

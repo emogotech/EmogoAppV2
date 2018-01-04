@@ -228,8 +228,12 @@ extension ImagesController: UICollectionViewDataSource, UICollectionViewDelegate
         cart.add(item)
       }
     }
-
+    if Config.Camera.imageLimit == 1 {
+        EventHub.shared.doneWithImages?()
+        return
+    }
     configureFrameViews()
+    
   }
 
   func configureFrameViews() {

@@ -26,7 +26,7 @@ target 'Emogo' do
     pod 'Gallery'
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
-    
+
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target
