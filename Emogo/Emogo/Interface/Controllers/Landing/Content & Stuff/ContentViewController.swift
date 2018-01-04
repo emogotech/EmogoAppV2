@@ -157,11 +157,12 @@ class ContentViewController: UIViewController {
                 }
             }
         }else {
-            self.showToast(type: .error, strMSG: "You don't have image to Edit.")
+            self.showToast(type: .error, strMSG: kAlert_Edit_Image)
         }
     }
+    
     @IBAction func btnActionShare(_ sender: Any) {
-        self.showToast(type: .error, strMSG: "Content Will be shared by iMessage (work in progress).")
+        self.showToast(type: .error, strMSG: kAlert_Progress)
     }
     
     @IBAction func btnActionAddStream(_ sender: Any) {
@@ -187,11 +188,11 @@ class ContentViewController: UIViewController {
         
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             
-            let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete This Content?", preferredStyle: .alert)
-            let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+            let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
+            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
                 self.deleteSelectedContent()
             }
-            let no = UIAlertAction(title: "NO", style: .default) { (action) in
+            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
                 alert.dismiss(animated: true, completion: nil)
             }
             alert.addAction(yes)

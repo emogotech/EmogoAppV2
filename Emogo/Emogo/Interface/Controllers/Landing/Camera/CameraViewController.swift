@@ -156,18 +156,18 @@ class CameraViewController: SwiftyCamViewController {
     
     @IBAction func btnActionTimer(_ sender: Any) {
         timeSec = 0
-        let alert = UIAlertController(title: "Select Time", message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: "5s", style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Select_Time, message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: TimerSet.fiveSec.rawValue, style: .default) { (action) in
             self.captreIn(time: 5)
         }
-        let action2 = UIAlertAction(title: "10s", style: .default) { (action) in
+        let action2 = UIAlertAction(title: TimerSet.tenSec.rawValue, style: .default) { (action) in
             self.captreIn(time: 10)
         }
-        let action3 = UIAlertAction(title: "15s", style: .default) { (action) in
+        let action3 = UIAlertAction(title: TimerSet.fifteenSec.rawValue, style: .default) { (action) in
             self.captreIn(time: 15)
         }
     
-        let action = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        let action = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
             
         }
         alert.addAction(action1)
@@ -254,7 +254,6 @@ class CameraViewController: SwiftyCamViewController {
         print("Long tap")
         switch sender.state {
         case .began:
-            print("UIGestureRecognizerStateBegan.")
             self.lblRecordTimer.text = "00:00:00"
             self.timeSec = 0
             self.lblRecordTimer.isHidden = false
@@ -262,7 +261,6 @@ class CameraViewController: SwiftyCamViewController {
             self.recordButtonTapped(isShow: true)
             break
         case .ended:
-            print("UIGestureRecognizerStateEnded")
             self.lblRecordTimer.isHidden = true
             self.recordButtonTapped(isShow: false)
             self.performCamera(action: .stop)

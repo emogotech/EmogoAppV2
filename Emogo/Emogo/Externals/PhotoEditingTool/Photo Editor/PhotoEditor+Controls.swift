@@ -271,7 +271,7 @@ extension PhotoEditorViewController {
     }
 
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
-        self.showToast(type: .error, strMSG: "Image successfully saved to Photos library")
+        self.showToast(type: .error, strMSG: kAlert_Save_Image)
     }
     
     fileprivate func updateSliderForItem (item : PMEditingModel)

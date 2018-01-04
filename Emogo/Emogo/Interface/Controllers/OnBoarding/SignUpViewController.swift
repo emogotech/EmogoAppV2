@@ -52,7 +52,7 @@ class SignUpViewController: UIViewController {
         if (self.txtPhoneNumber.text?.trim().isEmpty)! {
             self.txtPhoneNumber.shake()
         }else if (txtPhoneNumber.text?.trim().count)! < 10 {
-            self.showToast(type: .error, strMSG: kAlertPhoneNumberLengthMsg)
+            self.showToast(type: .error, strMSG: kAlert_Phone_Number_Length_Msg)
         }else {
             self.sigupUser()
         }
@@ -87,7 +87,7 @@ class SignUpViewController: UIViewController {
                 }
             })
         }else {
-            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToast(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
        
     }

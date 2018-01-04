@@ -56,7 +56,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.viewDidAppear(animated)
         contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
     }
     
@@ -192,17 +192,17 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBAction func btnClose(_ sender:UIButton){
         self.dismiss(animated: true, completion: nil)
         if SharedData.sharedInstance.iMessageNavigation != ""{
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
         }
         else {
             SharedData.sharedInstance.iMessageNavigation = ""
-              NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+              NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }
     }
     
     @IBAction func btnsendAction(_ sender:UIButton){
         if(SharedData.sharedInstance.isMessageWindowExpand){
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
         self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
     }
@@ -259,8 +259,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnDeleteAction(_ sender:UIButton){
-        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteContentMsg , preferredStyle: .alert)
-        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg , preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             self.hudView.startLoaderWithAnimation()
             let content = self.arrContentData[self.currentContentIndex]
             let contentIds = [content.contentID.trim()]
@@ -272,7 +272,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                         self.arrContentData.remove(at: self.currentContentIndex)
                         if(self.arrContentData.count == 0){
                             self.dismiss(animated: true, completion: nil)
-                            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadStreamContent), object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
                             return
                         }
                         if(self.currentContentIndex != 0){
@@ -286,10 +286,10 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
             else {
                 self.hudView.stopLoaderWithAnimation()
-                self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+                self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
             }
         }
-        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -301,13 +301,13 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBAction func btnEditAction(_ sender:UIButton){
         
-        let alert = UIAlertController(title: "Confirmation!", message: iMsgAlert_ConfirmationDescriptionForEditContent , preferredStyle: .alert)
-        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
             let content = self.arrContentData[self.currentContentIndex]
             let strUrl = "\(kDeepLinkURL)\(self.currentStreamID!)/\(content.contentID!)/\(kDeepLinkTypeEditContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
-        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -325,7 +325,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         layout.subcaption = lblStreamDesc.text
         let content = self.arrContentData[currentContentIndex]
         message.layout = layout
-        message.url = URL(string: "\(iMsg_NavigationContent)/\(content.contentID!)/\(currentStreamID!)")
+        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
     }
     

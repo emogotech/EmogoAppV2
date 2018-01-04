@@ -41,9 +41,9 @@ class StreamViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: iMsgNotificationReloadStreamContent), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
         
         requestMessageScreenChangeSize()
         
@@ -64,7 +64,7 @@ class StreamViewController: MSMessagesAppViewController {
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
         if objStream!.arrayContent.count == 0{
             self.dismiss(animated: false, completion: nil)
-             NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }else{
             self.getStream(type: "Direct")
         }
@@ -147,7 +147,7 @@ class StreamViewController: MSMessagesAppViewController {
                         
                         self.nextImageLoad()
                     } else {
-                        self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+                        self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
                     }
                 }
                 break
@@ -158,7 +158,7 @@ class StreamViewController: MSMessagesAppViewController {
                         
                         self.previousImageLoad()
                     } else {
-                        self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+                        self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
                     }
                 }
                 break
@@ -221,7 +221,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBAction func btnClose(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
         SharedData.sharedInstance.iMessageNavigation = ""
-        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
     }
    
 
@@ -265,13 +265,13 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
         
-        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: iMsgAlert_ConfirmationDescriptionForAddContent, preferredStyle: .alert)
-        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content, preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let streamID : String = (self.objStream?.streamID!)!
             let strUrl = "\(kDeepLinkURL)\(streamID)/\(kDeepLinkTypeAddContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
-        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -288,13 +288,13 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnEditStream(_ sender:UIButton) {
-        let alert = UIAlertController(title: "Confirmation!", message: iMsgAlert_ConfirmationDescriptionForEditStream , preferredStyle: .alert)
-        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Stream , preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
             let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
-        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -303,8 +303,8 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnDeleteStream(_ sender:UIButton) {
-        let alert = UIAlertController(title: iMsgAlertTitle_Confirmation, message: kAlert_DeleteStreamMsg, preferredStyle: .alert)
-        let yes = UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
             
             APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
@@ -313,7 +313,7 @@ class StreamViewController: MSMessagesAppViewController {
                     StreamList.sharedInstance.arrayStream.remove(at:self.currentStreamIndex)
                     if(self.arrStream.count == 0){
                         self.dismiss(animated: true, completion: nil)
-                        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationReloadContenData), object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
                         return
                     }
                     if(self.currentStreamIndex != 0){
@@ -325,7 +325,7 @@ class StreamViewController: MSMessagesAppViewController {
                 }
             }
         }
-        let no = UIAlertAction(title: iMsgAlert_CancelTitle, style: .default) { (action) in
+        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -369,7 +369,7 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
-                        if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+                        if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
                             let conntenData = self.objStream?.arrayContent
                             var arrayTempStream  = [StreamDAO]()
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
@@ -390,10 +390,10 @@ class StreamViewController: MSMessagesAppViewController {
                                 }
                             }
                             if !isNavigateContent {
-                                 self.showToastIMsg(type: .error, strMSG: kAlert_ContentNotFound)
+                                 self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
                             }
                             
-                        }else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream{
+                        }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
                             var arrayTempStream  = [StreamDAO]()
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                             self.arrStream = arrayTempStream
@@ -412,7 +412,7 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                    }
                     else if errorMsg == APIStatus.NotFound.rawValue{
-                        self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
+                        self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
                     }else{
                         self.showToastIMsg(type: .error, strMSG: errorMsg!)
                     }
@@ -420,7 +420,7 @@ class StreamViewController: MSMessagesAppViewController {
             }
         }
         else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
 }
@@ -457,13 +457,13 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let content = objStream?.arrayContent[indexPath.row]
+//        let content = objStream?.arrayContent[indexPath.row]
         let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        if content?.isAdd == true {
-            return CGSize(width: itemWidth, height: 110)
-        }else{
+//        if content?.isAdd == true {
+//            return CGSize(width: itemWidth, height: 110)
+//        }else{
             return CGSize(width: itemWidth, height: itemWidth)
-        }
+       // }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

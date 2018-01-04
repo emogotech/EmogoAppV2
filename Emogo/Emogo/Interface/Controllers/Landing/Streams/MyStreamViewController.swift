@@ -82,7 +82,7 @@ class MyStreamViewController: UIViewController {
             }
         }
         if streamID.count == 0 {
-            self.showToast(strMSG: kAlertSelectStream)
+            self.showToast(strMSG: kAlert_Select_Stream)
             return
         }else {
             self.associateContentToStream(id: streamID)

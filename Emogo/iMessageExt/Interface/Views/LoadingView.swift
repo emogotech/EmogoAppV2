@@ -28,7 +28,7 @@ class LoadingView: UIView {
     func setUpLoder() {
         self.isHidden  = true
         self.backgroundColor = UIColor.black
-        self.alpha = iMsg_hudAlphaConstant
+        self.alpha = kHud_Alpha_Constant
         
         load = KDLoadingView.init()
         load?.frame = CGRect(x: 0, y: 0, width: 40, height: 40)

@@ -183,11 +183,11 @@ class PreviewController: UIViewController {
                 }
             }
         }else {
-            self.showToast(type: .error, strMSG: "You don't have image to Edit.")
+            self.showToast(type: .error, strMSG: kAlert_Edit_Image)
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-        self.showToast(type: .error, strMSG: "Content Will be shared by iMessage (work in progress).")
+        self.showToast(type: .error, strMSG: kAlert_Progress)
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         if ContentList.sharedInstance.objStream != nil {
@@ -252,11 +252,11 @@ class PreviewController: UIViewController {
     
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             
-            let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete This Content?", preferredStyle: .alert)
-            let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+            let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
+            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
                 self.deleteSelectedContent()
             }
-            let no = UIAlertAction(title: "NO", style: .default) { (action) in
+            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
                 alert.dismiss(animated: true, completion: nil)
             }
             alert.addAction(yes)
@@ -434,7 +434,7 @@ class PreviewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 if !self.isContentAdded {
-                    self.showToast(type: .success, strMSG: kAlertContentAdded)
+                    self.showToast(type: .success, strMSG: kAlert_Content_Added)
                 }
                 self.modifyObjects(contents: contents!)
             }else {
@@ -488,7 +488,7 @@ class PreviewController: UIViewController {
 //        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
 //            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
 //                if (errorMsg?.isEmpty)! {
-//                self.showToast(strMSG: kAlertContentAssociatedToStream)
+//                self.showToast(strMSG: kAlert_Content_Associated_To_Stream)
 //                }else {
 //                self.showToast(strMSG: errorMsg!)
 //                }

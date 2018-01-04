@@ -72,14 +72,14 @@ class HomeViewController: MSMessagesAppViewController {
             self.present(obj, animated: false, completion: nil)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: iMsgNotificationManageScreen), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: iMsgNotificationReloadContenData), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadStreamData), name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: nil)
         
-        if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
+        if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
             self.getStream(streamID: (SharedData.sharedInstance.streamContent?.ID)!)
         }
-        else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+        else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
             self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
         }
     }
@@ -355,7 +355,7 @@ class HomeViewController: MSMessagesAppViewController {
                 pagerContent.isHidden = false
                 btnFeature.tag = 1
             } else {
-                NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
             }
         }
     }
@@ -465,7 +465,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
     
@@ -475,13 +475,13 @@ class HomeViewController: MSMessagesAppViewController {
             APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
                 if (errorMsg?.isEmpty)! {
                     let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
-                    if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationStream {
+                    if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
                         var arrayTempStream  = [StreamDAO]()
                         arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                         obj.arrStream = arrayTempStream
                         
                     }
-                    else if SharedData.sharedInstance.iMessageNavigation == iMsg_NavigationContent {
+                    else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
                         var arrayTempStream  = [StreamDAO]()
                         var streamDatas  = [String:Any]()
                         streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
@@ -497,7 +497,7 @@ class HomeViewController: MSMessagesAppViewController {
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
                 }
-                self.showToastIMsg(type: .error, strMSG: kAlert_StreamNotFound)
+                self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
             }else{
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
@@ -508,7 +508,7 @@ class HomeViewController: MSMessagesAppViewController {
         }
         }
         else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
     
@@ -692,7 +692,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     
     @objc func btnShareAction(_ sender:UIButton) {
         if(SharedData.sharedInstance.isMessageWindowExpand){
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleCompact), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
         let stream = self.arrayStreams[sender.tag]
         self.sendMessage(content: stream, sender: sender.tag)
@@ -708,7 +708,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             layout.subcaption = "by \(content.Author!)"
             layout.image  = (sel as! HomeCollectionViewCell).imgStream.image
             message.layout = layout
-            message.url = URL(string: "\(iMsg_NavigationStream)/\(content.ID!)/\(content.Author!)/\(content.CoverImage!)/\(content.IDcreatedBy!)")
+            message.url = URL(string: "\(kNavigation_Stream)/\(content.ID!)/\(content.Author!)/\(content.CoverImage!)/\(content.IDcreatedBy!)")
             SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
         }
     }
@@ -720,7 +720,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
             for subV in pagerContent.subviews {
                 if subV.isKind(of: FSPagerView.self){
-                    showAlert(4, pagerView: (subV as! FSPagerView), alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForProfile)
+                    showAlert(4, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
                     return
                 }
             }
@@ -786,7 +786,7 @@ extension HomeViewController : UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
-            NotificationCenter.default.post(name:   NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
+            NotificationCenter.default.post(name:   NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
         }else{
             pagerContent.isHidden = true
             btnFeature.tag = 0
@@ -866,7 +866,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
-                showAlert(index, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForProfile)
+                showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
                 break
                 
             case 5:
@@ -930,7 +930,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
-                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: iMsgAlertTitle_Confirmation, messgae: iMsgAlert_ConfirmationDescriptionForProfile)
+                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
                 break
                 
             case 5:
@@ -973,7 +973,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     
     func showAlert(_ index: Int, pagerView:FSPagerView, alert:String, messgae:String) {
         let alert = UIAlertController(title: alert, message: messgae, preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: iMsgAlert_CancelTitle, style: UIAlertActionStyle.default, handler: { action in
+        alert.addAction(UIAlertAction(title: kAlert_Cancel_Title, style: UIAlertActionStyle.default, handler: { action in
             switch action.style{
             case .default:
                 UIView.animate(withDuration: 0.7, animations: {
@@ -990,7 +990,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
             }}))
         
-        alert.addAction(UIAlertAction(title: iMsgAlert_ConfirmationTitle, style: UIAlertActionStyle.cancel, handler: { action in
+        alert.addAction(UIAlertAction(title: kAlert_Confirmation_Button_Title, style: UIAlertActionStyle.cancel, handler: { action in
             switch action.style{
             case .cancel:
                 switch index {

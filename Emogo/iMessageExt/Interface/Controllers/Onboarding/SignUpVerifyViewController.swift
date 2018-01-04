@@ -33,10 +33,10 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpVerify, colorName: UIColor.white)
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: UIColor.white)
         txtVeryficationCode.attributedPlaceholder = placeholder;
         
-        txtVeryficationCode.layer.cornerRadius = iMsg_CornorRadius
+        txtVeryficationCode.layer.cornerRadius = kCornor_Radius
         txtVeryficationCode.clipsToBounds = true
         
 //        txtVeryficationCode.text = self.OTP
@@ -57,8 +57,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         if !(Validator.isEmpty(text: txtVeryficationCode.text!)) {
             txtVeryficationCode.shakeTextField()
         }
-        else if !(Validator.isMobileLength(text: txtVeryficationCode.text!, lenght: iMsgCharacterMaxLength_VerificationCode)) {
-            self.showToastIMsg(type: .error, strMSG: kAlertVerificationLengthMsg)
+        else if !(Validator.isMobileLength(text: txtVeryficationCode.text!, lenght: kCharacter_Max_Length_Verification_Code)) {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }
         else {
             self.view.endEditing(true)
@@ -74,19 +74,19 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     //MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: String! = textField.text
-        if(string == iMsg_String_isBlank){
+        if(string == kString_isBlank){
             return true
         }
-        if(textFieldText.count >= iMsgCharacterMaxLength_VerificationCode){
+        if(textFieldText.count >= kCharacter_Max_Length_Verification_Code){
             return false
         }
-        if(string == iMsg_String_singleSpace){
+        if(string == kString_singleSpace){
             return false
         }
         let characterSet = CharacterSet.init(charactersIn: iMsgNumberSet)
@@ -133,7 +133,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 }
             }
         }else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
     
@@ -150,7 +150,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 }
             }
         }else {
-            self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
 }

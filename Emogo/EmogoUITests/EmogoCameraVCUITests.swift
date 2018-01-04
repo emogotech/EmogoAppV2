@@ -319,8 +319,8 @@ class EmogoCameraVCUITests: XCTestCase {
         let btnTimer = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .other).element.children(matching: .button).element(boundBy: 3)
         btnTimer.tap()
         
-        let selectTimeSheet = app.sheets["Select Time"]
-        let cancelButton = selectTimeSheet.buttons["Cancel"]
+        let selectTimeSheet = app.sheets[kAlert_Select_Time]
+        let cancelButton = selectTimeSheet.buttons[kAlert_Cancel_Title]
         cancelButton.tap()
         btnTimer.tap()
         cancelButton.tap()
@@ -1050,8 +1050,8 @@ class EmogoCameraVCUITests: XCTestCase {
         let btnTimer = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .other).element.children(matching: .button).element(boundBy: 3)
         btnTimer.tap()
         
-        let selectTimeSheet = app.sheets["Select Time"]
-        let cancelButton = selectTimeSheet.buttons["Cancel"]
+        let selectTimeSheet = app.sheets[kAlert_Select_Time]
+        let cancelButton = selectTimeSheet.buttons[kAlert_Cancel_Title]
         cancelButton.tap()
         btnTimer.tap()
         cancelButton.tap()
@@ -1068,8 +1068,8 @@ class EmogoCameraVCUITests: XCTestCase {
         let btnTimer = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .other).element.children(matching: .button).element(boundBy: 3)
         btnTimer.tap()
         
-        let selectTimeSheet = app.sheets["Select Time"]
-        let cancelButton = selectTimeSheet.buttons["Cancel"]
+        let selectTimeSheet = app.sheets[kAlert_Select_Time]
+        let cancelButton = selectTimeSheet.buttons[kAlertCancel_Title]
         cancelButton.tap()
         btnTimer.tap()
         cancelButton.tap()
