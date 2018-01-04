@@ -19,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        // Crashlytics
+        Fabric.with([Crashlytics.self])
+
         self.initializeApplication()
         return true
     }
@@ -119,8 +122,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.openLandingScreen()
         }
         self.keyboardToolBar(disable:false)
-        // Crashlytics
-        Fabric.with([Crashlytics.self])
     }
     
    fileprivate func openLandingScreen(){

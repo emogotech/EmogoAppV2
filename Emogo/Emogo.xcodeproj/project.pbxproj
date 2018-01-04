@@ -2426,7 +2426,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Jon Woods (M35DBRABN7)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -2520,7 +2520,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -2547,6 +2547,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Jon Woods (EE6W79LAF4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
