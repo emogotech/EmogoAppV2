@@ -215,6 +215,10 @@ class ViewStreamController: UIViewController {
     obj.arrayColab = self.objStream?.arrayColab
     self.navigationController?.push(viewController: obj)
     }
+    
+    @objc func btnViewDropActionWith(button : UIButton){
+        print("Drop down Action")
+    }
 /*
    @objc  func btnNextAction(){
     
@@ -382,13 +386,15 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             view.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             view.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
             view.prepareLayout(stream:self.objStream)
+//            view.btnDropDown.tag = indexPath.section
+            view.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
             return view
         default:
             assert(false, "Unexpected element kind")
         }
         return cell
     }
-   
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
