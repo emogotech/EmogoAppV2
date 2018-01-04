@@ -824,4 +824,32 @@ class APIServiceManager: NSObject {
     
     
     
+    // MARK: - Logout API
+    
+    func apiForLogoutUser( completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLogoutAPI, Param: [:]) { (result) in
+            
+            switch(result){
+                
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
 }
