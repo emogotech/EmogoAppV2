@@ -237,6 +237,7 @@
 		F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
 		F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78771FBC68EF003FD6AB /* UserDAO.swift */; };
 		F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */; };
+		F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */; };
 		F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */; };
 		F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */; };
 		F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */; };
@@ -547,6 +548,7 @@
 		F45A78771FBC68EF003FD6AB /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 		F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFloatLabelTextView.m; sourceTree = "<group>"; };
 		F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFloatLabelTextView.h; sourceTree = "<group>"; };
+		F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+FaceAware.swift"; sourceTree = "<group>"; };
 		F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayoutAttributes.swift; sourceTree = "<group>"; };
 		F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayout.swift; sourceTree = "<group>"; };
 		F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamSearchCell.swift; sourceTree = "<group>"; };
@@ -1518,6 +1520,7 @@
 		F4FF7F691FC7FC57000FB678 /* ImageResizer */ = {
 			isa = PBXGroup;
 			children = (
+				F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */,
 				F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */,
 				F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */,
 			);
@@ -2213,6 +2216,7 @@
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
+				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,

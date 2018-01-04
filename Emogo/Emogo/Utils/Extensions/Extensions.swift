@@ -223,6 +223,7 @@ extension UIImageView {
             if let img = image{
                 self.image = img.scalingAndCropping(for: self.bounds.size)
             }
+            
             self.sd_setShowActivityIndicatorView(false)
         }
        
@@ -410,7 +411,7 @@ extension UINavigationController {
      - parameter type:     transition animation type.
      - parameter duration: transition animation duration.
      */
-    func pop(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.3) {
+    func pop(transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.8) {
         self.addTransition(transitionType: type, duration: duration)
         self.popViewController(animated: false)
     }
@@ -421,7 +422,7 @@ extension UINavigationController {
      - parameter type:     transition animation type.
      - parameter duration: transition animation duration.
      */
-    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.5) {
+    func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.8) {
         self.addTransition(transitionType: type, duration: duration)
         let controllersArray = self.viewControllers
         var vcToPop : UIViewController!
@@ -461,7 +462,7 @@ extension UINavigationController {
             self.pushViewController(vc, animated: false)
         }
     }
-    private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.5) {
+    private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.8) {
     
         let transition = CATransition()
         transition.duration = duration

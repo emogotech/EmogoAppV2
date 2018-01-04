@@ -23,7 +23,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnAddToStream: UIButton!
     @IBOutlet weak var btnDone: UIButton!
-    
+    @IBOutlet weak var lblTitleMessage: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
     var currentIndex:Int!
     var seletedImage:ContentDAO!
     var photoEditor:PhotoEditorViewController!
@@ -74,15 +75,30 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
+        self.lblTitleMessage.text = ""
+        self.lblDescription.text = ""
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
-        if !seletedImage.name.trim().isEmpty {
+        if  self.seletedImage.isUploaded {
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
+            self.lblTitleMessage.isHidden = false
+            self.lblDescription.isHidden = false
+        }  else {
+            self.txtTitleImage.isHidden = false
+            self.txtDescription.isHidden = false
+            self.lblTitleMessage.isHidden = true
+            self.lblDescription.isHidden = true
+        }
+        if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
+            self.lblTitleMessage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
+            self.lblDescription.text = seletedImage.name.trim()
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -103,15 +119,16 @@ class ContentViewController: UIViewController {
                 self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
             }
         }
+        
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
         }else {
             self.btnEdit.isHidden = false
         }
         if self.seletedImage.isDelete == false {
-            self.btnEdit.isHidden = true
+            self.btnDelete.isHidden = true
         }else {
-            self.btnEdit.isHidden = false
+            self.btnDelete.isHidden = false
         }
 
         

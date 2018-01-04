@@ -99,15 +99,7 @@ class StreamViewDAO{
     var arrayColab = [CollaboratorDAO]()
 
     init(streamData:[String:Any]) {
-        if let obj  = streamData["any_one_can_edit"] {
-           let value  = "\(obj)"
-            self.anyOneCanEdit = value.toBool()
-            if anyOneCanEdit == true {
-                self.canAddContent = true
-                self.canAddPeople = false
-            }
-        }
-       
+        
         if let obj  = streamData["view_count"] {
             self.viewCount = "\(obj)"
         }
@@ -130,6 +122,17 @@ class StreamViewDAO{
                 }
             }
         }
+        
+        if let obj  = streamData["any_one_can_edit"] {
+            let value  = "\(obj)"
+            self.anyOneCanEdit = value.toBool()
+            if anyOneCanEdit == true {
+                self.canAddContent = true
+                self.canAddPeople = true
+            }
+        }
+        
+        
         if let obj  = streamData["emogo"] {
             let value  = "\(obj)"
             self.emogo = value.toBool()
@@ -154,8 +157,13 @@ class StreamViewDAO{
             for value in objContent {
                 let dict:NSDictionary = value as! NSDictionary
                 let conent = ContentDAO(contentData: dict.replacingNullsWithEmptyStrings() as! [String : Any])
+                  conent.isUploaded = true
                 if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isDelete = true
+                }
+                if conent.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    conent.isDelete = true
+                    conent.isEdit = true
                 }
                 self.arrayContent.append(conent)
             }

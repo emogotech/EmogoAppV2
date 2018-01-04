@@ -188,7 +188,11 @@ class APIServiceManager: NSObject {
                 "image" : coverImage,
                 "type":streamType,
                 "any_one_can_edit":anyOneCanEdit,
-                "collaborator":jsonCollaborator
+                "collaborator":jsonCollaborator,
+                "collaborator_permission": [
+                    "can_add_content" : true,
+                    "can_add_people": true
+                ]
             ]
         }else {
             params = [
@@ -495,7 +499,7 @@ class APIServiceManager: NSObject {
     func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
         var params:[Any]!
         if contents == nil {
-            params =  [["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]]
+            params =  [["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo]]
         }else {
             params = contents
         }
@@ -608,7 +612,7 @@ class APIServiceManager: NSObject {
     // MARK: - Content Edit API
     
     func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
-        let param = ["url":coverImage,"name":contentName,"type":coverType,"description":contentDescription,"video_image":coverImageVideo]
+        let param = ["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo]
         let url = kContentAPI + "\(contentID)/"
         print(url)
         

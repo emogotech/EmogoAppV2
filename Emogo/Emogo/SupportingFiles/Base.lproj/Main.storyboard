@@ -1456,6 +1456,21 @@
                                             <outlet property="delegate" destination="pOf-qT-WPB" id="fMx-YP-hr0"/>
                                         </connections>
                                     </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg3-oT-U3X">
+                                        <rect key="frame" x="17" y="0.0" width="212" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="YFE-bV-uJ9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JDq-za-Xk8">
+                                        <rect key="frame" x="17" y="31" width="212" height="30"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kB-Xn-YG0">
                                         <rect key="frame" x="262" y="10" width="50" height="50"/>
                                         <constraints>
@@ -1470,12 +1485,19 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="4kB-Xn-YG0" firstAttribute="leading" secondItem="Lg3-oT-U3X" secondAttribute="trailing" constant="33" id="576-R9-QqC"/>
+                                    <constraint firstItem="Lg3-oT-U3X" firstAttribute="leading" secondItem="4xd-F1-Pek" secondAttribute="leading" constant="17" id="7QI-bh-GFA"/>
                                     <constraint firstAttribute="bottom" secondItem="O3X-Pb-Oxr" secondAttribute="bottom" id="88n-ek-ikm"/>
                                     <constraint firstItem="jPE-oA-cPK" firstAttribute="leading" secondItem="O3X-Pb-Oxr" secondAttribute="leading" id="9ua-lj-21F"/>
                                     <constraint firstAttribute="trailing" secondItem="4kB-Xn-YG0" secondAttribute="trailing" constant="8" id="IPd-ZR-E3r"/>
                                     <constraint firstItem="4kB-Xn-YG0" firstAttribute="leading" secondItem="jPE-oA-cPK" secondAttribute="trailing" constant="33" id="Jmk-fI-5Ta"/>
                                     <constraint firstItem="jPE-oA-cPK" firstAttribute="trailing" secondItem="O3X-Pb-Oxr" secondAttribute="trailing" id="KD8-VE-tLq"/>
-                                    <constraint firstAttribute="height" constant="69" id="XJB-ik-UFc"/>
+                                    <constraint firstItem="JDq-za-Xk8" firstAttribute="top" secondItem="jPE-oA-cPK" secondAttribute="bottom" constant="1" id="ORa-2c-4Ii"/>
+                                    <constraint firstItem="4kB-Xn-YG0" firstAttribute="leading" secondItem="JDq-za-Xk8" secondAttribute="trailing" constant="33" id="SJ1-yq-HK9"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="XJB-ik-UFc"/>
+                                    <constraint firstItem="Lg3-oT-U3X" firstAttribute="top" secondItem="4xd-F1-Pek" secondAttribute="top" id="XYN-Mj-lwV"/>
+                                    <constraint firstItem="JDq-za-Xk8" firstAttribute="leading" secondItem="4xd-F1-Pek" secondAttribute="leading" constant="17" id="alR-JJ-UF0"/>
+                                    <constraint firstAttribute="bottom" secondItem="JDq-za-Xk8" secondAttribute="bottom" constant="8" id="bQa-BX-wPG"/>
                                     <constraint firstItem="jPE-oA-cPK" firstAttribute="leading" secondItem="4xd-F1-Pek" secondAttribute="leading" constant="17" id="ffn-vc-va7"/>
                                     <constraint firstItem="O3X-Pb-Oxr" firstAttribute="top" secondItem="jPE-oA-cPK" secondAttribute="bottom" constant="1" id="lZ4-pF-d6V"/>
                                     <constraint firstItem="jPE-oA-cPK" firstAttribute="top" secondItem="4xd-F1-Pek" secondAttribute="top" id="s0t-GA-z9d"/>
@@ -1690,6 +1712,8 @@
                         <outlet property="imgPreview" destination="otu-8u-hua" id="USj-Zf-hmb"/>
                         <outlet property="kPreviewHeight" destination="cjs-HB-qrF" id="R6b-OV-4f1"/>
                         <outlet property="kWidthOptions" destination="O19-CA-v7m" id="Ahy-E2-9Q4"/>
+                        <outlet property="lblDescription" destination="JDq-za-Xk8" id="UBT-xx-M6H"/>
+                        <outlet property="lblTitleMessage" destination="Lg3-oT-U3X" id="MF0-6e-yTD"/>
                         <outlet property="previewCollection" destination="oZ5-WW-Ab8" id="Uss-66-spS"/>
                         <outlet property="txtDescription" destination="O3X-Pb-Oxr" id="aQl-ci-lTT"/>
                         <outlet property="txtTitleImage" destination="jPE-oA-cPK" id="8fY-jM-VXJ"/>

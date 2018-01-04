@@ -227,6 +227,7 @@ class StreamListViewController: UIViewController {
             }
             if refreshType == .end {
                 self.streamCollectionView.es.stopLoadingMore()
+                self.streamCollectionView.es.removeRefreshFooter()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -258,6 +259,7 @@ class StreamListViewController: UIViewController {
             }
             if refreshType == .end {
                 self.streamCollectionView.es.stopLoadingMore()
+                self.streamCollectionView.es.removeRefreshFooter()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -378,11 +380,11 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isPeopleList  == false{
-            
             // let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
+            ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
         }
     }

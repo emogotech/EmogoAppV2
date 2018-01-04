@@ -25,6 +25,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var viewOptions: UIView!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var lblTitleMessage: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
     let editor: VideoEditing = VideoEditor()
 
     // MARK: - Variables
@@ -105,11 +107,11 @@ class PreviewController: UIViewController {
             }
         }
         
-        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
         Gallery.Config.VideoEditor.maximumDuration = 30
         Gallery.Config.tabsToShow = [.imageTab, .videoTab]
         Gallery.Config.initialTab =  .imageTab
         Gallery.Config.Camera.imageLimit =  10
+        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
 
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
@@ -123,17 +125,32 @@ class PreviewController: UIViewController {
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
+        self.lblTitleMessage.text = ""
+        self.lblDescription.text = ""
         self.selectedIndex = index
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
             self.imgPreview.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
+      if  self.seletedImage.isUploaded {
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
+            self.lblTitleMessage.isHidden = false
+            self.lblDescription.isHidden = false
+        }  else {
+            self.txtTitleImage.isHidden = false
+            self.txtDescription.isHidden = false
+            self.lblTitleMessage.isHidden = true
+            self.lblDescription.isHidden = true
+        }
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
+            self.lblTitleMessage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
+            self.lblDescription.text = seletedImage.name.trim()
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -201,6 +218,7 @@ class PreviewController: UIViewController {
                         }
                     })
                 ContentList.sharedInstance.arrayContent.removeAll()
+                self.previewCollection.reloadData()
                 let when = DispatchTime.now() + 1.5
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Back Screen
@@ -225,6 +243,7 @@ class PreviewController: UIViewController {
             let arrayC = [String]()
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
             ContentList.sharedInstance.arrayContent.removeAll()
+            self.previewCollection.reloadData()
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
                 let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
@@ -482,7 +501,6 @@ class PreviewController: UIViewController {
     }
     
    
-    
     func associateContent() {
        
 //        if ContentList.sharedInstance.objStream != nil && contents.count != 0{

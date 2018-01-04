@@ -9,6 +9,7 @@
 import UIKit
 import Photos
 import PhotosUI
+import AVFoundation
 
 class AddStreamViewController: UITableViewController {
     
@@ -211,12 +212,12 @@ class AddStreamViewController: UITableViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         
-        let alert = UIAlertController(title: "Use", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
-            self.openCamera()
+            self.checkCameraPermission()
         }
         let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
-            self.openGallery()
+            self.checkPhotoLibraryPermission()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             
@@ -250,6 +251,79 @@ class AddStreamViewController: UITableViewController {
         print(self.fileName)
     }
    
+    
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            print("Gallery Open")
+            self.openGallery()
+            break
+        //handle authorized status
+        case .denied, .restricted :
+            print("denied ")
+            self.showPermissionAlert(strMessage: "gallery")
+            break
+        //handle denied status
+        case .notDetermined:
+            // ask for permissions
+            print("denied ")
+            PHPhotoLibrary.requestAuthorization() { status in
+                switch status {
+                case .authorized:
+                    self.openGallery()
+                    break
+                // as above
+                case .denied, .restricted:
+                    self.showPermissionAlert(strMessage: "gallery")
+                    break
+                // as above
+                case .notDetermined:
+                    break
+                    // won't happen but still
+                }
+            }
+        }
+    }
+    
+    func checkCameraPermission(){
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            //already authorized
+            print("camera Open")
+            self.openCamera()
+        } else {
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    //access allowed
+                    print("camera Open")
+                    self.openCamera()
+                } else {
+                    //access denied
+                    self.showPermissionAlert(strMessage: "camera")
+                }
+            })
+        }
+    }
+    
+    
+    func showPermissionAlert(strMessage:String) {
+        
+        DispatchQueue.main.async(execute: { [unowned self] in
+            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+                } else {
+                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(appSettings)
+                    }
+                }
+            }))
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
     
    private func openCamera(){
         if  UIImagePickerController.isSourceTypeAvailable(.camera){
@@ -322,7 +396,6 @@ class AddStreamViewController: UITableViewController {
     
     private func createStream(cover:String){
        
-        
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
