@@ -90,14 +90,14 @@ class ProfileViewController: UIViewController {
     
     
     override func btnLogoutAction() {
-         let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to logout?", preferredStyle: .alert)
-         let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
+         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
          alert.dismiss(animated: true, completion: nil)
          kDefault?.set(false, forKey: kUserLogggedIn)
          let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
          self.navigationController?.reverseFlipPush(viewController: obj)
          }
-         let no = UIAlertAction(title: "NO", style: .default) { (action) in
+         let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
          alert.dismiss(animated: true, completion: nil)
          }
          alert.addAction(yes)

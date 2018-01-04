@@ -23,8 +23,8 @@ class MessagesViewController: MSMessagesAppViewController {
         // SharedData.sharedInstance.resetAllData()
         prepareLayout()
         setupLoader()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyleExpand), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: iMsgNotificationManageRequestStyleCompact), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
         
     }
     
@@ -154,7 +154,7 @@ class MessagesViewController: MSMessagesAppViewController {
         else {
             SharedData.sharedInstance.isMessageWindowExpand = false
         }
-        NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageScreen), object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Screen_Size), object: nil)
     }
     
     override func didTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
@@ -177,12 +177,12 @@ class MessagesViewController: MSMessagesAppViewController {
             let splitArr = msgSummry.components(separatedBy: "/")
             var streamData  = [String:Any]()
             
-            if splitArr[0] == iMsg_NavigationStream {
+            if splitArr[0] == kNavigation_Stream {
                 UserDAO.sharedInstance.parseUserInfo()
                 streamData["id"] = splitArr[1]
                 SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamData)
             }
-            else if splitArr[0] == iMsg_NavigationContent {
+            else if splitArr[0] == kNavigation_Content {
                 SharedData.sharedInstance.iMessageNavigationCurrentStreamID = splitArr[2]
                 SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
                 SharedData.sharedInstance.contentData = ContentDAO.init(contentData: streamData)
@@ -218,12 +218,12 @@ class MessagesViewController: MSMessagesAppViewController {
     func navigateControllerAfterMessageSelected(type:String){
         SharedData.sharedInstance.iMessageNavigation = type
         let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
-        if type == iMsg_NavigationStream {
+        if type == kNavigation_Stream {
             var arrayTempStream  = [StreamDAO]()
             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
             obj.arrStream = arrayTempStream
             obj.currentStreamIndex = 0
-        }else if type == iMsg_NavigationContent {
+        }else if type == kNavigation_Content {
             var arrayTempStream  = [StreamDAO]()
             var streamDatas  = [String:Any]()
             streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID

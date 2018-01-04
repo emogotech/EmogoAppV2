@@ -33,10 +33,10 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     // MARK:- PrepareLayout
     func prepareLayout()  {
         
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpName, colorName: UIColor.white)
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: UIColor.white)
         txtName.attributedPlaceholder = placeholder;
         
-        txtName.layer.cornerRadius = iMsg_CornorRadius
+        txtName.layer.cornerRadius = kCornor_Radius
         txtName.clipsToBounds = true
     }
     
@@ -56,12 +56,12 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     @IBAction func btnNext(_ sender : UIButton){
         if !(Validator.isEmpty(text: txtName.text!)) {
             txtName.shakeTextField()
-        } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: iMsgNameMinLength)) {
-            self.showToastIMsg(type: .error, strMSG: iMsgError_NameMsg)
-        } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: iMsgNameMaxLength)){
-            self.showToastIMsg(type: .error, strMSG: iMsgError_NameMax)
+        } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: kName_Min_Length)) {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Error_NameMsg)
+        } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: kName_Max_Length)){
+            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
         } else if(!Validator.isNameContainSpace(text: txtName.text!)){
-            self.showToastIMsg(type: .error, strMSG: iMsgError_NameSpace)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
         } else {
             self.view.endEditing(true);
             self.verifyUserName()
@@ -84,30 +84,30 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     // MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if(string == iMsg_String_isBlank){
+        if(string == kString_isBlank){
             return true
         }
         let textFieldText: String! = textField.text
         
-        if(textFieldText.count >= iMsgCharacterMaxLength_Name){
+        if(textFieldText.count >= kCharacterMaxLength_Name){
             return false
         }
         
-        if(range.location == 0 && string == iMsg_String_singleSpace){
+        if(range.location == 0 && string == kString_singleSpace){
             return false
         }
         
-        if( ( textFieldText == iMsg_String_singleSpace )){
+        if( ( textFieldText == kString_singleSpace )){
             return false
         }
         if(textFieldText.count > 0){
             let charPrevious = textFieldText[textFieldText.count - 1]
-            if( ( charPrevious == iMsg_String_singleSpace ) && ( string == iMsg_String_singleSpace )){
+            if( ( charPrevious == kString_singleSpace ) && ( string == kString_singleSpace )){
                 return false
             }
         }
@@ -149,12 +149,12 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                     self.addRippleTransition()
                     self.present(obj, animated: false, completion: nil)
                 } else {
-                    self.showToastIMsg(type: .error, strMSG: kAlertUserNameAlreayExistsMsg)
+                    self.showToastIMsg(type: .error, strMSG: kAlert_User_Name_Alreay_Exists_Msg)
                 }
             }
         }
         else {
-             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
 }

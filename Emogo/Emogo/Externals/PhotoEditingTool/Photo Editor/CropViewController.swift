@@ -213,7 +213,7 @@ open class CropViewController: UIViewController {
             }
         }
         actionSheet.addAction(widescreen)
-        let cancel = UIAlertAction(title: "Cancel", style: .default) { [unowned self] action in
+        let cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { [unowned self] action in
             self.dismiss(animated: true, completion: nil)
         }
         actionSheet.addAction(cancel)

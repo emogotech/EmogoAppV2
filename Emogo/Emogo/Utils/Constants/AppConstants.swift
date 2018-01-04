@@ -38,7 +38,6 @@ var currentTag = 111
 var arraySelectedContent:[ContentDAO]?
 var arrayAssests:[ImportDAO]?
 
-
 // MARK: -  FONT'S
 let kFontRegular = "SF Pro Display Regular"
 let kFontMedium = "SF Pro Display Medium"
@@ -67,13 +66,23 @@ let kStoryboardID_GiphyView = "giphyView"
 let kStoryboardID_ImportView = "importView"
 let kStoryboardID_ContentView = "contentView"
 let kStoryboardID_ProfileView = "profileView"
-
-
-
+let iMsgSegue_Root                               = "MessagesViewController"
+let iMsgSegue_SignIn                            = "SignInViewController"
+let iMsgSegue_SignUpName                        = "SignUpNameViewController"
+let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
+let iMsgSegue_SignUpVerify                      = "SignUpVerifyViewController"
+let iMsgSegue_SignUpSelected                    = "SignUpSelectedViewController"
+let iMsgSegue_Home                              = "HomeViewController"
+let iMsgSegue_Stream                            = "StreamViewController"
+let iMsgSegue_StreamContent                     = "StreamContentViewController"
+let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
+let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
+let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
+let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
+let iMsgSegue_HomeCollectionPeople        = "PeopleSearchCollectionViewCells"
 
 
 // MARK: - Cell's  and NIB's Identifier
-
 let kCell_StreamCell = "streamCell"
 let kHeader_StreamHeaderView = "streamSearchCell"
 let kCell_PreviewCell = "previewCell"
@@ -88,15 +97,8 @@ let kCell_MyStreamCell = "myStreamCell"
 let kCell_MyStuffCell = "myStuffCell"
 let kCell_ImportCell = "importCell"
 let kCell_ProfileStreamCell = "profileStreamCell"
-
-
-
-
-// MARK: - StoryboardSegue Identifier
 let kSegue_AddCollaboratorsView = "addColabSegue"
 let kSegue_ContainerSegue = "containerSegue"
-
-
 
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"
@@ -107,37 +109,8 @@ let kaddBackgroundImage                 = "menuBackGround"
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
 let kUpdateStreamViewIdentifier = "UpdateStreamIdentifier"
 
-
-// MARK: - Static Alert Messages
-let kAlertTitle                         = "Alert!"
-let kAlertTitleMessage                  = "Message!"
-let kAlertTitleInfo                     = "Info!"
-
-let kPleaseEnterNameMsg                 = "Please Enter User Name."
-let kAlertPhoneNumberLengthMsg          = "Phone Number must be 10 digits."
-let kAlertVerificationLengthMsg         = "Verification Code must be 5 digits."
-let kAlertLoginSuccessMsg               = "You Have Successfully Logged in with us."
-let kAlertInvalidUserNameMsg            = "Username limit is between 3-30 characters."
-let kAlertUserNameAlreayExistsMsg       = "User Name Already Exists, Please enter Unique User Name."
-let kAlertNetworkErrorMsg               = "Unable to connect, Please check your internet connection!"
-let kAlertStreamNameEmpty = "Please enter Stream Name."
-let kAlertStreamAddedSuccess = "Stream Added Successfully."
-let kAlertStreamCaptionEmpty = "Please enter Stream Caption."
-let kAlertStreamCoverEmpty = "Please Select Stream Cover Image."
-let kAlertStreamColabEmpty = "Please Select Atleast one Collaborator."
-let kAlertInvalidUserSpaceMsg            = "Space not allowed."
-let kAlertContentAdded                = "Content Created Successfully."
-let kAlertContentAssociatedToStream                = "Content associated with selected Stream."
-let kAlertSelectStream                = "Please Select Atleast one Stream to add Content."
-let kAlertStreamEditedSuccess = "Stream Updated Successfully."
-let kNotificationUpdateFilter                  = "updateFilterAfterCreateStream"
-let kNotificationUpdateImageCover                 = "updateImageAfterEditStream"
-let kAlertUploadWaitMsg                  = "Please wait, it may take a while!"
-let kNotificationAddColaborator                  = "updateColaborator"
-
-
+// MARK:- Redirect Links
 let kDeepLinkURL = "Emogo://emogo/"
-//let kDeepLinkImessage = "EmogoImessage://emogo/"
 let kDeepLinkTypeProfile = "Profile"
 let kDeepLinkTypePeople = "People"
 let kDeepLinkTypeAddStream = "AddStream"
@@ -145,15 +118,21 @@ let kDeepLinkTypeAddContent = "AddStreamContent"
 let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
 let kUserDefaltForContentData = "editContentData"
-
 let kSearchType = "PEOPLE"
 
-// MARK: -  AlertMessage
+// MARK: -  Enums Alert
 enum AlertType: String {
     case success = "1"
     case error = "2"
     case Info = "3"
-    
+}
+
+
+// MARK: -  Enums Alert
+enum TimerSet: String {
+    case fiveSec = "5s"
+    case tenSec = "10s"
+    case fifteenSec = "15s"
 }
 
 
@@ -165,7 +144,6 @@ enum StreamInputType: String {
     
 }
 // MARK: -  Refresh Type
-
 enum RefreshType:String {
     case start = "0"
     case up = "1"
@@ -178,103 +156,88 @@ enum RefreshType:String {
 //==== iMessage Constants=====
 //**********
 
-//StoryBoard Name
-let iMsgStoryBoard                              = "MainInterface"
-
 //PlaceHolder text
-let iMsgPlaceHolderText_SignIn                   = "Your number here"
-//let iMsgPlaceHolderText_SignUpName               = "Choose a Username"
-let iMsgPlaceHolderText_SignUpName               = "Your text here"
-let iMsgPlaceHolderText_SignUpMobile             = "Your number here"
-let iMsgPlaceHolderText_SignUpVerify             = "Your code here"
-
-//Segue Identifires
-let iMsgSegue_Root                            = "MessagesViewController"
-let iMsgSegue_SignIn                                = "SignInViewController"
-let iMsgSegue_SignUpName                        = "SignUpNameViewController"
-let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
-let iMsgSegue_SignUpVerify                      = "SignUpVerifyViewController"
-let iMsgSegue_SignUpSelected                    = "SignUpSelectedViewController"
-let iMsgSegue_Home                              = "HomeViewController"
-let iMsgSegue_Stream                            = "StreamViewController"
-let iMsgSegue_StreamContent                     = "StreamContentViewController"
-
-let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
-let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
-let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
-let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
-let iMsgSegue_HomeCollectionPeople        = "PeopleSearchCollectionViewCells"
-
+let kPlaceHolder_Text_Mobile                   = "Your number here"
+let kPlaceHolderText_Sign_Up_Name               = "Your text here"
+let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 
 //Notification Name`
-let iMsgNotificationManageRequestStyleExpand          = "manageRequestStyleExpand"
-let iMsgNotificationManageRequestStyleCompact       = "manageRequestStyleExpand"
-let iMsgNotificationManageScreen                    = "notifyForChangeScreenSize"
-let iMsgNotificationReloadContenData                    = "notifyReloadContenData"
-let iMsgNotificationReloadStreamContent                    = "notifyReloadStreamContent"
+let kNotification_Manage_Request_Style_Expand          = "manageRequestStyleExpand"
+let kNotification_Manage_Request_Style_Compact       = "manageRequestStyleExpand"
+let kNotification_Manage_Screen_Size                    = "notifyForChangeScreenSize"
+let kNotification_Reload_Content_Data                    = "notifyReloadContenData"
+let kNotification_Reload_Stream_Content                    = "notifyReloadStreamContent"
 
-//Alert Messages
-let iMsgError_NameMsg                           = "Please enter minimum three characters."
-let iMsgError_CodeMsg                           = "Please enter 4 digit code."
-let iMsgError_Mobile                            = "Please enter mobile number."
-let iMsgError_Name                              = "Please enter the name."
-let iMsgError_NameMax                           = "Username limit is between 3-30 characters."
-let iMsgError_NameSpace                         = "Space not allowed"
-
-let iMsgAlert_ConfirmationDescriptionForPeople           = "We need to redirect on Emogo App for the Peoples list, Do you want to go to Emogo?"
-let iMsgAlert_ConfirmationDescriptionForProfile           = "We need to redirect on Emogo App for the User Profile, Do you want to go to Emogo?"
-
-let iMsgAlert_ConfirmationDescriptionForEditStream           = "We need to redirect on Emogo App for the Edit stream, Do you want to go to Emogo?"
-
-let iMsgAlert_ConfirmationDescriptionForEditContent          = "We need to redirect on Emogo App for the Edit content, Do you want to go to Emogo?"
-
-let iMsgAlert_ConfirmationDescriptionForAddContent          = "We need to redirect on Emogo App for the Add content, Do you want to go to Emogo?"
-
-
-let iMsgAlert_ConfirmationTitle                 =  "Continue"
-let iMsgAlert_CancelTitle                 =  "Cancel"
-
-let kAlert_DeleteStreamMsg = "Are you sure, You want to Delete This Stream"
-let kAlert_DeleteContentMsg = "Are you sure, You want to Delete This Content"
-
-let kAlert_StreamNotFound = "The stream you requested does not exists."
-let kAlert_ContentNotFound = "The content you requested does not exists."
-
-
-//Alert Types
-let iMsgAlertType_One = "1"
-let iMsgAlertType_Two = "2"
-let iMsgAlertType_Three = "3"
-
-//Alert titles
-let iMsgAlertTitle_Success                       = "Message!"
-let iMsgAlertTitle_Alert                         = "Emogo"
-let iMsgAlertTitle_Info                          = "Info!"
-let iMsgAlertTitle_Confirmation                  = "Confirmation!"
 
 //Sets Constant
 let iMsgCharacterSet                            = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ\n"
 let iMsgNumberSet                               = "0123456789"
 
 //String Check
-let iMsg_String_isBlank                         = ""
-let iMsg_String_singleSpace                     = " "
-let iMsg_NavigationStream                       = "Stream"
-let iMsg_NavigationContent                       = "Content"
+let kString_isBlank                         = ""
+let kString_singleSpace                     = " "
+let kNavigation_Stream                       = "Stream"
+let kNavigation_Content                       = "Content"
 
 
 //Constant
-let iMsg_CornorRadius : CGFloat                 = 18.0
-let iMsgCharacterMaxLength_Name                 = 30
-let iMsgCharacterMaxLength_VerificationCode     = 5
-let iMsgCharacterMaxLength_MobileNumber         = 15
-let iMsgCharacterMinLength_MobileNumber         = 12
+let kCornor_Radius : CGFloat                 = 18.0
+let kCharacterMaxLength_Name                 = 30
+let kCharacter_Max_Length_Verification_Code     = 5
+let kCharacter_Max_Length_MobileNumber         = 15
+let kCharacter_Min_Length_MobileNumber         = 12
+let kName_Min_Length                           = 3
+let kName_Max_Length                           = 20
+let kHud_Alpha_Constant: CGFloat              = 0.7
 
-let iMsgNameMinLength                           = 3
-let iMsgNameMaxLength                           = 20
+//Alert Title
+let kAlert_Title                                                         = "Alert!"
+let kAlert_Title_Confirmation                                            = "Confirmation!"
+let kAlert_Confirmation_Button_Title                                      = "Continue"
+let kAlert_Cancel_Title                                                  = "Cancel"
+let kAlert_Select_Time                                                   = "Select Time"
+let kAlertTitle_Emogo                                                   = "Emogo"
+let kAlertTitle_Yes = "YES"
+let kAlertTitle_No =  "No"
 
-let iMsgDismissDelayTimeForPopUp : TimeInterval = 3
+//Alert Messagage
+let kAlert_Phone_Number_Length_Msg                                          = "Phone Number must be 10 digits."
+let kAlert_Verification_Length_Msg                                         = "Verification Code must be 5 digits."
+let kAlert_Invalid_User_Name_Msg                                            = "Username limit is between 3-30 characters."
+let kAlert_User_Name_Alreay_Exists_Msg                                       = "User Name Already Exists, Please enter Unique User Name."
+let kAlert_Network_ErrorMsg                                               = "Unable to connect, Please check your internet connection!"
+let kAlert_Stream_Added_Success                                            = "Stream Added Successfully."
+let kAlert_Stream_Cover_Empty                                              = "Please Select Stream Cover Image."
+let kAlert_Stream_Colab_Empty                                              = "Please Select Atleast one Collaborator."
+let kAlert_Invalid_User_Space_Msg                                           = "Space not allowed."
+let kAlert_Content_Added                                                  = "Content Created Successfully."
+let kAlert_Content_Associated_To_Stream                                     = "Content associated with selected Stream."
+let kAlert_Select_Stream                                                  = "Please Select Atleast one Stream to add Content."
+let kAlert_Stream_Edited_Success                                           = "Stream Updated Successfully."
+let kNotification_Update_Filter                                           = "updateFilterAfterCreateStream"
+let kNotification_Update_Image_Cover                                       = "updateImageAfterEditStream"
+let kAlert_Upload_Wait_Msg                                                 = "Please wait, it may take a while!"
+let kAlert_Error_NameMsg                                                   = "Please enter minimum three characters."
+let kAlert_CamPermission                                                = "AVCam doesn't have permission to use the camera, please change privacy settings"
+let kAlert_Confirmation_Description_For_Profile                         = "We need to redirect on Emogo App for the User Profile, Do you want to go to Emogo?"
+let kAlert_Confirmation_Description_For_Edit_Stream                      = "We need to redirect on Emogo App for the Edit stream, Do you want to go to Emogo?"
+let kAlert_Confirmation_Description_For_Edit_Content                     = "We need to redirect on Emogo App for the Edit content, Do you want to go to Emogo?"
+let kAlert_Confirmation_Description_For_Add_Content                      = "We need to redirect on Emogo App for the Add content, Do you want to go to Emogo?"
+let kAlert_Edit_Image                                                    = "You don't have image to Edit."
+let kAlert_Save_Image                                                    = "Image successfully saved to Photos library"
+let kAlert_Delete_Stream_Msg                                              = "Are you sure, You want to Delete This Stream?"
+let kAlert_Delete_Content_Msg                                             = "Are you sure, You want to Delete This Content?"
+let kAlert_Logout                                                       = "Are you sure, You want to logout?"
+let kAlert_Stream_Not_Found                                               = "The stream you requested does not exists."
+let kAlert_Content_Not_Found                                              = "The content you requested does not exists."
+
+let kAlert_Progress                                                     = "Content Will be shared by iMessage (work in progress)."
+let kAlert_waitProcess                                                  = "It may take a while, All Content will be added in MyStuff, After Uploading!"
+
+let kAlert_contenAddedToStream                                          = "Content added successfully to Stream(s)."
 
 
-let iMsg_hudAlphaConstant: CGFloat              = 0.7
+
+
+
 

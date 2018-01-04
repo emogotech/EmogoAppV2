@@ -45,7 +45,7 @@ class VerificationViewController: UIViewController {
         if (self.txtOtP.text?.trim().isEmpty)! {
             self.txtOtP.shake()
         }else if (txtOtP.text?.trim().count)! != 5 {
-            self.showToast(type: .error, strMSG: kAlertVerificationLengthMsg)
+            self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
             self.verifyOTP()
         }
@@ -76,7 +76,7 @@ class VerificationViewController: UIViewController {
                 }
             }
         }else {
-            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToast(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
        
     }
@@ -91,7 +91,7 @@ class VerificationViewController: UIViewController {
                 }
             }
         }else {
-            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToast(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
        
     }

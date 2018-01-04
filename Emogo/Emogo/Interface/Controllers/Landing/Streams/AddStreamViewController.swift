@@ -188,14 +188,14 @@ class AddStreamViewController: UITableViewController {
         
         self.view.endEditing(true)
         if coverImage == nil && strCoverImage.isEmpty{
-            self.showToastOnWindow(strMSG: kAlertStreamCoverEmpty)
+            self.showToastOnWindow(strMSG: kAlert_Stream_Cover_Empty)
         }
        else if (self.txtStreamName.text?.trim().isEmpty)! {
             txtStreamName.shake()
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
-            self.showToastOnWindow(strMSG: kAlertStreamColabEmpty)
+            self.showToastOnWindow(strMSG: kAlert_Stream_Colab_Empty)
         }else {
-             self.showToastOnWindow(strMSG: kAlertUploadWaitMsg)
+             self.showToastOnWindow(strMSG: kAlert_Upload_Wait_Msg)
             if self.streamID == nil {
                 self.uploadCoverImage()
             }else {
@@ -295,10 +295,10 @@ class AddStreamViewController: UITableViewController {
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                self.showToastOnWindow(strMSG: kAlertStreamAddedSuccess)
+                self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
                       self.navigationController?.pop()
-                       NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateFilter ), object: nil)
+                       NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -310,10 +310,10 @@ class AddStreamViewController: UITableViewController {
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                self.showToastOnWindow(strMSG: kAlertStreamEditedSuccess)
+                self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
                 DispatchQueue.main.async{
                     self.navigationController?.pop()
-                     NotificationCenter.default.post(name: NSNotification.Name(kNotificationUpdateImageCover), object: nil)
+                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)

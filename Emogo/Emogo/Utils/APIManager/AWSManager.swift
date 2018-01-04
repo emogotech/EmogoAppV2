@@ -261,9 +261,9 @@ class AWSRequestManager:NSObject {
     
     func startContentUpload(StreamID:[String],array:[ContentDAO]){
         if StreamID.count == 0 {
-            self.showToast(strMSG: "It may take a while, All Content will be added in MyStuff, After Uploading!")
+            self.showToast(strMSG: kAlert_waitProcess)
         }else {
-            self.showToast(strMSG: "It may take a while, All Content will be added in Stream, After Uploading!")
+            self.showToast(strMSG: kAlert_waitProcess)
         }
         var arrayContentToCreate = [ContentDAO]()
         let dispatchGroup = DispatchGroup()
@@ -331,7 +331,7 @@ class AWSRequestManager:NSObject {
                         
                     })
                 }else {
-                    self.showToast(strMSG: kAlertContentAdded)
+                    self.showToast(strMSG: kAlert_Content_Added)
                 }
             }
         }
@@ -356,7 +356,7 @@ class AWSRequestManager:NSObject {
         APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
             if (errorMsg?.isEmpty)! {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil)
-                self.showToast(strMSG: "Content added successfully to Stream(s).")
+                self.showToast(strMSG: kAlert_contenAddedToStream)
                 completion(true,"")
             }else {
                 completion(false,errorMsg)

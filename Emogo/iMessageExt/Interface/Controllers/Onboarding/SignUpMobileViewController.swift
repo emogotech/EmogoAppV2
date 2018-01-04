@@ -32,10 +32,10 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: iMsgPlaceHolderText_SignUpMobile, colorName: UIColor.white)
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
         
-        txtMobileNumber.layer.cornerRadius = iMsg_CornorRadius
+        txtMobileNumber.layer.cornerRadius = kCornor_Radius
         txtMobileNumber.clipsToBounds = true
         
         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
@@ -58,8 +58,8 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         if !(Validator.isEmpty(text: txtMobileNumber.text!)) {
             txtMobileNumber.shakeTextField()
         }
-        else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: iMsgCharacterMinLength_MobileNumber)) {
-            self.showToastIMsg(type: .error, strMSG: kAlertPhoneNumberLengthMsg)
+        else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: kCharacter_Min_Length_MobileNumber)) {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Phone_Number_Length_Msg)
         }
         else {
             self.view.endEditing(true);
@@ -78,7 +78,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     // MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
-            NotificationCenter.default.post(name: NSNotification.Name(iMsgNotificationManageRequestStyleExpand), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
         }
     }
     
@@ -87,16 +87,16 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         if range.location < 3 {
             return false
         }
-        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == iMsg_String_isBlank) {
+        if(textFieldText.count == SharedData.sharedInstance.countryCode.count && string == kString_isBlank) {
             return false
         }
-        if(string == iMsg_String_isBlank) {
+        if(string == kString_isBlank) {
             return true
         }
-        if(textFieldText.count >= iMsgCharacterMaxLength_MobileNumber){
+        if(textFieldText.count >= kCharacter_Max_Length_MobileNumber){
             return false
         }
-        if(string == iMsg_String_singleSpace){
+        if(string == kString_singleSpace){
             return false
         }
         let characterSet = CharacterSet.init(charactersIn: iMsgNumberSet)
@@ -143,7 +143,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             
         }
         else {
-             self.showToastIMsg(type: .error, strMSG: kAlertNetworkErrorMsg)
+             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
 }

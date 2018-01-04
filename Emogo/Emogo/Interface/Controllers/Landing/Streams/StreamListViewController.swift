@@ -99,8 +99,8 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
-//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateFilter)), object: self)
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotificationUpdateFilter), object: nil)
+//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Filter)), object: self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotification_Update_Filter), object: nil)
         
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .featured)
@@ -186,9 +186,7 @@ class StreamListViewController: UIViewController {
     override func btnMyProfileAction() {
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
         self.navigationController?.push(viewController: obj)
-        
     }
-    
     
     @IBAction func btnActionAdd(_ sender: Any) {
         self.actionForAddStream()

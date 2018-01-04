@@ -25,8 +25,8 @@ class ViewStreamController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotificationUpdateImageCover)), object: self)
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotificationUpdateImageCover), object: nil)
+//        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.updateImageAfterEdit), name: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil)
 //
         
         // Do any additional setup after loading the view.
@@ -141,12 +141,12 @@ class ViewStreamController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @objc func deleteStreamAction(sender:UIButton){
-        let alert = UIAlertController(title: "Confirmation!", message: "Are you sure, You want to Delete Stream?", preferredStyle: .alert)
-        let yes = UIAlertAction(title: "YES", style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
            self.deleteStream()
         }
-        let no = UIAlertAction(title: "NO", style: .default) { (action) in
+        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)

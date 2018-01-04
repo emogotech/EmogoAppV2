@@ -44,9 +44,9 @@ class UserNameViewController: UIViewController {
         if (self.txtUserName.text?.trim().isEmpty)! {
             self.txtUserName.shake()
         }else if (txtUserName.text?.trim().count)! < 3 || (txtUserName.text?.trim().count)! > 30 {
-            self.showToast(type: .error, strMSG: kAlertInvalidUserNameMsg)
-        }else if (txtUserName.text?.trim().contains(iMsg_String_singleSpace))!{
-            self.showToast(type: .error, strMSG: kAlertInvalidUserSpaceMsg)
+            self.showToast(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
+        }else if (txtUserName.text?.trim().contains(kString_singleSpace))!{
+            self.showToast(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
         }else {
             self.verifyUserName()
         }
@@ -76,7 +76,7 @@ class UserNameViewController: UIViewController {
                 }
             }
         }else {
-            self.showToast(type: .error, strMSG: kAlertNetworkErrorMsg)
+            self.showToast(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
        
     }
