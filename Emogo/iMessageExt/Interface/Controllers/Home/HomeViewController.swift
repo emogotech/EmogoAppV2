@@ -214,7 +214,6 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     
-    
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize(){
         self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
@@ -222,10 +221,10 @@ class HomeViewController: MSMessagesAppViewController {
     
     @objc func changeUI(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            self.performSelector(inBackground: #selector(self.changeUIInBackground), with: nil)
+            self.perform(#selector(self.changeUIInBackground), with: nil, afterDelay: 0.8)
             btnFeature.tag = 1
         }else{
-            //            self.performSelector(inBackground: #selector(self.changeUIInBackgroundCollapse), with: nil)
+            self.perform(#selector(self.changeUIInBackgroundCollapse), with: nil, afterDelay: 0.8)
             pagerContent.isHidden = true
             btnFeature.tag = 0
         }
@@ -236,23 +235,27 @@ class HomeViewController: MSMessagesAppViewController {
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             pagerContent.isHidden = false
             collectionFrame = collectionStream.frame
+            UIView.animate(withDuration: 0.5, animations: {
+                self.updatUIWhileSearch()
+            })
         }
     }
     
     @objc func changeUIInBackgroundCollapse(){
-        print(self.viewCollections.frame)
-        if  self.isSearch == true && !isStreamEnable{
-            
-            //            self.collectionStream.frame = CGRect(x: self.viewPeople.frame.origin.x, y: self.viewCollectionsMain.frame.origin.y+80, width: self.viewPeople.frame.size.width, height: SharedData.sharedInstance.heightCollapse-40)
-            
-            
-            
-            //            self.collectionStream.topAnchor.constraint(equalTo: self.viewPeopleHeader.bottomAnchor).isActive = true
-            //            self.collectionStream.heightAnchor.constraint(equalToConstant: self.viewPeople.frame.size.height-self.viewPeopleHeader.frame.size.height).isActive = true
-            //            UIView.animate(withDuration: 0.1, animations: {
-            
-            //                self.view.layoutIfNeeded()
-            //            })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.updatUIWhileSearch()
+        })
+    }
+    
+    func updatUIWhileSearch(){
+        if  self.isSearch == true && isStreamEnable{
+            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+            self.collectionStream.isHidden = false
+            self.collectionStream.reloadData()
+        }else if  self.isSearch == true && !isStreamEnable{
+            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
+            self.collectionStream.isHidden = false
+            self.collectionStream.reloadData()
         }
     }
     
@@ -381,6 +384,8 @@ class HomeViewController: MSMessagesAppViewController {
             collectionStream.reloadData()
             self.collectionStream.isHidden = true
             StreamList.sharedInstance.requestURl = ""
+            PeopleList.sharedInstance.requestURl = ""
+            SharedData.sharedInstance.isMoreContentAvailable = false
             self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
             break
             
@@ -393,6 +398,8 @@ class HomeViewController: MSMessagesAppViewController {
             self.collectionStream.reloadData()
             self.setupCollectionPropertiesForUsers()
             PeopleList.sharedInstance.requestURl = ""
+            StreamList.sharedInstance.requestURl = ""
+            SharedData.sharedInstance.isMoreContentAvailable = false
             self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             break
             
@@ -407,14 +414,14 @@ class HomeViewController: MSMessagesAppViewController {
         DispatchQueue.main.async {
             self.setupCollectionPropertiesForUsers()
         }
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.7, animations: {
             self.heightStream?.isActive = true
             self.heightPeople?.isActive = false
             self.view.layoutIfNeeded()
         }) { (finished) in
             self.isStreamEnable = false
             self.isSearch = true
-            self.collectionStream.frame = CGRect(x: self.viewPeople.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
+            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
             self.collectionStream.isHidden = false
             self.collectionStream.reloadData()
         }
@@ -432,7 +439,7 @@ class HomeViewController: MSMessagesAppViewController {
         }) { (finished) in
             self.isStreamEnable = true
             self.isSearch = true
-            self.collectionStream.frame = CGRect(x: self.viewStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.viewStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
             self.collectionStream.isHidden = false
             self.collectionStream.reloadData()
         }
@@ -1071,15 +1078,17 @@ extension HomeViewController : UIScrollViewDelegate {
                     self.footerView?.loadingView.isHidden = false
                     self.footerView?.loadingView.startLoaderWithAnimation()
                 }
-                if (isSearch == true && isStreamEnable == false && btnFeature.titleLabel?.text == kSearchType){
+                if (isSearch && !isStreamEnable){
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
-                } else if (isSearch == true && isStreamEnable == true && btnFeature.titleLabel?.text == kSearchType){
+                }
+                else if (isSearch && isStreamEnable){
                     self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .down)
                 }
-                else if btnFeature.titleLabel?.text != kSearchType {                    self.getStreamList(type:.down,filter:self.streamType)
+                else if btnFeature.titleLabel?.text == kSearchType {
+                    self.getUsersList(type: .down)
                 }
                 else {
-                    self.getUsersList(type: .down)
+                    self.getStreamList(type:.down,filter:self.streamType)
                 }
             }
         }
