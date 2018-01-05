@@ -229,7 +229,15 @@ class HomeViewController: MSMessagesAppViewController {
             }
             btnFeature.tag = 1
         }else{
-            self.perform(#selector(self.changeUIInBackgroundCollapse), with: nil, afterDelay: 0.8)
+            if searchText.text != "" {
+                searchText.text = ""
+                self.viewCollections.isHidden = true
+                isSearch = false
+                btnSearchHeader.isSelected = false
+                btnSearchHeader.tag = 0
+                self.getStreamList(type: RefreshType.start, filter: streamType)
+            }
+//            self.perform(#selector(self.changeUIInBackgroundCollapse), with: nil, afterDelay: 0.8)
             pagerContent.isHidden = true
 
             btnFeature.tag = 0
