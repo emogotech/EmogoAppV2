@@ -197,13 +197,22 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
+        # If current user as collaborator
         if qs.exists():
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
+            # If current user as owner of stream
             if obj.created_by.__str__() == self.context['request'].user.__str__():
-                return {'can_add_content': True, 'can_add_people':True}
-        return None
+                return {'can_add_content': True, 'can_add_people': True}
+            else:
+                # If current user a sophisticated user.
+                # If stream is public and any_one_can_edit is true
+                if obj.any_one_can_edit:
+                    return {'can_add_content': obj.any_one_can_edit , 'can_add_people': False}
+                # If stream is public and any_one_can_edit is False
+                else:
+                    return {'can_add_content': False, 'can_add_people': False}
 
 
 class ContentListSerializer(serializers.ListSerializer):
