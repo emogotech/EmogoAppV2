@@ -841,7 +841,7 @@ class APIServiceManager: NSObject {
     
     func apiForLogoutUser( completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
-        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLogoutAPI, Param: [:]) { (result) in
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLogoutAPI, Param: nil) { (result) in
             
             switch(result){
                 
@@ -914,6 +914,58 @@ class APIServiceManager: NSObject {
             
         }
         
+    }
+    
+    func apiForGetUserStream(userID:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        if type == .start || type == .up{
+            StreamList.sharedInstance.requestURl = kUserStreamAPI
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+        let param = ["user_id":userID]
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL:  StreamList.sharedInstance.requestURl, Param: param) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
+                                    // it exists, do something
+                                } else {
+                                    StreamList.sharedInstance.arrayStream.append(stream)                                }
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURl = ""
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+                                
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURl = obj as! String
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                                
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
         
     }
     

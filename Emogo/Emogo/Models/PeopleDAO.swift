@@ -27,6 +27,11 @@ class PeopleDAO {
         if let obj = peopleData["phone_number"] {
             self.phoneNumber = "\(obj)"
         }
+        if let obj = peopleData["user_image"] {
+            self.userImage = obj as! String
+        }
+        
+        
     }
     
 }

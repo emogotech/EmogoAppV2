@@ -98,16 +98,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
 //        isMenuOpen = false
         switch index {
         case 0:
-            self.currentStreamType = StreamType.populer
+            currentStreamType  =  StreamType.populer
             break
         case 1:
-            self.currentStreamType = StreamType.myStream
+            currentStreamType =  StreamType.myStream
             break
         case 2:
-            self.currentStreamType = StreamType.featured
+            currentStreamType =  StreamType.featured
             break
         case 3:
-            self.currentStreamType = StreamType.emogoStreams
+            currentStreamType = StreamType.emogoStreams
             break
         case 4:
             self.actionForPeopleList()
@@ -120,7 +120,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         if  index != 4 {
             isPeopleList = false
             HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: self.currentStreamType)
+            self.getStreamList(type:.start,filter: currentStreamType)
         }
     }
     

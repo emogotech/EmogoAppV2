@@ -45,8 +45,8 @@ class RefreshHeaderAnimator: UIView,ESRefreshProtocol, ESRefreshAnimatorProtocol
         loadingView.heightAnchor.constraint(equalToConstant: self.frame.size.height).isActive = true
         loadingView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         loadingView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        loadingView.load?.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        loadingView.load?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+      //  loadingView.load?.widthAnchor.constraint(equalToConstant: 30).isActive = true
+       // loadingView.load?.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     public func refreshAnimationBegin(view: ESRefreshComponent) {

@@ -29,6 +29,10 @@ class ProfileStreamCell: UICollectionViewCell {
         self.accessibilityLabel =   stream.Title.trim()
         self.lblName.text =  "by \(stream.Author.trim().capitalized)"
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+        btnEdit.isHidden = true
+        if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            btnEdit.isHidden = false
+        }
     }
     
 }

@@ -10,6 +10,7 @@ import UIKit
 import Photos
 import PhotosUI
 import AVFoundation
+import Lightbox
 
 class AddStreamViewController: UITableViewController {
     
@@ -87,6 +88,11 @@ class AddStreamViewController: UITableViewController {
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()
         }
+        
+        self.imgCover.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
+        tap.numberOfTapsRequired = 2
+        self.imgCover.addGestureRecognizer(tap)
     }
     
     
@@ -357,6 +363,26 @@ class AddStreamViewController: UITableViewController {
         }
         
     }
+    
+    @objc func openFullView(){
+        var image:LightboxImage!
+        if self.coverImage == nil {
+            guard  let url = URL(string: (self.objStream?.coverImage.stringByAddingPercentEncodingForURLQueryParameter())!) else
+            {
+                return
+            }
+            
+            image = LightboxImage(imageURL: url, text: "", videoURL: nil)
+        }else {
+            image = LightboxImage(image: coverImage)
+        }
+        if let obj = image {
+            let controller = LightboxController(images: [obj], startIndex: 0)
+            controller.dynamicBackground = true
+            present(controller, animated: true, completion: nil)
+        }
+    }
+    
     
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()

@@ -40,8 +40,6 @@ class StreamListViewController: UIViewController {
     var isMenuOpen:Bool! = false
     var isPeopleList:Bool! = false
     
-    var currentStreamType:StreamType! = .featured
-    
     
     // MARK: - Override Functions
     
@@ -151,14 +149,14 @@ class StreamListViewController: UIViewController {
             if (self?.isPeopleList)!  {
                 self?.getUsersList(type:.up)
             }else {
-                self?.getStreamList(type:.up,filter:(self?.currentStreamType)!)
+                self?.getStreamList(type:.up,filter:currentStreamType)
             }
         }
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             if (self?.isPeopleList)!  {
                 self?.getUsersList(type:.down)
             }else {
-                self?.getStreamList(type:.down,filter: (self?.currentStreamType)!)
+                self?.getStreamList(type:.down,filter: currentStreamType)
             }
         }
         self.streamCollectionView.expiredTimeInterval = 20.0
@@ -386,7 +384,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
         }else {
-            let obj:ViewProfileViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+            let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+            obj.objPeople = people
             self.navigationController?.push(viewController: obj)
         }
     }

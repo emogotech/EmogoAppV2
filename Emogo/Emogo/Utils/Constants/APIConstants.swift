@@ -45,6 +45,7 @@ let kGlobleSearchStreamAPI                          = "stream?global_search="
 let kProfileAPI                                     = "users/"
 let kLogoutAPI                                      = "logout/"
 let kCollaboratorAPI                                = "user_collaborators/"
+let kUserStreamAPI                                  = "user_streams/"
 
 
 

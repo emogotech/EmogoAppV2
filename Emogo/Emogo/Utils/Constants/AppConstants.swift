@@ -35,6 +35,9 @@ var kBackNav = ""
 // Selected Tag For Container
 var currentTag = 111
 
+var currentStreamType:StreamType! = .featured
+
+
 var arraySelectedContent:[ContentDAO]?
 var arrayAssests:[ImportDAO]?
 

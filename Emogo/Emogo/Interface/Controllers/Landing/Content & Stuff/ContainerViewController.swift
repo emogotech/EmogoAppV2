@@ -48,6 +48,7 @@ class ContainerViewController: UIViewController {
 
     var sessionOutputSetting = AVCapturePhotoSettings(format: [AVVideoCodecKey:AVVideoCodecJPEG]);
     var previewLayer = AVCaptureVideoPreviewLayer();
+    var tempCameraView:UIView!
     
     
     override func viewDidLoad() {
@@ -96,7 +97,9 @@ class ContainerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        previewLayer.frame = cameraView.bounds
+        if tempCameraView != nil {
+            previewLayer.frame = tempCameraView.bounds
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -174,7 +177,12 @@ class ContainerViewController: UIViewController {
                                 previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
                                 previewLayer.connection?.videoOrientation = AVCaptureVideoOrientation.portrait;
                                 DispatchQueue.main.async { // Correct
-                                    self.cameraView.layer.addSublayer(self.previewLayer);
+                                    self.tempCameraView = UIView(frame: self.cameraView.bounds)
+                                    if self.tempCameraView.superview != nil {
+                                        self.tempCameraView.removeFromSuperview()
+                                    }
+                                    self.cameraView.addSubview(self.tempCameraView)
+                                    self.tempCameraView.layer.addSublayer(self.previewLayer);
                                 }
                             }
                         }

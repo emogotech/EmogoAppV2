@@ -125,10 +125,7 @@ class ContentDAO{
         if let obj  = contentData["video_image"] {
             self.coverImageVideo = obj as! String
         }
-        if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            self.isEdit = true
-            self.isDelete = true
-        }
+        
     }
 }
 
