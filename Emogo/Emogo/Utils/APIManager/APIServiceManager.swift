@@ -188,10 +188,10 @@ class APIServiceManager: NSObject {
                 "image" : coverImage,
                 "type":streamType,
                 "any_one_can_edit":anyOneCanEdit,
-                "collaborator":jsonCollaborator,
+                "collaborator":[],
                 "collaborator_permission": [
-                    "can_add_content" : canAddContent,
-                    "can_add_people": canAddPeople
+                    "can_add_content" : true,
+                    "can_add_people": false
                 ]
             ]
         }else {
@@ -249,10 +249,10 @@ class APIServiceManager: NSObject {
                 "image" : coverImage,
                 "type":streamType,
                 "any_one_can_edit":anyOneCanEdit,
-                "collaborator":jsonCollaborator,
+                "collaborator":[],
                 "collaborator_permission": [
-                    "can_add_content" : canAddContent,
-                    "can_add_people": canAddPeople
+                    "can_add_content" : true,
+                    "can_add_people": false
                 ]
             ]
         }else {
