@@ -39,7 +39,9 @@ class AddCollaboratorsViewController: UIViewController {
 
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        print(self.arraySelected)
+        if self.arraySelected != nil {
+            self.arrayCollaborators = self.arraySelected!
+        }
         self.getContacts()
     }
     
@@ -122,6 +124,18 @@ class AddCollaboratorsViewController: UIViewController {
             self.arrayCollaborators.append(collaborator)
         }
         DispatchQueue.main.async {
+            
+            var seen = Set<String>()
+            var unique = [CollaboratorDAO]()
+            for obj in  self.arrayCollaborators {
+                
+                if !seen.contains(obj.phone) {
+                        unique.append(obj)
+                        seen.insert(obj.phone)
+                    }
+            }
+           self.arrayCollaborators = unique
+            
             self.contactCollection.reloadData()
         }
     

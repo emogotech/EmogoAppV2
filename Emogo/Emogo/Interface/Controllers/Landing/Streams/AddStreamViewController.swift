@@ -91,7 +91,7 @@ class AddStreamViewController: UITableViewController {
         
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 2
+        tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
     }
     
@@ -137,6 +137,12 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddContent.isOn = (self.objStream?.canAddContent)!
             }
 
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            
+            }else {
+                
+            }
+            
             
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)

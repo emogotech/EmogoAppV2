@@ -46,6 +46,9 @@ class StreamViewHeader: UICollectionViewCell {
             btnEdit.isHidden = false
             btnDelete.isHidden = false
         }
+        if objStream.anyOneCanEdit == true {
+            btnCollab.isHidden = true
+        }
         if  objStream.canAddPeople == true {
               btnEdit.isHidden = false
         }

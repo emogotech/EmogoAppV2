@@ -20,13 +20,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/Custom UI/TextView/JumpOrder.swift"
-            timestampString = "536850478.964762"
+            timestampString = "536854078.27837"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "211"
             endingLineNumber = "211"
             landmarkName = "findAllTextInputs()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(extension in Emogo):__ObjC.UIViewController.findAllTextInputs() -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Externals/Custom%20UI/TextView/JumpOrder.swift"
+                  timestampString = "536852633.306981"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "211"
+                  endingLineNumber = "211"
+                  offsetFromSymbolStart = "1820">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Foundation.Notification) -&gt; () in (extension in Emogo):__ObjC.UIViewController.findAllTextInputs() -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Externals/Custom%20UI/TextView/JumpOrder.swift"
+                  timestampString = "536852633.31035"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "211"
+                  endingLineNumber = "211"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
