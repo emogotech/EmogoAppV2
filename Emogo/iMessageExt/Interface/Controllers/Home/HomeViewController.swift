@@ -300,6 +300,7 @@ class HomeViewController: MSMessagesAppViewController {
         if !checkIsAvailableFilter() {
             preparePagerFrame()
         }
+        collectionStream.translatesAutoresizingMaskIntoConstraints = false
         SharedData.sharedInstance.tempViewController = self
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
@@ -346,6 +347,7 @@ class HomeViewController: MSMessagesAppViewController {
                 print(self.collectionStream.frame)
             }
             SharedData.sharedInstance.isMoreContentAvailable = false
+            PeopleList.sharedInstance.requestURl = ""
             self.arrayStreams.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()

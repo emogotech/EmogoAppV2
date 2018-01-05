@@ -1011,8 +1011,7 @@
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GaL-7Z-Zud">
                                                             <rect key="frame" x="12" y="74" width="76" height="22"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="22" id="5G0-GP-tif"/>
-                                                                <constraint firstAttribute="width" constant="76" id="za5-A4-UW3"/>
+                                                                <constraint firstAttribute="height" constant="22" id="cuI-em-mkF"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                             <nil key="textColor"/>
@@ -1021,19 +1020,18 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cTd-yv-VGc">
                                                             <rect key="frame" x="20" y="6" width="60" height="60"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="60" id="Qzr-5E-Kdn"/>
-                                                                <constraint firstAttribute="height" constant="60" id="opT-JX-QCs"/>
+                                                                <constraint firstAttribute="width" constant="60" id="XzF-Yi-z5F"/>
+                                                                <constraint firstAttribute="height" constant="60" id="ozd-tF-zlQ"/>
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
-                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="top" secondItem="cTd-yv-VGc" secondAttribute="bottom" constant="8" id="AK1-w5-3sD"/>
-                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="centerX" secondItem="rZr-eQ-bLc" secondAttribute="centerX" id="Cz2-NS-Yby"/>
-                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="top" secondItem="rZr-eQ-bLc" secondAttribute="top" constant="6" id="Gfi-Dj-ews"/>
-                                                    <constraint firstAttribute="trailing" secondItem="cTd-yv-VGc" secondAttribute="trailing" constant="20" id="TMv-tf-oTx"/>
-                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="leading" secondItem="rZr-eQ-bLc" secondAttribute="leading" constant="20" id="djc-v3-1bo"/>
-                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="centerX" secondItem="rZr-eQ-bLc" secondAttribute="centerX" id="lRI-oa-g92"/>
+                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="top" secondItem="rZr-eQ-bLc" secondAttribute="top" constant="6" id="5s0-j4-tZ3"/>
+                                                    <constraint firstAttribute="trailing" secondItem="GaL-7Z-Zud" secondAttribute="trailing" constant="12" id="Ce2-yg-EU6"/>
+                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="leading" secondItem="rZr-eQ-bLc" secondAttribute="leading" constant="12" id="XLO-Go-6zM"/>
+                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="top" secondItem="cTd-yv-VGc" secondAttribute="bottom" constant="8" id="acV-fH-wcI"/>
+                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="centerX" secondItem="rZr-eQ-bLc" secondAttribute="centerX" id="uRp-Pn-0jI"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="imgUser" destination="cTd-yv-VGc" id="LIz-Gi-mNK"/>
