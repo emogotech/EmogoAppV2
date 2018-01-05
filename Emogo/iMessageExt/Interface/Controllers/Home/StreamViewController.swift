@@ -29,6 +29,8 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var collectionStreams    : UICollectionView!
     
+    @IBOutlet weak var viewStream    : UIView!
+    
     // MARK: - Variables
     var lblCount                            : UILabel!
     var arrStream                           = [StreamDAO]()
@@ -37,10 +39,11 @@ class StreamViewController: MSMessagesAppViewController {
     var hudView                             : LoadingView!
     var objStream                           :StreamViewDAO?
     
+    
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
@@ -64,7 +67,7 @@ class StreamViewController: MSMessagesAppViewController {
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
         if objStream!.arrayContent.count == 0{
             self.dismiss(animated: false, completion: nil)
-             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }else{
             self.getStream(type: "Direct")
         }
@@ -94,15 +97,11 @@ class StreamViewController: MSMessagesAppViewController {
             self.getStream(type: "Redirect")
         }
         else {
-             self.getStream(type: "Direct")
+            self.getStream(type: "Direct")
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-       
-    }
-    
-   @objc func setupLabelInCollaboratorButton() {
+    @objc func setupLabelInCollaboratorButton() {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2
         lblCount.clipsToBounds = true
@@ -118,7 +117,7 @@ class StreamViewController: MSMessagesAppViewController {
     @objc func setupCollectionProperties() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionStreams.frame.size.width/2-15, height: 100)
+        layout.itemSize = CGSize(width: self.collectionStreams.frame.size.width/2-16, height: self.collectionStreams.frame.size.width/2-16)
         layout.minimumInteritemSpacing = 1
         layout.minimumLineSpacing = 10
         collectionStreams!.collectionViewLayout = layout
@@ -176,7 +175,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
         self.lblStreamName.text = self.objStream?.title
-         self.lblStreamTitle.text = self.objStream?.title
+        self.lblStreamTitle.text = self.objStream?.title
         self.lblStreamDesc.text = self.objStream?.description
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
@@ -223,8 +222,8 @@ class StreamViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.iMessageNavigation = ""
         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
     }
-   
-
+    
+    
     func nextImageLoad() {
         lblStreamTitle.text = ""
         lblStreamName.text = ""
@@ -277,7 +276,7 @@ class StreamViewController: MSMessagesAppViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-       
+        
     }
     
     @IBAction func btnShowCollaborator(_ sender:UIButton) {
@@ -362,7 +361,7 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                     }
                     else {
-                            self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
             } else {
@@ -383,14 +382,14 @@ class StreamViewController: MSMessagesAppViewController {
                                     obj.arrContentData = (self.objStream?.arrayContent)!
                                     obj.currentStreamID = self.objStream?.streamID!
                                     obj.currentContentIndex  = i
-                                     obj.currentStreamTitle = self.objStream?.title
+                                    obj.currentStreamTitle = self.objStream?.title
                                     self.present(obj, animated: false, completion: nil)
                                     isNavigateContent = true
                                     break
                                 }
                             }
                             if !isNavigateContent {
-                                 self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
+                                self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
                             }
                             
                         }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
@@ -407,10 +406,10 @@ class StreamViewController: MSMessagesAppViewController {
                         
                         self.loadViewForUI()
                         self.collectionStreams.reloadData()
-                         if self.hudView != nil {
+                        if self.hudView != nil {
                             self.hudView.stopLoaderWithAnimation()
                         }
-                   }
+                    }
                     else if errorMsg == APIStatus.NotFound.rawValue{
                         self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
                     }else{
@@ -456,15 +455,6 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let content = objStream?.arrayContent[indexPath.row]
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-//        if content?.isAdd == true {
-//            return CGSize(width: itemWidth, height: 110)
-//        }else{
-            return CGSize(width: itemWidth, height: itemWidth)
-       // }
-    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
@@ -509,12 +499,13 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
                 arrayContents.append(image)
             }
         }
-
+        
         let controller = LightboxController(images: arrayContents, startIndex: index - 1)
         controller.dynamicBackground = true
         if arrayContents.count != 0 {
             present(controller, animated: true, completion: nil)
         }
     }
+    
 }
 

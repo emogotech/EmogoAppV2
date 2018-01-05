@@ -77,7 +77,7 @@ extension MSMessagesAppViewController {
     func addRippleTransition() {
         
         let transition = CATransition()
-        transition.duration = 0.5
+        transition.duration = 0.8
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition.type = "rippleEffect"
         view.window!.layer.add(transition, forKey: kCATransition)
