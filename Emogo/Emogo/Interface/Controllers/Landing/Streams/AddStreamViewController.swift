@@ -137,6 +137,12 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddContent.isOn = (self.objStream?.canAddContent)!
             }
 
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            
+            }else {
+                
+            }
+            
             
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
