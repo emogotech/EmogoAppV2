@@ -469,7 +469,7 @@ extension UINavigationController {
         self.view.layer.add(transition, forKey: nil)
     }
     
-    private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {
+    private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 1.0) {
        
         let transition = CATransition()
         transition.duration = duration

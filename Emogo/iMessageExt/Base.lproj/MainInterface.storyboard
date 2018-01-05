@@ -557,7 +557,7 @@
                                 <rect key="frame" x="0.0" y="130" width="320" height="268"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="88.5" y="10" width="144.5" height="34"/>
+                                        <rect key="frame" x="93.5" y="10" width="134.5" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="7Rs-DU-S5E"/>
                                         </constraints>
@@ -1019,19 +1019,20 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cTd-yv-VGc">
-                                                            <rect key="frame" x="17" y="6" width="66" height="65"/>
+                                                            <rect key="frame" x="20" y="6" width="60" height="60"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" secondItem="cTd-yv-VGc" secondAttribute="height" multiplier="66:65" id="CQU-kb-V4q"/>
+                                                                <constraint firstAttribute="width" constant="60" id="Qzr-5E-Kdn"/>
+                                                                <constraint firstAttribute="height" constant="60" id="opT-JX-QCs"/>
                                                             </constraints>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
-                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="top" secondItem="cTd-yv-VGc" secondAttribute="bottom" constant="3" id="AK1-w5-3sD"/>
+                                                    <constraint firstItem="GaL-7Z-Zud" firstAttribute="top" secondItem="cTd-yv-VGc" secondAttribute="bottom" constant="8" id="AK1-w5-3sD"/>
                                                     <constraint firstItem="GaL-7Z-Zud" firstAttribute="centerX" secondItem="rZr-eQ-bLc" secondAttribute="centerX" id="Cz2-NS-Yby"/>
                                                     <constraint firstItem="cTd-yv-VGc" firstAttribute="top" secondItem="rZr-eQ-bLc" secondAttribute="top" constant="6" id="Gfi-Dj-ews"/>
-                                                    <constraint firstAttribute="trailing" secondItem="cTd-yv-VGc" secondAttribute="trailing" constant="17" id="TMv-tf-oTx"/>
-                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="leading" secondItem="rZr-eQ-bLc" secondAttribute="leading" constant="17" id="djc-v3-1bo"/>
+                                                    <constraint firstAttribute="trailing" secondItem="cTd-yv-VGc" secondAttribute="trailing" constant="20" id="TMv-tf-oTx"/>
+                                                    <constraint firstItem="cTd-yv-VGc" firstAttribute="leading" secondItem="rZr-eQ-bLc" secondAttribute="leading" constant="20" id="djc-v3-1bo"/>
                                                     <constraint firstItem="cTd-yv-VGc" firstAttribute="centerX" secondItem="rZr-eQ-bLc" secondAttribute="centerX" id="lRI-oa-g92"/>
                                                 </constraints>
                                                 <connections>
@@ -1845,6 +1846,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0JJ-eD-H3B"/>
-        <segue reference="EwF-BA-GLV"/>
+        <segue reference="7X6-Js-wGB"/>
     </inferredMetricsTieBreakers>
 </document>

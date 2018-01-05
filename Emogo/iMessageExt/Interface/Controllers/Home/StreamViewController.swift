@@ -39,7 +39,7 @@ class StreamViewController: MSMessagesAppViewController {
     var hudView                             : LoadingView!
     var objStream                           :StreamViewDAO?
     
-    
+    var getImageData : NSMutableArray = NSMutableArray()
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +99,7 @@ class StreamViewController: MSMessagesAppViewController {
         else {
             self.getStream(type: "Direct")
         }
+        
     }
     
     @objc func setupLabelInCollaboratorButton() {
@@ -348,6 +349,16 @@ class StreamViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                     if (errorMsg?.isEmpty)! {
                         self.objStream = stream
+                        
+                        for _ in self.objStream!.arrayContent {
+                            let tempDict = NSMutableDictionary()
+                            let width : CGFloat = 0.1
+                            let heigh : CGFloat = 0.1
+                            tempDict.setObject(width, forKey: "width" as NSCopying)
+                            tempDict.setObject(heigh, forKey: "height" as NSCopying)
+                            self.getImageData.add(tempDict)
+                        }
+                        
                         self.lblStreamDesc.text = self.objStream?.description.trim()
                         self.loadViewForUI()
                         if self.objStream!.arrayContent.count == 0 {
@@ -431,6 +442,21 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         return 1
     }
     
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    //        let tempDict = self.getImageData.object(at: indexPath.row) as! NSMutableDictionary
+    //        let width : CGFloat = tempDict.object(forKey: "width") as! CGFloat
+    //        let height : CGFloat = tempDict.object(forKey: "height") as! CGFloat
+    //
+    //        if width > height
+    //        {
+    //           return CGSize(width: width, height: height)
+    //        }else if height > width
+    //        {
+    //             return CGSize(width: self.collectionStreams.frame.width, height: height/2)
+    //        }
+    //        return CGSize(width: width, height: height)
+    //    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if objStream != nil {
             return objStream!.arrayContent.count
@@ -450,6 +476,26 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         
         cell.btnPlay.tag = indexPath.row
         cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+        //        if content?.isAdd == false {
+        //            if content?.type == .image{
+        //                let imgUrlStr = content?.coverImage.trim()
+        //                let imgUrl = URL(string: (imgUrlStr?.stringByAddingPercentEncodingForURLQueryParameter())!)
+        //            cell.imgCover.sd_setImage(with: imgUrl, placeholderImage: UIImage(named: "csc")) { (img, error, SDImageCacheType, url) in
+        //                if(error==nil){
+        //                    UIView.animate(withDuration: 0.0, animations: {
+        //                        let width : CGFloat = (img?.size.width)!
+        //                        let heigh : CGFloat = (img?.size.height)!
+        //                        let tempDict = NSMutableDictionary()
+        //                        tempDict.setObject(width, forKey: "width" as NSCopying)
+        //                        tempDict.setObject(heigh, forKey: "height" as NSCopying)
+        //                        self.getImageData.replaceObject(at: indexPath.item, with: tempDict)
+        //                        self.collectionStreams.collectionViewLayout.invalidateLayout()
+        //                    }, completion: { (competed) in
+        //                    })
+        //                }
+        //            }
+        //            }
+        //        }
         
         cell.prepareLayout(content:content!)
         return cell
