@@ -17,12 +17,12 @@ class SignInViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
         prepareLayouts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        AppDelegate.appDelegate.addOberserver()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +41,7 @@ class SignInViewController: UIViewController {
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
         }
+        
     }
     
     // MARK: -  Action Methods And Selector
@@ -75,6 +76,7 @@ class SignInViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
+                    AppDelegate.appDelegate.removeOberserver()
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                     self.navigationController?.flipPush(viewController: obj)
                 }else {

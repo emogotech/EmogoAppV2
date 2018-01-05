@@ -102,6 +102,7 @@ class AddStreamViewController: UITableViewController {
 
     func prepareForEditStream(){
         if self.objStream != nil {
+            
             self.title =  self.objStream?.title.trim()
             txtStreamName.text = self.objStream?.title.trim()
             txtStreamCaption.text = self.objStream?.description.trim()
@@ -137,10 +138,11 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddContent.isOn = (self.objStream?.canAddContent)!
             }
 
+            if self.objStream?.canAddPeople == true {
+                self.prepareEdit(isEnable: false)
+            }
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            
-            }else {
-                
+            self.prepareEdit(isEnable: true)
             }
             
             
@@ -154,7 +156,18 @@ class AddStreamViewController: UITableViewController {
         self.txtStreamName.isUserInteractionEnabled = isEnable
         self.txtStreamCaption.isUserInteractionEnabled = isEnable
         self.btnCamera.isUserInteractionEnabled = isEnable
-
+        switchMakePrivate.isUserInteractionEnabled = isEnable
+        switchAnyOneCanEdit.isUserInteractionEnabled = isEnable
+        if self.objStream?.canAddContent == true {
+            switchAddContent.isUserInteractionEnabled = true
+        }else {
+            switchAddContent.isUserInteractionEnabled = false
+        }
+        if self.objStream?.canAddPeople == true {
+            switchAddPeople.isUserInteractionEnabled = true
+        }else {
+            switchAddPeople.isUserInteractionEnabled = false
+        }
     }
     
     // MARK: -  Action Methods And Selector
@@ -435,7 +448,7 @@ class AddStreamViewController: UITableViewController {
     }
     
     private func createStream(cover:String){
-       
+        txtStreamCaption.placeholder = ""
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
@@ -450,7 +463,7 @@ class AddStreamViewController: UITableViewController {
         }
     }
     private func editStream(cover:String){
-        
+         txtStreamCaption.placeholder = ""
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{

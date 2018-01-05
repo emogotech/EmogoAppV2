@@ -116,12 +116,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppDelegate.appDelegate = self
        
         // If User already logged in
+       self.performLogin()
+        self.keyboardToolBar(disable:false)
+        
+        // Logout User if Token Is Expired
+       
+    }
+    private func performLogin(){
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             print("token-----\(UserDAO.sharedInstance.user.token)")
             self.openLandingScreen()
         }
-        self.keyboardToolBar(disable:false)
     }
     
     
@@ -141,6 +147,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
     func keyboardResign(isActive:Bool){
         IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = isActive
+    }
+    
+    func removeOberserver(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    }
+    
+    func addOberserver(){
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (notification) in
+            self.performLogin()
+        }
     }
 }
 

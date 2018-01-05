@@ -69,6 +69,7 @@ class VerificationViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
+                    AppDelegate.appDelegate.removeOberserver()
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                     self.navigationController?.flipPush(viewController: obj)
                 }else {
