@@ -232,6 +232,7 @@ extension UIImageView {
        
     }
     
+    
     func setImageWithURL(strImage:String,handler : @escaping ((_ image : UIImage?) -> Void)){
         if strImage.isEmpty{
             return
@@ -246,6 +247,16 @@ extension UIImageView {
         }
     //    self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
        
+    }
+    
+    func setOriginalImage(strImage:String, placeholder:String){
+        if strImage.isEmpty{
+            return
+        }
+        self.sd_setShowActivityIndicatorView(true)
+        self.sd_setIndicatorStyle(.gray)
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+         self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
     }
     
 }

@@ -385,6 +385,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             obj.streamType = currentStreamType.rawValue
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
+        }else {
+            let obj:ViewProfileViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+            self.navigationController?.push(viewController: obj)
         }
     }
     

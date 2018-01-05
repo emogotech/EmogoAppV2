@@ -924,7 +924,7 @@
         <!--View Profile View Controller-->
         <scene sceneID="hOx-rr-YY9">
             <objects>
-                <viewController storyboardIdentifier="viewProfileView" id="kqb-rV-W2X" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="userProfileView" id="kqb-rV-W2X" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cnj-fz-JhZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

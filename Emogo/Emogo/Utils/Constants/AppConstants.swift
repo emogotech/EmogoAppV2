@@ -66,6 +66,8 @@ let kStoryboardID_GiphyView = "giphyView"
 let kStoryboardID_ImportView = "importView"
 let kStoryboardID_ContentView = "contentView"
 let kStoryboardID_ProfileView = "profileView"
+let kStoryboardID_UserProfileView = "userProfileView"
+
 let iMsgSegue_Root                               = "MessagesViewController"
 let iMsgSegue_SignIn                            = "SignInViewController"
 let iMsgSegue_SignUpName                        = "SignUpNameViewController"

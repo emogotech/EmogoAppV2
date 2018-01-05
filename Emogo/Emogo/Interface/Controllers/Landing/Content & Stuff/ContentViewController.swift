@@ -84,8 +84,8 @@ class ContentViewController: UIViewController {
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
-        self.txtTitleImage.isHidden = false
-        self.txtDescription.isHidden = false
+      
+        
         /*
         if  self.seletedImage.isUploaded {
             self.txtTitleImage.isHidden = true
@@ -130,9 +130,17 @@ class ContentViewController: UIViewController {
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
             self.btnDone.isHidden = true
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
+            self.lblTitleMessage.isHidden = false
+            self.lblDescription.isHidden = false
         }else {
             self.btnEdit.isHidden = false
             self.btnDone.isHidden = false
+            self.txtTitleImage.isHidden = false
+            self.txtDescription.isHidden = false
+            self.lblTitleMessage.isHidden = true
+            self.lblDescription.isHidden = true
         }
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true

@@ -61,7 +61,6 @@ class CameraViewController: SwiftyCamViewController {
         super.viewDidAppear(animated)
         self.prepareContainerToPresent()
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -212,6 +211,10 @@ class CameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
+           // self.beepSound?.stop()
+        if timer != nil {
+            self.timer.invalidate()
+        }
         if self.isCaptureMode == false {
             self.isRecording = false
             self.recordButtonTapped(isShow: false)
