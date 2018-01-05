@@ -229,7 +229,6 @@ class StreamViewController: MSMessagesAppViewController {
         lblStreamTitle.text = ""
         lblStreamName.text = ""
         lblStreamDesc.text = ""
-        lblNoContent.text = ""
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
         
@@ -246,7 +245,6 @@ class StreamViewController: MSMessagesAppViewController {
         lblStreamTitle.text = ""
         lblStreamName.text = ""
         lblStreamDesc.text = ""
-        lblNoContent.text = ""
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
         
@@ -360,12 +358,13 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                         
                         self.lblStreamDesc.text = self.objStream?.description.trim()
-                        self.loadViewForUI()
                         if self.objStream!.arrayContent.count == 0 {
                             self.lblNoContent.isHidden = false
                         }else{
                             self.lblNoContent.isHidden = true
                         }
+                        self.loadViewForUI()
+                       
                         self.collectionStreams.reloadData()
                         if self.hudView != nil {
                             self.hudView.stopLoaderWithAnimation()

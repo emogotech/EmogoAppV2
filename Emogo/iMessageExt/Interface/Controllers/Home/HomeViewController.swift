@@ -222,40 +222,68 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func changeUI(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             self.perform(#selector(self.changeUIInBackground), with: nil, afterDelay: 0.8)
+            if searchText.text == "" {
+                pagerContent.isHidden = false
+            }else{
+                pagerContent.isHidden = true
+            }
             btnFeature.tag = 1
         }else{
             self.perform(#selector(self.changeUIInBackgroundCollapse), with: nil, afterDelay: 0.8)
             pagerContent.isHidden = true
+
             btnFeature.tag = 0
         }
+        self.view.layoutIfNeeded()
     }
     
     @objc func changeUIInBackground(){
         print(self.viewCollections.frame)
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            pagerContent.isHidden = false
+            if searchText.text  == "" {
+                pagerContent.isHidden = false
+            }
+            else{
+                pagerContent.isHidden = true
+            }
             collectionFrame = collectionStream.frame
-            UIView.animate(withDuration: 0.5, animations: {
-                self.updatUIWhileSearch()
-            })
+            self.updatUIWhileSearch()
         }
     }
     
     @objc func changeUIInBackgroundCollapse(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.updatUIWhileSearch()
-        })
+        self.perform(#selector(self.updatUIWhileSearch), with: self, afterDelay: 0.2)
     }
     
-    func updatUIWhileSearch(){
+    @objc func updatUIWhileSearch(){
         if  self.isSearch == true && isStreamEnable{
-            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-            self.collectionStream.isHidden = false
-            self.collectionStream.reloadData()
+            self.collectionStream.isHidden = true
+            DispatchQueue.main.async {
+                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
+                
+                self.layout.minimumInteritemSpacing = 1
+                self.layout.minimumLineSpacing = 15
+                self.collectionStream!.collectionViewLayout = self.layout
+                self.collectionStream.isHidden = false
+                self.collectionStream.reloadData()
+            }
+            
         }else if  self.isSearch == true && !isStreamEnable{
-            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
-            self.collectionStream.isHidden = false
-            self.collectionStream.reloadData()
+            DispatchQueue.main.async {
+                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
+                
+                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 - 12.0)
+                
+                self.layout.minimumInteritemSpacing = 1
+                self.layout.minimumLineSpacing = 10
+                self.collectionStream!.collectionViewLayout = self.layout
+                
+                self.collectionStream.isHidden = false
+                self.collectionStream.reloadData()
+            }
         }
     }
     
@@ -292,7 +320,7 @@ class HomeViewController: MSMessagesAppViewController {
             hudRefreshView.stopLoaderWithAnimation()
         }
         self.refresher?.frame = CGRect.zero
-        self.collectionStream.reloadData()
+        //self.collectionStream.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -307,7 +335,12 @@ class HomeViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.tempViewController = self
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            pagerContent.isHidden = false
+            if searchText.text == "" {
+                pagerContent.isHidden = true
+            }
+            else{
+                pagerContent.isHidden = false
+            }
             btnFeature.tag = 1
         }
         self.setupRefreshLoader()
@@ -332,6 +365,8 @@ class HomeViewController: MSMessagesAppViewController {
                 sender.isSelected = true
                 sender.tag = 1
                 isSearch = true
+                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                 self.hudView.startLoaderWithAnimation()
                 StreamList.sharedInstance.requestURl = ""
                 self.getStreamGlobleSearch(searchText:self.searchText.text!, type: .start )
@@ -369,6 +404,7 @@ class HomeViewController: MSMessagesAppViewController {
                 btnFeature.tag = 1
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
+                 pagerContent.isHidden = false
             }
         }
     }
@@ -411,9 +447,8 @@ class HomeViewController: MSMessagesAppViewController {
     
     
     func expandPeopleHeight() {
-        DispatchQueue.main.async {
-            self.setupCollectionPropertiesForUsers()
-        }
+        self.collectionStream.isHidden = true
+       
         UIView.animate(withDuration: 0.7, animations: {
             self.heightStream?.isActive = true
             self.heightPeople?.isActive = false
@@ -421,27 +456,49 @@ class HomeViewController: MSMessagesAppViewController {
         }) { (finished) in
             self.isStreamEnable = false
             self.isSearch = true
-            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
-            self.collectionStream.isHidden = false
-            self.collectionStream.reloadData()
+
+            DispatchQueue.main.async {
+                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
+                self.collectionStream.isHidden = false
+                
+                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 - 12.0)
+                
+                self.layout.minimumInteritemSpacing = 1
+                self.layout.minimumLineSpacing = 10
+                self.collectionStream!.collectionViewLayout = self.layout
+                self.collectionStream.reloadData()
+            }
         }
     }
     
     func expandStreamHeight(){
         self.collectionStream.isHidden = true
-        DispatchQueue.main.async {
-            self.setupCollectionProperties()
-        }
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.7, animations: {
             self.heightStream?.isActive = false
             self.heightPeople?.isActive = true
             self.view.layoutIfNeeded()
         }) { (finished) in
             self.isStreamEnable = true
             self.isSearch = true
-            self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-            self.collectionStream.isHidden = false
-            self.collectionStream.reloadData()
+            
+            DispatchQueue.main.async {
+                self.collectionStream.isHidden = false
+                
+                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+                
+                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
+                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
+                
+                self.layout.minimumInteritemSpacing = 1
+                self.layout.minimumLineSpacing = 15
+                self.collectionStream!.collectionViewLayout = self.layout
+                
+                  self.collectionStream.reloadData()
+            }
+           
+         
+          
         }
     }
     
@@ -795,7 +852,7 @@ extension HomeViewController : UITextFieldDelegate {
             self.searchText.resignFirstResponder()
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
-            
+            pagerContent.isHidden = true
             self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
         }
         return true
@@ -806,10 +863,11 @@ extension HomeViewController : UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        pagerContent.isHidden = true
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name:   NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
+            btnFeature.tag = 0
         }else{
-            pagerContent.isHidden = true
             btnFeature.tag = 0
         }
         return true
