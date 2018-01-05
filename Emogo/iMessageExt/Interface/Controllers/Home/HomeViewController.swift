@@ -662,10 +662,11 @@ class HomeViewController: MSMessagesAppViewController {
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.arrayStreams = values!
                 self.lblNoResult.isHidden = true
+                 self.viewCollections.isHidden = false
                 if self.arrayStreams.count == 0 {
                     self.lblNoResult.isHidden = false
                 }else{
-                    self.viewCollections.isHidden = false
+                   
                 }
                 self.streaminputDataType(type: type)
                 self.expandStreamHeight()
