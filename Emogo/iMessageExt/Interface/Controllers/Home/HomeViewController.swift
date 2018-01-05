@@ -97,6 +97,10 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func prepareLayout() {
         
         
+        collectionStream.delegate = self
+        collectionStream.dataSource = self
+        
+        
         lblStreamSearch.font = lblPeopleSearch.font
         
         self.searchView.layer.cornerRadius = 15
@@ -198,8 +202,6 @@ class HomeViewController: MSMessagesAppViewController {
         layout.minimumLineSpacing = 15
         collectionStream!.collectionViewLayout = layout
         
-        collectionStream.delegate = self
-        collectionStream.dataSource = self
     }
     
     func setupCollectionPropertiesForUsers() {
@@ -255,7 +257,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @objc func pullToDownAction() {
-        if btnFeature.titleLabel?.text == kSearchType{
+        if btnFeature.titleLabel?.text == kSearchType && isSearch == false {
             if PeopleList.sharedInstance.arrayPeople.count > 0 {
                 self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
                 SharedData.sharedInstance.nextStreamString = ""
@@ -267,29 +269,13 @@ class HomeViewController: MSMessagesAppViewController {
             if arrayStreams.count > 0 {
                 self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
                 SharedData.sharedInstance.nextStreamString = ""
-                PeopleList.sharedInstance.arrayPeople.removeAll()
                 hudRefreshView.startLoaderWithAnimation()
-                if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
-                    DispatchQueue.main.async {
-                        self.setupCollectionPropertiesForUsers()
-                        self.collectionStream.reloadData()
-                    }
-                    //                    PeopleList.sharedInstance.arrayPeople.removeAll()
-                    //                    collectionStream.reloadData()
+                if (isSearch == true && isStreamEnable == false){
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
-                } else if (isSearch == true && isStreamEnable == true || btnFeature.titleLabel?.text == kSearchType){
-                    
-                    DispatchQueue.main.async {
-                        self.setupCollectionProperties()
-                    }
-                    //                    self.arrayStreams.removeAll()
-                    //                    collectionStream.reloadData()
-                    
+                } else if (isSearch == true && isStreamEnable == true){
                     self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
                 }
                 else {
-                    //                    self.arrayStreams.removeAll()
-                    //                    collectionStream.reloadData()
                     self.collectionStream.isUserInteractionEnabled = false
                     self.getStreamList(type:.up,filter:self.streamType)
                 }
@@ -393,9 +379,6 @@ class HomeViewController: MSMessagesAppViewController {
             collectionStream.reloadData()
             self.collectionStream.isHidden = true
             StreamList.sharedInstance.requestURl = ""
-            DispatchQueue.main.async {
-                self.setupCollectionProperties()
-            }
             self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
             break
             
@@ -406,9 +389,7 @@ class HomeViewController: MSMessagesAppViewController {
             PeopleList.sharedInstance.arrayPeople.removeAll()
             self.collectionStream.isHidden = true
             self.collectionStream.reloadData()
-            DispatchQueue.main.async {
-                self.setupCollectionPropertiesForUsers()
-            }
+            self.setupCollectionPropertiesForUsers()
             PeopleList.sharedInstance.requestURl = ""
             self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             break
@@ -421,7 +402,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     
     func expandPeopleHeight() {
-        
+        DispatchQueue.main.async {
+            self.setupCollectionPropertiesForUsers()
+        }
         UIView.animate(withDuration: 0.5, animations: {
             self.heightStream?.isActive = true
             self.heightPeople?.isActive = false
@@ -437,7 +420,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     func expandStreamHeight(){
         self.collectionStream.isHidden = true
-        
+        DispatchQueue.main.async {
+            self.setupCollectionProperties()
+        }
         UIView.animate(withDuration: 0.5, animations: {
             self.heightStream?.isActive = false
             self.heightPeople?.isActive = true
@@ -575,7 +560,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 return
             }
-            self.streaminputDataType(type: RefreshType.down)
+            self.streaminputDataType(type: type)
             self.lblNoResult.isHidden = true
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
                 self.lblNoResult.isHidden = false
@@ -654,12 +639,16 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         var cell  = UICollectionViewCell()
         
-        if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
+        if (isSearch == true && !isStreamEnable){
             cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollectionPeople, for: indexPath) as! PeopleSearchCollectionViewCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
             (cell as! PeopleSearchCollectionViewCell).prepareData(people:people)
         }
-        else {
+        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+            cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollectionPeople, for: indexPath) as! PeopleSearchCollectionViewCell
+            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+            (cell as! PeopleSearchCollectionViewCell).prepareData(people:people)
+        }  else  {
             cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
             let stream = self.arrayStreams[indexPath.row]
             (cell as! HomeCollectionViewCell).prepareLayouts(stream: stream)
