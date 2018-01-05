@@ -43,7 +43,8 @@ let kContentAddToStreamAPI                          = "move_content_to_stream/"
 let kGlobleSearchPeopleAPI                          = "users?people="
 let kGlobleSearchStreamAPI                          = "stream?global_search="
 let kProfileAPI                                     = "users/"
-let kLogoutAPI                                     = "logout/"
+let kLogoutAPI                                      = "logout/"
+let kCollaboratorAPI                                = "user_collaborators/"
 
 
 

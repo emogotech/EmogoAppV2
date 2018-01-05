@@ -25,7 +25,8 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var rowHieght: NSLayoutConstraint!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var switchAddCollaborators: PMSwitch!
-    
+    @IBOutlet weak var btnCamera: UIButton!
+
     
     // Varibales
 
@@ -135,6 +136,13 @@ class AddStreamViewController: UITableViewController {
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()
         }
+    }
+    
+    func prepareEdit(isEnable:Bool) {
+        self.txtStreamName.isUserInteractionEnabled = isEnable
+        self.txtStreamCaption.isUserInteractionEnabled = isEnable
+        self.btnCamera.isUserInteractionEnabled = isEnable
+
     }
     
     // MARK: -  Action Methods And Selector

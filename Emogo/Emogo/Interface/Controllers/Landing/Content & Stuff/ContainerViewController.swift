@@ -79,7 +79,7 @@ class ContainerViewController: UIViewController {
         arraySelectedContent = unique
         
         self.updateSegment(selected: currentTag)
-        showHelperCircle()
+     //   showHelperCircle()
         //  openPreviewCamera()
         self.checkCameraPermission()
     }

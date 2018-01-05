@@ -94,7 +94,7 @@ class ContentDAO{
     var isSelected:Bool! = false
     var isEdit:Bool! = false
     var isDelete:Bool! = false
-
+    var isShowAddStream:Bool! = false
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
             self.name = obj as! String

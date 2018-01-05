@@ -977,6 +977,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="btnCamera" destination="3Io-kd-XCi" id="PVC-CG-UNK"/>
                         <outlet property="imgCover" destination="t6E-RK-sDO" id="BxQ-7H-vE5"/>
                         <outlet property="lblAnyOneCanEdit" destination="nfS-uD-ddB" id="uMZ-tZ-0QF"/>
                         <outlet property="rowHieght" destination="ZhA-oE-nuF" id="RST-h2-aoc"/>
@@ -1705,6 +1706,7 @@
                     </view>
                     <connections>
                         <outlet property="btnDelete" destination="OfC-aG-FKj" id="uXc-uP-W4A"/>
+                        <outlet property="btnDone" destination="4pY-ca-wue" id="KLR-cv-Pna"/>
                         <outlet property="btnEdit" destination="mGM-bQ-3S9" id="h5K-Ev-GoY"/>
                         <outlet property="btnPlayIcon" destination="3RP-cT-R1w" id="cNK-fE-BZ0"/>
                         <outlet property="btnPreviewOpen" destination="ecZ-93-WDO" id="9WK-S1-11P"/>
@@ -1991,20 +1993,18 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr">
-                                                    <rect key="frame" x="0.0" y="30" width="145" height="88"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="88" id="EuE-SL-V22"/>
-                                                        <constraint firstAttribute="width" constant="145" id="cBq-mu-RPY"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="leading" secondItem="nSD-kD-FXK" secondAttribute="leading" id="3Hw-d4-rFx"/>
                                             <constraint firstItem="DMf-Uh-aZb" firstAttribute="leading" secondItem="nSD-kD-FXK" secondAttribute="leading" id="Auw-wf-JdJ"/>
-                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="centerY" secondItem="nSD-kD-FXK" secondAttribute="centerY" id="IXF-Fg-aXs"/>
+                                            <constraint firstAttribute="trailing" secondItem="ia8-fd-dtr" secondAttribute="trailing" id="B6r-IG-X1k"/>
+                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="top" secondItem="nSD-kD-FXK" secondAttribute="top" id="Bp0-LO-yo6"/>
+                                            <constraint firstAttribute="bottom" secondItem="ia8-fd-dtr" secondAttribute="bottom" id="F7W-kB-9xE"/>
                                             <constraint firstItem="DMf-Uh-aZb" firstAttribute="top" secondItem="nSD-kD-FXK" secondAttribute="top" id="L65-go-47f"/>
                                             <constraint firstAttribute="bottom" secondItem="DMf-Uh-aZb" secondAttribute="bottom" id="NRI-m1-XP1"/>
-                                            <constraint firstItem="ia8-fd-dtr" firstAttribute="centerX" secondItem="nSD-kD-FXK" secondAttribute="centerX" id="Zl6-V4-rsk"/>
                                             <constraint firstAttribute="trailing" secondItem="DMf-Uh-aZb" secondAttribute="trailing" id="amh-ib-z90"/>
                                         </constraints>
                                         <size key="customSize" width="145" height="149"/>
@@ -2587,7 +2587,7 @@
     </scenes>
     <resources>
         <image name="add-stream-cover-image-placeholder" width="320" height="152"/>
-        <image name="add_content_icon" width="156" height="117"/>
+        <image name="add_content_icon" width="147" height="147"/>
         <image name="add_galery" width="20" height="20"/>
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_photo" width="20" height="17"/>

@@ -33,9 +33,10 @@ class StreamViewHeader: UICollectionViewCell {
         self.imgCover.contentMode = .scaleAspectFill
      //   self.imgCover.backgroundColor = .black
         if objStream.arrayColab.count == 0 {
-            btnCollab.badgeString = ""
+            btnCollab.isHidden = true
         }else {
             btnCollab.badgeString = "\(objStream.arrayColab.count)"
+            btnCollab.isHidden = false
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()

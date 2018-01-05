@@ -25,7 +25,6 @@ class StreamListViewController: UIViewController {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
             menuView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
             menuView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
-            menuView.currentIndex = 2
             menuView.itemSize = CGSize(width: 130, height: 130)
             menuView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
             menuView.delegate = self
@@ -118,7 +117,7 @@ class StreamListViewController: UIViewController {
             layout.disableStickyHeaders = true
             self.streamCollectionView.collectionViewLayout = layout
         }
-        
+        menuView.currentIndex = 2
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
         self.configureLoadMoreAndRefresh()
         

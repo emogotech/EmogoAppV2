@@ -8,3 +8,4 @@
 #import "KASlideShow.h"
 #import "RMPZoomTransitionAnimator.h"
 #import "UIFloatLabelTextView.h"
+#import "NZCircularImageView.h"

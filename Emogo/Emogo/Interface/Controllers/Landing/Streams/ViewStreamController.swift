@@ -41,7 +41,6 @@ class ViewStreamController: UIViewController {
    @objc func updateLayOut(){
     if ContentList.sharedInstance.objStream != nil {
         self.getStream(currentStream:nil,streamID:ContentList.sharedInstance.objStream)
-        ContentList.sharedInstance.objStream  = nil
     }else {
         if StreamList.sharedInstance.arrayStream.count != 0 {
             if currentIndex != nil {
@@ -129,8 +128,10 @@ class ViewStreamController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
-            if StreamList.sharedInstance.selectedStream != nil {
+
+            if ContentList.sharedInstance.objStream != nil {
                 self.updateLayOut()
+              //  ContentList.sharedInstance.objStream = nil
             }
         }
         
@@ -413,7 +414,11 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
              ContentList.sharedInstance.arrayContent = array
              ContentList.sharedInstance.objStream = objStream?.streamID
               let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            if (self.objStream?.canAddContent)! {
                 objPreview.currentIndex = indexPath.row - 1
+            }else {
+                objPreview.currentIndex = indexPath.row
+            }
                 self.navigationController?.push(viewController: objPreview)
 
         }

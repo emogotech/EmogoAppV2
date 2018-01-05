@@ -112,9 +112,12 @@ extension PreviewController:UITextFieldDelegate {
             txtDescription.becomeFirstResponder()
         }else {
             textField.resignFirstResponder()
-            self.setPreviewContent(title: (txtTitleImage.text?.trim())!, description: (txtDescription.text?.trim())!)
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.setPreviewContent(title: (txtTitleImage.text?.trim())!, description: (txtDescription.text?.trim())!)
     }
 }
 

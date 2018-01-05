@@ -21,9 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Crashlytics
-        Fabric.with([Crashlytics.self])
 
         self.initializeApplication()
+        Fabric.with([Crashlytics.self])
         return true
     }
 
@@ -123,6 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         self.keyboardToolBar(disable:false)
     }
+    
     
    fileprivate func openLandingScreen(){
         self.window = UIWindow(frame:  UIScreen.main.bounds)

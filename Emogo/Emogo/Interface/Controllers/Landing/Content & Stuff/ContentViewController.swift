@@ -25,6 +25,9 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var lblTitleMessage: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
+    @IBOutlet weak var kHeight: NSLayoutConstraint!
+    @IBOutlet weak var viewOption: UIView!
+
     var currentIndex:Int!
     var seletedImage:ContentDAO!
     var photoEditor:PhotoEditorViewController!
@@ -81,6 +84,9 @@ class ContentViewController: UIViewController {
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
+        self.txtTitleImage.isHidden = false
+        self.txtDescription.isHidden = false
+        /*
         if  self.seletedImage.isUploaded {
             self.txtTitleImage.isHidden = true
             self.txtDescription.isHidden = true
@@ -92,6 +98,7 @@ class ContentViewController: UIViewController {
             self.lblTitleMessage.isHidden = true
             self.lblDescription.isHidden = true
         }
+ */
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
             self.lblTitleMessage.text = seletedImage.name.trim()
@@ -122,8 +129,10 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
+            self.btnDone.isHidden = true
         }else {
             self.btnEdit.isHidden = false
+            self.btnDone.isHidden = false
         }
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true
@@ -131,7 +140,20 @@ class ContentViewController: UIViewController {
             self.btnDelete.isHidden = false
         }
 
+      if self.seletedImage.isShowAddStream {
+            btnAddToStream.isHidden = false
+      }else {
+        btnAddToStream.isHidden = true
+        }
         
+        if self.seletedImage.isShowAddStream == false && self.seletedImage.isEdit == false {
+        kHeight.constant = 0.0
+            self.viewOption.isHidden = true
+        }else {
+            kHeight.constant = 30.0
+            self.viewOption.isHidden = false
+        }
+      
         if SharedData.sharedInstance.deepLinkType != "" {
             if self.seletedImage.imgPreview == nil {
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
@@ -401,9 +423,11 @@ class ContentViewController: UIViewController {
     func uploadFile(){
         // Create a object array to upload file to AWS
         self.deleteFileFromAWS(content: self.seletedImage)
-        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: self.seletedImage.coverImage.getName()) { (imageURL, error) in
+        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: NSUUID().uuidString + ".png") { (imageURL, error) in
             if error == nil {
-            self.updateContent(coverImage: imageURL!, coverVideo: "", type: self.seletedImage.type.rawValue)
+                DispatchQueue.main.async { // Correct
+                    self.updateContent(coverImage: imageURL!, coverVideo: "", type: self.seletedImage.type.rawValue)
+                }
             }else {
                 HUDManager.sharedInstance.hideHUD()
             }
@@ -429,7 +453,9 @@ extension ContentViewController:PhotoEditorDelegate
         // the edited image
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         seletedImage.imgPreview = image
-        ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
+        if currentIndex != nil {
+            ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
+        }
         self.updateContent()
     }
     

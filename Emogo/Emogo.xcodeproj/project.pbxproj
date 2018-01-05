@@ -248,6 +248,9 @@
 		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
+		F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */; };
+		F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
+		F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */; };
 		F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */; };
 		F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */; };
 		F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */; };
@@ -560,6 +563,11 @@
 		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
 		F49023C81FC42667004F3C90 /* NSDictionary+NullRemover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NullRemover.h"; sourceTree = "<group>"; };
+		F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProfileViewController.swift; sourceTree = "<group>"; };
+		F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UIActivityIndicatorForSDWebImage.m"; sourceTree = "<group>"; };
+		F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NZCircularImageView.m; sourceTree = "<group>"; };
+		F4961E1F1FFE92DD00A406FF /* NZCircularImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NZCircularImageView.h; sourceTree = "<group>"; };
+		F4961E201FFE92DE00A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UIActivityIndicatorForSDWebImage.h"; sourceTree = "<group>"; };
 		F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewController.swift; sourceTree = "<group>"; };
 		F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDAO.swift; sourceTree = "<group>"; };
 		F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCell.swift; sourceTree = "<group>"; };
@@ -938,6 +946,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4961E1C1FFE929E00A406FF /* ImageView */,
 				F4647C021FFE132800CCEDA3 /* TextView */,
 				F41C3ADE1FE13A90009CD942 /* BadgeButton */,
 				F403764A1FDE9F6B0007C696 /* Progress Bar */,
@@ -1268,6 +1277,7 @@
 			isa = PBXGroup;
 			children = (
 				F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */,
+				F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1479,6 +1489,17 @@
 				F49023C41FC4010A004F3C90 /* Reachability.swift */,
 			);
 			path = Reachability;
+			sourceTree = "<group>";
+		};
+		F4961E1C1FFE929E00A406FF /* ImageView */ = {
+			isa = PBXGroup;
+			children = (
+				F4961E1F1FFE92DD00A406FF /* NZCircularImageView.h */,
+				F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */,
+				F4961E201FFE92DE00A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.h */,
+				F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */,
+			);
+			path = ImageView;
 			sourceTree = "<group>";
 		};
 		F4A69BA01FC45114008F9534 /* Sound */ = {
@@ -2117,6 +2138,7 @@
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
+				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4431A9E1FC6DD2C00311C9A /* PhotoEditor+Crop.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
@@ -2155,6 +2177,7 @@
 				F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
+				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
@@ -2172,6 +2195,7 @@
 				F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,
+				F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,

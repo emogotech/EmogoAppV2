@@ -28,6 +28,7 @@ class PreviewController: UIViewController {
     @IBOutlet weak var lblTitleMessage: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     let editor: VideoEditing = VideoEditor()
+    @IBOutlet weak var btnDone: UIButton!
 
     // MARK: - Variables
 
@@ -119,6 +120,10 @@ class PreviewController: UIViewController {
         self.imgPreview.addGestureRecognizer(tap)
         // Preview Footer
         self.previewCollection.reloadData()
+        self.btnDone.isHidden = false
+       if ContentList.sharedInstance.objStream != nil {
+        self.btnDone.isHidden = true
+        }
     }
    
     

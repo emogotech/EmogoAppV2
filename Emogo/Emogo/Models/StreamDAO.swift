@@ -160,10 +160,14 @@ class StreamViewDAO{
                   conent.isUploaded = true
                 if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isDelete = true
+                    conent.isEdit = false
                 }
                 if conent.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isDelete = true
                     conent.isEdit = true
+                }
+                  if self.canAddContent == true {
+                    conent.isShowAddStream = true
                 }
                 self.arrayContent.append(conent)
             }

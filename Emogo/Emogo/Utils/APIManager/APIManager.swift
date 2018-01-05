@@ -30,10 +30,14 @@ class APIManager: NSObject {
     }
     
     // MARK: - POST REQUEST
-    func POSTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
+    func POSTRequestWithHeader(strURL: String, Param: [String: Any]? = nil, callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         
-        let url = "\(kBaseURL)\(strURL)"
+        var url = "\(kBaseURL)\(strURL)"
+        if strURL.contains(kBaseURL) {
+            url = strURL
+        }
+        
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
         Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {

@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+import Photos
+import PhotosUI
+import AVFoundation
 
 enum ProfileMenu:String{
     case stream = "1"
@@ -23,15 +25,21 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
     @IBOutlet weak var lblUserName: UILabel!
-    @IBOutlet weak var imgUser: UIImageView!
+    @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
     @IBOutlet weak var btnStuff: UIButton!
 
     
-    var currentMenu:ProfileMenu! = .stream
-    var objProfile:ProfileDAO!
-    
+    var currentMenu: ProfileMenu = .stream {
+        
+        didSet {
+            updateConatiner()
+        }
+    }
+    var imageToUpload:UIImage!
+    var fileName:String! = ""
+
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -50,9 +58,52 @@ class ProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Profile"
         self.configureProfileNavigation()
-    //    self.userProfile()
+        lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
+        
+        if UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        }
+        self.profileCollectionView.dataSource  = self
+        self.profileCollectionView.delegate = self
+        profileCollectionView.alwaysBounceVertical = true
+        HUDManager.sharedInstance.showHUD()
+        self.getStreamList(type:.start,filter: .myStream)
+        configureLoadMoreAndRefresh()
+
     }
     
+    func configureLoadMoreAndRefresh(){
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
+        
+        self.profileCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            if self?.currentMenu == .stream {
+                self?.getStreamList(type:.up,filter:.myStream)
+            }else if self?.currentMenu == .stuff {
+                self?.getMyStuff(type: .up)
+            }else {
+                self?.getColabs(type: .up)
+            }
+        }
+        self.profileCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            if self?.currentMenu == .stream {
+                self?.getStreamList(type:.down,filter: .myStream)
+            }else if self?.currentMenu == .stuff {
+                self?.getMyStuff(type: .down)
+            }else {
+                self?.getColabs(type: .down)
+            }
+        }
+        self.profileCollectionView.expiredTimeInterval = 20.0
+       
+    }
+    
+    func setCoverImage(image:UIImage) {
+        self.imageToUpload = image
+        self.imgUser.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+    }
     
     
      // MARK: -  Action Methods And Selector
@@ -86,9 +137,28 @@ class ProfileViewController: UIViewController {
         default:
             break
         }
-    self.profileCollectionView.reloadData()
     }
 
+    
+    private func updateConatiner(){
+        
+        switch currentMenu {
+        case .stuff:
+            HUDManager.sharedInstance.showHUD()
+            self.getMyStuff(type: .start)
+            break
+        case .stream:
+            HUDManager.sharedInstance.showHUD()
+            self.getStreamList(type:.start,filter: .myStream)
+            break
+        case .colabs:
+            
+            HUDManager.sharedInstance.showHUD()
+            self.getColabs(type: .start)
+            break
+        }
+    }
+    
     override func btnLogoutAction() {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
@@ -119,23 +189,230 @@ class ProfileViewController: UIViewController {
     }
     
     
-    // MARK: - API
-
+    func profilepicUpload() {
+        
+        let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
+        let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
+            self.checkCameraPermission()
+        }
+        let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
+            self.checkPhotoLibraryPermission()
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            
+        }
+        alert.addAction(camera)
+        alert.addAction(gallery)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
     
-    func userProfile(){
-       // HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForGetUserInfo(user: UserDAO.sharedInstance.user.userId!) { (profile, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                self.objProfile = profile
-            }else {
-                self.showToast(strMSG: errorMsg!)
+    
+    func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            print("Gallery Open")
+            self.openGallery()
+            break
+        //handle authorized status
+        case .denied, .restricted :
+            print("denied ")
+            self.showPermissionAlert(strMessage: "gallery")
+            break
+        //handle denied status
+        case .notDetermined:
+            // ask for permissions
+            print("denied ")
+            PHPhotoLibrary.requestAuthorization() { status in
+                switch status {
+                case .authorized:
+                    self.openGallery()
+                    break
+                // as above
+                case .denied, .restricted:
+                    self.showPermissionAlert(strMessage: "gallery")
+                    break
+                // as above
+                case .notDetermined:
+                    break
+                    // won't happen but still
+                }
             }
-            self.profileCollectionView.reloadData()
         }
     }
     
-  
+    func checkCameraPermission(){
+        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
+            //already authorized
+            print("camera Open")
+            self.openCamera()
+        } else {
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+                if granted {
+                    //access allowed
+                    print("camera Open")
+                    self.openCamera()
+                } else {
+                    //access denied
+                    self.showPermissionAlert(strMessage: "camera")
+                }
+            })
+        }
+    }
+    
+    
+    func showPermissionAlert(strMessage:String) {
+        
+        DispatchQueue.main.async(execute: { [unowned self] in
+            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+                } else {
+                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(appSettings)
+                    }
+                }
+            }))
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
+    
+    private func openCamera(){
+        if  UIImagePickerController.isSourceTypeAvailable(.camera){
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .camera
+            self.present(imagePicker, animated: true, completion: nil)
+        }else {
+            
+        }
+    }
+    
+    private func openGallery(){
+        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }else {
+            
+        }
+        
+    }
+    
+    
+    // MARK: - API
+
+    private func uploadProfileImage(){
+        HUDManager.sharedInstance.showHUD()
+        let image = self.imageToUpload.reduceSize()
+        let imageData = UIImageJPEGRepresentation(image, 1.0)
+        let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.profileUpdate(strURL: imageUrl!)
+                }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
+    
+    
+    
+    func getStreamList(type:RefreshType,filter:StreamType){
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayStream.removeAll()
+            self.profileCollectionView.reloadData()
+        }
+        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.profileCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            
+            self.profileCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func getMyStuff(type:RefreshType){
+        if type == .start || type == .up {
+            ContentList.sharedInstance.arrayStuff.removeAll()
+            self.profileCollectionView.reloadData()
+        }
+        
+        APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.profileCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            
+            self.profileCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func getColabs(type:RefreshType){
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayStream.removeAll()
+            self.profileCollectionView.reloadData()
+        }
+        APIServiceManager.sharedInstance.apiForGetColabList(type: type) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.profileCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.profileCollectionView.es.stopLoadingMore()
+            }
+            
+            self.profileCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    private func profileUpdate(strURL:String){
+        
+       
+    }
+    
     
     
     /*
@@ -157,60 +434,63 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if objProfile == nil {
-            return 0
-        }else {
-            if currentMenu == .stream {
-                return self.objProfile.arrayStream.count
-            }else if currentMenu == .colabs {
-                return self.objProfile.arrayColabs.count
+       
+            if currentMenu == .stuff {
+                return ContentList.sharedInstance.arrayStuff.count
             }else {
-                return self.objProfile.arrayContents.count
+                return StreamList.sharedInstance.arrayStream.count
             }
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        if currentMenu == .colabs {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-            let people =
-               self.objProfile.arrayColabs[indexPath.row]
-            cell.prepareData(people:people)
-            return cell
+        if currentMenu == .stuff {
             
-        }else  if currentMenu == .stream {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-            cell.layer.cornerRadius = 5.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-            let stream = self.objProfile.arrayStream[indexPath.row]
-            cell.prepareLayouts(stream: stream)
-            return cell
-        }else {
-          //  let content = self.objProfile.arrayContents[indexPath.row]
+            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
             // for Add Content
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-           // cell.prepareLayout(content:content)
+            cell.prepareLayout(content:content)
             return cell
+            
+        }else{
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
+        cell.layer.cornerRadius = 5.0
+        cell.layer.masksToBounds = true
+        cell.isExclusiveTouch = true
+        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+        cell.prepareLayouts(stream: stream)
+        return cell
+
         }
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if currentMenu == .colabs  {
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
-        }else {
             let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
             return CGSize(width: itemWidth, height: itemWidth)
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        
-         }
+    }
+}
+
+
+extension ProfileViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        dismiss(animated: true, completion: nil)
+        
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.setCoverImage(image: pickedImage)
+        }
+    }
+    
 }

@@ -424,20 +424,7 @@ extension UINavigationController {
      */
     func push(viewController vc: UIViewController, transitionType type: String = kCATransitionFade, duration: CFTimeInterval = 0.8) {
         self.addTransition(transitionType: type, duration: duration)
-        let controllersArray = self.viewControllers
-        var vcToPop : UIViewController!
-        for currentVC in controllersArray {
-            if currentVC.className == vc.className {
-                vcToPop = currentVC
-                break
-            }
-        }
-        print("vcToPop" , vcToPop)
-        if vcToPop != nil {
-            self.popToViewController(vcToPop, animated: false)
-        }else {
-            self.pushViewController(vc, animated: false)
-        }
+        self.pushViewController(vc, animated: false)
     }
     
     func flipPush(viewController vc: UIViewController, transitionType type: String = "cube", duration: CFTimeInterval = 0.8) {

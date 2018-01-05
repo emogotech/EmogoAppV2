@@ -190,8 +190,8 @@ class APIServiceManager: NSObject {
                 "any_one_can_edit":anyOneCanEdit,
                 "collaborator":jsonCollaborator,
                 "collaborator_permission": [
-                    "can_add_content" : true,
-                    "can_add_people": true
+                    "can_add_content" : canAddContent,
+                    "can_add_people": canAddPeople
                 ]
             ]
         }else {
@@ -249,7 +249,11 @@ class APIServiceManager: NSObject {
                 "image" : coverImage,
                 "type":streamType,
                 "any_one_can_edit":anyOneCanEdit,
-                "collaborator":jsonCollaborator
+                "collaborator":jsonCollaborator,
+                "collaborator_permission": [
+                    "can_add_content" : canAddContent,
+                    "can_add_people": canAddPeople
+                ]
             ]
         }else {
             params = [
@@ -860,5 +864,57 @@ class APIServiceManager: NSObject {
     }
     
     
+    func apiForGetColabList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        if type == .start || type == .up{
+           StreamList.sharedInstance.requestURl = kCollaboratorAPI
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL:  StreamList.sharedInstance.requestURl, Param: nil) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
+                                    // it exists, do something
+                                } else {
+                                    StreamList.sharedInstance.arrayStream.append(stream)                                }
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURl = ""
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+                                
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURl = obj as! String
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                                
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+        
+        
+    }
     
 }
