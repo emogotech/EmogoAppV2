@@ -71,9 +71,11 @@ class AddStreamViewController: UITableViewController {
     private func prepareLayouts(){
         self.title = "Create a Stream"
         self.configureNavigationWithTitle()
+        txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
         txtStreamCaption.placeholder = "Stream Caption"
-        txtStreamCaption.placeholderTextColor = UIColor(r: 245.0, g: 245.0, b: 245.0)
+        txtStreamName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        txtStreamCaption.placeholderTextColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.delegate = self
         txtStreamCaption.floatLabelActiveColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.floatLabelPassiveColor = UIColor.darkGray
@@ -261,6 +263,18 @@ class AddStreamViewController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
 
     }
+    
+    @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
+        if (txtStreamName.text?.trim().isEmpty)! {
+            txtStreamName.placeholder = "Stream Name"
+            txtStreamName.title = nil
+        }else {
+            txtStreamName.placeholder = nil
+            txtStreamName.title = "Stream Name"
+        }
+    }
+    
+   
     
     // MARK: - CLASS FUNCTION
     // MARK: - Expand Collapse Row
@@ -511,13 +525,17 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         return true
     }
     
+    
+   
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+      
         if(text == "\n") {
            txtStreamCaption.resignFirstResponder()
             return false
         }
         return true
     }
+    
     
 }
 extension AddStreamViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
