@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MessageUI
+import Messages
 import Lightbox
 
 class ContentViewController: UIViewController {
