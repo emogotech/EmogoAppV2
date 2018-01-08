@@ -204,8 +204,9 @@ class ViewStreamSerializer(StreamSerializer):
         if qs.exists():
             qs = [x for x in qs if str(x.phone_number) in user_phono_number]
             # qs = [x ]
-            fields = ('can_add_content', 'can_add_people')
-            return ViewCollaboratorSerializer(qs[0], fields=fields).data
+            if qs.__len__() > 0:
+                fields = ('can_add_content', 'can_add_people')
+                return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
             # If current user as owner of stream
             if obj.created_by.__str__() == self.context['request'].user.__str__():
