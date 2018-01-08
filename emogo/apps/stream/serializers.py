@@ -201,12 +201,11 @@ class ViewStreamSerializer(StreamSerializer):
         qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
         user_phono_number = str(self.context['request'].user.username).replace('+', '')
-        if qs.exists():
-            qs = [x for x in qs if str(x.phone_number) in user_phono_number]
-            # qs = [x ]
-            if qs.__len__() > 0:
-                fields = ('can_add_content', 'can_add_people')
-                return ViewCollaboratorSerializer(qs[0], fields=fields).data
+        qs = [x for x in qs if str(x.phone_number) in user_phono_number]
+        # qs = [x ]
+        if qs.__len__() > 0:
+            fields = ('can_add_content', 'can_add_people')
+            return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
             # If current user as owner of stream
             if obj.created_by.__str__() == self.context['request'].user.__str__():
