@@ -19,7 +19,7 @@ class ViewStreamController: UIViewController {
     var streamType:String!
     var objStream:StreamViewDAO?
     var currentIndex:Int!
-
+    var viewStream:String?
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -164,9 +164,13 @@ class ViewStreamController: UIViewController {
 }
     
     @objc  func btnCancelAction(){
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-        self.navigationController?.popToViewController(vc: obj)
-        // self.navigationController?.pop()
+        if viewStream == nil {
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+            self.navigationController?.popToViewController(vc: obj)
+        }else {
+        self.navigationController?.pop()
+        }
+       
     }
     
     @objc func btnPlayAction(sender:UIButton){

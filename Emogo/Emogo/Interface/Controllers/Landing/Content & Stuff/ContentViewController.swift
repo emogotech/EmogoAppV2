@@ -33,7 +33,8 @@ class ContentViewController: UIViewController {
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
     var isEdit:Bool!
-    
+    var isAddStream:Bool! = false
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,8 +150,8 @@ class ContentViewController: UIViewController {
         }else {
             self.btnDelete.isHidden = false
         }
-
-      if self.seletedImage.isShowAddStream {
+        isAddStream = self.seletedImage.isShowAddStream
+      if self.isAddStream {
             btnAddToStream.isHidden = false
       }else {
         btnAddToStream.isHidden = true
@@ -415,10 +416,12 @@ class ContentViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
+                content?.isShowAddStream = self.isAddStream
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
                 }else {
                     if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
+                    
                         ContentList.sharedInstance.arrayContent[index] = content!
                     }
                     self.seletedImage = content
