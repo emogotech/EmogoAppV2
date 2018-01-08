@@ -87,10 +87,10 @@ class PreviewController: UIViewController {
         kPreviewHeight.constant = 129.0
         kWidthOptions.constant = 0.0
         viewOptions.isHidden = true
-        if self.strPresented != nil {
-            kWidthOptions.constant = 63.0
-            viewOptions.isHidden = false
-        }
+//        if self.strPresented != nil {
+//            kWidthOptions.constant = 63.0
+//            viewOptions.isHidden = false
+//        }
         imgPreview.backgroundColor = .black
         self.imgPreview.contentMode = .scaleAspectFill
         
@@ -307,17 +307,18 @@ class PreviewController: UIViewController {
     // MARK: - Class Methods
 
     func deleteSelectedContent(){
-        if !self.seletedImage.contentID.trim().isEmpty {
-            self.deleteContent()
-        }else {
-            ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
-            if  ContentList.sharedInstance.arrayContent.count != 0 {
+        arraySelectedContent?.remove(at: self.selectedIndex)
+        ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
                 self.preparePreview(index: 0)
-            }else{
-                self.navigationController?.pop()
+        }else{
+            if self.strPresented == nil {
+                self.navigationController?.popNormal()
+            }else {
+                self.dismiss(animated: true, completion: nil)
             }
-            self.previewCollection.reloadData()
         }
+        self.previewCollection.reloadData()
     }
     private func animateView(){
         UIView.animate(withDuration: 0.5) {

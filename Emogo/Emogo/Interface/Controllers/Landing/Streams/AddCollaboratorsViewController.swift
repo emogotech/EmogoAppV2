@@ -64,15 +64,18 @@ class AddCollaboratorsViewController: UIViewController {
         switch CNContactStore.authorizationStatus(for: .contacts){
         case .authorized:
             self.fetchContactList(store: store)
-            
-        // This is the method we will create
+            break
+        case .denied:
+            if let main = self.parent {
+                SharedData.sharedInstance.showPermissionAlert(viewController:main,strMessage: "contacts")
+            }
+            break
         case .notDetermined:
             store.requestAccess(for: .contacts){succeeded, err in
                 guard err == nil && succeeded else{
                     return
                 }
                 self.fetchContactList(store: store)
-                
             }
         default:
             print("Not handled")

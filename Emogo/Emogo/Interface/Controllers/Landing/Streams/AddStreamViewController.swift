@@ -295,7 +295,7 @@ class AddStreamViewController: UITableViewController {
         //handle authorized status
         case .denied, .restricted :
             print("denied ")
-            self.showPermissionAlert(strMessage: "gallery")
+            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
             break
         //handle denied status
         case .notDetermined:
@@ -308,7 +308,7 @@ class AddStreamViewController: UITableViewController {
                     break
                 // as above
                 case .denied, .restricted:
-                    self.showPermissionAlert(strMessage: "gallery")
+                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
                     break
                 // as above
                 case .notDetermined:
@@ -332,31 +332,13 @@ class AddStreamViewController: UITableViewController {
                     self.openCamera()
                 } else {
                     //access denied
-                    self.showPermissionAlert(strMessage: "camera")
+                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
                 }
             })
         }
     }
     
-    
-    func showPermissionAlert(strMessage:String) {
-        
-        DispatchQueue.main.async(execute: { [unowned self] in
-            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
-                } else {
-                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.openURL(appSettings)
-                    }
-                }
-            }))
-            self.present(alertController, animated: true, completion: nil)
-        })
-    }
+
     
    private func openCamera(){
         if  UIImagePickerController.isSourceTypeAvailable(.camera){

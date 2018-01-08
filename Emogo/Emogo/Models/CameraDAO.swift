@@ -126,6 +126,10 @@ class ContentDAO{
             self.coverImageVideo = obj as! String
         }
         
+        if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.isEdit = true
+            self.isDelete = true
+        }
     }
 }
 

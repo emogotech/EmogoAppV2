@@ -100,7 +100,11 @@ class StreamListViewController: UIViewController {
 //        NotificationCenter.default.addObserver(self, selector: #selector(self.createAfterStream), name: NSNotification.Name(rawValue: kNotification_Update_Filter), object: nil)
         
         HUDManager.sharedInstance.showHUD()
-        self.getStreamList(type:.start,filter: .featured)
+        menuView.currentIndex = currentStreamType.hashValue
+        self.getStreamList(type:.start,filter: currentStreamType)
+        print("current index ----\(currentStreamType)")
+        print("current index ----\(currentStreamType.hashValue)")
+
         // Attach datasource and delegate
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
@@ -115,7 +119,6 @@ class StreamListViewController: UIViewController {
             layout.disableStickyHeaders = true
             self.streamCollectionView.collectionViewLayout = layout
         }
-        menuView.currentIndex = 2
         self.streamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_StreamHeaderView)
         self.configureLoadMoreAndRefresh()
         
