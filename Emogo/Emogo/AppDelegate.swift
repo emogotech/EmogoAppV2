@@ -86,7 +86,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setTypeOfViewController(objType:String) -> Bool {
         if objType == kDeepLinkTypePeople {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypePeople
-           
         }else if objType == kDeepLinkTypeProfile {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeProfile
          }else if objType == kDeepLinkTypeAddStream {
@@ -104,22 +103,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func getInfoFormURL(url:URL){
+        var peopleData:[String:Any] = [String:Any]()
+        peopleData["full_name"] = "\(url.valueOf(checkKeyType.fullname.rawValue)!)"
+        peopleData["user_profile_id"] = "\(url.valueOf(checkKeyType.userId.rawValue)!)"
+        peopleData["phone_number"] = "\(url.valueOf(checkKeyType.phoneNumber.rawValue)!)"
         
-        let urlString = "\(url)"
-        let queryItems = URLComponents(string: urlString)?.queryItems
-        
-        for items in queryItems! {
-            
-            
-            print(items.name)
-            
+        if url.valueOf(checkKeyType.userImage.rawValue)! == "/\(kDeepLinkTypePeople)"{
+             peopleData["user_image"] = ""
+        }else{
+            peopleData["user_image"] = "\(url.valueOf(checkKeyType.userImage.rawValue)!)"
         }
-        
-        print(SharedData.sharedInstance.peopleInfo.fullName)
-        print(SharedData.sharedInstance.peopleInfo.fullName)
-        print(SharedData.sharedInstance.peopleInfo.fullName)
-        print(SharedData.sharedInstance.peopleInfo.fullName)
-        
+        SharedData.sharedInstance.peopleInfo = PeopleDAO.init(peopleData: peopleData)
     }
     
     private func prepareViewController() {

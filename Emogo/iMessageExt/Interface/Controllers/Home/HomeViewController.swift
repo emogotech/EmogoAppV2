@@ -819,7 +819,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
             for subV in pagerContent.subviews {
                 if subV.isKind(of: FSPagerView.self){
-                    showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
+                    showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: indexPath.row)
                     
                     return
                 }
@@ -967,7 +967,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
-                showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
+                showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 break
                 
             case 5:
@@ -1031,7 +1031,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
-                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
+                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 break
                 
             case 5:
@@ -1072,7 +1072,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
     }
     
-    func showAlert(_ index: Int, pagerView:FSPagerView, alert:String, messgae:String) {
+    func showAlert(_ index: Int, pagerView:FSPagerView, alert:String, messgae:String, selectedIndex:Int) {
         let alert = UIAlertController(title: alert, message: messgae, preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: kAlert_Cancel_Title, style: UIAlertActionStyle.default, handler: { action in
             switch action.style{
@@ -1103,7 +1103,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 case 5:
                     self.lastIndex = index
                     let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
-                    let userInfo = PeopleList.sharedInstance.arrayPeople[index]
+                    let userInfo = PeopleList.sharedInstance.arrayPeople[selectedIndex]
                     let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
                     SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
                     break
@@ -1136,7 +1136,6 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         print(strURl)
         return strURl
     }
-    
 }
 
 // MARK:- Extension ScrollView delegate

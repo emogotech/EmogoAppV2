@@ -29,7 +29,7 @@ class SharedData: NSObject {
     var iMessageNavigationCurrentContentID : String = ""
     var streamContent : StreamDAO?
     var contentData : ContentDAO?
-    var peopleInfo:PeopleDAO!
+    var peopleInfo:PeopleDAO?
     var tempViewController : MSMessagesAppViewController?
     
     // MARK: - INIT Singleton Method
