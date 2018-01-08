@@ -55,8 +55,20 @@ class StreamListViewController: UIViewController {
         menuView.isHidden = true
         self.viewMenu.isHidden = false
         
+        if SharedData.sharedInstance.deepLinkType != "" {
+            self.checkDeepLinkURL()
+        }
+        
+        self.streamCollectionView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.prepareLayoutForApper()
+    }
+    
+    func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-           
             let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
             kContainerNav = "1"
             currentTag = 111
@@ -65,7 +77,6 @@ class StreamListViewController: UIViewController {
             arrayAssests = [ImportDAO]()
             ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
-            
             SharedData.sharedInstance.deepLinkType = ""
         }
         
@@ -75,16 +86,23 @@ class StreamListViewController: UIViewController {
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
         }
+        
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
             getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: SharedData.sharedInstance.contentID)
         }
         
-        self.streamCollectionView.reloadData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.prepareLayoutForApper()
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople {
+            let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+            obj.objPeople = SharedData.sharedInstance.peopleInfo!
+            self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
+        }
+        
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeProfile {
+            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+            self.navigationController?.push(viewController: obj)
+        }
+        
     }
     
     // MARK: - Prepare Layouts
