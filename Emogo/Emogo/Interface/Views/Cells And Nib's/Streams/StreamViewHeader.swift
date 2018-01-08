@@ -37,6 +37,8 @@ class StreamViewHeader: UICollectionViewCell {
         }else {
             btnCollab.badgeString = "\(objStream.arrayColab.count)"
             btnCollab.isHidden = false
+            btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, 2, 0, 0)
+
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
@@ -52,6 +54,7 @@ class StreamViewHeader: UICollectionViewCell {
         if  objStream.canAddPeople == true {
               btnEdit.isHidden = false
         }
+
     }
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {

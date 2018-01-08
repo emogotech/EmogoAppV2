@@ -17,7 +17,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var btnMenu: UIButton!
     
     var lastIndex             : Int = 2
-    
+    var isPullToRefreshRemoved:Bool! = false
     
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -186,6 +186,19 @@ class StreamListViewController: UIViewController {
         }
     }
     
+    func addLoadMore(){
+        if  self.isPullToRefreshRemoved {
+            self.isPullToRefreshRemoved  = false
+            let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
+            self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+                if (self?.isPeopleList)!  {
+                    self?.getUsersList(type:.down)
+                }else {
+                    self?.getStreamList(type:.down,filter: currentStreamType)
+                }
+            }
+        }
+    }
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
@@ -235,6 +248,7 @@ class StreamListViewController: UIViewController {
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
+            self.addLoadMore()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             StreamList.sharedInstance.arrayStream.removeAll()
             self.streamCollectionView.reloadData()
@@ -246,6 +260,7 @@ class StreamListViewController: UIViewController {
             if refreshType == .end {
                 self.streamCollectionView.es.stopLoadingMore()
                 self.streamCollectionView.es.removeRefreshFooter()
+                self.isPullToRefreshRemoved = true
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -267,6 +282,7 @@ class StreamListViewController: UIViewController {
     
     func getUsersList(type:RefreshType){
         if type == .up {
+            self.addLoadMore()
             StreamList.sharedInstance.arrayStream.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             self.streamCollectionView.reloadData()
@@ -278,6 +294,7 @@ class StreamListViewController: UIViewController {
             if refreshType == .end {
                 self.streamCollectionView.es.stopLoadingMore()
                 self.streamCollectionView.es.removeRefreshFooter()
+                self.isPullToRefreshRemoved = true
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -320,8 +337,6 @@ class StreamListViewController: UIViewController {
                         }
                     }
                 }
-                
-                
                 
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
