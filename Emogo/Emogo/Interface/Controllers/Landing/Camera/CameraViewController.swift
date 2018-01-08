@@ -54,12 +54,12 @@ class CameraViewController: SwiftyCamViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        self.previewCollection.reloadData()
         print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareContainerToPresent()
+        self.previewCollection.reloadData()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

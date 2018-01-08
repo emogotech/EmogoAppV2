@@ -65,10 +65,8 @@ class AddCollaboratorsViewController: UIViewController {
         case .authorized:
             self.fetchContactList(store: store)
             break
-        case .denied:
-            if let main = self.parent {
-                SharedData.sharedInstance.showPermissionAlert(viewController:main,strMessage: "contacts")
-            }
+        case .denied, .restricted :
+                self.showPermissionAlert(strMessage: "contacts")
             break
         case .notDetermined:
             store.requestAccess(for: .contacts){succeeded, err in
@@ -77,10 +75,9 @@ class AddCollaboratorsViewController: UIViewController {
                 }
                 self.fetchContactList(store: store)
             }
-        default:
-            print("Not handled")
+            break
+      
         }
-        
     }
     
 
@@ -100,7 +97,7 @@ class AddCollaboratorsViewController: UIViewController {
         
         for contact in cnContacts {
             let fullName = CNContactFormatter.string(from: contact, style: .fullName) ?? "No Name"
-                var img:UIImage!
+            var img:UIImage!
             if let contactImageData = contact.imageData {
                 img = UIImage(data: contactImageData)
             }
@@ -144,6 +141,25 @@ class AddCollaboratorsViewController: UIViewController {
     
     }
     
+    func showPermissionAlert(strMessage:String) {
+        
+        DispatchQueue.main.async(execute: { [unowned self] in
+            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
+            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
+                } else {
+                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
+                        UIApplication.shared.openURL(appSettings)
+                    }
+                }
+            }))
+           
+            AppDelegate.appDelegate.window?.rootViewController?.present(alertController, animated: true, completion: nil)
+        })
+    }
    
 }
 

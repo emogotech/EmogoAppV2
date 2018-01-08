@@ -57,6 +57,10 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
+        self.imgUser.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilepicUpload))
+        tap.numberOfTapsRequired = 1
+        self.imgUser.addGestureRecognizer(tap)
         self.configureProfileNavigation()
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         
@@ -189,7 +193,7 @@ class ProfileViewController: UIViewController {
     }
     
     
-    func profilepicUpload() {
+    @objc func profilepicUpload() {
         
         let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
@@ -219,7 +223,7 @@ class ProfileViewController: UIViewController {
         //handle authorized status
         case .denied, .restricted :
             print("denied ")
-            self.showPermissionAlert(strMessage: "gallery")
+            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
             break
         //handle denied status
         case .notDetermined:
@@ -232,7 +236,7 @@ class ProfileViewController: UIViewController {
                     break
                 // as above
                 case .denied, .restricted:
-                    self.showPermissionAlert(strMessage: "gallery")
+                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
                     break
                 // as above
                 case .notDetermined:
@@ -256,31 +260,12 @@ class ProfileViewController: UIViewController {
                     self.openCamera()
                 } else {
                     //access denied
-                    self.showPermissionAlert(strMessage: "camera")
+                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
                 }
             })
         }
     }
     
-    
-    func showPermissionAlert(strMessage:String) {
-        
-        DispatchQueue.main.async(execute: { [unowned self] in
-            let message = NSLocalizedString("Emogo doesn't have permission to use the \(strMessage), please change privacy settings", comment: "Alert message when the user has denied access to the camera")
-            let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
-                if #available(iOS 10.0, *) {
-                    UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!, options: [:], completionHandler: nil)
-                } else {
-                    if let appSettings = URL(string: UIApplicationOpenSettingsURLString) {
-                        UIApplication.shared.openURL(appSettings)
-                    }
-                }
-            }))
-            self.present(alertController, animated: true, completion: nil)
-        })
-    }
     
     private func openCamera(){
         if  UIImagePickerController.isSourceTypeAvailable(.camera){
