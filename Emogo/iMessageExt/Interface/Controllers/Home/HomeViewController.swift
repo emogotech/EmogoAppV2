@@ -819,7 +819,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
             for subV in pagerContent.subviews {
                 if subV.isKind(of: FSPagerView.self){
-                    showAlert(4, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
+                    showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile)
+                    
                     return
                 }
             }
@@ -1101,8 +1102,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                     break
                 case 5:
                     self.lastIndex = index
-                    let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypePeople)"
-                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
+                    let userInfo = PeopleList.sharedInstance.arrayPeople[index]
+                    let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
+                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
                     break
                     
                 default:
@@ -1116,6 +1119,24 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             }}))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    func createURLWithComponents(userInfo: PeopleDAO, urlString:String) -> String? {
+        // create "https://api.nasa.gov/planetary/apod" URL using NSURLComponents
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = "Emogo";
+        urlComponents.host = "emogo"
+
+        // add params
+        let fullName = URLQueryItem(name: "fullName", value: userInfo.fullName!)
+        let phoneNumber = URLQueryItem(name: "phoneNumber", value: userInfo.phoneNumber!)
+        let userId = URLQueryItem(name: "userId", value: userInfo.userId!)
+        let userImage = URLQueryItem(name: "userImage", value: userInfo.userImage!)
+        urlComponents.queryItems = [fullName, phoneNumber, userId, userImage]
+        let strURl = "\(urlComponents.url!)/\(kDeepLinkTypePeople)"
+        print(strURl)
+        return strURl
+    }
+    
 }
 
 // MARK:- Extension ScrollView delegate

@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if splitArr.last == kDeepLinkTypeProfile as String{
                 return setTypeOfViewController(objType: kDeepLinkTypeProfile)
             }else if splitArr.last == kDeepLinkTypePeople as String {
+                self.getInfoFormURL(url: url)
                  return setTypeOfViewController(objType: kDeepLinkTypePeople)
             }else if splitArr.last == kDeepLinkTypeAddStream as String {
                 return setTypeOfViewController(objType: kDeepLinkTypeAddStream)
@@ -85,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setTypeOfViewController(objType:String) -> Bool {
         if objType == kDeepLinkTypePeople {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypePeople
+           
         }else if objType == kDeepLinkTypeProfile {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeProfile
          }else if objType == kDeepLinkTypeAddStream {
@@ -99,6 +101,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.prepareViewController()
 
         return true
+    }
+    
+    func getInfoFormURL(url:URL){
+        
+        let urlString = "\(url)"
+        let queryItems = URLComponents(string: urlString)?.queryItems
+        
+        for items in queryItems! {
+            
+            
+            print(items.name)
+            
+        }
+        
+        print(SharedData.sharedInstance.peopleInfo.fullName)
+        print(SharedData.sharedInstance.peopleInfo.fullName)
+        print(SharedData.sharedInstance.peopleInfo.fullName)
+        print(SharedData.sharedInstance.peopleInfo.fullName)
+        
     }
     
     private func prepareViewController() {
