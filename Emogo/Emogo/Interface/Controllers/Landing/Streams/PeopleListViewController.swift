@@ -90,5 +90,15 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
         return CGSize(width: itemWidth, height: 100)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let collaborator = self.arrayColab[indexPath.row]
+        let people = PeopleDAO(peopleData:[:])
+        people.fullName = collaborator.name
+        people.userId = collaborator.colabID
+        let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+        obj.objPeople = people
+        self.navigationController?.push(viewController: obj)
+    }
+    
     
 }

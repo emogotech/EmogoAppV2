@@ -198,6 +198,7 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
+            
             self.checkCameraPermission()
         }
         let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
@@ -220,12 +221,19 @@ class ProfileViewController: UIViewController {
         switch status {
         case .authorized:
             print("Gallery Open")
-            self.openGallery()
+            let when = DispatchTime.now() + 0.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.openGallery()
+            }
             break
         //handle authorized status
-        case .denied, .restricted :
+        case .denied :
             print("denied ")
             SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
+            break
+            
+        case .restricted:
+                
             break
         //handle denied status
         case .notDetermined:
@@ -234,7 +242,10 @@ class ProfileViewController: UIViewController {
             PHPhotoLibrary.requestAuthorization() { status in
                 switch status {
                 case .authorized:
-                    self.openGallery()
+                    let when = DispatchTime.now() + 0.5
+                    DispatchQueue.main.asyncAfter(deadline: when) {
+                        self.openGallery()
+                    }
                     break
                 // as above
                 case .denied, .restricted:
@@ -491,6 +502,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = stream.Title.capitalized
+            obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
         }
