@@ -9,3 +9,4 @@
 #import "RMPZoomTransitionAnimator.h"
 #import "UIFloatLabelTextView.h"
 #import "NZCircularImageView.h"
+#import "UITextField+Max.h"

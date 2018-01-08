@@ -197,9 +197,11 @@ class ProfileViewController: UIViewController {
         
         let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
             self.checkCameraPermission()
         }
         let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
             self.checkPhotoLibraryPermission()
         }
         let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
@@ -248,11 +250,16 @@ class ProfileViewController: UIViewController {
     }
     
     func checkCameraPermission(){
-        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
-            //already authorized
-            print("camera Open")
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
             self.openCamera()
-        } else {
+            break
+        case .denied, .restricted :
+            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
+            break
+            
+        case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
                 if granted {
                     //access allowed
@@ -263,7 +270,9 @@ class ProfileViewController: UIViewController {
                     SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
                 }
             })
+            break
         }
+       
     }
     
     
@@ -273,7 +282,9 @@ class ProfileViewController: UIViewController {
             imagePicker.delegate = self
             imagePicker.allowsEditing = true
             imagePicker.sourceType = .camera
-            self.present(imagePicker, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.topMostController().present(imagePicker, animated: true, completion: nil)
+            }
         }else {
             
         }
@@ -283,13 +294,23 @@ class ProfileViewController: UIViewController {
         if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.allowsEditing = false
             imagePicker.sourceType = .photoLibrary
-            self.present(imagePicker, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.topMostController().present(imagePicker, animated: true, completion: nil)
+            }
         }else {
             
         }
         
+    }
+    
+    func topMostController() -> UIViewController {
+      
+        var topController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
+        while (topController.presentedViewController != nil) {
+            topController = topController.presentedViewController!
+        }
+        return topController
     }
     
     
@@ -459,8 +480,22 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
-    }
+        if currentMenu == .stuff {
+            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            objPreview.seletedImage = content
+            objPreview.isEdit = true
+            self.navigationController?.push(viewController: objPreview)
+        }else {
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            obj.currentIndex = indexPath.row
+            obj.streamType = stream.Title.capitalized
+            ContentList.sharedInstance.objStream = nil
+            self.navigationController?.push(viewController: obj)
+        }
+}
+    
 }
 
 

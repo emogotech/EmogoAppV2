@@ -24,6 +24,8 @@ class StreamDAO {
     var CoverImage:String! = ""
     var IDcreatedBy:String! = ""
     var isSelected:Bool! = false
+    var streamType:String! = ""
+
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {
             self.Title = obj as! String
@@ -40,6 +42,11 @@ class StreamDAO {
         if let obj  = streamData["created_by"] {
             self.IDcreatedBy = "\(obj)"
         }
+        if let obj  = streamData["type"] {
+            self.streamType = obj as! String
+        }
+      
+        
     }
 }
 

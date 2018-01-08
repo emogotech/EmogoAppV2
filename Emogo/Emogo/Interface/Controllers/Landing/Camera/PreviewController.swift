@@ -65,7 +65,8 @@ class PreviewController: UIViewController {
     func prepareLayouts(){
         // Preview Height
         // Remove Duplicate Objects
-        
+        self.txtTitleImage.maxLength = 50
+        self.txtDescription.maxLength = 250
         var seen = Set<String>()
         var unique = [ContentDAO]()
         for obj in  ContentList.sharedInstance.arrayContent {

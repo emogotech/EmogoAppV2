@@ -23,6 +23,8 @@ class UserNameViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+            AppDelegate.appDelegate.removeOberserver()
+            AppDelegate.appDelegate.addOberserver()
     }
     
     override func didReceiveMemoryWarning() {
@@ -35,6 +37,7 @@ class UserNameViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         self.txtUserName.delegate = self
+        self.txtUserName.maxLength = 30
     }
     
     

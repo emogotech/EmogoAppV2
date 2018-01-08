@@ -33,6 +33,11 @@ class ProfileStreamCell: UICollectionViewCell {
         if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false
         }
+        if stream.streamType.lowercased() == "private" {
+        self.btnLock.setImage(#imageLiteral(resourceName: "lock_icon"), for: .normal)
+        }else {
+            self.btnLock.setImage(#imageLiteral(resourceName: "unlock_icon"), for: .normal)
+        }
     }
     
 }

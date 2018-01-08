@@ -62,7 +62,9 @@ class ContentViewController: UIViewController {
          }else {
             self.btnAddToStream.isHidden = true
         }
-        
+        self.txtTitleImage.maxLength = 50
+        self.txtDescription.maxLength = 250
+
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2

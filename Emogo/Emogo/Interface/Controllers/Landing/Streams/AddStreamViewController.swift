@@ -77,7 +77,7 @@ class AddStreamViewController: UITableViewController {
         txtStreamCaption.delegate = self
         txtStreamCaption.floatLabelActiveColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.floatLabelPassiveColor = UIColor.darkGray
-       
+        self.txtStreamName.maxLength = 50
         self.switchAddContent.isUserInteractionEnabled = false
         self.switchAddPeople.isUserInteractionEnabled = false
         self.imgCover.contentMode = .scaleAspectFill
