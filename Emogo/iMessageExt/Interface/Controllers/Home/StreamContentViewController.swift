@@ -212,16 +212,6 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @objc func openFullView(){
-        
-//         let content = self.arrContentData[currentContentIndex]
-
-//        if content.type == .link {
-//            guard let url = URL(string: content.coverImage) else {
-//                return //be safe
-//            }
-//            self.openURL(url: url)
-//            return
-//        }
         var arrayContents = [LightboxImage]()
 //        var index:Int! = 0
         var arrayTemp = [ContentDAO]()

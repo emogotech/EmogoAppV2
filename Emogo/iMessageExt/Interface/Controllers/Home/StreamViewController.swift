@@ -26,6 +26,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
+    @IBOutlet weak var imgGuesture          : UIImageView!
     
     @IBOutlet weak var collectionStreams    : UICollectionView!
     
@@ -77,12 +78,15 @@ class StreamViewController: MSMessagesAppViewController {
     func prepareLayout() {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        imgGradient.addGestureRecognizer(swipeRight)
+        imgGuesture.addGestureRecognizer(swipeRight)
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        imgGradient.addGestureRecognizer(swipeLeft)
+        imgGuesture.addGestureRecognizer(swipeLeft)
         
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        imgGuesture.addGestureRecognizer(tapRecognizer)
+
         if currentStreamIndex == 0 {
             btnPreviousStream.isEnabled = false
         }
@@ -166,6 +170,8 @@ class StreamViewController: MSMessagesAppViewController {
             default:
                 break
             }
+        }else{
+            self.openFullView()
         }
     }
     
@@ -287,12 +293,12 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnEditStream(_ sender:UIButton) {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Stream , preferredStyle: .alert)
-        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
             let strUrl = "\(kDeepLinkURL)\(stream.ID!)/\(kDeepLinkTypeEditStream)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
-        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
         }
         alert.addAction(yes)
@@ -332,6 +338,34 @@ class StreamViewController: MSMessagesAppViewController {
         
     }
     
+    @IBAction func btnFullCoverImage(_ sender:UIButton){
+        self.openFullView()
+    }
+    
+    @objc func openFullView(){
+        var arrayContents = [LightboxImage]()
+        let arrayTemp = [self.objStream]
+        for obj in arrayTemp {
+            var image:LightboxImage!
+                if obj?.coverImage != nil {
+                    image = LightboxImage(image: imgStream.image!, text: lblStreamTitle.text!, videoURL: nil)
+                }else{
+                    let url = URL(string: (obj?.coverImage)!)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: lblStreamTitle.text!, videoURL: nil)
+                    }
+                }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: 0)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

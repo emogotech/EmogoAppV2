@@ -1,4 +1,3 @@
-//
 //  HomeViewController.swift
 //  iMessageExt
 //
@@ -18,11 +17,11 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var pagerContent             : UIView!
     @IBOutlet weak var searchView               : UIView!
     @IBOutlet weak var viewStream               : UIView!
-    @IBOutlet weak var viewStreamHeader        : UIView!
+    @IBOutlet weak var viewStreamHeader         : UIView!
     @IBOutlet weak var viewPeople               : UIView!
     @IBOutlet weak var viewPeopleHeader         : UIView!
     @IBOutlet weak var viewCollections          : UIView!
-    @IBOutlet weak var viewCollectionsMain          : UIView!
+    @IBOutlet weak var viewCollectionsMain      : UIView!
     
     @IBOutlet weak var searchText               : UITextField!
     
@@ -59,7 +58,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     
-    // MARK:- Life-cycle method    s
+    // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -476,7 +475,14 @@ class HomeViewController: MSMessagesAppViewController {
                 self.layout.minimumLineSpacing = 10
                 self.collectionStream!.collectionViewLayout = self.layout
                 self.collectionStream.reloadData()
+                
+                
             }
+            
+            if PeopleList.sharedInstance.arrayPeople.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
+           
         }
     }
     
@@ -504,7 +510,9 @@ class HomeViewController: MSMessagesAppViewController {
                 
                   self.collectionStream.reloadData()
             }
-           
+            if self.arrayStreams.count == 0 {
+                self.lblNoResult.isHidden = false
+            }
          
           
         }
@@ -579,12 +587,22 @@ class HomeViewController: MSMessagesAppViewController {
                         self.hudView.stopLoaderWithAnimation()
                     }
                     self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
+                    self.lblNoResult.text = "No Stream found"
+                    self.lblNoResult.isHidden = false
+                    SharedData.sharedInstance.iMessageNavigation = ""
+                    SharedData.sharedInstance.streamContent?.ID = ""
                 }else{
                     if self.hudView != nil {
                         self.hudView.stopLoaderWithAnimation()
                     }
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)
+                    SharedData.sharedInstance.iMessageNavigation = ""
+                    SharedData.sharedInstance.streamContent?.ID = ""
+                    self.lblNoResult.text = "No Stream found"
+                    self.lblNoResult.isHidden = false
+                    
                 }
+                
                 
             }
         }
@@ -636,9 +654,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
             self.streaminputDataType(type: type)
             self.lblNoResult.isHidden = true
-            if PeopleList.sharedInstance.arrayPeople.count == 0 {
-                self.lblNoResult.isHidden = false
-            }
+            
             self.btnStreamSearch.isUserInteractionEnabled = true
             self.btnPeopleSearch.isUserInteractionEnabled = false
             self.viewCollections.isHidden = false
@@ -663,11 +679,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.arrayStreams = values!
                 self.lblNoResult.isHidden = true
                  self.viewCollections.isHidden = false
-                if self.arrayStreams.count == 0 {
-                    self.lblNoResult.isHidden = false
-                }else{
-                   
-                }
+               
                 self.streaminputDataType(type: type)
                 self.expandStreamHeight()
             }
