@@ -53,5 +53,17 @@ class StreamViewHeader: UICollectionViewCell {
               btnEdit.isHidden = false
         }
     }
-
+    
+    @IBAction func btnShowFullDescription(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            self.lblDescription.numberOfLines = 5
+            self.lblDescription.sizeToFit()
+        }else {
+            self.lblDescription.numberOfLines = 1
+            self.lblDescription.sizeToFit()
+        }
+        
+      }
+    
 }

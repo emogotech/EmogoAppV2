@@ -39,7 +39,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSt-hT-HMf">
                                         <rect key="frame" x="10" y="21" width="266" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="21" id="vX4-jP-XaM"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="vX4-jP-XaM"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -52,6 +52,9 @@
                                             <constraint firstAttribute="height" constant="20" id="YbA-Cr-paW"/>
                                         </constraints>
                                         <state key="normal" image="down_arrrow"/>
+                                        <connections>
+                                            <action selector="btnShowFullDescription:" destination="gTV-IL-0wX" eventType="touchUpInside" id="iVu-ND-Brv"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ICf-Ub-PS9">
                                         <rect key="frame" x="10" y="0.0" width="266" height="21"/>
@@ -100,12 +103,12 @@
                                 <state key="normal" image="delete_icon-cover_image"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VdJ-hy-5Ah" customClass="MIBadgeButton" customModule="Emogo" customModuleProvider="target">
-                                <rect key="frame" x="10" y="15" width="25" height="25"/>
+                                <rect key="frame" x="10" y="15" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="V4M-1Q-b73"/>
-                                    <constraint firstAttribute="width" constant="25" id="WYz-IH-yio"/>
+                                    <constraint firstAttribute="width" constant="40" id="WYz-IH-yio"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="ZVV-Jh-0b4"/>
-                                    <constraint firstAttribute="height" constant="25" id="xmE-4T-z4p"/>
+                                    <constraint firstAttribute="height" constant="40" id="xmE-4T-z4p"/>
                                 </constraints>
                                 <state key="normal" image="user_icon"/>
                                 <userDefinedRuntimeAttributes>
@@ -180,6 +183,6 @@
         <image name="down_arrrow" width="7" height="3"/>
         <image name="edit_icon" width="24" height="24"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
-        <image name="user_icon" width="15" height="16"/>
+        <image name="user_icon" width="56" height="56"/>
     </resources>
 </document>
