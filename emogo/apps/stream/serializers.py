@@ -196,9 +196,14 @@ class ViewStreamSerializer(StreamSerializer):
         return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
-        qs = obj.collaborator_list.filter(status='Active', phone_number=self.context['request'].user.username)
+        import re
+        # if re.search(r'\bpower\b', choice, re.I):
+        qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
+        user_phono_number = str(self.context['request'].user.username).replace('+', '')
         if qs.exists():
+            qs = [x for x in qs if str(x.phone_number) in user_phono_number]
+            # qs = [x ]
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
