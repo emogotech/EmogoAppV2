@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer
-from emogo.apps.stream.serializers import StreamSerializer
+from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
 # util method
@@ -24,6 +24,8 @@ from django.shortcuts import get_object_or_404
 from itertools import chain
 # models
 from django.contrib.auth.models import User
+from django.db.models.query import QuerySet
+
 
 class Signup(APIView):
     """
@@ -223,9 +225,10 @@ class UserCollaborators(ListAPIView):
     """
     User Collaborate Streams API
     """
-    serializer_class = StreamSerializer
+    serializer_class = ViewStreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    queryset = Stream.actives.all()
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -234,14 +237,42 @@ class UserCollaborators(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def post(self, request):
-        try:
-            user = get_object_or_404(User, id=self.request.user.id)
-            queryset = Stream.objects.filter(id__in=(Collaborator.objects.filter(phone_number=user.username).values('stream_id'))).order_by('-id')
-            page = self.paginate_queryset(queryset)
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        except Exception as err:
-            message, status_code, response_status = messages.MSG_ERROR_LIST, "400", status.HTTP_400_BAD_REQUEST
-            return custom_render_response(status_code, message, response_status)
+    def get_queryset(self):
+        """
+        Get the list of items for this view.
+        This must be an iterable, and may be a queryset.
+        Defaults to using `self.queryset`.
+
+        This method should always be used rather than accessing `self.queryset`
+        directly, as `self.queryset` gets evaluated only once, and those results
+        are cached for all subsequent requests.
+
+        You may want to override this if you need to provide different
+        querysets depending on the incoming request.
+
+        (Eg. return a list of items that is specific to the user)
+        """
+        assert self.queryset is not None, (
+            "'%s' should either include a `queryset` attribute, "
+            "or override the `get_queryset()` method."
+            % self.__class__.__name__
+        )
+
+        streams = [x.stream.id for x in Collaborator.actives.filter(stream__status='Active') if not str(self.request.user.username).find(x.phone_number) == -1]
+        queryset = self.queryset
+        if isinstance(queryset, QuerySet):
+            # Ensure queryset is re-evaluated on each request.
+            queryset = queryset.filter(id__in=streams)
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewStreamSerializer
+        # self.request.user
+        self.serializer_class = ViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        #  Customized field list
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)

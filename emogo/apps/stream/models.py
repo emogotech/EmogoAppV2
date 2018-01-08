@@ -75,6 +75,8 @@ class Content(DefaultStatusModel):
     video_image = models.CharField(max_length=255, null=True, blank=True)
     streams = models.ManyToManyField(Stream)
     created_by = models.ForeignKey(User, null=True, blank=True)
+    height = models.CharField(max_length=10, null=True, blank=True, default=0)
+    width = models.CharField(max_length=10, null=True, blank=True, default=0)
 
     class Meta:
         db_table = 'content'
