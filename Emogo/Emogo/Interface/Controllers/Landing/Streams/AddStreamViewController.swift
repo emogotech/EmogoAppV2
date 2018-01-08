@@ -368,12 +368,15 @@ class AddStreamViewController: UITableViewController {
     @objc func openFullView(){
         var image:LightboxImage!
         if self.coverImage == nil {
-            guard  let url = URL(string: (self.objStream?.coverImage.stringByAddingPercentEncodingForURLQueryParameter())!) else
-            {
-                return
+            if self.objStream != nil {
+                guard  let url = URL(string: (self.objStream?.coverImage.stringByAddingPercentEncodingForURLQueryParameter())!) else
+                {
+                    return
+                }
+                
+                image = LightboxImage(imageURL: url, text: "", videoURL: nil)
             }
-            
-            image = LightboxImage(imageURL: url, text: "", videoURL: nil)
+          
         }else {
             image = LightboxImage(image: coverImage)
         }
