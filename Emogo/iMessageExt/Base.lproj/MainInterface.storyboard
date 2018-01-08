@@ -1341,13 +1341,10 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aG9-C8-fm0">
-                                        <rect key="frame" x="8" y="8" width="56" height="56"/>
-                                        <state key="normal" image="ProfileDeselected"/>
-                                        <connections>
-                                            <action selector="btnShowCollaborator:" destination="z62-HT-68H" eventType="touchUpInside" id="Gs2-Bs-XvT"/>
-                                        </connections>
-                                    </button>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ov5-l2-8Rd">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="156"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jvx-uu-a3q">
                                         <rect key="frame" x="288" y="24" width="24" height="24"/>
                                         <constraints>
@@ -1368,6 +1365,13 @@
                                             <action selector="btnEditStream:" destination="z62-HT-68H" eventType="touchUpInside" id="hiE-ya-e6P"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aG9-C8-fm0">
+                                        <rect key="frame" x="8" y="8" width="56" height="56"/>
+                                        <state key="normal" image="ProfileDeselected"/>
+                                        <connections>
+                                            <action selector="btnShowCollaborator:" destination="z62-HT-68H" eventType="touchUpInside" id="Gs2-Bs-XvT"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1375,6 +1379,7 @@
                                     <constraint firstItem="aG9-C8-fm0" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" constant="8" id="FJM-Tv-JFn"/>
                                     <constraint firstItem="fQ3-ZA-XqI" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" constant="15" id="FN7-wT-oup"/>
                                     <constraint firstItem="osM-O3-pVz" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" id="HsI-8M-yfc"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ov5-l2-8Rd" secondAttribute="trailing" id="Jeo-RN-V4g"/>
                                     <constraint firstItem="aG9-C8-fm0" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" constant="8" id="KWR-3o-N7U"/>
                                     <constraint firstItem="osM-O3-pVz" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" id="R3o-YO-Mlb"/>
                                     <constraint firstItem="Jvx-uu-a3q" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" constant="24" id="Rqt-Va-fZX"/>
@@ -1395,7 +1400,10 @@
                                     <constraint firstItem="45f-Fx-ooe" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" constant="15" id="p3h-h2-Jl2"/>
                                     <constraint firstItem="Jvx-uu-a3q" firstAttribute="leading" secondItem="yVt-Si-e3G" secondAttribute="trailing" constant="8" id="pQV-5c-b4b"/>
                                     <constraint firstAttribute="trailing" secondItem="uk2-Ah-W1c" secondAttribute="trailing" id="sJd-tS-ReD"/>
+                                    <constraint firstAttribute="bottom" secondItem="Ov5-l2-8Rd" secondAttribute="bottom" id="t39-sW-u08"/>
+                                    <constraint firstItem="Ov5-l2-8Rd" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" id="tWw-m0-YPI"/>
                                     <constraint firstItem="yVt-Si-e3G" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" constant="24" id="u2h-ey-ohj"/>
+                                    <constraint firstItem="Ov5-l2-8Rd" firstAttribute="leading" secondItem="ZYa-4X-89B" secondAttribute="leading" id="u8M-Pv-iKE"/>
                                     <constraint firstAttribute="trailing" secondItem="fQ3-ZA-XqI" secondAttribute="trailing" constant="15" id="wr3-FZ-s0i"/>
                                     <constraint firstItem="aG9-C8-fm0" firstAttribute="top" secondItem="ZYa-4X-89B" secondAttribute="top" constant="8" id="ymV-GI-xve"/>
                                 </constraints>
@@ -1442,6 +1450,7 @@
                         <outlet property="btnPreviousStream" destination="e5J-ck-zw9" id="HT6-kL-HQu"/>
                         <outlet property="collectionStreams" destination="zUA-XV-Eoh" id="lBB-i9-OH9"/>
                         <outlet property="imgGradient" destination="uk2-Ah-W1c" id="4Dk-xJ-wFy"/>
+                        <outlet property="imgGuesture" destination="Ov5-l2-8Rd" id="WMe-cb-qhH"/>
                         <outlet property="imgStream" destination="osM-O3-pVz" id="7c5-g6-u21"/>
                         <outlet property="lblNoContent" destination="jk0-D7-HXX" id="Jcb-Az-2LG"/>
                         <outlet property="lblStreamDesc" destination="45f-Fx-ooe" id="49h-N4-aSj"/>
