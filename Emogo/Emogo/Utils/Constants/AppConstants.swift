@@ -157,6 +157,14 @@ enum RefreshType:String {
 }
 
 
+enum checkKeyType: String {
+    case fullname = "fullName"
+    case phoneNumber = "phoneNumber"
+    case userId = "userId"
+    case userImage = "userImage"
+}
+
+
 //**********
 //==== iMessage Constants=====
 //**********

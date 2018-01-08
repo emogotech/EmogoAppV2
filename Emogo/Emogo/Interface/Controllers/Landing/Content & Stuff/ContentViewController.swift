@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MessageUI
+import Messages
 import Lightbox
 
 class ContentViewController: UIViewController {
@@ -212,8 +214,32 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
-        self.showToast(type: .error, strMSG: kAlert_Progress)
+        let composeVC = MFMessageComposeViewController()
+        if MFMessageComposeViewController.canSendAttachments(){
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            self.present(composeVC, animated: true, completion: nil)
+        }
+        else{
+          //  self.showToast(type: .error, strMSG: kAlert_Progress)
+        }
     }
+    
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = lblTitleMessage.text!
+        layout.image  = imgCover.image
+        layout.subcaption = lblDescription.text
+        let content = ContentList.sharedInstance.arrayContent[currentIndex]
+        message.layout = layout
+        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
+        
+        return message
+    }
+    
     
     @IBAction func btnActionAddStream(_ sender: Any) {
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController

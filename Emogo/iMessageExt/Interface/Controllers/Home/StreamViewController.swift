@@ -335,11 +335,6 @@ class StreamViewController: MSMessagesAppViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-        
-    }
-    
-    @IBAction func btnFullCoverImage(_ sender:UIButton){
-        self.openFullView()
     }
     
     @objc func openFullView(){
