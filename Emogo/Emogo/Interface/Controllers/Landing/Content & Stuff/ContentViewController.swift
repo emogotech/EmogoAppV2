@@ -218,9 +218,9 @@ class ContentViewController: UIViewController {
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         
-        layout.caption = lblTitleMessage.text!
+        layout.caption = txtTitleImage.text!
         layout.image  = imgCover.image
-        layout.subcaption = lblDescription.text
+        layout.subcaption = txtDescription.text
         let content = ContentList.sharedInstance.arrayContent[currentIndex]
         message.layout = layout
         message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
