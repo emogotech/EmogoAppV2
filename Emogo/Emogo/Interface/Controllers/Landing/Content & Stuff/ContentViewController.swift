@@ -18,15 +18,13 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var imgCover: UIImageView!
     
     @IBOutlet weak var txtTitleImage: UITextField!
-    @IBOutlet weak var txtDescription: UITextField!
+    @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnAddToStream: UIButton!
     @IBOutlet weak var btnDone: UIButton!
-    @IBOutlet weak var lblTitleMessage: UILabel!
-    @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
 
@@ -66,13 +64,12 @@ class ContentViewController: UIViewController {
             self.btnAddToStream.isHidden = true
         }
         self.txtTitleImage.maxLength = 50
-        self.txtDescription.maxLength = 250
 
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
         self.imgCover.addGestureRecognizer(tap)
-        
+        txtDescription.delegate = self
         self.updateContent()
     }
     
@@ -83,9 +80,8 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
-        self.lblTitleMessage.text = ""
-        self.lblDescription.text = ""
-        
+        txtDescription.text = "Description"
+
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
@@ -106,11 +102,9 @@ class ContentViewController: UIViewController {
  */
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
-            self.lblTitleMessage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
-            self.lblDescription.text = seletedImage.name.trim()
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -135,17 +129,13 @@ class ContentViewController: UIViewController {
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
             self.btnDone.isHidden = true
-            self.txtTitleImage.isHidden = true
-            self.txtDescription.isHidden = true
-            self.lblTitleMessage.isHidden = false
-            self.lblDescription.isHidden = false
+            self.txtTitleImage.isUserInteractionEnabled = false
+            self.txtDescription.isUserInteractionEnabled = false
         }else {
             self.btnEdit.isHidden = false
             self.btnDone.isHidden = false
-            self.txtTitleImage.isHidden = false
-            self.txtDescription.isHidden = false
-            self.lblTitleMessage.isHidden = true
-            self.lblDescription.isHidden = true
+            self.txtTitleImage.isUserInteractionEnabled = true
+            self.txtDescription.isUserInteractionEnabled = true
         }
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true
@@ -230,9 +220,9 @@ class ContentViewController: UIViewController {
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         
-        layout.caption = lblTitleMessage.text!
+        layout.caption = txtTitleImage.text!
         layout.image  = imgCover.image
-        layout.subcaption = lblDescription.text
+        layout.subcaption = txtDescription.text
         let content = ContentList.sharedInstance.arrayContent[currentIndex]
         message.layout = layout
         message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
@@ -513,5 +503,30 @@ extension ContentViewController:UITextFieldDelegate {
             textField.resignFirstResponder()
         }
         return true
+    }
+}
+
+extension ContentViewController:UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if txtDescription.text.trim() == "Description"{
+            txtDescription.text = nil
+        }
+    }
+    
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if txtDescription.text.trim().isEmpty{
+            txtDescription.text = "Description"
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if(text == "\n") {
+            txtDescription.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+        
     }
 }

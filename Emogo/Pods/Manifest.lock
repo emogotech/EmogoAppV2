@@ -7,7 +7,9 @@ PODS:
   - Crashlytics (3.9.3):
     - Fabric (~> 1.7.2)
   - Fabric (1.7.2)
+  - FLAnimatedImage (1.0.12)
   - Gallery (2.0.5)
+  - GiphyCoreSDK (1.0.1)
   - Hue (3.0.1)
   - Imaginary (3.0.2):
     - Cache (~> 4.0)
@@ -25,6 +27,9 @@ PODS:
   - SDWebImage (4.2.1):
     - SDWebImage/Core (= 4.2.1)
   - SDWebImage/Core (4.2.1)
+  - SDWebImage/GIF (4.2.1):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
   - SwiftyCam (2.6.0)
   - SwiftyJSON (3.1.4)
 
@@ -33,11 +38,14 @@ DEPENDENCIES:
   - AWSS3
   - Crashlytics
   - Fabric
+  - FLAnimatedImage
   - Gallery
+  - GiphyCoreSDK
   - IQKeyboardManagerSwift
   - Lightbox
   - ReadabilityKit
   - SDWebImage
+  - SDWebImage/GIF
   - SwiftyCam
   - SwiftyJSON
 
@@ -48,7 +56,9 @@ SPEC CHECKSUMS:
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Gallery: cff13f3b14b8923b02d7105e0f9ec26f15eebd0e
+  GiphyCoreSDK: 8671cc9be3debd6c653cacf17240b1959bf0d5c4
   Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
   Imaginary: d675200546110e305d6a26db6267c0622ffe5e6b
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
@@ -59,6 +69,6 @@ SPEC CHECKSUMS:
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: 23f94b0b85236a10f3e44cc1b999d19962d25a2c
+PODFILE CHECKSUM: a72559a059c943cfd1f914dc44e4aa560a37662e
 
 COCOAPODS: 1.3.1

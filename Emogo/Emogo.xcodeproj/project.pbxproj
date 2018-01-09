@@ -264,6 +264,7 @@
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4B9F24C1FEB8D7F009D7492 /* Toucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24B1FEB8D7F009D7492 /* Toucan.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
+		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
@@ -583,6 +584,8 @@
 		F4B9F24B1FEB8D7F009D7492 /* Toucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toucan.swift; sourceTree = "<group>"; };
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
+		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
+		F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAutoGrowingTextView.h; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1466,6 +1469,8 @@
 		F4647C021FFE132800CCEDA3 /* TextView */ = {
 			isa = PBXGroup;
 			children = (
+				F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */,
+				F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */,
 				F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */,
 				F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */,
 			);
@@ -2026,16 +2031,19 @@
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework",
+				"${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Ji/Ji.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
 				"${BUILT_PRODUCTS_DIR}/ReadabilityKit/ReadabilityKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage.default-GIF/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2043,7 +2051,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gallery.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyCoreSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
@@ -2053,6 +2063,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2131,6 +2142,7 @@
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
+				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,

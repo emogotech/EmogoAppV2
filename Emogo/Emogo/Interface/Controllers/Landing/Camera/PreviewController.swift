@@ -15,7 +15,7 @@ class PreviewController: UIViewController {
 
     @IBOutlet weak var imgPreview: UIImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
-    @IBOutlet weak var txtDescription: UITextField!
+    @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPreviewOpen: UIButton!
     @IBOutlet weak var previewCollection: UICollectionView!
@@ -25,12 +25,10 @@ class PreviewController: UIViewController {
     @IBOutlet weak var viewOptions: UIView!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
-    @IBOutlet weak var lblTitleMessage: UILabel!
-    @IBOutlet weak var lblDescription: UILabel!
-    let editor: VideoEditing = VideoEditor()
     @IBOutlet weak var btnDone: UIButton!
 
     // MARK: - Variables
+    let editor: VideoEditing = VideoEditor()
 
     var isPreviewOpen:Bool! = false
     var selectedIndex:Int! = 0
@@ -66,7 +64,9 @@ class PreviewController: UIViewController {
         // Preview Height
         // Remove Duplicate Objects
         self.txtTitleImage.maxLength = 50
-        self.txtDescription.maxLength = 250
+        txtDescription.text = "Description"
+        txtDescription.delegate = self
+
         var seen = Set<String>()
         var unique = [ContentDAO]()
         for obj in  ContentList.sharedInstance.arrayContent {
@@ -125,38 +125,27 @@ class PreviewController: UIViewController {
        if ContentList.sharedInstance.objStream != nil {
         self.btnDone.isHidden = true
         }
+        if self.seletedImage.isUploaded  == false{
+            self.btnShareAction.isHidden = true
+        }
     }
    
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
-        self.lblTitleMessage.text = ""
-        self.lblDescription.text = ""
         self.selectedIndex = index
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
             self.imgPreview.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
-      if  self.seletedImage.isUploaded {
-            self.txtTitleImage.isHidden = true
-            self.txtDescription.isHidden = true
-            self.lblTitleMessage.isHidden = false
-            self.lblDescription.isHidden = false
-        }  else {
-            self.txtTitleImage.isHidden = false
-            self.txtDescription.isHidden = false
-            self.lblTitleMessage.isHidden = true
-            self.lblDescription.isHidden = true
-        }
+    
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
-            self.lblTitleMessage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
-            self.lblDescription.text = seletedImage.name.trim()
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -308,11 +297,17 @@ class PreviewController: UIViewController {
     // MARK: - Class Methods
 
     func deleteSelectedContent(){
+        if let index =  arrayAssests?.index(where: {$0.name.lowercased().trim() == seletedImage.fileName.lowercased().trim()}) {
+            arrayAssests?.remove(at: index)
+        }
         arraySelectedContent?.remove(at: self.selectedIndex)
         ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+        
         if  ContentList.sharedInstance.arrayContent.count != 0 {
                 self.preparePreview(index: 0)
         }else{
+             arrayAssests?.removeAll()
+             arraySelectedContent?.removeAll()
             if self.strPresented == nil {
                 self.navigationController?.popNormal()
             }else {

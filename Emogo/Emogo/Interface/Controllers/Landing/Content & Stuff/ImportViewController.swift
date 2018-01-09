@@ -48,6 +48,9 @@ class ImportViewController: UICollectionViewController {
                     let asset = fetchResult.object(at: i)
                     let obj = ImportDAO(id:asset.localIdentifier,isSelected:false)
                     obj.assest = asset
+                    if let file =  asset.value(forKey: "filename"){
+                        obj.name = file as! String
+                    }
                     if array?.count != 0 {
                         if let index =  array?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
                             if array![index].isSelected == true {

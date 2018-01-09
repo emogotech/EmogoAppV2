@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import FLAnimatedImage
 
 class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
@@ -53,6 +54,24 @@ class GridViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
+    }
+}
+
+
+class GiphyCell: UICollectionViewCell {
+    
+    @IBOutlet var imageView: FLAnimatedImageView!
+    @IBOutlet weak var imgSelect: UIImageView!
+    
+    var thumbnailImage: FLAnimatedImage! {
+        didSet {
+            imageView.animatedImage = thumbnailImage
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.animatedImage = nil
     }
 }
 

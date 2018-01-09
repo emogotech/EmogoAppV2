@@ -310,7 +310,9 @@ class ContainerViewController: UIViewController {
     objPreview.strPresented = "TRUE"
     let nav = UINavigationController(rootViewController: objPreview)
     self.present(nav, animated: true, completion: nil)
-    }
+        }else {
+        self.showToast(strMSG: kAlert_contentSelect)
+            }
 //    arrayAssests?.removeAll()
 //    arraySelectedContent?.removeAll()
     }

@@ -95,6 +95,7 @@ class AddStreamViewController: UITableViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
+        txtStreamCaption.text = ""
     }
     
     
@@ -533,7 +534,8 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
            txtStreamCaption.resignFirstResponder()
             return false
         }
-        return true
+        return textView.text.length + (text.length - range.length) <= 250
+
     }
     
     

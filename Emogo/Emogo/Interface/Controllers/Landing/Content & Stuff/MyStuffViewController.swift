@@ -70,6 +70,8 @@ class MyStuffViewController: UIViewController {
             })
 //            arraySelectedContent?.removeAll()
 //            arrayAssests?.removeAll()
+            }else {
+                self.showToast(strMSG: kAlert_contentSelect)
             }
         }
        

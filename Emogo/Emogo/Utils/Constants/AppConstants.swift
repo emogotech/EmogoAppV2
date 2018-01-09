@@ -101,6 +101,8 @@ let kHeader_MyStreamHeaderView = "myStreamHeaderView"
 let kCell_MyStreamCell = "myStreamCell"
 let kCell_MyStuffCell = "myStuffCell"
 let kCell_ImportCell = "importCell"
+let kCell_GiphyCell = "giphyCell"
+
 let kCell_ProfileStreamCell = "profileStreamCell"
 let kSegue_AddCollaboratorsView = "addColabSegue"
 let kSegue_ContainerSegue = "containerSegue"
@@ -248,6 +250,8 @@ let kAlert_Progress                                                     = "Conte
 let kAlert_waitProcess                                                  = "It may take a while, All Content will be added in MyStuff, After Uploading!"
 
 let kAlert_contenAddedToStream                                          = "Content added successfully to Stream(s)."
+let kAlert_contentSelect                                          = "Select Stuff to proceed."
+
 
 
 

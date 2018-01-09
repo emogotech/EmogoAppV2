@@ -181,3 +181,27 @@ extension PreviewController:GalleryControllerDelegate {
     
 }
 
+extension PreviewController:UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if txtDescription.text.trim() == "Description"{
+            txtDescription.text = nil
+        }
+    }
+    
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if txtDescription.text.trim().isEmpty{
+            txtDescription.text = "Description"
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if(text == "\n") {
+            txtDescription.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+        
+    }
+}
