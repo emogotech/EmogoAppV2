@@ -132,7 +132,7 @@ class MyStreamCell:UICollectionViewCell {
         guard let stream = stream  else {
             return
         }
-        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: "stream-card-placeholder")
+        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.lblTitle.text = stream.Title.trim().capitalized
         self.lblName.text =  "by \(stream.Author.trim().capitalized)"
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage

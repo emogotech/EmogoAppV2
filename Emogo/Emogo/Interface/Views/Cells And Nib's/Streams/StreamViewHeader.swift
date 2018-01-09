@@ -42,7 +42,7 @@ class StreamViewHeader: UICollectionViewCell {
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
-        self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: "stream-card-placeholder")
+        self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false

@@ -140,7 +140,6 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             })
-            
         }
         else {
              self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)

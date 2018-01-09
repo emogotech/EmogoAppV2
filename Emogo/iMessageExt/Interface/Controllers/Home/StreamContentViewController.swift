@@ -159,13 +159,13 @@ class StreamContentViewController: MSMessagesAppViewController {
             if content.type != nil {
                 if content.type == .image {
                     self.btnPlay.isHidden = true
-                    self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+                    self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
                 }else   if content.type == .video {
-                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                     self.btnPlay.isHidden = false
                 }else if content.type == .link {
                     self.btnPlay.isHidden = true
-                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 }
             }
         }
@@ -213,7 +213,6 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @objc func openFullView(){
         var arrayContents = [LightboxImage]()
-//        var index:Int! = 0
         var arrayTemp = [ContentDAO]()
         arrayTemp = ContentList.sharedInstance.arrayContent
         for obj in arrayTemp {
@@ -221,7 +220,8 @@ class StreamContentViewController: MSMessagesAppViewController {
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
-                }else{
+                }
+                else{
                     let url = URL(string: obj.coverImage)
                     if url != nil {
                         image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)

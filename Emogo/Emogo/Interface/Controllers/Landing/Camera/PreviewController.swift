@@ -158,9 +158,9 @@ class PreviewController: UIViewController {
             self.imgPreview.image = seletedImage.imgPreview
         }else {
             if seletedImage.type == .image {
-                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImage, placeholder: "stream-card-placeholder")
+                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImage, placeholder: kPlaceholderImage)
             }else {
-                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: kPlaceholderImage)
             }
         }
         

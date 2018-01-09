@@ -111,12 +111,6 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                 return false
             }
         }
-
-//        let characterSet = CharacterSet.init(charactersIn: iMsgCharacterSet)
-//        if string.rangeOfCharacter(from: characterSet) == nil{
-//            return false
-//        }
-        
         return true
     }
     
@@ -129,12 +123,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return false
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == iMsgSegue_SignUpMobile {
-        }
-    }
-    
+        
     // MARK: - API Methods
     func verifyUserName(){
         if Reachability.isNetworkAvailable() {

@@ -30,12 +30,12 @@ class StreamContentCell: UICollectionViewCell {
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
-                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
             }else if content.type == .video  {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = false
             }else  if content.type == .link {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
             }
         }

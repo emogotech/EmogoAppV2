@@ -38,8 +38,6 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         
         txtVeryficationCode.layer.cornerRadius = kCornor_Radius
         txtVeryficationCode.clipsToBounds = true
-        
-//        txtVeryficationCode.text = self.OTP
     }
     
     func setupLoader() {
@@ -70,7 +68,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         self.view.endEditing(true)
         self.resendOTP()
     }
-        
+    
     //MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
@@ -101,9 +99,6 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         return true
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
         self.txtVeryficationCode.resignFirstResponder()
@@ -116,9 +111,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK: - API Methods
     func verifyOTP(){
-        
         if Reachability.isNetworkAvailable() {
-                 self.hudView.startLoaderWithAnimation()
+            self.hudView.startLoaderWithAnimation()
             APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: txtVeryficationCode.text!,phone: self.phone!) { (isSuccess, errorMsg) in
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
@@ -132,7 +126,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
-        }else {
+        }
+        else {
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
@@ -140,7 +135,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     func resendOTP(){
         if Reachability.isNetworkAvailable() {
             self.hudView.startLoaderWithAnimation()
-
+            
             APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone!) { (isSuccess, errorMsg) in
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
@@ -153,5 +148,6 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
+    
 }
 
