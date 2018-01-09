@@ -117,7 +117,7 @@ class PreviewController: UIViewController {
 
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 2
+        tap.numberOfTapsRequired = 1
         self.imgPreview.addGestureRecognizer(tap)
         // Preview Footer
         self.previewCollection.reloadData()

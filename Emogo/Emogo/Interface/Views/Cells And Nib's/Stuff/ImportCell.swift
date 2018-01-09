@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 import FLAnimatedImage
-
+import SDWebImage
 class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
@@ -61,17 +61,16 @@ class GridViewCell: UICollectionViewCell {
 class GiphyCell: UICollectionViewCell {
     
     @IBOutlet var imageView: FLAnimatedImageView!
-    @IBOutlet weak var imgSelect: UIImageView!
+    @IBOutlet weak var lblName: UILabel!
+    @IBOutlet weak var viewContent: UIView!
     
-    var thumbnailImage: FLAnimatedImage! {
-        didSet {
-            imageView.animatedImage = thumbnailImage
-        }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.animatedImage = nil
+    func prepareLayout(content:ContentDAO) {
+    self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+     lblName.text = content.name
+    imageView.sd_setShowActivityIndicatorView(true)
+    imageView.sd_setIndicatorStyle(.gray)
+    let url = URL(string:content.coverImage)
+    imageView.sd_setImage(with: url)
     }
 }
 

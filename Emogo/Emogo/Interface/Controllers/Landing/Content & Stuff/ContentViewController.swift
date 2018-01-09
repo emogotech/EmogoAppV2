@@ -67,7 +67,7 @@ class ContentViewController: UIViewController {
 
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 2
+        tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
         txtDescription.delegate = self
         self.updateContent()
