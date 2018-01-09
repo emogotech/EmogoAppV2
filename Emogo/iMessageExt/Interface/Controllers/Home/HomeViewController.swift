@@ -95,10 +95,8 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK:- prepareLayout
     @objc func prepareLayout() {
         
-        
         collectionStream.delegate = self
         collectionStream.dataSource = self
-        
         
         lblStreamSearch.font = lblPeopleSearch.font
         
@@ -223,11 +221,13 @@ class HomeViewController: MSMessagesAppViewController {
             self.perform(#selector(self.changeUIInBackground), with: nil, afterDelay: 0.8)
             if searchText.text == "" {
                 pagerContent.isHidden = false
-            }else{
+            }
+            else{
                 pagerContent.isHidden = true
             }
             btnFeature.tag = 1
-        }else{
+        }
+        else {
             if searchText.text != "" {
                 searchText.text = ""
                 self.viewCollections.isHidden = true
@@ -236,9 +236,7 @@ class HomeViewController: MSMessagesAppViewController {
                 btnSearchHeader.tag = 0
                 self.getStreamList(type: RefreshType.start, filter: streamType)
             }
-//            self.perform(#selector(self.changeUIInBackgroundCollapse), with: nil, afterDelay: 0.8)
             pagerContent.isHidden = true
-
             btnFeature.tag = 0
         }
         self.view.layoutIfNeeded()
@@ -277,7 +275,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.collectionStream.reloadData()
             }
             
-        }else if  self.isSearch == true && !isStreamEnable{
+        } else if  self.isSearch == true && !isStreamEnable{
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
                 
@@ -411,7 +409,7 @@ class HomeViewController: MSMessagesAppViewController {
                 btnFeature.tag = 1
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
-                 pagerContent.isHidden = false
+                pagerContent.isHidden = false
             }
         }
     }
@@ -455,7 +453,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     func expandPeopleHeight() {
         self.collectionStream.isHidden = true
-       
+        
         UIView.animate(withDuration: 0.7, animations: {
             self.heightStream?.isActive = true
             self.heightPeople?.isActive = false
@@ -463,7 +461,7 @@ class HomeViewController: MSMessagesAppViewController {
         }) { (finished) in
             self.isStreamEnable = false
             self.isSearch = true
-
+            
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
                 self.collectionStream.isHidden = false
@@ -475,14 +473,10 @@ class HomeViewController: MSMessagesAppViewController {
                 self.layout.minimumLineSpacing = 10
                 self.collectionStream!.collectionViewLayout = self.layout
                 self.collectionStream.reloadData()
-                
-                
             }
-            
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
                 self.lblNoResult.isHidden = false
             }
-           
         }
     }
     
@@ -495,10 +489,8 @@ class HomeViewController: MSMessagesAppViewController {
         }) { (finished) in
             self.isStreamEnable = true
             self.isSearch = true
-            
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
-                
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
                 
                 self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
@@ -507,20 +499,17 @@ class HomeViewController: MSMessagesAppViewController {
                 self.layout.minimumInteritemSpacing = 1
                 self.layout.minimumLineSpacing = 15
                 self.collectionStream!.collectionViewLayout = self.layout
-                
-                  self.collectionStream.reloadData()
+                self.collectionStream.reloadData()
             }
             if self.arrayStreams.count == 0 {
                 self.lblNoResult.isHidden = false
             }
-         
-          
         }
     }
     
     // MARK: - API Methods
     func getStreamList(type:RefreshType,filter:StreamType){
-        lblNoResult.text = "No Stream found"
+        lblNoResult.text = kAlert_No_Stream_found
         
         if(SharedData.sharedInstance.iMessageNavigation != ""){
             return
@@ -587,7 +576,7 @@ class HomeViewController: MSMessagesAppViewController {
                         self.hudView.stopLoaderWithAnimation()
                     }
                     self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
-                    self.lblNoResult.text = "No Stream found"
+                    self.lblNoResult.text = kAlert_No_Stream_found
                     self.lblNoResult.isHidden = false
                     SharedData.sharedInstance.iMessageNavigation = ""
                     SharedData.sharedInstance.streamContent?.ID = ""
@@ -598,7 +587,7 @@ class HomeViewController: MSMessagesAppViewController {
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)
                     SharedData.sharedInstance.iMessageNavigation = ""
                     SharedData.sharedInstance.streamContent?.ID = ""
-                    self.lblNoResult.text = "No Stream found"
+                    self.lblNoResult.text = kAlert_No_Stream_found
                     self.lblNoResult.isHidden = false
                     
                 }
@@ -612,7 +601,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func getUsersList(type:RefreshType){
-        lblNoResult.text = "No User found"
+        lblNoResult.text = kAlert_No_User_Record_Found
         if SharedData.sharedInstance.iMessageNavigation == "" {
             if Reachability.isNetworkAvailable() {
                 if type == .start {
@@ -642,7 +631,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
         
-        lblNoResult.text = "No User found"
+        lblNoResult.text = kAlert_No_User_Record_Found
         
         APIServiceManager.sharedInstance.apiForGlobalSearchPeople(searchString: searchText) { (values, errorMsg) in
             if self.hudView != nil {
@@ -663,7 +652,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func getStreamGlobleSearch(searchText:String, type:RefreshType){
-        lblNoResult.text = "No Stream found"
+        lblNoResult.text = kAlert_No_Stream_found
         
         if SharedData.sharedInstance.iMessageNavigation == "" {
             APIServiceManager.sharedInstance.apiForGetStreamListFromGlobleSearch(strSearch: searchText) { (values, errorMsg) in
@@ -678,8 +667,8 @@ class HomeViewController: MSMessagesAppViewController {
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.arrayStreams = values!
                 self.lblNoResult.isHidden = true
-                 self.viewCollections.isHidden = false
-               
+                self.viewCollections.isHidden = false
+                
                 self.streaminputDataType(type: type)
                 self.expandStreamHeight()
             }
@@ -756,7 +745,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             self.footerView = aFooterView
             return aFooterView
         } else {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CustomFooterView", for: indexPath)
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: iMsgSegue_CollectionReusable_Footer, for: indexPath)
             return headerView
         }
     }
@@ -1125,7 +1114,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "Emogo";
         urlComponents.host = "emogo"
-
+        
         // add params
         let fullName = URLQueryItem(name: "fullName", value: userInfo.fullName!)
         let phoneNumber = URLQueryItem(name: "phoneNumber", value: userInfo.phoneNumber!)
@@ -1193,4 +1182,3 @@ extension HomeViewController : UIScrollViewDelegate {
         }
     }
 }
-

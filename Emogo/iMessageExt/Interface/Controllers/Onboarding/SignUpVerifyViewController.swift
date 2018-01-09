@@ -100,10 +100,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         textField.resignFirstResponder()
         return true
     }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-    }
-    
+        
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
         self.txtVeryficationCode.resignFirstResponder()

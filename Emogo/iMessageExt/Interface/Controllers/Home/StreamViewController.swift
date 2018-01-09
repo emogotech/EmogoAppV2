@@ -23,6 +23,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnCollaborator      : UIButton!
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
+    @IBOutlet weak var btnExpandDesc            : UIButton!
     
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
@@ -59,7 +60,7 @@ class StreamViewController: MSMessagesAppViewController {
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
             imgGradient.isUserInteractionEnabled = false
         }
-        else{
+        else {
             imgGradient.isUserInteractionEnabled = true
         }
     }
@@ -70,7 +71,7 @@ class StreamViewController: MSMessagesAppViewController {
             self.dismiss(animated: false, completion: nil)
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }else{
-            self.getStream(type: "Direct")
+            self.getStream()
         }
     }
     
@@ -86,7 +87,7 @@ class StreamViewController: MSMessagesAppViewController {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         imgGuesture.addGestureRecognizer(tapRecognizer)
-
+        
         if currentStreamIndex == 0 {
             btnPreviousStream.isEnabled = false
         }
@@ -98,12 +99,10 @@ class StreamViewController: MSMessagesAppViewController {
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
         
         if SharedData.sharedInstance.iMessageNavigation != "" {
-            self.getStream(type: "Redirect")
+            self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         }
-        else {
-            self.getStream(type: "Direct")
-        }
-        
+        self.perform(#selector(getStream), with: nil, afterDelay: 0.01)
+        self.lblStreamDesc.numberOfLines = 2
     }
     
     @objc func setupLabelInCollaboratorButton() {
@@ -148,18 +147,15 @@ class StreamViewController: MSMessagesAppViewController {
             case UISwipeGestureRecognizerDirection.left:
                 if currentStreamIndex !=  arrStream.count-1 {
                     if Reachability.isNetworkAvailable() {
-                        
                         self.nextImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
                     }
                 }
                 break
-                
             case UISwipeGestureRecognizerDirection.right:
                 if currentStreamIndex != 0 {
                     if Reachability.isNetworkAvailable() {
-                        
                         self.previousImageLoad()
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
@@ -170,20 +166,25 @@ class StreamViewController: MSMessagesAppViewController {
             default:
                 break
             }
-        }else{
+        }
+        else {
             self.openFullView()
         }
     }
     
     // MARK: - Load Data in UI
     func loadViewForUI() {
-        self.imgStream.setImageWithURL(strImage: (self.objStream?.coverImage.trim())!, placeholder: "stream-card-placeholder")
+        self.imgStream.setImageWithURL(strImage: (self.objStream?.coverImage.trim())!, placeholder: kPlaceholderImage)
         self.lblStreamTitle.text = ""
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
-        self.lblStreamName.text = self.objStream?.title
-        self.lblStreamTitle.text = self.objStream?.title
-        self.lblStreamDesc.text = self.objStream?.description
+        
+        UIView.animate(withDuration: 0.0) {
+            self.lblStreamDesc.text = self.objStream?.description
+            self.lblStreamName.text = self.objStream?.title
+            self.lblStreamTitle.text = self.objStream?.title
+        }
+        
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
@@ -194,7 +195,8 @@ class StreamViewController: MSMessagesAppViewController {
             btnCollaborator.isUserInteractionEnabled = true
             lblCount.isHidden = false
             btnCollaborator.isHidden = false
-        }else{
+        }
+        else {
             btnCollaborator.isHidden = true
         }
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
@@ -224,12 +226,30 @@ class StreamViewController: MSMessagesAppViewController {
         nextImageLoad()
     }
     
+    @IBAction func btnCollapseExpand(_ sender:UIButton) {
+        if sender.tag == 0 {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.btnExpandDesc.transform = self.btnExpandDesc.transform.rotated(by: -CGFloat(Double.pi))
+                self.lblStreamDesc.numberOfLines = 4
+                sender.isSelected =  true
+                sender.tag = 1
+            })
+        }
+        else {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.btnExpandDesc.transform = self.btnExpandDesc.transform.rotated(by: -CGFloat(Double.pi))
+                sender.isSelected =  false
+                self.lblStreamDesc.numberOfLines = 2
+                sender.tag = 0
+            })
+        }
+    }
+    
     @IBAction func btnClose(_ sender:UIButton) {
         self.dismiss(animated: true, completion: nil)
         SharedData.sharedInstance.iMessageNavigation = ""
         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
     }
-    
     
     func nextImageLoad() {
         lblStreamTitle.text = ""
@@ -238,13 +258,15 @@ class StreamViewController: MSMessagesAppViewController {
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
         
-        imgStream.image = UIImage(named: "stream-card-placeholder")
+        imgStream.image = UIImage(named: kPlaceholderImage)
+        
         if(currentStreamIndex < arrStream.count-1) {
             currentStreamIndex = currentStreamIndex + 1
         }
+        
         btnEnableDisable()
         self.addRightTransitionImage(imgV: self.imgStream)
-        getStream(type: "Direct")
+        getStream()
     }
     
     func previousImageLoad() {
@@ -254,13 +276,13 @@ class StreamViewController: MSMessagesAppViewController {
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
         
-        imgStream.image = UIImage(named: "stream-card-placeholder")
+        imgStream.image = UIImage(named: kPlaceholderImage)
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
         btnEnableDisable()
         self.addLeftTransitionImage(imgV: self.imgStream)
-        getStream(type: "Direct")
+        getStream()
     }
     
     @IBAction func btnPreviousAction(_ sender:UIButton) {
@@ -268,7 +290,6 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
-        
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let streamID : String = (self.objStream?.streamID!)!
@@ -281,12 +302,11 @@ class StreamViewController: MSMessagesAppViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-        
     }
     
     @IBAction func btnShowCollaborator(_ sender:UIButton) {
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: "CollaboratorViewController") as! CollaboratorViewController
-        obj.strTitle = "Collaborator List"
+        let obj = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_Collaborator) as! CollaboratorViewController
+        obj.strTitle = kCollaobatorList
         obj.arrCollaborator = objStream?.arrayColab
         self.present(obj, animated: true, completion: nil)
     }
@@ -310,7 +330,6 @@ class StreamViewController: MSMessagesAppViewController {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
-            
             APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
                 if (errorMsg?.isEmpty)! {
                     self.arrStream.remove(at: self.currentStreamIndex)
@@ -323,7 +342,7 @@ class StreamViewController: MSMessagesAppViewController {
                     if(self.currentStreamIndex != 0){
                         self.currentStreamIndex = self.currentStreamIndex - 1
                     }
-                    self.getStream(type: "Direct")
+                    self.getStream()
                 } else {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
@@ -342,14 +361,14 @@ class StreamViewController: MSMessagesAppViewController {
         let arrayTemp = [self.objStream]
         for obj in arrayTemp {
             var image:LightboxImage!
-                if obj?.coverImage != nil {
-                    image = LightboxImage(image: imgStream.image!, text: lblStreamTitle.text!, videoURL: nil)
-                }else{
-                    let url = URL(string: (obj?.coverImage)!)
-                    if url != nil {
-                        image = LightboxImage(imageURL: url!, text: lblStreamTitle.text!, videoURL: nil)
-                    }
+            if obj?.coverImage != nil {
+                image = LightboxImage(image: imgStream.image!, text: lblStreamTitle.text!, videoURL: nil)
+            }else{
+                let url = URL(string: (obj?.coverImage)!)
+                if url != nil {
+                    image = LightboxImage(imageURL: url!, text: lblStreamTitle.text!, videoURL: nil)
                 }
+            }
             if image != nil {
                 arrayContents.append(image)
             }
@@ -366,94 +385,62 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     //MARK:- calling webservice
-    @objc func getStream(type:String) {
+    @objc func getStream() {
         if Reachability.isNetworkAvailable() {
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()
             }
             let stream = self.arrStream[currentStreamIndex]
-            if type == "Direct"{
-                APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
-                    if (errorMsg?.isEmpty)! {
-                        self.objStream = stream
-                        
-                        for _ in self.objStream!.arrayContent {
-                            let tempDict = NSMutableDictionary()
-                            let width : CGFloat = 0.1
-                            let heigh : CGFloat = 0.1
-                            tempDict.setObject(width, forKey: "width" as NSCopying)
-                            tempDict.setObject(heigh, forKey: "height" as NSCopying)
-                            self.getImageData.add(tempDict)
-                        }
-                        
-                        self.lblStreamDesc.text = self.objStream?.description.trim()
-                        if self.objStream!.arrayContent.count == 0 {
-                            self.lblNoContent.isHidden = false
-                        }else{
-                            self.lblNoContent.isHidden = true
-                        }
+            
+            APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                    self.objStream = stream
+                    if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
+                        let conntenData = self.objStream?.arrayContent
+                        var arrayTempStream  = [StreamDAO]()
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        self.arrStream = arrayTempStream
                         self.loadViewForUI()
-                       
-                        self.collectionStreams.reloadData()
-                        if self.hudView != nil {
-                            self.hudView.stopLoaderWithAnimation()
+                        var isNavigateContent = false
+                        for i in 0...(conntenData?.count)!-1 {
+                            let data : ContentDAO = conntenData![i]
+                            if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
+                                let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+                                obj.arrContentData = (self.objStream?.arrayContent)!
+                                obj.currentStreamID = self.objStream?.streamID!
+                                obj.currentContentIndex  = i
+                                obj.currentStreamTitle = self.objStream?.title
+                                self.present(obj, animated: false, completion: nil)
+                                isNavigateContent = true
+                                break
+                            }
                         }
+                        if !isNavigateContent {
+                            self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
+                        }
+                        
+                    }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
+                        var arrayTempStream  = [StreamDAO]()
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        self.arrStream = arrayTempStream
                     }
-                    else {
-                        self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                    
+                    if self.objStream!.arrayContent.count == 0 {
+                        self.lblNoContent.isHidden = false
+                    }else{
+                        self.lblNoContent.isHidden = true
+                    }
+                    
+                    self.loadViewForUI()
+                    self.collectionStreams.reloadData()
+                    if self.hudView != nil {
+                        self.hudView.stopLoaderWithAnimation()
                     }
                 }
-            } else {
-                APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
-                    if (errorMsg?.isEmpty)! {
-                        self.objStream = stream
-                        if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
-                            let conntenData = self.objStream?.arrayContent
-                            var arrayTempStream  = [StreamDAO]()
-                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
-                            self.arrStream = arrayTempStream
-                            self.loadViewForUI()
-                            var isNavigateContent = false
-                            for i in 0...(conntenData?.count)!-1 {
-                                let data : ContentDAO = conntenData![i]
-                                if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
-                                    let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
-                                    obj.arrContentData = (self.objStream?.arrayContent)!
-                                    obj.currentStreamID = self.objStream?.streamID!
-                                    obj.currentContentIndex  = i
-                                    obj.currentStreamTitle = self.objStream?.title
-                                    self.present(obj, animated: false, completion: nil)
-                                    isNavigateContent = true
-                                    break
-                                }
-                            }
-                            if !isNavigateContent {
-                                self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
-                            }
-                            
-                        }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
-                            var arrayTempStream  = [StreamDAO]()
-                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
-                            self.arrStream = arrayTempStream
-                        }
-                        
-                        if self.objStream!.arrayContent.count == 0 {
-                            self.lblNoContent.isHidden = false
-                        }else{
-                            self.lblNoContent.isHidden = true
-                        }
-                        
-                        self.loadViewForUI()
-                        self.collectionStreams.reloadData()
-                        if self.hudView != nil {
-                            self.hudView.stopLoaderWithAnimation()
-                        }
-                    }
-                    else if errorMsg == APIStatus.NotFound.rawValue{
-                        self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
-                    }else{
-                        self.showToastIMsg(type: .error, strMSG: errorMsg!)
-                    }
+                else if errorMsg == APIStatus.NotFound.rawValue{
+                    self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
+                }else{
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
         }
@@ -469,22 +456,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    //        let tempDict = self.getImageData.object(at: indexPath.row) as! NSMutableDictionary
-    //        let width : CGFloat = tempDict.object(forKey: "width") as! CGFloat
-    //        let height : CGFloat = tempDict.object(forKey: "height") as! CGFloat
-    //
-    //        if width > height
-    //        {
-    //           return CGSize(width: width, height: height)
-    //        }else if height > width
-    //        {
-    //             return CGSize(width: self.collectionStreams.frame.width, height: height/2)
-    //        }
-    //        return CGSize(width: width, height: height)
-    //    }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if objStream != nil {
             return objStream!.arrayContent.count
@@ -504,27 +476,6 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         
         cell.btnPlay.tag = indexPath.row
         cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
-        //        if content?.isAdd == false {
-        //            if content?.type == .image{
-        //                let imgUrlStr = content?.coverImage.trim()
-        //                let imgUrl = URL(string: (imgUrlStr?.stringByAddingPercentEncodingForURLQueryParameter())!)
-        //            cell.imgCover.sd_setImage(with: imgUrl, placeholderImage: UIImage(named: "csc")) { (img, error, SDImageCacheType, url) in
-        //                if(error==nil){
-        //                    UIView.animate(withDuration: 0.0, animations: {
-        //                        let width : CGFloat = (img?.size.width)!
-        //                        let heigh : CGFloat = (img?.size.height)!
-        //                        let tempDict = NSMutableDictionary()
-        //                        tempDict.setObject(width, forKey: "width" as NSCopying)
-        //                        tempDict.setObject(heigh, forKey: "height" as NSCopying)
-        //                        self.getImageData.replaceObject(at: indexPath.item, with: tempDict)
-        //                        self.collectionStreams.collectionViewLayout.invalidateLayout()
-        //                    }, completion: { (competed) in
-        //                    })
-        //                }
-        //            }
-        //            }
-        //        }
-        
         cell.prepareLayout(content:content!)
         return cell
     }
@@ -554,13 +505,15 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
-                }else{
+                }
+                else {
                     let url = URL(string: obj.coverImage)
                     if url != nil {
                         image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
                     }
                 }
-            }else if obj.type == .video {
+            }
+            else if obj.type == .video {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
                 }else {

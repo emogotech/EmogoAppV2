@@ -122,13 +122,13 @@ class ContentViewController: UIViewController {
         }else {
             if seletedImage.type == .image {
                 self.btnPlayIcon.isHidden = true
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImage, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: seletedImage.coverImage, placeholder: kPlaceholderImage)
             }else   if seletedImage.type == .video {
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
                 self.btnPlayIcon.isHidden = true
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: kPlaceholderImage)
             }
         }
         

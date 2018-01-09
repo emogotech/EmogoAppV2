@@ -29,13 +29,13 @@ class StreamCollectionViewCell: UICollectionViewCell {
             self.lblName.text = content.name.trim().capitalized
             
             if content.type == .image {
-                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
             }else if content.type == .video  {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = false
             }else  if content.type == .link {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
             }
         }

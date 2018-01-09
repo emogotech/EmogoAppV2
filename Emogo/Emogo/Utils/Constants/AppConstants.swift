@@ -47,6 +47,9 @@ let kFontMedium = "SF Pro Display Medium"
 let kFontLight = "SF Pro Display Light"
 let kFontBold = "SF Pro Display Bold"
 
+let kPlaceholderImage = "stream-card-placeholder"
+
+
 // MARK: - Storyboard Identifier
 let kStoryboardID_SignUpView = "signUpView"
 let kStoryboardID_SigninView = "signInView"
@@ -71,7 +74,7 @@ let kStoryboardID_ContentView = "contentView"
 let kStoryboardID_ProfileView = "profileView"
 let kStoryboardID_UserProfileView = "userProfileView"
 
-let iMsgSegue_Root                               = "MessagesViewController"
+let iMsgSegue_Root                              = "MessagesViewController"
 let iMsgSegue_SignIn                            = "SignInViewController"
 let iMsgSegue_SignUpName                        = "SignUpNameViewController"
 let iMsgSegue_SignUpMobile                      = "SignUpMobileViewController"
@@ -80,11 +83,15 @@ let iMsgSegue_SignUpSelected                    = "SignUpSelectedViewController"
 let iMsgSegue_Home                              = "HomeViewController"
 let iMsgSegue_Stream                            = "StreamViewController"
 let iMsgSegue_StreamContent                     = "StreamContentViewController"
+let iMsgSegue_Collaborator                      = "CollaboratorViewController"
+
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
 let iMsgSegue_HomeCollectionPeople        = "PeopleSearchCollectionViewCells"
+
+let iMsgSegue_CollectionReusable_Footer        = "CustomFooterView"
 
 
 // MARK: - Cell's  and NIB's Identifier
@@ -124,6 +131,7 @@ let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
 let kUserDefaltForContentData = "editContentData"
 let kSearchType = "PEOPLE"
+let kCollaobatorList = "Collaborator List"
 
 // MARK: -  Enums Alert
 enum AlertType: String {
@@ -249,8 +257,7 @@ let kAlert_waitProcess                                                  = "It ma
 
 let kAlert_contenAddedToStream                                          = "Content added successfully to Stream(s)."
 
+let kAlert_No_Stream_found                                          = "No Stream found"
 
-
-
-
+let kAlert_No_User_Record_Found                                          = "No User found"
 
