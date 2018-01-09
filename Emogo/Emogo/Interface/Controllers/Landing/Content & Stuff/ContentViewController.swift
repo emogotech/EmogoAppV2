@@ -216,18 +216,16 @@ class ContentViewController: UIViewController {
     }
     
     func composeMessage() -> MSMessage {
-        let session = MSSession()
-        let message = MSMessage(session: session)
-        let layout = MSMessageTemplateLayout()
-        
-        layout.caption = txtTitleImage.text!
-        layout.image  = imgCover.image
-        layout.subcaption = txtDescription.text
-        let content = ContentList.sharedInstance.arrayContent[currentIndex]
-        message.layout = layout
-        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
-        
-        return message
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }
+        else{
+            //  self.showToast(type: .error, strMSG: kAlert_Progress)
+        }
     }
     
     
@@ -530,3 +528,12 @@ extension ContentViewController:UITextViewDelegate {
         
     }
 }
+
+extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
+
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+
