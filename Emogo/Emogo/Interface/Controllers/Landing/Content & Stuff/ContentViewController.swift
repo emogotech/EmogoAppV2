@@ -36,6 +36,7 @@ class ContentViewController: UIViewController {
     let shapes = ShapeDAO()
     var isEdit:Bool!
     var isAddStream:Bool! = false
+   
 
     
     override func viewDidLoad() {
@@ -72,6 +73,8 @@ class ContentViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
         self.imgCover.addGestureRecognizer(tap)
+        
+        
         
         self.updateContent()
     }
@@ -214,10 +217,11 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
-        let composeVC = MFMessageComposeViewController()
         if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
             composeVC.recipients = []
             composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
         }
         else{
@@ -514,4 +518,11 @@ extension ContentViewController:UITextFieldDelegate {
         }
         return true
     }
+}
+
+extension ContentViewController : MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 }
