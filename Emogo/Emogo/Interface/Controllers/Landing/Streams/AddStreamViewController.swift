@@ -95,7 +95,6 @@ class AddStreamViewController: UITableViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
-        txtStreamCaption.text = ""
     }
     
     
@@ -525,7 +524,18 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         }
         return true
     }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if txtStreamCaption.text.trim() == "Stream Caption"{
+            txtStreamCaption.text = nil
+        }
+    }
     
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if txtStreamCaption.text.trim().isEmpty{
+            txtStreamCaption.text = "Stream Caption"
+        }
+    }
     
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -537,9 +547,8 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         return textView.text.length + (text.length - range.length) <= 250
 
     }
-    
-    
 }
+
 extension AddStreamViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
    
