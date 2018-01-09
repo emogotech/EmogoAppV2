@@ -204,18 +204,6 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
-        let composeVC = MFMessageComposeViewController()
-        if MFMessageComposeViewController.canSendAttachments(){
-            composeVC.recipients = []
-            composeVC.message = composeMessage()
-            self.present(composeVC, animated: true, completion: nil)
-        }
-        else{
-          //  self.showToast(type: .error, strMSG: kAlert_Progress)
-        }
-    }
-    
-    func composeMessage() -> MSMessage {
         if MFMessageComposeViewController.canSendAttachments(){
             let composeVC = MFMessageComposeViewController()
             composeVC.recipients = []
@@ -223,9 +211,21 @@ class ContentViewController: UIViewController {
             composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
         }
-        else{
-            //  self.showToast(type: .error, strMSG: kAlert_Progress)
-        }
+    }
+    
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = txtTitleImage.text!
+        layout.image  = imgCover.image
+        layout.subcaption = txtDescription.text
+        let content = ContentList.sharedInstance.arrayContent[currentIndex]
+        message.layout = layout
+        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
+        
+        return message
     }
     
     
