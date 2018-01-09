@@ -309,11 +309,6 @@ class MoveContentToStreamSerializer(ContentSerializer):
         streams = set(self.initial_data.get('streams'))
         streams = Stream.actives.filter(id__in=streams)
         if streams.exists():
-            for stream in streams:
-                if stream.created_by != self.context.user:
-                    collaborators = stream.collaborator_list.filter(phone_number=self.context.user.username, can_add_content=True)
-                    if (not collaborators.exists()) or (not stream.any_one_can_edit):
-                        raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
             self.initial_data['streams'] = streams
         else:
             raise serializers.ValidationError({'streams': messages.MSG_INVALID_ACCESS.format('streams')})
