@@ -187,9 +187,10 @@ class ViewStreamSerializer(StreamSerializer):
             return None
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image')
-        return ViewCollaboratorSerializer(obj.collaborator_list.filter(status='Active'),
-                                          many=True, fields=fields).data
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me')
+        instances = obj.collaborator_list(manager='actives').all()
+        return ViewCollaboratorSerializer(instances,
+                                          many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image')
