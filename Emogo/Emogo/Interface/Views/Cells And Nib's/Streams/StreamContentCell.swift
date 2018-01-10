@@ -38,6 +38,7 @@ class StreamContentCell: UICollectionViewCell {
                 self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
             }else {
+                self.btnPlay.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage:content.coverImage)
             }
         }
