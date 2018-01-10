@@ -48,6 +48,7 @@ let kLogoutAPI                                      = "logout/"
 let kCollaboratorAPI                                = "user_collaborators/"
 let kUserStreamAPI                                  = "user_streams/"
 let kGetAllLinksAPI                                 = "content/link_type/"
+let kReportAPI                                      = "extremist_report/"
 
 
 
