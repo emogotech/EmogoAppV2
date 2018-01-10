@@ -117,7 +117,8 @@ class AddCollaboratorsViewController: UIViewController {
             let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
             let collaborator = CollaboratorDAO(colabData: dict)
             if self.arraySelected != nil {
-                if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim()}))! {
+                if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim() && $0.addedByMe == true }))! {
+                    
                     collaborator.isSelected = true
                 }
             }

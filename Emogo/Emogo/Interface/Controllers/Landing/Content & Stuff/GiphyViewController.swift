@@ -8,12 +8,14 @@
 
 import UIKit
 import GiphyCoreSDK
-import FLAnimatedImage
 
 class GiphyViewController: UIViewController {
     @IBOutlet weak var giphyCollectionView: UICollectionView!
-    var arrayGiphy = [ContentDAO]()
-    var filteredArray = [ContentDAO]()
+    @IBOutlet weak var txtSearch: UITextField!
+
+    var arrayGiphy = [GiphyDAO]()
+    var filteredArray = [GiphyDAO]()
+    var isEditingEnable:Bool! = true
 
 
     override func viewDidLoad() {
@@ -27,6 +29,24 @@ class GiphyViewController: UIViewController {
     }
     
     func prepareLayout(){
+        
+        let layout = CHTCollectionViewWaterfallLayout()
+        
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.columnCount = 2
+        // Collection view attributes
+        self.giphyCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.giphyCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.giphyCollectionView.collectionViewLayout = layout
+        
+        txtSearch.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
+        
+
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.trending { (response, error) in
             
@@ -36,40 +56,87 @@ class GiphyViewController: UIViewController {
             }
             //let pagination = response.pagination
             if let response = response, let data = response.data {
+                self.arrayGiphy.removeAll()
                 for result in data {
-                    let content = ContentDAO(contentData: [:])
-                    content.coverImage = result.bitlyGifUrl
-                    content.name = result.title
-                    content.description = result.caption
-                    content.isUploaded = false
-                    self.arrayGiphy.append(content)
+                    var gip:GiphyDAO!
+                    
+                    if let obj = result.jsonRepresentation!["images"]{
+                        let dict:[String:Any] =  obj as! [String:Any]
+                        if let value = dict["fixed_width"] {
+                            print(value)
+                            gip = GiphyDAO(previewData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            
+                            if let nameDict = result.jsonRepresentation!["user"]{
+                                if let name = (nameDict as! [String:Any])["display_name"] {
+                                    gip.name = name as! String
+                                }
+                            }
+                            
+                        }
+                    }
+                    if gip != nil {
+                        self.arrayGiphy.append(gip)
+                    }
                 }
-                self.giphyCollectionView.reloadData()
+                DispatchQueue.main.async { // Correct
+                    self.giphyCollectionView.reloadData()
+                }
             } else {
                 print("No Results Found")
             }
         }
     }
+    
+    
+    @objc func textFieldDidChange(textfield:UITextField) {
+        if (textfield.text?.trim().length)! > 2 {
+            self.arrayGiphy.removeAll()
+            self.giphyCollectionView.reloadData()
+            self.searchGiphy(text: (textfield.text?.trim())!)
+        }else{
+            self.arrayGiphy.removeAll()
+            self.giphyCollectionView.reloadData()
+     }
+    }
+    
+    
 
     func searchGiphy(text:String) {
+        isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.search(text) { (response, error) in
-            
+            self.isEditingEnable = true
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)
             }
             //let pagination = response.pagination
             if let response = response, let data = response.data {
+                self.arrayGiphy.removeAll()
                 for result in data {
-                    let content = ContentDAO(contentData: [:])
-                    content.coverImage = result.bitlyGifUrl
-                    content.name = result.title
-                    content.description = result.caption
-                    content.isUploaded = false
-                    self.arrayGiphy.append(content)
+                    var gip:GiphyDAO!
+                    
+                    if let obj = result.jsonRepresentation!["images"]{
+                        let dict:[String:Any] =  obj as! [String:Any]
+                        if let value = dict["fixed_width"] {
+                            print(value)
+                            gip = GiphyDAO(previewData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            
+                            if let nameDict = result.jsonRepresentation!["user"]{
+                                if let name = (nameDict as! [String:Any])["display_name"] {
+                                    gip.name = name as! String
+                                }
+                            }
+                            
+                        }
+                    }
+                    if gip != nil {
+                        self.arrayGiphy.append(gip)
+                    }
                 }
-                self.giphyCollectionView.reloadData()
+                DispatchQueue.main.async { // Correct
+                    self.giphyCollectionView.reloadData()
+                }
             } else {
                 print("No Results Found")
             }
@@ -88,8 +155,13 @@ class GiphyViewController: UIViewController {
 }
 
 
-extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let item = self.arrayGiphy[indexPath.row]
+        return CGSize(width: item.width, height: item.hieght)
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return arrayGiphy.count
@@ -107,12 +179,10 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
-    }
     
+   
     
+    /*
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let cell = self.giphyCollectionView.cellForItem(at: indexPath) {
@@ -124,9 +194,10 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
 //            }else {
 //                (cell as! GiphyCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
 //            }
-            self.updateSelected(obj: content)
+           // self.updateSelected(obj: content)
         }
     }
+ */
     
     func updateSelected(obj:ContentDAO){
         
@@ -135,17 +206,15 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
 }
 
 extension GiphyViewController:UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let string1 = string
-        let string2 = textField.text
-        var finalString = ""
-        if string.count > 0 {
-            finalString = string2! + string1
-        }else if string2!.count > 0 {
-            finalString = String(string2!.dropLast())
-        }
-        self.searchGiphy(text: finalString)
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+       
+        return isEditingEnable
     }
 }
 

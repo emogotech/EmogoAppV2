@@ -55,7 +55,7 @@ class CameraViewController: SwiftyCamViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         print(isSessionRunning)
-    }
+ }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareContainerToPresent()
@@ -130,6 +130,12 @@ class CameraViewController: SwiftyCamViewController {
         if !kBackNav.isEmpty {
             kBackNav = ""
             self.navigationController?.popNormal()
+        }
+        
+        if ContentList.sharedInstance.arrayContent.count == 0 {
+            self.btnShutter.isHidden = true
+        }else {
+            self.btnShutter.isHidden = false
         }
     }
   
@@ -355,6 +361,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
         camera.type = .image
         camera.imgPreview = photo.fixOrientation()
         if  ContentList.sharedInstance.arrayContent.count == 0 {
+            self.btnShutter.isHidden = false
             self.viewUP()
         }
         camera.fileName = NSUUID().uuidString + ".png"
@@ -387,6 +394,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileUrl = url
             print(camera.fileName)
             if  ContentList.sharedInstance.arrayContent.count == 0 {
+                self.btnShutter.isHidden = false
                 self.viewUP()
             }
             ContentList.sharedInstance.arrayContent.insert(camera, at: 0)

@@ -17,7 +17,7 @@
 
 @implementation FLAnimatedImageView (WebCache)
 
-- (void)sd_setImageWithURL:(nullable NSURL *)url {
+- (void)sd_setImageWithURLs:(nullable NSURL *)url {
     [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
 }
 

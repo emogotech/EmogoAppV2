@@ -26,9 +26,10 @@ target 'Emogo' do
     pod 'Gallery'
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
-pod 'GiphyCoreSDK'
-pod 'SDWebImage/GIF'
-pod 'FLAnimatedImage'
+    pod 'GiphyCoreSDK'
+    pod 'SDWebImage/GIF'
+    pod 'FLAnimatedImage'
+
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

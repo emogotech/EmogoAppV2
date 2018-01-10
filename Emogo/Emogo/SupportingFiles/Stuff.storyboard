@@ -138,7 +138,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <outlet property="delegate" destination="fSe-wd-kBM" id="T4J-mR-TPu"/>
+                                            <outlet property="delegate" destination="i9d-lW-mBf" id="w0M-45-jdB"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VmL-8X-4PV">
@@ -226,9 +226,19 @@
                                     <outlet property="delegate" destination="i9d-lW-mBf" id="AiJ-61-WKC"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ti4-Yr-x4l">
+                                <rect key="frame" x="91" y="502" width="137" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="3QJ-p2-Ga1"/>
+                                    <constraint firstAttribute="width" constant="137" id="snf-NM-QBt"/>
+                                </constraints>
+                                <state key="normal" image="content_next_btn"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Msp-8m-IHK" firstAttribute="bottom" secondItem="ti4-Yr-x4l" secondAttribute="bottom" constant="21" id="7to-e2-wWA"/>
+                            <constraint firstItem="ti4-Yr-x4l" firstAttribute="centerX" secondItem="jmb-Ma-NO3" secondAttribute="centerX" id="K3y-Qt-7QR"/>
                             <constraint firstItem="hS3-Pw-TCj" firstAttribute="bottom" secondItem="Msp-8m-IHK" secondAttribute="bottom" id="Vvg-fU-gz1"/>
                             <constraint firstItem="iGV-ub-w5z" firstAttribute="leading" secondItem="Msp-8m-IHK" secondAttribute="leading" id="byY-xf-AKz"/>
                             <constraint firstItem="hS3-Pw-TCj" firstAttribute="trailing" secondItem="Msp-8m-IHK" secondAttribute="trailing" id="g0K-cN-nte"/>
@@ -653,9 +663,12 @@
                                     <constraint firstAttribute="trailing" secondItem="EtM-6m-P4y" secondAttribute="trailing" id="XW0-ha-O94"/>
                                 </constraints>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOo-pa-hQ8">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOo-pa-hQ8">
                                 <rect key="frame" x="116" y="225" width="88" height="88"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="Qpi-4v-udB"/>
+                                    <constraint firstAttribute="height" constant="88" id="kwc-S3-Stu"/>
+                                </constraints>
                                 <state key="normal" image="play_button"/>
                                 <connections>
                                     <action selector="btnPlayAction:" destination="MNQ-aF-Rr8" eventType="touchUpInside" id="o9K-70-Jlu"/>
@@ -669,6 +682,7 @@
                             <constraint firstItem="Zzu-3k-YvE" firstAttribute="top" secondItem="gBm-WB-fLJ" secondAttribute="top" constant="10" id="9eT-et-Mwt"/>
                             <constraint firstItem="Y0x-8p-6wy" firstAttribute="leading" secondItem="0n0-nq-TIR" secondAttribute="leading" id="DWL-FY-VJa"/>
                             <constraint firstItem="aaS-iJ-os4" firstAttribute="trailing" secondItem="0n0-nq-TIR" secondAttribute="trailing" id="Ef3-nq-hh2"/>
+                            <constraint firstItem="mOo-pa-hQ8" firstAttribute="centerY" secondItem="aaS-iJ-os4" secondAttribute="centerY" id="F1J-GY-VHG"/>
                             <constraint firstItem="w8s-UM-VAx" firstAttribute="top" secondItem="JJx-8h-uew" secondAttribute="bottom" id="JXD-bX-ghw"/>
                             <constraint firstItem="Zzu-3k-YvE" firstAttribute="trailing" secondItem="0n0-nq-TIR" secondAttribute="trailing" id="KyW-Mb-53I"/>
                             <constraint firstItem="w8s-UM-VAx" firstAttribute="leading" secondItem="0n0-nq-TIR" secondAttribute="leading" id="LoX-Pb-GdA"/>
@@ -677,6 +691,7 @@
                             <constraint firstItem="w8s-UM-VAx" firstAttribute="top" secondItem="aaS-iJ-os4" secondAttribute="bottom" id="lhx-Ja-lPy"/>
                             <constraint firstItem="JJx-8h-uew" firstAttribute="leading" secondItem="0n0-nq-TIR" secondAttribute="leading" id="tBc-NO-wlO"/>
                             <constraint firstItem="aaS-iJ-os4" firstAttribute="leading" secondItem="0n0-nq-TIR" secondAttribute="leading" id="x2h-wN-Lzv"/>
+                            <constraint firstItem="mOo-pa-hQ8" firstAttribute="centerX" secondItem="aaS-iJ-os4" secondAttribute="centerX" id="xyP-lk-Ixd"/>
                             <constraint firstItem="aaS-iJ-os4" firstAttribute="top" secondItem="gBm-WB-fLJ" secondAttribute="top" id="y6u-g0-Lls"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0n0-nq-TIR"/>

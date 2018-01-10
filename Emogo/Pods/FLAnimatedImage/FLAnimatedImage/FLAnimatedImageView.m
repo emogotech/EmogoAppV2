@@ -11,7 +11,6 @@
 #import "FLAnimatedImage.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 #if defined(DEBUG) && DEBUG
 @protocol FLAnimatedImageViewDebugDelegate <NSObject>
 @optional
@@ -235,6 +234,7 @@
     
     super.image = image;
 }
+
 
 
 #pragma mark Animating Images

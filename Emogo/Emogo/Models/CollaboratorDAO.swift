@@ -16,6 +16,9 @@ class CollaboratorDAO {
     var phone:String! = ""
     var canAddContent:Bool! = false
     var canAddPeople:Bool! = false
+    var userID:String! = ""
+    var addedByMe:Bool! = false
+
 
     init(colabData:[String:Any]) {
         if let obj = colabData["id"] {
@@ -36,8 +39,12 @@ class CollaboratorDAO {
         if let obj = colabData["can_add_people"] {
             self.canAddPeople = obj as! Bool
         }
-       
-       
+        if let obj = colabData["user_profile_id"] {
+            self.userID = "\(obj)"
+        }
+        if let obj = colabData["added_by_me"] {
+            self.addedByMe = obj as! Bool
+        }
     }
     
 }

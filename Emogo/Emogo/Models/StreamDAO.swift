@@ -153,7 +153,7 @@ class StreamViewDAO{
             print(objColab)
             for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
-                colab.isSelected = true
+                colab.isSelected = colab.addedByMe
                 self.arrayColab.append(colab)
             }
         }

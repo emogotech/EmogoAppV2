@@ -256,6 +256,8 @@
 		F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */; };
 		F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */; };
 		F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */; };
+		F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B42982004D964006DD15D /* GiphyDAO.swift */; };
+		F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B42982004D964006DD15D /* GiphyDAO.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
@@ -575,6 +577,7 @@
 		F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleListViewController.swift; sourceTree = "<group>"; };
 		F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDAO.swift; sourceTree = "<group>"; };
 		F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCell.swift; sourceTree = "<group>"; };
+		F49B42982004D964006DD15D /* GiphyDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyDAO.swift; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
@@ -1454,6 +1457,7 @@
 				F44FFC9F1FD0396E00F14469 /* ShapeDAO.swift */,
 				F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */,
 				F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */,
+				F49B42982004D964006DD15D /* GiphyDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2229,6 +2233,7 @@
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
 				F4B9F24C1FEB8D7F009D7492 /* Toucan.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
+				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
@@ -2333,6 +2338,7 @@
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
+				F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,

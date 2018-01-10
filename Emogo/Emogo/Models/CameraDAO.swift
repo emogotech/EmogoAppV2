@@ -16,6 +16,7 @@ enum PreviewType:String{
     case image = "Picture"
     case video = "Video"
     case link = "Link"
+    case gif = "gif"
 }
 
 
