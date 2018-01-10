@@ -72,8 +72,7 @@ class ViewProfileViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.profileCollectionView.es.stopLoadingMore()
-                self.profileCollectionView.es.removeRefreshFooter()
+                self.profileCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
