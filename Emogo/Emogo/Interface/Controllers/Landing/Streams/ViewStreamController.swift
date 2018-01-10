@@ -156,11 +156,19 @@ class ViewStreamController: UIViewController {
         let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
+            
+            APIServiceManager.sharedInstance.apiForSendReport(type: kAlertSheet_Inappropiate, user: "", stream: "\(self.objStream?.streamID!)", content: "", completionHandler: { (isSuccess, error) in
+                
+            })
+            
         })
         
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
         {
             (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kAlert_Cancel_Title, user: "", stream: "\(self.objStream?.streamID!)", content: "", completionHandler: { (isSuccess, error) in
+                
+            })
         })
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(saveAction)

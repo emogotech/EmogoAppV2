@@ -927,4 +927,20 @@ class APIServiceManager: NSObject {
         
     }
     
+    func apiForSendReport( type:String, user:String, stream: String, content : String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let param = ["type":type,"user":user,"stream":stream,"content":content]
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReportAPI, Param: param) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                completionHandler(true,"success")
+                break
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+                break
+            }
+        }
+    }
+    
 }

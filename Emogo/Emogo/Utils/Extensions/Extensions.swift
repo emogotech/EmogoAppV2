@@ -312,9 +312,9 @@ extension UIViewController {
 //        var fontFamilies = UIFont.familyNames
 //        for i in 0..<fontFamilies.count {
 //            let fontFamily: String = fontFamilies[i]
-//            let fontNames = UIFont.fontNames(forFamilyName: fontFamilies[i])
-//            print("\(fontFamily): \(fontNames)")
-//        }
+    //            let fontNames = UIFont.fontNames(forFamilyName: fontFamilies[i])
+    //            print("\(fontFamily): \(fontNames)")
+    //        }
         var myAttribute2:[NSAttributedStringKey:Any]!
         if let font = UIFont(name: kFontBold, size: 20.0) {
              myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
