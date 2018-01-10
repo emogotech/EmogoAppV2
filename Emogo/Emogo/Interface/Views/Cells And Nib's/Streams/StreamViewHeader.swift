@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol StreamViewHeaderDelegate {
+    func showPreview()
+}
+
 class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnDropDown: UIButton!
     @IBOutlet weak var lblName: UILabel!
@@ -17,6 +21,7 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
+    var delegate:StreamViewHeaderDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()

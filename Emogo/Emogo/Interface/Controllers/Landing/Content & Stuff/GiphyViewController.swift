@@ -125,11 +125,11 @@ class GiphyViewController: UIViewController {
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.search(text) { (response, error) in
-            HUDManager.sharedInstance.hideHUD()
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)
             }
+            HUDManager.sharedInstance.hideHUD()
             //let pagination = response.pagination
             if let response = response, let data = response.data {
                 self.arrayGiphy.removeAll()
@@ -137,9 +137,9 @@ class GiphyViewController: UIViewController {
                     var gip:GiphyDAO!
                     
                     if let obj = result.jsonRepresentation!["images"]{
+                        print(obj)
                         let dict:[String:Any] =  obj as! [String:Any]
                         if let value = dict["fixed_width"] {
-                            print(value)
                             gip = GiphyDAO(previewData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                             
                             if let nameDict = result.jsonRepresentation!["user"]{
@@ -243,7 +243,6 @@ extension GiphyViewController:UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-       
         return isEditingEnable
     }
 }
