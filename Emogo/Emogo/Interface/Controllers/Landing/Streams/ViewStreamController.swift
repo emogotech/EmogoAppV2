@@ -117,6 +117,9 @@ class ViewStreamController: UIViewController {
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
+        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "content_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        self.navigationItem.rightBarButtonItem = btnRightBar
+        
 //
 //        AWSRequestManager.sharedInstance.updateSuccessHandler = { _ in
 ////            if self.isRefresh == true {
@@ -139,6 +142,28 @@ class ViewStreamController: UIViewController {
     }
     
     
+    @objc func showReportList(){
+        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
     
     // MARK: -  Action Methods And Selector
     @objc func deleteStreamAction(sender:UIButton){
