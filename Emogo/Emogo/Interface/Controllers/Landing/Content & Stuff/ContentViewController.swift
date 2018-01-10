@@ -195,7 +195,8 @@ class ContentViewController: UIViewController {
         }
         
         // image aspect ratio----
-        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.contentMode = .scaleAspectFill
+
     }
     
 
