@@ -56,14 +56,16 @@ class LinkViewController: UIViewController {
     @IBAction func btnConfirmActiion(_ sender: Any) {
         if Validator.verifyUrl(urlString: txtLink.text!) {
             let articleUrl = URL(string: txtLink.text!)
+            HUDManager.sharedInstance.showHUD()
             Readability.parse(url: articleUrl!, completion: { data in
                 print(data)
+                HUDManager.sharedInstance.hideHUD()
                 if data != nil {
                     let title = data?.title
                     let description = data?.description
-                    let keywords = data?.keywords
+                    _ = data?.keywords
                     let imageUrl = data?.topImage
-                    let videoUrl = data?.topVideo
+                    _ = data?.topVideo
                    
                     let content = ContentDAO(contentData: [:])
                     if let title = title {

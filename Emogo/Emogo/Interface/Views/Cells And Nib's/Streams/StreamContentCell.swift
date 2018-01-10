@@ -16,6 +16,13 @@ class StreamContentCell: UICollectionViewCell {
     @IBOutlet weak var viewCard: CardView!
     @IBOutlet weak var imgAdd: UIImageView!
 
+    
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imgCover.image = nil
+    }
+    
     func prepareLayout(content:ContentDAO){
          self.imgCover.contentMode = .scaleAspectFill
         if content.isAdd == true {

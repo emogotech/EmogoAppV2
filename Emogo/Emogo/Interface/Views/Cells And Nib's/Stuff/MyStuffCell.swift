@@ -15,6 +15,8 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
+    
+   
 
     func prepareLayout(content:ContentDAO?){
         guard let content = content  else {
