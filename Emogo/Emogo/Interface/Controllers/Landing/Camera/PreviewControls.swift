@@ -21,6 +21,9 @@ extension PreviewController {
     }
     
    @objc func openFullView(){
+    if self.seletedImage.type == .gif {
+        return
+    }
     if seletedImage.type == .link {
         guard let url = URL(string: seletedImage.coverImage) else {
             return //be safe

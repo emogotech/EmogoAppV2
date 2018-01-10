@@ -105,12 +105,20 @@ class PreviewController: UIViewController {
             if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
             }else {
-                self.btnEdit.isHidden = false
+                if self.seletedImage.type == .image {
+                    self.btnEdit.isHidden = false
+                }else{
+                    self.btnEdit.isHidden = true
+                }
             }
             if self.seletedImage.isDelete == false {
                 self.btnEdit.isHidden = true
             }else {
-                self.btnEdit.isHidden = false
+                if self.seletedImage.type == .image {
+                    self.btnEdit.isHidden = false
+                }else{
+                    self.btnEdit.isHidden = true
+                }
             }
         }
         
@@ -154,10 +162,13 @@ class PreviewController: UIViewController {
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
+            self.btnEdit.isHidden = false
         }else if seletedImage.type == .video {
             self.btnPlayIcon.isHidden = false
+            self.btnEdit.isHidden = true
         }else {
             self.btnPlayIcon.isHidden = true
+            self.btnEdit.isHidden = true
         }
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
@@ -175,7 +186,11 @@ class PreviewController: UIViewController {
             if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
             }else {
-                self.btnEdit.isHidden = false
+                if self.seletedImage.type == .image {
+                    self.btnEdit.isHidden = false
+                }else{
+                    self.btnEdit.isHidden = true
+                }
             }
             if self.seletedImage.isDelete == false {
                 self.btnDelete.isHidden = true

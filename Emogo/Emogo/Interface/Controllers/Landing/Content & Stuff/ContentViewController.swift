@@ -21,6 +21,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPlayIcon: UIButton!
+    @IBOutlet weak var btnFlagIcon: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnAddToStream: UIButton!
@@ -108,8 +109,10 @@ class ContentViewController: UIViewController {
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
+            self.btnEdit.isHidden     = false
         }else {
             self.btnPlayIcon.isHidden = false
+            self.btnEdit.isHidden     = true
         }
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -133,12 +136,21 @@ class ContentViewController: UIViewController {
             self.btnDone.isHidden = true
             self.txtTitleImage.isHidden = true
             self.txtDescription.isHidden = true
+            self.btnFlagIcon.isHidden = false
         }else {
             self.btnEdit.isHidden = false
             self.btnDone.isHidden = false
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
+            self.btnFlagIcon.isHidden = false
         }
+        
+        if self.seletedImage.type == .image {
+            self.btnEdit.isHidden = false
+        }else{
+            self.btnEdit.isHidden = true
+        }
+        
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true
         }else {
@@ -171,6 +183,9 @@ class ContentViewController: UIViewController {
             }
             SharedData.sharedInstance.deepLinkType = ""
         }
+        
+        // image aspect ratio----
+        self.imgCover.contentMode = .scaleAspectFit
     }
     
 
@@ -182,7 +197,28 @@ class ContentViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     
-    
+    @IBAction func btnShowReportListAction(_ sender: Any){
+        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
     @IBAction func btnBackAction(_ sender: Any) {
         self.navigationController?.popNormal()
     }
@@ -336,6 +372,9 @@ class ContentViewController: UIViewController {
     
     
     @objc func openFullView(){
+        if self.seletedImage.type == .gif {
+            return
+        }
         if seletedImage.type == .link {
             guard let url = URL(string: seletedImage.coverImage) else {
                 return //be safe
@@ -346,6 +385,7 @@ class ContentViewController: UIViewController {
         var arrayContents = [LightboxImage]()
         var index:Int! = 0
         var arrayTemp = [ContentDAO]()
+    
         if isEdit == nil {
             index = self.currentIndex
             arrayTemp = ContentList.sharedInstance.arrayContent

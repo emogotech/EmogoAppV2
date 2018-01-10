@@ -186,6 +186,12 @@ let kPlaceHolder_Text_Mobile                   = "Your number here"
 let kPlaceHolderText_Sign_Up_Name               = "Your text here"
 let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 
+
+//Action sheet constant
+let kAlertSheet_Spam = "It's spam"
+let kAlertSheet_Inappropiate = "It's inappropiate"
+
+
 //Notification Name`
 let kNotification_Manage_Request_Style_Expand          = "manageRequestStyleExpand"
 let kNotification_Manage_Request_Style_Compact       = "manageRequestStyleExpand"
