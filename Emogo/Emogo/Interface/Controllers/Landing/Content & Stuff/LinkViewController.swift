@@ -83,6 +83,7 @@ class LinkViewController: UIViewController {
             })
         }else{
             print("Invalid")
+            self.parent?.showToast(strMSG: "Enter valid url.")
         }
     }
     

@@ -50,7 +50,6 @@ class GiphyViewController: UIViewController {
     }
     
     @objc func textFieldDidChange(textfield:UITextField) {
-        isEditingEnable = true
         if (textfield.text?.trim().length)! > 2 {
             self.arrayGiphy.removeAll()
             self.giphyCollectionView.reloadData()
@@ -139,7 +138,7 @@ class GiphyViewController: UIViewController {
             DispatchQueue.main.async { // Correct
                 HUDManager.sharedInstance.hideHUD()
             }
-            
+            self.isEditingEnable = true
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)

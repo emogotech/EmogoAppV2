@@ -539,7 +539,6 @@ class APIServiceManager: NSObject {
     }
     
     
-    
     // MARK: - Content List API
     
     func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
@@ -646,7 +645,6 @@ class APIServiceManager: NSObject {
         }
     }
     
-    
     // MARK: - Add  Content To Stream API
     
     func apiForContentAddOnStream(contentID:[String],streams:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void) {
@@ -671,7 +669,6 @@ class APIServiceManager: NSObject {
                 completionHandler(nil,error.localizedDescription)
             }
         }
-        
     }
     
     func apiForGetLink(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
