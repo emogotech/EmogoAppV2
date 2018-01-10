@@ -173,7 +173,7 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
         }else {
-            if seletedImage.type == .image || seletedImage.type == .gif {
+            if seletedImage.type == .image  {
         
         self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
             }else {
@@ -181,7 +181,7 @@ class PreviewController: UIViewController {
 
             }
         }
-        
+    
         if seletedImage.isUploaded {
             if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
