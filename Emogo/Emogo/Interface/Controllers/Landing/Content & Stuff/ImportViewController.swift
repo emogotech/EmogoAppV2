@@ -18,7 +18,7 @@ private extension UICollectionView {
     }
 }
 
-class ImportViewController: UICollectionViewController {
+class ImportViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
     
     var fetchResult: PHFetchResult<PHAsset>!
     
@@ -166,6 +166,7 @@ class ImportViewController: UICollectionViewController {
         }
     }
     
+    
     func updateAssest(obj:ImportDAO){
         
         if arrayAssests!.contains(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
@@ -200,6 +201,14 @@ class ImportViewController: UICollectionViewController {
 //               }
     }
     
+    //MARK:- CollectionView Layout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 5, 5, 5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
     
     // MARK: UIScrollView
     

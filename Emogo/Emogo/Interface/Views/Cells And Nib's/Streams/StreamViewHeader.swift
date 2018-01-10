@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol StreamViewHeaderDelegate {
+    func showPreview()
+}
+
 class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnDropDown: UIButton!
     @IBOutlet weak var lblName: UILabel!
@@ -17,11 +21,14 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
+    var delegate:StreamViewHeaderDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        imgCover.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
+        self.imgCover.addGestureRecognizer(tap)
     }
     
     func prepareLayout(stream:StreamViewDAO?){
@@ -66,7 +73,13 @@ class StreamViewHeader: UICollectionViewCell {
             self.lblDescription.numberOfLines = 1
             self.lblDescription.sizeToFit()
         }
-        
       }
     
+    @objc func showPreview(){
+        
+        if self.delegate != nil {
+            delegate?.showPreview()
+        }
+    }
+
 }

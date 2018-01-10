@@ -20,6 +20,7 @@ class ViewStreamController: UIViewController {
     var objStream:StreamViewDAO?
     var currentIndex:Int!
     var viewStream:String?
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -96,6 +97,9 @@ class ViewStreamController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
+        
+        self.updateLayOut()
+
        
     }
     
@@ -138,7 +142,6 @@ class ViewStreamController: UIViewController {
             }
         }
         
-        self.updateLayOut()
     }
     
     
@@ -298,10 +301,25 @@ class ViewStreamController: UIViewController {
     
    
     
-    func openFullView(index:Int){
-            var arrayContents = [LightboxImage]()
-        let array = objStream?.arrayContent.filter { $0.isAdd == false }
-        for obj in array! {
+    func openFullView(index:Int?){
+        var arrayContents = [LightboxImage]()
+
+        if index == nil {
+            
+            let url = URL(string: (self.objStream?.coverImage)!)
+            if url != nil {
+                let image = LightboxImage(imageURL: url!, text:(self.objStream?.title)!, videoURL: nil)
+                arrayContents.append(image)
+                let controller = LightboxController(images: arrayContents, startIndex:0)
+                controller.dynamicBackground = true
+                if arrayContents.count != 0 {
+                    present(controller, animated: true, completion: nil)
+                }
+            }
+            return
+        }else {
+            let array = objStream?.arrayContent.filter { $0.isAdd == false }
+            for obj in array! {
                 var image:LightboxImage!
                 if obj.type == .image {
                     if obj.imgPreview != nil {
@@ -325,12 +343,24 @@ class ViewStreamController: UIViewController {
                     arrayContents.append(image)
                 }
             }
-            
-            let controller = LightboxController(images: arrayContents, startIndex: index - 1)
-            controller.dynamicBackground = true
-        if arrayContents.count != 0 {
-            present(controller, animated: true, completion: nil)
         }
+        
+    
+      
+        if (self.objStream?.canAddContent)! {
+            let controller = LightboxController(images: arrayContents, startIndex: index! - 1)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
+        }else {
+            let controller = LightboxController(images: arrayContents, startIndex: index!)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
+        }
+        
     }
     
 
@@ -426,6 +456,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             view.prepareLayout(stream:self.objStream)
 //            view.btnDropDown.tag = indexPath.section
             view.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
+            view.delegate = self
             return view
         default:
             assert(false, "Unexpected element kind")
@@ -461,4 +492,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         }
     }
     
+}
+
+extension ViewStreamController:StreamViewHeaderDelegate {
+    func showPreview() {
+        self.openFullView(index: nil)
+    }
 }

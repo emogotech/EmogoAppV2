@@ -356,7 +356,7 @@ class ProfileViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.profileCollectionView.es.stopLoadingMore()
+                self.profileCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -383,7 +383,7 @@ class ProfileViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.profileCollectionView.es.stopLoadingMore()
+                self.profileCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -409,7 +409,7 @@ class ProfileViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.profileCollectionView.es.stopLoadingMore()
+                self.profileCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()

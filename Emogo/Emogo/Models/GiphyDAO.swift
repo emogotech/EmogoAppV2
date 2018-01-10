@@ -17,7 +17,8 @@ class GiphyDAO {
     var hieght                 :Int! = 0
     var url                    :String! = ""
     var isSelected             :Bool! = false
-    
+    var originalUrl            :String! = ""
+
     init(previewData:[String:Any]) {
         
         if let obj = previewData["url"] {

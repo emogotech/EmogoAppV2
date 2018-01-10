@@ -543,7 +543,7 @@ class APIServiceManager: NSObject {
     // MARK: - Content List API
     
     func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
-        if type == .start{
+        if type == .start || type == .up{
             ContentList.sharedInstance.requestURl = kContentAPI
         }
         if ContentList.sharedInstance.requestURl.trim().isEmpty {

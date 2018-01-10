@@ -127,7 +127,7 @@ class ContentViewController: UIViewController {
                 self.btnPlayIcon.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
             }else {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
             }
         }
         
@@ -183,6 +183,9 @@ class ContentViewController: UIViewController {
             }
             SharedData.sharedInstance.deepLinkType = ""
         }
+        
+        // image aspect ratio----
+        self.imgCover.contentMode = .scaleAspectFit
     }
     
 
@@ -380,6 +383,9 @@ class ContentViewController: UIViewController {
     
     
     @objc func openFullView(){
+        if self.seletedImage.type == .gif {
+            return
+        }
         if seletedImage.type == .link {
             guard let url = URL(string: seletedImage.coverImage) else {
                 return //be safe
@@ -390,6 +396,7 @@ class ContentViewController: UIViewController {
         var arrayContents = [LightboxImage]()
         var index:Int! = 0
         var arrayTemp = [ContentDAO]()
+    
         if isEdit == nil {
             index = self.currentIndex
             arrayTemp = ContentList.sharedInstance.arrayContent
