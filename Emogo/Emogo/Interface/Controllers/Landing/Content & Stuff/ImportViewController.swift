@@ -18,7 +18,7 @@ private extension UICollectionView {
     }
 }
 
-class ImportViewController: UICollectionViewController {
+class ImportViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
     
     var fetchResult: PHFetchResult<PHAsset>!
     
@@ -29,6 +29,15 @@ class ImportViewController: UICollectionViewController {
     var arraySelected = [ImportDAO]()
     
     // MARK: UIViewController / Lifecycle
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 0, 5, 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20   
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -165,6 +174,7 @@ class ImportViewController: UICollectionViewController {
             self.updateAssest(obj: imp)
         }
     }
+    
     
     func updateAssest(obj:ImportDAO){
         
