@@ -82,25 +82,27 @@ class ContentViewController: UIViewController {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
         txtDescription.text = "Description"
-
+        
+        
+        
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
         }
-      
+        
         
         /*
-        if  self.seletedImage.isUploaded {
-            self.txtTitleImage.isHidden = true
-            self.txtDescription.isHidden = true
-            self.lblTitleMessage.isHidden = false
-            self.lblDescription.isHidden = false
-        }  else {
-            self.txtTitleImage.isHidden = false
-            self.txtDescription.isHidden = false
-            self.lblTitleMessage.isHidden = true
-            self.lblDescription.isHidden = true
-        }
- */
+         if  self.seletedImage.isUploaded {
+         self.txtTitleImage.isHidden = true
+         self.txtDescription.isHidden = true
+         self.lblTitleMessage.isHidden = false
+         self.lblDescription.isHidden = false
+         }  else {
+         self.txtTitleImage.isHidden = false
+         self.txtDescription.isHidden = false
+         self.lblTitleMessage.isHidden = true
+         self.lblDescription.isHidden = true
+         }
+         */
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
         }
@@ -142,7 +144,7 @@ class ContentViewController: UIViewController {
             self.btnDone.isHidden = false
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
-            self.btnFlagIcon.isHidden = false
+            self.btnFlagIcon.isHidden = true
         }
         
         if self.seletedImage.type == .image {
@@ -157,20 +159,20 @@ class ContentViewController: UIViewController {
             self.btnDelete.isHidden = false
         }
         isAddStream = self.seletedImage.isShowAddStream
-      if self.isAddStream {
+        if self.isAddStream {
             btnAddToStream.isHidden = false
-      }else {
-        btnAddToStream.isHidden = true
+        }else {
+            btnAddToStream.isHidden = true
         }
         
         if self.seletedImage.isShowAddStream == false && self.seletedImage.isEdit == false {
-        kHeight.constant = 0.0
+            kHeight.constant = 0.0
             self.viewOption.isHidden = true
         }else {
             kHeight.constant = 30.0
             self.viewOption.isHidden = false
         }
-      
+        
         if SharedData.sharedInstance.deepLinkType != "" {
             if self.seletedImage.imgPreview == nil {
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
@@ -182,6 +184,14 @@ class ContentViewController: UIViewController {
                 self.openEditor(image:seletedImage.imgPreview!)
             }
             SharedData.sharedInstance.deepLinkType = ""
+        }
+        
+        if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.btnFlagIcon.isHidden = true
+            self.btnEdit.isHidden = false
+        }else{
+            self.btnFlagIcon.isHidden = false
+            self.btnEdit.isHidden = true
         }
         
         // image aspect ratio----
@@ -198,31 +208,35 @@ class ContentViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     @IBAction func btnShowReportListAction(_ sender: Any){
-        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
+                
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
+                }
+            })
         })
+        
         
         let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlertSheet_Inappropiate, user: "", stream: "", content: "\(self.seletedImage.contentID)", completionHandler: { (isSuccess, error) in
-                
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: "", content: self.seletedImage.contentID!, completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Content)
+                }
             })
-            
-            
-                    })
+        })
         
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
         {
             (alert: UIAlertAction!) -> Void in
             
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlert_Cancel_Title, user: "", stream: "", content: "\(self.seletedImage.contentID)", completionHandler: { (isSuccess, error) in
-                
-            })
+            
         })
         
         optionMenu.addAction(deleteAction)
@@ -230,6 +244,7 @@ class ContentViewController: UIViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
+    
     @IBAction func btnBackAction(_ sender: Any) {
         self.navigationController?.popNormal()
     }

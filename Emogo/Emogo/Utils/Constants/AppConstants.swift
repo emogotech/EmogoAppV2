@@ -7,7 +7,7 @@
 //
 
 /*
-Constants Used in Enier App
+ Constants Used in Enier App
  */
 
 import Foundation
@@ -226,6 +226,7 @@ let kAlert_Title                                                         = "Aler
 let kAlert_Title_Confirmation                                            = "Confirmation!"
 let kAlert_Confirmation_Button_Title                                      = "Continue"
 let kAlert_Cancel_Title                                                  = "Cancel"
+let kAlert_Title_ActionSheet                                                  =     "Report"
 let kAlert_Select_Time                                                   = "Select Time"
 let kAlertTitle_Emogo                                                   = "Emogo"
 let kAlertTitle_Yes = "YES"
@@ -268,7 +269,14 @@ let kAlert_waitProcess                                                  = "It ma
 let kAlert_contenAddedToStream                                          = "Content added successfully to Stream(s)."
 let kAlert_contentSelect                                          = "Select Stuff to proceed."
 
+let kAlert_Success_Report_User = "You have been reported this User successfully."
+let kAlert_Success_Report_Stream = "You have been reported this Stream successfully."
+let kAlert_Success_Report_Content = "You have been reported this Content successfully."
 
+
+
+let kName_Report_Inappropriate = "Inappropriate"
+let kName_Report_Spam = "Spam"
 let kAlert_No_Stream_found                                          = "No Stream found"
 
 let kAlert_No_User_Record_Found                                          = "No User found"

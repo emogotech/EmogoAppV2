@@ -419,7 +419,7 @@ class APIServiceManager: NSObject {
                     completionHandler(nil,"\(APIStatus.NotFound.rawValue)")
                     
                 }else{
-                 completionHandler(nil,error.localizedDescription)
+                    completionHandler(nil,error.localizedDescription)
                 }
             }
         }
@@ -539,6 +539,7 @@ class APIServiceManager: NSObject {
     }
     
     
+    
     // MARK: - Content List API
     
     func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
@@ -645,6 +646,7 @@ class APIServiceManager: NSObject {
         }
     }
     
+    
     // MARK: - Add  Content To Stream API
     
     func apiForContentAddOnStream(contentID:[String],streams:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void) {
@@ -669,6 +671,7 @@ class APIServiceManager: NSObject {
                 completionHandler(nil,error.localizedDescription)
             }
         }
+        
     }
     
     func apiForGetLink(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
@@ -824,7 +827,7 @@ class APIServiceManager: NSObject {
     
     func apiForGetColabList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
-           StreamList.sharedInstance.requestURl = kCollaboratorAPI
+            StreamList.sharedInstance.requestURl = kCollaboratorAPI
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")
@@ -928,7 +931,8 @@ class APIServiceManager: NSObject {
     }
     
     func apiForSendReport( type:String, user:String, stream: String, content : String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let param = ["type":type,"user":user,"stream":stream,"content":content]
+        let param = ["type":type.capitalized,"user":user,"stream":stream,"content":content]
+        print(param)
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReportAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
@@ -944,3 +948,4 @@ class APIServiceManager: NSObject {
     }
     
 }
+

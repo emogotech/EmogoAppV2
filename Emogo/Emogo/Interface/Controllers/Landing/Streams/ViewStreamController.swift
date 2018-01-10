@@ -108,37 +108,36 @@ class ViewStreamController: UIViewController {
         self.title = streamType
         self.configureNavigationTite()
         // Cancel Button
-
-//        let img1 = UIImage(named: "stream_cross_icon")
-//        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
-//
+        
+        //        let img1 = UIImage(named: "stream_cross_icon")
+        //        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
+        //
         // next Button
-//        let img = UIImage(named: "forward_icon")
-//        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
-//        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
+        //        let img = UIImage(named: "forward_icon")
+        //        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
+        //        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
         // previous Button
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "content_flag"), style: .plain, target: self, action: #selector(self.showReportList))
-        self.navigationItem.rightBarButtonItem = btnRightBar
         
-//
-//        AWSRequestManager.sharedInstance.updateSuccessHandler = { _ in
-////            if self.isRefresh == true {
-////                self.updateLayOut()
-////            }
-//        }
+        
+        //
+        //        AWSRequestManager.sharedInstance.updateSuccessHandler = { _ in
+        ////            if self.isRefresh == true {
+        ////                self.updateLayOut()
+        ////            }
+        //        }
         
         
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
-
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
-
+            
             if ContentList.sharedInstance.objStream != nil {
                 self.updateLayOut()
-              //  ContentList.sharedInstance.objStream = nil
+                //  ContentList.sharedInstance.objStream = nil
             }
         }
         
@@ -146,29 +145,32 @@ class ViewStreamController: UIViewController {
     
     
     @objc func showReportList(){
-        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlertSheet_Spam, message: "", preferredStyle: .actionSheet)
         
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Stream)
+                }
+            })
         })
         
         let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlertSheet_Inappropiate, user: "", stream: "\(self.objStream?.streamID!)", content: "", completionHandler: { (isSuccess, error) in
-                
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_Stream)
+                }
             })
-            
         })
         
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlert_Cancel_Title, user: "", stream: "\(self.objStream?.streamID!)", content: "", completionHandler: { (isSuccess, error) in
-                
-            })
+            
         })
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(saveAction)
@@ -376,9 +378,17 @@ class ViewStreamController: UIViewController {
         }
         APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
+            
+            
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.viewStreamCollectionView.reloadData()
+                if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    self.navigationItem.rightBarButtonItem = nil
+                }else{
+                    let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "content_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+                    self.navigationItem.rightBarButtonItem = btnRightBar
+                }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }

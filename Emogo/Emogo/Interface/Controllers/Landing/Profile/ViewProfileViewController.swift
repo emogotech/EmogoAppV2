@@ -40,27 +40,30 @@ class ViewProfileViewController: UIViewController {
     
 
     @objc func showReportList(){
-        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
+            
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: self.objPeople.userId!, stream: "", content: "", completionHandler: { (isSuccess, error) in
+                self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_User)
+            })
+            
         })
         
         let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlertSheet_Inappropiate, user: "\(self.objPeople.userId)", stream: "", content: "", completionHandler: { (isSuccess, error) in
-                
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: self.objPeople.userId!, stream: "", content: "", completionHandler: { (isSuccess, error) in
+                self.showToast(type: AlertType.success, strMSG: kAlert_Success_Report_User)
             })
         })
         
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            APIServiceManager.sharedInstance.apiForSendReport(type: kAlert_Cancel_Title, user: "\(self.objPeople.userId)", stream: "", content: "", completionHandler: { (isSuccess, error) in
-                
-            })
+            
         })
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(saveAction)
