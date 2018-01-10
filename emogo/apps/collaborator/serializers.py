@@ -22,6 +22,7 @@ class CollaboratorSerializer(DynamicFieldsModelSerializer):
         else:
             return None
 
+
 class ViewCollaboratorSerializer(CollaboratorSerializer):
     """
     This serializer is used to show Collaborator view section

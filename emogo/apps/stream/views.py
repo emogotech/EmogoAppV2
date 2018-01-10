@@ -169,6 +169,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
@@ -208,6 +209,48 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         queryset = self.filter_queryset(self.get_queryset())
         queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
+class LinkTypeContentAPI(ListAPIView):
+    """
+    Stream CRUD API
+    """
+    serializer_class = ContentSerializer
+    queryset = Content.actives.all().order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def filter_queryset(self, queryset):
+        """
+        Given a queryset, filter it with whichever filter backend is in use.
+
+        You are unlikely to want to override this method, although you may need
+        to call it either from a list view, or from a custom `get_object`
+        method if you want to apply the configured filtering backend to the
+        default queryset.
+        """
+        queryset = queryset.filter(created_by=self.request.user, type='Link')
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewContentSerializer
+        self.serializer_class = ViewContentSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        #  Customized field list
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class MoveContentToStream(APIView):
