@@ -28,7 +28,8 @@ class ViewProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = objPeople.fullName
         self.configureNavigationWithTitle()
-
+        let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "user_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        self.navigationItem.rightBarButtonItem = btnFlag
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
@@ -36,7 +37,30 @@ class ViewProfileViewController: UIViewController {
         self.getStreamList(type:.start)
     }
     
+    
 
+    @objc func showReportList(){
+        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+        })
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
     
     func getStreamList(type:RefreshType){
         if type == .start || type == .up {
