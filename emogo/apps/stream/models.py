@@ -14,7 +14,8 @@ CONTENT_TYPE = (
     ('Video', 'Video'),
     ('Picture', 'Picture'),
     ('Link', 'Link'),
-    ('Zip', 'Zip'),
+    ('Giphy', 'Giphy')
+
 )
 
 EVENT_TYPE = (
@@ -90,3 +91,4 @@ class Tags(DefaultStatusModel):
 
     class Meta:
         db_table = 'tags'
+
