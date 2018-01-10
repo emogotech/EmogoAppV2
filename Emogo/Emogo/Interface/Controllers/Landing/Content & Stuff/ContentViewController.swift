@@ -10,12 +10,13 @@ import UIKit
 import MessageUI
 import Messages
 import Lightbox
+import FLAnimatedImage
 
 class ContentViewController: UIViewController {
 
     
     // MARK: - UI Elements
-    @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
     
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
@@ -115,27 +116,29 @@ class ContentViewController: UIViewController {
             self.imgCover.image = seletedImage.imgPreview
         }else {
             if seletedImage.type == .image {
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
                 self.btnPlayIcon.isHidden = true
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImage, placeholder: "stream-card-placeholder")
             }else   if seletedImage.type == .video {
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
                 self.btnPlayIcon.isHidden = true
-                self.imgCover.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "stream-card-placeholder")
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+            }else {
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
             }
         }
         
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
             self.btnDone.isHidden = true
-            self.txtTitleImage.isUserInteractionEnabled = false
-            self.txtDescription.isUserInteractionEnabled = false
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
         }else {
             self.btnEdit.isHidden = false
             self.btnDone.isHidden = false
-            self.txtTitleImage.isUserInteractionEnabled = true
-            self.txtDescription.isUserInteractionEnabled = true
+            self.txtTitleImage.isHidden = false
+            self.txtDescription.isHidden = false
         }
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true

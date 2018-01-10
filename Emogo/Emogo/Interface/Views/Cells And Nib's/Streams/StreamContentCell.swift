@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 class StreamContentCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
-    @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var viewCard: CardView!
@@ -37,6 +38,8 @@ class StreamContentCell: UICollectionViewCell {
             }else  if content.type == .link {
                 self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
+            }else {
+                self.imgCover.setForAnimatedImage(strImage:content.coverImage)
             }
         }
      

@@ -12,7 +12,7 @@ import FLAnimatedImage
 
 class PreviewCell: UICollectionViewCell {
     
-    @IBOutlet weak var previewImage: UIImageView!
+    @IBOutlet weak var previewImage: FLAnimatedImageView!
     @IBOutlet weak var playIcon: UIButton!
 
     func setupPreviewWithType(content:ContentDAO){
@@ -21,9 +21,11 @@ class PreviewCell: UICollectionViewCell {
             self.previewImage.image = content.imgPreview
         }else {
             if content.type == .image {
-                self.previewImage.setImageWithURL(strImage: content.coverImage, placeholder: "")
+                self.previewImage.setForAnimatedImage(strImage:content.coverImage)
+            }else if content.type == .gif {
+                self.previewImage.setForAnimatedImage(strImage:content.coverImage)
             }else {
-                self.previewImage.setImageWithURL(strImage: content.coverImageVideo, placeholder: "")
+                self.previewImage.setForAnimatedImage(strImage:content.coverImageVideo)
             }
         }
         if content.type == .image {

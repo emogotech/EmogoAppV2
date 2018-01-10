@@ -1264,7 +1264,7 @@
                                                 <size key="customSize" width="70" height="92"/>
                                                 <connections>
                                                     <outlet property="playIcon" destination="9e5-YA-GSb" id="fAf-NA-2hN"/>
-                                                    <outlet property="previewImage" destination="It1-bs-ei2" id="X2Z-GJ-9Cc"/>
+                                                    <outlet property="previewImage" destination="It1-bs-ei2" id="5mb-8b-gHS"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -1544,7 +1544,7 @@
                                                 <size key="customSize" width="70" height="97"/>
                                                 <connections>
                                                     <outlet property="playIcon" destination="Zp4-LA-VqV" id="Z4Y-7V-u5q"/>
-                                                    <outlet property="previewImage" destination="Iwm-GO-5hk" id="ZBb-cw-79c"/>
+                                                    <outlet property="previewImage" destination="Iwm-GO-5hk" id="M1X-J3-ifA"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>
@@ -1917,7 +1917,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMf-Uh-aZb" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="tGB-ep-2ux">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="tGB-ep-2ux" customClass="FLAnimatedImageView">
                                                             <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                         </imageView>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v4d-Pd-GUD">
@@ -1969,7 +1969,7 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr" customClass="FLAnimatedImageView">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ia8-fd-dtr">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
                                                 </imageView>
                                             </subviews>
@@ -1988,7 +1988,7 @@
                                         <connections>
                                             <outlet property="btnPlay" destination="4RX-qD-8xf" id="Av6-co-Gqf"/>
                                             <outlet property="imgAdd" destination="ia8-fd-dtr" id="q25-yd-nVL"/>
-                                            <outlet property="imgCover" destination="tGB-ep-2ux" id="NZs-iY-EwC"/>
+                                            <outlet property="imgCover" destination="tGB-ep-2ux" id="yiG-Lc-7Mz"/>
                                             <outlet property="lblName" destination="58K-eM-KCW" id="VDL-rp-kFA"/>
                                             <outlet property="viewCard" destination="DMf-Uh-aZb" id="1NG-EA-KhJ"/>
                                             <outlet property="viewContent" destination="v4d-Pd-GUD" id="tB3-lx-Wnb"/>
