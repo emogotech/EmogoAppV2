@@ -6,9 +6,9 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content
+from models import Stream, Content, ExtremistReport
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer
+    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer
 import django_filters
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
@@ -274,3 +274,19 @@ class MoveContentToStream(APIView):
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
         else:
             return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+class ExtremistReportAPI(CreateAPIView):
+    """
+    Stream CRUD API
+    """
+    serializer_class = ExtremistReportSerializer
+    queryset = ExtremistReport.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=self.request.data)

@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content
+from models import Stream, Content, ExtremistReport
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -188,17 +188,15 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
-        instances = obj.collaborator_list(manager='actives').all()
+        instances = obj.collaborator_list(manager='actives').all().order_by('-id')
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image')
-        return ViewContentSerializer(Content.actives.filter(streams=obj).distinct(), many=True, fields=fields).data
+        return ViewContentSerializer(Content.actives.filter(streams=obj).distinct().order_by('-id'), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
-        import re
-        # if re.search(r'\bpower\b', choice, re.I):
         qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
         user_phono_number = str(self.context['request'].user.username).replace('+', '')
@@ -332,3 +330,28 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         content.streams.add(stream)
         return self.initial_data['contents']
+
+
+class ExtremistReportSerializer(DynamicFieldsModelSerializer):
+    """
+    ExtremistReport model Serializer
+    """
+
+    class Meta:
+        model = ExtremistReport
+        fields = ['user', 'stream', 'content', 'type']
+        extra_kwargs = {'user': {'required': False, 'allow_null': True},
+                        'stream': {'required': False,  'allow_null': True},
+                        'content':  {'required': False, 'allow_null': True},
+                        }
+
+    def save(self, **kwargs):
+        new_obj = ExtremistReport.objects.create(
+            user_id=self.initial_data.get('user'),
+            stream_id=self.initial_data.get('stream'),
+            content_id=self.initial_data.get('content'),
+            type=self.initial_data.get('type'),
+            created_by=self.context['request'].user
+        )
+        new_obj.save()
+

@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
-from emogo.lib.default_models.models import DefaultStatusModel
+from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
 import itertools
 
 STREAM_TYPE = (
@@ -21,6 +21,11 @@ CONTENT_TYPE = (
 EVENT_TYPE = (
     ('Stream', 'Stream'),
     ('Content', 'Content'),
+)
+
+EXTREMIST_TYPE = (
+    ('Inappropriate', 'Inappropriate'),
+    ('Spam', 'Spam'),
 )
 
 
@@ -92,3 +97,16 @@ class Tags(DefaultStatusModel):
     class Meta:
         db_table = 'tags'
 
+
+class ExtremistReport(DefaultDateModel):
+    objects = models.Manager()  # The default manager.
+
+    content = models.ForeignKey(Content, null=True, blank=True, related_name='extremist_content')
+    user = models.ForeignKey(User, null=True, blank=True, related_name='extremist_users')
+    stream = models.ForeignKey(Stream, null=True, blank=True, related_name='extremist_streams')
+    user_comment = models.TextField(max_length=900, null=True, blank=True)
+    created_by = models.ForeignKey(User, null=True, blank=True)
+    type = models.CharField(max_length=15, choices=EXTREMIST_TYPE, default=EXTREMIST_TYPE[0][0])
+
+    class Meta:
+        db_table = 'extremist_report'
