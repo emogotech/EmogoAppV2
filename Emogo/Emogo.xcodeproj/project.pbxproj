@@ -259,6 +259,7 @@
 		F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B42982004D964006DD15D /* GiphyDAO.swift */; };
 		F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B42982004D964006DD15D /* GiphyDAO.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
+		F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */; };
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
@@ -579,6 +580,8 @@
 		F497B3B51FD7EC8D006614F2 /* PeopleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleCell.swift; sourceTree = "<group>"; };
 		F49B42982004D964006DD15D /* GiphyDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiphyDAO.swift; sourceTree = "<group>"; };
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
+		F49DF3022005F186009A2D3A /* FLAnimatedImageView+ImageURL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageView+ImageURL.h"; sourceTree = "<group>"; };
+		F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImageView+ImageURL.m"; sourceTree = "<group>"; };
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
@@ -1321,6 +1324,8 @@
 			children = (
 				F4361D3A1FF226FA00553E8E /* KASlideShow.h */,
 				F4361D391FF226F800553E8E /* KASlideShow.m */,
+				F49DF3022005F186009A2D3A /* FLAnimatedImageView+ImageURL.h */,
+				F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
@@ -2271,6 +2276,7 @@
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
 				F4431AA31FC6DD2C00311C9A /* PhotoEditor+StickersViewController.swift in Sources */,
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
+				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,

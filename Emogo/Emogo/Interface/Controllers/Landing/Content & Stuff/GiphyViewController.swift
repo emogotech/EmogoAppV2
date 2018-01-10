@@ -99,8 +99,6 @@ class GiphyViewController: UIViewController {
      }
     }
     
-    
-
     func searchGiphy(text:String) {
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
@@ -178,9 +176,6 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         cell.prepareLayout(content:content)
         return cell
     }
-    
-    
-   
     
     /*
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

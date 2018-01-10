@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FLAnimatedImage
 
 
 class PreviewCell: UICollectionViewCell {

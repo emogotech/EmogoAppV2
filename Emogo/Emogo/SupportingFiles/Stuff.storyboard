@@ -251,6 +251,7 @@
                     </view>
                     <connections>
                         <outlet property="giphyCollectionView" destination="hS3-Pw-TCj" id="9Dd-wF-zml"/>
+                        <outlet property="txtSearch" destination="P49-mj-dyu" id="fmz-s7-0oB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CFi-Vd-xW9" userLabel="First Responder" sceneMemberID="firstResponder"/>

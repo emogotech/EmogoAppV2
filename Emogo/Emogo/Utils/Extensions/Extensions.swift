@@ -13,6 +13,7 @@ import SDWebImage
 import Photos
 import MobileCoreServices
 import SafariServices
+import FLAnimatedImage
 
 
 // MARK: - UIColor
@@ -769,3 +770,57 @@ extension URL {
         return url.queryItems?.first(where: { $0.name == queryParamaterName })?.value
     }
 }
+
+
+let imageCache = NSCache<AnyObject, AnyObject>()
+typealias CompletionHandler = (_ success:Bool, _ image:FLAnimatedImage?) -> Void
+
+
+extension FLAnimatedImageView {
+    func loadImageUsingCacheWithUrlString(_ urlString: String,completionHandler: @escaping CompletionHandler) {
+        
+        self.animatedImage = nil
+        
+        //check cache for image first
+        if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? FLAnimatedImage {
+            self.animatedImage = cachedImage
+            completionHandler(true, self.animatedImage!)
+            return
+        }
+        
+        //otherwise fire off a new download
+        let url = URL(string: urlString)
+        
+        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+            
+            //download hit an error so lets return out
+            if error != nil {
+                print(error ?? "")
+                completionHandler(false,nil)
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                if let downloadedImage = FLAnimatedImage(animatedGIFData: data!) {
+                    imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+                    self.animatedImage = downloadedImage
+                    completionHandler(true,self.animatedImage!)
+                }
+            })
+            
+        }).resume()
+        
+    }
+    
+    
+    func setForAnimatedImage(strImage:String){
+        if strImage.isEmpty{
+            return
+        }
+        self.sd_setShowActivityIndicatorView(true)
+        self.sd_setIndicatorStyle(.gray)
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        self.setImageUrl(imgURL)
+    }
+}
+
