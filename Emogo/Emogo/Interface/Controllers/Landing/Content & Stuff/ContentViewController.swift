@@ -109,8 +109,10 @@ class ContentViewController: UIViewController {
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
+            self.btnEdit.isHidden     = false
         }else {
             self.btnPlayIcon.isHidden = false
+            self.btnEdit.isHidden     = true
         }
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -142,6 +144,13 @@ class ContentViewController: UIViewController {
             self.txtDescription.isHidden = false
             self.btnFlagIcon.isHidden = false
         }
+        
+        if self.seletedImage.type == .image {
+            self.btnEdit.isHidden = false
+        }else{
+            self.btnEdit.isHidden = true
+        }
+        
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true
         }else {
