@@ -106,8 +106,10 @@ class ContentDAO{
                 self.type = .image
             }else if strType.lowercased() == "video" {
                 self.type = .video
-            }else {
+            }else if strType.lowercased() == "link"{
                 self.type = .link
+            }else {
+                self.type = .gif
             }
         }
         

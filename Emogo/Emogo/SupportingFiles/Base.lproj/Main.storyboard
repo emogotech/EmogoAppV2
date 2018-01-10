@@ -839,7 +839,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="9" width="84" height="17"/>
+                                                    <rect key="frame" x="10" y="9" width="87.5" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="6Mf-BA-iy0"/>
                                                     </constraints>
@@ -1427,7 +1427,7 @@
                                 <rect key="frame" x="0.0" y="340" width="320" height="69"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jPE-oA-cPK">
-                                        <rect key="frame" x="17" y="0.0" width="34.5" height="30"/>
+                                        <rect key="frame" x="17" y="0.0" width="36" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="FCz-pN-g07"/>
                                         </constraints>

@@ -45,10 +45,41 @@ class GiphyViewController: UIViewController {
         self.giphyCollectionView.collectionViewLayout = layout
         
         txtSearch.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
+         self.getTrendingList()
+    }
+    
+    @objc func textFieldDidChange(textfield:UITextField) {
+        if (textfield.text?.trim().length)! > 2 {
+            self.arrayGiphy.removeAll()
+            self.giphyCollectionView.reloadData()
+            self.searchGiphy(text: (textfield.text?.trim())!)
+        }
+    }
+    
+    @IBAction func btnActionNext(_ sender: Any) {
+        if let parent = self.parent {
+            if arraySelectedContent?.count != 0 {
+                HUDManager.sharedInstance.showHUD()
+                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
+                    HUDManager.sharedInstance.hideHUD()
+                    ContentList.sharedInstance.arrayContent.removeAll()
+                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                    ContentList.sharedInstance.arrayContent = arraySelectedContent
+                    objPreview.strPresented = "TRUE"
+                    let nav = UINavigationController(rootViewController: objPreview)
+                    self.parent?.present(nav, animated: true, completion: nil)
+                })
+                //            arraySelectedContent?.removeAll()
+                //            arrayAssests?.removeAll()
+            }else {
+                self.showToast(strMSG: kAlert_contentSelect)
+            }
+        }
         
-
+    }
+    func getTrendingList(){
         let client = GPHClient(apiKey: kGiphyAPIKey)
-        client.trending { (response, error) in
+        client.trending(.gif, offset: 0, limit: 40, rating: .ratedPG13) { (response, error) in
             
             if let error = error as NSError? {
                 // Do what you want with the error
@@ -89,38 +120,6 @@ class GiphyViewController: UIViewController {
             }
         }
     }
-    
-    
-    @objc func textFieldDidChange(textfield:UITextField) {
-        if (textfield.text?.trim().length)! > 2 {
-            self.arrayGiphy.removeAll()
-            self.giphyCollectionView.reloadData()
-            self.searchGiphy(text: (textfield.text?.trim())!)
-        }
-    }
-    
-    @IBAction func btnActionNext(_ sender: Any) {
-        if let parent = self.parent {
-            if arraySelectedContent?.count != 0 {
-                HUDManager.sharedInstance.showHUD()
-                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
-                    HUDManager.sharedInstance.hideHUD()
-                    ContentList.sharedInstance.arrayContent.removeAll()
-                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    ContentList.sharedInstance.arrayContent = arraySelectedContent
-                    objPreview.strPresented = "TRUE"
-                    let nav = UINavigationController(rootViewController: objPreview)
-                    self.parent?.present(nav, animated: true, completion: nil)
-                })
-                //            arraySelectedContent?.removeAll()
-                //            arrayAssests?.removeAll()
-            }else {
-                self.showToast(strMSG: kAlert_contentSelect)
-            }
-        }
-        
-    }
-    
     func searchGiphy(text:String) {
         HUDManager.sharedInstance.showHUD()
         isEditingEnable = false
