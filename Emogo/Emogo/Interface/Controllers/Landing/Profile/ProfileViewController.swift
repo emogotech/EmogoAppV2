@@ -62,7 +62,6 @@ class ProfileViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilepicUpload))
         tap.numberOfTapsRequired = 1
         self.imgUser.addGestureRecognizer(tap)
-        self.configureProfileNavigation()
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         
         if UserDAO.sharedInstance.user.userImage.trim().isEmpty {

@@ -146,7 +146,6 @@ class PreviewController: UIViewController {
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
-        self.txtDescription.text = ""
         self.selectedIndex = index
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
