@@ -30,15 +30,6 @@ class ImportViewController: UICollectionViewController , UICollectionViewDelegat
     
     // MARK: UIViewController / Lifecycle
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(5, 0, 5, 0)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 20   
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -210,6 +201,14 @@ class ImportViewController: UICollectionViewController , UICollectionViewDelegat
 //               }
     }
     
+    //MARK:- CollectionView Layout
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(5, 5, 5, 5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
     
     // MARK: UIScrollView
     

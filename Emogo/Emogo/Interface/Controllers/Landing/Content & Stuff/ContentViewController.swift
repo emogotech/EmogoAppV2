@@ -127,7 +127,7 @@ class ContentViewController: UIViewController {
                 self.btnPlayIcon.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
             }else {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
+                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
             }
         }
         
