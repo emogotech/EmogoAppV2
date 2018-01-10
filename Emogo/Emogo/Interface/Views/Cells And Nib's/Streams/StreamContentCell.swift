@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FLAnimatedImage
 
 class StreamContentCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!

@@ -75,6 +75,9 @@ class GiphyViewController: UIViewController {
                         }
                     }
                     if gip != nil {
+                        if result.caption != nil {
+                            gip.caption = result.caption
+                        }
                         self.arrayGiphy.append(gip)
                     }
                 }
@@ -93,17 +96,37 @@ class GiphyViewController: UIViewController {
             self.arrayGiphy.removeAll()
             self.giphyCollectionView.reloadData()
             self.searchGiphy(text: (textfield.text?.trim())!)
-        }else{
-            self.arrayGiphy.removeAll()
-            self.giphyCollectionView.reloadData()
-     }
+        }
+    }
+    
+    @IBAction func btnActionNext(_ sender: Any) {
+        if let parent = self.parent {
+            if arraySelectedContent?.count != 0 {
+                HUDManager.sharedInstance.showHUD()
+                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
+                    HUDManager.sharedInstance.hideHUD()
+                    ContentList.sharedInstance.arrayContent.removeAll()
+                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                    ContentList.sharedInstance.arrayContent = arraySelectedContent
+                    objPreview.strPresented = "TRUE"
+                    let nav = UINavigationController(rootViewController: objPreview)
+                    self.parent?.present(nav, animated: true, completion: nil)
+                })
+                //            arraySelectedContent?.removeAll()
+                //            arrayAssests?.removeAll()
+            }else {
+                self.showToast(strMSG: kAlert_contentSelect)
+            }
+        }
+        
     }
     
     func searchGiphy(text:String) {
+        HUDManager.sharedInstance.showHUD()
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.search(text) { (response, error) in
-            self.isEditingEnable = true
+            HUDManager.sharedInstance.hideHUD()
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)
@@ -125,10 +148,12 @@ class GiphyViewController: UIViewController {
                                     gip.name = name as! String
                                 }
                             }
-                            
                         }
                     }
                     if gip != nil {
+                        if result.caption != nil {
+                            gip.caption = result.caption
+                        }
                         self.arrayGiphy.append(gip)
                     }
                 }
@@ -177,25 +202,36 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         return cell
     }
     
-    /*
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if let cell = self.giphyCollectionView.cellForItem(at: indexPath) {
             let content = self.arrayGiphy[indexPath.row]
             content.isSelected = !content.isSelected
             self.arrayGiphy[indexPath.row] = content
-//            if content.isSelected {
-//                (cell as! GiphyCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
-//            }else {
-//                (cell as! GiphyCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
-//            }
-           // self.updateSelected(obj: content)
+            if content.isSelected {
+                (cell as! GiphyCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! GiphyCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+            let insertNew = ContentDAO(contentData: [:])
+            insertNew.description = content.caption
+            insertNew.name = content.name
+            insertNew.type = .gif
+            insertNew.coverImage = content.url
+            insertNew.isUploaded = false
+            insertNew.isSelected = content.isSelected
+            self.updateSelected(obj:insertNew)
         }
     }
- */
     
     func updateSelected(obj:ContentDAO){
-        
+        if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
+            arraySelectedContent?.remove(at: index)
+        }else {
+            if obj.isSelected  {
+                arraySelectedContent?.insert(obj, at: 0)
+            }
+        }
     }
     
 }
@@ -203,7 +239,7 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
 extension GiphyViewController:UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
+        textField.resignFirstResponder()
         return true
     }
     

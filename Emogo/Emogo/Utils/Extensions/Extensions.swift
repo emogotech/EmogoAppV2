@@ -13,7 +13,6 @@ import SDWebImage
 import Photos
 import MobileCoreServices
 import SafariServices
-import FLAnimatedImage
 
 
 // MARK: - UIColor

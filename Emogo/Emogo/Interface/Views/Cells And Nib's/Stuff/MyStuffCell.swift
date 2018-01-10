@@ -11,7 +11,7 @@ import UIKit
 class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
-    @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
@@ -33,15 +33,17 @@ class MyStuffCell: UICollectionViewCell {
         
         if content.type == .image {
             self.btnPlay.isHidden = true
-            self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
+            self.imgCover.setForAnimatedImage(strImage:content.coverImage)
         }else if content.type == .video {
             self.imgCover.image = nil
-            self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+            self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
             self.btnPlay.isHidden = false
         }else if content.type == .link {
             self.imgCover.image = nil
-            self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+            self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
             self.btnPlay.isHidden = true
+        }else {
+            self.imgCover.setForAnimatedImage(strImage:content.coverImage)
         }
     }
 }

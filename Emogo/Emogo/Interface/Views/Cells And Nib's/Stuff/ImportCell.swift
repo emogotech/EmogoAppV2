@@ -8,8 +8,6 @@
 
 import UIKit
 import Photos
-import FLAnimatedImage
-import SDWebImage.SDWebImageGIFCoder
 
 class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
@@ -64,7 +62,8 @@ class GiphyCell: UICollectionViewCell {
     @IBOutlet var imageView: FLAnimatedImageView!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var viewContent: UIView!
-    
+    @IBOutlet weak var imgSelect: UIImageView!
+
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
@@ -76,6 +75,11 @@ class GiphyCell: UICollectionViewCell {
     self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
      lblName.text = content.name
     self.imageView.setForAnimatedImage(strImage:content.url)
+        if content.isSelected {
+            imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+        }else {
+            imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+        }
     }
 }
 

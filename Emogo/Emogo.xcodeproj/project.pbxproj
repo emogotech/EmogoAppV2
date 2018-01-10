@@ -260,6 +260,9 @@
 		F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B42982004D964006DD15D /* GiphyDAO.swift */; };
 		F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49D74911FBC2E650096A0CC /* HUDManager.swift */; };
 		F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */; };
+		F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30520060DFE009A2D3A /* FLAnimatedImage.m */; };
+		F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */; };
+		F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */; };
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
@@ -582,6 +585,12 @@
 		F49D74911FBC2E650096A0CC /* HUDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDManager.swift; sourceTree = "<group>"; };
 		F49DF3022005F186009A2D3A /* FLAnimatedImageView+ImageURL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageView+ImageURL.h"; sourceTree = "<group>"; };
 		F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImageView+ImageURL.m"; sourceTree = "<group>"; };
+		F49DF30520060DFE009A2D3A /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		F49DF30620060DFF009A2D3A /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		F49DF30720060E02009A2D3A /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		F49DF30820060E03009A2D3A /* FLAnimatedImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageView+WebCache.h"; sourceTree = "<group>"; };
+		F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImageView+WebCache.m"; sourceTree = "<group>"; };
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
@@ -1322,6 +1331,12 @@
 		F4361D381FF226F100553E8E /* Slider */ = {
 			isa = PBXGroup;
 			children = (
+				F49DF30720060E02009A2D3A /* FLAnimatedImage.h */,
+				F49DF30520060DFE009A2D3A /* FLAnimatedImage.m */,
+				F49DF30620060DFF009A2D3A /* FLAnimatedImageView.h */,
+				F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */,
+				F49DF30820060E03009A2D3A /* FLAnimatedImageView+WebCache.h */,
+				F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */,
 				F4361D3A1FF226FA00553E8E /* KASlideShow.h */,
 				F4361D391FF226F800553E8E /* KASlideShow.m */,
 				F49DF3022005F186009A2D3A /* FLAnimatedImageView+ImageURL.h */,
@@ -2040,7 +2055,6 @@
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
-				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework",
 				"${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
@@ -2049,10 +2063,9 @@
 				"${BUILT_PRODUCTS_DIR}/Ji/Ji.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
 				"${BUILT_PRODUCTS_DIR}/ReadabilityKit/ReadabilityKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage.default-GIF/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2060,7 +2073,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyCoreSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
@@ -2072,7 +2084,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2198,6 +2209,7 @@
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
+				F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */,
 				F401DFB61FE2967B00BD7DDA /* ImportViewController.swift in Sources */,
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
@@ -2206,6 +2218,7 @@
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
 				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
+				F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
@@ -2219,6 +2232,7 @@
 				F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */,
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */,
+				F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */,
 				F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,

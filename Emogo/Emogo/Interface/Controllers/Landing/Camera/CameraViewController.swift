@@ -115,6 +115,11 @@ class CameraViewController: SwiftyCamViewController {
                         unique.append(obj)
                         seen.insert(obj.contentID)
                     }
+                }else if obj.type == .gif || obj.type == .link{
+                    if !seen.contains(obj.coverImage.trim()) {
+                        unique.append(obj)
+                        seen.insert(obj.coverImage.trim())
+                    }
                 }else {
                     if !seen.contains(obj.fileName.trim()) {
                         unique.append(obj)

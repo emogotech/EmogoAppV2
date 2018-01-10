@@ -6,9 +6,8 @@
 //  Copyright © 2018 Vikas Goyal. All rights reserved.
 //
 
-#import <FLAnimatedImage/FLAnimatedImage.h>
 
-
+#import "FLAnimatedImageView.h"
 
 @interface FLAnimatedImageView (ImageURL)
 

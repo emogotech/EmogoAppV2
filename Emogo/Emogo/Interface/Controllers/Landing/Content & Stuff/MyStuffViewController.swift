@@ -216,7 +216,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 arraySelectedContent?.remove(at: index)
             }else {
                 if obj.isSelected  {
-                    arraySelectedContent?.append(obj)
+                    arraySelectedContent?.insert(obj, at: 0)
                 }
             }
     }

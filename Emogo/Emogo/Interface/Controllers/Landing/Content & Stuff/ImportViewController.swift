@@ -173,14 +173,22 @@ class ImportViewController: UICollectionViewController {
             if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
                 arrayAssests?.remove(at: index)
             }
+            if let index =  arraySelectedContent?.index(where: {$0.fileName.trim() == obj.name.trim()}) {
+                arraySelectedContent?.remove(at: index)
+            }
+            
         } else {
             if obj.isSelected {
-                arrayAssests?.append(obj)
+                arrayAssests?.insert(obj, at: 0)
             }else {
                 if let index =  arrayAssests?.index(where: {$0.assest.localIdentifier == obj.assest.localIdentifier}) {
                     arrayAssests?.remove(at: index)
                 }
+                if let index =  arraySelectedContent?.index(where: {$0.fileName.trim() == obj.name.trim()}) {
+                    arraySelectedContent?.remove(at: index)
+                }
             }
+            
         }
        
         

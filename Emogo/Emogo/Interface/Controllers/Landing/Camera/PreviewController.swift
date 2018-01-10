@@ -13,7 +13,7 @@ class PreviewController: UIViewController {
 
     // MARK: - UI Elements
 
-    @IBOutlet weak var imgPreview: UIImageView!
+    @IBOutlet weak var imgPreview: FLAnimatedImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnShareAction: UIButton!
@@ -74,6 +74,11 @@ class PreviewController: UIViewController {
                 if !seen.contains(obj.contentID) {
                     unique.append(obj)
                     seen.insert(obj.contentID)
+                }
+            }else if obj.type == .gif || obj.type == .link {
+                    if !seen.contains(obj.coverImage.trim()) {
+                    unique.append(obj)
+                    seen.insert(obj.coverImage.trim())
                 }
             }else {
                 if !seen.contains(obj.fileName.trim()) {
@@ -157,10 +162,12 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
         }else {
-            if seletedImage.type == .image {
-                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImage, placeholder: kPlaceholderImage)
+            if seletedImage.type == .image || seletedImage.type == .gif {
+        
+        self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
             }else {
-                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: kPlaceholderImage)
+        self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+
             }
         }
         
@@ -297,11 +304,45 @@ class PreviewController: UIViewController {
     // MARK: - Class Methods
 
     func deleteSelectedContent(){
-        if let index =  arrayAssests?.index(where: {$0.name.lowercased().trim() == seletedImage.fileName.lowercased().trim()}) {
-            arrayAssests?.remove(at: index)
+        
+        if self.seletedImage.isUploaded {
+            if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
+                arraySelectedContent?.remove(at: index)
+            }
+            
+            if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == seletedImage.contentID.trim()}) {
+                ContentList.sharedInstance.arrayContent.remove(at: index)
+            }
+            
+        }else {
+            
+            if self.seletedImage.type == .gif {
+             
+                if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == self.seletedImage.coverImage.trim()}) {
+                    arraySelectedContent?.remove(at: index)
+                }
+                
+                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == seletedImage.coverImage.trim()}) {
+                    ContentList.sharedInstance.arrayContent.remove(at: index)
+                }
+                
+            }else {
+                if let index =  arrayAssests?.index(where: {$0.name.lowercased().trim() == seletedImage.fileName.lowercased().trim()}) {
+                    arrayAssests?.remove(at: index)
+                }
+                
+                if let index =  arraySelectedContent?.index(where: {$0.fileName.trim() == self.seletedImage.fileName.trim()}) {
+                    arraySelectedContent?.remove(at: index)
+                }
+                
+                if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.fileName.trim() == seletedImage.fileName.trim()}) {
+                    ContentList.sharedInstance.arrayContent.remove(at: index)
+                }
+                
+            }
+           
         }
-        arraySelectedContent?.remove(at: self.selectedIndex)
-        ContentList.sharedInstance.arrayContent.remove(at: self.selectedIndex)
+        
         
         if  ContentList.sharedInstance.arrayContent.count != 0 {
                 self.preparePreview(index: 0)

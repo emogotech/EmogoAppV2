@@ -10,7 +10,6 @@ import UIKit
 import MessageUI
 import Messages
 import Lightbox
-import FLAnimatedImage
 
 class ContentViewController: UIViewController {
 

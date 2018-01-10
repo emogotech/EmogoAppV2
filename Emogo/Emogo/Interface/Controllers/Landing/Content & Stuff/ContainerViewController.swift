@@ -70,6 +70,11 @@ class ContainerViewController: UIViewController {
                     unique.append(obj)
                     seen.insert(obj.contentID)
                 }
+            }else if obj.type == .gif || obj.type == .link {
+                if !seen.contains(obj.coverImage.trim()) {
+                    unique.append(obj)
+                    seen.insert(obj.coverImage.trim())
+                }
             }else {
                 if !seen.contains(obj.fileName.trim()) {
                     unique.append(obj)
@@ -320,6 +325,10 @@ class ContainerViewController: UIViewController {
     }
     
     func updateConatentForGallery(array:[ImportDAO],completed:@escaping ( _ result:Bool?)->Void){
+        if  array.count == 0 {
+            completed(true)
+          return
+        }
         if array.count != 0 {
             let group = DispatchGroup()
             var seen = Set<String>()
@@ -370,8 +379,6 @@ class ContainerViewController: UIViewController {
             group.notify(queue: .main, execute: {
                 completed(true)
             })
-        }else {
-            completed(true)
         }
     }
     

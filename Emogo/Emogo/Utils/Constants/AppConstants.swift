@@ -109,6 +109,8 @@ let kCell_MyStreamCell = "myStreamCell"
 let kCell_MyStuffCell = "myStuffCell"
 let kCell_ImportCell = "importCell"
 let kCell_GiphyCell = "giphyCell"
+let kCell_LinkListCell = "linkListCell"
+
 
 let kCell_ProfileStreamCell = "profileStreamCell"
 let kSegue_AddCollaboratorsView = "addColabSegue"

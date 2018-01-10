@@ -12,3 +12,6 @@
 #import "UITextField+Max.h"
 #import "MBAutoGrowingTextView.h"
 #import "FLAnimatedImageView+ImageURL.h"
+#import "FLAnimatedImageView.h"
+#import "FLAnimatedImage.h"
+

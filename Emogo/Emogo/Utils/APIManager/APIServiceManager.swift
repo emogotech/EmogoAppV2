@@ -676,7 +676,7 @@ class APIServiceManager: NSObject {
     
     func apiForGetLink(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
         if type == .start{
-            let url = "content?type=link"
+            let url = "content/link_type/"
             ContentList.sharedInstance.requestURl = url
         }
         if ContentList.sharedInstance.requestURl.trim().isEmpty {

@@ -183,7 +183,7 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let content = ContentList.sharedInstance.arrayLink[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_LinkListCell, for: indexPath) as! LinkListCell
         // for Add Content
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
@@ -205,9 +205,9 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
             content.isSelected = !content.isSelected
             ContentList.sharedInstance.arrayLink[indexPath.row] = content
             if content.isSelected {
-                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
-                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
             self.updateSelected(obj: content)
         }
@@ -215,11 +215,11 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func updateSelected(obj:ContentDAO){
-            if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+            if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
                 arraySelectedContent?.remove(at: index)
             }else {
                 if obj.isSelected  {
-                    arraySelectedContent?.append(obj)
+                    arraySelectedContent?.insert(obj, at: 0)
                 }
         }
     }

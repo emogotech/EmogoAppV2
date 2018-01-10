@@ -11,7 +11,6 @@
 #if SD_UIKIT
 
 #if __has_include(<FLAnimatedImage/FLAnimatedImage.h>)
-
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #else
 #import "FLAnimatedImage.h"

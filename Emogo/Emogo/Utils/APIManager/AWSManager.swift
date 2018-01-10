@@ -299,7 +299,7 @@ class AWSRequestManager:NSObject {
                         }
                         dispatchGroup.leave()
                     })
-                }else if obj.type == .link  {
+                }else {
                    arrayContentToCreate.append(obj)
                     dispatchGroup.leave()
             }

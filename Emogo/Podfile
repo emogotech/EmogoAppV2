@@ -27,8 +27,6 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
     pod 'GiphyCoreSDK'
-    pod 'SDWebImage/GIF'
-    pod 'FLAnimatedImage'
 
     target 'EmogoTests' do
         inherit! :search_paths
