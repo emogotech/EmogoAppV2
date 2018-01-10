@@ -26,7 +26,9 @@ class StreamViewHeader: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        imgCover.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
+        self.imgCover.addGestureRecognizer(tap)
     }
     
     func prepareLayout(stream:StreamViewDAO?){
@@ -71,7 +73,13 @@ class StreamViewHeader: UICollectionViewCell {
             self.lblDescription.numberOfLines = 1
             self.lblDescription.sizeToFit()
         }
-        
       }
     
+    @objc func showPreview(){
+        
+        if self.delegate != nil {
+            delegate?.showPreview()
+        }
+    }
+
 }

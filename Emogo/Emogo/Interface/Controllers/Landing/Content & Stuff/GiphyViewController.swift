@@ -45,10 +45,12 @@ class GiphyViewController: UIViewController {
         self.giphyCollectionView.collectionViewLayout = layout
         
         txtSearch.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
+        HUDManager.sharedInstance.showHUD()
          self.getTrendingList()
     }
     
     @objc func textFieldDidChange(textfield:UITextField) {
+        isEditingEnable = true
         if (textfield.text?.trim().length)! > 2 {
             self.arrayGiphy.removeAll()
             self.giphyCollectionView.reloadData()
@@ -75,12 +77,14 @@ class GiphyViewController: UIViewController {
                 self.showToast(strMSG: kAlert_contentSelect)
             }
         }
-        
     }
     func getTrendingList(){
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.trending(.gif, offset: 0, limit: 40, rating: .ratedPG13) { (response, error) in
             
+            DispatchQueue.main.async { // Correct
+                HUDManager.sharedInstance.hideHUD()
+            }
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)
@@ -94,7 +98,6 @@ class GiphyViewController: UIViewController {
                     if let obj = result.jsonRepresentation!["images"]{
                         let dict:[String:Any] =  obj as! [String:Any]
                         if let value = dict["fixed_width"] {
-                            print(value)
                             gip = GiphyDAO(previewData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                             
                             if let nameDict = result.jsonRepresentation!["user"]{
@@ -104,6 +107,13 @@ class GiphyViewController: UIViewController {
                             }
                             
                         }
+                        
+                        if let originalvalue = dict["original"] {
+                            if let Originalurl = (originalvalue as! [String:Any])["url"] {
+                                gip.originalUrl = Originalurl as! String
+                            }
+                        }
+                        
                     }
                     if gip != nil {
                         if result.caption != nil {
@@ -125,11 +135,15 @@ class GiphyViewController: UIViewController {
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.search(text) { (response, error) in
+            
+            DispatchQueue.main.async { // Correct
+                HUDManager.sharedInstance.hideHUD()
+            }
+            
             if let error = error as NSError? {
                 // Do what you want with the error
                 print(error.localizedDescription)
             }
-            HUDManager.sharedInstance.hideHUD()
             //let pagination = response.pagination
             if let response = response, let data = response.data {
                 self.arrayGiphy.removeAll()
@@ -137,7 +151,6 @@ class GiphyViewController: UIViewController {
                     var gip:GiphyDAO!
                     
                     if let obj = result.jsonRepresentation!["images"]{
-                        print(obj)
                         let dict:[String:Any] =  obj as! [String:Any]
                         if let value = dict["fixed_width"] {
                             gip = GiphyDAO(previewData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
@@ -148,6 +161,12 @@ class GiphyViewController: UIViewController {
                                 }
                             }
                         }
+                        if let originalvalue = dict["original"] {
+                            if let Originalurl = (originalvalue as! [String:Any])["url"] {
+                                gip.originalUrl = Originalurl as! String
+                            }
+                        }
+                        
                     }
                     if gip != nil {
                         if result.caption != nil {
@@ -219,6 +238,7 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
             insertNew.coverImage = content.url
             insertNew.isUploaded = false
             insertNew.isSelected = content.isSelected
+            insertNew.coverImageVideo = content.originalUrl
             self.updateSelected(obj:insertNew)
         }
     }
