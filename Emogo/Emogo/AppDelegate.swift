@@ -137,7 +137,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Logout User if Token Is Expired
        
     }
-    private func performLogin(){
+    @objc private func performLogin(){
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             print("token-----\(UserDAO.sharedInstance.user.token)")
@@ -165,13 +165,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func removeOberserver(){
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+        NotificationCenter.default.removeObserver(self)
     }
     
     func addOberserver(){
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIApplicationDidBecomeActive, object: nil, queue: nil) { (notification) in
-            self.performLogin()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
 }
 

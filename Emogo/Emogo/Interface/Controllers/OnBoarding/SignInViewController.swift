@@ -22,8 +22,6 @@ class SignInViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        AppDelegate.appDelegate.removeOberserver()
-        AppDelegate.appDelegate.addOberserver()
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +31,7 @@ class SignInViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        AppDelegate.appDelegate.addOberserver()
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
@@ -77,7 +76,6 @@ class SignInViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    AppDelegate.appDelegate.removeOberserver()
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                     self.navigationController?.flipPush(viewController: obj)
                 }else {

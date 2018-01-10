@@ -57,6 +57,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
+        AppDelegate.appDelegate.removeOberserver()
         self.imgUser.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilepicUpload))
         tap.numberOfTapsRequired = 1
@@ -100,7 +101,6 @@ class ProfileViewController: UIViewController {
             }
         }
         self.profileCollectionView.expiredTimeInterval = 20.0
-       
     }
     
     func setCoverImage(image:UIImage) {
