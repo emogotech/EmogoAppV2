@@ -193,7 +193,7 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width')
         return ViewContentSerializer(Content.actives.filter(streams=obj).distinct().order_by('-id'), many=True, fields=fields).data
 
     def get_stream_permission(self, obj):

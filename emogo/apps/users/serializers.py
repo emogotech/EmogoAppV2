@@ -106,7 +106,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def get_phone_number(self, obj):
         return obj.user.username
 
-    def get_streams(self,obj):
+    def get_streams(self, obj):
         return None
 
     def get_contents(self,obj):
