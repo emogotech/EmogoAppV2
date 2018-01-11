@@ -169,7 +169,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func addOberserver(){
-        NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
     }
 }
 

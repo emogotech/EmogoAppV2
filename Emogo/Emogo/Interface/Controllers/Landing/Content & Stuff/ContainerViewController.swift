@@ -92,6 +92,9 @@ class ContainerViewController: UIViewController {
         
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            arraySelectedContent = ContentList.sharedInstance.arrayContent
+        }
         prepareLayouts()
     }
     
