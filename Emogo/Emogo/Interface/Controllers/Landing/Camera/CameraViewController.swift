@@ -231,12 +231,22 @@ class CameraViewController: SwiftyCamViewController {
             self.recordButtonTapped(isShow: false)
         }else {
             if kContainerNav.isEmpty {
-                self.navigationController?.pop()
+                addLeftTransitionView(subtype: kCATransitionFromLeft)
             }else {
                  kContainerNav = "1"
                 self.prepareContainerToPresent()
             }
         }
+    }
+    
+    func addLeftTransitionView(subtype:String){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionPush
+        transition.subtype = subtype
+        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+        self.navigationController?.popViewController(animated: false)
     }
     
     @IBAction func btnAnimateViewAction(_ sender: Any) {

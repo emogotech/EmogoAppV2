@@ -154,6 +154,45 @@ class StreamListViewController: UIViewController {
         self.btnPeopleSearch.isUserInteractionEnabled = true
         lblSearch.layer.cornerRadius = 20.0
         lblSearch.clipsToBounds = true
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.streamCollectionView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.streamCollectionView.addGestureRecognizer(swipeLeft)
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+                ContentList.sharedInstance.arrayContent.removeAll()
+                ContentList.sharedInstance.objStream = nil
+                kContainerNav = ""
+                 self.addLeftTransitionView(subtype: kCATransitionFromRight)
+                self.navigationController?.pushViewController(obj, animated: false)
+                break
+            case UISwipeGestureRecognizerDirection.right:
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                self.navigationController?.pushViewController(obj, animated: false)
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    func addLeftTransitionView(subtype:String){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionPush
+        transition.subtype = subtype
+        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
     }
     
     func setupAnchor(){
