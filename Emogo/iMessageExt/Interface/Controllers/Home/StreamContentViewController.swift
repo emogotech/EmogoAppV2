@@ -193,6 +193,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.dismiss(animated: true, completion: nil)
         if SharedData.sharedInstance.iMessageNavigation != ""{
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
+        SharedData.sharedInstance.iMessageNavigation = ""
         }
         else {
             SharedData.sharedInstance.iMessageNavigation = ""
