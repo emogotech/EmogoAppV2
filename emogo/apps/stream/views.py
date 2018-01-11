@@ -9,9 +9,10 @@ from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer
-import django_filters
+from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
+from django.core.urlresolvers import resolve
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -47,10 +48,18 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         """
 
         instance = self.get_object()
-        # Update stream view count
-        instance.update_view_count()
+
         self.serializer_class = ViewStreamSerializer
-        serializer = self.get_serializer(instance)
+        current_url = resolve(request.path_info).url_name
+        # This condition response only stream collaborators.
+        if current_url == 'stream_collaborator':
+            serializer = self.get_serializer(instance, fields=('collaborators',))
+        # Return all data
+        else:
+            serializer = self.get_serializer(instance)
+            # Update stream view count
+            instance.update_view_count()
+
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
@@ -106,6 +115,24 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # Perform delete operation
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
+class StreamCollaboratorAPI(StreamAPI):
+
+    def retrieve(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+
+        instance = self.get_object()
+        # Update stream view count
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
+        self.serializer_class = ViewCollaboratorSerializer(instance, many=True, fields=fields, context=self.request)
+        serializer = self.get_serializer(instance.collaborator_list(manager='actives').all().order_by('-id'), fields=fields)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
 class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):

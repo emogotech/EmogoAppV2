@@ -188,7 +188,13 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
-        instances = obj.collaborator_list(manager='actives').all().order_by('-id')
+
+        # If logged-in user is owner of stream show all collaborator
+        if obj.created_by == self.context['request'].user:
+            instances = obj.collaborator_list(manager='actives').all().order_by('-id')
+        # else Show collaborator created by logged in user.
+        else:
+            instances = obj.collaborator_list(manager='actives').filter(created_by=self.context['request'].user).order_by('-id')
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 

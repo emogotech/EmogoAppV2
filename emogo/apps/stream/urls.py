@@ -2,6 +2,8 @@ from django.conf.urls import url
 from emogo.apps.stream import views
 
 urlpatterns = [
+    # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
+    url(r'^stream/collaborator/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='stream_collaborator'),
     url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view()),
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
