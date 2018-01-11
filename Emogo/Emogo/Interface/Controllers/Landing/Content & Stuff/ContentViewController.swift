@@ -35,6 +35,7 @@ class ContentViewController: UIViewController {
     let shapes = ShapeDAO()
     var isEdit:Bool!
     var isAddStream:Bool! = false
+    var isEditngContent:Bool! = false
 
     
     override func viewDidLoad() {
@@ -47,6 +48,10 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     // MARK: - PrepareLayout
@@ -71,7 +76,15 @@ class ContentViewController: UIViewController {
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
         txtDescription.delegate = self
+        
+        let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
+        if temp.type == .video {
+            let videoUrl = URL(string: temp.coverImage)
+            LightboxConfig.handleVideo(self, videoUrl!)
+        }
+        
         self.updateContent()
+        
     }
     
     
@@ -103,17 +116,21 @@ class ContentViewController: UIViewController {
          self.lblDescription.isHidden = true
          }
          */
+        self.txtTitleImage.isHidden = true
+        self.txtDescription.isHidden = true
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
+            self.txtTitleImage.isHidden = false
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
+            self.txtDescription.isHidden = false
         }
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = false
         }else {
-            self.btnPlayIcon.isHidden = false
+            self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = true
         }
         if seletedImage.imgPreview != nil {
@@ -136,14 +153,19 @@ class ContentViewController: UIViewController {
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
             self.btnDone.isHidden = true
-            self.txtTitleImage.isHidden = true
-            self.txtDescription.isHidden = true
+            self.txtTitleImage.isUserInteractionEnabled = false
+            self.txtDescription.isUserInteractionEnabled = false
+            
+           // self.txtTitleImage.isHidden = true
+            //self.txtDescription.isHidden = true
             self.btnFlagIcon.isHidden = false
         }else {
             self.btnEdit.isHidden = false
             self.btnDone.isHidden = false
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
+            self.txtTitleImage.isUserInteractionEnabled = true
+            self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
         }
         
@@ -295,9 +317,14 @@ class ContentViewController: UIViewController {
     
     
     @IBAction func btnActionAddStream(_ sender: Any) {
+        if isEditngContent {
+            self.showToast(type: AlertType.success, strMSG: kAlert_Confirmation_For_Edit_Stream_Content)
+        }
+        else{
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
         obj.objContent = seletedImage
         self.navigationController?.push(viewController: obj)
+        }
     }
     @IBAction func btnDoneAction(_ sender: Any) {
        // Update Content
@@ -444,10 +471,17 @@ class ContentViewController: UIViewController {
             }
         }
         
-        let controller = LightboxController(images: arrayContents, startIndex: index)
-        controller.dynamicBackground = true
-        if arrayContents.count != 0 {
-            present(controller, animated: true, completion: nil)
+       
+        let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
+        if temp.type == .video {
+            let videoUrl = URL(string: temp.coverImage)
+            LightboxConfig.handleVideo(self, videoUrl!)
+        }else{
+            let controller = LightboxController(images: arrayContents, startIndex: index)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
         }
     }
     
@@ -510,6 +544,7 @@ class ContentViewController: UIViewController {
                     self.seletedImage = content
                 }
                 self.updateContent()
+                self.isEditing = false
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
@@ -571,19 +606,29 @@ extension ContentViewController:UITextFieldDelegate {
         }
         return true
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() {
+            isEditngContent = true
+        }
+    }
 }
 
 extension ContentViewController:UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if txtDescription.text.trim() == "Description"{
             txtDescription.text = nil
         }
     }
     
-    
     func textViewDidEndEditing(_ textView: UITextView) {
         if txtDescription.text.trim().isEmpty{
             txtDescription.text = "Description"
+        }
+        
+        if txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
+            isEditngContent = true
         }
     }
     
@@ -596,6 +641,7 @@ extension ContentViewController:UITextViewDelegate {
         return textView.text.length + (text.length - range.length) <= 250
         
     }
+    
 }
 
 extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {

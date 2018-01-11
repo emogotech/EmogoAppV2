@@ -210,7 +210,11 @@ class ContainerViewController: UIViewController {
     }
     @IBAction func btnBackAction(_ sender: UIButton) {
         kBackNav = "2"
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func removeViewController(){
+        
     }
     
     
