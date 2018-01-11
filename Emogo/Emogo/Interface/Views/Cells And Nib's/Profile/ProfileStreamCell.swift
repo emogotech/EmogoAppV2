@@ -17,7 +17,7 @@ class ProfileStreamCell: UICollectionViewCell {
     @IBOutlet weak var btnLock: UIButton!
     @IBOutlet weak var btnEdit: UIButton!
 
-    
+    var size:CGSize! = CGSize(width: 250, height: 250)
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         
@@ -38,6 +38,10 @@ class ProfileStreamCell: UICollectionViewCell {
         }else {
             self.btnLock.setImage(#imageLiteral(resourceName: "unlock_icon"), for: .normal)
         }
+        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (_, imgSize) in
+            self.size = imgSize
+        }
+        
     }
     
 }

@@ -13,7 +13,8 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
     var objPeople:PeopleDAO!
-    
+    var cellManager = RZCellSizeManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -33,7 +34,25 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
+        
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.columnCount = 2
+        // Collection view attributes
+        self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        
+        // Add the waterfall layout to your collection view
+        self.profileCollectionView.collectionViewLayout = layout
+        
         HUDManager.sharedInstance.showHUD()
+        let name = NSStringFromClass(ProfileStreamCell.self)
+        self.cellManager = RZCellSizeManager()
+        
+
+        
         self.getStreamList(type:.start)
     }
     
@@ -113,7 +132,7 @@ class ViewProfileViewController: UIViewController {
 
 
 
-extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
+extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             return StreamList.sharedInstance.arrayStream.count
@@ -125,16 +144,21 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
+        
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
+        
             return cell
-            
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        
+        guard let cell  = self.profileCollectionView.cellForItem(at: indexPath) else {
+            return CGSize(width: 250, height: 250)
+        }
+       
+        return (cell as! ProfileStreamCell).size
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

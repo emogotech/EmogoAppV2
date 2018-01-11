@@ -150,6 +150,7 @@
 		F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */; };
 		F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
+		F42218042007AE54002D4E4E /* RZCellSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F42218032007AE54002D4E4E /* RZCellSizeManager.m */; };
 		F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */; };
 		F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */; };
 		F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
@@ -478,6 +479,8 @@
 		F42217BD20075216002D4E4E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		F42217BE20075217002D4E4E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		F42218022007AE52002D4E4E /* RZCellSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZCellSizeManager.h; sourceTree = "<group>"; };
+		F42218032007AE54002D4E4E /* RZCellSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCellSizeManager.m; sourceTree = "<group>"; };
 		F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamCell.swift; sourceTree = "<group>"; };
 		F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
@@ -967,6 +970,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F42218012007AE2D002D4E4E /* CellResizeManager */,
 				F42217A820074CB6002D4E4E /* PopupView */,
 				F4361D381FF226F100553E8E /* Slider */,
 				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
@@ -1348,6 +1352,15 @@
 				F42217B120074D4D002D4E4E /* k-popup-dismiss-button@3x.png */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F42218012007AE2D002D4E4E /* CellResizeManager */ = {
+			isa = PBXGroup;
+			children = (
+				F42218022007AE52002D4E4E /* RZCellSizeManager.h */,
+				F42218032007AE54002D4E4E /* RZCellSizeManager.m */,
+			);
+			path = CellResizeManager;
 			sourceTree = "<group>";
 		};
 		F4266EF51FF66F680075BFD7 /* Profile */ = {
@@ -2370,6 +2383,7 @@
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
+				F42218042007AE54002D4E4E /* RZCellSizeManager.m in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
