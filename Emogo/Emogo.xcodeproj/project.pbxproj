@@ -141,6 +141,15 @@
 		F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */; };
 		F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
+		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
+		F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */; };
+		F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F42217B020074D4D002D4E4E /* k-popup-dismiss-button@2x.png */; };
+		F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F42217B120074D4D002D4E4E /* k-popup-dismiss-button@3x.png */; };
+		F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */; };
+		F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217B920075213002D4E4E /* TPKeyboardAvoidingScrollView.m */; };
+		F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */; };
+		F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
 		F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */; };
 		F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */; };
 		F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
@@ -453,6 +462,22 @@
 		F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
+		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
+		F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZPopupViewController.m; sourceTree = "<group>"; };
+		F42217AC20074CF9002D4E4E /* BIZPopupViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewControllerDelegate.h; sourceTree = "<group>"; };
+		F42217AD20074CF9002D4E4E /* UIViewController+BIZChildViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BIZChildViewController.h"; sourceTree = "<group>"; };
+		F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BIZChildViewController.m"; sourceTree = "<group>"; };
+		F42217B020074D4D002D4E4E /* k-popup-dismiss-button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "k-popup-dismiss-button@2x.png"; sourceTree = "<group>"; };
+		F42217B120074D4D002D4E4E /* k-popup-dismiss-button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "k-popup-dismiss-button@3x.png"; sourceTree = "<group>"; };
+		F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpdateViewController.swift; sourceTree = "<group>"; };
+		F42217B820075212002D4E4E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		F42217B920075213002D4E4E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		F42217BA20075214002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		F42217BD20075216002D4E4E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
+		F42217BE20075217002D4E4E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamCell.swift; sourceTree = "<group>"; };
 		F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
@@ -942,6 +967,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F42217A820074CB6002D4E4E /* PopupView */,
 				F4361D381FF226F100553E8E /* Slider */,
 				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
 				F409FC701FE3DF280093E0E7 /* SwipeViewController */,
@@ -1286,6 +1312,44 @@
 			path = BadgeButton;
 			sourceTree = "<group>";
 		};
+		F42217A820074CB6002D4E4E /* PopupView */ = {
+			isa = PBXGroup;
+			children = (
+				F42217BD20075216002D4E4E /* TPKeyboardAvoidingCollectionView.h */,
+				F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */,
+				F42217B820075212002D4E4E /* TPKeyboardAvoidingScrollView.h */,
+				F42217B920075213002D4E4E /* TPKeyboardAvoidingScrollView.m */,
+				F42217BE20075217002D4E4E /* TPKeyboardAvoidingTableView.h */,
+				F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */,
+				F42217BA20075214002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+				F42217A920074CF9002D4E4E /* Classes */,
+				F42217AF20074D4D002D4E4E /* Resources */,
+			);
+			path = PopupView;
+			sourceTree = "<group>";
+		};
+		F42217A920074CF9002D4E4E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */,
+				F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */,
+				F42217AC20074CF9002D4E4E /* BIZPopupViewControllerDelegate.h */,
+				F42217AD20074CF9002D4E4E /* UIViewController+BIZChildViewController.h */,
+				F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		F42217AF20074D4D002D4E4E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F42217B020074D4D002D4E4E /* k-popup-dismiss-button@2x.png */,
+				F42217B120074D4D002D4E4E /* k-popup-dismiss-button@3x.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F4266EF51FF66F680075BFD7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -1299,6 +1363,7 @@
 			children = (
 				F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */,
 				F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */,
+				F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1783,8 +1848,10 @@
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				F4431A9A1FC6DD2C00311C9A /* PhotoCropEditorBorder.png in Resources */,
+				F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */,
 				F4431AAC1FC6DD2C00311C9A /* StickersViewController.xib in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
+				F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
@@ -2242,11 +2309,14 @@
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F404C06C1FDA951D00E8ACC2 /* StreamViewHeader.swift in Sources */,
+				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
 				F4431AA11FC6DD2C00311C9A /* PhotoEditor+Gestures.swift in Sources */,
+				F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */,
 				F43612EF1FD69B3200788FFE /* AGBrightnessFilter.metal in Sources */,
 				F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */,
 				F4731FC51FC2D97000AA68D8 /* CameraViewController.swift in Sources */,
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
+				F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
@@ -2261,15 +2331,18 @@
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
+				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
+				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4431A931FC6DD2C00311C9A /* CropViewController.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
+				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				F4431AA91FC6DD2C00311C9A /* StickerCollectionViewCell.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
@@ -2285,6 +2358,7 @@
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
+				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
 				F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */,
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,

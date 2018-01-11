@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import Photos
-import PhotosUI
-import AVFoundation
+
 
 enum ProfileMenu:String{
     case stream = "1"
@@ -37,8 +35,7 @@ class ProfileViewController: UIViewController {
             updateConatiner()
         }
     }
-    var imageToUpload:UIImage!
-    var fileName:String! = ""
+  
 
     // MARK: - Override Functions
 
@@ -61,11 +58,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
-        AppDelegate.appDelegate.removeOberserver()
-        self.imgUser.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilepicUpload))
-        tap.numberOfTapsRequired = 1
-        self.imgUser.addGestureRecognizer(tap)
+       
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         
         if UserDAO.sharedInstance.user.userImage.trim().isEmpty {
@@ -106,12 +99,7 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.expiredTimeInterval = 20.0
     }
     
-    func setCoverImage(image:UIImage) {
-        self.imageToUpload = image
-        self.imgUser.image = image
-        self.fileName =  NSUUID().uuidString + ".png"
-    }
-    
+   
     
      // MARK: -  Action Methods And Selector
     
@@ -119,7 +107,13 @@ class ProfileViewController: UIViewController {
        self.updateSegment(selected: sender.tag)
     }
     
-
+    @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
+        let objUpdate:ProfileUpdateViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView) as! ProfileUpdateViewController
+        let objPopup = BIZPopupViewController(contentViewController: objUpdate, contentSize:  CGSize(width: 280.0, height: 340.0))
+        objPopup?.showDismissButton = false
+        self.present(objPopup!, animated: true, completion: nil)
+    }
+    
     
   private func updateSegment(selected:Int){
         switch selected {
@@ -196,158 +190,7 @@ class ProfileViewController: UIViewController {
     }
     
     
-    @objc func profilepicUpload() {
-        
-        let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            
-            self.checkCameraPermission()
-        }
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            self.checkPhotoLibraryPermission()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            
-        }
-        alert.addAction(camera)
-        alert.addAction(gallery)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
-    
-    func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized:
-            print("Gallery Open")
-            let when = DispatchTime.now() + 0.5
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                self.openGallery()
-            }
-            break
-        //handle authorized status
-        case .denied :
-            print("denied ")
-            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-            break
-            
-        case .restricted:
-                
-            break
-        //handle denied status
-        case .notDetermined:
-            // ask for permissions
-            print("denied ")
-            PHPhotoLibrary.requestAuthorization() { status in
-                switch status {
-                case .authorized:
-                    let when = DispatchTime.now() + 0.5
-                    DispatchQueue.main.asyncAfter(deadline: when) {
-                        self.openGallery()
-                    }
-                    break
-                // as above
-                case .denied, .restricted:
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-                    break
-                // as above
-                case .notDetermined:
-                    break
-                    // won't happen but still
-                }
-            }
-        }
-    }
-    
-    func checkCameraPermission(){
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        switch status {
-        case .authorized:
-            self.openCamera()
-            break
-        case .denied, .restricted :
-            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
-            break
-            
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
-                if granted {
-                    //access allowed
-                    print("camera Open")
-                    self.openCamera()
-                } else {
-                    //access denied
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
-                }
-            })
-            break
-        }
-       
-    }
-    
-    
-    private func openCamera(){
-        if  UIImagePickerController.isSourceTypeAvailable(.camera){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = .camera
-            DispatchQueue.main.async {
-                self.topMostController().present(imagePicker, animated: true, completion: nil)
-            }
-        }else {
-            
-        }
-    }
-    
-    private func openGallery(){
-        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            DispatchQueue.main.async {
-                self.topMostController().present(imagePicker, animated: true, completion: nil)
-            }
-        }else {
-            
-        }
-        
-    }
-    
-    func topMostController() -> UIViewController {
-      
-        var topController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
-        while (topController.presentedViewController != nil) {
-            topController = topController.presentedViewController!
-        }
-        return topController
-    }
-    
-    
-    // MARK: - API
-
-    private func uploadProfileImage(){
-        HUDManager.sharedInstance.showHUD()
-        let image = self.imageToUpload.reduceSize()
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
-        let url = Document.saveFile(data: imageData!, name: self.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.profileUpdate(strURL: imageUrl!)
-                }
-            }else {
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
-    }
-    
-    
+  
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
@@ -428,10 +271,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    private func profileUpdate(strURL:String){
-        
-       
-    }
+  
     
     
     
@@ -514,18 +354,3 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
 }
 
 
-extension ProfileViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        dismiss(animated: true, completion: nil)
-        
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.setCoverImage(image: pickedImage)
-        }
-    }
-    
-}
