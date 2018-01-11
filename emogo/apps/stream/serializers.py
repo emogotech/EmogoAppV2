@@ -62,8 +62,12 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         collaborators = self.initial_data.get('collaborator')
         if collaborators is not None:
             # If collaborators list is empty then delete existing collaborator.
-            self.instance.collaborator_list.filter().delete()
-
+            # If logged in user is owner of stream can delete all collaborators.
+            if self.instance.created_by == self.context.get('request').user:
+                self.instance.collaborator_list.filter().delete()
+            # Other wise delete only self created collaborators.
+            else:
+                self.instance.collaborator_list.filter(created_by=self.context.get('request').user).delete()
             if collaborators.__len__() > 0:
                 self.create_collaborator(self.instance)
 
@@ -120,7 +124,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         collaborator.name = data.get('name')
         collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
         collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
-        collaborator.created_by = self.context['request'].user
+        collaborator.created_by = self.context.get('request').user
         collaborator.save()
         return collaborator
 
@@ -143,7 +147,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             name=data.get('name'),
             url=data.get('url'),
             type=data.get('type'),
-            created_by=self.context['request'].user
+            created_by=self.context.get('request').user
         )
         content.save()
         content.streams.add(stream)
@@ -161,7 +165,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             type=self.validated_data.get('type'),
             emogo=self.validated_data.get('emogo', False),
             featured=self.validated_data.get('featured', False),
-            created_by=self.context['request'].user
+            created_by=self.context.get('request').user
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
@@ -190,11 +194,11 @@ class ViewStreamSerializer(StreamSerializer):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
 
         # If logged-in user is owner of stream show all collaborator
-        if obj.created_by == self.context['request'].user:
+        if obj.created_by == self.context.get('request').user:
             instances = obj.collaborator_list(manager='actives').all().order_by('-id')
         # else Show collaborator created by logged in user.
         else:
-            instances = obj.collaborator_list(manager='actives').filter(created_by=self.context['request'].user).order_by('-id')
+            instances = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user).order_by('-id')
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 
@@ -205,7 +209,7 @@ class ViewStreamSerializer(StreamSerializer):
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
-        user_phono_number = str(self.context['request'].user.username).replace('+', '')
+        user_phono_number = str(self.context.get('request').user.username).replace('+', '')
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
         # qs = [x ]
         if qs.__len__() > 0:
@@ -213,7 +217,7 @@ class ViewStreamSerializer(StreamSerializer):
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
             # If current user as owner of stream
-            if obj.created_by.__str__() == self.context['request'].user.__str__():
+            if obj.created_by.__str__() == self.context.get('request').user.__str__():
                 return {'can_add_content': True, 'can_add_people': True}
             else:
                 # If current user a sophisticated user.
@@ -232,7 +236,7 @@ class ContentListSerializer(serializers.ListSerializer):
     def create(self, validated_data):
         contents = []
         for item in validated_data:
-            item.update({'created_by':self.context['request'].user})
+            item.update({'created_by':self.context.get('request').user})
             contents.append(Content(**item))
         return Content.objects.bulk_create(contents)
 
@@ -357,7 +361,7 @@ class ExtremistReportSerializer(DynamicFieldsModelSerializer):
             stream_id=self.initial_data.get('stream'),
             content_id=self.initial_data.get('content'),
             type=self.initial_data.get('type'),
-            created_by=self.context['request'].user
+            created_by=self.context.get('request').user
         )
         new_obj.save()
 

@@ -19,8 +19,3 @@ class Collaborator(DefaultStatusModel):
 
     class Meta:
         db_table = 'collaborator'
-
-    @classmethod
-    def create_customer(sender, instance, created, **kwargs):
-        print "Save is called"
-

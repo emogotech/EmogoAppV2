@@ -52,8 +52,8 @@ class Stream(DefaultStatusModel):
         db_table = 'stream'
 
     def delete(self, using=None, keep_parents=False):
-        collaborators = self.collaborator_list.filter(status='Active')
-        contents = self.content_set.all()
+        collaborators = self.collaborator_list(manager='actives').all()
+        contents = self.content_set(manager='actives').all()
         # Delete collaborators
         map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
         # Delete Contents
