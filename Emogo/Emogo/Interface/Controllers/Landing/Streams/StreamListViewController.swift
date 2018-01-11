@@ -66,6 +66,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.streamCollectionView.accessibilityLabel = "StreamCollectionView"
         setupAnchor()
         prepareLayouts()

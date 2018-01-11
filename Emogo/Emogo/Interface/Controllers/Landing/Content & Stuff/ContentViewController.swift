@@ -109,7 +109,7 @@ class ContentViewController: UIViewController {
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
         }
-        if seletedImage.type == .image {
+        if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = false
         }else {
