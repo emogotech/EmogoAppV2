@@ -178,11 +178,13 @@ class StreamViewController: MSMessagesAppViewController {
         self.lblStreamTitle.text = ""
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
-        
+        self.lblStreamDesc.numberOfLines = 2
+        btnExpandDesc.tag = 0
         UIView.animate(withDuration: 0.0) {
             self.lblStreamDesc.text = self.objStream?.description
             self.lblStreamName.text = self.objStream?.title
             self.lblStreamTitle.text = self.objStream?.title
+            self.perform(#selector(self.updateExpand), with: nil, afterDelay: 0.1)
         }
         
         lblCount.text = ""
@@ -202,6 +204,22 @@ class StreamViewController: MSMessagesAppViewController {
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
             btnEdit.isHidden = false
             btnDelete.isHidden = false
+        }
+    }
+    
+    @objc func updateExpand(){
+        if self.lblStreamDesc.heightOfLbl > self.lblStreamDesc.frame.size.height  {
+            if self.lblStreamDesc.isTruncated {
+                self.btnExpandDesc.isHidden = false
+            }else{
+                self.btnExpandDesc.isHidden = true
+            }
+        }else{
+            if self.lblStreamDesc.frame.size.height == 0.0 || self.lblStreamDesc.numberOfVisibleLines < 2{
+                 self.btnExpandDesc.isHidden = true
+            }else{
+            self.btnExpandDesc.isHidden = false
+            }
         }
     }
     
@@ -533,6 +551,4 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
             present(controller, animated: true, completion: nil)
         }
     }
-    
 }
-
