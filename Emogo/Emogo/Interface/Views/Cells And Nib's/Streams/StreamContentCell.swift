@@ -34,15 +34,20 @@ class StreamContentCell: UICollectionViewCell {
             imgAdd.isHidden = true
             viewCard.isHidden = false
             self.lblName.text = content.name.trim().capitalized
+            if (self.lblName.text?.trim().isEmpty)! {
+                self.viewContent.isHidden = true
+            }else {
+                self.viewContent.isHidden = false
+            }
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
             if content.type == .image {
                 self.btnPlay.isHidden = true
-                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
+                self.imgCover.setForAnimatedImage(strImage:content.coverImage)
             }else if content.type == .video  {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
                 self.btnPlay.isHidden = false
             }else  if content.type == .link {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
                 self.btnPlay.isHidden = true
             }else {
                 self.btnPlay.isHidden = true

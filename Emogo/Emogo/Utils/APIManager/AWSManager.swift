@@ -319,11 +319,11 @@ class AWSRequestManager:NSObject {
     func createContent(StreamID:[String],array:[ContentDAO]){
         var arrayParams = [Any]()
         for obj in array {
-     let param = ["url":obj.coverImage!,"name":obj.name!,"type":obj.type.rawValue,"description":obj.description!,"video_image":obj.coverImageVideo!]
+            let param = ["url":obj.coverImage!,"name":obj.name!,"type":obj.type.rawValue,"description":obj.description!,"video_image":obj.coverImageVideo!,"height":obj.height!,"width":obj.width!] as [String : Any]
             arrayParams.append(param)
         }
         print(arrayParams)
-        APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "") { (contents, errorMsg) in
+        APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "",width:0,height:0) { (contents, errorMsg) in
             if (errorMsg?.isEmpty)! {
                 self.completed()
                 if StreamID.count != 0 {

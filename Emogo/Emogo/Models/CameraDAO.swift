@@ -87,7 +87,6 @@ class ContentDAO{
     var description:String! = ""
     var createdBy:String! = ""
     var type:PreviewType!
-    var imgPreview:UIImage?
     var fileName:String! = ""
     var fileUrl:URL?
     var isUploaded:Bool! = false
@@ -96,6 +95,19 @@ class ContentDAO{
     var isEdit:Bool! = false
     var isDelete:Bool! = false
     var isShowAddStream:Bool! = false
+    var width:Int! = 0
+    var height:Int! = 0
+    var imgPreview:UIImage? = nil {
+        
+        didSet {
+            if self.imgPreview != nil {
+                self.width = Int(imgPreview!.size.width)
+                self.height = Int(imgPreview!.size.height)
+            }
+        }
+    }
+    
+
     init(contentData:[String:Any]) {
         if let obj  = contentData["name"] {
             self.name = obj as! String
@@ -127,6 +139,19 @@ class ContentDAO{
         }
         if let obj  = contentData["video_image"] {
             self.coverImageVideo = obj as! String
+        }
+        
+        if let obj = contentData["width"] {
+            self.width =  Int("\(obj)")
+            if  self.width  == 0 {
+                self.width = 300
+            }
+        }
+        if let obj = contentData["height"] {
+            self.height = Int("\(obj)")
+            if  self.height  == 0 {
+                self.height = 300
+            }
         }
         
         if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {

@@ -218,18 +218,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder), options: .refreshCached) { (image, error, cahce, url) in
-            
-            if let img = image{
-                self.image = img.scalingAndCropping(for: self.bounds.size)
-            }
-            
-            self.sd_setShowActivityIndicatorView(false)
-        }
-       
-        //self.sd_setImage(with: url)
-      //  self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
-       
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
     }
     
     

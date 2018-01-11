@@ -14,14 +14,15 @@ import AVFoundation
 class ProfileUpdateViewController: UIViewController {
     
     @IBOutlet weak var imgUser: NZCircularImageView!
-    
+    @IBOutlet weak var txtName: SkyFloatingLabelTextField!
+    @IBOutlet weak var txtPhone: SkyFloatingLabelTextField!
+
     var imageToUpload:UIImage!
     var fileName:String! = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.prepareLayouts()
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,14 +31,30 @@ class ProfileUpdateViewController: UIViewController {
     }
     
     func prepareLayouts(){
-        self.title = "Profile"
         self.imgUser.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.profilepicUpload))
         tap.numberOfTapsRequired = 1
         self.imgUser.addGestureRecognizer(tap)
-       
+       self.prepareData()
     }
 
+    
+    func prepareData(){
+        txtName.text = UserDAO.sharedInstance.user.fullName
+        txtPhone.text = UserDAO.sharedInstance.user.phoneNumber
+        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+    }
+    
+    @IBAction func btnDoneAction(_ sender: UIButton) {
+        if self.imageToUpload == nil {
+            HUDManager.sharedInstance.showHUD()
+            self.profileUpdate(strURL:UserDAO.sharedInstance.user.userImage)
+        }else {
+            
+            self.uploadProfileImage()
+        }
+    }
+    
     @objc func profilepicUpload() {
         
         let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
@@ -198,7 +215,10 @@ class ProfileUpdateViewController: UIViewController {
     
     private func profileUpdate(strURL:String){
         
-        
+        APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: (txtName.text?.trim())!, profilePic: strURL) { (isSuccess, errorMsg) in
+            
+            HUDManager.sharedInstance.hideHUD()
+        }
     }
     
     

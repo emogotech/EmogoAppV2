@@ -500,10 +500,11 @@ class APIServiceManager: NSObject {
     // MARK: - Create Content  API
     
     
-    func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
+    func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,width:Int,height:Int,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
         var params:[Any]!
         if contents == nil {
-            params =  [["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo]]
+            params =  [["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo,"height":width,"width":height]]
+            
         }else {
             params = contents
         }
@@ -943,6 +944,38 @@ class APIServiceManager: NSObject {
                 print(error.localizedDescription)
                 completionHandler(false,error.localizedDescription)
                 break
+            }
+        }
+    }
+    
+    
+    // MARK: - Verify OTP API
+    func apiForUserProfileUpdate(name:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
+        let params:[String:Any] = ["otp":name,"user_image":profilePic]
+        APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        
+                        if let data = (value as! [String:Any])["data"] {
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            UserDAO.sharedInstance.parseUserInfo()
+                            kDefault?.set(true, forKey: kUserLogggedIn)
+                        }
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
             }
         }
     }

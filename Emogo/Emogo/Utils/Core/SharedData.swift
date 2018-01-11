@@ -228,13 +228,16 @@ class SharedData: NSObject {
     
     
     func downloadImage(url:String,handler:@escaping (_ image: UIImage?)-> Void){
-     let imgView = UIImageView()
+        
         let imageURL = URL(string: url.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        imgView.sd_setHighlightedImage(with: imageURL, options: .continueInBackground) { (image, error, cache, url) in
+        
+        SDWebImageManager.shared().imageDownloader?.downloadImage(with: imageURL, options: SDWebImageDownloaderOptions.useNSURLCache, progress: nil, completed: { (image, data, error, _) in
+            
             if let img = image {
                 handler(img)
             }
-        }
+        })
+   
     }
     
     

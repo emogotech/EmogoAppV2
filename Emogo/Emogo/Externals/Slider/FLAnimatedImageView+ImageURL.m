@@ -8,10 +8,14 @@
 
 #import "FLAnimatedImageView+ImageURL.h"
 #import "FLAnimatedImageView+WebCache.h"
+#import "UIView+WebCache.h"
 
 @implementation FLAnimatedImageView (ImageURL)
 
 -(void)setImageUrl:(NSURL *)url{
-    [self sd_setImageWithURL:url];
+    [self sd_setIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self sd_setShowActivityIndicatorView:YES];
+  [self sd_setImageWithURL:url];
+    
 }
 @end

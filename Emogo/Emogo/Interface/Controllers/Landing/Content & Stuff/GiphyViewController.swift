@@ -236,6 +236,8 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
             insertNew.type = .gif
             insertNew.coverImage = content.url
             insertNew.isUploaded = false
+            insertNew.height = content.hieght
+            insertNew.width = content.width
             insertNew.isSelected = content.isSelected
             insertNew.coverImageVideo = content.originalUrl
             self.updateSelected(obj:insertNew)

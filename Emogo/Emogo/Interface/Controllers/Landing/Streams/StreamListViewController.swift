@@ -314,7 +314,7 @@ class StreamListViewController: UIViewController {
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         kContainerNav = ""
-        self.navigationController?.push(viewController: obj)
+        self.navigationController?.pushNormal(viewController: obj)
     }
     
     override func btnHomeAction() {
@@ -789,7 +789,6 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     self.viewCollection.frame = self.viewSearch.frame
                 }, completion: nil)
             }
-            
         }
         
         // update the new position acquired

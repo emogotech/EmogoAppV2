@@ -70,6 +70,20 @@ class ProfileViewController: UIViewController {
         HUDManager.sharedInstance.showHUD()
         self.getStreamList(type:.start,filter: .myStream)
         configureLoadMoreAndRefresh()
+        
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.columnCount = 2
+        // Collection view attributes
+        self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.profileCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.profileCollectionView.collectionViewLayout = layout
+        
 
     }
     
@@ -290,7 +304,7 @@ class ProfileViewController: UIViewController {
 
 
 
-extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
+extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -328,9 +342,16 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        
+        if currentMenu == .stuff {
+            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            return CGSize(width: content.width, height: content.height)
+        }else {
             let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
             return CGSize(width: itemWidth, height: itemWidth)
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

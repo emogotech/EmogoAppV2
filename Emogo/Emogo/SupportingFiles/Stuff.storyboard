@@ -1237,6 +1237,9 @@
                                             <constraint firstAttribute="height" constant="45" id="E05-RD-N2f"/>
                                         </constraints>
                                         <state key="normal" image="done_button"/>
+                                        <connections>
+                                            <action selector="btnDoneAction:" destination="es5-O1-GlB" eventType="touchUpInside" id="LEG-Jd-Kof"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1265,6 +1268,8 @@
                     </view>
                     <connections>
                         <outlet property="imgUser" destination="A5Y-Uf-wED" id="fuL-hU-NMi"/>
+                        <outlet property="txtName" destination="dpM-73-axx" id="OtH-U0-dl4"/>
+                        <outlet property="txtPhone" destination="nei-XG-Faw" id="ZFd-iu-sv4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QAn-MG-voO" userLabel="First Responder" sceneMemberID="firstResponder"/>

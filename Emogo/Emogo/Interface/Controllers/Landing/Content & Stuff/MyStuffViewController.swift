@@ -53,6 +53,20 @@ class MyStuffViewController: UIViewController {
         }
         self.stuffCollectionView.expiredTimeInterval = 20.0
         
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.columnCount = 2
+        // Collection view attributes
+        self.stuffCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.stuffCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.stuffCollectionView.collectionViewLayout = layout
+        
+        
     }
     
     @IBAction func btnActionNext(_ sender: Any) {
@@ -168,7 +182,7 @@ class MyStuffViewController: UIViewController {
 }
 
 
-extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -189,9 +203,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        return CGSize(width: content.width, height: content.height)
     }
     
    
