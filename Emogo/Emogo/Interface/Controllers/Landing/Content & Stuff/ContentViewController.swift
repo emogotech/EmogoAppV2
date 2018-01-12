@@ -159,7 +159,12 @@ class ContentViewController: UIViewController {
             self.btnFlagIcon.isHidden = false
         }else {
             self.btnEdit.isHidden = false
-            self.btnDone.isHidden = false
+            if isEditngContent {
+                self.btnDone.isHidden = false
+            }
+            else{
+                self.btnDone.isHidden = true
+            }
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
             if self.txtDescription.text == "" {
@@ -270,7 +275,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.navigationController?.pop()
+        self.navigationController?.popToView()
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
@@ -645,6 +650,7 @@ extension ContentViewController:PhotoEditorDelegate
 
 
 extension ContentViewController:UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == txtTitleImage {
             txtDescription.becomeFirstResponder()
@@ -655,8 +661,12 @@ extension ContentViewController:UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() {
+        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
             isEditngContent = true
+            self.btnDone.isHidden = false
+        }else{
+            isEditngContent = true
+            self.btnDone.isHidden = false
         }
     }
 }
@@ -664,8 +674,12 @@ extension ContentViewController:UITextFieldDelegate {
 extension ContentViewController:UITextViewDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        if txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
+        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
             isEditngContent = true
+            self.btnDone.isHidden = false
+        }else{
+            isEditngContent = false
+            self.btnDone.isHidden = true
         }
     }
     

@@ -94,9 +94,9 @@ class ContainerViewController: UIViewController {
         super.viewDidAppear(animated)
         if ContentList.sharedInstance.arrayContent.count != 0 {
             arraySelectedContent = ContentList.sharedInstance.arrayContent
-            self.buttonNext.isUserInteractionEnabled = true
+//            self.buttonNext.isUserInteractionEnabled = true
         }else{
-            self.buttonNext.isUserInteractionEnabled = false
+//            self.buttonNext.isUserInteractionEnabled = false
         }
         prepareLayouts()
     }
