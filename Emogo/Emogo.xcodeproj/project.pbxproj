@@ -11,6 +11,7 @@
 		2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */; };
 		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
 		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
+		2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
 		2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */; };
 		2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */; };
 		2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */; };
@@ -2523,6 +2524,7 @@
 				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
 				F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */,
+				2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,

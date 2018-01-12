@@ -42,6 +42,9 @@ class StreamViewController: MSMessagesAppViewController {
     var objStream                           :StreamViewDAO?
     
     var getImageData : NSMutableArray = NSMutableArray()
+    var collectionLayout = CHTCollectionViewWaterfallLayout()
+
+    
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,12 +122,11 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @objc func setupCollectionProperties() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionStreams.frame.size.width/2-16, height: self.collectionStreams.frame.size.width/2-16)
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 10
-        collectionStreams!.collectionViewLayout = layout
+        collectionLayout.minimumColumnSpacing = 5.0
+        collectionLayout.minimumInteritemSpacing = 5.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.columnCount = 2
+        collectionStreams!.collectionViewLayout = collectionLayout
         
         collectionStreams.delegate = self
         collectionStreams.dataSource = self
@@ -469,12 +471,18 @@ class StreamViewController: MSMessagesAppViewController {
 }
 
 // MARK: -  Extension CollcetionView Delegates
-extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let content = objStream?.arrayContent[indexPath.row]
+        return CGSize(width: (content?.width)!, height: (content?.height)!)
+    }
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if objStream != nil {
             return objStream!.arrayContent.count
