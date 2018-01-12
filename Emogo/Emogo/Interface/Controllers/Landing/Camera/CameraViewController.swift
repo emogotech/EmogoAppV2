@@ -331,6 +331,7 @@ class CameraViewController: SwiftyCamViewController {
         if   ContentList.sharedInstance.arrayContent.count == 0  && assets.count != 0 {
             self.viewUP()
         }
+        HUDManager.sharedInstance.showHUD()
         let group = DispatchGroup()
         for obj in assets {
             group.enter()
@@ -339,9 +340,23 @@ class CameraViewController: SwiftyCamViewController {
             camera.fileName = obj.originalFileName
             if obj.type == .photo {
                 camera.type = .image
-                camera.imgPreview = obj.fullResolutionImage
-                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-                group.leave()
+                if obj.fullResolutionImage != nil {
+                    camera.imgPreview = obj.fullResolutionImage
+                    ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                    group.leave()
+                }else {
+                    
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            camera.imgPreview = img
+                            ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                        }
+                        group.leave()
+                    })
+                }
+                
             }else if obj.type == .video {
                 camera.type = .video
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
@@ -350,15 +365,17 @@ class CameraViewController: SwiftyCamViewController {
                      camera.fileUrl = url
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
                         camera.imgPreview = image
+                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
                     }
-                    ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
                     group.leave()
                 })
             }
          }
         
         group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
             self.btnPreviewOpen.isHidden = false
+            self.btnShutter.isHidden = false
             self.previewCollection.reloadData()
         })
         /*
