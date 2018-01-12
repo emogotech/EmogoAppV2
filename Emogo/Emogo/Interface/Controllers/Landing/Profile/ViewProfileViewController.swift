@@ -149,11 +149,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
-        guard let cell  = self.profileCollectionView.cellForItem(at: indexPath) else {
-            return CGSize(width: 250, height: 250)
-        }
-       
-        return (cell as! ProfileStreamCell).size
+        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+        return CGSize(width: stream.width, height: stream.hieght)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

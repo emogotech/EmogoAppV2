@@ -9,6 +9,7 @@
 import UIKit
 import SwiftyCam
 import Gallery
+import TLPhotoPicker
 
 class CameraViewController: SwiftyCamViewController {
     

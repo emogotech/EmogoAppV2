@@ -275,7 +275,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.navigationController?.popToView()
+        self.navigationController?.pop()
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
@@ -522,12 +522,17 @@ class ContentViewController: UIViewController {
                 arrayContents.append(image)
             }
         }
-        
        
-        let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
-        if temp.type == .video {
-            let videoUrl = URL(string: temp.coverImage)
-            LightboxConfig.handleVideo(self, videoUrl!)
+        if seletedImage.type == .video {
+            if self.currentIndex == nil {
+                let videoUrl = URL(string: self.seletedImage.coverImage)
+                LightboxConfig.handleVideo(self, videoUrl!)
+            }else {
+                let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
+                let videoUrl = URL(string: temp.coverImage)
+                LightboxConfig.handleVideo(self, videoUrl!)
+            }
+           
         }else{
             let controller = LightboxController(images: arrayContents, startIndex: index)
             controller.dynamicBackground = true

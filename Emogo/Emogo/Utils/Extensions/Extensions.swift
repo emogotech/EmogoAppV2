@@ -220,12 +220,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder), options: .refreshCached) { (image, _, _, _) in
-            if let img = image {
-                self.image = Toucan.init(image: img).resize(self.bounds.size).image
-            }
-        }
-      //  self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+         self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
     }
     
     

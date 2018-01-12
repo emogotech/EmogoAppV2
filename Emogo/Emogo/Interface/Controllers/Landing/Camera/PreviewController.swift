@@ -150,7 +150,7 @@ class PreviewController: UIViewController {
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
-            self.imgPreview.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
+            self.imgPreview.image = seletedImage.imgPreview
         }
     
         if !seletedImage.name.isEmpty {
