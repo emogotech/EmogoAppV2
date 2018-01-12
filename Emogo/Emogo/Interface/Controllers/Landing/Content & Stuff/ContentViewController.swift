@@ -48,6 +48,12 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        UIApplication.shared.isStatusBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isStatusBarHidden = false
     }
     
     override func viewDidLayoutSubviews() {

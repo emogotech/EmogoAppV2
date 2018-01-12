@@ -266,7 +266,7 @@ class StreamListViewController: UIViewController {
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
         if isLoadFirst {
             UIView.animate(withDuration: 0.1, animations: {
-                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: (self.navigationController?.navigationBar.frame.size.height)!, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
+                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: (self.navigationController?.navigationBar.frame.size.height)!+5, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
                 self.viewCollection.frame = self.viewSearch.frame
             })
             self.isLoadFirst = false
@@ -739,14 +739,13 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
         if isSearch && isTapPeople {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
         }
         else if isSearch && isTapStream {
-            let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-            return CGSize(width: itemWidth, height: itemWidth)
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            return CGSize(width: stream.width, height: stream.hieght)
         }
         else if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
@@ -757,19 +756,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: stream.width, height: stream.hieght)
         }
     }
-    //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-    //        var cell = UICollectionReusableView()
-    //        switch kind {
-    //        case IOStickyHeaderParallaxHeader:
-    //            cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_StreamHeaderView, for: indexPath) as! StreamSearchCell
-    //            (cell as! StreamSearchCell).delegateSearchDelegate = self
-    //            return cell
-    //        default:
-    //            assert(false, "Unexpected element kind")
-    //        }
-    //
-    //        return cell
-    //    }
+   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if isSearch && isTapPeople {
