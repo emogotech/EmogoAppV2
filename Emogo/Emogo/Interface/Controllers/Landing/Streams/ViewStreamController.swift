@@ -80,7 +80,7 @@ class ViewStreamController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 5.0
         layout.minimumInteritemSpacing = 5.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 5, 16, 5)
+        layout.sectionInset = UIEdgeInsetsMake(20, 5, 15, 5)
         layout.columnCount = 2
         layout.headerHeight = 200.0
         
