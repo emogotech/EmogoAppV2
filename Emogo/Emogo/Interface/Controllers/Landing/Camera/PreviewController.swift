@@ -211,11 +211,18 @@ class PreviewController: UIViewController {
         
     }
     
+    func resetLayout(){
+        self.imgPreview.image = nil
+        self.txtTitleImage.text = ""
+        self.txtDescription.text = ""
+    }
+    
     // MARK: -  Action Methods And Selector
 
     
     @IBAction func btnBackAction(_ sender: Any) {
         if self.strPresented == nil {
+            self.imgPreview.image = nil
             self.navigationController?.popNormal()
         }else {
             self.dismiss(animated: true, completion: nil)
@@ -253,6 +260,7 @@ class PreviewController: UIViewController {
                         }
                     })
                 ContentList.sharedInstance.arrayContent.removeAll()
+                self.resetLayout()
                 self.previewCollection.reloadData()
                 let when = DispatchTime.now() + 1.5
                 DispatchQueue.main.asyncAfter(deadline: when) {
@@ -277,6 +285,8 @@ class PreviewController: UIViewController {
             print(array.count)
             let arrayC = [String]()
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            self.imgPreview.image = nil
+            self.resetLayout()
             ContentList.sharedInstance.arrayContent.removeAll()
             self.previewCollection.reloadData()
             let when = DispatchTime.now() + 1.5
