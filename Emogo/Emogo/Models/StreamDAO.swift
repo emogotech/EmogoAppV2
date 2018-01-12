@@ -25,6 +25,8 @@ class StreamDAO {
     var IDcreatedBy:String! = ""
     var isSelected:Bool! = false
     var streamType:String! = ""
+    var width                  :Int! = 0
+    var hieght                 :Int! = 0
 
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {
@@ -45,8 +47,12 @@ class StreamDAO {
         if let obj  = streamData["type"] {
             self.streamType = obj as! String
         }
-      
-        
+        if let obj = streamData["width"] {
+            self.width =  Int("\(obj)")
+        }
+        if let obj = streamData["height"] {
+            self.hieght = Int("\(obj)")
+        }
     }
 }
 
@@ -104,6 +110,8 @@ class StreamViewDAO{
     var viewCount:String! = ""
     var arrayContent = [ContentDAO]()
     var arrayColab = [CollaboratorDAO]()
+    var width                  :Int! = 0
+    var hieght                 :Int! = 0
 
     init(streamData:[String:Any]) {
         
@@ -195,6 +203,12 @@ class StreamViewDAO{
         }
         if let obj  = streamData["id"] {
             self.streamID = "\(obj)"
+        }
+        if let obj = streamData["width"] {
+            self.width =  Int("\(obj)")
+        }
+        if let obj = streamData["height"] {
+            self.hieght = Int("\(obj)")
         }
        
     }

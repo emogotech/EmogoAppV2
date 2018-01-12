@@ -174,7 +174,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Create Stream API
     
-    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
@@ -234,7 +234,7 @@ class APIServiceManager: NSObject {
     }
     
     // MARK: - Edit Stream API
-    func apiForEditStream(streamID:String,streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForEditStream(streamID:String,streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
@@ -244,6 +244,8 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
+                "height":width,
+                "width":height,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -257,6 +259,8 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
+                "height":width,
+                "width":height,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,

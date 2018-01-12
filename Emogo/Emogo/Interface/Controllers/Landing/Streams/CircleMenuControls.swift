@@ -130,6 +130,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     func actionForPeopleList(){
         isPeopleList = true
+        collectionLayout.columnCount = 3
         StreamList.sharedInstance.arrayStream.removeAll()
         PeopleList.sharedInstance.arrayPeople.removeAll()
         HUDManager.sharedInstance.showHUD()

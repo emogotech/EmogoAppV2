@@ -62,6 +62,8 @@ class StreamListViewController: UIViewController {
     var isMenuOpen:Bool! = false
     var isPeopleList:Bool! = false
     var isLoadFirst:Bool! = true
+    var collectionLayout = CHTCollectionViewWaterfallLayout()
+
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -147,7 +149,18 @@ class StreamListViewController: UIViewController {
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
         self.streamCollectionView.delegate = self
-        streamCollectionView.alwaysBounceVertical = true
+        
+        // Change individual layout attributes for the spacing between cells
+        collectionLayout.minimumColumnSpacing = 5.0
+        collectionLayout.minimumInteritemSpacing = 5.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.columnCount = 2
+        // Collection view attributes
+        self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.streamCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.streamCollectionView.collectionViewLayout = collectionLayout
         
         self.configureLoadMoreAndRefresh()
         
@@ -670,7 +683,7 @@ class StreamListViewController: UIViewController {
 
 // MARK: - EXTENSION
 // MARK: - Delegate and Datasource
-extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,UICollectionViewDelegateFlowLayout {
+extension StreamListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -725,7 +738,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         if isSearch && isTapPeople {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
@@ -740,8 +753,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: itemWidth, height: 100)
         }
         else {
-            let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-            return CGSize(width: itemWidth, height: itemWidth)
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            return CGSize(width: stream.width, height: stream.hieght)
         }
     }
     //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

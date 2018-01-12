@@ -61,22 +61,29 @@ class LinkViewController: UIViewController {
                 print(data)
                 HUDManager.sharedInstance.hideHUD()
                 if data != nil {
+                    let content = ContentDAO(contentData: [:])
                     let title = data?.title
                     let description = data?.description
                     _ = data?.keywords
                     let imageUrl = data?.topImage
                     _ = data?.topVideo
-                   
-                    let content = ContentDAO(contentData: [:])
+                    if let imageUrl = imageUrl {
+                        content.coverImageVideo = imageUrl.trim()
+                        SharedData.sharedInstance.downloadImage(url:  imageUrl.trim(), handler: { (image) in
+                            if let img =  image {
+                                content.height = Int(img.size.height)
+                                content.width = Int(img.size.width)
+                            }
+                        })
+                    }
                     if let title = title {
                         content.name = title.trim()
                     }
                     if let description = description {
                         content.description = description.trim()
                     }
-                    if let imageUrl = imageUrl {
-                        content.coverImageVideo = imageUrl.trim()
-                    }
+                   
+                   
                     content.coverImage = articleUrl?.absoluteString
                     content.type = .link
                     content.isUploaded = false

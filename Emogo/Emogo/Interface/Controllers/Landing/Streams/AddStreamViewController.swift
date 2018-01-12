@@ -244,7 +244,7 @@ class AddStreamViewController: UITableViewController {
                 if self.strCoverImage.isEmpty {
                     self.uploadCoverImage()
                 }else {
-                    self.editStream(cover: self.strCoverImage)
+                    self.editStream(cover: self.strCoverImage,width:(self.objStream?.width)!,hieght:(self.objStream?.hieght)! )
                 }
             }
         }
@@ -418,9 +418,9 @@ class AddStreamViewController: UITableViewController {
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                        self.createStream(cover: imageUrl!)
+                    self.createStream(cover: imageUrl!,width:Int(image.size.width) ,hieght:Int(image.size.height))
                     } else {
-                        self.editStream(cover: imageUrl!)
+                    self.editStream(cover: imageUrl!,width:Int(image.size.width) ,hieght:Int(image.size.height))
                     }
                 }
             }else {
@@ -452,9 +452,9 @@ class AddStreamViewController: UITableViewController {
         }
     }
     
-    private func createStream(cover:String){
+    private func createStream(cover:String,width:Int,hieght:Int){
         txtStreamCaption.placeholder = ""
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
@@ -467,9 +467,9 @@ class AddStreamViewController: UITableViewController {
             }
         }
     }
-    private func editStream(cover:String){
+    private func editStream(cover:String,width:Int,hieght:Int){
          txtStreamCaption.placeholder = ""
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
