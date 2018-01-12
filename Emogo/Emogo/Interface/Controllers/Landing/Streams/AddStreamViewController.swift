@@ -73,8 +73,8 @@ class AddStreamViewController: UITableViewController {
         self.configureNavigationWithTitle()
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
-        txtStreamCaption.placeholderName = "Stream Name"
-        txtStreamCaption.placeholder = "Stream Name"
+        txtStreamCaption.placeholderName = "Stream Caption"
+        txtStreamCaption.placeholder = "Stream Caption"
         txtStreamName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         txtStreamCaption.placeholderTextColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.delegate = self
@@ -109,6 +109,11 @@ class AddStreamViewController: UITableViewController {
             self.title =  self.objStream?.title.trim()
             txtStreamName.text = self.objStream?.title.trim()
             txtStreamCaption.text = self.objStream?.description.trim()
+            if !txtStreamCaption.text.trim().isEmpty {
+                txtStreamCaption.placeholderName = ""
+            }else{
+                txtStreamCaption.placeholderName = ""
+            }
             if !(objStream?.coverImage.trim().isEmpty)!  {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
@@ -514,7 +519,6 @@ extension AddStreamViewController {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
-    
 }
 
 
