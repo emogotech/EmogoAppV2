@@ -47,6 +47,7 @@ class PreviewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        UIApplication.shared.isStatusBarHidden = true
         self.previewCollection.reloadData()
     }
 
@@ -69,7 +70,6 @@ class PreviewController: UIViewController {
     func prepareLayouts(){
         // Preview Height
         // Remove Duplicate Objects
-        UIApplication.shared.isStatusBarHidden = true
         self.txtTitleImage.maxLength = 50
         txtDescription.text = "Description"
         txtDescription.delegate = self
