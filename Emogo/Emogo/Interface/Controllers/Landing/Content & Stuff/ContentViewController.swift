@@ -77,12 +77,13 @@ class ContentViewController: UIViewController {
         self.imgCover.addGestureRecognizer(tap)
         txtDescription.delegate = self
         
-        let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
-        if temp.type == .video {
-            let videoUrl = URL(string: temp.coverImage)
-            LightboxConfig.handleVideo(self, videoUrl!)
+        if self.currentIndex != nil{
+            let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
+            if temp.type == .video {
+                let videoUrl = URL(string: temp.coverImage)
+                LightboxConfig.handleVideo(self, videoUrl!)
+            }
         }
-        
         self.updateContent()
         
     }
@@ -94,9 +95,6 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
-        txtDescription.text = "Description"
-        
-        
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
@@ -164,6 +162,9 @@ class ContentViewController: UIViewController {
             self.btnDone.isHidden = false
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
+            if self.txtDescription.text == "" {
+                txtDescription.placeholderName = "Description"
+            }
             self.txtTitleImage.isUserInteractionEnabled = true
             self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
@@ -317,8 +318,25 @@ class ContentViewController: UIViewController {
     
     
     @IBAction func btnActionAddStream(_ sender: Any) {
+        
         if isEditngContent {
-            self.showToast(type: AlertType.success, strMSG: kAlert_Confirmation_For_Edit_Stream_Content)
+            
+            let alert = UIAlertController(title: kAlert_Confirmation_For_Edit_Content, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
+            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+                self.txtTitleImage.text = self.seletedImage.name
+                self.txtDescription.text = self.seletedImage.description
+                let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+                obj.objContent = self.seletedImage
+                self.navigationController?.push(viewController: obj)
+                self.isEditngContent = false
+            }
+            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+                alert.dismiss(animated: true, completion: nil)
+            }
+            alert.addAction(yes)
+            alert.addAction(no)
+            present(alert, animated: true, completion: nil)
+            
         }
         else{
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
@@ -362,13 +380,42 @@ class ContentViewController: UIViewController {
             switch swipeGesture.direction {
             case .left:
                 if currentIndex !=  ContentList.sharedInstance.arrayContent.count-1 {
-                    self.next()
+                    if !self.isEditngContent {
+                        self.next()
+                    }else{
+                        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_For_Edit_Content, preferredStyle: .alert)
+                        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+                            self.next()
+                            self.isEditngContent = false
+                        }
+                        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+                            alert.dismiss(animated: true, completion: nil)
+                        }
+                        alert.addAction(yes)
+                        alert.addAction(no)
+                        present(alert, animated: true, completion: nil)
+                    }
                 }
                 break
                 
             case .right:
                 if currentIndex != 0 {
-                    self.previous()
+                    if !self.isEditngContent {
+                        self.previous()
+                    }else{
+                        let alert = UIAlertController(title: kAlert_Confirmation_For_Edit_Content, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
+                        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+                            self.previous()
+                            self.isEditngContent = false
+                        }
+                        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+                            alert.dismiss(animated: true, completion: nil)
+                        }
+                        alert.addAction(yes)
+                        alert.addAction(no)
+                        present(alert, animated: true, completion: nil)
+                    }
+                    
                 }
                 break
                 
@@ -544,7 +591,7 @@ class ContentViewController: UIViewController {
                     self.seletedImage = content
                 }
                 self.updateContent()
-                self.isEditing = false
+                self.isEditngContent = false
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
@@ -615,33 +662,27 @@ extension ContentViewController:UITextFieldDelegate {
 }
 
 extension ContentViewController:UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if txtDescription.text.trim() == "Description"{
-            txtDescription.text = nil
-        }
-    }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
-        if txtDescription.text.trim().isEmpty{
-            txtDescription.text = "Description"
-        }
-        
         if txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
             isEditngContent = true
         }
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
+    public func textViewDidChange(_ textView: UITextView) {
+        txtDescription.placeholderName = "Description"
+        if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
+            placeholderLabel.isHidden = txtDescription.text.count > 0
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {        
         if(text == "\n") {
             txtDescription.resignFirstResponder()
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
-        
     }
-    
 }
 
 extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {

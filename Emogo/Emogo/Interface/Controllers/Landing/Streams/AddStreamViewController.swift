@@ -73,7 +73,8 @@ class AddStreamViewController: UITableViewController {
         self.configureNavigationWithTitle()
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
-        txtStreamCaption.placeholder = "Stream Caption"
+        txtStreamCaption.placeholderName = "Stream Name"
+        txtStreamCaption.placeholder = "Stream Name"
         txtStreamName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         txtStreamCaption.placeholderTextColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
         txtStreamCaption.delegate = self
@@ -524,19 +525,24 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         }
         return true
     }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if txtStreamCaption.text.trim() == "Stream Caption"{
-            txtStreamCaption.text = nil
+    
+    func textViewDidChange(_ textView: UITextView) {
+        txtStreamCaption.placeholderName = "Stream Caption"
+        if let placeholderLabel = txtStreamCaption.viewWithTag(100) as? UILabel {
+            placeholderLabel.isHidden = txtStreamCaption.text.count > 0
         }
     }
-    
-    
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if txtStreamCaption.text.trim() == "Stream Caption"{
+//            txtStreamCaption.text = nil
+//        }
+//    }
+
     func textViewDidEndEditing(_ textView: UITextView) {
-        if txtStreamCaption.text.trim().isEmpty{
-            txtStreamCaption.text = "Stream Caption"
+       if txtStreamCaption.text.isEmpty {
+            txtStreamCaption.placeholder = ""
         }
     }
-    
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
       
@@ -544,6 +550,7 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
            txtStreamCaption.resignFirstResponder()
             return false
         }
+        
         return textView.text.length + (text.length - range.length) <= 250
 
     }

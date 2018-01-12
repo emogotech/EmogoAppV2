@@ -218,7 +218,12 @@
     if ([self.text length]) {
         
         _storedText = [self text];
-        
+       
+        NSRange replaceRange = [_storedText rangeOfString:_placeholder];
+        if (replaceRange.location != NSNotFound){
+            NSString* result =  [_storedText stringByReplacingOccurrencesOfString:_placeholder withString:@""];
+            self.storedText = [ NSString stringWithFormat:@"%@",result];
+        }
         if (![_floatLabel alpha]) {
             [self toggleFloatLabel:UIFloatLabelAnimationTypeShow];
         }

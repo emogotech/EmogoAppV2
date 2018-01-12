@@ -258,6 +258,8 @@ let kAlert_Confirmation_Description_For_Edit_Stream                      = "We n
 
 let kAlert_Confirmation_For_Edit_Stream_Content                      = "Please first done edit contents"
 
+let kAlert_Confirmation_For_Edit_Content                      = "if you change the content then previous content update lost."
+
 
 let kAlert_Confirmation_Description_For_Edit_Content                     = "We need to redirect on Emogo App for the Edit content, Do you want to go to Emogo?"
 let kAlert_Confirmation_Description_For_Add_Content                      = "We need to redirect on Emogo App for the Add content, Do you want to go to Emogo?"

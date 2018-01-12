@@ -163,6 +163,17 @@ class StreamListViewController: UIViewController {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.streamCollectionView.addGestureRecognizer(swipeLeft)
+        
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        self.menuView.addGestureRecognizer(swipeDown)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
+        self.viewMenu.addGestureRecognizer(swipeUp)
+        
+        
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -181,6 +192,22 @@ class StreamListViewController: UIViewController {
                 self.addLeftTransitionView(subtype: kCATransitionFromLeft)
                 self.navigationController?.pushViewController(obj, animated: false)
                 break
+                
+            case UISwipeGestureRecognizerDirection.down:
+                self.menuView.isHidden = true
+                self.viewMenu.isHidden = false
+                Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+                isMenuOpen = false
+                break
+                
+            case UISwipeGestureRecognizerDirection.up:
+                self.menuView.isHidden = false
+                self.viewMenu.isHidden = true
+                Animation.viewSlideInFromTopToBottom(views: self.menuView)
+                isMenuOpen = true
+                break
+                
+                
             default:
                 break
             }
