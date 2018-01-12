@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_filters',
     # 'twilio-python',
+    'autofixture',
 ]
 
 MIDDLEWARE = [
