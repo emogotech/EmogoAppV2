@@ -40,7 +40,12 @@ class ImportViewController: UICollectionViewController , UICollectionViewDelegat
         // so match the behavior of segue from the default "All Photos" view.
         if fetchResult == nil {
             let allPhotosOptions = PHFetchOptions()
-            allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            let options = PHFetchOptions()
+            options.sortDescriptors = [ NSSortDescriptor(key: "creationDate", ascending: false) ]
+            options.predicate = NSPredicate(format: "mediaType == %d || mediaType == %d",
+                                            PHAssetMediaType.image.rawValue,
+                                            PHAssetMediaType.video.rawValue)
+            
             fetchResult = PHAsset.fetchAssets(with: allPhotosOptions)
            
                 let array = arrayAssests

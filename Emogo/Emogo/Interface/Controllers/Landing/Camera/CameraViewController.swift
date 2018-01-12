@@ -9,7 +9,6 @@
 import UIKit
 import SwiftyCam
 import Gallery
-import TLPhotoPicker
 
 class CameraViewController: SwiftyCamViewController {
     
@@ -41,6 +40,7 @@ class CameraViewController: SwiftyCamViewController {
     var beepSound: Sound?
     let editor: VideoEditing = VideoEditor()
     let interactor = PMInteractor()
+    var selectedAssets = [TLPHAsset]()
 
     // MARK: - Override Functions
 

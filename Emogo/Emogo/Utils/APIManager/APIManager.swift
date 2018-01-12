@@ -261,7 +261,7 @@ class APIManager: NSObject {
     func PUTRequestWithHeader(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?){
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
-        let headers : HTTPHeaders = ["Authorization" :"Token "]
+        let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
         Alamofire.request(url, method: .put, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):

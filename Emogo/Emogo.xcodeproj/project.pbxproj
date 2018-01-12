@@ -152,6 +152,18 @@
 		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
 		F42218042007AE54002D4E4E /* RZCellSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F42218032007AE54002D4E4E /* RZCellSizeManager.m */; };
 		F423AEFC2008C91A00648A3E /* WaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */; };
+		F423AF0B2008EFE500648A3E /* TLPhotoPickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */; };
+		F423AF0C2008EFE500648A3E /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = F423AF002008EFE400648A3E /* .gitkeep */; };
+		F423AF0D2008EFE500648A3E /* TLAlbumPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF012008EFE400648A3E /* TLAlbumPopView.swift */; };
+		F423AF0E2008EFE500648A3E /* TLAssetsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF022008EFE400648A3E /* TLAssetsCollection.swift */; };
+		F423AF0F2008EFE500648A3E /* TLBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF032008EFE400648A3E /* TLBundle.swift */; };
+		F423AF102008EFE500648A3E /* TLCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF042008EFE400648A3E /* TLCollectionTableViewCell.swift */; };
+		F423AF112008EFE500648A3E /* TLCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F423AF052008EFE400648A3E /* TLCollectionTableViewCell.xib */; };
+		F423AF122008EFE500648A3E /* TLPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF062008EFE400648A3E /* TLPhotoCollectionViewCell.swift */; };
+		F423AF132008EFE500648A3E /* TLPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F423AF072008EFE400648A3E /* TLPhotoCollectionViewCell.xib */; };
+		F423AF142008EFE500648A3E /* TLPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF082008EFE400648A3E /* TLPhotoLibrary.swift */; };
+		F423AF152008EFE500648A3E /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF092008EFE400648A3E /* TLPhotosPickerViewController.swift */; };
+		F423AF162008EFE500648A3E /* TLPhotosPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F423AF0A2008EFE400648A3E /* TLPhotosPickerViewController.xib */; };
 		F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */; };
 		F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */; };
 		F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
@@ -483,6 +495,18 @@
 		F42218022007AE52002D4E4E /* RZCellSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZCellSizeManager.h; sourceTree = "<group>"; };
 		F42218032007AE54002D4E4E /* RZCellSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCellSizeManager.m; sourceTree = "<group>"; };
 		F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayout.swift; sourceTree = "<group>"; };
+		F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TLPhotoPickerController.bundle; sourceTree = "<group>"; };
+		F423AF002008EFE400648A3E /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		F423AF012008EFE400648A3E /* TLAlbumPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAlbumPopView.swift; sourceTree = "<group>"; };
+		F423AF022008EFE400648A3E /* TLAssetsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAssetsCollection.swift; sourceTree = "<group>"; };
+		F423AF032008EFE400648A3E /* TLBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLBundle.swift; sourceTree = "<group>"; };
+		F423AF042008EFE400648A3E /* TLCollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLCollectionTableViewCell.swift; sourceTree = "<group>"; };
+		F423AF052008EFE400648A3E /* TLCollectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLCollectionTableViewCell.xib; sourceTree = "<group>"; };
+		F423AF062008EFE400648A3E /* TLPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		F423AF072008EFE400648A3E /* TLPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
+		F423AF082008EFE400648A3E /* TLPhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoLibrary.swift; sourceTree = "<group>"; };
+		F423AF092008EFE400648A3E /* TLPhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotosPickerViewController.swift; sourceTree = "<group>"; };
+		F423AF0A2008EFE400648A3E /* TLPhotosPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotosPickerViewController.xib; sourceTree = "<group>"; };
 		F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamCell.swift; sourceTree = "<group>"; };
 		F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
@@ -972,6 +996,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				F42218012007AE2D002D4E4E /* CellResizeManager */,
 				F42217A820074CB6002D4E4E /* PopupView */,
 				F4361D381FF226F100553E8E /* Slider */,
@@ -1364,6 +1389,33 @@
 				F42218032007AE54002D4E4E /* RZCellSizeManager.m */,
 			);
 			path = CellResizeManager;
+			sourceTree = "<group>";
+		};
+		F423AEFD2008EF1600648A3E /* PhotoPicker */ = {
+			isa = PBXGroup;
+			children = (
+				F423AEFF2008EFE400648A3E /* Classes */,
+				F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */,
+			);
+			path = PhotoPicker;
+			sourceTree = "<group>";
+		};
+		F423AEFF2008EFE400648A3E /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F423AF002008EFE400648A3E /* .gitkeep */,
+				F423AF012008EFE400648A3E /* TLAlbumPopView.swift */,
+				F423AF022008EFE400648A3E /* TLAssetsCollection.swift */,
+				F423AF032008EFE400648A3E /* TLBundle.swift */,
+				F423AF042008EFE400648A3E /* TLCollectionTableViewCell.swift */,
+				F423AF052008EFE400648A3E /* TLCollectionTableViewCell.xib */,
+				F423AF062008EFE400648A3E /* TLPhotoCollectionViewCell.swift */,
+				F423AF072008EFE400648A3E /* TLPhotoCollectionViewCell.xib */,
+				F423AF082008EFE400648A3E /* TLPhotoLibrary.swift */,
+				F423AF092008EFE400648A3E /* TLPhotosPickerViewController.swift */,
+				F423AF0A2008EFE400648A3E /* TLPhotosPickerViewController.xib */,
+			);
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		F4266EF51FF66F680075BFD7 /* Profile */ = {
@@ -1853,6 +1905,8 @@
 				F4431A951FC6DD2C00311C9A /* EmojiCollectionViewCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
+				F423AF112008EFE500648A3E /* TLCollectionTableViewCell.xib in Resources */,
+				F423AF162008EFE500648A3E /* TLPhotosPickerViewController.xib in Resources */,
 				F4431A981FC6DD2C00311C9A /* icomoon.ttf in Resources */,
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
 				F404C06D1FDA951D00E8ACC2 /* StreamViewHeader.xib in Resources */,
@@ -1862,7 +1916,9 @@
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
+				F423AF132008EFE500648A3E /* TLPhotoCollectionViewCell.xib in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
+				F423AF0B2008EFE500648A3E /* TLPhotoPickerController.bundle in Resources */,
 				F4431A9A1FC6DD2C00311C9A /* PhotoCropEditorBorder.png in Resources */,
 				F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */,
 				F4431AAC1FC6DD2C00311C9A /* StickersViewController.xib in Resources */,
@@ -1880,6 +1936,7 @@
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F4431AA61FC6DD2C00311C9A /* PhotoEditorViewController.xib in Resources */,
+				F423AF0C2008EFE500648A3E /* .gitkeep in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2149,7 +2206,6 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/TLPhotoPicker/TLPhotoPicker.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2168,7 +2224,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TLPhotoPicker.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2267,9 +2322,11 @@
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
+				F423AF122008EFE500648A3E /* TLPhotoCollectionViewCell.swift in Sources */,
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
 				F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */,
 				F43612F11FD69B3200788FFE /* AGContrastFilter.metal in Sources */,
+				F423AF152008EFE500648A3E /* TLPhotosPickerViewController.swift in Sources */,
 				F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */,
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
@@ -2321,14 +2378,17 @@
 				F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */,
 				F4431A8E1FC6DD2C00311C9A /* ColorCollectionViewCell.swift in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
+				F423AF102008EFE500648A3E /* TLCollectionTableViewCell.swift in Sources */,
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,
 				F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
+				F423AF0F2008EFE500648A3E /* TLBundle.swift in Sources */,
 				F404C06C1FDA951D00E8ACC2 /* StreamViewHeader.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
+				F423AF142008EFE500648A3E /* TLPhotoLibrary.swift in Sources */,
 				F4431AA11FC6DD2C00311C9A /* PhotoEditor+Gestures.swift in Sources */,
 				F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */,
 				F43612EF1FD69B3200788FFE /* AGBrightnessFilter.metal in Sources */,
@@ -2356,6 +2416,7 @@
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
+				F423AF0E2008EFE500648A3E /* TLAssetsCollection.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4431A931FC6DD2C00311C9A /* CropViewController.swift in Sources */,
@@ -2390,6 +2451,7 @@
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F42218042007AE54002D4E4E /* RZCellSizeManager.m in Sources */,
+				F423AF0D2008EFE500648A3E /* TLAlbumPopView.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
