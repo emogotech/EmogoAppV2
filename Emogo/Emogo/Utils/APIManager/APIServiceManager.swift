@@ -960,7 +960,7 @@ class APIServiceManager: NSObject {
     // MARK: - Verify OTP API
     func apiForUserProfileUpdate(name:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
-        let params:[String:Any] = ["otp":name,"user_image":profilePic]
+        let params:[String:Any] = ["user_image":profilePic]
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
