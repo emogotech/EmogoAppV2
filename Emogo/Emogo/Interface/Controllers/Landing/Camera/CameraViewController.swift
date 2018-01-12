@@ -194,9 +194,28 @@ class CameraViewController: SwiftyCamViewController {
     }
 
     @IBAction func btnActionGallery(_ sender: Any) {
+        
+    let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+       //     self?.selectedAssets = assets
+           self?.preparePreview(assets: assets)
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = []
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 10
+        configure.muteAudio = true
+        configure.usedCameraButton = true
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+        
+        /*
        let gallery = GalleryController()
         gallery.delegate = self
         present(gallery, animated: true, completion: nil)
+ */
     
     }
     
@@ -272,6 +291,7 @@ class CameraViewController: SwiftyCamViewController {
     
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
         print("Normal tap")
+        self.lblRecordTimer.isHidden = true
         self.performCamera(action: .capture)
     }
     
@@ -299,10 +319,42 @@ class CameraViewController: SwiftyCamViewController {
     
     // MARK: - Class Methods
     
-    func preparePreview(assets:[Image]){
+    func preparePreview(assets:[TLPHAsset]){
         if   ContentList.sharedInstance.arrayContent.count == 0  && assets.count != 0 {
             self.viewUP()
         }
+        let group = DispatchGroup()
+        for obj in assets {
+            group.enter()
+            let camera = ContentDAO(contentData: [:])
+            camera.isUploaded = false
+            camera.fileName = obj.originalFileName
+            if obj.type == .photo {
+                camera.type = .image
+                camera.imgPreview = obj.fullResolutionImage
+                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                group.leave()
+            }else if obj.type == .video {
+                camera.type = .video
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                     camera.fileUrl = url
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                        camera.imgPreview = image
+                    }
+                    ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                    group.leave()
+                })
+            }
+         }
+        
+        group.notify(queue: .main, execute: {
+            self.btnPreviewOpen.isHidden = false
+            self.previewCollection.reloadData()
+        })
+        /*
+       
         Image.resolve(images: assets, completion: {  resolvedImages in
             for i in 0..<resolvedImages.count {
                 let obj = resolvedImages[i]
@@ -318,6 +370,7 @@ class CameraViewController: SwiftyCamViewController {
             self.btnPreviewOpen.isHidden = false
             self.previewCollection.reloadData()
         })
+ */
      
     }
 
@@ -494,7 +547,7 @@ extension CameraViewController:GalleryControllerDelegate {
     
     func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
         controller.dismiss(animated: true, completion: nil)
-        self.preparePreview(assets: images)
+       // self.preparePreview(assets: images)
     }
     
     func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {

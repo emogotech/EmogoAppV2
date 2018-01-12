@@ -25,11 +25,10 @@ class MyStuffCell: UICollectionViewCell {
         self.lblTitle.text = content.name.trim().capitalized
         self.lblDescription.text =  content.description.trim()
         if (self.lblTitle.text?.trim().isEmpty)! && (self.lblDescription.text?.trim().isEmpty)!{
-            self.viewContent.isHidden = true
-        }else {
-            self.viewContent.isHidden = false
+            self.viewContent.layer.contents = nil
+           }else {
+            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         }
-        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
       //  self.imgCover.backgroundColor = .black
         imgCover.contentMode = .scaleAspectFill
         if content.isSelected {

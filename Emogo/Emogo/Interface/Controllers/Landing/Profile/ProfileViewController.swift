@@ -61,8 +61,8 @@ class ProfileViewController: UIViewController {
        
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         
-        if UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self

@@ -52,7 +52,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/AddStreamViewController.swift"
-            timestampString = "537455244.75946"
+            timestampString = "537461200.103044"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "383"
@@ -68,7 +68,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "537455244.759545"
+            timestampString = "537461200.103128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "216"
@@ -154,6 +154,70 @@
             startingLineNumber = "321"
             endingLineNumber = "321"
             landmarkName = "createContent(StreamID:array:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
+            timestampString = "537461200.103381"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "profileUpdate(strURL:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Emogo.ProfileUpdateViewController.(profileUpdate in _89DA7489B80C2BA2E76BA4C5801EA630)(strURL: Swift.String) -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
+                  timestampString = "537461200.864138"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "32">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in Emogo.ProfileUpdateViewController.(profileUpdate in _89DA7489B80C2BA2E76BA4C5801EA630)(strURL: Swift.String) -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
+                  timestampString = "537461200.867238"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Interface/Controllers/Landing/Camera/CameraViewController.swift"
+            timestampString = "537461200.103449"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
+            landmarkName = "preparePreview(assets:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

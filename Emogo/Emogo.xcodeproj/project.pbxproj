@@ -1394,6 +1394,7 @@
 		F423AEFD2008EF1600648A3E /* PhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
+				F423AF172008F2F000648A3E /* Config */,
 				F423AEFF2008EFE400648A3E /* Classes */,
 				F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */,
 			);
@@ -1416,6 +1417,13 @@
 				F423AF0A2008EFE400648A3E /* TLPhotosPickerViewController.xib */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		F423AF172008F2F000648A3E /* Config */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		F4266EF51FF66F680075BFD7 /* Profile */ = {

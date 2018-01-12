@@ -218,6 +218,11 @@ class ProfileUpdateViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: (txtName.text?.trim())!, profilePic: strURL) { (isSuccess, errorMsg) in
             
             HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.dismiss(animated: true, completion: nil)
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
         }
     }
     
