@@ -48,12 +48,13 @@ class CameraViewController: SwiftyCamViewController {
 
         // Do any additional setup after loading the view.
         self.prepareLayouts()
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        UIApplication.shared.isStatusBarHidden = true
         print(isSessionRunning)
  }
     override func viewDidAppear(_ animated: Bool) {
@@ -61,6 +62,13 @@ class CameraViewController: SwiftyCamViewController {
         self.prepareContainerToPresent()
         self.previewCollection.reloadData()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isStatusBarHidden = false
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

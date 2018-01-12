@@ -53,6 +53,12 @@ class PreviewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isStatusBarHidden = false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -63,6 +69,7 @@ class PreviewController: UIViewController {
     func prepareLayouts(){
         // Preview Height
         // Remove Duplicate Objects
+        UIApplication.shared.isStatusBarHidden = true
         self.txtTitleImage.maxLength = 50
         txtDescription.text = "Description"
         txtDescription.delegate = self
