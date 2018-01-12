@@ -44,7 +44,7 @@ class StreamViewHeader: UICollectionViewCell {
         }else {
             btnCollab.badgeString = "\(objStream.arrayColab.count)"
             btnCollab.isHidden = false
-            btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, 2, 0, 0)
+            btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
             
         }
         self.lblName.text = objStream.title.trim().capitalized
