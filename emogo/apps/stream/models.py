@@ -47,6 +47,8 @@ class Stream(DefaultStatusModel):
     view_count = models.IntegerField(null=True, blank=True, default=0)
     featured = models.BooleanField(default=False)
     emogo = models.BooleanField(default=False)
+    height = models.CharField(max_length=10, null=True, blank=True, default=300)
+    width = models.CharField(max_length=10, null=True, blank=True, default=300)
 
     class Meta:
         db_table = 'stream'

@@ -165,7 +165,9 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             type=self.validated_data.get('type'),
             emogo=self.validated_data.get('emogo', False),
             featured=self.validated_data.get('featured', False),
-            created_by=self.context.get('request').user
+            created_by=self.context.get('request').user,
+            height=self.validated_data.get('height', 300),
+            width=self.validated_data.get('width', 300)
         )
         stream.save()
         # Update any_one_can_edit flag is type is Public
