@@ -183,6 +183,8 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
+                "height":width,
+                "width":height,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -196,6 +198,8 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
+                "height":width,
+                "width":height,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,

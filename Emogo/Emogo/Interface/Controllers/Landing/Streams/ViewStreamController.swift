@@ -76,16 +76,22 @@ class ViewStreamController: UIViewController {
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
 
-        if let layout: IOStickyHeaderFlowLayout = self.viewStreamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
-            layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 200.0)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 0)
-            layout.itemSize = CGSize(width: UIScreen.main.bounds.size.width, height: layout.itemSize.height)
-            layout.parallaxHeaderAlwaysOnTop = false
-            layout.disableStickyHeaders = true
-            self.viewStreamCollectionView.collectionViewLayout = layout
-        }
-        viewStreamCollectionView.alwaysBounceVertical = true
-        self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 5.0
+        layout.minimumInteritemSpacing = 5.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 5, 16, 5)
+        layout.columnCount = 2
+        layout.headerHeight = 200.0
+        
+        // Collection view attributes
+        self.viewStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.viewStreamCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.viewStreamCollectionView.collectionViewLayout = layout
+        
+        self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
         
         if currentIndex != nil {
             viewStreamCollectionView.isUserInteractionEnabled = true
@@ -425,7 +431,7 @@ class ViewStreamController: UIViewController {
 
 
 
-extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -450,29 +456,30 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-         let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let content = objStream?.arrayContent[indexPath.row]
+        return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let cell = UICollectionReusableView()
         switch kind {
-        case IOStickyHeaderParallaxHeader:
+        case CHTCollectionElementKindSectionHeader:
             let  view:StreamViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
             view.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
             view.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             view.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
             view.prepareLayout(stream:self.objStream)
-//            view.btnDropDown.tag = indexPath.section
+            //            view.btnDropDown.tag = indexPath.section
             view.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
             view.delegate = self
             return view
+            
         default:
-            assert(false, "Unexpected element kind")
+            return UICollectionReusableView()
         }
-        return cell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]

@@ -95,8 +95,8 @@ class ContentDAO{
     var isEdit:Bool! = false
     var isDelete:Bool! = false
     var isShowAddStream:Bool! = false
-    var width:Int! = 0
-    var height:Int! = 0
+    var width:Int! = 300
+    var height:Int! = 300
     var imgPreview:UIImage? = nil {
         
         didSet {

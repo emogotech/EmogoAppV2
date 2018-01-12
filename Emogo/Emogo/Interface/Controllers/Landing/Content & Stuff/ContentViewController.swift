@@ -270,7 +270,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-        self.navigationController?.popNormal()
+        self.navigationController?.pop()
     }
     
     @IBAction func btnEditAction(_ sender: Any) {

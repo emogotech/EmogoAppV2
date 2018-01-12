@@ -118,6 +118,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         
         print("currrent index--->\(index)")
         if  index != 4 {
+            collectionLayout.columnCount = 2
             isPeopleList = false
             HUDManager.sharedInstance.showHUD()
             self.getStreamList(type:.start,filter: currentStreamType)

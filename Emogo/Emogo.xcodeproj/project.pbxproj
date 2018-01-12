@@ -151,6 +151,7 @@
 		F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
 		F42218042007AE54002D4E4E /* RZCellSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F42218032007AE54002D4E4E /* RZCellSizeManager.m */; };
+		F423AEFC2008C91A00648A3E /* WaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */; };
 		F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */; };
 		F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */; };
 		F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
@@ -481,6 +482,7 @@
 		F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
 		F42218022007AE52002D4E4E /* RZCellSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZCellSizeManager.h; sourceTree = "<group>"; };
 		F42218032007AE54002D4E4E /* RZCellSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCellSizeManager.m; sourceTree = "<group>"; };
+		F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayout.swift; sourceTree = "<group>"; };
 		F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamCell.swift; sourceTree = "<group>"; };
 		F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
@@ -1209,6 +1211,7 @@
 		F409FC6D1FE3D8B90093E0E7 /* CustomLayout */ = {
 			isa = PBXGroup;
 			children = (
+				F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */,
 				F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */,
 			);
 			path = CustomLayout;
@@ -2269,6 +2272,7 @@
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
+				F423AEFC2008C91A00648A3E /* WaterfallLayout.swift in Sources */,
 				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,

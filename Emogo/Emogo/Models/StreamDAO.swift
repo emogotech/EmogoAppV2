@@ -115,6 +115,10 @@ class StreamViewDAO{
 
     init(streamData:[String:Any]) {
         
+        if let obj  = streamData["created_by"] {
+            self.idCreatedBy = "\(obj)"
+        }
+        
         if let obj  = streamData["view_count"] {
             self.viewCount = "\(obj)"
         }
@@ -161,13 +165,15 @@ class StreamViewDAO{
             print(objColab)
             for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
-                colab.isSelected = colab.addedByMe
+                if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    colab.isSelected = true
+                }else {
+                    colab.isSelected = colab.addedByMe
+                }
                 self.arrayColab.append(colab)
             }
         }
-        if let obj  = streamData["created_by"] {
-            self.idCreatedBy = "\(obj)"
-        }
+       
         if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]
             for value in objContent {
