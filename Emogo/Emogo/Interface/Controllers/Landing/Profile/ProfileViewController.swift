@@ -348,8 +348,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             return CGSize(width: content.width, height: content.height)
         }else {
-            let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-            return CGSize(width: itemWidth, height: itemWidth)
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            return CGSize(width: stream.width, height: stream.hieght)
         }
         
     }

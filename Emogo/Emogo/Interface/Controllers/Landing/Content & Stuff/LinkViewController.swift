@@ -59,7 +59,6 @@ class LinkViewController: UIViewController {
             HUDManager.sharedInstance.showHUD()
             Readability.parse(url: articleUrl!, completion: { data in
                 print(data)
-                HUDManager.sharedInstance.hideHUD()
                 if data != nil {
                     let content = ContentDAO(contentData: [:])
                     let title = data?.title
@@ -67,6 +66,16 @@ class LinkViewController: UIViewController {
                     _ = data?.keywords
                     let imageUrl = data?.topImage
                     _ = data?.topVideo
+                    if let title = title {
+                        content.name = title.trim()
+                    }
+                    if let description = description {
+                        content.description = description.trim()
+                    }
+                    content.coverImage = articleUrl?.absoluteString
+                    content.type = .link
+                    content.isUploaded = false
+                    
                     if let imageUrl = imageUrl {
                         content.coverImageVideo = imageUrl.trim()
                         SharedData.sharedInstance.downloadImage(url:  imageUrl.trim(), handler: { (image) in
@@ -75,19 +84,11 @@ class LinkViewController: UIViewController {
                                 content.width = Int(img.size.width)
                             }
                         })
+                        HUDManager.sharedInstance.hideHUD()
+                        self.createContentForExtractedData(content: content)
                     }
-                    if let title = title {
-                        content.name = title.trim()
-                    }
-                    if let description = description {
-                        content.description = description.trim()
-                    }
-                   
-                   
-                    content.coverImage = articleUrl?.absoluteString
-                    content.type = .link
-                    content.isUploaded = false
-                    self.createContentForExtractedData(content: content)
+                    
+                  
                 }
             })
         }else{

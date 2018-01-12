@@ -487,6 +487,11 @@ extension UINavigationController {
         self.popViewController(animated: true)
     }
     
+    func popToView(){
+        self.addTransition()
+        self.popViewController(animated: false)
+    }
+    
     func popToViewController(vc:UIViewController){
         
         let controllersArray = self.viewControllers
@@ -547,15 +552,35 @@ extension UILabel {
         animation.duration = 0.75
         self.layer.add(animation, forKey: "kCATransitionFade")
     }
-    
     func addGradientBackground(){
         let gradient = CAGradientLayer()
         gradient.frame = self.bounds
         gradient.colors = [UIColor.red, UIColor.blue, UIColor.red, UIColor.blue]
         self.layer.insertSublayer(gradient, at: 0)
     }
+    var numberOfVisibleLines: Int {
+        let textSize = CGSize(width: CGFloat(self.frame.size.width), height: CGFloat(MAXFLOAT))
+        let rHeight: Int = lroundf(Float(self.sizeThatFits(textSize).height))
+        let charSize: Int = lroundf(Float(self.font.pointSize))
+        return rHeight / charSize
+    }
+    var heightOfLbl: CGFloat {
+        let textSize = CGSize(width: CGFloat(self.frame.size.width), height: CGFloat(MAXFLOAT))
+        let rHeight: CGFloat = CGFloat(lroundf(Float(self.sizeThatFits(textSize).height)))
+        return rHeight
+    }
+    var isTruncated: Bool {
+        guard let labelText = text else {
+            return false
+        }
+        let labelTextSize = (labelText as NSString).boundingRect(
+            with: CGSize(width: frame.size.width, height: .greatestFiniteMagnitude),
+            options: .usesLineFragmentOrigin,
+            attributes: [.font: font],
+            context: nil).size
+        return labelTextSize.height > bounds.size.height
+    }
 }
-
 
 
 extension UIImage {

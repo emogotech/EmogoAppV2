@@ -62,6 +62,20 @@ class StreamViewHeader: UICollectionViewCell {
               btnEdit.isHidden = false
         }
 
+        if self.lblDescription.heightOfLbl > self.lblDescription.frame.size.height  {
+            if self.lblDescription.isTruncated {
+                self.btnDropDown.isHidden = false
+            }else{
+                self.btnDropDown.isHidden = true
+            }
+        }else{
+            if self.lblDescription.frame.size.height == 0.0 || self.lblDescription.numberOfVisibleLines < 2{
+                self.btnDropDown.isHidden = true
+            }else{
+                self.btnDropDown.isHidden = false
+            }
+        }
+        
     }
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {

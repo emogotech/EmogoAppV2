@@ -25,8 +25,8 @@ class StreamDAO {
     var IDcreatedBy:String! = ""
     var isSelected:Bool! = false
     var streamType:String! = ""
-    var width                  :Int! = 0
-    var hieght                 :Int! = 0
+    var width                  :Int! = 300
+    var hieght                 :Int! = 300
 
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {

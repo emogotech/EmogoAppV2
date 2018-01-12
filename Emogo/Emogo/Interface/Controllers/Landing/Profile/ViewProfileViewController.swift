@@ -13,7 +13,6 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
     var objPeople:PeopleDAO!
-    var cellManager = RZCellSizeManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,10 +47,6 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.collectionViewLayout = layout
         
         HUDManager.sharedInstance.showHUD()
-        let name = NSStringFromClass(ProfileStreamCell.self)
-        self.cellManager = RZCellSizeManager()
-        
-
         
         self.getStreamList(type:.start)
     }
