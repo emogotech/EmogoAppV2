@@ -22,7 +22,7 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     var delegate:StreamViewHeaderDelegate?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -38,14 +38,14 @@ class StreamViewHeader: UICollectionViewCell {
             return
         }
         self.imgCover.contentMode = .scaleAspectFill
-     //   self.imgCover.backgroundColor = .black
+        //   self.imgCover.backgroundColor = .black
         if objStream.arrayColab.count == 0 {
             btnCollab.isHidden = true
         }else {
             btnCollab.badgeString = "\(objStream.arrayColab.count)"
             btnCollab.isHidden = false
             btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, 2, 0, 0)
-
+            
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
@@ -59,9 +59,10 @@ class StreamViewHeader: UICollectionViewCell {
             btnCollab.isHidden = true
         }
         if  objStream.canAddPeople == true {
-              btnEdit.isHidden = false
+            btnEdit.isHidden = false
         }
-
+        
+        self.lblDescription.numberOfLines = 2
         if self.lblDescription.heightOfLbl > self.lblDescription.frame.size.height  {
             if self.lblDescription.isTruncated {
                 self.btnDropDown.isHidden = false
@@ -81,13 +82,13 @@ class StreamViewHeader: UICollectionViewCell {
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
-            self.lblDescription.numberOfLines = 5
+            self.lblDescription.numberOfLines = 4
             self.lblDescription.sizeToFit()
         }else {
-            self.lblDescription.numberOfLines = 1
+            self.lblDescription.numberOfLines = 2
             self.lblDescription.sizeToFit()
         }
-      }
+    }
     
     @objc func showPreview(){
         
@@ -95,5 +96,6 @@ class StreamViewHeader: UICollectionViewCell {
             delegate?.showPreview()
         }
     }
-
+    
 }
+

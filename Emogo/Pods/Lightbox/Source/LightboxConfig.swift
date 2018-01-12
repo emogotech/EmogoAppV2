@@ -14,6 +14,12 @@ public class LightboxConfig {
     videoController.player = AVPlayer(url: videoURL)
 
     from.present(videoController, animated: true) {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        }
+        catch {
+            // report for an error
+        }
       videoController.player?.play()
     }
   }
