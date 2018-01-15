@@ -362,6 +362,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if currentMenu == .stuff {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            content.isShowAddStream = true
+            content.isEdit = true
             objPreview.seletedImage = content
             objPreview.isEdit = true
             self.navigationController?.push(viewController: objPreview)
