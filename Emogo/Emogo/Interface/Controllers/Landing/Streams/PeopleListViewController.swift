@@ -96,7 +96,7 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
         people.fullName = collaborator.name
         people.userId = collaborator.userID
         let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-        obj.objPeople = people
+          obj.objPeople = people
         self.navigationController?.push(viewController: obj)
     }
     

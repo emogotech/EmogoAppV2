@@ -41,12 +41,13 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-            self.prepareLayouts()
+        self.prepareLayouts()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
+         prepareLayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -59,11 +60,6 @@ class ProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Profile"
        
-        lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
-        
-        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
-        }
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
@@ -85,6 +81,14 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.collectionViewLayout = layout
         
 
+    }
+    
+    func prepareLayout() {
+        lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
+        
+        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        }
     }
     
     func configureLoadMoreAndRefresh(){

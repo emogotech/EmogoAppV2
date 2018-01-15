@@ -153,7 +153,6 @@ class AddStreamViewController: UITableViewController {
             self.prepareEdit(isEnable: true)
             }
             
-            
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()

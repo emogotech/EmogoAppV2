@@ -156,6 +156,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.currentIndex = indexPath.row
+        obj.viewStream = "View"
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
     }

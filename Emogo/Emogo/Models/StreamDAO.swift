@@ -186,6 +186,8 @@ class StreamViewDAO{
                 }
                 if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     conent.isDelete = true
+                    self.canAddContent = true
+                    self.canAddPeople = true
                 }
                 self.arrayContent.append(conent)
             }
@@ -217,6 +219,11 @@ class StreamViewDAO{
             self.hieght = Int("\(obj)")
         }
        
+        if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.canAddPeople = true
+            self.canAddContent = true
+        }
+        
     }
 }
 
