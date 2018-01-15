@@ -194,9 +194,13 @@ class StreamListViewController: UIViewController {
     func prepareList(){
         if isUpdateList {
             isUpdateList = false
-            HUDManager.sharedInstance.showHUD()
-            menuView.currentIndex = currentStreamType.hashValue
-            self.getStreamList(type:.start,filter: currentStreamType)
+            if  menuView.currentIndex == 4 {
+                menuView.currentIndex = 4
+                self.actionForPeopleList()
+            }else{
+                HUDManager.sharedInstance.showHUD()
+                self.getStreamList(type:.start,filter: currentStreamType)
+            }
         }
     }
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {

@@ -255,6 +255,8 @@
 		F4522CA41FCC1AA50021562D /* Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA31FCC1AA50021562D /* Animation.swift */; };
 		F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */; };
 		F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4522CA71FCC46D20021562D /* PMSwitch.swift */; };
+		F4539375200CD93200F7D029 /* UILabel+LineCounter.m in Sources */ = {isa = PBXBuildFile; fileRef = F4539373200CD93000F7D029 /* UILabel+LineCounter.m */; };
+		F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4539385200CF40800F7D029 /* UIImageColors.swift */; };
 		F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */; };
 		F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A786F1FBC46A2003FD6AB /* AWSManager.swift */; };
 		F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */; };
@@ -600,6 +602,9 @@
 		F4522CA31FCC1AA50021562D /* Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation.swift; sourceTree = "<group>"; };
 		F4522CA51FCC2DC10021562D /* AddStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStreamViewController.swift; sourceTree = "<group>"; };
 		F4522CA71FCC46D20021562D /* PMSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMSwitch.swift; sourceTree = "<group>"; };
+		F4539373200CD93000F7D029 /* UILabel+LineCounter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+LineCounter.m"; sourceTree = "<group>"; };
+		F4539374200CD93100F7D029 /* UILabel+LineCounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+LineCounter.h"; sourceTree = "<group>"; };
+		F4539385200CF40800F7D029 /* UIImageColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColors.swift; sourceTree = "<group>"; };
 		F454308D1FBD6E8600DE80E6 /* SF-Pro-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Thin.otf"; sourceTree = "<group>"; };
 		F454308E1FBD6E8600DE80E6 /* SF-Pro-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Black.otf"; sourceTree = "<group>"; };
@@ -997,6 +1002,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4539376200CDF3B00F7D029 /* VisualView */,
 				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				F42218012007AE2D002D4E4E /* CellResizeManager */,
 				F42217A820074CB6002D4E4E /* PopupView */,
@@ -1608,6 +1614,14 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		F4539376200CDF3B00F7D029 /* VisualView */ = {
+			isa = PBXGroup;
+			children = (
+				F4539385200CF40800F7D029 /* UIImageColors.swift */,
+			);
+			path = VisualView;
+			sourceTree = "<group>";
+		};
 		F45A78751FBC67A0003FD6AB /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1635,6 +1649,8 @@
 		F4647C021FFE132800CCEDA3 /* TextView */ = {
 			isa = PBXGroup;
 			children = (
+				F4539374200CD93100F7D029 /* UILabel+LineCounter.h */,
+				F4539373200CD93000F7D029 /* UILabel+LineCounter.m */,
 				F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */,
 				F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */,
 				F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */,
@@ -2320,6 +2336,7 @@
 				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */,
 				F4431A911FC6DD2C00311C9A /* CropRectView.swift in Sources */,
+				F4539375200CD93200F7D029 /* UILabel+LineCounter.m in Sources */,
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
 				F43612E11FD69B0E00788FFE /* AGImagePipeline.swift in Sources */,
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
@@ -2444,6 +2461,7 @@
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
+				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,

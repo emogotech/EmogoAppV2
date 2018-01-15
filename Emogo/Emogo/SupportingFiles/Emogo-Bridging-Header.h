@@ -16,3 +16,4 @@
 #import "FLAnimatedImage.h"
 #import "BIZPopupViewController.h"
 #import "RZCellSizeManager.h"
+#import "UILabel+LineCounter.h"

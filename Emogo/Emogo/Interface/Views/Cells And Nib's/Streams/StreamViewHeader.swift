@@ -34,6 +34,7 @@ class StreamViewHeader: UICollectionViewCell {
     func prepareLayout(stream:StreamViewDAO?){
         btnEdit.isHidden = true
         btnDelete.isHidden = true
+        self.lblDescription.numberOfLines = 2
         guard let objStream = stream  else {
             return
         }
@@ -45,10 +46,11 @@ class StreamViewHeader: UICollectionViewCell {
             btnCollab.badgeString = "\(objStream.arrayColab.count)"
             btnCollab.isHidden = false
             btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
-            
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblDescription.text = objStream.description.trim()
+        self.lblName.sizeToFit()
+        self.lblDescription.sizeToFit()
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
@@ -62,19 +64,15 @@ class StreamViewHeader: UICollectionViewCell {
             btnEdit.isHidden = false
         }
         
-        self.lblDescription.numberOfLines = 2
-        if self.lblDescription.heightOfLbl > self.lblDescription.frame.size.height  {
-            if self.lblDescription.isTruncated {
-                self.btnDropDown.isHidden = false
-            }else{
-                self.btnDropDown.isHidden = true
-            }
+        let lineCount = lblDescription.lineCountForLabel()
+        if lineCount < 2 {
+            self.btnDropDown.isHidden = true
         }else{
-            if self.lblDescription.frame.size.height == 0.0 || self.lblDescription.numberOfVisibleLines < 2{
-                self.btnDropDown.isHidden = true
-            }else{
-                self.btnDropDown.isHidden = false
-            }
+            self.btnDropDown.isHidden = false
+        }
+        
+        if objStream.description.trim().isEmpty {
+            self.btnDropDown.isHidden = true
         }
         
     }

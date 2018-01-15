@@ -29,6 +29,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
 
+
     var currentIndex:Int!
     var seletedImage:ContentDAO!
     var photoEditor:PhotoEditorViewController!
@@ -103,7 +104,7 @@ class ContentViewController: UIViewController {
         self.txtDescription.text = ""
         
         if  seletedImage.imgPreview != nil {
-            self.imgCover.image = Toucan(image: seletedImage.imgPreview!).resize(kFrame.size, fitMode: Toucan.Resize.FitMode.clip).image
+            self.imgCover.image = seletedImage.imgPreview
         }
         
         
@@ -142,15 +143,31 @@ class ContentViewController: UIViewController {
         }else {
             if seletedImage.type == .image {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
+                
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
+                
                 self.btnPlayIcon.isHidden = true
             }else   if seletedImage.type == .video {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
                 self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
                 self.btnPlayIcon.isHidden = true
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+          self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
             }else {
-                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+               self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
+                
             }
         }
         
@@ -229,7 +246,7 @@ class ContentViewController: UIViewController {
         }
         
         // image aspect ratio----
-        self.imgCover.contentMode = .scaleAspectFill
+        self.imgCover.contentMode = .scaleAspectFit
 
     }
     
@@ -238,6 +255,8 @@ class ContentViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+   
     
     
     // MARK: -  Action Methods And Selector
@@ -285,21 +304,16 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
-        if   ContentList.sharedInstance.arrayContent.count != 0 {
-            if seletedImage.type == .image {
-                if self.seletedImage.imgPreview == nil {
-                    SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
-                        if image != nil {
-                            self.openEditor(image:image!)
-                        }
-                    })
-                }else {
-                    self.openEditor(image:seletedImage.imgPreview!)
-                }
-            }
+        if isEdit != nil {
+            performEdit()
         }else {
-            self.showToast(type: .error, strMSG: kAlert_Edit_Image)
+            if   ContentList.sharedInstance.arrayContent.count != 0 {
+              performEdit()
+            }else {
+                self.showToast(type: .error, strMSG: kAlert_Edit_Image)
+            }
         }
+        
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
@@ -370,19 +384,12 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnDeleteAction(_ sender: Any) {
-        
-        if  ContentList.sharedInstance.arrayContent.count != 0 {
-            
-            let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
-            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
-                self.deleteSelectedContent()
+        if isEdit != nil {
+            performDelete()
+        }else {
+            if  ContentList.sharedInstance.arrayContent.count != 0 {
+                performDelete()
             }
-            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
-                alert.dismiss(animated: true, completion: nil)
-            }
-            alert.addAction(yes)
-            alert.addAction(no)
-            present(alert, animated: true, completion: nil)
         }
     }
     
@@ -452,6 +459,33 @@ class ContentViewController: UIViewController {
         updateContent()
     }
     
+    func performEdit(){
+        if seletedImage.type == .image {
+            if self.seletedImage.imgPreview == nil {
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
+                    if image != nil {
+                        self.openEditor(image:image!)
+                    }
+                })
+            }else {
+                self.openEditor(image:seletedImage.imgPreview!)
+            }
+        }
+    }
+    
+    
+    func performDelete(){
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
+        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+            self.deleteSelectedContent()
+        }
+        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(yes)
+        alert.addAction(no)
+        present(alert, animated: true, completion: nil)
+    }
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))

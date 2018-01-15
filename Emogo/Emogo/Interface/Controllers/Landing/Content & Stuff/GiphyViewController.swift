@@ -130,14 +130,11 @@ class GiphyViewController: UIViewController {
         }
     }
     func searchGiphy(text:String) {
-        HUDManager.sharedInstance.showHUD()
         isEditingEnable = false
         let client = GPHClient(apiKey: kGiphyAPIKey)
         client.search(text) { (response, error) in
             
-            DispatchQueue.main.async { // Correct
-                HUDManager.sharedInstance.hideHUD()
-            }
+
             self.isEditingEnable = true
             if let error = error as NSError? {
                 // Do what you want with the error
@@ -260,6 +257,9 @@ extension GiphyViewController:UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        if !(textField.text?.trim().isEmpty)! {
+            self.searchGiphy(text: (textField.text?.trim())!)
+        }
         return true
     }
     

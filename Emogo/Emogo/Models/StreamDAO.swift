@@ -14,6 +14,7 @@ enum StreamType:String{
     case myStream = "My Stream"
     case featured = "Featured Stream"
     case emogoStreams = "Emogo Stream"
+    
 }
 
 

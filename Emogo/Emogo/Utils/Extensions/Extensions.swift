@@ -838,6 +838,8 @@ extension FLAnimatedImageView {
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL)
     }
+    
+    
 }
 
 extension UITextView: UITextViewDelegate {
