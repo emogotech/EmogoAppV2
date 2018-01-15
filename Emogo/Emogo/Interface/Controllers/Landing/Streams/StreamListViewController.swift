@@ -37,6 +37,7 @@ class StreamListViewController: UIViewController {
     var isSearch : Bool = false
     var isTapPeople : Bool = false
     var isTapStream : Bool = false
+    var isUpdateList:Bool! = false
     var searchStr : String!
     var heightPeople                            : NSLayoutConstraint?
     var heightStream                            : NSLayoutConstraint?
@@ -83,6 +84,7 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
         }
+        self.prepareList()
         self.streamCollectionView.reloadData()
     }
     
@@ -186,9 +188,17 @@ class StreamListViewController: UIViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
         
-        
     }
     
+    
+    func prepareList(){
+        if isUpdateList {
+            isUpdateList = false
+            HUDManager.sharedInstance.showHUD()
+            menuView.currentIndex = currentStreamType.hashValue
+            self.getStreamList(type:.start,filter: currentStreamType)
+        }
+    }
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -363,6 +373,7 @@ class StreamListViewController: UIViewController {
     }
     
     override func btnMyProfileAction() {
+        isUpdateList = true
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
         self.navigationController?.push(viewController: obj)
     }
@@ -719,7 +730,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             cell.prepareLayouts(stream: stream)
             return cell
         }
-        else if isPeopleList || (isSearch && isTapPeople) {
+        else if isPeopleList {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
             cell.prepareData(people:people)

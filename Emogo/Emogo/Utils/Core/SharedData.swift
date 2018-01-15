@@ -88,7 +88,7 @@ class SharedData: NSObject {
                 }
                 errorMessage = errors.joined(separator: "\n")
             }else {
-                errorMessage = "\(value)"
+                errorMessage = "\(value)".replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "(", with: "").replacingOccurrences(of: "\n", with: "").trim()
             }
         }
         return errorMessage.replacingOccurrences(of: ")", with: "").replacingOccurrences(of: "(", with: "")
