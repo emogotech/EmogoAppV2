@@ -265,8 +265,10 @@ class StreamListViewController: UIViewController {
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
         if isLoadFirst {
-            self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
-            self.viewCollection.frame = self.viewSearch.frame
+            UIView.animate(withDuration: 0.1, animations: {
+                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
+                self.viewCollection.frame = self.viewSearch.frame
+            })
             self.isLoadFirst = false
         }
         if(SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople){
