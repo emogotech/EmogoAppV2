@@ -211,7 +211,7 @@ class ViewStreamSerializer(StreamSerializer):
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
-        user_phono_number = str(self.context.get('request').user.username).replace('+', '')
+        user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
         # qs = [x ]
         if qs.__len__() > 0:
