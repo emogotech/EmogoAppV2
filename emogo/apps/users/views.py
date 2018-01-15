@@ -25,7 +25,7 @@ from itertools import chain
 # models
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
-
+from autofixtures import UserAutoFixture
 
 class Signup(APIView):
     """
@@ -277,3 +277,12 @@ class UserCollaborators(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class FixturesTestAPI(APIView):
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        UserAutoFixture(User, num_of_instances={}).create(1)
+        return custom_render_response(status_code=200, data={})

@@ -53,10 +53,10 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
         if current_url == 'stream_collaborator':
-            serializer = self.get_serializer(instance, fields=('collaborators',))
+            serializer = self.get_serializer(instance, fields=('collaborators',), context=self.request)
         # Return all data
         else:
-            serializer = self.get_serializer(instance)
+            serializer = self.get_serializer(instance, context=self.request)
             # Update stream view count
             instance.update_view_count()
 

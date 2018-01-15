@@ -1,13 +1,12 @@
 import autofixture
-from django.contrib.auth.models import User
 from autofixture import generators , AutoFixture
-from autofixture.generators import Generator,ChoicesGenerator
 from django.utils import timezone
-import random
 from django.contrib.auth.hashers import make_password
 from models import UserProfile
 from autofixture.autofixtures import UserFixture
 from emogo.lib.custom_generators.generators import PhoneNumberGenerator
+from emogo.apps.stream.autofixtures import StreamAutoFixture
+from emogo.apps.stream.models import Stream
 
 
 class UserAutoFixture(UserFixture):
@@ -40,7 +39,7 @@ class UserAutoFixture(UserFixture):
         self.username = kwargs.pop('username', None)
         self.password = 123456
         self.num_of_instances = kwargs.pop('num_of_instances', None)
-        super(UserFixture, self).__init__(*args, **kwargs)
+        super(UserAutoFixture, self).__init__(*args, **kwargs)
 
     class Values(object):
         username = PhoneNumberGenerator(country_code='+91')
@@ -61,7 +60,7 @@ class UserAutoFixture(UserFixture):
         # make sure user's last login was not before he joined
         if instance:
             UserProfileAutoFixture(UserProfile, user=instance, full_name=(instance.first_name+' '+instance.last_name)).create(1)
-
+            StreamAutoFixture(Stream, user=instance, num_of_instances = self.num_of_instances).create(self.num_of_instances.get('stream'))
         return instance
 
 
