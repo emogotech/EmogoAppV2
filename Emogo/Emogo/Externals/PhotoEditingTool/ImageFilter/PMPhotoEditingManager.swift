@@ -130,7 +130,7 @@ class PMPhotoEditingManager: NSObject {
             return UIImage()
         }
         self.cleanService()
-        return mainImage
+        return mainImage.fixOrientationCIImage()
     }
     
     @discardableResult

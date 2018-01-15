@@ -32,7 +32,7 @@ extension PhotoEditorViewController {
     @IBAction func cropButtonTapped(_ sender: UIButton) {
         let controller = CropViewController()
         controller.delegate = self
-        controller.image = image
+        controller.image = canvasImageView.image
         let navController = UINavigationController(rootViewController: controller)
         present(navController, animated: true, completion: nil)
     }
@@ -102,6 +102,7 @@ extension PhotoEditorViewController {
         for subview in canvasImageView.subviews {
             subview.removeFromSuperview()
         }
+        canvasImageView.image = self.image
     }
     
     @IBAction func continueButtonPressed(_ sender: Any) {
@@ -161,6 +162,7 @@ extension PhotoEditorViewController {
         Animation.viewSlideInFromTopToBottom(views:self.filterView)
         if self.isFilterSelected  {
             hideToolbar(hide: true)
+            editingService.setImage (image: self.canvasImageView.image!)
             self.filterView.isHidden = false
             self.filterViewButton.isHidden = false
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon_selected"), for: .normal)

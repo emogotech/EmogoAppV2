@@ -102,6 +102,7 @@ import UIKit
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+    
         self.setImageView(image: image!)
         
         deleteView.layer.cornerRadius = deleteView.bounds.height / 2
@@ -128,7 +129,6 @@ import UIKit
         activeTextView?.keyboardAppearance = .dark
         
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-        editingService.setImage (image: image!)
     }
     
     func configureCollectionView() {
@@ -152,7 +152,8 @@ import UIKit
     }
     
     func setImageView(image: UIImage) {
-        imageView.image = image
+        //imageView.image = image
+        self.canvasImageView.image = image
         let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
         imageViewHeightConstraint.constant = (size?.height)!
     }

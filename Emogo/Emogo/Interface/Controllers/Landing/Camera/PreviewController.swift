@@ -250,7 +250,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         if ContentList.sharedInstance.objStream != nil {
-
+            self.view.endEditing(true)
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayContent
@@ -277,7 +277,7 @@ class PreviewController: UIViewController {
         
     }
     @IBAction func btnDoneAction(_ sender: Any) {
-       
+       self.view.endEditing(true)
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             HUDManager.sharedInstance.showProgress()
