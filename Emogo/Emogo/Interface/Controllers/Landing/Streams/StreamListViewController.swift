@@ -266,7 +266,7 @@ class StreamListViewController: UIViewController {
         self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
         if isLoadFirst {
             UIView.animate(withDuration: 0.1, animations: {
-                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: (self.navigationController?.navigationBar.frame.size.height)!+5, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
+                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
                 self.viewCollection.frame = self.viewSearch.frame
             })
             self.isLoadFirst = false
@@ -444,7 +444,7 @@ class StreamListViewController: UIViewController {
     }
     
     // MARK: - API Methods
-    
+
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             self.addLoadMore()

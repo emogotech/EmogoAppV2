@@ -52,7 +52,8 @@ class HomeViewController: MSMessagesAppViewController {
     var isStreamEnable                          : Bool = true
     var isSearch                                : Bool = false
     var collectionFrame                         : CGRect?
-    var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    
+     var collectionLayout = CHTCollectionViewWaterfallLayout()
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
     
@@ -192,22 +193,17 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func setupCollectionProperties() {
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
-        
-        layout.minimumInteritemSpacing = 1
-        layout.minimumLineSpacing = 15
-        collectionStream!.collectionViewLayout = layout
+        // Change individual layout attributes for the spacing between cells
+        collectionLayout.minimumColumnSpacing = 5.0
+        collectionLayout.minimumInteritemSpacing = 5.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.columnCount = 2
+        collectionStream!.collectionViewLayout = collectionLayout
         
     }
     
     func setupCollectionPropertiesForUsers() {
-        self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-        self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 - 12.0)
-        
-        self.layout.minimumInteritemSpacing = 1
-        self.layout.minimumLineSpacing = 10
-        self.collectionStream!.collectionViewLayout = self.layout
+        collectionLayout.columnCount = 3
     }
     
     
@@ -265,12 +261,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.collectionStream.isHidden = true
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
-                
-                self.layout.minimumInteritemSpacing = 1
-                self.layout.minimumLineSpacing = 15
-                self.collectionStream!.collectionViewLayout = self.layout
+                 self.collectionLayout.columnCount = 2
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -279,12 +270,7 @@ class HomeViewController: MSMessagesAppViewController {
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
                 
-                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 - 12.0)
-                
-                self.layout.minimumInteritemSpacing = 1
-                self.layout.minimumLineSpacing = 10
-                self.collectionStream!.collectionViewLayout = self.layout
+                self.collectionLayout.columnCount = 3
                 
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
@@ -350,7 +336,6 @@ class HomeViewController: MSMessagesAppViewController {
         }
         self.setupRefreshLoader()
         setupAnchor()
-        collectionStream!.collectionViewLayout = layout
     }
     
     func checkIsAvailableFilter() -> Bool {
@@ -466,12 +451,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
                 self.collectionStream.isHidden = false
                 
-                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 - 12.0)
-                
-                self.layout.minimumInteritemSpacing = 1
-                self.layout.minimumLineSpacing = 10
-                self.collectionStream!.collectionViewLayout = self.layout
+                self.collectionLayout.columnCount = 3
                 self.collectionStream.reloadData()
             }
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
@@ -493,12 +473,8 @@ class HomeViewController: MSMessagesAppViewController {
                 self.collectionStream.isHidden = false
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
                 
-                self.layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
-                self.layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 18.0, height: self.collectionStream.frame.size.width/2 - 18.0)
+                self.collectionLayout.columnCount = 2
                 
-                self.layout.minimumInteritemSpacing = 1
-                self.layout.minimumLineSpacing = 15
-                self.collectionStream!.collectionViewLayout = self.layout
                 self.collectionStream.reloadData()
             }
             if self.arrayStreams.count == 0 {
@@ -699,10 +675,25 @@ class HomeViewController: MSMessagesAppViewController {
 }
 
 // MARK:- Extension collectionview delegate
-extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource {
+extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        
+        if (isSearch == true && !isStreamEnable){
+            let stream = self.arrayStreams[indexPath.row]
+            return CGSize(width: stream.width, height: stream.hieght)
+        }
+        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+            return CGSize(width: itemWidth, height: 100)
+        }  else  {
+           let stream = self.arrayStreams[indexPath.row]
+            return CGSize(width: stream.width, height: stream.hieght)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
