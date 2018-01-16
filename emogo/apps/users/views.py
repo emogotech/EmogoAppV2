@@ -65,7 +65,6 @@ class Login(APIView):
     """
 
     def post(self, request):
-        print 'RAaaaaaaan'+100
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate()
