@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "strems_name_gradient.png",
+      "filename" : "cover_greadient.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "strems_name_gradient@2x.png",
+      "filename" : "cover_greadient@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "strems_name_gradient@3x.png",
+      "filename" : "cover_greadient@3x.png",
       "scale" : "3x"
     }
   ],
