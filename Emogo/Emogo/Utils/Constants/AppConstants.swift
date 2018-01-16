@@ -31,6 +31,8 @@ let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0,
 
 var kContainerNav = ""
 var kBackNav = ""
+var kNavForProfile = ""
+
 
 // Selected Tag For Container
 var currentTag = 111

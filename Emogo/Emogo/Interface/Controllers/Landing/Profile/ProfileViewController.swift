@@ -381,6 +381,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 ContentList.sharedInstance.arrayContent.removeAll()
                 ContentList.sharedInstance.objStream = nil
                 kContainerNav = ""
+                kNavForProfile = "1"
                 self.navigationController?.pushNormal(viewController: obj)
             }else {
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController

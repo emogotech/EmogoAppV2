@@ -348,17 +348,17 @@ class AddStreamViewController: UITableViewController {
     
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-         let image = self.coverImage.reduceSize()
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
+         let image = self.coverImage
+    let imageData = UIImageJPEGRepresentation(image!, 1.0)
        let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
         AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                    self.createStream(cover: imageUrl!,width:Int(image.size.width) ,hieght:Int(image.size.height))
+                    self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
                     } else {
-                    self.editStream(cover: imageUrl!,width:Int(image.size.width) ,hieght:Int(image.size.height))
+                    self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
                     }
                 }
             }else {

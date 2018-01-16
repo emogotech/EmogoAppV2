@@ -293,7 +293,6 @@ class PreviewController: UIViewController {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             HUDManager.sharedInstance.showProgress()
 
-            print(array.count)
             let arrayC = [String]()
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
             self.imgPreview.image = nil
@@ -302,8 +301,16 @@ class PreviewController: UIViewController {
             self.previewCollection.reloadData()
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
-                let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-                self.navigationController?.popToViewController(vc: objStream)
+                
+                if kNavForProfile.isEmpty {
+                    let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+                    
+                    self.navigationController?.popToViewController(vc: objStream)
+                }else {
+                     kNavForProfile = ""
+                      let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+                    self.navigationController?.popToViewController(vc: obj)
+                }
             }
         }
        
