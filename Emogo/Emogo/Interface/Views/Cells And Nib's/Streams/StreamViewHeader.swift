@@ -65,7 +65,7 @@ class StreamViewHeader: UICollectionViewCell {
         }
         
         let lineCount = lblDescription.lineCountForLabel()
-        if lineCount < 2 {
+        if lineCount < 1 {
             self.btnDropDown.isHidden = true
         }else{
             self.btnDropDown.isHidden = false

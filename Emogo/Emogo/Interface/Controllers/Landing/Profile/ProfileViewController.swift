@@ -368,7 +368,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth)
+            return CGSize(width: itemWidth, height: itemWidth - 40)
         }
         
     }
@@ -376,12 +376,21 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if currentMenu == .stuff {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-            content.isShowAddStream = true
-            content.isEdit = true
-            objPreview.seletedImage = content
-            objPreview.isEdit = true
-            self.navigationController?.push(viewController: objPreview)
+            if content.isAdd {
+                let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+                ContentList.sharedInstance.arrayContent.removeAll()
+                ContentList.sharedInstance.objStream = nil
+                kContainerNav = ""
+                self.navigationController?.pushNormal(viewController: obj)
+            }else {
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                content.isShowAddStream = true
+                content.isEdit = true
+                objPreview.seletedImage = content
+                objPreview.isEdit = true
+                self.navigationController?.push(viewController: objPreview)
+            }
+           
         }else {
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
