@@ -26,6 +26,8 @@ from itertools import chain
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from autofixtures import UserAutoFixture
+from django.http import HttpResponse
+
 
 class Signup(APIView):
     """
@@ -63,6 +65,7 @@ class Login(APIView):
     """
 
     def post(self, request):
+        print 'RAaaaaaaan'+100
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate()
@@ -286,3 +289,12 @@ class FixturesTestAPI(APIView):
         """
         UserAutoFixture(User, num_of_instances={}).create(1)
         return custom_render_response(status_code=200, data={})
+
+
+def api_500(request):
+    """
+    :param request:
+    :return: Automatically call while system generate 500 Error
+    """
+    response = HttpResponse('{"exception": "Internal server error.", "status_code": 500 }', content_type="application/json", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return response

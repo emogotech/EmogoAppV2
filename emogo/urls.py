@@ -25,3 +25,4 @@ urlpatterns = [
     url(r'^api/', include('emogo.apps.collaborator.urls')),
 ]
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+handler500 = 'emogo.apps.users.views.api_500'

@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'emogo.lib.common_middleware.logging_middleware.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'emogo.urls'
@@ -75,7 +76,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'emogo.wsgi.application'
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -139,6 +139,71 @@ DEFAULT_PASSWORD = '123456'
 TWILIO_ACCOUNT_SID = 'AC470ab177bba5b96f4c1af3d3d29b8975'
 TWILIO_AUTH_TOKEN = '1491edbec65ec8a99f72b6c0bee54aca'
 TWILIO_FROM_NUMBER = '+13392090249'
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'api.request.logger': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR + '/logs/api_log.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+        'request_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR + '/logs/django_request.log',
+            'maxBytes': 1024 * 1024 * 5,  # 5 MB
+            'backupCount': 5,
+            'formatter': 'standard',
+        },
+    },
+    # filters will define when a logger should run
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['api.request.logger'],
+            'level': 'DEBUG',
+            'propagate': True
+        },
+        'django.request': {
+            'handlers': ['request_handler'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    }
+}
+# from django.utils.log import DEFAULT_LOGGING
+# LOGGING
+
+LOGGING['handlers']['slack_admins'] = {
+  'level': 'ERROR',
+  'filters': ['require_debug_false'],
+  'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
+}
+
+LOGGING['loggers']['django'] = {
+  'handlers': ['slack_admins'],
+  'level': 'INFO',
+}
+
 
 # Get Local Settings
 try:
