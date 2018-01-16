@@ -485,6 +485,8 @@ class StreamListViewController: UIViewController {
             self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
                 self.lblNoResult.isHidden = false
+                self.lblNoResult.text = kAlert_No_Stream_found
+
             }
             self.streamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -520,6 +522,7 @@ class StreamListViewController: UIViewController {
             
             self.lblNoResult.isHidden = true
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
+                self.lblNoResult.text = kAlert_No_User_Record_Found
                 self.lblNoResult.isHidden = false
             }
             
