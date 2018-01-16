@@ -234,10 +234,10 @@ class SharedData: NSObject {
         }
         let imageURL = URL(string: url.stringByAddingPercentEncodingForURLQueryParameter()!)!
         
-        SDWebImageManager.shared().imageDownloader?.downloadImage(with: imageURL, options: SDWebImageDownloaderOptions.useNSURLCache, progress: nil, completed: { (image, data, error, _) in
-                handler(image)
-        })
-   
+        let imgView = UIImageView()
+        imgView.sd_setImage(with: imageURL) { (image, _, _, _) in
+            handler(image)
+        }
     }
     
     

@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import Photos
-import PhotosUI
-import AVFoundation
 import ALCameraViewController
 
 class ProfileUpdateViewController: UIViewController {
@@ -70,25 +67,6 @@ class ProfileUpdateViewController: UIViewController {
         
         present(cameraViewController, animated: true, completion: nil)
         
-        /*
-        let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            
-            self.checkCameraPermission()
-        }
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-            self.checkPhotoLibraryPermission()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            
-        }
-        alert.addAction(camera)
-        alert.addAction(gallery)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
-        */
     }
     
     func setCoverImage(image:UIImage) {
@@ -98,114 +76,7 @@ class ProfileUpdateViewController: UIViewController {
     }
     
     
-    func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized:
-            print("Gallery Open")
-            let when = DispatchTime.now() + 0.5
-            DispatchQueue.main.asyncAfter(deadline: when) {
-                self.openGallery()
-            }
-            break
-        //handle authorized status
-        case .denied :
-            print("denied ")
-            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-            break
-            
-        case .restricted:
-            
-            break
-        //handle denied status
-        case .notDetermined:
-            // ask for permissions
-            print("denied ")
-            PHPhotoLibrary.requestAuthorization() { status in
-                switch status {
-                case .authorized:
-                    let when = DispatchTime.now() + 0.5
-                    DispatchQueue.main.asyncAfter(deadline: when) {
-                        self.openGallery()
-                    }
-                    break
-                // as above
-                case .denied, .restricted:
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-                    break
-                // as above
-                case .notDetermined:
-                    break
-                    // won't happen but still
-                }
-            }
-        }
-    }
-    
-    func checkCameraPermission(){
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        switch status {
-        case .authorized:
-            self.openCamera()
-            break
-        case .denied, .restricted :
-            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
-            break
-            
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
-                if granted {
-                    //access allowed
-                    print("camera Open")
-                    self.openCamera()
-                } else {
-                    //access denied
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
-                }
-            })
-            break
-        }
-        
-    }
-    
-    
-    private func openCamera(){
-        if  UIImagePickerController.isSourceTypeAvailable(.camera){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = .camera
-            DispatchQueue.main.async {
-                self.topMostController().present(imagePicker, animated: true, completion: nil)
-            }
-        }else {
-            
-        }
-    }
-    
-    private func openGallery(){
-        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            DispatchQueue.main.async {
-                self.topMostController().present(imagePicker, animated: true, completion: nil)
-            }
-        }else {
-            
-        }
-        
-    }
-    
-    func topMostController() -> UIViewController {
-        
-        var topController: UIViewController = UIApplication.shared.keyWindow!.rootViewController!
-        while (topController.presentedViewController != nil) {
-            topController = topController.presentedViewController!
-        }
-        return topController
-    }
-    
+   
     
     // MARK: - API
     
