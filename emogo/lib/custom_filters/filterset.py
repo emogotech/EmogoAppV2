@@ -32,7 +32,7 @@ class StreamFilter(django_filters.FilterSet):
 
     def filter_global_search(self, qs, name, value):
         # return qs.filter(Q(name__contains=value) | Q(content__name__contains=value)).distinct().order_by('-view_count')
-        return qs.filter(name__contains=value, type='Public').order_by('-view_count')
+        return qs.filter(name__icontains=value, type='Public').order_by('-view_count')
 
 
 class UsersFilter(django_filters.FilterSet):
