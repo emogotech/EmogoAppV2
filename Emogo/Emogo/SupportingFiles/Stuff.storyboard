@@ -843,8 +843,8 @@
                                             <constraint firstAttribute="height" constant="60" id="jjX-N3-ZTm"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sa5-rI-j5g">
@@ -934,7 +934,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vtq-qg-sTN" customClass="CardView" customModule="Emogo" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="147" height="116"/>
+                                                    <rect key="frame" x="0.0" y="-0.5" width="147" height="116"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image7" translatesAutoresizingMaskIntoConstraints="NO" id="Q4x-m3-erp">
                                                             <rect key="frame" x="0.0" y="0.0" width="147" height="116"/>
@@ -1010,17 +1010,26 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="zHR-mO-tc4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="147" height="116"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="zHR-mO-tc4" secondAttribute="trailing" id="57l-xU-Nej"/>
+                                            <constraint firstItem="zHR-mO-tc4" firstAttribute="leading" secondItem="NH3-gM-HSA" secondAttribute="leading" id="7lG-NY-sIT"/>
                                             <constraint firstAttribute="bottom" secondItem="vtq-qg-sTN" secondAttribute="bottom" id="Pyu-9b-1V4"/>
+                                            <constraint firstAttribute="bottom" secondItem="zHR-mO-tc4" secondAttribute="bottom" id="bay-7t-4Qm"/>
                                             <constraint firstAttribute="trailing" secondItem="vtq-qg-sTN" secondAttribute="trailing" id="gmt-Ox-Cj7"/>
                                             <constraint firstItem="vtq-qg-sTN" firstAttribute="top" secondItem="NH3-gM-HSA" secondAttribute="top" id="hOe-dM-hfF"/>
+                                            <constraint firstItem="zHR-mO-tc4" firstAttribute="top" secondItem="NH3-gM-HSA" secondAttribute="top" id="mwd-DF-XM7"/>
                                             <constraint firstItem="vtq-qg-sTN" firstAttribute="leading" secondItem="NH3-gM-HSA" secondAttribute="leading" id="nuS-Tj-1wH"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="btnEdit" destination="Rls-Si-bGd" id="qDo-x5-4Gi"/>
                                             <outlet property="btnLock" destination="mX0-mK-Vav" id="jju-Oc-XFA"/>
+                                            <outlet property="cardView" destination="vtq-qg-sTN" id="cjK-iv-qDm"/>
+                                            <outlet property="imgAdd" destination="zHR-mO-tc4" id="xJI-iz-43c"/>
                                             <outlet property="imgCover" destination="Q4x-m3-erp" id="Hiv-fb-rmZ"/>
                                             <outlet property="lblName" destination="xc7-5h-mGL" id="Fi8-7Y-qbi"/>
                                             <outlet property="lblTitle" destination="7Ex-5s-vaM" id="YPr-ov-uQg"/>
@@ -1168,8 +1177,8 @@
                                             <constraint firstAttribute="width" constant="130" id="xch-Cw-27e"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <textField opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dpM-73-axx" customClass="SkyFloatingLabelTextField" customModule="Emogo" customModuleProvider="target">
@@ -1462,7 +1471,7 @@
         <image name="select_active_icon" width="20" height="20"/>
         <image name="select_unactive_icon" width="20" height="20"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
-        <image name="stream_icon_add" width="154" height="88"/>
+        <image name="stream_icon_add" width="147" height="147"/>
         <image name="strems_active_icon" width="39" height="37"/>
         <image name="stuff_icon" width="39" height="37"/>
         <image name="up_arrow" width="50" height="50"/>

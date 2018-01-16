@@ -49,7 +49,11 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
-         prepareLayout()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        prepareLayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -227,6 +231,9 @@ class ProfileViewController: UIViewController {
      func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayStream.removeAll()
+            let stream = StreamDAO(streamData: [:])
+            stream.isAdd = true
+            StreamList.sharedInstance.arrayStream.insert(stream, at: 0)
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
@@ -253,6 +260,9 @@ class ProfileViewController: UIViewController {
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
             ContentList.sharedInstance.arrayStuff.removeAll()
+            let content = ContentDAO(contentData: [:])
+            content.isAdd = true
+            ContentList.sharedInstance.arrayStuff.insert(content, at: 0)
             self.profileCollectionView.reloadData()
         }
         
@@ -394,12 +404,18 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
            
         }else {
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = indexPath.row
-            obj.streamType = stream.Title.capitalized
-            obj.viewStream = "View"
-            ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
+             if stream.isAdd {
+                let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+                self.navigationController?.push(viewController: obj)
+             }else {
+                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                obj.currentIndex = indexPath.row
+                obj.streamType = stream.Title.capitalized
+                obj.viewStream = "View"
+                ContentList.sharedInstance.objStream = nil
+                self.navigationController?.push(viewController: obj)
+            }
+          
         }
 }
     
