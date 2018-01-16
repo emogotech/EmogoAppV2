@@ -300,6 +300,8 @@ class PreviewController: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Back Screen
                     let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+                    obj.title = currentStreamType.rawValue
+//                    obj.streamType
                     self.navigationController?.popToViewController(vc: obj)
                     
                 }

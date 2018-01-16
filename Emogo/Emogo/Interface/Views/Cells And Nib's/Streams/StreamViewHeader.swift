@@ -48,6 +48,7 @@ class StreamViewHeader: UICollectionViewCell {
             btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
         self.lblName.text = objStream.title.trim().capitalized
+        self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
         self.lblName.sizeToFit()
         self.lblDescription.sizeToFit()

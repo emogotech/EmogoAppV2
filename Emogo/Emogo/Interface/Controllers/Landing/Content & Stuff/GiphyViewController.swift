@@ -31,11 +31,10 @@ class GiphyViewController: UIViewController {
     func prepareLayout(){
         
         let layout = CHTCollectionViewWaterfallLayout()
-        
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 5.0
-        layout.minimumInteritemSpacing = 5.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         layout.columnCount = 2
         // Collection view attributes
         self.giphyCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]

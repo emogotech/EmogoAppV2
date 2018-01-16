@@ -153,9 +153,9 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.delegate = self
         
         // Change individual layout attributes for the spacing between cells
-        collectionLayout.minimumColumnSpacing = 5.0
-        collectionLayout.minimumInteritemSpacing = 5.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.minimumColumnSpacing = 8.0
+        collectionLayout.minimumInteritemSpacing = 8.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         collectionLayout.columnCount = 2
         // Collection view attributes
         self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -854,14 +854,22 @@ extension StreamListViewController : UITextFieldDelegate {
         return true
     }
     
+
     func didTapActionSearch(searchString: String) {
-        print(searchString)
         btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnSearch.tag = 1
         searchStr = searchString
-        lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-        lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
-        self.getStreamGlobleSearch(searchText: searchString, type: .start)
+        if isPeopleList {
+            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+            lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            collectionLayout.columnCount = 3
+            self.getPeopleGlobleSearch(searchText: searchString, type: .start)
+        }else{
+            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+            lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            collectionLayout.columnCount = 2
+            self.getStreamGlobleSearch(searchText: searchString, type: .start)
+        }
     }
 }
 extension StreamListViewController:UINavigationControllerDelegate {

@@ -34,6 +34,7 @@ class StreamContentCell: UICollectionViewCell {
             imgAdd.isHidden = true
             viewCard.isHidden = false
             self.lblName.text = content.name.trim().capitalized
+            self.lblName.minimumScaleFactor = 1.0
             if (self.lblName.text?.trim().isEmpty)! {
                 self.viewContent.isHidden = true
             }else {

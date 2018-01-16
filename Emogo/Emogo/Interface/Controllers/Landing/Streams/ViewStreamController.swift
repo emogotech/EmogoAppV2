@@ -78,9 +78,9 @@ class ViewStreamController: UIViewController {
 
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 5.0
-        layout.minimumInteritemSpacing = 5.0
-        layout.sectionInset = UIEdgeInsetsMake(20, 5, 15, 5)
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         layout.columnCount = 2
         layout.headerHeight = 200.0
         
@@ -108,7 +108,7 @@ class ViewStreamController: UIViewController {
     
     func prepareNavigation(){
         
-        self.title = streamType
+        self.title = currentStreamType.rawValue
         self.configureNavigationTite()
       
         let imgP = UIImage(named: "back_icon")

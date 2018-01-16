@@ -55,9 +55,9 @@ class MyStuffViewController: UIViewController {
         
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 5.0
-        layout.minimumInteritemSpacing = 5.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         layout.columnCount = 2
         // Collection view attributes
         self.stuffCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -161,7 +161,13 @@ class MyStuffViewController: UIViewController {
                         }
                     }
                 }
-            
+            if ContentList.sharedInstance.arrayStuff.count == 0 {
+                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
+                label.text = "No Contents Found!"
+                label.sizeToFit()
+                label.center = self.view.center
+                self.view.addSubview(label)
+            }
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)

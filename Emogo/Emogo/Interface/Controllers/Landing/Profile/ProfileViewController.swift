@@ -17,7 +17,7 @@ enum ProfileMenu:String{
 
 
 class ProfileViewController: UIViewController {
-
+    
     
     // MARK: - UI Elements
     
@@ -27,7 +27,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
     @IBOutlet weak var btnStuff: UIButton!
-
+    
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -37,15 +37,15 @@ class ProfileViewController: UIViewController {
     }
     
     var isEdited:Bool! = false
-  
-
+    
+    
     // MARK: - Override Functions
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayouts()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
@@ -65,7 +65,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
-       
+        
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
@@ -75,9 +75,9 @@ class ProfileViewController: UIViewController {
         
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
-        layout.minimumColumnSpacing = 5.0
-        layout.minimumInteritemSpacing = 5.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         layout.columnCount = 2
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -90,9 +90,9 @@ class ProfileViewController: UIViewController {
     
     func prepareLayout() {
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
-         print(UserDAO.sharedInstance.user.userImage.trim())
+        print(UserDAO.sharedInstance.user.userImage.trim())
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
     }
     
@@ -130,12 +130,12 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.expiredTimeInterval = 20.0
     }
     
-   
     
-     // MARK: -  Action Methods And Selector
+    
+    // MARK: -  Action Methods And Selector
     
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
-       self.updateSegment(selected: sender.tag)
+        self.updateSegment(selected: sender.tag)
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
@@ -146,7 +146,7 @@ class ProfileViewController: UIViewController {
     }
     
     
-  private func updateSegment(selected:Int){
+    private func updateSegment(selected:Int){
         switch selected {
         case 101:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
@@ -202,7 +202,7 @@ class ProfileViewController: UIViewController {
             }
             
             alert.dismiss(animated: true, completion: nil)
-           
+            
         }
         let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -210,7 +210,7 @@ class ProfileViewController: UIViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-       
+        
     }
     
     private func logout(){
@@ -220,15 +220,15 @@ class ProfileViewController: UIViewController {
     }
     
     
-   @objc func btnActionForEdit(sender:UIButton) {
-    isEdited = true
-    let stream = StreamList.sharedInstance.arrayStream[sender.tag]
-    let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-       obj.streamID = stream.ID
-     self.navigationController?.push(viewController: obj)
+    @objc func btnActionForEdit(sender:UIButton) {
+        isEdited = true
+        let stream = StreamList.sharedInstance.arrayStream[sender.tag]
+        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+        obj.streamID = stream.ID
+        self.navigationController?.push(viewController: obj)
     }
     
-     func getStreamList(type:RefreshType,filter:StreamType){
+    func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayStream.removeAll()
             let stream = StreamDAO(streamData: [:])
@@ -313,18 +313,18 @@ class ProfileViewController: UIViewController {
         }
     }
     
-  
+    
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 
@@ -334,12 +334,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       
-            if currentMenu == .stuff {
-                return ContentList.sharedInstance.arrayStuff.count
-            }else {
-                return StreamList.sharedInstance.arrayStream.count
-            }
+        
+        if currentMenu == .stuff {
+            return ContentList.sharedInstance.arrayStuff.count
+        }else {
+            return StreamList.sharedInstance.arrayStream.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -352,21 +352,21 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-        
+            
             cell.prepareLayout(content:content)
             return cell
             
         }else{
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-        cell.layer.cornerRadius = 5.0
-        cell.layer.masksToBounds = true
-        cell.isExclusiveTouch = true
-        cell.btnEdit.tag = indexPath.row
-        cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-        cell.prepareLayouts(stream: stream)
-        return cell
-
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
+            cell.layer.cornerRadius = 5.0
+            cell.layer.masksToBounds = true
+            cell.isExclusiveTouch = true
+            cell.btnEdit.tag = indexPath.row
+            cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            cell.prepareLayouts(stream: stream)
+            return cell
+            
         }
     }
     
@@ -401,13 +401,13 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 objPreview.isEdit = true
                 self.navigationController?.push(viewController: objPreview)
             }
-           
+            
         }else {
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-             if stream.isAdd {
+            if stream.isAdd {
                 let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
                 self.navigationController?.push(viewController: obj)
-             }else {
+            }else {
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
                 obj.streamType = stream.Title.capitalized
@@ -415,9 +415,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }
-          
+            
         }
-}
+    }
     
 }
 
