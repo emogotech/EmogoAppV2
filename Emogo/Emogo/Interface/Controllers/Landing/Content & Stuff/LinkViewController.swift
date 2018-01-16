@@ -108,7 +108,9 @@ class LinkViewController: UIViewController {
         if let parent = self.parent {
             arraySelectedContent?.append(content)
             if arraySelectedContent?.count != 0 {
-                HUDManager.sharedInstance.showHUD()
+                if arrayAssests?.count != 0 {
+                    HUDManager.sharedInstance.showHUD()
+                }
                 (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
                     HUDManager.sharedInstance.hideHUD()
                     ContentList.sharedInstance.arrayContent.removeAll()

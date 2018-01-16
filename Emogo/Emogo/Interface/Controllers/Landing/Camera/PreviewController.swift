@@ -105,7 +105,6 @@ class PreviewController: UIViewController {
 //            viewOptions.isHidden = false
 //        }
         imgPreview.backgroundColor = .black
-        self.imgPreview.contentMode = .scaleAspectFill
         
         if !self.seletedImage.createdBy.trim().isEmpty {
            
@@ -156,11 +155,7 @@ class PreviewController: UIViewController {
         self.selectedIndex = index
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
-        if  seletedImage.imgPreview != nil {
-            self.imgPreview.image = seletedImage.imgPreview
-            self.imgPreview.backgroundColor = seletedImage.imgPreview?.getColors().background
-        }
-    
+        
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
         }
@@ -179,6 +174,7 @@ class PreviewController: UIViewController {
         }
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
+              self.imgPreview.backgroundColor = seletedImage.imgPreview?.getColors().background
         }else {
             if seletedImage.type == .image  {
         
@@ -189,6 +185,7 @@ class PreviewController: UIViewController {
             }else {
         self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    
                     self.imgPreview.backgroundColor = image?.getColors().background
                 })
             }
