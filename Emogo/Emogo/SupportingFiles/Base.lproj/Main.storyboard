@@ -1288,13 +1288,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="8QI-Jt-GeF">
-                                                    <rect key="frame" x="0.0" y="11" width="145" height="88"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="88" id="H6l-kR-b1l"/>
-                                                        <constraint firstAttribute="width" constant="145" id="bee-zt-vwT"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bhH-ub-8ED" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                                     <subviews>
@@ -1364,6 +1357,13 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="8QI-Jt-GeF">
+                                                    <rect key="frame" x="0.0" y="11" width="145" height="88"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="88" id="H6l-kR-b1l"/>
+                                                        <constraint firstAttribute="width" constant="145" id="bee-zt-vwT"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -2635,10 +2635,6 @@
                                                             </constraints>
                                                             <state key="normal" image="play_button"/>
                                                         </button>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-PD-wwW">
-                                                            <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
@@ -2661,6 +2657,10 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-PD-wwW">
+                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>

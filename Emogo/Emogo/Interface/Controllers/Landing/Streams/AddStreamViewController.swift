@@ -182,6 +182,13 @@ class AddStreamViewController: UITableViewController {
             }else{
                 self.lblStreamDescPlaceHolder.isHidden = true
             }
+            
+            if self.txtStreamCaption.contentSize.height > contentRowHeight {
+                contentRowHeight = self.txtStreamCaption.contentSize.height
+                self.tableView.beginUpdates()
+                self.tableView.endUpdates()
+            }
+            
             self.tableView.reloadData()
         }
     }
