@@ -91,11 +91,8 @@ class ProfileViewController: UIViewController {
     func prepareLayout() {
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
          print(UserDAO.sharedInstance.user.userImage.trim())
-        self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-            SharedData.sharedInstance.downloadImage(url: UserDAO.sharedInstance.user.userImage.trim(), handler: { (image) in
-                self.imgUser.image = image
-            })
+        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
     }
     

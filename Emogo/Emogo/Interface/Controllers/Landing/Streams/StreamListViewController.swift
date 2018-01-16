@@ -379,7 +379,7 @@ class StreamListViewController: UIViewController {
     override func btnMyProfileAction() {
         isUpdateList = true
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
-        self.navigationController?.push(viewController: obj)
+        self.navigationController?.pushNormal(viewController: obj)
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {

@@ -80,20 +80,19 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="vGL-2k-v4Z"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxW-nQ-hQo">
-                                <rect key="frame" x="291" y="8" width="24" height="24"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxW-nQ-hQo">
+                                <rect key="frame" x="272" y="8" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="lpE-Kx-Bkf"/>
-                                    <constraint firstAttribute="width" constant="24" id="u0b-8b-PDC"/>
+                                    <constraint firstAttribute="width" constant="40" id="UXT-t8-xyx"/>
+                                    <constraint firstAttribute="height" constant="40" id="V79-EV-fBZ"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="-6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="edit_icon"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqU-VC-vt1">
-                                <rect key="frame" x="256" y="8" width="24" height="24"/>
+                                <rect key="frame" x="224" y="8" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="bk7-sO-a4q"/>
-                                    <constraint firstAttribute="width" constant="24" id="tym-LO-epP"/>
+                                    <constraint firstAttribute="width" constant="40" id="AZG-pS-zOh"/>
+                                    <constraint firstAttribute="height" constant="40" id="HIK-fg-DvZ"/>
                                 </constraints>
                                 <state key="normal" image="delete_icon-cover_image"/>
                             </button>
@@ -119,21 +118,21 @@
                             <constraint firstItem="VdJ-hy-5Ah" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" constant="8" id="1MS-r5-dDz"/>
                             <constraint firstItem="VdJ-hy-5Ah" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="7" id="25O-jO-mwl"/>
                             <constraint firstItem="VdJ-hy-5Ah" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="7" id="40d-ox-OO9"/>
-                            <constraint firstItem="vxW-nQ-hQo" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="8" id="8b0-XU-3rh"/>
+                            <constraint firstItem="vxW-nQ-hQo" firstAttribute="leading" secondItem="BqU-VC-vt1" secondAttribute="trailing" constant="8" id="ECU-mU-l2X"/>
                             <constraint firstAttribute="trailing" secondItem="dMD-rr-8vX" secondAttribute="trailing" id="Ei1-AI-Kfa"/>
                             <constraint firstAttribute="bottom" secondItem="dMD-rr-8vX" secondAttribute="bottom" id="IWj-iE-nR1"/>
-                            <constraint firstAttribute="trailing" secondItem="vxW-nQ-hQo" secondAttribute="trailing" constant="5" id="PVr-rA-70j"/>
-                            <constraint firstItem="vxW-nQ-hQo" firstAttribute="leading" secondItem="BqU-VC-vt1" secondAttribute="trailing" constant="11" id="QLK-8k-Sph"/>
+                            <constraint firstItem="vxW-nQ-hQo" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="8" id="R1f-XQ-n6o"/>
                             <constraint firstAttribute="bottom" secondItem="zlb-SC-3TG" secondAttribute="bottom" id="U2Z-pB-dyU"/>
                             <constraint firstItem="zlb-SC-3TG" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" id="U65-Qm-TsT"/>
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" id="VER-6O-ioR"/>
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" id="WbY-c3-PgO"/>
                             <constraint firstAttribute="trailing" secondItem="zlb-SC-3TG" secondAttribute="trailing" id="Xdw-WG-bYd"/>
+                            <constraint firstItem="BqU-VC-vt1" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="8" id="aUQ-Mb-xns"/>
                             <constraint firstAttribute="trailing" secondItem="dMD-rr-8vX" secondAttribute="trailing" id="avl-UF-sPb"/>
                             <constraint firstItem="dMD-rr-8vX" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" id="dLc-9q-vHf"/>
+                            <constraint firstAttribute="trailing" secondItem="vxW-nQ-hQo" secondAttribute="trailing" constant="8" id="ddF-LI-WOx"/>
                             <constraint firstItem="VdJ-hy-5Ah" firstAttribute="leading" secondItem="8Fc-OG-F5r" secondAttribute="leading" constant="8" id="gp7-Ud-NDH"/>
                             <constraint firstAttribute="bottom" secondItem="dMD-rr-8vX" secondAttribute="bottom" id="nDJ-6R-Rkv"/>
-                            <constraint firstItem="BqU-VC-vt1" firstAttribute="top" secondItem="8Fc-OG-F5r" secondAttribute="top" constant="8" id="yge-Gn-fF5"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
