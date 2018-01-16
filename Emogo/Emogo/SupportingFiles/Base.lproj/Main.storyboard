@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rmb-Nh-cOZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Rmb-Nh-cOZ">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -669,8 +669,18 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1M-5W-d2X">
+                                                    <rect key="frame" x="10" y="8" width="196" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="15" id="MwB-Xy-AUH"/>
+                                                        <constraint firstAttribute="width" constant="196" id="UIa-ce-KaX"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-za-Kca" customClass="MBAutoGrowingTextView">
-                                                    <rect key="frame" x="10" y="19" width="300" height="30"/>
+                                                    <rect key="frame" x="10" y="23" width="300" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="QZX-4J-tsS"/>
@@ -686,10 +696,12 @@
                                                 </textView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="11" id="D5g-rp-mUq"/>
-                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="19" id="Wek-hc-PaY"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="7" id="D5g-rp-mUq"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="e1M-5W-d2X" secondAttribute="bottom" id="NA3-QE-lFX"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="23" id="Wek-hc-PaY"/>
                                                 <constraint firstItem="ZUq-za-Kca" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="ezz-U2-cwB"/>
                                                 <constraint firstAttribute="trailing" secondItem="ZUq-za-Kca" secondAttribute="trailing" constant="10" id="wRX-Kb-gx0"/>
+                                                <constraint firstItem="e1M-5W-d2X" firstAttribute="leading" secondItem="ZUq-za-Kca" secondAttribute="leading" id="wU7-xZ-Ccr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -985,6 +997,7 @@
                         <outlet property="btnCamera" destination="3Io-kd-XCi" id="PVC-CG-UNK"/>
                         <outlet property="imgCover" destination="t6E-RK-sDO" id="BxQ-7H-vE5"/>
                         <outlet property="lblAnyOneCanEdit" destination="nfS-uD-ddB" id="uMZ-tZ-0QF"/>
+                        <outlet property="lblStreamDescPlaceHolder" destination="e1M-5W-d2X" id="r4h-7T-Y2E"/>
                         <outlet property="rowHieght" destination="ZhA-oE-nuF" id="RST-h2-aoc"/>
                         <outlet property="switchAddCollaborators" destination="q6t-PB-8tI" id="pWo-fS-FLx"/>
                         <outlet property="switchAddContent" destination="dzU-1F-xHl" id="LcX-K8-W8i"/>
@@ -1432,7 +1445,7 @@
                                 <rect key="frame" x="0.0" y="340" width="320" height="69"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jPE-oA-cPK">
-                                        <rect key="frame" x="17" y="0.0" width="34.5" height="30"/>
+                                        <rect key="frame" x="17" y="0.0" width="36" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="FCz-pN-g07"/>
                                         </constraints>

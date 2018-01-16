@@ -28,6 +28,8 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var btnCamera: UIButton!
+    
+    @IBOutlet weak var lblStreamDescPlaceHolder : UILabel!
 
     
     // Varibales
@@ -82,6 +84,14 @@ class AddStreamViewController: UITableViewController {
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
         txtStreamCaption.placeholderName = "Stream Caption"
+        
+        self.lblStreamDescPlaceHolder.text = "Stream Caption"
+        if self.txtStreamCaption.text.count > 0 {
+            self.lblStreamDescPlaceHolder.isHidden = false
+        }else{
+            self.lblStreamDescPlaceHolder.isHidden = true
+        }
+        
         txtStreamName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.txtStreamName.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -462,7 +472,9 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     func textViewDidChange(_ textView: UITextView) {
         txtStreamCaption.placeholderName = "Stream Caption"
         if let placeholderLabel = txtStreamCaption.viewWithTag(100) as? UILabel {
-            placeholderLabel.isHidden = txtStreamCaption.text.count > 0
+            let shouldHide = txtStreamCaption.text.count > 0
+            placeholderLabel.isHidden = shouldHide
+            self.lblStreamDescPlaceHolder.isHidden = !shouldHide
         }
         
     }
