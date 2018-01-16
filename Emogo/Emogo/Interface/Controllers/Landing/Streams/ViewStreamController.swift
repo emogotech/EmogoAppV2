@@ -103,9 +103,6 @@ class ViewStreamController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
-        
-        self.updateLayOut()
-
        
     }
     
@@ -113,29 +110,12 @@ class ViewStreamController: UIViewController {
         
         self.title = streamType
         self.configureNavigationTite()
-        // Cancel Button
-        
-        //        let img1 = UIImage(named: "stream_cross_icon")
-        //        let btnCancel = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.btnCancelAction))
-        //
-        // next Button
-        //        let img = UIImage(named: "forward_icon")
-        //        let btnNext = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnNextAction))
-        //        self.navigationItem.rightBarButtonItems = [btnNext,btnCancel]
-        // previous Button
+      
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-        
-        
-        //
-        //        AWSRequestManager.sharedInstance.updateSuccessHandler = { _ in
-        ////            if self.isRefresh == true {
-        ////                self.updateLayOut()
-        ////            }
-        //        }
-        
+
         
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         
@@ -146,7 +126,7 @@ class ViewStreamController: UIViewController {
                 //  ContentList.sharedInstance.objStream = nil
             }
         }
-        
+        self.updateLayOut()
     }
     
     
@@ -205,7 +185,7 @@ class ViewStreamController: UIViewController {
         obj.streamID = self.objStream?.streamID
         self.navigationController?.push(viewController: obj)
     }
-}
+    }
     
     @objc  func btnCancelAction(){
         if viewStream == nil {
@@ -214,7 +194,6 @@ class ViewStreamController: UIViewController {
         }else {
         self.navigationController?.pop()
         }
-       
     }
     
     @objc func btnPlayAction(sender:UIButton){
@@ -292,7 +271,6 @@ class ViewStreamController: UIViewController {
         }
         self.prepareList()
     }
-    
    
  
     // MARK: - Class Methods
@@ -306,7 +284,6 @@ class ViewStreamController: UIViewController {
         self.getStream(currentStream:stream )
     }
      */
-    
    
     
     func openFullView(index:Int?){
@@ -384,7 +361,6 @@ class ViewStreamController: UIViewController {
         }
         APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
-            
             
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream

@@ -208,9 +208,14 @@ class ProfileViewController: UIViewController {
     }
     
     
-  
+   @objc func btnActionForEdit(sender:UIButton) {
+    let stream = StreamList.sharedInstance.arrayStream[sender.tag]
+    let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+       obj.streamID = stream.ID
+     self.navigationController?.push(viewController: obj)
+    }
     
-    func getStreamList(type:RefreshType,filter:StreamType){
+     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayStream.removeAll()
             self.profileCollectionView.reloadData()
@@ -330,6 +335,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
+        
             cell.prepareLayout(content:content)
             return cell
             
@@ -338,6 +344,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        cell.btnEdit.tag = indexPath.row
+        cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
         let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
         cell.prepareLayouts(stream: stream)
         return cell

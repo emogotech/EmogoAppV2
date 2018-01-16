@@ -592,15 +592,15 @@ class ContentViewController: UIViewController {
                 self.deleteFileFromAWS(content: self.seletedImage)
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    if  ContentList.sharedInstance.arrayContent.count == 0 {
+                        self.navigationController?.pop()
+                        return
+                    }
                     self.currentIndex =  self.currentIndex - 1
                     if(self.currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
                         self.next()
                     }else {
                         self.previous()
-                    }
-                    
-                    if  ContentList.sharedInstance.arrayContent.count == 0 {
-                        self.navigationController?.pop()
                     }
                 }else {
                     if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
