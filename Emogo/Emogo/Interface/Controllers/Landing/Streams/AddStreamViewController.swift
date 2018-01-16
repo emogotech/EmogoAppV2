@@ -51,7 +51,7 @@ class AddStreamViewController: UITableViewController {
     
     var minimumSize: CGSize = CGSize(width: 100, height: 100)
     
-    var contentRowHeight : CGFloat = 15.0
+    var contentRowHeight : CGFloat = 30.0 
 
     
     var croppingParameters: CroppingParameters {
@@ -458,7 +458,7 @@ extension AddStreamViewController {
         if self.isExpandRow  && indexPath.row == 3{
             return 340.0
         }else if indexPath.row == 1 {
-            return 100.0//contentRowHeight + 30 //
+            return contentRowHeight  + 30
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
@@ -485,12 +485,11 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         }
         
         
-//        if self.txtStreamCaption.contentSize.height > contentRowHeight {
-//            contentRowHeight = self.txtStreamCaption.contentSize.height
-//            self.tableView.beginUpdates()
-//            self.tableView.endUpdates()
-//            self.txtStreamCaption.frame = CGRect(x: 0, y: 0, width: 300.0, height: self.txtStreamCaption.contentSize.height)
-//        }
+        if self.txtStreamCaption.contentSize.height > contentRowHeight {
+            contentRowHeight = self.txtStreamCaption.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
 
 
         
