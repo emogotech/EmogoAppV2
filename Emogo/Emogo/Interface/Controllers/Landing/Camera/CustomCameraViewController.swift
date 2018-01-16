@@ -35,10 +35,11 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     var timer:Timer!
     var timeSec = 0
+    var captureInSec:Int?
     var beepSound: Sound?
     let interactor = PMInteractor()
     var selectedAssets = [TLPHAsset]()
-    
+
     
     // MARK: - Override Functions
     
@@ -172,13 +173,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         timeSec = 0
         let alert = UIAlertController(title: kAlert_Select_Time, message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: TimerSet.fiveSec.rawValue, style: .default) { (action) in
-            self.captreIn(time: 5)
+           self.captureInSec = 5
         }
         let action2 = UIAlertAction(title: TimerSet.tenSec.rawValue, style: .default) { (action) in
-            self.captreIn(time: 10)
+            
+            self.captureInSec = 10
         }
         let action3 = UIAlertAction(title: TimerSet.fifteenSec.rawValue, style: .default) { (action) in
-            self.captreIn(time: 15)
+            self.captureInSec = 15
         }
         
         let action = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
@@ -294,8 +296,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
         print("Normal tap")
+        
         self.lblRecordTimer.isHidden = true
-        self.performCamera(action: .capture)
+        if self.captureInSec != nil {
+            self.performCamera(action: .timer)
+            self.btnCamera.isUserInteractionEnabled = false
+        }else {
+            self.performCamera(action: .capture)
+        }
     }
     
     @objc func recordingModeTap(_ sender: UIGestureRecognizer){
@@ -460,6 +468,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         camera.imgPreview = photo.fixOrientation()
         camera.fileName = NSUUID().uuidString + ".png"
         self.updateData(content: camera)
+        self.btnCamera.isUserInteractionEnabled = true
         self.previewCollection.reloadData()
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {

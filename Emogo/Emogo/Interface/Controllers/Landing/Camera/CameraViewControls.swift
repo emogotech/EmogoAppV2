@@ -24,7 +24,7 @@ enum CameraAction:String {
     case stop = "stop"
     case record = "record"
     case recording = "recording"
-
+    case timer = "timer"
 }
 
 
@@ -78,6 +78,10 @@ extension CustomCameraViewController {
             break
         case .recording:
             startVideoRecording()
+            break
+        case .timer:
+            self.captreIn(time: captureInSec!)
+            captureInSec = nil
             break
         }
     }

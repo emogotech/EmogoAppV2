@@ -45,7 +45,9 @@ class ProfileUpdateViewController: UIViewController {
     func prepareData(){
         txtName.text = UserDAO.sharedInstance.user.fullName
         txtPhone.text = UserDAO.sharedInstance.user.phoneNumber
-        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+        SharedData.sharedInstance.downloadImage(url: UserDAO.sharedInstance.user.userImage.trim(), handler: { (image) in
+            self.imgUser.image = image
+        })
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
