@@ -572,6 +572,9 @@ class APIServiceManager: NSObject {
                                 content.isUploaded = true
                                 ContentList.sharedInstance.arrayStuff.append(content)
                             }
+                            let content = ContentDAO(contentData: [:])
+                            content.isAdd = true
+                            ContentList.sharedInstance.arrayStuff.insert(content, at: 0)
                         }
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {
