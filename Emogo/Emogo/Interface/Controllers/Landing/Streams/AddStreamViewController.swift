@@ -177,6 +177,11 @@ class AddStreamViewController: UITableViewController {
             
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            if self.txtStreamCaption.text.count > 0 {
+                self.lblStreamDescPlaceHolder.isHidden = false
+            }else{
+                self.lblStreamDescPlaceHolder.isHidden = true
+            }
             self.tableView.reloadData()
         }
     }
