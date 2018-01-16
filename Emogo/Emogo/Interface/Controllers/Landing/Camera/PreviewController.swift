@@ -37,6 +37,7 @@ class PreviewController: UIViewController {
     var isContentAdded:Bool! = false
     var seletedImage:ContentDAO!
     var strPresented:String!
+    var isEditingContent:Bool! = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,9 @@ class PreviewController: UIViewController {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         UIApplication.shared.isStatusBarHidden = true
+        if self.isEditingContent{
+            self.preparePreview(index: selectedIndex)
+        }
         self.previewCollection.reloadData()
     }
 
@@ -174,19 +178,36 @@ class PreviewController: UIViewController {
         }
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
-              self.imgPreview.backgroundColor = seletedImage.imgPreview?.getColors().background
+            seletedImage.imgPreview?.getColors({ (colors) in
+                self.imgPreview.backgroundColor = colors.background
+                self.txtTitleImage.textColor = colors.secondary
+                self.txtDescription.textColor = colors.secondary
+                self.txtTitleImage.placeholderColor(color: colors.secondary)
+            })
         }else {
             if seletedImage.type == .image  {
         
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
-                    self.imgPreview.backgroundColor = image?.getColors().background
+                    
+                    image?.getColors({ (colors) in
+                        self.imgPreview.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
+                    
                 })
                 self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
 
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     
-                    self.imgPreview.backgroundColor = image?.getColors().background
+                    image?.getColors({ (colors) in
+                        self.imgPreview.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
                 })
                 
             self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
@@ -244,9 +265,11 @@ class PreviewController: UIViewController {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
                 if seletedImage.isUploaded {
+                    isEditingContent = true
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                     objPreview.seletedImage = seletedImage
                     objPreview.isEdit = true
+                    objPreview.isForEditOnly = true
                     self.navigationController?.push(viewController: objPreview)
                 }else{
                     self.openEditor(image:seletedImage.imgPreview!)

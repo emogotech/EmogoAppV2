@@ -540,7 +540,7 @@ extension UITextField {
         layer.add(animation, forKey: "shake")
     }
     
-    func placeholderColor(){
+    func placeholderColor(color:UIColor){
         self.attributedPlaceholder = NSAttributedString(string: "placeholder text",
                                                         attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
     }

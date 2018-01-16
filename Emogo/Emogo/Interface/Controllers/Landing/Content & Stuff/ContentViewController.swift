@@ -37,7 +37,7 @@ class ContentViewController: UIViewController {
     var isEdit:Bool!
     var isAddStream:Bool! = false
     var isEditngContent:Bool! = false
-
+    var isForEditOnly:Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,27 +145,48 @@ class ContentViewController: UIViewController {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
                 
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
-                    self.imgCover.backgroundColor = image?.getColors().background
+                    
+                    image?.getColors({ (colors) in
+                        self.imgCover.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
                 })
                 
                 self.btnPlayIcon.isHidden = true
             }else   if seletedImage.type == .video {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
-                    self.imgCover.backgroundColor = image?.getColors().background
+                    image?.getColors({ (colors) in
+                        self.imgCover.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
                 })
                 self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
                 self.btnPlayIcon.isHidden = true
           self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
-                    self.imgCover.backgroundColor = image?.getColors().background
+                    image?.getColors({ (colors) in
+                        self.imgCover.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
                 })
             }else {
                self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
-                    self.imgCover.backgroundColor = image?.getColors().background
+                    image?.getColors({ (colors) in
+                        self.imgCover.backgroundColor = colors.background
+                        self.txtTitleImage.textColor = colors.secondary
+                        self.txtDescription.textColor = colors.secondary
+                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                    })
                 })
                 
             }
@@ -639,6 +660,9 @@ class ContentViewController: UIViewController {
                         ContentList.sharedInstance.arrayContent[index] = content!
                     }
                     self.seletedImage = content
+                    if self.isForEditOnly != nil {
+                        self.navigationController?.pop()
+                    }
                 }
                 self.updateContent()
                 self.isEditngContent = false
