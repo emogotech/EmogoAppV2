@@ -51,6 +51,9 @@ class AddStreamViewController: UITableViewController {
     
     var minimumSize: CGSize = CGSize(width: 100, height: 100)
     
+    var contentRowHeight : CGFloat = 15.0
+
+    
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: minimumSize)
     }
@@ -449,11 +452,13 @@ class AddStreamViewController: UITableViewController {
 
 extension AddStreamViewController {
 
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         if self.isExpandRow  && indexPath.row == 3{
             return 340.0
         }else if indexPath.row == 1 {
-            return 100.0
+            return 100.0//contentRowHeight + 30 //
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
@@ -470,14 +475,27 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        
         txtStreamCaption.placeholderName = "Stream Caption"
+        
         if let placeholderLabel = txtStreamCaption.viewWithTag(100) as? UILabel {
             let shouldHide = txtStreamCaption.text.count > 0
             placeholderLabel.isHidden = shouldHide
             self.lblStreamDescPlaceHolder.isHidden = !shouldHide
         }
         
+        
+//        if self.txtStreamCaption.contentSize.height > contentRowHeight {
+//            contentRowHeight = self.txtStreamCaption.contentSize.height
+//            self.tableView.beginUpdates()
+//            self.tableView.endUpdates()
+//            self.txtStreamCaption.frame = CGRect(x: 0, y: 0, width: 300.0, height: self.txtStreamCaption.contentSize.height)
+//        }
+
+
+        
     }
+    
 //    func textViewDidBeginEditing(_ textView: UITextView) {
 //        if txtStreamCaption.text.trim() == "Stream Caption"{
 //            txtStreamCaption.text = nil
