@@ -158,6 +158,7 @@ class PreviewController: UIViewController {
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if  seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
+            self.imgPreview.backgroundColor = seletedImage.imgPreview?.getColors().background
         }
     
         if !seletedImage.name.isEmpty {
@@ -182,12 +183,18 @@ class PreviewController: UIViewController {
             if seletedImage.type == .image  {
         
         self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
+                    self.imgPreview.backgroundColor = image?.getColors().background
+                })
             }else {
         self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
-
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    self.imgPreview.backgroundColor = image?.getColors().background
+                })
             }
         }
-    
+        self.txtTitleImage.isHidden = false
+        self.txtDescription.isHidden = false
         if seletedImage.isUploaded {
             if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
@@ -203,7 +210,11 @@ class PreviewController: UIViewController {
             }else {
                 self.btnDelete.isHidden = false
             }
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
         }
+        self.imgPreview.contentMode = .scaleAspectFit
+
     }
     
     
@@ -308,7 +319,7 @@ class PreviewController: UIViewController {
         self.openGallery()
     }
     @IBAction func btnCameraAction(_ sender: Any) {
-        let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         self.navigationController?.popToViewController(vc: obj)
     }
     

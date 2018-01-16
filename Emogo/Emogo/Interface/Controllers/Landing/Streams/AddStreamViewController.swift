@@ -11,6 +11,8 @@ import Photos
 import PhotosUI
 import AVFoundation
 import Lightbox
+import ALCameraViewController
+
 
 class AddStreamViewController: UITableViewController {
     
@@ -45,6 +47,13 @@ class AddStreamViewController: UITableViewController {
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
     var isPerform:Bool! = false
+    
+    var minimumSize: CGSize = CGSize(width: 100, height: 100)
+    
+    var croppingParameters: CroppingParameters {
+        return CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: minimumSize)
+    }
+    
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -115,6 +124,10 @@ class AddStreamViewController: UITableViewController {
                 txtStreamCaption.placeholderName = ""
             }
             if !(objStream?.coverImage.trim().isEmpty)!  {
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
+                   // self.imgCover.image = image
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
             }
@@ -252,6 +265,14 @@ class AddStreamViewController: UITableViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         
+        let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+            self?.setCoverImage(image: image!)
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
+        present(cameraViewController, animated: true, completion: nil)
+        
+        /*
         let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
             self.checkCameraPermission()
@@ -266,6 +287,7 @@ class AddStreamViewController: UITableViewController {
         alert.addAction(gallery)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
+ */
 
     }
     
@@ -299,7 +321,8 @@ class AddStreamViewController: UITableViewController {
         self.imgCover.image = image
         self.fileName =  NSUUID().uuidString + ".png"
         self.strCoverImage = ""
-        self.imgCover.contentMode = .scaleAspectFill
+        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.backgroundColor = image.getColors().background
         print(self.fileName)
     }
    

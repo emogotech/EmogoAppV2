@@ -28,8 +28,7 @@ enum CameraAction:String {
 }
 
 
-
-extension CameraViewController {
+extension CustomCameraViewController {
     
     
     // MARK: - TIMER FUNCTIONALITY
@@ -40,7 +39,7 @@ extension CameraViewController {
         timeSec = time
       self.disable(isOn:false)
         self.lblRecordTimer.isHidden = false
-    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CameraViewController.countDown)), userInfo: nil, repeats: true)
+    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CustomCameraViewController.countDown)), userInfo: nil, repeats: true)
     }
     
     // MARK: - Show CountDown

@@ -35,6 +35,8 @@ class ProfileViewController: UIViewController {
             updateConatiner()
         }
     }
+    
+    var isEdited:Bool! = false
   
 
     // MARK: - Override Functions
@@ -80,7 +82,6 @@ class ProfileViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
         
-
     }
     
     func prepareLayout() {
@@ -88,6 +89,14 @@ class ProfileViewController: UIViewController {
         
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        }
+    }
+    
+    func updateList(){
+        if isEdited {
+            isEdited = false
+            HUDManager.sharedInstance.showHUD()
+            self.getStreamList(type:.start,filter: .myStream)
         }
     }
     
@@ -157,7 +166,6 @@ class ProfileViewController: UIViewController {
             break
         }
     }
-
     
     private func updateConatiner(){
         
@@ -209,6 +217,7 @@ class ProfileViewController: UIViewController {
     
     
    @objc func btnActionForEdit(sender:UIButton) {
+    isEdited = true
     let stream = StreamList.sharedInstance.arrayStream[sender.tag]
     let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
        obj.streamID = stream.ID
@@ -296,8 +305,6 @@ class ProfileViewController: UIViewController {
     
   
     
-    
-    
     /*
     // MARK: - Navigation
 
@@ -360,8 +367,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             return CGSize(width: content.width, height: content.height)
         }else {
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth)
         }
         
     }

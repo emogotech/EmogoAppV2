@@ -1087,10 +1087,10 @@
             </objects>
             <point key="canvasLocation" x="2302.5" y="1448.2394366197184"/>
         </scene>
-        <!--Camera View Controller-->
+        <!--Custom Camera View Controller-->
         <scene sceneID="eXg-Qh-yA9">
             <objects>
-                <viewController storyboardIdentifier="cameraView" id="taN-Fu-ihg" customClass="CameraViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="cameraView" id="taN-Fu-ihg" customClass="CustomCameraViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NKB-cA-Xik">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

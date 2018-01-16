@@ -95,7 +95,7 @@ class StreamListViewController: UIViewController {
     
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
             kContainerNav = "1"
             currentTag = 111
             ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
@@ -207,7 +207,7 @@ class StreamListViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-                let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+                let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
                 ContentList.sharedInstance.arrayContent.removeAll()
                 ContentList.sharedInstance.objStream = nil
                 kContainerNav = ""
@@ -365,7 +365,7 @@ class StreamListViewController: UIViewController {
     
     override func btnCameraAction() {
         
-        let obj:CameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CameraViewController
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         kContainerNav = ""
@@ -767,8 +767,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: itemWidth, height: 100)
         }
         else {
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth)
         }
     }
    

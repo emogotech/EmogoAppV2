@@ -1,17 +1,15 @@
 //
-//  CameraViewController.swift
+//  CustomCameraViewController.swift
 //  Emogo
 //
-//  Created by Pushpendra on 13/12/17.
-//  Copyright © 2017 Vikas Goyal. All rights reserved.
+//  Created by Pushpendra on 13/12/18.
+//  Copyright © 2018 Vikas Goyal. All rights reserved.
 //
 
 import UIKit
 import SwiftyCam
-import Gallery
 
-class CameraViewController: SwiftyCamViewController {
-    
+class CustomCameraViewController: SwiftyCamViewController {
     // MARK: - UI Elements
     @IBOutlet weak var btnFlash:  UIButton!
     @IBOutlet weak var btnPreviewOpen: UIButton!
@@ -23,41 +21,45 @@ class CameraViewController: SwiftyCamViewController {
     @IBOutlet weak var btnFlashOn: UIButton!
     @IBOutlet weak var btnFlashOff: UIButton!
     @IBOutlet weak var btnFlashAuto: UIButton!
-
+    
     @IBOutlet weak var viewFlashOptions: UIStackView!
     @IBOutlet weak var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet weak var previewCollection: UICollectionView!
     @IBOutlet weak var lblRecordTimer: UILabel!
-
+    
     // MARK: - Variables
     var isRecording:Bool! = false
     var isPreviewOpen:Bool! = false
     var isFlashClicked:Bool! = false
     var isCaptureMode: Bool! = true
-
+    
     var timer:Timer!
     var timeSec = 0
     var beepSound: Sound?
-    let editor: VideoEditing = VideoEditor()
     let interactor = PMInteractor()
     var selectedAssets = [TLPHAsset]()
-
+    
+    
     // MARK: - Override Functions
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.prepareLayouts()
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
         UIApplication.shared.isStatusBarHidden = true
+        lblRecordTimer.isHidden = true
+        if ContentList.sharedInstance.arrayContent.count == 0 {
+            kPreviewHeight.constant = 24.0
+        }
         print(isSessionRunning)
- }
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareContainerToPresent()
@@ -75,9 +77,9 @@ class CameraViewController: SwiftyCamViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     // MARK: - Prepare Layouts
-
+    
     func prepareLayouts(){
         cameraDelegate = self
         doubleTapCameraSwitch = false
@@ -89,13 +91,6 @@ class CameraViewController: SwiftyCamViewController {
         self.lblRecordTimer.addAnimation()
         // Preview Height
         kPreviewHeight.constant = 24.0
-        // Configure Gallery
-        Gallery.Config.VideoEditor.maximumDuration = 30
-        Gallery.Config.tabsToShow = [.imageTab, .videoTab]
-        Gallery.Config.initialTab =  .imageTab
-        Gallery.Config.Camera.imageLimit =  10
-        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
-
         // Configure Sound For timer
         if let bUrl = Bundle.main.url(forResource: "beep", withExtension: "wav") {
             beepSound = Sound(url: bUrl)
@@ -114,7 +109,7 @@ class CameraViewController: SwiftyCamViewController {
     func prepareContainerToPresent(){
         if kContainerNav == "1" {
             kContainerNav = "2"
-           arraySelectedContent! += ContentList.sharedInstance.arrayContent
+            arraySelectedContent! += ContentList.sharedInstance.arrayContent
             // remove all duplicate contents
             var seen = Set<String>()
             var unique = [ContentDAO]()
@@ -138,7 +133,7 @@ class CameraViewController: SwiftyCamViewController {
             }
             arraySelectedContent = unique
             ContentList.sharedInstance.arrayContent = unique
-          performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
+            performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
         }
         
         if !kBackNav.isEmpty {
@@ -152,7 +147,7 @@ class CameraViewController: SwiftyCamViewController {
             self.btnShutter.isHidden = false
         }
     }
-  
+    
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
         if isCaptureMode == true {
@@ -170,7 +165,7 @@ class CameraViewController: SwiftyCamViewController {
                 self.performCamera(action: .stop)
             }
         }
-       
+        
     }
     
     @IBAction func btnActionTimer(_ sender: Any) {
@@ -185,7 +180,7 @@ class CameraViewController: SwiftyCamViewController {
         let action3 = UIAlertAction(title: TimerSet.fifteenSec.rawValue, style: .default) { (action) in
             self.captreIn(time: 15)
         }
-    
+        
         let action = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
             
         }
@@ -196,16 +191,16 @@ class CameraViewController: SwiftyCamViewController {
         present(alert, animated: true, completion: nil)
     }
     
-   
+    
     @IBAction func btnActionSwitchCamera(_ sender: Any) {
         switchCamera()
     }
-
+    
     @IBAction func btnActionGallery(_ sender: Any) {
         
-    let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
-       //     self?.selectedAssets = assets
-           self?.preparePreview(assets: assets)
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            self?.preparePreview(assets: assets)
             }, didCancel: nil)
         viewController.didExceedMaximumNumberOfSelection = { (picker) in
             //exceed max selection
@@ -220,11 +215,11 @@ class CameraViewController: SwiftyCamViewController {
         self.present(viewController, animated: true, completion: nil)
         
         /*
-       let gallery = GalleryController()
-        gallery.delegate = self
-        present(gallery, animated: true, completion: nil)
- */
-    
+         let gallery = GalleryController()
+         gallery.delegate = self
+         present(gallery, animated: true, completion: nil)
+         */
+        
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
@@ -246,11 +241,11 @@ class CameraViewController: SwiftyCamViewController {
         }else {
             self.viewFlashOptions.isHidden = true
         }
-       
+        
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
-           // self.beepSound?.stop()
+        // self.beepSound?.stop()
         if timer != nil {
             self.timer.invalidate()
         }
@@ -261,7 +256,7 @@ class CameraViewController: SwiftyCamViewController {
             if kContainerNav.isEmpty {
                 addLeftTransitionView(subtype: kCATransitionFromLeft)
             }else {
-                 kContainerNav = "1"
+                kContainerNav = "1"
                 self.prepareContainerToPresent()
             }
         }
@@ -292,7 +287,7 @@ class CameraViewController: SwiftyCamViewController {
         case 333:
             self.flashOption(options: .auto)
             break
-         default:
+        default:
             break
         }
     }
@@ -321,7 +316,7 @@ class CameraViewController: SwiftyCamViewController {
             
         default: break
         }
-       
+        
     }
     
     
@@ -342,7 +337,7 @@ class CameraViewController: SwiftyCamViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
-                    ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                    self.updateData(content: camera)
                     group.leave()
                 }else {
                     
@@ -351,7 +346,7 @@ class CameraViewController: SwiftyCamViewController {
                     }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
-                            ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                            self.updateData(content: camera)
                         }
                         group.leave()
                     })
@@ -362,15 +357,15 @@ class CameraViewController: SwiftyCamViewController {
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
-                     camera.fileUrl = url
+                    camera.fileUrl = url
                     if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
                         camera.imgPreview = image
-                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+                        self.updateData(content: camera)
                     }
                     group.leave()
                 })
             }
-         }
+        }
         
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()
@@ -379,26 +374,26 @@ class CameraViewController: SwiftyCamViewController {
             self.previewCollection.reloadData()
         })
         /*
-       
-        Image.resolve(images: assets, completion: {  resolvedImages in
-            for i in 0..<resolvedImages.count {
-                let obj = resolvedImages[i]
-                let camera = ContentDAO(contentData: [:])
-                 camera.imgPreview = obj
-                 camera.type = .image
-                 camera.isUploaded = false
-                 if let file =  assets[i].asset.value(forKey: "filename"){
-                    camera.fileName = file as! String
-                }
-                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-            }
-            self.btnPreviewOpen.isHidden = false
-            self.previewCollection.reloadData()
-        })
- */
-     
+         
+         Image.resolve(images: assets, completion: {  resolvedImages in
+         for i in 0..<resolvedImages.count {
+         let obj = resolvedImages[i]
+         let camera = ContentDAO(contentData: [:])
+         camera.imgPreview = obj
+         camera.type = .image
+         camera.isUploaded = false
+         if let file =  assets[i].asset.value(forKey: "filename"){
+         camera.fileName = file as! String
+         }
+         ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
+         }
+         self.btnPreviewOpen.isHidden = false
+         self.previewCollection.reloadData()
+         })
+         */
+        
     }
-
+    
     private func animateView(){
         UIView.animate(withDuration: 0.5) {
             self.isPreviewOpen = !self.isPreviewOpen
@@ -423,12 +418,21 @@ class CameraViewController: SwiftyCamViewController {
         }
     }
     
-  
+    func updateData(content:ContentDAO) {
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
+            self.btnShutter.isHidden = false
+            self.viewUP()
+        }
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        self.btnPreviewOpen.isHidden = false
+    }
+    
+    
     // MARK: - API Methods
-
+    
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based  application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -439,7 +443,7 @@ class CameraViewController: SwiftyCamViewController {
                 destinationViewController.interactor = interactor
             }
         }
-       
+        
     }
 }
 
@@ -448,32 +452,27 @@ class CameraViewController: SwiftyCamViewController {
 
 // MARK: - Delegate And DataSources
 
-extension CameraViewController:SwiftyCamViewControllerDelegate {
+extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let camera = ContentDAO(contentData: [:])
         camera.type = .image
         camera.imgPreview = photo.fixOrientation()
-        if  ContentList.sharedInstance.arrayContent.count == 0 {
-            self.btnShutter.isHidden = false
-            self.viewUP()
-        }
         camera.fileName = NSUUID().uuidString + ".png"
-        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-        self.btnPreviewOpen.isHidden = false
+        self.updateData(content: camera)
         self.previewCollection.reloadData()
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Called when startVideoRecording() is called
         // Called if a SwiftyCamButton begins a long press gesture
         self.lblRecordTimer.isHidden = false
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(CameraViewController.updateRecordingTime)), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(CustomCameraViewController.updateRecordingTime)), userInfo: nil, repeats: true)
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Called when stopVideoRecording() is called
         // Called if a SwiftyCamButton ends a long press gesture
-         timer.invalidate()
+        timer.invalidate()
         self.lblRecordTimer.isHidden = true
     }
     
@@ -487,12 +486,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
             print(camera.fileName)
-            if  ContentList.sharedInstance.arrayContent.count == 0 {
-                self.btnShutter.isHidden = false
-                self.viewUP()
-            }
-            ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-            self.btnPreviewOpen.isHidden = false
+            self.updateData(content: camera)
             self.previewCollection.reloadData()
         }
     }
@@ -517,7 +511,7 @@ extension CameraViewController:SwiftyCamViewControllerDelegate {
 
 
 
-extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return   ContentList.sharedInstance.arrayContent.count
     }
@@ -537,51 +531,9 @@ extension CameraViewController:UICollectionViewDelegate,UICollectionViewDataSour
 }
 
 
-extension CameraViewController:GalleryControllerDelegate {
-    func galleryControllerDidCancel(_ controller: GalleryController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
-    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
-        controller.dismiss(animated: true, completion: nil)
-        HUDManager.sharedInstance.showHUD()
-        editor.edit(video: video) { (editedVideo: Video?, tempPath: URL?) in
-            DispatchQueue.main.async {
-                if let tempPath = tempPath {
-                    print(tempPath)
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
-                         let camera = ContentDAO(contentData: [:])
-                        camera.imgPreview = image
-                        camera.isUploaded = false
-                        camera.fileName = tempPath.absoluteString.getName()
-                        camera.fileUrl = tempPath
-                        camera.type = .video
-                        print(camera.fileName)
-                        if  ContentList.sharedInstance.arrayContent.count == 0 {
-                            self.viewUP()
-                        }
-                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-                        self.btnPreviewOpen.isHidden = false
-                        self.previewCollection.reloadData()
-                        HUDManager.sharedInstance.hideHUD()
-                    }
-                }
-            }
-        }
-    }
-    
-    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
-        controller.dismiss(animated: true, completion: nil)
-       // self.preparePreview(assets: images)
-    }
-    
-    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-    }
-    
-}
 
 
-extension CameraViewController: UIViewControllerTransitioningDelegate {
+extension CustomCameraViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         print("dissmiss")
         return DismissAnimator()
@@ -591,6 +543,7 @@ extension CameraViewController: UIViewControllerTransitioningDelegate {
         DispatchQueue.main.async { // Correct
             self.session.startRunning()
         }
-       return interactor.hasStarted ? interactor : nil
+        return interactor.hasStarted ? interactor : nil
     }
 }
+

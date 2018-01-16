@@ -27,6 +27,8 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
     pod 'GiphyCoreSDK'
+pod 'ALCameraViewController'
+
 
     target 'EmogoTests' do
         inherit! :search_paths
