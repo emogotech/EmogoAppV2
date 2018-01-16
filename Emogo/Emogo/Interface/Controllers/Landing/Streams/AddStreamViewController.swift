@@ -13,13 +13,12 @@ import AVFoundation
 import Lightbox
 import ALCameraViewController
 
-
 class AddStreamViewController: UITableViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var viewGradient: UIView!
     @IBOutlet weak var txtStreamName: SkyFloatingLabelTextField!
-    @IBOutlet weak var txtStreamCaption: UIFloatLabelTextView!
+    @IBOutlet weak var txtStreamCaption: MBAutoGrowingTextView!
     @IBOutlet weak var switchMakePrivate: PMSwitch!
     @IBOutlet weak var switchAnyOneCanEdit: PMSwitch!
     @IBOutlet weak var switchAddContent: PMSwitch!
@@ -83,13 +82,10 @@ class AddStreamViewController: UITableViewController {
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
         txtStreamCaption.placeholderName = "Stream Caption"
-        txtStreamCaption.placeholder = "Stream Caption"
         txtStreamName.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        txtStreamCaption.placeholderTextColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
-        txtStreamCaption.delegate = self
-        txtStreamCaption.floatLabelActiveColor = UIColor(r: 70.0, g: 70.0, b: 70.0)
-        txtStreamCaption.floatLabelPassiveColor = UIColor.darkGray
         self.txtStreamName.maxLength = 50
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 60
         self.switchAddContent.isUserInteractionEnabled = false
         self.switchAddPeople.isUserInteractionEnabled = false
         self.imgCover.contentMode = .scaleAspectFill
@@ -266,29 +262,14 @@ class AddStreamViewController: UITableViewController {
     @IBAction func btnActionCamera(_ sender: Any) {
         
         let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
-            self?.setCoverImage(image: image!)
+            if let img = image{
+                self?.setCoverImage(image: img)
+            }
             self?.dismiss(animated: true, completion: nil)
         }
         
         present(cameraViewController, animated: true, completion: nil)
-        
-        /*
-        let alert = UIAlertController(title: "Upload Picture", message: "", preferredStyle: .actionSheet)
-        let camera = UIAlertAction(title: "Camera", style: .default) { (action) in
-            self.checkCameraPermission()
-        }
-        let gallery = UIAlertAction(title: "Gallery", style: .default) { (action) in
-            self.checkPhotoLibraryPermission()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            
-        }
-         alert.addAction(camera)
-        alert.addAction(gallery)
-        alert.addAction(cancel)
-        self.present(alert, animated: true, completion: nil)
- */
-
+       
     }
     
     @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
@@ -307,13 +288,17 @@ class AddStreamViewController: UITableViewController {
     // MARK: - Expand Collapse Row
 
     func configureCollaboatorsRowExpandCollapse() {
-            self.tableView.beginUpdates()
-            let index = IndexPath(row: 3, section: 0)
-            self.tableView.reloadRows(at: [index], with: .automatic)
-            self.tableView.endUpdates()
-            self.tableView.reloadData()
+           self.reloadIndex(index: 3)
     }
 
+    
+    func reloadIndex(index:Int) {
+        self.tableView.beginUpdates()
+        let index = IndexPath(row: index, section: 0)
+        self.tableView.reloadRows(at: [index], with: .automatic)
+        self.tableView.endUpdates()
+        self.tableView.reloadData()
+    }
     // MARK: - Set Cover Image
 
     func setCoverImage(image:UIImage) {
@@ -326,86 +311,7 @@ class AddStreamViewController: UITableViewController {
         print(self.fileName)
     }
    
-    
-    func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
-        switch status {
-        case .authorized:
-            print("Gallery Open")
-            self.openGallery()
-            break
-        //handle authorized status
-        case .denied, .restricted :
-            print("denied ")
-            SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-            break
-        //handle denied status
-        case .notDetermined:
-            // ask for permissions
-            print("denied ")
-            PHPhotoLibrary.requestAuthorization() { status in
-                switch status {
-                case .authorized:
-                    self.openGallery()
-                    break
-                // as above
-                case .denied, .restricted:
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "gallery")
-                    break
-                // as above
-                case .notDetermined:
-                    break
-                    // won't happen but still
-                }
-            }
-        }
-    }
-    
-    func checkCameraPermission(){
-        if AVCaptureDevice.authorizationStatus(for: .video) ==  .authorized {
-            //already authorized
-            print("camera Open")
-            self.openCamera()
-        } else {
-            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
-                if granted {
-                    //access allowed
-                    print("camera Open")
-                    self.openCamera()
-                } else {
-                    //access denied
-                    SharedData.sharedInstance.showPermissionAlert(viewController:self,strMessage: "camera")
-                }
-            })
-        }
-    }
-    
-
-    
-   private func openCamera(){
-        if  UIImagePickerController.isSourceTypeAvailable(.camera){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = .camera
-            self.present(imagePicker, animated: true, completion: nil)
-        }else {
-            
-        }
-    }
-    
-   private func openGallery(){
-        if  UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = false
-            imagePicker.sourceType = .photoLibrary
-            self.present(imagePicker, animated: true, completion: nil)
-        }else {
-            
-        }
-        
-    }
+  
     
     @objc func openFullView(){
         var image:LightboxImage!
@@ -475,8 +381,8 @@ class AddStreamViewController: UITableViewController {
     }
     
     private func createStream(cover:String,width:Int,hieght:Int){
-        txtStreamCaption.placeholder = ""
-        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
+        
+     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
@@ -490,7 +396,6 @@ class AddStreamViewController: UITableViewController {
         }
     }
     private func editStream(cover:String,width:Int,hieght:Int){
-         txtStreamCaption.placeholder = ""
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
@@ -537,6 +442,8 @@ extension AddStreamViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.isExpandRow  && indexPath.row == 3{
             return 340.0
+        }else if indexPath.row == 1 {
+            return 100.0
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
@@ -557,48 +464,21 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
         if let placeholderLabel = txtStreamCaption.viewWithTag(100) as? UILabel {
             placeholderLabel.isHidden = txtStreamCaption.text.count > 0
         }
+        
     }
 //    func textViewDidBeginEditing(_ textView: UITextView) {
 //        if txtStreamCaption.text.trim() == "Stream Caption"{
 //            txtStreamCaption.text = nil
 //        }
 //    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-       if txtStreamCaption.text.isEmpty {
-            txtStreamCaption.placeholder = ""
-        }
-    }
+   
    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-      
         if(text == "\n") {
            txtStreamCaption.resignFirstResponder()
             return false
         }
-        
         return textView.text.length + (text.length - range.length) <= 250
 
     }
-}
-
-extension AddStreamViewController:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-   
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        dismiss(animated: true, completion: nil)
-       
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            self.setCoverImage(image: pickedImage)
-        }
-}
-    
-    
-
-    
 }

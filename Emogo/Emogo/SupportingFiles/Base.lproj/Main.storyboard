@@ -662,34 +662,39 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="170" id="GUx-qQ-eRL">
-                                        <rect key="frame" x="0.0" y="153" width="320" height="170"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="60" id="GUx-qQ-eRL">
+                                        <rect key="frame" x="0.0" y="153" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GUx-qQ-eRL" id="1ux-lo-s6z">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-za-Kca" customClass="UIFloatLabelTextView">
-                                                    <rect key="frame" x="10" y="27" width="300" height="115"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-za-Kca" customClass="MBAutoGrowingTextView">
+                                                    <rect key="frame" x="10" y="19" width="300" height="30"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="QZX-4J-tsS"/>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="VNt-A1-4sW"/>
+                                                        <constraint firstAttribute="height" constant="30" id="bPR-AG-iEj"/>
+                                                    </constraints>
                                                     <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                                     <connections>
-                                                        <outlet property="delegate" destination="fAt-sp-i4e" id="Pob-Qc-hga"/>
+                                                        <outlet property="delegate" destination="fAt-sp-i4e" id="Ogc-el-HED"/>
                                                     </connections>
                                                 </textView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="ZUq-za-Kca" secondAttribute="trailing" constant="10" id="M6h-EW-XrI"/>
-                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="27" id="RH2-YF-Acg"/>
-                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="28" id="X6T-hG-1bB"/>
-                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="j8E-kd-jlB"/>
+                                                <constraint firstAttribute="bottom" secondItem="ZUq-za-Kca" secondAttribute="bottom" constant="11" id="D5g-rp-mUq"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="top" secondItem="1ux-lo-s6z" secondAttribute="top" constant="19" id="Wek-hc-PaY"/>
+                                                <constraint firstItem="ZUq-za-Kca" firstAttribute="leading" secondItem="1ux-lo-s6z" secondAttribute="leading" constant="10" id="ezz-U2-cwB"/>
+                                                <constraint firstAttribute="trailing" secondItem="ZUq-za-Kca" secondAttribute="trailing" constant="10" id="wRX-Kb-gx0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="60" id="9XU-Lf-uI7">
-                                        <rect key="frame" x="0.0" y="323" width="320" height="60"/>
+                                        <rect key="frame" x="0.0" y="213" width="320" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9XU-Lf-uI7" id="xPI-v7-u4j">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
@@ -733,7 +738,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="80" id="yEH-gc-lIc">
-                                        <rect key="frame" x="0.0" y="383" width="320" height="80"/>
+                                        <rect key="frame" x="0.0" y="273" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yEH-gc-lIc" id="zcz-pB-JIu">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -832,7 +837,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="80" id="FcJ-VT-YgD">
-                                        <rect key="frame" x="0.0" y="463" width="320" height="80"/>
+                                        <rect key="frame" x="0.0" y="353" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FcJ-VT-YgD" id="NGu-OR-OFw">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -943,7 +948,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="80" id="Cwb-lv-LyE">
-                                        <rect key="frame" x="0.0" y="543" width="320" height="80"/>
+                                        <rect key="frame" x="0.0" y="433" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cwb-lv-LyE" id="biK-pJ-Zvy">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -986,7 +991,7 @@
                         <outlet property="switchAddPeople" destination="lxs-vn-vvP" id="b6S-Ha-8pn"/>
                         <outlet property="switchAnyOneCanEdit" destination="gcu-Kx-esw" id="7Mp-os-kSQ"/>
                         <outlet property="switchMakePrivate" destination="4wo-pv-wS3" id="ttN-4x-xVH"/>
-                        <outlet property="txtStreamCaption" destination="ZUq-za-Kca" id="CeI-Ql-m1h"/>
+                        <outlet property="txtStreamCaption" destination="ZUq-za-Kca" id="PmC-Qe-eaU"/>
                         <outlet property="txtStreamName" destination="IbN-dh-4pT" id="egN-Eo-wLF"/>
                         <outlet property="viewGradient" destination="0Dv-Y3-T6i" id="JHI-2R-4Ct"/>
                     </connections>

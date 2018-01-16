@@ -61,7 +61,9 @@ class ProfileUpdateViewController: UIViewController {
     @objc func profilepicUpload() {
         
         let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
-            self?.setCoverImage(image: image!)
+            if let img = image{
+                self?.setCoverImage(image: img)
+            }
             self?.dismiss(animated: true, completion: nil)
         }
         

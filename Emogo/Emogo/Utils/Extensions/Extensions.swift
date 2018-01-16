@@ -833,8 +833,6 @@ extension FLAnimatedImageView {
         if strImage.isEmpty{
             return
         }
-        self.sd_setShowActivityIndicatorView(true)
-        self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
         self.setImageUrl(imgURL)
     }

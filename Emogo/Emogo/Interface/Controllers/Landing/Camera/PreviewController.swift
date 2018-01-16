@@ -178,16 +178,19 @@ class PreviewController: UIViewController {
         }else {
             if seletedImage.type == .image  {
         
-        self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     self.imgPreview.backgroundColor = image?.getColors().background
                 })
+                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+
             }else {
-        self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     
                     self.imgPreview.backgroundColor = image?.getColors().background
                 })
+                
+            self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+
             }
         }
         self.txtTitleImage.isHidden = false
@@ -403,13 +406,13 @@ class PreviewController: UIViewController {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
-               self.imgPreview.contentMode = .scaleAspectFill
+                self.imgPreview.contentMode = .scaleAspectFit
 
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-               self.imgPreview.contentMode = .scaleAspectFill
+                self.imgPreview.contentMode = .scaleAspectFit
 
             }
             self.view.updateConstraintsIfNeeded()

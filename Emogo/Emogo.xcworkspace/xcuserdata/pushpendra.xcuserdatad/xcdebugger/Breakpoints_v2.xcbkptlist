@@ -36,28 +36,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/AddCollaboratorsViewController.swift"
-            timestampString = "537200437.9933439"
+            timestampString = "537791573.9856499"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "getContacts()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/AddStreamViewController.swift"
-            timestampString = "537786921.457576"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "openGallery()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -164,12 +148,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
-            timestampString = "537462836.7676229"
+            timestampString = "537791573.986079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "uploadProfileImage()"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "profileUpdate(strURL:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -180,11 +164,11 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
-                  timestampString = "537779218.384854"
+                  timestampString = "537789236.658498"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "218"
-                  endingLineNumber = "218"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
                   offsetFromSymbolStart = "32">
                </Location>
                <Location
@@ -195,11 +179,11 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Interface/Controllers/Landing/Profile/ProfileUpdateViewController.swift"
-                  timestampString = "537779218.387671"
+                  timestampString = "537789236.666079"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "220"
-                  endingLineNumber = "220"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
                   offsetFromSymbolStart = "44">
                </Location>
             </Locations>
@@ -244,7 +228,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "537786921.459186"
+            timestampString = "537791573.986246"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "218"
@@ -260,7 +244,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "537786921.459307"
+            timestampString = "537791573.986313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "239"
