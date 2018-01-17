@@ -778,11 +778,17 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if isSearch && isTapPeople {
-            
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-            obj.objPeople = people
-            self.navigationController?.push(viewController: obj)
+            if (people.userId == UserDAO.sharedInstance.user.userId) {
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                self.navigationController?.pushViewController(obj, animated: false)
+            }
+            else{
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = people
+                self.navigationController?.push(viewController: obj)
+            }
         }
         else if isSearch && isTapStream {
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
@@ -792,10 +798,17 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             self.navigationController?.push(viewController: obj)
         }
         else if isPeopleList  {
-            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-            obj.objPeople = people
-            self.navigationController?.push(viewController: obj)
+             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+            if (people.userId == UserDAO.sharedInstance.user.userId) {
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.push(viewController: obj)
+            }
+            else{
+               
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = people
+                self.navigationController?.push(viewController: obj)
+            }
             
         }else {
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController

@@ -27,6 +27,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
     @IBOutlet weak var btnStuff: UIButton!
+    @IBOutlet weak var lblNOResult: UILabel!
     
     
     var currentMenu: ProfileMenu = .stream {
@@ -90,6 +91,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayout() {
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
+        lblUserName.minimumScaleFactor = 1.0
         print(UserDAO.sharedInstance.user.userImage.trim())
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
@@ -250,6 +252,13 @@ class ProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
             
+            self.lblNOResult.isHidden = true
+            if StreamList.sharedInstance.arrayStream.count == 0 {
+               self.lblNOResult.text  = "No Stream Found"
+                 self.lblNOResult.minimumScaleFactor = 1.0
+               self.lblNOResult.isHidden = false
+            }
+            
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -280,6 +289,13 @@ class ProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
             
+            self.lblNOResult.isHidden = true
+            if ContentList.sharedInstance.arrayStuff.count == 0 {
+                self.lblNOResult.text  = "No Stuff Found"
+                self.lblNOResult.minimumScaleFactor = 1.0
+                 self.lblNOResult.isHidden = false
+            }
+            
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -305,7 +321,12 @@ class ProfileViewController: UIViewController {
             }else if type == .down {
                 self.profileCollectionView.es.stopLoadingMore()
             }
-            
+           self.lblNOResult.isHidden = true
+            if StreamList.sharedInstance.arrayStream.count == 0 {
+                self.lblNOResult.text  = "No Collabs Found"
+                self.lblNOResult.minimumScaleFactor = 1.0
+                self.lblNOResult.isHidden = false
+            }
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -375,6 +396,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         if currentMenu == .stuff {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            if content.isAdd == true {
+                return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+            }
             return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0

@@ -435,6 +435,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let content = objStream?.arrayContent[indexPath.row]
+        if content?.isAdd == true {
+        
+             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+        }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
