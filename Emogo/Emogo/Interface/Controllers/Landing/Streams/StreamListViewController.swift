@@ -155,7 +155,7 @@ class StreamListViewController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         collectionLayout.minimumColumnSpacing = 8.0
         collectionLayout.minimumInteritemSpacing = 8.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        collectionLayout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
         collectionLayout.columnCount = 2
         // Collection view attributes
         self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]

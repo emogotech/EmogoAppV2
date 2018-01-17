@@ -16,7 +16,8 @@
 -(void)setImageUrl:(NSURL *)url{
     [self sd_setIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self sd_setShowActivityIndicatorView:YES];
-  [self sd_setImageWithURL:url];
+    [self sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"stream-card-placeholder"]];
+//  [self sd_setImageWithURL:url];
 }
 
 -(void)setImageUrl:(NSURL *)url completion:(void (^)(FLAnimatedImage *))callback{

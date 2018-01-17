@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 import Gallery
 import Lightbox
-
+import MessageUI
+import Messages
 
 extension PreviewController {
     
@@ -210,7 +211,12 @@ extension PreviewController:UITextViewDelegate {
 
 }
 
-
+extension PreviewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
+    
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
 
 
 //    func textViewDidBeginEditing(_ textView: UITextView) {

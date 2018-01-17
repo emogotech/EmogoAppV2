@@ -8,6 +8,8 @@
 
 import UIKit
 import Gallery
+import MessageUI
+import Messages
 
 class PreviewController: UIViewController {
 
@@ -140,7 +142,7 @@ class PreviewController: UIViewController {
 
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 1
+        tap.numberOfTapsRequired = 2
         self.imgPreview.addGestureRecognizer(tap)
         // Preview Footer
         self.previewCollection.reloadData()
@@ -279,7 +281,7 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-        self.showToast(type: .error, strMSG: kAlert_Progress)
+        shareSticker()
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
@@ -473,6 +475,37 @@ class PreviewController: UIViewController {
             seletedImage.description = description
             ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
         }
+    }
+    
+    func shareSticker(){
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }
+    }
+    
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = txtTitleImage.text!
+        layout.image  = imgPreview.image
+        layout.subcaption = txtDescription.text
+        let content = self.seletedImage
+        message.layout = layout
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+        
+        return message
     }
     
     
