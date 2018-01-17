@@ -396,6 +396,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         if currentMenu == .stuff {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            if content.isAdd == true {
+                return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+            }
             return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0

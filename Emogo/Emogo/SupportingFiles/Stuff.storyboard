@@ -1185,15 +1185,16 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="5Qo-Kn-SAB">
-                                                            <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="5Qo-Kn-SAB">
+                                                            <rect key="frame" x="-1" y="1" width="147" height="147"/>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="odk-in-oTr" secondAttribute="trailing" id="41G-8f-BrQ"/>
+                                                    <constraint firstItem="5Qo-Kn-SAB" firstAttribute="centerY" secondItem="gck-F8-zEw" secondAttribute="centerY" id="GvM-Uw-Gm9"/>
                                                     <constraint firstItem="odk-in-oTr" firstAttribute="top" secondItem="gck-F8-zEw" secondAttribute="top" id="SsQ-xQ-XD6"/>
+                                                    <constraint firstItem="5Qo-Kn-SAB" firstAttribute="centerX" secondItem="gck-F8-zEw" secondAttribute="centerX" id="i1z-L4-BAt"/>
                                                     <constraint firstAttribute="bottom" secondItem="odk-in-oTr" secondAttribute="bottom" id="jQx-3c-iuM"/>
                                                     <constraint firstItem="odk-in-oTr" firstAttribute="leading" secondItem="gck-F8-zEw" secondAttribute="leading" id="rOb-NH-P1b"/>
                                                 </constraints>
@@ -1214,7 +1215,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="120.5" y="243" width="134" height="21"/>
+                                        <rect key="frame" x="121" y="243" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
