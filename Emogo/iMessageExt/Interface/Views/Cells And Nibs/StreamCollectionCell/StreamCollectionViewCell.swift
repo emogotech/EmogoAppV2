@@ -11,7 +11,8 @@ import UIKit
 class StreamCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var viewAddContent   : UIView!
-    @IBOutlet weak var imgCover         : UIImageView!
+    @IBOutlet weak var imgCover         : FLAnimatedImageView!
+//    @IBOutlet weak var imgGradient        : UIImageView!
     @IBOutlet weak var lblName          : UILabel!
     @IBOutlet weak var btnPlay          : UIButton!
     
@@ -26,18 +27,30 @@ class StreamCollectionViewCell: UICollectionViewCell {
             viewAddContent.isHidden = false
         }else {
             viewAddContent.isHidden  = true
-            self.lblName.text = content.name.trim().capitalized
             
+            self.lblName.text = content.name.trim().capitalized
+            self.lblName.minimumScaleFactor = 1.0
+            if (self.lblName.text?.trim().isEmpty)! {
+               // self.imgGradient.isHidden = true
+            }else {
+              //  self.imgGradient.isHidden = false
+            }
             if content.type == .image {
-                self.imgCover.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
                 self.btnPlay.isHidden = true
+                self.imgCover.setForAnimatedImage(strImage:content.coverImage)
             }else if content.type == .video  {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
                 self.btnPlay.isHidden = false
             }else  if content.type == .link {
-                self.imgCover.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
                 self.btnPlay.isHidden = true
+            }else {
+                self.btnPlay.isHidden = true
+                self.imgCover.setForAnimatedImage(strImage:content.coverImage)
             }
+            
         }
     }
+    
 }
+
