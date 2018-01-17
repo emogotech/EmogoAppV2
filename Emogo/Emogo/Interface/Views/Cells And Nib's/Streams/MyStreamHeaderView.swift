@@ -134,7 +134,9 @@ class MyStreamCell:UICollectionViewCell {
         }
         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.lblTitle.text = stream.Title.trim().capitalized
+        self.lblTitle.minimumScaleFactor = 1.0
         self.lblName.text =  "by \(stream.Author.trim().capitalized)"
+        self.lblName.minimumScaleFactor = 1.0
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         if stream.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")

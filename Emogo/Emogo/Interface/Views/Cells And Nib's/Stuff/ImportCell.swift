@@ -13,7 +13,7 @@ class ImportCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var imgSelect: UIImageView!
-
+    
     
     func prepareLayout(content:ContentDAO?){
         guard let content = content  else {
@@ -49,7 +49,7 @@ class GridViewCell: UICollectionViewCell {
             imageView.image = thumbnailImage
         }
     }
-   
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
@@ -63,18 +63,18 @@ class GiphyCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         imageView.image = nil
         imageView.animatedImage = nil
     }
-   
     
     func prepareLayout(content:GiphyDAO) {
-    self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-     lblName.text = content.name
-    self.imageView.setForAnimatedImage(strImage:content.url)
+        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+        lblName.text = content.name
+        lblName.minimumScaleFactor = 1.0
+        self.imageView.setForAnimatedImage(strImage:content.url)
         if content.isSelected {
             imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
         }else {

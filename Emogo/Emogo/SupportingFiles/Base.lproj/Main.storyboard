@@ -1436,61 +1436,71 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sF9-u0-U6t">
-                                <rect key="frame" x="0.0" y="20" width="160" height="138"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="138"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="138" id="qTw-nV-6Zs"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ysl-m8-UqE" customClass="CardView" customModule="Emogo" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="158" width="160" height="60"/>
+                                <rect key="frame" x="0.0" y="158" width="375" height="80"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="pNF-99-NkY">
-                                        <rect key="frame" x="0.0" y="0.0" width="160" height="60"/>
-                                        <subviews>
-                                            <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dl4-Pf-Hqj">
-                                                <rect key="frame" x="0.0" y="0.0" width="40" height="60"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="80" id="5j6-d2-ohC"/>
-                                                    <constraint firstAttribute="height" constant="60" id="h4G-H8-VhA"/>
-                                                </constraints>
-                                                <state key="normal" image="my_stuff_active_icon"/>
-                                                <connections>
-                                                    <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="Lal-2X-4T8"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="222" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFj-Li-slu">
-                                                <rect key="frame" x="40" y="0.0" width="40" height="60"/>
-                                                <state key="normal" image="link_unactive_icon"/>
-                                                <connections>
-                                                    <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="sMo-Hv-kpo"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDK-Kv-Ddd">
-                                                <rect key="frame" x="80" y="0.0" width="40" height="60"/>
-                                                <state key="normal" image="import_unactive_icon"/>
-                                                <connections>
-                                                    <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="t8S-MY-yuK"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" tag="444" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPY-FZ-KEH">
-                                                <rect key="frame" x="120" y="0.0" width="40" height="60"/>
-                                                <state key="normal" image="giphy_unactive_icon"/>
-                                                <connections>
-                                                    <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="HW6-CL-00i"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </stackView>
+                                    <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dl4-Pf-Hqj">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Dl4-Pf-Hqj" secondAttribute="height" multiplier="1:1" id="Lzj-FI-5oK"/>
+                                        </constraints>
+                                        <state key="normal" image="my_stuff_active_icon"/>
+                                        <connections>
+                                            <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="Lal-2X-4T8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="222" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFj-Li-slu">
+                                        <rect key="frame" x="98" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="mFj-Li-slu" secondAttribute="height" multiplier="1:1" id="mku-E3-JTE"/>
+                                        </constraints>
+                                        <state key="normal" image="link_unactive_icon"/>
+                                        <connections>
+                                            <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="sMo-Hv-kpo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="333" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDK-Kv-Ddd">
+                                        <rect key="frame" x="295" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="gDK-Kv-Ddd" secondAttribute="height" multiplier="1:1" id="ksz-OZ-b0Y"/>
+                                        </constraints>
+                                        <state key="normal" image="import_unactive_icon"/>
+                                        <connections>
+                                            <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="t8S-MY-yuK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="444" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mPY-FZ-KEH">
+                                        <rect key="frame" x="197" y="0.0" width="80" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="mPY-FZ-KEH" secondAttribute="height" multiplier="1:1" id="OkU-sB-c7r"/>
+                                        </constraints>
+                                        <state key="normal" image="giphy_unactive_icon"/>
+                                        <connections>
+                                            <action selector="btnActionController:" destination="jWd-JM-6cV" eventType="touchUpInside" id="HW6-CL-00i"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="pNF-99-NkY" secondAttribute="bottom" id="8Rw-Qc-CKB"/>
-                                    <constraint firstItem="pNF-99-NkY" firstAttribute="leading" secondItem="Ysl-m8-UqE" secondAttribute="leading" id="K4x-kO-6HG"/>
-                                    <constraint firstAttribute="trailing" secondItem="pNF-99-NkY" secondAttribute="trailing" id="hUg-4o-K9m"/>
-                                    <constraint firstItem="pNF-99-NkY" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="top" id="wjR-Ti-Tvm"/>
-                                    <constraint firstAttribute="height" constant="60" id="zGc-En-uDG"/>
+                                    <constraint firstItem="mPY-FZ-KEH" firstAttribute="leading" secondItem="mFj-Li-slu" secondAttribute="trailing" constant="19" id="14J-h3-kaV"/>
+                                    <constraint firstAttribute="bottom" secondItem="Dl4-Pf-Hqj" secondAttribute="bottom" id="DiN-g2-sYJ"/>
+                                    <constraint firstItem="mPY-FZ-KEH" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="top" id="EC7-Sv-idS"/>
+                                    <constraint firstItem="gDK-Kv-Ddd" firstAttribute="leading" secondItem="mPY-FZ-KEH" secondAttribute="trailing" constant="18" id="LSb-yM-bwP"/>
+                                    <constraint firstItem="Dl4-Pf-Hqj" firstAttribute="leading" secondItem="Ysl-m8-UqE" secondAttribute="leading" id="Lfd-l5-bVp"/>
+                                    <constraint firstItem="mFj-Li-slu" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="top" id="Mnt-EH-7aa"/>
+                                    <constraint firstAttribute="trailing" secondItem="gDK-Kv-Ddd" secondAttribute="trailing" id="Ne0-tM-fuG"/>
+                                    <constraint firstAttribute="bottom" secondItem="gDK-Kv-Ddd" secondAttribute="bottom" id="ZD7-GZ-z2t"/>
+                                    <constraint firstItem="Dl4-Pf-Hqj" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="top" id="oWg-yk-TH2"/>
+                                    <constraint firstAttribute="width" secondItem="Ysl-m8-UqE" secondAttribute="height" multiplier="75:16" id="ofx-rr-TdP"/>
+                                    <constraint firstItem="gDK-Kv-Ddd" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="top" id="okg-n4-vw2"/>
+                                    <constraint firstAttribute="bottom" secondItem="mPY-FZ-KEH" secondAttribute="bottom" id="psY-Ho-ESx"/>
+                                    <constraint firstAttribute="bottom" secondItem="mFj-Li-slu" secondAttribute="bottom" id="vkZ-JP-uIZ"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
@@ -1499,11 +1509,11 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XaE-Kn-iiX">
-                                <rect key="frame" x="0.0" y="226" width="160" height="441"/>
+                                <rect key="frame" x="0.0" y="239" width="375" height="428"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tec-Th-ubp">
-                                <rect key="frame" x="60" y="68.5" width="40" height="40"/>
+                                <rect key="frame" x="167.5" y="68.5" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="TeW-B8-UDN"/>
                                     <constraint firstAttribute="height" constant="40" id="n1M-PW-IQJ"/>
@@ -1527,7 +1537,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KTx-5G-VXp">
-                                <rect key="frame" x="20" y="601" width="121" height="45"/>
+                                <rect key="frame" x="107.5" y="601" width="160" height="59.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="KTx-5G-VXp" secondAttribute="height" multiplier="121:45" id="4cg-jP-jzO"/>
                                 </constraints>
@@ -1543,7 +1553,7 @@
                             <constraint firstItem="Tec-Th-ubp" firstAttribute="centerY" secondItem="sF9-u0-U6t" secondAttribute="centerY" id="5j4-dq-UiU"/>
                             <constraint firstItem="XaE-Kn-iiX" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="60o-ux-PEH"/>
                             <constraint firstItem="sF9-u0-U6t" firstAttribute="leading" secondItem="MBU-p9-pkf" secondAttribute="leading" id="8Yg-gF-qfT"/>
-                            <constraint firstItem="XaE-Kn-iiX" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="bottom" constant="8" id="AAb-Bz-XNP"/>
+                            <constraint firstItem="XaE-Kn-iiX" firstAttribute="top" secondItem="Ysl-m8-UqE" secondAttribute="bottom" constant="1" id="AAb-Bz-XNP"/>
                             <constraint firstItem="Tec-Th-ubp" firstAttribute="centerX" secondItem="sF9-u0-U6t" secondAttribute="centerX" id="CR5-gL-PeS"/>
                             <constraint firstItem="XaE-Kn-iiX" firstAttribute="trailing" secondItem="MBU-p9-pkf" secondAttribute="trailing" id="IxN-ww-pb4"/>
                             <constraint firstItem="Ysl-m8-UqE" firstAttribute="top" secondItem="sF9-u0-U6t" secondAttribute="bottom" id="QyB-p0-MBI"/>
@@ -1579,7 +1589,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="5466" y="672"/>
+            <point key="canvasLocation" x="5464.8000000000002" y="671.51424287856082"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="umG-R5-ozF">
@@ -1798,7 +1808,7 @@
                                         <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vD2-d5-Zu1">
-                                        <rect key="frame" x="24" y="85.5" width="318" height="31.5"/>
+                                        <rect key="frame" x="24" y="86.5" width="318" height="30.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2711,9 +2721,9 @@
         <image name="background-iPhone" width="320" height="568"/>
         <image name="browse_streams" width="182" height="53"/>
         <image name="camera_icon_cover_images" width="33" height="33"/>
-        <image name="camera_icon_top" width="25" height="21"/>
+        <image name="camera_icon_top" width="29" height="25"/>
         <image name="capture-icon" width="82" height="82"/>
-        <image name="content_next_btn" width="121" height="45"/>
+        <image name="content_next_btn" width="160" height="53"/>
         <image name="cross-icon" width="17" height="17"/>
         <image name="delete_icon-cover_image" width="28" height="29"/>
         <image name="done-btn" width="160" height="53"/>
@@ -2722,17 +2732,17 @@
         <image name="edit_icon" width="28" height="28"/>
         <image name="emogo_stream" width="182" height="53"/>
         <image name="flash-icon" width="20" height="27"/>
-        <image name="giphy_unactive_icon" width="40" height="43"/>
+        <image name="giphy_unactive_icon" width="19" height="23"/>
         <image name="go_back_to_where" width="182" height="53"/>
         <image name="gradient" width="169" height="19"/>
         <image name="image7" width="1000" height="666"/>
-        <image name="import_unactive_icon" width="40" height="43"/>
+        <image name="import_unactive_icon" width="21" height="23"/>
         <image name="input_text_iphone" width="329" height="58"/>
         <image name="lapse-icon" width="25" height="25"/>
-        <image name="link_unactive_icon" width="40" height="43"/>
+        <image name="link_unactive_icon" width="19" height="19"/>
         <image name="logo-iPhone" width="148" height="38"/>
         <image name="menu_down_arrow" width="17" height="10"/>
-        <image name="my_stuff_active_icon" width="40" height="43"/>
+        <image name="my_stuff_active_icon" width="28" height="22"/>
         <image name="next-btn" width="160" height="53"/>
         <image name="play_button" width="30" height="30"/>
         <image name="search_icon_iphone" width="13" height="13"/>
