@@ -150,7 +150,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                 })
                 
@@ -162,7 +162,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                 })
                 self.btnPlayIcon.isHidden = false
@@ -174,7 +174,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                 })
             }else {
@@ -185,7 +185,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                 })
                 

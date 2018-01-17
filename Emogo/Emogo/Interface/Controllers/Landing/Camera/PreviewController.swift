@@ -181,7 +181,7 @@ class PreviewController: UIViewController {
                 self.imgPreview.backgroundColor = colors.background
                 self.txtTitleImage.textColor = colors.secondary
                 self.txtDescription.textColor = colors.secondary
-                self.txtTitleImage.placeholderColor(color: colors.secondary)
+                self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
             })
         }else {
             if seletedImage.type == .image  {
@@ -192,7 +192,7 @@ class PreviewController: UIViewController {
                         self.imgPreview.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                     
                 })
@@ -205,7 +205,7 @@ class PreviewController: UIViewController {
                         self.imgPreview.backgroundColor = colors.background
                         self.txtTitleImage.textColor = colors.secondary
                         self.txtDescription.textColor = colors.secondary
-                        self.txtTitleImage.placeholderColor(color: colors.secondary)
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.secondary)
                     })
                 })
                 
