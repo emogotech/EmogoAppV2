@@ -48,12 +48,9 @@ class StreamViewHeader: UICollectionViewCell {
             btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
         self.lblName.text = objStream.title.trim().capitalized
-      
         self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
-          self.lblDescription.minimumScaleFactor = 1.0
-        self.lblName.sizeToFit()
-        self.lblDescription.sizeToFit()
+        self.lblDescription.minimumScaleFactor = 1.0
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
@@ -68,7 +65,7 @@ class StreamViewHeader: UICollectionViewCell {
         }
         
         let lineCount = lblDescription.lineCountForLabel()
-        if lineCount < 1 {
+        if lineCount < 2 {
             self.btnDropDown.isHidden = true
         }else{
             self.btnDropDown.isHidden = false

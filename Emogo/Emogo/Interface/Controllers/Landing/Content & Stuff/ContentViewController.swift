@@ -321,6 +321,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
+        ContentList.sharedInstance.objStream  = nil
         self.navigationController?.pop()
     }
     
