@@ -212,7 +212,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
-        configure.usedCameraButton = true
+        configure.usedCameraButton = false
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
         
