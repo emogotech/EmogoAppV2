@@ -589,7 +589,17 @@ extension UILabel {
             context: nil).size
         return labelTextSize.height > bounds.size.height
     }
+    
+    func shadow() {
+        self.layer.shadowColor = self.textColor.cgColor
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowRadius = 3.0
+        self.layer.shadowOpacity = 0.5
+        self.layer.masksToBounds = false
+        self.layer.shouldRasterize = true
+    }
 }
+
 
 
 extension UIImage {

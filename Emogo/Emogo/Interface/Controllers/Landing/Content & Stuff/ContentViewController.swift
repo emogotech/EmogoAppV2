@@ -97,6 +97,8 @@ class ContentViewController: UIViewController {
     
     
     func updateContent() {
+         self.imgCover.image = nil
+        self.imgCover.animatedImage = nil
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }

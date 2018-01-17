@@ -34,10 +34,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zlb-SC-3TG">
-                                <rect key="frame" x="0.0" y="155" width="320" height="45"/>
+                                <rect key="frame" x="0.0" y="147" width="320" height="53"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="ICf-Ub-PS9">
-                                        <rect key="frame" x="12" y="3" width="275" height="20"/>
+                                        <rect key="frame" x="12" y="5" width="275" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="JG7-vp-h4m"/>
                                         </constraints>
@@ -57,7 +57,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="sSt-hT-HMf">
-                                        <rect key="frame" x="12" y="22" width="275" height="20"/>
+                                        <rect key="frame" x="12" y="29" width="275" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="u6S-jI-7ho"/>
                                         </constraints>
@@ -69,15 +69,15 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="sSt-hT-HMf" firstAttribute="leading" secondItem="zlb-SC-3TG" secondAttribute="leading" constant="12" id="4Zy-Tw-cMp"/>
-                                    <constraint firstItem="ICf-Ub-PS9" firstAttribute="top" secondItem="zlb-SC-3TG" secondAttribute="top" constant="3" id="9rx-t3-qJ5"/>
-                                    <constraint firstAttribute="bottom" secondItem="ocI-Gy-Lhp" secondAttribute="bottom" constant="3" id="JFt-9d-7e0"/>
+                                    <constraint firstItem="ICf-Ub-PS9" firstAttribute="top" secondItem="zlb-SC-3TG" secondAttribute="top" constant="5" id="9rx-t3-qJ5"/>
+                                    <constraint firstAttribute="bottom" secondItem="ocI-Gy-Lhp" secondAttribute="bottom" constant="11" id="JFt-9d-7e0"/>
                                     <constraint firstItem="ocI-Gy-Lhp" firstAttribute="leading" secondItem="ICf-Ub-PS9" secondAttribute="trailing" constant="4" id="Klp-KZ-7Qa"/>
                                     <constraint firstItem="ocI-Gy-Lhp" firstAttribute="leading" secondItem="sSt-hT-HMf" secondAttribute="trailing" constant="4" id="N2q-U0-zTk"/>
                                     <constraint firstAttribute="trailing" secondItem="ocI-Gy-Lhp" secondAttribute="trailing" constant="1" id="Zgs-jp-Cfq"/>
                                     <constraint firstItem="ICf-Ub-PS9" firstAttribute="leading" secondItem="zlb-SC-3TG" secondAttribute="leading" constant="12" id="daS-ez-rCT"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="45" id="fYt-0G-5Tp"/>
-                                    <constraint firstItem="sSt-hT-HMf" firstAttribute="top" secondItem="zlb-SC-3TG" secondAttribute="top" constant="22" id="ke9-Pq-7m3"/>
-                                    <constraint firstAttribute="bottom" secondItem="sSt-hT-HMf" secondAttribute="bottom" constant="3" id="zqF-ts-IRG"/>
+                                    <constraint firstItem="sSt-hT-HMf" firstAttribute="top" secondItem="zlb-SC-3TG" secondAttribute="top" constant="29" id="ke9-Pq-7m3"/>
+                                    <constraint firstAttribute="bottom" secondItem="sSt-hT-HMf" secondAttribute="bottom" constant="4" id="zqF-ts-IRG"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxW-nQ-hQo">
