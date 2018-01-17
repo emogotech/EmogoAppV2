@@ -45,6 +45,59 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
     }
+    
+    
+}
+
+let imageCaches = NSCache<AnyObject, AnyObject>()
+typealias CompletionHandlers = (_ success:Bool, _ image:FLAnimatedImage?) -> Void
+
+extension FLAnimatedImageView {
+    func loadImageUsingCacheWithUrlString(_ urlString: String,completionHandler: @escaping CompletionHandlers) {
+        
+        self.animatedImage = nil
+        
+        //check cache for image first
+        if let cachedImage = imageCaches.object(forKey: urlString as AnyObject) as? FLAnimatedImage {
+            self.animatedImage = cachedImage
+            completionHandler(true, self.animatedImage!)
+            return
+        }
+        
+        //otherwise fire off a new download
+        let url = URL(string: urlString)
+        
+        URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+            
+            //download hit an error so lets return out
+            if error != nil {
+                print(error ?? "")
+                completionHandler(false,nil)
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                if let downloadedImage = FLAnimatedImage(animatedGIFData: data!) {
+                    imageCaches.setObject(downloadedImage, forKey: urlString as AnyObject)
+                    self.animatedImage = downloadedImage
+                    completionHandler(true,self.animatedImage!)
+                }
+            })
+            
+        }).resume()
+        
+    }
+    
+    
+    func setForAnimatedImage(strImage:String){
+        if strImage.isEmpty{
+            return
+        }
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        self.setImageUrl(imgURL)
+    }
+    
+    
 }
 
 // MARK: - MSMessagesAppViewController

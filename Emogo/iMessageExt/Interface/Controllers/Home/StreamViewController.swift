@@ -43,7 +43,7 @@ class StreamViewController: MSMessagesAppViewController {
     
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
-
+    
     
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
@@ -218,9 +218,9 @@ class StreamViewController: MSMessagesAppViewController {
             }
         }else{
             if self.lblStreamDesc.frame.size.height == 0.0 || self.lblStreamDesc.numberOfVisibleLines < 2{
-                 self.btnExpandDesc.isHidden = true
+                self.btnExpandDesc.isHidden = true
             }else{
-            self.btnExpandDesc.isHidden = false
+                self.btnExpandDesc.isHidden = false
             }
         }
     }
@@ -476,12 +476,14 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let content = objStream?.arrayContent[indexPath.row]
+        if content?.isAdd == true {
+            return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+        }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if objStream != nil {
@@ -523,40 +525,49 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.openFullView(index: sender.tag)
     }
     
-    func openFullView(index:Int){
+    func openFullView(index:Int?){
         var arrayContents = [LightboxImage]()
-        let array = objStream?.arrayContent.filter { $0.isAdd == false }
-        for obj in array! {
-            var image:LightboxImage!
-            if obj.type == .image {
-                if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
-                }
-                else {
-                    let url = URL(string: obj.coverImage)
-                    if url != nil {
-                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+     
+            let array = objStream?.arrayContent.filter { $0.isAdd == false }
+            for obj in array! {
+                var image:LightboxImage!
+                if obj.type == .image {
+                    if obj.imgPreview != nil {
+                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                    }else{
+                        let url = URL(string: obj.coverImage)
+                        if url != nil {
+                            image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                        }
+                    }
+                }else if obj.type == .video {
+                    if obj.imgPreview != nil {
+                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                    }else {
+                        let url = URL(string: obj.coverImage)
+                        let videoUrl = URL(string: obj.coverImage)
+                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
                     }
                 }
-            }
-            else if obj.type == .video {
-                if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
-                }else {
-                    let url = URL(string: obj.coverImage)
-                    let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                if image != nil {
+                    arrayContents.append(image)
                 }
             }
-            if image != nil {
-                arrayContents.append(image)
-            }
-        }
         
-        let controller = LightboxController(images: arrayContents, startIndex: index - 1)
-        controller.dynamicBackground = true
-        if arrayContents.count != 0 {
-            present(controller, animated: true, completion: nil)
+        
+        if (self.objStream?.canAddContent)! {
+            let controller = LightboxController(images: arrayContents, startIndex: index! - 1)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
+        }else {
+            let controller = LightboxController(images: arrayContents, startIndex: index!)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
         }
     }
 }
+
