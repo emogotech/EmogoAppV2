@@ -950,54 +950,6 @@
                                     <constraint firstAttribute="trailing" secondItem="uTr-gh-4hZ" secondAttribute="trailing" constant="8" id="wkV-iw-TTL"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tef-aL-H26">
-                                <rect key="frame" x="0.0" y="100" width="375" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRm-du-Ipy">
-                                        <rect key="frame" x="8" y="0.0" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="EfB-00-9Kd"/>
-                                        </constraints>
-                                        <state key="normal" image="strems_active_icon"/>
-                                        <connections>
-                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="1tT-6r-j2E"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBc-iO-RCF">
-                                        <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="2ei-HP-43b"/>
-                                            <constraint firstAttribute="height" constant="60" id="sWZ-PI-yzX"/>
-                                        </constraints>
-                                        <state key="normal" image="collabs_icon"/>
-                                        <connections>
-                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="2qp-mH-VcZ"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fec-Eu-QEC">
-                                        <rect key="frame" x="307" y="0.0" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="60" id="uez-ts-F4b"/>
-                                        </constraints>
-                                        <state key="normal" image="stuff_icon"/>
-                                        <connections>
-                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="eAR-5t-7pj"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="Fec-Eu-QEC" secondAttribute="trailing" constant="8" id="3V4-gy-ySG"/>
-                                    <constraint firstAttribute="bottom" secondItem="Fec-Eu-QEC" secondAttribute="bottom" id="G5L-aO-9Cf"/>
-                                    <constraint firstItem="VBc-iO-RCF" firstAttribute="centerX" secondItem="tef-aL-H26" secondAttribute="centerX" id="JiJ-wp-9eB"/>
-                                    <constraint firstItem="wRm-du-Ipy" firstAttribute="top" secondItem="tef-aL-H26" secondAttribute="top" id="Ngs-qI-BA9"/>
-                                    <constraint firstItem="wRm-du-Ipy" firstAttribute="leading" secondItem="tef-aL-H26" secondAttribute="leading" constant="8" id="OX4-BT-Vbz"/>
-                                    <constraint firstAttribute="width" secondItem="tef-aL-H26" secondAttribute="height" multiplier="25:4" id="Oaa-Fw-Rie"/>
-                                    <constraint firstItem="VBc-iO-RCF" firstAttribute="centerY" secondItem="tef-aL-H26" secondAttribute="centerY" id="TNo-kG-VtU"/>
-                                    <constraint firstItem="Fec-Eu-QEC" firstAttribute="top" secondItem="tef-aL-H26" secondAttribute="top" id="bJl-g2-CFo"/>
-                                    <constraint firstAttribute="bottom" secondItem="wRm-du-Ipy" secondAttribute="bottom" id="e6T-yP-0fw"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XCC-8d-Hvm">
                                 <rect key="frame" x="0.0" y="160" width="375" height="507"/>
                                 <subviews>
@@ -1215,7 +1167,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="121" y="243" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="243" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1229,6 +1181,54 @@
                                     <constraint firstItem="lG6-cj-WUo" firstAttribute="centerY" secondItem="XCC-8d-Hvm" secondAttribute="centerY" id="isF-UK-893"/>
                                     <constraint firstItem="KZ0-Ix-4MK" firstAttribute="leading" secondItem="XCC-8d-Hvm" secondAttribute="leading" id="mn8-kD-9cA"/>
                                     <constraint firstAttribute="trailing" secondItem="KZ0-Ix-4MK" secondAttribute="trailing" id="zUm-ch-1Aa"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tef-aL-H26">
+                                <rect key="frame" x="0.0" y="100" width="375" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wRm-du-Ipy">
+                                        <rect key="frame" x="8" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="EfB-00-9Kd"/>
+                                        </constraints>
+                                        <state key="normal" image="strems_active_icon"/>
+                                        <connections>
+                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="1tT-6r-j2E"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VBc-iO-RCF">
+                                        <rect key="frame" x="157.5" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="2ei-HP-43b"/>
+                                            <constraint firstAttribute="height" constant="60" id="sWZ-PI-yzX"/>
+                                        </constraints>
+                                        <state key="normal" image="collabs_icon"/>
+                                        <connections>
+                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="2qp-mH-VcZ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fec-Eu-QEC">
+                                        <rect key="frame" x="307" y="0.0" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="uez-ts-F4b"/>
+                                        </constraints>
+                                        <state key="normal" image="stuff_icon"/>
+                                        <connections>
+                                            <action selector="btnActionMenuSelected:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="eAR-5t-7pj"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Fec-Eu-QEC" secondAttribute="trailing" constant="8" id="3V4-gy-ySG"/>
+                                    <constraint firstAttribute="bottom" secondItem="Fec-Eu-QEC" secondAttribute="bottom" id="G5L-aO-9Cf"/>
+                                    <constraint firstItem="VBc-iO-RCF" firstAttribute="centerX" secondItem="tef-aL-H26" secondAttribute="centerX" id="JiJ-wp-9eB"/>
+                                    <constraint firstItem="wRm-du-Ipy" firstAttribute="top" secondItem="tef-aL-H26" secondAttribute="top" id="Ngs-qI-BA9"/>
+                                    <constraint firstItem="wRm-du-Ipy" firstAttribute="leading" secondItem="tef-aL-H26" secondAttribute="leading" constant="8" id="OX4-BT-Vbz"/>
+                                    <constraint firstAttribute="width" secondItem="tef-aL-H26" secondAttribute="height" multiplier="25:4" id="Oaa-Fw-Rie"/>
+                                    <constraint firstItem="VBc-iO-RCF" firstAttribute="centerY" secondItem="tef-aL-H26" secondAttribute="centerY" id="TNo-kG-VtU"/>
+                                    <constraint firstItem="Fec-Eu-QEC" firstAttribute="top" secondItem="tef-aL-H26" secondAttribute="top" id="bJl-g2-CFo"/>
+                                    <constraint firstAttribute="bottom" secondItem="wRm-du-Ipy" secondAttribute="bottom" id="e6T-yP-0fw"/>
                                 </constraints>
                             </view>
                         </subviews>
