@@ -9,6 +9,7 @@
 import UIKit
 import Messages
 import Lightbox
+import SafariServices
 
 class StreamContentViewController: MSMessagesAppViewController {
     
@@ -19,7 +20,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBOutlet  weak var contentProgressView : UIProgressView!
     
-    @IBOutlet weak var imgStream            : UIImageView!
+    @IBOutlet weak var imgStream            : FLAnimatedImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
     
     @IBOutlet weak var viewAction           : UIView!
@@ -88,7 +89,13 @@ class StreamContentViewController: MSMessagesAppViewController {
         DispatchQueue.main.async {
             self.hudView.startLoaderWithAnimation()
         }
+        
         loadViewForUI()
+        let temp = self.arrContentData[currentContentIndex]
+        if temp.type == .video {
+            let videoUrl = URL(string: temp.coverImage)
+            LightboxConfig.handleVideo(self, videoUrl!)
+        }
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -97,6 +104,9 @@ class StreamContentViewController: MSMessagesAppViewController {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         imgStream.addGestureRecognizer(swipeLeft)
+        
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
+        imgStream.addGestureRecognizer(tapRecognizer)
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -130,6 +140,8 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         self.addRightTransitionImage(imgV: self.imgStream)
+      
+        
         loadViewForUI()
     }
     
@@ -152,23 +164,55 @@ class StreamContentViewController: MSMessagesAppViewController {
            lblStreamTitle.text   = currentStreamTitle!
         }
        
-        if content.imgPreview != nil {
-            self.imgStream.image = content.imgPreview
-        }
-        else {
             if content.type != nil {
+                
                 if content.type == .image {
+                    self.imgStream.setForAnimatedImage(strImage:content.coverImage)
+                    SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
+                        image?.getColors({ (colors) in
+                            self.imgStream.backgroundColor = colors.background
+                            self.lblStreamTitle.textColor = colors.secondary
+                            self.lblStreamDesc.textColor = colors.secondary
+                        })
+                    })
+                    
                     self.btnPlay.isHidden = true
-                    self.imgStream.setImageWithURL(strImage: content.coverImage, placeholder: kPlaceholderImage)
                 }else   if content.type == .video {
-                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                        image?.getColors({ (colors) in
+                            self.imgStream.backgroundColor = colors.background
+                            self.lblStreamTitle.textColor = colors.secondary
+                            self.lblStreamDesc.textColor = colors.secondary
+                        })
+                    })
                     self.btnPlay.isHidden = false
                 }else if content.type == .link {
                     self.btnPlay.isHidden = true
-                    self.imgStream.setImageWithURL(strImage: content.coverImageVideo, placeholder: kPlaceholderImage)
+                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                        image?.getColors({ (colors) in
+                            self.imgStream.backgroundColor = colors.background
+                            self.lblStreamTitle.textColor = colors.secondary
+                            self.lblStreamDesc.textColor = colors.secondary
+                        })
+                    })
+                }else {
+                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                        image?.getColors({ (colors) in
+                            self.imgStream.backgroundColor = colors.background
+                            self.lblStreamTitle.textColor = colors.secondary
+                            self.lblStreamDesc.textColor = colors.secondary
+                        })
+                    })
+                }
+                if content.type == .image || content.type == .gif {
+                    self.btnPlay.isHidden = true
+                }else {
+                    self.btnPlay.isHidden = true
                 }
             }
-        }
         
         lblStreamDesc.text = content.description.trim().capitalized
         let currenProgressValue = Float(currentContentIndex)/Float(arrContentData.count-1)
@@ -212,17 +256,25 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.openFullView()
     }
     
-    @objc func openFullView(){
+@objc func openFullView() {
+        let content = arrContentData[self.currentContentIndex]
+        if content.type == .gif {
+            return
+        }
+        if content.type == .link {
+            guard let url = URL(string: content.coverImage) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+            return
+        }
         var arrayContents = [LightboxImage]()
-        var arrayTemp = [ContentDAO]()
-        arrayTemp = ContentList.sharedInstance.arrayContent
-        for obj in arrayTemp {
+        for obj in arrContentData {
             var image:LightboxImage!
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
-                }
-                else{
+                }else{
                     let url = URL(string: obj.coverImage)
                     if url != nil {
                         image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
@@ -241,11 +293,16 @@ class StreamContentViewController: MSMessagesAppViewController {
                 arrayContents.append(image)
             }
         }
-
-        let controller = LightboxController(images: arrayContents, startIndex: currentContentIndex)
-        controller.dynamicBackground = true
-        if arrayContents.count != 0 {
-            present(controller, animated: true, completion: nil)
+        
+        if content.type == .video {
+                let videoUrl = URL(string: content.coverImage)
+                LightboxConfig.handleVideo(self, videoUrl!)
+        }else{
+            let controller = LightboxController(images: arrayContents, startIndex: self.currentContentIndex)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
         }
     }
     
@@ -322,6 +379,29 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+}
+extension StreamContentViewController:SFSafariViewControllerDelegate {
+    func openURL(url:URL) {
+        
+        if #available(iOS 9.0, *) {
+            let safariController = SFSafariViewController(url: url as URL)
+            safariController.delegate = self
+            
+            let navigationController = UINavigationController(rootViewController: safariController)
+            navigationController.setNavigationBarHidden(true, animated: false)
+            self.present(navigationController, animated: true, completion: nil)
+        } else {
+            if UIApplication.shared.canOpenURL(url){
+                UIApplication.shared.openURL(url)
+            }
+        }
+        
+    }
+    @available(iOS 9.0, *)
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 }

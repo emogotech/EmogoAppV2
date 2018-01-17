@@ -17,6 +17,11 @@
 		2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */; };
 		2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */; };
 		2BDC4AAF1FD1188D0018FC6E /* HomeCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BDC4AAD1FD1188D0018FC6E /* HomeCollectionReusableView.xib */; };
+		2BFE0062200F84EB0086DEBF /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30520060DFE009A2D3A /* FLAnimatedImage.m */; };
+		2BFE0063200F84ED0086DEBF /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */; };
+		2BFE0064200F84EF0086DEBF /* FLAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */; };
+		2BFE0065200F84F20086DEBF /* FLAnimatedImageView+ImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */; };
+		2BFE0066200F8C170086DEBF /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4539385200CF40800F7D029 /* UIImageColors.swift */; };
 		330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
 		330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		330FEB791FC3F68C00552260 /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */; };
@@ -2529,6 +2534,7 @@
 			files = (
 				33DAB2F61FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */,
+				2BFE0062200F84EB0086DEBF /* FLAnimatedImage.m in Sources */,
 				337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */,
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
@@ -2540,10 +2546,12 @@
 				F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */,
 				2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,
+				2BFE0065200F84F20086DEBF /* FLAnimatedImageView+ImageURL.m in Sources */,
 				337B8F911FBEECBE00CFACE3 /* SignInViewController.swift in Sources */,
 				F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */,
 				33DAB2F81FC6B9020053AC23 /* FSPageViewTransformer.swift in Sources */,
+				2BFE0066200F8C170086DEBF /* UIImageColors.swift in Sources */,
 				F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */,
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
@@ -2567,11 +2575,13 @@
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
 				2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */,
 				337B8FA71FBEEF6900CFACE3 /* RequestDAO.swift in Sources */,
+				2BFE0064200F84EF0086DEBF /* FLAnimatedImageView+WebCache.m in Sources */,
 				337B8F931FBEECBE00CFACE3 /* SignUpNameViewController.swift in Sources */,
 				F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */,
 				2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
+				2BFE0063200F84ED0086DEBF /* FLAnimatedImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

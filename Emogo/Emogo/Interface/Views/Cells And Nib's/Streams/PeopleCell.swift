@@ -20,8 +20,9 @@ class PeopleCell: UICollectionViewCell {
     
     func prepareData(people:PeopleDAO){
         self.lblName.text = people.fullName!
+   
         if people.userImage.isEmpty {
-            self.imgUser.setImage(string: people.fullName, color: UIColor.colorHash(name: people.fullName), circular: true)
+            self.imgUser.setImage(string: people.fullName, color: UIColor(r: 0, g: 173, b: 243), circular: true)
         }else {
             self.imgUser.setImageWithURL(strImage: people.userImage.trim(), placeholder: "")
         }

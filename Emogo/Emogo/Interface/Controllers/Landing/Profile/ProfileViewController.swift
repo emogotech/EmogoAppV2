@@ -38,6 +38,7 @@ class ProfileViewController: UIViewController {
     }
     
     var isEdited:Bool! = false
+    var isUpdateList:Bool! = false
     
     
     // MARK: - Override Functions
@@ -451,6 +452,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 content.isShowAddStream = true
                 content.isEdit = true
                 objPreview.seletedImage = content
+                objPreview.isForEditOnly = true
                 objPreview.isEdit = true
                 self.navigationController?.push(viewController: objPreview)
             }

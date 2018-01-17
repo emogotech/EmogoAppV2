@@ -53,7 +53,7 @@ class HomeViewController: MSMessagesAppViewController {
     var isSearch                                : Bool = false
     var collectionFrame                         : CGRect?
     
-     var collectionLayout = CHTCollectionViewWaterfallLayout()
+    var collectionLayout = CHTCollectionViewWaterfallLayout()
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
     
@@ -194,9 +194,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     func setupCollectionProperties() {
         // Change individual layout attributes for the spacing between cells
-        collectionLayout.minimumColumnSpacing = 5.0
-        collectionLayout.minimumInteritemSpacing = 5.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.minimumColumnSpacing = 8.0
+        collectionLayout.minimumInteritemSpacing = 8.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
         collectionLayout.columnCount = 2
         collectionStream!.collectionViewLayout = collectionLayout
         
@@ -261,7 +261,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.collectionStream.isHidden = true
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                 self.collectionLayout.columnCount = 2
+                self.collectionLayout.columnCount = 2
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -407,6 +407,9 @@ class HomeViewController: MSMessagesAppViewController {
             lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             self.arrayStreams.removeAll()
+            self.isStreamEnable = true
+            self.isSearch = true
+            PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
             self.collectionStream.isHidden = true
             StreamList.sharedInstance.requestURl = ""
@@ -421,6 +424,8 @@ class HomeViewController: MSMessagesAppViewController {
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             self.collectionStream.isHidden = true
+            self.isStreamEnable = false
+            self.isSearch = true
             self.collectionStream.reloadData()
             self.setupCollectionPropertiesForUsers()
             PeopleList.sharedInstance.requestURl = ""
@@ -682,25 +687,35 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
+       
         if (isSearch == true && !isStreamEnable){
-            let stream = self.arrayStreams[indexPath.row]
+            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+            return CGSize(width: itemWidth, height: 100)
+        }
+        else if (isSearch == true &&  isStreamEnable){
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             return CGSize(width: stream.width, height: stream.hieght)
         }
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
         }  else  {
-           let stream = self.arrayStreams[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if (isSearch == true && isStreamEnable == false || btnFeature.titleLabel?.text == kSearchType){
-            return PeopleList.sharedInstance.arrayPeople.count
+        if (isSearch == true && !isStreamEnable){
+            return   PeopleList.sharedInstance.arrayPeople.count
+        }    else if (isSearch == true &&  isStreamEnable){
+            return self.arrayStreams.count
         }
-        return self.arrayStreams.count
+        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+            return   PeopleList.sharedInstance.arrayPeople.count
+        }  else  {
+            return self.arrayStreams.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -710,6 +725,16 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollectionPeople, for: indexPath) as! PeopleSearchCollectionViewCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
             (cell as! PeopleSearchCollectionViewCell).prepareData(people:people)
+            
+        }    else if (isSearch == true &&  isStreamEnable){
+            cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
+            let stream = self.arrayStreams[indexPath.row]
+            (cell as! HomeCollectionViewCell).prepareLayouts(stream: stream)
+            (cell as! HomeCollectionViewCell).imgStream.tag = indexPath.row
+            (cell as! HomeCollectionViewCell).btnView.tag = indexPath.row
+            (cell as! HomeCollectionViewCell).btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
+            (cell as! HomeCollectionViewCell).btnShare.tag = indexPath.row
+            (cell as! HomeCollectionViewCell).btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
         }
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollectionPeople, for: indexPath) as! PeopleSearchCollectionViewCell
@@ -1173,3 +1198,4 @@ extension HomeViewController : UIScrollViewDelegate {
         }
     }
 }
+

@@ -248,7 +248,8 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.recordButtonTapped(isShow: false)
         }else {
             if kContainerNav.isEmpty {
-                addLeftTransitionView(subtype: kCATransitionFromLeft)
+              //  addLeftTransitionView(subtype: kCATransitionFromLeft)
+                self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
                 self.prepareContainerToPresent()
