@@ -215,6 +215,8 @@ class PreviewController: UIViewController {
 
             }
         }
+        self.txtTitleImage.isUserInteractionEnabled = true
+        self.txtDescription.isUserInteractionEnabled = true
         self.txtTitleImage.isHidden = false
         self.txtDescription.isHidden = false
         if seletedImage.isUploaded {
@@ -232,9 +234,19 @@ class PreviewController: UIViewController {
             }else {
                 self.btnDelete.isHidden = false
             }
-            self.txtTitleImage.isHidden = true
-            self.txtDescription.isHidden = true
+            self.txtTitleImage.isUserInteractionEnabled = false
+            self.txtDescription.isUserInteractionEnabled = false
+            
+            if seletedImage.name.trim().isEmpty {
+                self.txtTitleImage.isHidden = true
+            }
+            if seletedImage.description.trim().isEmpty {
+                self.txtDescription.isHidden = true
+            }
+            
         }
+        
+       
         self.imgPreview.contentMode = .scaleAspectFit
 
     }

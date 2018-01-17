@@ -97,6 +97,8 @@ class ContentViewController: UIViewController {
     
     
     func updateContent() {
+         self.imgCover.image = nil
+        self.imgCover.animatedImage = nil
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
@@ -321,7 +323,9 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-        ContentList.sharedInstance.objStream  = nil
+       if isForEditOnly == nil {
+        ContentList.sharedInstance.objStream = nil
+        }
         self.navigationController?.pop()
     }
     
@@ -716,6 +720,7 @@ extension ContentViewController:PhotoEditorDelegate
             ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
         }
         self.updateContent()
+        self.btnDone.isHidden = false
     }
     
     func canceledEditing() {
