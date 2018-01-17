@@ -173,7 +173,7 @@ class APIManager: NSObject {
         self.completionHandler = callback
         var url = "\(kBaseURL)\(strURL)"
         if strURL.contains(kBaseURL) {
-            url = strURL
+            url = strURL.stringByAddingPercentEncodingForURLQueryParameter()!
         }
         print(url)
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]

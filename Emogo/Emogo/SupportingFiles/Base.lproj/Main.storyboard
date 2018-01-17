@@ -123,7 +123,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="e1M-5W-d2X">
-                                                    <rect key="frame" x="10" y="6" width="124" height="22"/>
+                                                    <rect key="frame" x="10" y="6" width="133.5" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="HRs-MM-hHc"/>
                                                     </constraints>
@@ -166,7 +166,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Private Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="8hC-SB-9fF">
-                                                    <rect key="frame" x="10" y="22" width="150.5" height="17"/>
+                                                    <rect key="frame" x="10" y="22" width="158.5" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="GMj-Hs-mVY"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="Qwx-9V-PaC"/>
@@ -214,7 +214,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Collaborators" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="PB3-LQ-gwK">
-                                                            <rect key="frame" x="10" y="12" width="138" height="17"/>
+                                                            <rect key="frame" x="10" y="12" width="139" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="JXx-Tl-dqq"/>
                                                                 <constraint firstAttribute="height" constant="17" id="njx-ic-fN1"/>
@@ -312,7 +312,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="ThS-U1-GPj">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="6Mf-BA-iy0"/>
                                                     </constraints>
@@ -1699,7 +1699,7 @@
                                         <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mJD-BU-QOH">
-                                        <rect key="frame" x="44.5" y="87.5" width="278" height="31.5"/>
+                                        <rect key="frame" x="44.5" y="88.5" width="278" height="30.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1818,7 +1818,7 @@
                                         <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vD2-d5-Zu1">
-                                        <rect key="frame" x="24" y="85.5" width="318" height="31.5"/>
+                                        <rect key="frame" x="24" y="86.5" width="318" height="30.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1923,7 +1923,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17.5" translatesAutoresizingMaskIntoConstraints="NO" id="cz8-m7-wBo">
-                                        <rect key="frame" x="44.5" y="71" width="278" height="53"/>
+                                        <rect key="frame" x="39" y="72.5" width="287.5" height="51.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1960,7 +1960,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Ef-Hm-6uI">
-                                        <rect key="frame" x="123" y="296" width="119" height="29"/>
+                                        <rect key="frame" x="121" y="296" width="123" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="RWV-4t-sQQ"/>
                                             <constraint firstAttribute="height" constant="29" id="nk5-ky-YdS"/>
@@ -2034,7 +2034,7 @@
                                         <rect key="frame" x="108" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="VXt-Fs-e6I">
-                                        <rect key="frame" x="12.5" y="88" width="341" height="31.5"/>
+                                        <rect key="frame" x="12.5" y="89" width="341" height="30.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2164,7 +2164,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo! What Would you Like to do Next?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="17.5" translatesAutoresizingMaskIntoConstraints="NO" id="fOJ-Mv-2Gq">
-                                        <rect key="frame" x="23.5" y="69" width="318" height="53"/>
+                                        <rect key="frame" x="17.5" y="70.5" width="330" height="51.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2731,7 +2731,7 @@
         <image name="back-circle-icon" width="24" height="24"/>
         <image name="background-iPhone" width="320" height="568"/>
         <image name="browse_streams" width="182" height="53"/>
-        <image name="camera_icon_cover_images" width="39" height="39"/>
+        <image name="camera_icon_cover_images" width="60" height="60"/>
         <image name="camera_icon_top" width="29" height="25"/>
         <image name="capture-icon" width="82" height="82"/>
         <image name="content_next_btn" width="160" height="53"/>

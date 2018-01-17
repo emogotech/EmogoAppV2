@@ -84,6 +84,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         cameraDelegate = self
         doubleTapCameraSwitch = false
+        allowAutoRotate = true
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true

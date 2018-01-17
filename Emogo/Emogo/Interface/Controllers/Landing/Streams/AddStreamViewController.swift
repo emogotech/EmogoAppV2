@@ -87,7 +87,7 @@ class AddStreamViewController: UITableViewController {
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
         txtStreamCaption.placeholderName = "Stream Caption"
-        
+        txtStreamName.selectedLineColor = .clear
         self.lblStreamDescPlaceHolder.text = "Stream Caption"
         if self.txtStreamCaption.text.count > 0 {
             self.lblStreamDescPlaceHolder.isHidden = false
