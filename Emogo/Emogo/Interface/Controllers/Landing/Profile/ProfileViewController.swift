@@ -54,12 +54,12 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        prepareLayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
     
     
     // MARK: - Prepare Layouts
@@ -86,7 +86,12 @@ class ProfileViewController: UIViewController {
         
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
+        self.prepareLayout()
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kProfileUpdateIdentifier)), object: nil)
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kProfileUpdateIdentifier), object: nil, queue: nil) { (notification) in
+            self.prepareLayout()
+        }
     }
     
     func prepareLayout() {
@@ -94,7 +99,7 @@ class ProfileViewController: UIViewController {
         lblUserName.minimumScaleFactor = 1.0
         print(UserDAO.sharedInstance.user.userImage.trim())
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
     }
     

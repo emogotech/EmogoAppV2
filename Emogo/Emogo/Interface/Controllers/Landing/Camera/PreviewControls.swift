@@ -203,6 +203,10 @@ extension PreviewController:UITextViewDelegate {
         }
         return textView.text.length + (text.length - range.length) <= 250
     }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.setPreviewContent(title: (txtTitleImage.text?.trim())!, description: (txtDescription.text?.trim())!)
+    }
 
 }
 

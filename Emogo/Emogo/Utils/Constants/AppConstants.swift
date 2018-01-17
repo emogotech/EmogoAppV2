@@ -128,6 +128,7 @@ let kaddBackgroundImage                 = "menuBackGround"
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
 let kUpdateStreamViewIdentifier = "UpdateStreamIdentifier"
+let kProfileUpdateIdentifier = "ProfileUpdateIdentifier"
 
 // MARK:- Redirect Links
 let kDeepLinkURL = "Emogo://emogo/"

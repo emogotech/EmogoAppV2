@@ -767,6 +767,7 @@ extension ContentViewController:UITextViewDelegate {
         }
         return textView.text.length + (text.length - range.length) <= 250
     }
+   
 }
 
 extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {

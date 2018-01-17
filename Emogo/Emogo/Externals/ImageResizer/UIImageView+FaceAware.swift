@@ -5,10 +5,10 @@
 
 import UIKit
 import ObjectiveC
-
+  /*
 @IBDesignable
 public extension UIImageView {
-    
+  
     open override func layoutSubviews() {
         super.layoutSubviews()
         if focusOnFaces {
@@ -196,5 +196,6 @@ public extension UIImageView {
         }
         return nil
     }
-    
 }
+ */
+
