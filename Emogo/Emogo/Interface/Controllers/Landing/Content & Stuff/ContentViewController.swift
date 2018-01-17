@@ -80,7 +80,7 @@ class ContentViewController: UIViewController {
 
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 1
+        tap.numberOfTapsRequired = 2
         self.imgCover.addGestureRecognizer(tap)
         txtDescription.delegate = self
         
@@ -356,10 +356,16 @@ class ContentViewController: UIViewController {
         layout.caption = txtTitleImage.text!
         layout.image  = imgCover.image
         layout.subcaption = txtDescription.text
-        let content = ContentList.sharedInstance.arrayContent[currentIndex]
+        let content = self.seletedImage
         message.layout = layout
-        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(ContentList.sharedInstance.objStream!)")
-        
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+      
         return message
     }
     

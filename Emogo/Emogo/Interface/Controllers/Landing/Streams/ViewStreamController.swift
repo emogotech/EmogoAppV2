@@ -108,7 +108,7 @@ class ViewStreamController: UIViewController {
     
     func prepareNavigation(){
         
-        self.title = currentStreamType.rawValue
+      //  self.title = currentStreamType.rawValue
         self.configureNavigationTite()
       
         let imgP = UIImage(named: "back_icon")
