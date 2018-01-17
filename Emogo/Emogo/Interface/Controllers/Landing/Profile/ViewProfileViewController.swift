@@ -144,18 +144,14 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-        
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
-        
             return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-        return CGSize(width: stream.width, height: stream.hieght)
+        let itemWidth = collectionView.bounds.size.width/2.0
+        return CGSize(width: itemWidth, height: itemWidth - 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

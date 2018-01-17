@@ -106,6 +106,8 @@ class ProfileUpdateViewController: UIViewController {
             
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
+                NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
+
                 self.dismiss(animated: true, completion: nil)
             }else {
                 self.showToast(strMSG: errorMsg!)
