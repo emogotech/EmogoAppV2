@@ -199,8 +199,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionGallery(_ sender: Any) {
-        if gallerySelectLimit != 0 {
-            let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+        
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
                 //     self?.selectedAssets = assets
                 self?.preparePreview(assets: assets)
                 }, didCancel: nil)
@@ -210,19 +210,11 @@ class CustomCameraViewController: SwiftyCamViewController {
             viewController.selectedAssets = []
             var configure = TLPhotosPickerConfigure()
             configure.numberOfColumn = 3
-            configure.maxSelectedAssets = gallerySelectLimit
+            configure.maxSelectedAssets = 10
             configure.muteAudio = true
             configure.usedCameraButton = false
             viewController.configure = configure
             self.present(viewController, animated: true, completion: nil)
-        }
-       
-        
-        /*
-         let gallery = GalleryController()
-         gallery.delegate = self
-         present(gallery, animated: true, completion: nil)
-         */
         
     }
     
@@ -393,7 +385,6 @@ class CustomCameraViewController: SwiftyCamViewController {
          self.previewCollection.reloadData()
          })
          */
-        
     }
     
     private func animateView(){
@@ -537,7 +528,6 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         let obj =   ContentList.sharedInstance.arrayContent[indexPath.row]
         cell.setupPreviewWithType(content: obj)
         return cell
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

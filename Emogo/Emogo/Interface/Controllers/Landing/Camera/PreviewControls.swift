@@ -185,26 +185,35 @@ extension PreviewController:GalleryControllerDelegate {
 }
 
 extension PreviewController:UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if txtDescription.text.trim() == "Description"{
-            txtDescription.text = nil
-        }
-    }
     
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if txtDescription.text.trim().isEmpty{
-            txtDescription.text = "Description"
+    func textViewDidChange(_ textView: UITextView) {
+        
+        txtDescription.placeholderName = "Description"
+        
+        if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
+            let shouldHide = txtDescription.text.count > 0
+            placeholderLabel.isHidden = shouldHide
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
         if(text == "\n") {
             txtDescription.resignFirstResponder()
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
-        
     }
+
 }
+
+
+
+
+//    func textViewDidBeginEditing(_ textView: UITextView) {
+//        if txtStreamCaption.text.trim() == "Stream Caption"{
+//            txtStreamCaption.text = nil
+//        }
+//    }
+
+
+

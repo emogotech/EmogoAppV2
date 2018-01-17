@@ -75,7 +75,7 @@ class PreviewController: UIViewController {
         // Preview Height
         // Remove Duplicate Objects
         self.txtTitleImage.maxLength = 50
-        txtDescription.text = "Description"
+        txtDescription.placeholderName = "Description"
         txtDescription.delegate = self
 
         var seen = Set<String>()
@@ -156,18 +156,14 @@ class PreviewController: UIViewController {
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
-
+        txtDescription.text = ""
         self.selectedIndex = index
-       
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
-        
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
-        }else {
-            txtDescription.text = "Description"
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
