@@ -35,6 +35,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         cell.imageView?.contentMode = .scaleAspectFill
         cell.imageView?.clipsToBounds = true
         cell.isExclusiveTouch = true
+        cell.isHighlighted = false
         return cell
     }
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
