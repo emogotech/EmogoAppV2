@@ -233,6 +233,8 @@ let kAlert_Cancel_Title                                                  = "Canc
 let kAlert_Title_ActionSheet                                                  =     "Report"
 let kAlert_Select_Time                                                   = "Select Time"
 let kAlertTitle_Emogo                                                   = "Emogo"
+let kAlert_Capture_Title                                               = "Capture limit exceeded!"
+
 let kAlertTitle_Yes = "YES"
 let kAlertTitle_No =  "No"
 
@@ -283,6 +285,7 @@ let kAlert_Success_Report_User = "You have been reported this User successfully.
 let kAlert_Success_Report_Stream = "You have been reported this Stream successfully."
 let kAlert_Success_Report_Content = "You have been reported this Content successfully."
 
+let kAlert_Capture_Limit_Exceeded = "You can select only 10 images at once."
 
 
 let kName_Report_Inappropriate = "Inappropriate"

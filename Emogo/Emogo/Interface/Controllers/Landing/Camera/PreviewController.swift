@@ -156,6 +156,7 @@ class PreviewController: UIViewController {
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
+
         self.selectedIndex = index
        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
@@ -165,6 +166,8 @@ class PreviewController: UIViewController {
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
+        }else {
+            txtDescription.text = "Description"
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -283,8 +286,12 @@ class PreviewController: UIViewController {
         self.showToast(type: .error, strMSG: kAlert_Progress)
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
+        self.view.endEditing(true)
+        if ContentList.sharedInstance.arrayContent.count > 10 {
+            self.alertForLimit()
+            return
+        }
         if ContentList.sharedInstance.objStream != nil {
-            self.view.endEditing(true)
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayContent
@@ -414,9 +421,7 @@ class PreviewController: UIViewController {
                 }
                 
             }
-           
         }
-        
         
         if  ContentList.sharedInstance.arrayContent.count != 0 {
                 self.preparePreview(index: 0)
@@ -629,7 +634,15 @@ class PreviewController: UIViewController {
         }
     }
     
-   
+    func alertForLimit(){
+        let alert = UIAlertController(title: kAlert_Capture_Title, message: kAlert_Capture_Limit_Exceeded, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
+        }
+        
+        alert.addAction(action1)
+        present(alert, animated: true, completion: nil)
+    }
+    
     func associateContent() {
        
 //        if ContentList.sharedInstance.objStream != nil && contents.count != 0{

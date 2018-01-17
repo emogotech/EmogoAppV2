@@ -39,7 +39,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     var beepSound: Sound?
     let interactor = PMInteractor()
     var selectedAssets = [TLPHAsset]()
-
     
     // MARK: - Override Functions
     
@@ -59,6 +58,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         if ContentList.sharedInstance.arrayContent.count == 0 {
             kPreviewHeight.constant = 24.0
         }
+        
         print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -199,22 +199,24 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionGallery(_ sender: Any) {
-        
-        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
-            //     self?.selectedAssets = assets
-            self?.preparePreview(assets: assets)
-            }, didCancel: nil)
-        viewController.didExceedMaximumNumberOfSelection = { (picker) in
-            //exceed max selection
+        if gallerySelectLimit != 0 {
+            let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+                //     self?.selectedAssets = assets
+                self?.preparePreview(assets: assets)
+                }, didCancel: nil)
+            viewController.didExceedMaximumNumberOfSelection = { (picker) in
+                //exceed max selection
+            }
+            viewController.selectedAssets = []
+            var configure = TLPhotosPickerConfigure()
+            configure.numberOfColumn = 3
+            configure.maxSelectedAssets = gallerySelectLimit
+            configure.muteAudio = true
+            configure.usedCameraButton = false
+            viewController.configure = configure
+            self.present(viewController, animated: true, completion: nil)
         }
-        viewController.selectedAssets = []
-        var configure = TLPhotosPickerConfigure()
-        configure.numberOfColumn = 3
-        configure.maxSelectedAssets = 10
-        configure.muteAudio = true
-        configure.usedCameraButton = false
-        viewController.configure = configure
-        self.present(viewController, animated: true, completion: nil)
+       
         
         /*
          let gallery = GalleryController()
@@ -225,15 +227,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionShutter(_ sender: Any) {
-        if !kContainerNav.isEmpty {
-            kContainerNav = "1"
-            self.prepareContainerToPresent()
-            return
-        }
-        if   ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            self.navigationController?.pushNormal(viewController: objPreview)
-        }
+        previewScreenNavigated()
     }
     
     @IBAction func btnActionFlash(_ sender: Any) {
@@ -427,17 +421,29 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     func updateData(content:ContentDAO) {
+       
         if  ContentList.sharedInstance.arrayContent.count == 0 {
             self.btnShutter.isHidden = false
             self.viewUP()
         }
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
         self.btnPreviewOpen.isHidden = false
+      
     }
     
+    // MARK: - Class Methods
     
-    // MARK: - API Methods
-    
+    func previewScreenNavigated(){
+        if !kContainerNav.isEmpty {
+            kContainerNav = "1"
+            self.prepareContainerToPresent()
+            return
+        }
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            self.navigationController?.pushNormal(viewController: objPreview)
+        }
+    }
     
     // MARK: - Navigation
     
@@ -538,7 +544,6 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
     }
 }
-
 
 
 
