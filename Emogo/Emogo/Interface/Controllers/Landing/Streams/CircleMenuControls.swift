@@ -134,6 +134,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         collectionLayout.columnCount = 3
         StreamList.sharedInstance.arrayStream.removeAll()
         PeopleList.sharedInstance.arrayPeople.removeAll()
+        self.streamCollectionView.reloadData()
         HUDManager.sharedInstance.showHUD()
         self.getUsersList(type:.start)
     }
