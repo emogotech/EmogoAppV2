@@ -374,7 +374,14 @@ extension UIViewController {
     @objc func btnBackAction(){
         self.navigationController?.pop()
     }
-    
+    func addLeftTransitionView(subtype:String){
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.type = kCATransitionPush
+        transition.subtype = subtype
+        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
+        view.window!.layer.add(transition, forKey: kCATransition)
+    }
 }
 
 

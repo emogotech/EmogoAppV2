@@ -731,7 +731,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Global seearch for People
     func apiForGlobalSearchPeople(searchString:String,completionHandler:@escaping (_ peopleList:[PeopleDAO]?, _ strError:String?)->Void){
-        PeopleList.sharedInstance.requestURl = kGlobleSearchPeopleAPI+searchString
+        PeopleList.sharedInstance.requestURl = kGlobleSearchPeopleAPI+searchString.replacingOccurrences(of: " ", with: "%20")
         print(PeopleList.sharedInstance.requestURl)
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
@@ -772,7 +772,7 @@ class APIServiceManager: NSObject {
     // MARK: - Global seearch for People
     func apiForGetStreamListFromGlobleSearch(strSearch:String, completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
         var objects = [StreamDAO]()
-        let strURL = kGlobleSearchStreamAPI+strSearch
+        let strURL = kGlobleSearchStreamAPI+strSearch.replacingOccurrences(of: " ", with: "%20")
         
         APIManager.sharedInstance.GETRequestWithHeader(strURL: strURL) { (result) in
             switch(result){

@@ -241,14 +241,7 @@ class StreamListViewController: UIViewController {
         }
     }
     
-    func addLeftTransitionView(subtype:String){
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = kCATransitionPush
-        transition.subtype = subtype
-        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        view.window!.layer.add(transition, forKey: kCATransition)
-    }
+   
     
     func setupAnchor(){
         viewSearch.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)

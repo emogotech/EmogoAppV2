@@ -106,6 +106,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
         btnCamera.addGestureRecognizer(longGesture)
         
+        
+//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+//        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+//        previewLayer.addGestureRecognizer(swipeRight)
+        
     }
     
     func prepareContainerToPresent(){
@@ -251,15 +256,22 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
-    func addLeftTransitionView(subtype:String){
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.type = kCATransitionPush
-        transition.subtype = subtype
-        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
-        view.window!.layer.add(transition, forKey: kCATransition)
-        self.navigationController?.popViewController(animated: false)
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+                
+            case UISwipeGestureRecognizerDirection.right:
+                
+                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                self.navigationController?.popViewController(animated: false)
+                break
+                
+            default:
+                break
+            }
+        }
     }
+  
     
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()

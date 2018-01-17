@@ -92,6 +92,11 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kProfileUpdateIdentifier), object: nil, queue: nil) { (notification) in
             self.prepareLayout()
         }
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.left
+        self.profileCollectionView.addGestureRecognizer(swipeRight)
+        
     }
     
     func prepareLayout() {
@@ -139,7 +144,26 @@ class ProfileViewController: UIViewController {
     
     
     
+    
     // MARK: -  Action Methods And Selector
+    
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+           
+            case UISwipeGestureRecognizerDirection.left:
+               
+                self.addLeftTransitionView(subtype: kCATransitionFromRight)
+                self.navigationController?.popNormal()
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
     
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
         self.updateSegment(selected: sender.tag)
