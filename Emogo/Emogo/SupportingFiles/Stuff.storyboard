@@ -487,7 +487,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TP4-IN-4cl">
-                                <rect key="frame" x="119" y="601" width="137" height="45"/>
+                                <rect key="frame" x="107" y="593" width="161" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="TP4-IN-4cl" secondAttribute="height" multiplier="137:45" id="yOL-Tp-J8k"/>
                                 </constraints>
@@ -920,12 +920,12 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTr-gh-4hZ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="uTr-gh-4hZ">
                                         <rect key="frame" x="94" y="30" width="273" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="08H-ib-3XC"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1213,11 +1213,19 @@
                                             <outlet property="delegate" destination="sfA-Aq-ZOY" id="yT9-zc-scK"/>
                                         </connections>
                                     </collectionView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
+                                        <rect key="frame" x="120.5" y="243" width="134" height="21"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
+                                        <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="KZ0-Ix-4MK" secondAttribute="bottom" id="ROf-bO-MXO"/>
+                                    <constraint firstItem="lG6-cj-WUo" firstAttribute="centerX" secondItem="XCC-8d-Hvm" secondAttribute="centerX" id="SsF-gg-JPN"/>
                                     <constraint firstItem="KZ0-Ix-4MK" firstAttribute="top" secondItem="XCC-8d-Hvm" secondAttribute="top" constant="10" id="f0T-5J-vco"/>
+                                    <constraint firstItem="lG6-cj-WUo" firstAttribute="centerY" secondItem="XCC-8d-Hvm" secondAttribute="centerY" id="isF-UK-893"/>
                                     <constraint firstItem="KZ0-Ix-4MK" firstAttribute="leading" secondItem="XCC-8d-Hvm" secondAttribute="leading" id="mn8-kD-9cA"/>
                                     <constraint firstAttribute="trailing" secondItem="KZ0-Ix-4MK" secondAttribute="trailing" id="zUm-ch-1Aa"/>
                                 </constraints>
@@ -1244,13 +1252,14 @@
                         <outlet property="btnStream" destination="wRm-du-Ipy" id="Izc-aW-mgX"/>
                         <outlet property="btnStuff" destination="Fec-Eu-QEC" id="cRk-mx-0OZ"/>
                         <outlet property="imgUser" destination="cFx-qm-YQr" id="OgX-tD-ez3"/>
+                        <outlet property="lblNOResult" destination="lG6-cj-WUo" id="TFK-4w-vl8"/>
                         <outlet property="lblUserName" destination="uTr-gh-4hZ" id="mfE-42-Zka"/>
                         <outlet property="profileCollectionView" destination="KZ0-Ix-4MK" id="TKD-T2-KKE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xZe-Yc-DXt" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1196" y="-1189"/>
+            <point key="canvasLocation" x="1196" y="-1189.6551724137933"/>
         </scene>
         <!--Content View Controller-->
         <scene sceneID="mSk-w7-Vql">
@@ -1483,7 +1492,7 @@
         <image name="camera_icon_cover_images" width="33" height="33"/>
         <image name="collabs_icon" width="42" height="44"/>
         <image name="content_flag" width="30" height="30"/>
-        <image name="content_next_btn" width="121" height="45"/>
+        <image name="content_next_btn" width="160" height="53"/>
         <image name="delete_icon-cover_image" width="28" height="29"/>
         <image name="done_button" width="137" height="45"/>
         <image name="done_icon" width="16" height="16"/>
@@ -1491,7 +1500,7 @@
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="lock_icon" width="9" height="13"/>
         <image name="play_button" width="30" height="30"/>
-        <image name="search_bar_link_iphone" width="287" height="37"/>
+        <image name="search_bar_link_iphone" width="337" height="43"/>
         <image name="select_active_icon" width="20" height="20"/>
         <image name="select_unactive_icon" width="20" height="20"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
