@@ -49,12 +49,10 @@ class ProfileUpdateViewController: UIViewController {
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
-        if self.imageToUpload == nil {
-            HUDManager.sharedInstance.showHUD()
-            self.profileUpdate(strURL:UserDAO.sharedInstance.user.userImage)
-        }else {
-            
+        if self.imageToUpload != nil {
             self.uploadProfileImage()
+        }else {
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
