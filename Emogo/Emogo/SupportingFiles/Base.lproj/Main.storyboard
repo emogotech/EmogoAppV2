@@ -1808,7 +1808,7 @@
                                         <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vD2-d5-Zu1">
-                                        <rect key="frame" x="24" y="86.5" width="318" height="30.5"/>
+                                        <rect key="frame" x="24" y="85.5" width="318" height="31.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2667,15 +2667,16 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-PD-wwW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="149"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_content_icon" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-PD-wwW">
+                                                    <rect key="frame" x="-1" y="1" width="147" height="147"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="xhU-gc-MTz" secondAttribute="bottom" id="6Ff-2b-MkT"/>
                                             <constraint firstAttribute="trailing" secondItem="xhU-gc-MTz" secondAttribute="trailing" id="AZ9-je-akz"/>
+                                            <constraint firstItem="a7D-PD-wwW" firstAttribute="centerX" secondItem="EYe-21-tQg" secondAttribute="centerX" id="FIK-2k-ZIz"/>
+                                            <constraint firstItem="a7D-PD-wwW" firstAttribute="centerY" secondItem="EYe-21-tQg" secondAttribute="centerY" id="Lv4-uZ-wvn"/>
                                             <constraint firstItem="xhU-gc-MTz" firstAttribute="top" secondItem="EYe-21-tQg" secondAttribute="top" id="NxP-6c-0fx"/>
                                             <constraint firstItem="xhU-gc-MTz" firstAttribute="leading" secondItem="EYe-21-tQg" secondAttribute="leading" id="rJ9-aC-zJB"/>
                                         </constraints>
