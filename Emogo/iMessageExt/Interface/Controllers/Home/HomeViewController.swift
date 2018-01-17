@@ -687,20 +687,21 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
+       
         if (isSearch == true && !isStreamEnable){
-            let stream = self.arrayStreams[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
-        }    else if (isSearch == true &&  isStreamEnable){
-            let stream = self.arrayStreams[indexPath.row]
+            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+            return CGSize(width: itemWidth, height: 100)
+        }
+        else if (isSearch == true &&  isStreamEnable){
+            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             return CGSize(width: stream.width, height: stream.hieght)
         }
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
         }  else  {
-            let stream = self.arrayStreams[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
         }
     }
     
