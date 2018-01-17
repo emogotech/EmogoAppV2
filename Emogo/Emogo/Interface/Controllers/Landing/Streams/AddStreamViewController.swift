@@ -109,7 +109,7 @@ class AddStreamViewController: UITableViewController {
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()
         }
-        
+        self.switchAddCollaborators.isEnabled = false
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
@@ -231,9 +231,15 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Private"
                 self.switchAnyOneCanEdit.isOn = false
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+                self.switchAddCollaborators.isEnabled = true
+                
             }else{
                 streamType = "Public"
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+                self.switchAddCollaborators.isEnabled = false
+                self.switchAddCollaborators.isOn = false
+                self.rowHieght.constant = 0.0
+                self.isExpandRow = false
             }
     }
     
