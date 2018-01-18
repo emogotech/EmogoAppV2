@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -297,3 +297,20 @@ def api_500(request):
     """
     response = HttpResponse('{"exception": "Internal server error.", "status_code": 500 }', content_type="application/json", status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     return response
+
+
+class GetTopStreamAPI(APIView):
+    """
+    View to list all users in the system.
+    """
+    serializer_class = GetTopStreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        if serializer.is_valid():
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)

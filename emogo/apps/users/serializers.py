@@ -10,8 +10,10 @@ from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
+from emogo.apps.stream.models import Stream
+from emogo.apps.collaborator.models import Collaborator
+from itertools import chain
 from django.db import IntegrityError
-
 from emogo.lib.helpers.utils import generate_pin, send_otp
 
 
@@ -248,3 +250,61 @@ class UserResendOtpSerializer(UserProfileSerializer):
             return value
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
+
+class GetTopStreamSerializer(serializers.Serializer):
+    """
+    The Custom Serializer
+    """
+    qs = Stream.actives.all()
+    featured = serializers.SerializerMethodField()
+    emogo = serializers.SerializerMethodField()
+    popular = serializers.SerializerMethodField()
+    my_stream = serializers.SerializerMethodField()
+    people = serializers.SerializerMethodField()
+
+    def use_fields(self):
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width')
+        return fields
+
+    def get_featured(self, obj):
+        return ViewStreamSerializer(self.qs.filter(featured=True).order_by('-view_count')[0:5], many=True, fields=self.use_fields()).data
+
+    def get_emogo(self, obj):
+        return ViewStreamSerializer(self.qs.filter(emogo=True).order_by('-view_count')[0:5], many=True, fields=self.use_fields()).data
+
+    def get_popular(self, obj):
+        # Get self created streams
+        owner_qs = self.qs.filter(created_by=self.context.user, type='Public').order_by('-view_count')[0:5]
+        if owner_qs.count() < 5:
+            # Get streams user as collaborator and has add content permission
+            stream_collaborators = Collaborator.actives.filter(can_add_content=True).distinct()
+            collaborator_permission = [x.stream for x in stream_collaborators if
+                                       str(x.phone_number) in str(self.context.user.username)]
+
+            # merge result
+            result_list = list(chain(owner_qs, collaborator_permission))[0:5]
+        else:
+            result_list = owner_qs
+        return ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data
+
+    def get_my_stream(self, obj):
+
+        # Get self created streams
+        owner_qs = self.qs.filter(created_by=self.context.user).order_by('-view_count')[0:5]
+
+        if owner_qs.count() < 5:
+            # Get streams user as collaborator and has add content permission
+            stream_collaborators = Collaborator.actives.filter(can_add_content=True).distinct()
+            collaborator_permission = [ x.stream for x in stream_collaborators if str(x.phone_number) in str(self.context.user.username)]
+
+            # merge result
+            result_list = list(chain(owner_qs, collaborator_permission))[0:5]
+        else:
+            result_list = owner_qs
+        return ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data
+
+    def get_people(self, obj):
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
+        return UserDetailSerializer(UserProfile.actives.all().order_by('full_name')[0:5], many=True, fields = fields,
+                                    context=self.context).data
