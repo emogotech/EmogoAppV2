@@ -509,7 +509,6 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
             self.tableView.endUpdates()
         }
 
-
         
     }
     

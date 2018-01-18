@@ -591,7 +591,7 @@ extension UILabel {
     }
     
     func shadow() {
-        self.layer.shadowColor = self.textColor.cgColor
+        self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize.zero
         self.layer.shadowRadius = 3.0
         self.layer.shadowOpacity = 0.5
@@ -632,7 +632,7 @@ extension UIImage {
         let size =  Int(data.count/1024/1024)
         print(size)
         if size > 1 {
-            return self.compressImage(self, compressRatio: 0.7)
+            return self.compressImage(self, compressRatio: 1.0)
         }else {
             return self
         }

@@ -407,7 +407,8 @@ class ContentViewController: UIViewController {
         if self.seletedImage.imgPreview != nil {
             self.uploadFile()
         }else {
-            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+         //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
         }
     }
     
@@ -658,8 +659,8 @@ class ContentViewController: UIViewController {
         }
     }
     
-    func updateContent(coverImage:String,coverVideo:String, type:String){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type) { (content, errorMsg) in
+    func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 content?.isShowAddStream = self.isAddStream
@@ -689,7 +690,8 @@ class ContentViewController: UIViewController {
         AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: NSUUID().uuidString + ".png") { (imageURL, error) in
             if error == nil {
                 DispatchQueue.main.async { // Correct
-                    self.updateContent(coverImage: imageURL!, coverVideo: "", type: self.seletedImage.type.rawValue)
+                    self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
+                        , height: Int((self.seletedImage.imgPreview?.size.height)!))
                 }
             }else {
                 HUDManager.sharedInstance.hideHUD()
@@ -716,6 +718,9 @@ extension ContentViewController:PhotoEditorDelegate
         // the edited image
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         seletedImage.imgPreview = image
+        seletedImage.width = Int(image.size.width)
+        seletedImage.height = Int(image.size.height)
+
         if currentIndex != nil {
             ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
         }

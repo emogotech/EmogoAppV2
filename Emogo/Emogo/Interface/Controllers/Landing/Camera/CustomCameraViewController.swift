@@ -345,6 +345,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
+                    print(obj.fullResolutionImage)
                     self.updateData(content: camera)
                     group.leave()
                 }else {
