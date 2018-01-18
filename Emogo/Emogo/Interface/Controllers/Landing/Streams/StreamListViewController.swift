@@ -428,10 +428,12 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
+            collectionLayout.columnCount = 2
             self.getStreamGlobleSearch(searchText: searchStr, type: .start)
             break
             
         case 1:         //People
+            collectionLayout.columnCount = 3
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.streamCollectionView.isHidden = true
