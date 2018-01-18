@@ -22,6 +22,7 @@ extension PreviewController {
     }
     
    @objc func openFullView(){
+    var index = 0
     if self.seletedImage.type == .gif {
         return
     }
@@ -51,11 +52,21 @@ extension PreviewController {
                 }
             }
             if image != nil {
+              
                 arrayContents.append(image)
+                if obj.isUploaded {
+                    if  obj.contentID.trim()  == self.seletedImage.contentID.trim(){
+                        index = arrayContents.count - 1
+                    }
+                }else {
+                    if  obj.fileName.trim()  == self.seletedImage.fileName.trim(){
+                        index = arrayContents.count - 1
+                    }
+                }
             }
         }
         
-        let controller = LightboxController(images: arrayContents, startIndex: self.selectedIndex)
+        let controller = LightboxController(images: arrayContents, startIndex: index)
         controller.dynamicBackground = true
         present(controller, animated: true, completion: nil)
     }

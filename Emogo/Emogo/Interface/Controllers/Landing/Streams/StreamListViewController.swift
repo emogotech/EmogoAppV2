@@ -428,10 +428,12 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
+            collectionLayout.columnCount = 2
             self.getStreamGlobleSearch(searchText: searchStr, type: .start)
             break
             
         case 1:         //People
+            collectionLayout.columnCount = 3
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.streamCollectionView.isHidden = true
@@ -762,8 +764,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: itemWidth, height: 100)
         }
         else if isSearch && isTapStream {
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
         }
         else if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0

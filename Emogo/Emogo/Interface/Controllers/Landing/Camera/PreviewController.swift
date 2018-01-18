@@ -181,9 +181,9 @@ class PreviewController: UIViewController {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
                 self.imgPreview.backgroundColor = colors.background
-                self.txtTitleImage.textColor = .white//colors.secondary
-                self.txtDescription.textColor = .white//colors.secondary
-                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                self.txtTitleImage.textColor = colors.primary//colors.secondary
+                self.txtDescription.textColor = colors.primary//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
             })
         }else {
             if seletedImage.type == .image  {
@@ -192,9 +192,9 @@ class PreviewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgPreview.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                     
                 })
@@ -205,9 +205,9 @@ class PreviewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgPreview.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                 })
                 

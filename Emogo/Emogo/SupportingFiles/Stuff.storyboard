@@ -919,6 +919,13 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit_blue_icon" translatesAutoresizingMaskIntoConstraints="NO" id="NRh-cx-LG9">
+                                        <rect key="frame" x="62" y="10" width="21" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="21" id="Asv-ze-Cbn"/>
+                                            <constraint firstAttribute="height" constant="21" id="hYS-TE-2O7"/>
+                                        </constraints>
+                                    </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="uTr-gh-4hZ">
                                         <rect key="frame" x="94" y="30" width="273" height="21"/>
                                         <constraints>
@@ -937,9 +944,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="NRh-cx-LG9" firstAttribute="leading" secondItem="cFx-qm-YQr" secondAttribute="trailing" constant="-12" id="25S-tc-lyt"/>
                                     <constraint firstItem="uTr-gh-4hZ" firstAttribute="centerY" secondItem="BDV-2p-4nw" secondAttribute="centerY" id="3AV-MI-K59"/>
                                     <constraint firstAttribute="bottom" secondItem="2OQ-oO-Dsc" secondAttribute="bottom" id="8At-IV-4ec"/>
                                     <constraint firstItem="2OQ-oO-Dsc" firstAttribute="top" secondItem="BDV-2p-4nw" secondAttribute="top" id="8G5-hE-kvn"/>
+                                    <constraint firstItem="NRh-cx-LG9" firstAttribute="top" secondItem="cFx-qm-YQr" secondAttribute="top" id="AVj-6R-V0n"/>
                                     <constraint firstItem="cFx-qm-YQr" firstAttribute="leading" secondItem="BDV-2p-4nw" secondAttribute="leading" constant="14" id="DpR-Rj-ibs"/>
                                     <constraint firstAttribute="trailing" secondItem="2OQ-oO-Dsc" secondAttribute="trailing" id="Hy3-iV-jFI"/>
                                     <constraint firstItem="cFx-qm-YQr" firstAttribute="centerY" secondItem="BDV-2p-4nw" secondAttribute="centerY" id="J1J-Bh-W3A"/>
@@ -999,6 +1008,10 @@
                                                                         </label>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i8c-KG-m8C">
                                                                             <rect key="frame" x="124" y="11" width="18" height="22"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="18" id="Vni-Ru-0yA"/>
+                                                                                <constraint firstAttribute="height" constant="22" id="ja7-co-SWx"/>
+                                                                            </constraints>
                                                                             <state key="normal" image="lock_icon"/>
                                                                         </button>
                                                                     </subviews>
@@ -1007,7 +1020,6 @@
                                                                         <constraint firstItem="nEx-ov-cpJ" firstAttribute="top" secondItem="esK-UF-y39" secondAttribute="bottom" constant="1" id="9RF-6N-WIt"/>
                                                                         <constraint firstAttribute="bottom" secondItem="i8c-KG-m8C" secondAttribute="bottom" constant="12" id="Cww-mU-o0d"/>
                                                                         <constraint firstAttribute="bottom" secondItem="nEx-ov-cpJ" secondAttribute="bottom" constant="12" id="EOR-tJ-t9i"/>
-                                                                        <constraint firstItem="i8c-KG-m8C" firstAttribute="leading" secondItem="nEx-ov-cpJ" secondAttribute="trailing" constant="-8" id="SRP-ue-aXr"/>
                                                                         <constraint firstAttribute="trailing" secondItem="i8c-KG-m8C" secondAttribute="trailing" constant="5" id="hV8-jD-ewI"/>
                                                                         <constraint firstItem="esK-UF-y39" firstAttribute="leading" secondItem="sjw-tc-i2n" secondAttribute="leading" constant="12" id="ou8-HX-X0m"/>
                                                                         <constraint firstAttribute="height" constant="45" id="wBi-vL-9FZ"/>
@@ -1294,7 +1306,7 @@
                                             <constraint firstAttribute="height" constant="50" id="VqY-NF-6Aw"/>
                                             <constraint firstAttribute="width" constant="50" id="gPw-bX-cgo"/>
                                         </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="6" minY="4" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="delete_icon-cover_image"/>
                                         <connections>
                                             <action selector="btnDeleteAction:" destination="evI-UO-yab" eventType="touchUpInside" id="SIC-RR-zyb"/>
@@ -1324,7 +1336,7 @@
                                     <constraint firstAttribute="width" constant="50" id="3S9-08-wZ6"/>
                                     <constraint firstAttribute="height" constant="50" id="6vw-f1-RI7"/>
                                 </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
+                                <inset key="imageEdgeInsets" minX="2" minY="4" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="content_flag"/>
                                 <connections>
                                     <action selector="btnShowReportListAction:" destination="evI-UO-yab" eventType="touchUpInside" id="Lyw-vd-4Rw"/>
@@ -1357,7 +1369,7 @@
                                         <rect key="frame" x="17" y="31" width="284" height="38"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="GoB-kH-O7g"/>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="GoB-kH-O7g"/>
                                             <constraint firstAttribute="height" constant="38" id="KgD-u0-c5c"/>
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38" id="QOU-m3-CMO"/>
                                         </constraints>
@@ -1452,6 +1464,7 @@
                             <constraint firstItem="IeX-ta-8lO" firstAttribute="leading" secondItem="IGr-yb-aJG" secondAttribute="leading" id="NQ6-uw-GU3"/>
                             <constraint firstItem="IeX-ta-8lO" firstAttribute="trailing" secondItem="IGr-yb-aJG" secondAttribute="trailing" id="Nim-FR-udS"/>
                             <constraint firstItem="GNc-aU-Vds" firstAttribute="trailing" secondItem="IGr-yb-aJG" secondAttribute="trailing" id="OBv-8E-57S"/>
+                            <constraint firstItem="rcA-6G-RnM" firstAttribute="leading" secondItem="Bvt-rQ-TsC" secondAttribute="trailing" constant="-2" id="RfK-Yg-cNm"/>
                             <constraint firstItem="s8m-J6-CgU" firstAttribute="trailing" secondItem="IGr-yb-aJG" secondAttribute="trailing" id="Xbc-fH-MUC"/>
                             <constraint firstItem="0ex-6D-1EL" firstAttribute="leading" secondItem="IGr-yb-aJG" secondAttribute="leading" id="YP8-Gu-oOs"/>
                             <constraint firstItem="rcA-6G-RnM" firstAttribute="top" secondItem="QPw-Ix-gAb" secondAttribute="top" constant="10" id="ZWC-Sw-pdO"/>
@@ -1489,13 +1502,14 @@
         <image name="add_content_icon" width="147" height="147"/>
         <image name="add_stream_icon" width="16" height="16"/>
         <image name="back-circle-icon" width="24" height="24"/>
-        <image name="camera_icon_cover_images" width="60" height="60"/>
+        <image name="camera_icon_cover_images" width="131" height="131"/>
         <image name="collabs_icon" width="42" height="44"/>
         <image name="content_flag" width="30" height="30"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="delete_icon-cover_image" width="28" height="29"/>
         <image name="done_button" width="160" height="53"/>
         <image name="done_icon" width="16" height="16"/>
+        <image name="edit_blue_icon" width="21" height="21"/>
         <image name="edit_icon" width="28" height="28"/>
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="lock_icon" width="9" height="13"/>

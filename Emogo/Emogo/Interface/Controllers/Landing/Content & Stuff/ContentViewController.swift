@@ -91,6 +91,8 @@ class ContentViewController: UIViewController {
                 LightboxConfig.handleVideo(self, videoUrl!)
             }
         }
+        
+      txtTitleImage.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
         self.updateContent()
         
     }
@@ -142,6 +144,12 @@ class ContentViewController: UIViewController {
         }
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
+            seletedImage.imgPreview?.getColors({ (colors) in
+                self.imgCover.backgroundColor = colors.background
+                self.txtTitleImage.textColor = colors.primary//colors.secondary
+                self.txtDescription.textColor = colors.primary//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+            })
         }else {
             if seletedImage.type == .image {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
@@ -150,9 +158,9 @@ class ContentViewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                 })
                 
@@ -162,9 +170,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                 })
                 self.btnPlayIcon.isHidden = false
@@ -174,9 +182,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                 })
             }else {
@@ -185,9 +193,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.textColor = colors.primary//colors.secondary
+                        self.txtDescription.textColor = colors.primary//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
                     })
                 })
                 
@@ -213,9 +221,6 @@ class ContentViewController: UIViewController {
             }
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
-            if self.txtDescription.text == "" {
-                txtDescription.placeholderName = "Description"
-            }
             self.txtTitleImage.isUserInteractionEnabled = true
             self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
@@ -426,6 +431,16 @@ class ContentViewController: UIViewController {
         }
     }
     
+    @objc func textFieldDidChange(textfield:UITextField) {
+        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
+            isEditngContent = true
+            self.btnDone.isHidden = false
+        }else{
+            isEditngContent = true
+            self.btnDone.isHidden = false
+        }
+    }
+    
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -571,8 +586,9 @@ class ContentViewController: UIViewController {
         }else{
             arrayTemp.append(seletedImage)
         }
-        for obj in arrayTemp {
+        for obj  in arrayTemp {
             var image:LightboxImage!
+           
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
@@ -593,6 +609,9 @@ class ContentViewController: UIViewController {
             }
             if image != nil {
                 arrayContents.append(image)
+                if obj.contentID == seletedImage.contentID {
+                    index = arrayContents.count - 1
+                }
             }
         }
        
@@ -755,6 +774,7 @@ extension ContentViewController:UITextFieldDelegate {
             self.btnDone.isHidden = false
         }
     }
+    
 }
 
 extension ContentViewController:UITextViewDelegate {
@@ -770,7 +790,7 @@ extension ContentViewController:UITextViewDelegate {
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-        txtDescription.placeholderName = "Description"
+         txtDescription.placeholderName = "Description"
         if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
             placeholderLabel.isHidden = txtDescription.text.count > 0
         }

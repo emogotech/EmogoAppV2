@@ -393,9 +393,6 @@
                                             <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
                                                 <integer key="value" value="50"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="paddingLeft">
-                                                <real key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="delegate" destination="pOf-qT-WPB" id="k1s-PO-4tp"/>
@@ -1104,8 +1101,8 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Qb8-4H-Dz5"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="search"/>
                                         <connections>
                                             <outlet property="delegate" destination="NZU-kd-Vtv" id="BW8-Kt-8s2"/>
                                         </connections>
@@ -2737,7 +2734,7 @@
         <image name="back-circle-icon" width="24" height="24"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="browse_streams" width="182" height="53"/>
-        <image name="camera_icon_cover_images" width="60" height="60"/>
+        <image name="camera_icon_cover_images" width="131" height="131"/>
         <image name="camera_icon_top" width="29" height="25"/>
         <image name="capture-icon" width="82" height="82"/>
         <image name="content_next_btn" width="160" height="53"/>
