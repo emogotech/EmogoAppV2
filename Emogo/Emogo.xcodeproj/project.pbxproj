@@ -156,7 +156,6 @@
 		F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */; };
 		F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
-		F423AEFC2008C91A00648A3E /* WaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */; };
 		F423AF0B2008EFE500648A3E /* TLPhotoPickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */; };
 		F423AF0C2008EFE500648A3E /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = F423AF002008EFE400648A3E /* .gitkeep */; };
 		F423AF0D2008EFE500648A3E /* TLAlbumPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F423AF012008EFE400648A3E /* TLAlbumPopView.swift */; };
@@ -499,7 +498,6 @@
 		F42217BD20075216002D4E4E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		F42217BE20075217002D4E4E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
-		F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterfallLayout.swift; sourceTree = "<group>"; };
 		F423AEFE2008EFDF00648A3E /* TLPhotoPickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TLPhotoPickerController.bundle; sourceTree = "<group>"; };
 		F423AF002008EFE400648A3E /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		F423AF012008EFE400648A3E /* TLAlbumPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAlbumPopView.swift; sourceTree = "<group>"; };
@@ -1245,7 +1243,6 @@
 		F409FC6D1FE3D8B90093E0E7 /* CustomLayout */ = {
 			isa = PBXGroup;
 			children = (
-				F423AEFB2008C91A00648A3E /* WaterfallLayout.swift */,
 				F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */,
 			);
 			path = CustomLayout;
@@ -2359,7 +2356,6 @@
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
-				F423AEFC2008C91A00648A3E /* WaterfallLayout.swift in Sources */,
 				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,

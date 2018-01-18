@@ -494,13 +494,21 @@ class ContainerViewController: UIViewController {
     
     
     func getOrigianlImage(asset:PHAsset,handler:@escaping (_ image:UIImage?)->Void){
+      
         let options = PHImageRequestOptions()
         options.isSynchronous = true
-        options.resizeMode = .exact
-        options.isNetworkAccessAllowed = true
-        PHImageManager.default().requestImage(for: asset, targetSize: self.view.bounds.size, contentMode: PHImageContentMode.aspectFill, options: options) { (image, userInfo) -> Void in
-            handler(image)
+        options.resizeMode = .none
+        options.isNetworkAccessAllowed = false
+        options.version = .current
+        
+        _ = PHCachingImageManager().requestImageData(for: asset, options: options) { (imageData, dataUTI, orientation, info) in
+            if let data = imageData {
+                let image = UIImage(data: data)
+                print(image)
+                 handler(image)
+            }
         }
+        
     }
     
     /*

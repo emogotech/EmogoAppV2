@@ -183,8 +183,8 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
-                "height":width,
-                "width":height,
+                "height":height,
+                "width":width,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -198,8 +198,8 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
-                "height":width,
-                "width":height,
+                "height":height,
+                "width":width,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -248,8 +248,8 @@ class APIServiceManager: NSObject {
         var  params: [String: Any]!
         if anyOneCanEdit == true {
             params = [
-                "height":width,
-                "width":height,
+                "height":height,
+                "width":width,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -263,8 +263,8 @@ class APIServiceManager: NSObject {
             ]
         }else {
             params = [
-                "height":width,
-                "width":height,
+                "height":height,
+                "width":width,
                 "name" : streamName,
                 "description" : streamDescription,
                 "image" : coverImage,
@@ -511,7 +511,7 @@ class APIServiceManager: NSObject {
     func apiForCreateContent(contents:[Any]? = nil,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,width:Int,height:Int,completionHandler:@escaping (_ contents:[ContentDAO]?, _ strError:String?)->Void){
         var params:[Any]!
         if contents == nil {
-            params =  [["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo,"height":width,"width":height]]
+            params =  [["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo,"height":height,"width":width]]
             
         }else {
             params = contents
@@ -625,11 +625,10 @@ class APIServiceManager: NSObject {
     
     // MARK: - Content Edit API
     
-    func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
-        let param = ["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo]
+    func apiForEditContent( contentID:String,contentName:String, contentDescription:String,coverImage:String,coverImageVideo:String,coverType:String,width:Int,height:Int,completionHandler:@escaping (_ content:ContentDAO?, _ strError:String?)->Void){
+        let param = ["url":coverImage,"name":contentName.trim(),"type":coverType,"description":contentDescription.trim(),"video_image":coverImageVideo,"height":height,"width":width] as [String : Any]
         let url = kContentAPI + "\(contentID)/"
-        print(url)
-        
+        print(param)
         APIManager.sharedInstance.patch(strURL: url, Param: param) { (result) in
             switch(result){
             case .success(let value):
