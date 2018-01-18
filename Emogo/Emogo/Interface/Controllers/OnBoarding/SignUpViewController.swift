@@ -34,6 +34,7 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        self.addToolBar(textField: txtPhoneNumber)
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
@@ -100,4 +101,30 @@ class SignUpViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+}
+
+extension SignUpViewController: UITextFieldDelegate{
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = UIColor(red: 0/255, green: 173/255, blue: 243/255, alpha: 1)
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let spaceButton2 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton1,doneButton,spaceButton2], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    @objc func donePressed(){
+        self.btnGetOTPAction(UIButton())
+    }
+    func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
 }
