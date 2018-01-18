@@ -392,8 +392,8 @@ class StreamListViewController: UIViewController {
             txtSearch.text = ""
             btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
-            HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: currentStreamType)
+            isUpdateList = true
+            self.prepareList()
             UIView.animate(withDuration: 0.1, delay: 0.1, options: [.curveEaseOut], animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
                 self.viewCollection.frame = self.viewSearch.frame
@@ -408,6 +408,7 @@ class StreamListViewController: UIViewController {
                 self.didTapActionSearch(searchString: (txtSearch.text?.trim())!)
                 self.viewMenu.isHidden = true
                 isSearch = true
+            
             }
         }
     }

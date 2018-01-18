@@ -32,6 +32,9 @@ class SignInViewController: UIViewController {
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         AppDelegate.appDelegate.addOberserver()
+        
+        addToolBar(textField: txtPhoneNumber)
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
@@ -89,6 +92,32 @@ class SignInViewController: UIViewController {
     }
         
 
+}
+
+
+extension SignInViewController: UITextFieldDelegate{
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.blackTranslucent
+        toolBar.isTranslucent = true
+//        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = .white
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+
+        toolBar.setItems([spaceButton1,doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    @objc func donePressed(){
+        self.btnDoneAction(UIButton())
+    }
+    func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
 }
 
 
