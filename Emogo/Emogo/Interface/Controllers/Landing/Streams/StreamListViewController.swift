@@ -202,6 +202,12 @@ class StreamListViewController: UIViewController {
                 self.getStreamList(type:.start,filter: currentStreamType)
             }
         }
+        
+        if  currentStreamType == StreamType.emogoStreams  && StreamList.sharedInstance.arrayStream.count == 0 {
+            self.lblNoResult.isHidden = false
+        }else{
+            self.lblNoResult.isHidden = true
+        }
     }
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
