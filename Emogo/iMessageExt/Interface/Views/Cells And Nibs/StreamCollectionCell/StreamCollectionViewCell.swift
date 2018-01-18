@@ -12,7 +12,7 @@ class StreamCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var viewAddContent   : UIView!
     @IBOutlet weak var imgCover         : FLAnimatedImageView!
-//    @IBOutlet weak var imgGradient        : UIImageView!
+    @IBOutlet weak var imgGradient         : UIImageView!
     @IBOutlet weak var lblName          : UILabel!
     @IBOutlet weak var btnPlay          : UIButton!
     
@@ -23,6 +23,7 @@ class StreamCollectionViewCell: UICollectionViewCell {
     
     func prepareLayout(content:ContentDAO){
         self.imgCover.contentMode = .scaleAspectFill
+        imgGradient.isHidden = true
         if content.isAdd == true {
             viewAddContent.isHidden = false
         }else {
@@ -31,9 +32,9 @@ class StreamCollectionViewCell: UICollectionViewCell {
             self.lblName.text = content.name.trim().capitalized
             self.lblName.minimumScaleFactor = 1.0
             if (self.lblName.text?.trim().isEmpty)! {
-               // self.imgGradient.isHidden = true
+                imgGradient.isHidden = true
             }else {
-              //  self.imgGradient.isHidden = false
+              imgGradient.isHidden = false
             }
             if content.type == .image {
                 self.btnPlay.isHidden = true
