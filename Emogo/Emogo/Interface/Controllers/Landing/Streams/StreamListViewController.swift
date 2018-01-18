@@ -762,8 +762,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             return CGSize(width: itemWidth, height: 100)
         }
         else if isSearch && isTapStream {
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
         }
         else if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0

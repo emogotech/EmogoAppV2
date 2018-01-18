@@ -297,7 +297,6 @@
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
-		F4B9F24C1FEB8D7F009D7492 /* Toucan.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24B1FEB8D7F009D7492 /* Toucan.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
@@ -656,7 +655,6 @@
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
 		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
-		F4B9F24B1FEB8D7F009D7492 /* Toucan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Toucan.swift; sourceTree = "<group>"; };
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
@@ -974,7 +972,6 @@
 		33BCB0381FBB353E004FF634 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				F4B9F24B1FEB8D7F009D7492 /* Toucan.swift */,
 				33BCB0391FBB353E004FF634 /* SharedData.swift */,
 				F4522CA31FCC1AA50021562D /* Animation.swift */,
 				F43E92D21FCEB43100AF3FAC /* Document.swift */,
@@ -2423,7 +2420,6 @@
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
-				F4B9F24C1FEB8D7F009D7492 /* Toucan.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,

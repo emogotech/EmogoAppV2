@@ -63,6 +63,7 @@ class ViewStreamController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.title = nil
        self.prepareNavigation()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,7 +109,6 @@ class ViewStreamController: UIViewController {
     
     func prepareNavigation(){
         
-      //  self.title = currentStreamType.rawValue
         self.configureNavigationTite()
       
         let imgP = UIImage(named: "back_icon")
@@ -122,6 +122,7 @@ class ViewStreamController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
             if ContentList.sharedInstance.objStream != nil {
+            self.viewStreamCollectionView.gestureRecognizers?.removeAll(keepingCapacity: false)
                 self.updateLayOut()
                 //  ContentList.sharedInstance.objStream = nil
             }

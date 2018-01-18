@@ -1914,7 +1914,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="56.5" y="76" width="253" height="48"/>
+                                        <rect key="frame" x="52.5" y="77" width="261.5" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1951,7 +1951,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DC-Lh-HM0">
-                                        <rect key="frame" x="123" y="296" width="119" height="29"/>
+                                        <rect key="frame" x="121" y="296" width="123" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="WLK-GW-PeV"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="g7l-Qx-35Z"/>
@@ -2155,7 +2155,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo! What Would you Like to do Next?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="w4s-Dl-PFp">
-                                        <rect key="frame" x="38.5" y="74" width="289" height="48"/>
+                                        <rect key="frame" x="33" y="75" width="300" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
