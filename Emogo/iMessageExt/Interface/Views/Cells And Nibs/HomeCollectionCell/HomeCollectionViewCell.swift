@@ -40,7 +40,10 @@ class HomeCollectionViewCell: UICollectionViewCell {
     func prepareLayouts(stream:StreamDAO){
         self.imgStream.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.lblStreamName.text = stream.Title.trim()
+      
         self.lblShortDesc.text = "by \(stream.Author!)"
+        self.lblStreamName.minimumScaleFactor = 1.0
+        self.lblShortDesc.minimumScaleFactor = 1.0
     }
 
     

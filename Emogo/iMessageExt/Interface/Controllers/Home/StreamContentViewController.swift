@@ -24,7 +24,6 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var imgGradient          : UIImageView!
     
     @IBOutlet weak var viewAction           : UIView!
-    @IBOutlet weak var viewAddStream        : UIView!
     
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
@@ -42,10 +41,12 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         SharedData.sharedInstance.tempViewController = self
         setupLoader()
-        let content = arrContentData.first
-        if (content?.isAdd)! {
+        let content = arrContentData[currentContentIndex]
+        if (content.isAdd)! {
             arrContentData.remove(at: 0)
-            currentContentIndex = currentContentIndex - 1
+            if currentContentIndex != 0 {
+                currentContentIndex = currentContentIndex - 1
+            }
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
@@ -65,11 +66,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     @objc func requestMessageScreenChangeSize(){
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
             imgStream.isUserInteractionEnabled = false
-            viewAddStream.isHidden = true
         }
         else {
             imgStream.isUserInteractionEnabled = true
-            viewAddStream.isHidden = false
         }
     }
     
@@ -158,6 +157,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
         self.lblStreamName.text = content.name.trim().capitalized
+        
         if currentStreamTitle == "" {
             lblStreamTitle.text = ""
         }else{
@@ -171,8 +171,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                     SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
                         image?.getColors({ (colors) in
                             self.imgStream.backgroundColor = colors.background
-                            self.lblStreamTitle.textColor = colors.secondary
-                            self.lblStreamDesc.textColor = colors.secondary
                         })
                     })
                     
@@ -182,8 +180,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                     SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                         image?.getColors({ (colors) in
                             self.imgStream.backgroundColor = colors.background
-                            self.lblStreamTitle.textColor = colors.secondary
-                            self.lblStreamDesc.textColor = colors.secondary
                         })
                     })
                     self.btnPlay.isHidden = false
@@ -193,8 +189,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                     SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                         image?.getColors({ (colors) in
                             self.imgStream.backgroundColor = colors.background
-                            self.lblStreamTitle.textColor = colors.secondary
-                            self.lblStreamDesc.textColor = colors.secondary
                         })
                     })
                 }else {
@@ -202,8 +196,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                     SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                         image?.getColors({ (colors) in
                             self.imgStream.backgroundColor = colors.background
-                            self.lblStreamTitle.textColor = colors.secondary
-                            self.lblStreamDesc.textColor = colors.secondary
                         })
                     })
                 }
@@ -219,6 +211,11 @@ class StreamContentViewController: MSMessagesAppViewController {
         contentProgressView.setProgress(currenProgressValue, animated: true)
         btnEdit.isHidden = !content.isEdit
         btnDelete.isHidden = !content.isDelete
+        
+        
+        self.lblStreamName.minimumScaleFactor = 1.0
+        self.lblStreamDesc.minimumScaleFactor = 1.0
+        self.lblStreamTitle.minimumScaleFactor = 1.0
         
         DispatchQueue.main.async {
             if self.hudView != nil {

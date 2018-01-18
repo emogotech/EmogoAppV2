@@ -13,7 +13,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream         : UICollectionView!
-    
+ 
     @IBOutlet weak var pagerContent             : UIView!
     @IBOutlet weak var searchView               : UIView!
     @IBOutlet weak var viewStream               : UIView!
@@ -196,7 +196,7 @@ class HomeViewController: MSMessagesAppViewController {
         // Change individual layout attributes for the spacing between cells
         collectionLayout.minimumColumnSpacing = 8.0
         collectionLayout.minimumInteritemSpacing = 8.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        collectionLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
         collectionLayout.columnCount = 2
         collectionStream!.collectionViewLayout = collectionLayout
         
@@ -324,6 +324,8 @@ class HomeViewController: MSMessagesAppViewController {
         }
         collectionStream.translatesAutoresizingMaskIntoConstraints = false
         SharedData.sharedInstance.tempViewController = self
+        btnFeature.setTitleColor(#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), for: UIControlState.normal)
+//           0,173,243
         self.setupCollectionProperties()
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             if searchText.text == "" {
@@ -477,9 +479,7 @@ class HomeViewController: MSMessagesAppViewController {
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                
                 self.collectionLayout.columnCount = 2
-                
                 self.collectionStream.reloadData()
             }
             if self.arrayStreams.count == 0 {
@@ -693,15 +693,15 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             return CGSize(width: itemWidth, height: 100)
         }
         else if (isSearch == true &&  isStreamEnable){
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            return CGSize(width: stream.width, height: stream.hieght)
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 35)
         }
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
         }  else  {
             let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
+            return CGSize(width: itemWidth, height: itemWidth - 35)
         }
     }
     
@@ -789,6 +789,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
         self.addRippleTransition()
         obj.arrStream = self.arrayStreams
+        
         obj.currentStreamIndex = sender.tag
         self.present(obj, animated: false, completion: nil)
         self.changeCellImageAnimation(sender.tag)
@@ -917,7 +918,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     public func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
         
-        if(index == pagerView.currentIndex){
+        if(index == pagerView.currentIndex) {
             cell.imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = UIImage(named: self.arrImagesSelected[index])

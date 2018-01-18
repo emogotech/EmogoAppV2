@@ -122,9 +122,9 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @objc func setupCollectionProperties() {
-        collectionLayout.minimumColumnSpacing = 5.0
-        collectionLayout.minimumInteritemSpacing = 5.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(0, 5, 0, 5)
+        collectionLayout.minimumColumnSpacing = 8.0
+        collectionLayout.minimumInteritemSpacing = 8.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
         collectionLayout.columnCount = 2
         collectionStreams!.collectionViewLayout = collectionLayout
         
@@ -187,6 +187,9 @@ class StreamViewController: MSMessagesAppViewController {
             self.lblStreamName.text = self.objStream?.title
             self.lblStreamTitle.text = self.objStream?.title
             self.perform(#selector(self.updateExpand), with: nil, afterDelay: 0.1)
+            self.lblStreamDesc.minimumScaleFactor = 1.0
+            self.lblStreamName.minimumScaleFactor = 1.0
+            self.lblStreamTitle.minimumScaleFactor = 1.0
         }
         
         lblCount.text = ""
@@ -513,7 +516,9 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
         
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+        
         obj.arrContentData = (objStream?.arrayContent)!
+        
         self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row

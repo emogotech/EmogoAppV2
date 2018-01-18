@@ -36,8 +36,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: UIColor.white)
         txtName.attributedPlaceholder = placeholder;
         
-        txtName.layer.cornerRadius = kCornor_Radius
-        txtName.clipsToBounds = true
+//        txtName.layer.cornerRadius = kCornor_Radius
+//        txtName.clipsToBounds = true
     }
     
     // MARK:- LoaderSetup

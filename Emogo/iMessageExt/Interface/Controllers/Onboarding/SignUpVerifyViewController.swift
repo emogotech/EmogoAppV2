@@ -36,8 +36,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: UIColor.white)
         txtVeryficationCode.attributedPlaceholder = placeholder;
         
-        txtVeryficationCode.layer.cornerRadius = kCornor_Radius
-        txtVeryficationCode.clipsToBounds = true
+//        txtVeryficationCode.layer.cornerRadius = kCornor_Radius
+//        txtVeryficationCode.clipsToBounds = true
     }
     
     func setupLoader() {

@@ -35,8 +35,8 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
         
-        txtMobileNumber.layer.cornerRadius = kCornor_Radius
-        txtMobileNumber.clipsToBounds = true
+//        txtMobileNumber.layer.cornerRadius = kCornor_Radius
+//        txtMobileNumber.clipsToBounds = true
         
         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
     }
