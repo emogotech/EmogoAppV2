@@ -145,6 +145,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         if !kBackNav.isEmpty {
             kBackNav = ""
+            ContentList.sharedInstance.objStream = nil
             self.navigationController?.popNormal()
         }
         
@@ -345,7 +346,6 @@ class CustomCameraViewController: SwiftyCamViewController {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
-                    print(obj.fullResolutionImage)
                     self.updateData(content: camera)
                     group.leave()
                 }else {

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "streams_active.png",
+      "filename" : "my_streams_active.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "streams_active@2x.png",
+      "filename" : "my_streams_active@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "streams_active@3x.png",
+      "filename" : "my_streams_active@3x.png",
       "scale" : "3x"
     }
   ],

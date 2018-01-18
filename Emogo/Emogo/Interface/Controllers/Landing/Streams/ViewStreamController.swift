@@ -294,7 +294,8 @@ class ViewStreamController: UIViewController {
             
             let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
-                let image = LightboxImage(imageURL: url!, text:(self.objStream?.title)!, videoURL: nil)
+                let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
+                let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
                 arrayContents.append(image)
                 let controller = LightboxController(images: arrayContents, startIndex:0)
                 controller.dynamicBackground = true
@@ -309,7 +310,8 @@ class ViewStreamController: UIViewController {
                 var image:LightboxImage!
                 if obj.type == .image {
                     if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                        let text = obj.name + "\n" +  obj.description
+                        image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
                     }else{
                         let url = URL(string: obj.coverImage)
                         if url != nil {
