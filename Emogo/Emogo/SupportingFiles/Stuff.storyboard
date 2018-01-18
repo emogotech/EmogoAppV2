@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -34,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKA-Bb-cac">
-                                <rect key="frame" x="0.0" y="50" width="375" height="128"/>
+                                <rect key="frame" x="0.0" y="24" width="375" height="126"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type/Paste link here" textAlignment="natural" minimumFontSize="17" background="search_bar_link_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="cuW-vf-Oof">
                                         <rect key="frame" x="10" y="16" width="355" height="40"/>
@@ -53,10 +53,9 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCw-fs-ZdD">
-                                        <rect key="frame" x="119" y="68" width="137" height="45"/>
+                                        <rect key="frame" x="108" y="64" width="160" height="53"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="137" id="9Wd-R1-yj6"/>
-                                            <constraint firstAttribute="height" constant="45" id="jCp-OE-taa"/>
+                                            <constraint firstAttribute="width" constant="160" id="5C0-gh-gT2"/>
                                         </constraints>
                                         <state key="normal" image="content_next_btn"/>
                                         <connections>
@@ -66,17 +65,17 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="aCw-fs-ZdD" firstAttribute="centerX" secondItem="IKA-Bb-cac" secondAttribute="centerX" id="078-Sw-o52"/>
                                     <constraint firstItem="cuW-vf-Oof" firstAttribute="top" secondItem="IKA-Bb-cac" secondAttribute="top" constant="16" id="554-fX-HgP"/>
-                                    <constraint firstItem="aCw-fs-ZdD" firstAttribute="top" secondItem="cuW-vf-Oof" secondAttribute="bottom" constant="12" id="8Rj-1l-6lu"/>
-                                    <constraint firstAttribute="height" constant="128" id="CyK-UY-ytV"/>
-                                    <constraint firstAttribute="trailing" secondItem="aCw-fs-ZdD" secondAttribute="trailing" constant="119" id="Eno-Md-dH5"/>
+                                    <constraint firstAttribute="height" constant="126" id="CyK-UY-ytV"/>
                                     <constraint firstItem="cuW-vf-Oof" firstAttribute="leading" secondItem="IKA-Bb-cac" secondAttribute="leading" constant="10" id="Lec-QD-Ugi"/>
+                                    <constraint firstItem="aCw-fs-ZdD" firstAttribute="top" secondItem="cuW-vf-Oof" secondAttribute="bottom" constant="8" id="hRi-Ln-Iyk"/>
                                     <constraint firstAttribute="trailing" secondItem="cuW-vf-Oof" secondAttribute="trailing" constant="10" id="kXk-Jv-iEA"/>
-                                    <constraint firstItem="aCw-fs-ZdD" firstAttribute="leading" secondItem="IKA-Bb-cac" secondAttribute="leading" constant="119" id="vHL-mM-cjT"/>
+                                    <constraint firstAttribute="bottom" secondItem="aCw-fs-ZdD" secondAttribute="bottom" constant="9" id="zt1-qr-Ajj"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Igu-I1-ZXM">
-                                <rect key="frame" x="10" y="186" width="355" height="481"/>
+                                <rect key="frame" x="10" y="150" width="355" height="517"/>
                                 <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Z8L-e4-neX">
                                     <size key="itemSize" width="50" height="50"/>
@@ -182,13 +181,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Igu-I1-ZXM" firstAttribute="top" secondItem="IKA-Bb-cac" secondAttribute="bottom" constant="8" id="CYo-Iy-dce"/>
+                            <constraint firstItem="Igu-I1-ZXM" firstAttribute="top" secondItem="IKA-Bb-cac" secondAttribute="bottom" id="CYo-Iy-dce"/>
                             <constraint firstItem="IKA-Bb-cac" firstAttribute="leading" secondItem="5Va-hW-mec" secondAttribute="leading" id="KEi-aQ-erR"/>
                             <constraint firstItem="Igu-I1-ZXM" firstAttribute="leading" secondItem="5Va-hW-mec" secondAttribute="leading" constant="10" id="QPP-Qn-DX6"/>
                             <constraint firstItem="IKA-Bb-cac" firstAttribute="trailing" secondItem="5Va-hW-mec" secondAttribute="trailing" id="WX1-8O-COP"/>
                             <constraint firstItem="Igu-I1-ZXM" firstAttribute="bottom" secondItem="5Va-hW-mec" secondAttribute="bottom" id="crh-oF-Jp9"/>
                             <constraint firstItem="5Va-hW-mec" firstAttribute="trailing" secondItem="Igu-I1-ZXM" secondAttribute="trailing" constant="10" id="kvM-CT-cpG"/>
-                            <constraint firstItem="IKA-Bb-cac" firstAttribute="top" secondItem="5Va-hW-mec" secondAttribute="top" constant="30" id="qsK-w1-XXK"/>
+                            <constraint firstItem="IKA-Bb-cac" firstAttribute="top" secondItem="5Va-hW-mec" secondAttribute="top" constant="4" id="qsK-w1-XXK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5Va-hW-mec"/>
                     </view>
@@ -1167,7 +1166,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="115.5" y="243" width="145.5" height="21"/>
+                                        <rect key="frame" x="120.5" y="243" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

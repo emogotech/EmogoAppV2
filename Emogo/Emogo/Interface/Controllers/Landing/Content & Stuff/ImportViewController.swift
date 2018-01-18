@@ -18,7 +18,7 @@ private extension UICollectionView {
     }
 }
 
-class ImportViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
+class ImportViewController: UICollectionViewController  {
     
     var fetchResult: PHFetchResult<PHAsset>!
     
@@ -32,6 +32,14 @@ class ImportViewController: UICollectionViewController , UICollectionViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(8, 8, 0, 8)
+        layout.columnCount = 4
+        self.collectionView?.collectionViewLayout = layout
         
         resetCachedAssets()
         PHPhotoLibrary.shared().register(self)
@@ -207,13 +215,16 @@ class ImportViewController: UICollectionViewController , UICollectionViewDelegat
     }
     
     //MARK:- CollectionView Layout
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsMake(8, 8, 8, 8)
-    }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
-    }
+
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsetsMake(8, 8, 8, 8)
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 8
+//    }
     
     // MARK: UIScrollView
     
@@ -327,4 +338,17 @@ extension ImportViewController: PHPhotoLibraryChangeObserver {
         }
     }
 }
+
+extension ImportViewController : CHTCollectionViewDelegateWaterfallLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let itemWidth = collectionView.bounds.size.width / 4.0
+        return CGSize(width: itemWidth, height: itemWidth )
+    }
+    
+   
+}
+
+
+
+
 
