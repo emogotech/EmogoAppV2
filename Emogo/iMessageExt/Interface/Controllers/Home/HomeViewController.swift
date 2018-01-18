@@ -101,7 +101,7 @@ class HomeViewController: MSMessagesAppViewController {
         
         lblStreamSearch.font = lblPeopleSearch.font
         
-        self.searchView.layer.cornerRadius = 15
+        self.searchView.layer.cornerRadius = 18
         self.searchView.clipsToBounds = true
         streamType = StreamType.featured
         self.getStreamList(type:.start,filter:.featured)

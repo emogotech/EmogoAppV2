@@ -719,6 +719,13 @@
 			path = CollaboratorCollectonCell;
 			sourceTree = "<group>";
 		};
+		2BA51C282010D65400D11D97 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		2BDC4A9C1FD117350018FC6E /* Cells And Nibs */ = {
 			isa = PBXGroup;
 			children = (
@@ -843,6 +850,7 @@
 			children = (
 				F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */,
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
+				2BA51C282010D65400D11D97 /* New Group */,
 				337B8FB51FBEF45C00CFACE3 /* Utils */,
 				337B8F741FBEECBD00CFACE3 /* Interface */,
 				337B8F7E1FBEECBD00CFACE3 /* Externals */,
