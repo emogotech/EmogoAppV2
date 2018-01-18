@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,22 +22,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="ZVo-AQ-bk8">
-                                <rect key="frame" x="124" y="317" width="127" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="127" id="92a-ZD-IVo"/>
-                                    <constraint firstAttribute="height" constant="33" id="VKF-9g-3Oz"/>
-                                </constraints>
+                                <rect key="frame" x="113" y="314.5" width="148" height="38"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1vC-QV-GAj"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="93l-om-oet"/>
-                            <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="EBr-Yk-ESl"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ECf-Fx-mkm"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="RlZ-jS-H9J"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Snh-4z-4bT"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XxK-45-9i1"/>
-                            <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="cwe-gG-7AS"/>
+                            <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="a6b-vS-Nj8"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hyJ-MB-Mh3"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="mnz-zf-yFq"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="wZq-XM-XrF"/>
@@ -51,7 +47,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background-iPhone" width="320" height="568"/>
-        <image name="logo-iPhone" width="127" height="33"/>
+        <image name="background-iPhone" width="375" height="665"/>
+        <image name="logo-iPhone" width="148" height="38"/>
     </resources>
 </document>
