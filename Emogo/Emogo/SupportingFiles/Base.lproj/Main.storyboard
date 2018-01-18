@@ -2055,14 +2055,14 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-BY-sC0">
-                                        <rect key="frame" x="102.5" y="226" width="160" height="53"/>
+                                        <rect key="frame" x="102.5" y="226" width="160" height="54"/>
                                         <state key="normal" image="done-btn"/>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="8aY-dE-SI1" eventType="touchUpInside" id="ZOe-QP-XJt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exw-Tc-RmJ">
-                                        <rect key="frame" x="108.5" y="296" width="148" height="34"/>
+                                        <rect key="frame" x="110.5" y="297" width="144" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Exw-Tc-RmJ" secondAttribute="height" multiplier="74:17" id="22N-g3-cKx"/>
                                         </constraints>
@@ -2334,7 +2334,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Private Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="mtn-KJ-vkC">
-                                                    <rect key="frame" x="10" y="22" width="138" height="17"/>
+                                                    <rect key="frame" x="10" y="22" width="140" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="HOT-8b-ddN"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="ZzM-Mw-sfb"/>
@@ -2480,7 +2480,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="L89-Gg-6A2">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="Dag-XE-f0V"/>
                                                     </constraints>
