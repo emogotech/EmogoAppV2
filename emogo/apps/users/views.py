@@ -68,7 +68,7 @@ class Login(APIView):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate()
-            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number")
+            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image")
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
