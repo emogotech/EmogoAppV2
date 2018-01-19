@@ -123,6 +123,14 @@ class LinkViewController: UIViewController {
 
     
     func createContentForExtractedData(content:ContentDAO){
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+            return
+        }
+        
+        
         /*
         if let parent = self.parent {
             arraySelectedContent?.append(content)
