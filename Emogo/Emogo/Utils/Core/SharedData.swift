@@ -31,6 +31,7 @@ class SharedData: NSObject {
     var contentData : ContentDAO?
     var peopleInfo:PeopleDAO?
     var tempViewController : MSMessagesAppViewController?
+    var isPortrate : Bool = true
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {

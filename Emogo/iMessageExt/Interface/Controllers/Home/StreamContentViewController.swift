@@ -28,6 +28,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
     @IBOutlet weak var btnPlay: UIButton!
+    var isDeleteContent: Bool = false
     
     
     // MARK: - Variables
@@ -41,12 +42,10 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         SharedData.sharedInstance.tempViewController = self
         setupLoader()
-        let content = arrContentData[currentContentIndex]
-        if (content.isAdd)! {
+        let content = arrContentData.first
+        if (content?.isAdd)! {
             arrContentData.remove(at: 0)
-            if currentContentIndex != 0 {
                 currentContentIndex = currentContentIndex - 1
-            }
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
@@ -317,9 +316,9 @@ class StreamContentViewController: MSMessagesAppViewController {
                     if isSuccess == true {
                         ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
                         self.arrContentData.remove(at: self.currentContentIndex)
+                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
                         if(self.arrContentData.count == 0){
                             self.dismiss(animated: true, completion: nil)
-                            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
                             return
                         }
                         if(self.currentContentIndex != 0){

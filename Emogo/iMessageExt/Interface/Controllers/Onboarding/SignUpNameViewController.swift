@@ -13,6 +13,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK:- UI Elements
     @IBOutlet weak var txtName  : UITextField!
+    @IBOutlet weak var viewExpand  : UIView!
+    @IBOutlet weak var viewCollapse  : UIView!
     
     // MARK s: - Variables
     var hudView                 : LoadingView!
@@ -35,9 +37,22 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: UIColor.white)
         txtName.attributedPlaceholder = placeholder;
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+//        self.viewExpand.isHidden = true
+//        viewCollapse.isHidden = false
 //        txtName.layer.cornerRadius = kCornor_Radius
 //        txtName.clipsToBounds = true
+    }
+    
+    
+    @objc func requestMessageScreenChangeSize(){
+        if SharedData.sharedInstance.isMessageWindowExpand {
+//                self.viewExpand.isHidden = false
+//                viewCollapse.isHidden = true
+        }else{
+//            self.viewExpand.isHidden = true
+//            viewCollapse.isHidden = false
+        }
     }
     
     // MARK:- LoaderSetup
