@@ -35,6 +35,7 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblStreamSearch          : UILabel!
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     
+    
     // MARK: - Varibales
     var arrayStreams                            = [StreamDAO]()
     var hudView                                 : LoadingView!
@@ -119,8 +120,14 @@ class HomeViewController: MSMessagesAppViewController {
         hudView  = LoadingView.init(frame: view.frame)
         view.addSubview(hudView)
         hudView.translatesAutoresizingMaskIntoConstraints = false
-        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
-        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        hudView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        hudView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        hudView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
+//
+//        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+//        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         DispatchQueue.main.async {
@@ -153,6 +160,13 @@ class HomeViewController: MSMessagesAppViewController {
         let pagerView = FSPagerView()
         pagerView.frame = pagerContent.bounds
         pagerContent.addSubview(pagerView)
+//        pagerView.translatesAutoresizingMaskIntoConstraints = false
+
+//        pagerView.topAnchor.constraint(equalTo: pagerContent.topAnchor).isActive = true
+//        pagerView.leftAnchor.constraint(equalTo: pagerContent.leftAnchor).isActive = true
+//        pagerView.rightAnchor.constraint(equalTo: pagerContent.rightAnchor).isActive = true
+//        pagerView.bottomAnchor.constraint(equalTo: pagerContent.topAnchor).isActive = true
+//
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
@@ -209,6 +223,13 @@ class HomeViewController: MSMessagesAppViewController {
     
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize(){
+        if SharedData.sharedInstance.isPortrate {
+            pagerContent.isHidden = false
+            self.collectionStream.reloadData()
+        }else{
+            pagerContent.isHidden = true
+            self.collectionStream.reloadData()
+        }
         self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
     }
     
@@ -216,7 +237,11 @@ class HomeViewController: MSMessagesAppViewController {
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             self.perform(#selector(self.changeUIInBackground), with: nil, afterDelay: 0.8)
             if searchText.text == "" {
-                pagerContent.isHidden = false
+                if SharedData.sharedInstance.isPortrate {
+                    pagerContent.isHidden = false
+                }else{
+                    pagerContent.isHidden = true
+                }
             }
             else{
                 pagerContent.isHidden = true
@@ -225,12 +250,12 @@ class HomeViewController: MSMessagesAppViewController {
         }
         else {
             if searchText.text != "" {
-                searchText.text = ""
-                self.viewCollections.isHidden = true
-                isSearch = false
-                btnSearchHeader.isSelected = false
-                btnSearchHeader.tag = 0
-                self.getStreamList(type: RefreshType.start, filter: streamType)
+//                searchText.text = ""
+//                self.viewCollections.isHidden = true
+//                isSearch = false
+//                btnSearchHeader.isSelected = false
+//                btnSearchHeader.tag = 0
+//                self.getStreamList(type: RefreshType.start, filter: streamType)
             }
             pagerContent.isHidden = true
             btnFeature.tag = 0
@@ -242,7 +267,11 @@ class HomeViewController: MSMessagesAppViewController {
         print(self.viewCollections.frame)
         if(SharedData.sharedInstance.isMessageWindowExpand) {
             if searchText.text  == "" {
-                pagerContent.isHidden = false
+                if SharedData.sharedInstance.isPortrate {
+                    pagerContent.isHidden = false
+                }else{
+                    pagerContent.isHidden = true
+                }
             }
             else{
                 pagerContent.isHidden = true
@@ -332,7 +361,11 @@ class HomeViewController: MSMessagesAppViewController {
                 pagerContent.isHidden = true
             }
             else{
-                pagerContent.isHidden = false
+                if SharedData.sharedInstance.isPortrate {
+                    pagerContent.isHidden = false
+                }else{
+                    pagerContent.isHidden = true
+                }
             }
             btnFeature.tag = 1
         }
@@ -357,10 +390,39 @@ class HomeViewController: MSMessagesAppViewController {
                 sender.isSelected = true
                 sender.tag = 1
                 isSearch = true
-                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                 self.hudView.startLoaderWithAnimation()
                 StreamList.sharedInstance.requestURl = ""
+                
+                if btnFeature.titleLabel?.text == "PEOPLE" {
+                    self.btnStreamSearch.isUserInteractionEnabled = true
+                    self.btnPeopleSearch.isUserInteractionEnabled = false
+                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                    lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                    
+                       self.arrayStreams.removeAll()
+                    PeopleList.sharedInstance.arrayPeople.removeAll()
+                    collectionStream.reloadData()
+                    self.collectionStream.isHidden = true
+                    StreamList.sharedInstance.requestURl = ""
+                    PeopleList.sharedInstance.requestURl = ""
+                    SharedData.sharedInstance.isMoreContentAvailable = false
+                    self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
+                }else{
+                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                    lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                    self.btnStreamSearch.isUserInteractionEnabled = false
+                    self.btnPeopleSearch.isUserInteractionEnabled = true
+                       self.arrayStreams.removeAll()
+                    PeopleList.sharedInstance.arrayPeople.removeAll()
+                    collectionStream.reloadData()
+                    self.collectionStream.isHidden = true
+                    StreamList.sharedInstance.requestURl = ""
+                    PeopleList.sharedInstance.requestURl = ""
+                    SharedData.sharedInstance.isMoreContentAvailable = false
+                    self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
+                }
+                
+                
                 self.getStreamGlobleSearch(searchText:self.searchText.text!, type: .start )
             }
         }
@@ -381,22 +443,36 @@ class HomeViewController: MSMessagesAppViewController {
             self.arrayStreams.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
-            self.getStreamList(type: .start, filter: streamType)
+            if btnFeature.titleLabel?.text == "PEOPLE" {
+               self.getUsersList(type: .start)
+            }else{
+             self.getStreamList(type: .start, filter: streamType)
+            }
+            
+        
         }
     }
     
     @IBAction func btnFeaturedTap(_ sender: UIButton) {
-        self.btnSearchAction(self.btnSearchHeader)
         if(btnFeature.tag == 1) {
             pagerContent.isHidden = true
             btnFeature.tag = 0
         } else {
             if(SharedData.sharedInstance.isMessageWindowExpand) {
-                pagerContent.isHidden = false
-                btnFeature.tag = 1
+                if SharedData.sharedInstance.isPortrate {
+                    pagerContent.isHidden = false
+                     btnFeature.tag = 1
+                }else{
+                    pagerContent.isHidden = true
+                }
+               
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
-                pagerContent.isHidden = false
+                if SharedData.sharedInstance.isPortrate {
+                    pagerContent.isHidden = false
+                }else{
+                    pagerContent.isHidden = true
+                }
             }
         }
     }
@@ -425,6 +501,7 @@ class HomeViewController: MSMessagesAppViewController {
             lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
+            self.arrayStreams.removeAll()
             self.collectionStream.isHidden = true
             self.isStreamEnable = false
             self.isSearch = true
@@ -689,19 +766,28 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
        
         if (isSearch == true && !isStreamEnable){
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
+            let itemWidth = collectionView.bounds.size.width/3.0
+            return CGSize(width: itemWidth, height: itemWidth+20)
         }
         else if (isSearch == true &&  isStreamEnable){
             let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 35)
+            if SharedData.sharedInstance.isPortrate {
+                 return CGSize(width: itemWidth, height: itemWidth - 35)
+            }else{
+                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+            }
+           
         }
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
+            let itemWidth = collectionView.bounds.size.width/3.0
+            return CGSize(width: itemWidth, height: itemWidth+20)
         }  else  {
             let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 35)
+            if SharedData.sharedInstance.isPortrate {
+                return CGSize(width: itemWidth, height: itemWidth - 35)
+            }else{
+                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+            }
         }
     }
     
@@ -878,10 +964,37 @@ extension HomeViewController : UITextFieldDelegate {
             btnSearchHeader.isSelected = true
             btnSearchHeader.tag = 1
             self.searchText.resignFirstResponder()
-            self.btnStreamSearch.isUserInteractionEnabled = false
-            self.btnPeopleSearch.isUserInteractionEnabled = true
+            
+            if btnFeature.titleLabel?.text == "PEOPLE" {
+                self.btnStreamSearch.isUserInteractionEnabled = true
+                self.btnPeopleSearch.isUserInteractionEnabled = false
+                PeopleList.sharedInstance.arrayPeople.removeAll()
+                self.arrayStreams.removeAll()
+                collectionStream.reloadData()
+                StreamList.sharedInstance.requestURl = ""
+                PeopleList.sharedInstance.requestURl = ""
+                SharedData.sharedInstance.isMoreContentAvailable = false
+                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                collectionLayout.columnCount  = 3
+                self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
+            }else{
+                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                PeopleList.sharedInstance.arrayPeople.removeAll()
+                self.arrayStreams.removeAll()
+                collectionStream.reloadData()
+                StreamList.sharedInstance.requestURl = ""
+                PeopleList.sharedInstance.requestURl = ""
+                SharedData.sharedInstance.isMoreContentAvailable = false
+                self.btnStreamSearch.isUserInteractionEnabled = false
+                self.btnPeopleSearch.isUserInteractionEnabled = true
+                collectionLayout.columnCount  = 2
+                self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
+            }
+       
             pagerContent.isHidden = true
-            self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
+         
         }
         return true
     }
@@ -1005,6 +1118,8 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 self.streamType = StreamType.populer
                 self.arrayStreams.removeAll()
+                //cell = UICollectionViewCell
+                
                 self.collectionStream.reloadData()
                 self.getStreamList(type: .start, filter: self.streamType)
                 break
@@ -1146,12 +1261,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
 
 // MARK:- Extension ScrollView delegate
 extension HomeViewController : UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        pagerContent.isHidden = true
+        btnFeature.tag = 0
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.view.endEditing(true)
-        pagerContent.isHidden = true
-        btnFeature.tag = 0
-        
         let threshold   = 100.0
         let contentOffset = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height

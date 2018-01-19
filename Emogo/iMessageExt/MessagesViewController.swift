@@ -25,7 +25,9 @@ class MessagesViewController: MSMessagesAppViewController {
         setupLoader()
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeOrentation), name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
         
+
     }
     
     // MARK:- LoaderSetup
@@ -109,6 +111,22 @@ class MessagesViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.isMessageWindowExpand = true
     }
     
+    @objc func changeOrentation() {
+        print(self.view.frame.size.width)
+        self.perform(#selector(self.changeOrentationAfterBack), with: nil, afterDelay: 0.4)
+    }
+    
+    @objc func changeOrentationAfterBack() {
+        print(self.view.frame.size.width)
+        if self.view.frame.size.width > self.view.frame.size.height {
+            SharedData.sharedInstance.isPortrate = false
+        }
+        else {
+            SharedData.sharedInstance.isPortrate = true
+        }
+          NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Screen_Size), object: nil)
+    }
+    
     @objc func requestMessageScreenChangeStyleCompact() {
         requestPresentationStyle(.compact)
     }
@@ -149,6 +167,11 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         if(presentationStyle == .expanded) {
+//            if self.view.frame.size.width > self.view.frame.size.height {
+//                SharedData.sharedInstance.isPortrate = false
+//            }else{
+//                SharedData.sharedInstance.isPortrate = true
+//            }
             SharedData.sharedInstance.isMessageWindowExpand = true
         }
         else {
