@@ -77,7 +77,7 @@ class ContentViewController: UIViewController {
             self.btnAddToStream.isHidden = true
         }
         self.txtTitleImage.maxLength = 50
-
+        self.txtDescription.placeholderName = "Description"
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
@@ -106,26 +106,12 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
-        self.txtDescription.placeholderName = seletedImage.isEdit ? "Description" : ""
+//        self.txtDescription.placeholderName = (seletedImage.isEdit && seletedImage.description.isEmpty) ? "Description" : ""
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }
         
-        
-        /*
-         if  self.seletedImage.isUploaded {
-         self.txtTitleImage.isHidden = true
-         self.txtDescription.isHidden = true
-         self.lblTitleMessage.isHidden = false
-         self.lblDescription.isHidden = false
-         }  else {
-         self.txtTitleImage.isHidden = false
-         self.txtDescription.isHidden = false
-         self.lblTitleMessage.isHidden = true
-         self.lblDescription.isHidden = true
-         }
-         */
         self.txtTitleImage.isHidden = true
         self.txtDescription.isHidden = true
         if !seletedImage.name.isEmpty {
@@ -134,8 +120,18 @@ class ContentViewController: UIViewController {
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
-            self.txtDescription.isHidden = false
+            print(self.txtDescription.text)
+            if !self.txtDescription.text.trim().isEmpty {
+                self.txtDescription.placeholderName = ""
+            }else{
+                self.txtDescription.placeholderName = "Description"
+            }
+        }else{
+            self.txtDescription.text = ""
         }
+        
+        
+        
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = false
@@ -160,6 +156,9 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        if self.txtDescription.text.trim().isEmpty{
+                            self.txtDescription.placeholderName = "Description"
+                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -172,6 +171,9 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        if self.txtDescription.text.trim().isEmpty{
+                            self.txtDescription.placeholderName = "Description"
+                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -184,6 +186,10 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        
+                        if self.txtDescription.text.trim().isEmpty{
+                            self.txtDescription.placeholderName = "Description"
+                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -196,6 +202,9 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
+                        if self.txtDescription.text.trim().isEmpty{
+                            self.txtDescription.placeholderName = "Description"
+                        }
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
@@ -208,9 +217,11 @@ class ContentViewController: UIViewController {
             self.btnDone.isHidden = true
             self.txtTitleImage.isUserInteractionEnabled = false
             self.txtDescription.isUserInteractionEnabled = false
-            
-           // self.txtTitleImage.isHidden = true
-            //self.txtDescription.isHidden = true
+            if self.seletedImage.description.trim().isEmpty {
+                self.txtDescription.isHidden = true
+            }else{
+                self.txtDescription.isHidden = false
+            }
             self.btnFlagIcon.isHidden = false
         }else {
             self.btnEdit.isHidden = false
@@ -222,6 +233,8 @@ class ContentViewController: UIViewController {
             }
             self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
+
+            
             self.txtTitleImage.isUserInteractionEnabled = true
             self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
