@@ -29,7 +29,6 @@ class ContainerViewController: UIViewController {
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var buttonNext: UIButton!
 
-   
     var selectedConatiner: ContainerType = .stuff {
         
         didSet {

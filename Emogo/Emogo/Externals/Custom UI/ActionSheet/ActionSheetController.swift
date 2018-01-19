@@ -30,6 +30,7 @@ open class PMActionCell: ActionCell {
         backgroundColor = .white
         actionImageView?.clipsToBounds = true
         actionImageView?.layer.cornerRadius = 5.0
+            actionImageView?.contentMode = .scaleAspectFit
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(white: 0.0, alpha: 0.15)
         selectedBackgroundView = backgroundView
@@ -78,7 +79,7 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
-        cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 45 })
+        cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 42 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
         onConfigureHeader = { header, title in
@@ -86,7 +87,11 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
-         //   cell.separatorView?.isHidden = indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1
+            if (action.data?.subtitle?.isEmpty)! {
+                if indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 2 {
+                    cell.separatorView?.isHidden = false
+                }
+            }
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
     }

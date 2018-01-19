@@ -36,24 +36,42 @@ class LinkViewController: UIViewController {
     
     func prepareLayouts(){
         // Attach datasource and delegate
+        self.configureNavigationWithTitle()
+        ContentList.sharedInstance.arrayContent.removeAll()
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self
         linkCollectionView.alwaysBounceVertical = true
         self.getMyLinks(type:.start)
         
         // Load More
-        
+        self.configureLoadMoreAndRefresh()
+    }
+    
+    func configureLoadMoreAndRefresh(){
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-        self.linkCollectionView.es.removeRefreshHeader()
+        
         self.linkCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             print("reload more called")
             self?.getMyLinks(type:.down)
         }
+        
+        self.linkCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            self?.getMyLinks(type:.up)
+        }
+        
         self.linkCollectionView.expiredTimeInterval = 20.0
         
     }
     
+    
     @IBAction func btnConfirmActiion(_ sender: Any) {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+            return
+        }
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
         }
@@ -96,7 +114,7 @@ class LinkViewController: UIViewController {
             })
         }else{
             print("Invalid")
-            self.parent?.showToast(strMSG: "Enter valid url.")
+            self.showToast(strMSG: "Enter valid url.")
         }
     }
     
@@ -105,6 +123,7 @@ class LinkViewController: UIViewController {
 
     
     func createContentForExtractedData(content:ContentDAO){
+        /*
         if let parent = self.parent {
             arraySelectedContent?.append(content)
             if arraySelectedContent?.count != 0 {
@@ -126,40 +145,32 @@ class LinkViewController: UIViewController {
                 self.showToast(strMSG: kAlert_contentSelect)
             }
         }
+ */
         
     }
     
     // MARK: - API Methods
     
     func getMyLinks(type:RefreshType){
-        if type == .start{
+        if type == .start || type == .up {
             HUDManager.sharedInstance.showHUD()
             ContentList.sharedInstance.arrayLink.removeAll()
             self.linkCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetLink(type: type) { (refreshType, errorMsg) in
+           
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.linkCollectionView.es.stopLoadingMore()
-                self.linkCollectionView.es.removeRefreshFooter()
+                self.linkCollectionView.es.noticeNoMoreData()
             }
-               if type == .down {
-                 self.linkCollectionView.es.stopLoadingMore()
-               }
-                let array = arraySelectedContent
-                for i in 0..<ContentList.sharedInstance.arrayLink.count {
-                    let con = ContentList.sharedInstance.arrayLink[i]
-                    if array?.count != 0 {
-                        if let index =  array?.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
-                            if array![index].isSelected == true {
-                                con.isSelected = true
-                                ContentList.sharedInstance.arrayLink[i] = con
-                            }
-                        }
-                    }
-                }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.linkCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.linkCollectionView.es.stopLoadingMore()
+            }
             
             self.linkCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -231,12 +242,12 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     }
     
     func updateSelected(obj:ContentDAO){
-            if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
-                arraySelectedContent?.remove(at: index)
-            }else {
-                if obj.isSelected  {
-                    arraySelectedContent?.insert(obj, at: 0)
-                }
+        if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent.remove(at: index)
+        }else {
+            if obj.isSelected  {
+                ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
+            }
         }
     }
     
