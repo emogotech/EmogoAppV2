@@ -36,7 +36,7 @@ extension PreviewController {
         var arrayContents = [LightboxImage]()
         for obj in ContentList.sharedInstance.arrayContent {
             var image:LightboxImage!
-            let text = obj.name + "\n\n" +  obj.description
+            let text = obj.name + "\n" +  obj.description
 
             if obj.type == .image {
                 if obj.imgPreview != nil {

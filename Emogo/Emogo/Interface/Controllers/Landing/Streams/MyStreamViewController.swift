@@ -105,7 +105,7 @@ class MyStreamViewController: UIViewController {
         }
         for obj in arrayTemp {
             var image:LightboxImage!
-            let text = obj.name.trim() + "\n\n" +  obj.description.trim()
+            let text = obj.name.trim() + "\n" +  obj.description.trim()
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)

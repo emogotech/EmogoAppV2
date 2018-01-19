@@ -346,7 +346,7 @@ class AddStreamViewController: UITableViewController {
     
     @objc func openFullView(){
         var image:LightboxImage!
-        let text = (txtStreamName.text?.trim())! + "\n\n" +  txtStreamCaption.text.trim()
+        let text = (txtStreamName.text?.trim())! + "\n" +  txtStreamCaption.text.trim()
 
         if self.coverImage == nil {
             if self.objStream != nil {

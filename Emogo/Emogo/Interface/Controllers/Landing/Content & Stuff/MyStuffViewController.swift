@@ -100,7 +100,7 @@ class MyStuffViewController: UIViewController {
         var arrayContents = [LightboxImage]()
         for obj in ContentList.sharedInstance.arrayStuff {
             var image:LightboxImage!
-            let text = obj.name + "\n\n" +  obj.description
+            let text = obj.name + "\n" +  obj.description
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
@@ -243,5 +243,3 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
 }
-
-

@@ -294,7 +294,7 @@ class ViewStreamController: UIViewController {
             
             let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
-                let text = (self.objStream?.title!)! + "\n\n" +  (self.objStream?.description!)!
+                let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
                 let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
                 arrayContents.append(image)
                 let controller = LightboxController(images: arrayContents, startIndex:0)
@@ -308,7 +308,7 @@ class ViewStreamController: UIViewController {
             let array = objStream?.arrayContent.filter { $0.isAdd == false }
             for obj in array! {
                 var image:LightboxImage!
-                let text = obj.name + "\n\n" +  obj.description
+                let text = obj.name + "\n" +  obj.description
                 if obj.type == .image {
                     if obj.imgPreview != nil {
                         image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)

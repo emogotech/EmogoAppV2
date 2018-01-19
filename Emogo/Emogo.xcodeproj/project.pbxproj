@@ -300,6 +300,9 @@
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
+		F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */; };
+		F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F52011DD6E005436A1 /* ActionData.swift */; };
+		F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CDD4F82011DE07005436A1 /* PMActionCell.xib */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
@@ -661,6 +664,9 @@
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
 		F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAutoGrowingTextView.h; sourceTree = "<group>"; };
+		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
+		F4CDD4F52011DD6E005436A1 /* ActionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
+		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1038,6 +1044,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4CDD4F22011DBC0005436A1 /* ActionSheet */,
 				F4961E1C1FFE929E00A406FF /* ImageView */,
 				F4647C021FFE132800CCEDA3 /* TextView */,
 				F41C3ADE1FE13A90009CD942 /* BadgeButton */,
@@ -1717,6 +1724,16 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
+		F4CDD4F22011DBC0005436A1 /* ActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */,
+				F4CDD4F52011DD6E005436A1 /* ActionData.swift */,
+				F4CDD4F82011DE07005436A1 /* PMActionCell.xib */,
+			);
+			path = ActionSheet;
+			sourceTree = "<group>";
+		};
 		F4E758741FD68175008DB12E /* RefreshControls */ = {
 			isa = PBXGroup;
 			children = (
@@ -1932,6 +1949,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
 				F4431A951FC6DD2C00311C9A /* EmojiCollectionViewCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
@@ -2237,6 +2255,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2256,6 +2275,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2366,6 +2386,7 @@
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
 				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
+				F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */,
@@ -2468,6 +2489,7 @@
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
 				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
+				F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
