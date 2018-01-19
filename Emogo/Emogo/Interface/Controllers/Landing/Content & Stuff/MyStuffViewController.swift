@@ -158,7 +158,7 @@ class MyStuffViewController: UIViewController {
         let controller = LightboxController(images: arrayContents, startIndex: index)
         controller.dynamicBackground = true
         if arrayContents.count != 0 {
-            self.parent?.present(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
         }
     }
     
