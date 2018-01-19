@@ -104,6 +104,7 @@ class PreviewController: UIViewController {
         
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
+        self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
         kWidthOptions.constant = 0.0
         viewOptions.isHidden = true
 //        if self.strPresented != nil {
@@ -453,7 +454,7 @@ class PreviewController: UIViewController {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
                 self.imgPreview.contentMode = .scaleAspectFit
 

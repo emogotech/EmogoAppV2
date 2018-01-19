@@ -354,7 +354,6 @@ class AddStreamViewController: UITableViewController {
                 {
                     return
                 }
-                
                 image = LightboxImage(imageURL: url, text: text, videoURL: nil)
             }
           

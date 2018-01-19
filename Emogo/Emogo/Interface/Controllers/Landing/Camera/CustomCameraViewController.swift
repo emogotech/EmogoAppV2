@@ -57,6 +57,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         lblRecordTimer.isHidden = true
         if ContentList.sharedInstance.arrayContent.count == 0 {
             kPreviewHeight.constant = 24.0
+            self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
         }
         
         print(isSessionRunning)
@@ -91,6 +92,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         // Set ContDownLabel
         lblRecordTimer.isHidden = true
         self.lblRecordTimer.addAnimation()
+        self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
         // Preview Height
         kPreviewHeight.constant = 24.0
         // Configure Sound For timer
@@ -407,7 +409,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
             }else {
                 // Up icon
@@ -420,7 +422,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     private  func viewUP(){
         UIView.animate(withDuration: 0.5) {
-            self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+            self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
             self.kPreviewHeight.constant = 129.0
             self.view.updateConstraintsIfNeeded()
         }
