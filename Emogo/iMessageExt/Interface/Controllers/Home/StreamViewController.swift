@@ -382,14 +382,15 @@ class StreamViewController: MSMessagesAppViewController {
     @objc func openFullView(){
         var arrayContents = [LightboxImage]()
         let arrayTemp = [self.objStream]
+        let text = (self.objStream?.title!)! + "\n\n" +  (self.objStream?.description!)!
         for obj in arrayTemp {
             var image:LightboxImage!
             if obj?.coverImage != nil {
-                image = LightboxImage(image: imgStream.image!, text: lblStreamTitle.text!, videoURL: nil)
+                image = LightboxImage(image: imgStream.image!, text: text.trim(), videoURL: nil)
             }else{
                 let url = URL(string: (obj?.coverImage)!)
                 if url != nil {
-                    image = LightboxImage(imageURL: url!, text: lblStreamTitle.text!, videoURL: nil)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
                 }
             }
             if image != nil {

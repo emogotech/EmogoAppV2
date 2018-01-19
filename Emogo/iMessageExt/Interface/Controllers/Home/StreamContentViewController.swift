@@ -268,22 +268,24 @@ class StreamContentViewController: MSMessagesAppViewController {
         var arrayContents = [LightboxImage]()
         for obj in arrContentData {
             var image:LightboxImage!
+            let text = obj.name + "\n\n" +  obj.description
+
             if obj.type == .image {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
                 }else{
                     let url = URL(string: obj.coverImage)
                     if url != nil {
-                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
                     }
                 }
             }else if obj.type == .video {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
                 }else {
                     let url = URL(string: obj.coverImage)
                     let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
             }
             if image != nil {

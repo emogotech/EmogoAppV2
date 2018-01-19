@@ -146,9 +146,9 @@ class ContentViewController: UIViewController {
             self.imgCover.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
                 self.imgCover.backgroundColor = colors.background
-                self.txtTitleImage.textColor = colors.primary//colors.secondary
-                self.txtDescription.textColor = colors.primary//colors.secondary
-                self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+                self.txtTitleImage.textColor = .white//colors.secondary
+                self.txtDescription.textColor = .white//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
             })
         }else {
             if seletedImage.type == .image {
@@ -158,9 +158,9 @@ class ContentViewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = colors.primary//colors.secondary
-                        self.txtDescription.textColor = colors.primary//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+                        self.txtTitleImage.textColor = .white//colors.secondary
+                        self.txtDescription.textColor = .white//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 
@@ -170,9 +170,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = colors.primary//colors.secondary
-                        self.txtDescription.textColor = colors.primary//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+                        self.txtTitleImage.textColor = .white//colors.secondary
+                        self.txtDescription.textColor = .white//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 self.btnPlayIcon.isHidden = false
@@ -182,9 +182,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = colors.primary//colors.secondary
-                        self.txtDescription.textColor = colors.primary//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+                        self.txtTitleImage.textColor = .white//colors.secondary
+                        self.txtDescription.textColor = .white//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
             }else {
@@ -193,9 +193,9 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
-                        self.txtTitleImage.textColor = colors.primary//colors.secondary
-                        self.txtDescription.textColor = colors.primary//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: colors.primary)//colors.secondary
+                        self.txtTitleImage.textColor = .white//colors.secondary
+                        self.txtDescription.textColor = .white//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 
@@ -588,23 +588,24 @@ class ContentViewController: UIViewController {
         }
         for obj  in arrayTemp {
             var image:LightboxImage!
-           
+            let text = obj.name + "\n\n" +  obj.description
+
             if obj.type == .image {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
                 }else{
                     let url = URL(string: obj.coverImage)
                     if url != nil {
-                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
                     }
                 }
             }else if obj.type == .video {
                 if obj.imgPreview != nil {
-                    image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
                 }else {
                     let url = URL(string: obj.coverImage)
                     let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
             }
             if image != nil {

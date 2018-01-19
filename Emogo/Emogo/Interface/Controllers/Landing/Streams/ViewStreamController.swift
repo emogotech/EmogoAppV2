@@ -294,7 +294,7 @@ class ViewStreamController: UIViewController {
             
             let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
-                let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
+                let text = (self.objStream?.title!)! + "\n\n" +  (self.objStream?.description!)!
                 let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
                 arrayContents.append(image)
                 let controller = LightboxController(images: arrayContents, startIndex:0)
@@ -308,23 +308,24 @@ class ViewStreamController: UIViewController {
             let array = objStream?.arrayContent.filter { $0.isAdd == false }
             for obj in array! {
                 var image:LightboxImage!
+                let text = obj.name + "\n\n" +  obj.description
                 if obj.type == .image {
                     if obj.imgPreview != nil {
-                        let text = obj.name + "\n" +  obj.description
                         image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
                     }else{
                         let url = URL(string: obj.coverImage)
                         if url != nil {
-                            image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
+                            image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
                         }
                     }
                 }else if obj.type == .video {
+
                     if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
+                        image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
                     }else {
                         let url = URL(string: obj.coverImage)
                         let videoUrl = URL(string: obj.coverImage)
-                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                     }
                 }
                 if image != nil {

@@ -297,6 +297,7 @@
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
+		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
@@ -655,6 +656,7 @@
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
 		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
+		F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPreviewViewController.swift; sourceTree = "<group>"; };
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
@@ -1037,6 +1039,7 @@
 				F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */,
 				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
 				F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */,
+				F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */,
 			);
 			path = "Custom UI";
 			sourceTree = "<group>";
@@ -2460,6 +2463,7 @@
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
+				F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
 				F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */,
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
