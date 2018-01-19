@@ -51,6 +51,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
+        updateList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,7 +114,11 @@ class ProfileViewController: UIViewController {
         if isEdited {
             isEdited = false
             HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: .myStream)
+            if  self.currentMenu == .stuff {
+                self.getMyStuff(type: .start)
+            }else {
+                self.getStreamList(type:.start,filter: .myStream)
+            }
         }
     }
     
@@ -448,6 +453,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 kNavForProfile = "1"
                 self.navigationController?.pushNormal(viewController: obj)
             }else {
+                isEdited = true
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 content.isShowAddStream = true
                 content.isEdit = true

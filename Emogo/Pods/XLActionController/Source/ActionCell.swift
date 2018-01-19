@@ -50,10 +50,9 @@ open class ActionCell: UICollectionViewCell, SeparatorCellType {
         actionTitleLabel?.text = title
         actionDetailLabel?.text = detail
         actionImageView?.image = image
-
         imageViewWidthConstraint?.constant = image == nil ? 0 : imageWidth
-
         setNeedsLayout()
+        actionImageView?.contentMode = .scaleAspectFit
     }
     
     open func showSeparator() {

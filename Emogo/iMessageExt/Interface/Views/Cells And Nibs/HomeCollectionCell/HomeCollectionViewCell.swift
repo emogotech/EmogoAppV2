@@ -45,6 +45,12 @@ class HomeCollectionViewCell: UICollectionViewCell {
         self.lblStreamName.minimumScaleFactor = 1.0
         self.lblShortDesc.minimumScaleFactor = 1.0
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        viewShowHide.isHidden = true
+    }
+
 
     
 }

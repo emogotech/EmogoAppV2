@@ -679,6 +679,10 @@ class ContentViewController: UIViewController {
                         ContentList.sharedInstance.arrayContent.remove(at: index)
                         self.navigationController?.pop()
                     }
+                    if self.isForEditOnly != nil {
+                        self.navigationController?.pop()
+                    }
+                    
                 }
                
             }else {
@@ -714,6 +718,7 @@ class ContentViewController: UIViewController {
                     if self.isForEditOnly != nil {
                         self.navigationController?.pop()
                     }
+                    
                 }
                 self.updateContent()
                 self.isEditngContent = false
