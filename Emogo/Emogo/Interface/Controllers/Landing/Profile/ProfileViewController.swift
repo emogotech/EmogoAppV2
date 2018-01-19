@@ -466,9 +466,11 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }else {
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             if stream.isAdd {
+                  isEdited = true
                 let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
                 self.navigationController?.push(viewController: obj)
             }else {
+                isEdited = true
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
                 obj.streamType = stream.Title.capitalized
