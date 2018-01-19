@@ -399,7 +399,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUW-re-Jk0" customClass="MBAutoGrowingTextView">
-                                        <rect key="frame" x="17" y="31" width="284" height="38"/>
+                                        <rect key="frame" x="15" y="31" width="284" height="38"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="100" id="0VF-Sg-UrR"/>
@@ -426,15 +426,15 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4kB-Xn-YG0" secondAttribute="trailing" constant="8" id="96v-zg-Ymg"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jPE-oA-cPK" secondAttribute="trailing" id="Egj-Es-nj8"/>
-                                    <constraint firstItem="jPE-oA-cPK" firstAttribute="leading" secondItem="gUW-re-Jk0" secondAttribute="leading" id="I63-Er-Ukh"/>
+                                    <constraint firstItem="jPE-oA-cPK" firstAttribute="leading" secondItem="gUW-re-Jk0" secondAttribute="leading" constant="2" id="I63-Er-Ukh"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="KZF-u1-GXC"/>
                                     <constraint firstItem="gUW-re-Jk0" firstAttribute="width" secondItem="jPE-oA-cPK" secondAttribute="width" id="PS2-nh-hJ9"/>
                                     <constraint firstAttribute="bottom" secondItem="gUW-re-Jk0" secondAttribute="bottom" id="c6K-lx-yX7"/>
                                     <constraint firstItem="gUW-re-Jk0" firstAttribute="top" secondItem="jPE-oA-cPK" secondAttribute="bottom" constant="1" id="ehH-XH-5nc"/>
                                     <constraint firstAttribute="bottom" secondItem="4kB-Xn-YG0" secondAttribute="bottom" constant="9" id="fa8-oQ-O9b"/>
                                     <constraint firstItem="jPE-oA-cPK" firstAttribute="top" secondItem="4xd-F1-Pek" secondAttribute="top" id="fpv-gX-Jmd"/>
-                                    <constraint firstAttribute="trailing" secondItem="gUW-re-Jk0" secondAttribute="trailing" constant="74" id="frj-Y4-jHY"/>
-                                    <constraint firstItem="gUW-re-Jk0" firstAttribute="leading" secondItem="4xd-F1-Pek" secondAttribute="leading" constant="17" id="rpo-U3-wVZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="gUW-re-Jk0" secondAttribute="trailing" constant="76" id="frj-Y4-jHY"/>
+                                    <constraint firstItem="gUW-re-Jk0" firstAttribute="leading" secondItem="4xd-F1-Pek" secondAttribute="leading" constant="15" id="rpo-U3-wVZ"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xL0-eK-8Ba">

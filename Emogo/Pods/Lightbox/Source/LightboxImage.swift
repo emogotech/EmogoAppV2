@@ -12,13 +12,13 @@ open class LightboxImage {
 
   public init(image: UIImage, text: String = "", videoURL: URL? = nil) {
     self.image = image
-    self.text = text
+    self.text = text.trim()
     self.videoURL = videoURL
   }
 
   public init(imageURL: URL, text: String = "", videoURL: URL? = nil) {
     self.imageURL = imageURL
-    self.text = text
+    self.text = text.trim()
     self.videoURL = videoURL
   }
 
@@ -30,4 +30,8 @@ open class LightboxImage {
       LightboxConfig.loadImage(imageView, imageURL, completion)
     }
   }
+    
+    func trim() -> String{
+        return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
+    }
 }

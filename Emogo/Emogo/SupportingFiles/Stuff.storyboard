@@ -1449,7 +1449,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3fG-sN-hSC" customClass="MBAutoGrowingTextView">
-                                        <rect key="frame" x="17" y="31" width="284" height="38"/>
+                                        <rect key="frame" x="15" y="31" width="284" height="38"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="GoB-kH-O7g"/>
@@ -1478,11 +1478,11 @@
                                     <constraint firstAttribute="trailing" secondItem="TWD-Xl-TvZ" secondAttribute="trailing" constant="8" id="4qE-fH-f6f"/>
                                     <constraint firstItem="3fG-sN-hSC" firstAttribute="top" secondItem="mXt-SR-BQJ" secondAttribute="bottom" constant="1" id="8Uq-x7-LsI"/>
                                     <constraint firstAttribute="trailing" secondItem="mXt-SR-BQJ" secondAttribute="trailing" constant="74" id="Ib6-uo-Yg4"/>
-                                    <constraint firstAttribute="trailing" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="74" id="MbU-61-Am2"/>
+                                    <constraint firstAttribute="trailing" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="76" id="MbU-61-Am2"/>
                                     <constraint firstAttribute="bottom" secondItem="TWD-Xl-TvZ" secondAttribute="bottom" constant="9" id="Yb3-jR-rBa"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="b9u-Co-LXI"/>
                                     <constraint firstItem="mXt-SR-BQJ" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="17" id="mAM-FM-Jmz"/>
-                                    <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="17" id="np9-Va-Ihj"/>
+                                    <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="15" id="np9-Va-Ihj"/>
                                     <constraint firstAttribute="bottom" secondItem="3fG-sN-hSC" secondAttribute="bottom" id="p69-Lc-jOv"/>
                                 </constraints>
                             </view>
