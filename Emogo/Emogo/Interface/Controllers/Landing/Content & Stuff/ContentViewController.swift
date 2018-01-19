@@ -106,6 +106,7 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
+        self.txtDescription.placeholderName = seletedImage.isEdit ? "Description" : ""
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -589,7 +590,7 @@ class ContentViewController: UIViewController {
         }
         for obj  in arrayTemp {
             var image:LightboxImage!
-            let text = obj.name + "\n\n" +  obj.description
+            let text = obj.name + "\n" +  obj.description
 
             if obj.type == .image {
                 if obj.imgPreview != nil {
@@ -793,10 +794,19 @@ extension ContentViewController:UITextViewDelegate {
             isEditngContent = false
             self.btnDone.isHidden = true
         }
+        if txtDescription.text.isEmpty {
+            txtDescription.placeholderName = "Description"
+        }else{
+            txtDescription.placeholderName = ""
+        }
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-         txtDescription.placeholderName = "Description"
+        if txtDescription.text.isEmpty {
+            txtDescription.placeholderName = "Description"
+        }else{
+            txtDescription.placeholderName = ""
+        }
         if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
             placeholderLabel.isHidden = txtDescription.text.count > 0
         }
@@ -805,6 +815,11 @@ extension ContentViewController:UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {        
         if(text == "\n") {
             txtDescription.resignFirstResponder()
+            if txtDescription.text.isEmpty {
+                txtDescription.placeholderName = "Description"
+            }else{
+                txtDescription.placeholderName = ""
+            }
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250

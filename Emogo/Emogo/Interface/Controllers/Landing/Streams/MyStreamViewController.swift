@@ -61,16 +61,27 @@ class MyStreamViewController: UIViewController {
           self.getMyStreams(type:.start,filter: .myStream)
 
         // Load More
-        
-        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-       
-        self.myStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-                print("reload more called")
-                self?.getMyStreams(type:.down,filter: .myStream)
-        }
-         self.myStreamCollectionView.expiredTimeInterval = 20.0
-        
+        configureLoadMoreAndRefresh()
     }
+    
+    
+    func configureLoadMoreAndRefresh(){
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
+        
+        self.myStreamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            self?.getMyStreams(type:.up,filter: .myStream)
+        }
+        self.myStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+           
+            self?.getMyStreams(type:.down,filter: .myStream)
+            
+        }
+        self.myStreamCollectionView.expiredTimeInterval = 20.0
+    }
+    
+    
 
     // MARK: -  Action Methods And Selector
     
@@ -105,7 +116,7 @@ class MyStreamViewController: UIViewController {
         }
         for obj in arrayTemp {
             var image:LightboxImage!
-            let text = obj.name.trim() + "\n\n" +  obj.description.trim()
+            let text = obj.name.trim() + "\n" +  obj.description.trim()
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
@@ -139,22 +150,29 @@ class MyStreamViewController: UIViewController {
     // MARK: - API Methods
     
     func getMyStreams(type:RefreshType,filter:StreamType){
-        if type == .start{
+        if type == .start || type == .up {
             HUDManager.sharedInstance.showHUD()
             StreamList.sharedInstance.arrayStream.removeAll()
+            let stream = StreamDAO(streamData: [:])
+            stream.isAdd = true
+            StreamList.sharedInstance.arrayStream.insert(stream, at: 0)
             self.myStreamCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
+           
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.myStreamCollectionView.es.stopLoadingMore()
-                 self.myStreamCollectionView.es.removeRefreshFooter()
+                self.myStreamCollectionView.es.noticeNoMoreData()
             }
-            if type == .down {
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.myStreamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
                 self.myStreamCollectionView.es.stopLoadingMore()
             }
+            
           //  self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayStream.count == 0 {
              //   self.lblNoResult.isHidden = false
@@ -196,8 +214,12 @@ class MyStreamViewController: UIViewController {
                 ContentList.sharedInstance.arrayContent.removeAll()
             }
         }
-       
-        
+    }
+    
+    func actionForAddStream(){
+        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+         obj.isAddContent = true
+        self.navigationController?.push(viewController: obj)
     }
     /*
     // MARK: - Navigation
@@ -257,17 +279,23 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            stream.isSelected = !stream.isSelected
-            StreamList.sharedInstance.arrayStream[indexPath.row] = stream
-            if stream.isSelected {
-                (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
-            }else {
-                (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+        if stream.isAdd {
+            actionForAddStream()
+        }else {
+            if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
+                let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+                stream.isSelected = !stream.isSelected
+                StreamList.sharedInstance.arrayStream[indexPath.row] = stream
+                if stream.isSelected {
+                    (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                }else {
+                    (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                }
             }
         }
     }
+    
     
 }
 

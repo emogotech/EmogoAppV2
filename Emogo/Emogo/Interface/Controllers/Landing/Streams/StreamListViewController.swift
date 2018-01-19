@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XLActionController
 
 class StreamListViewController: UIViewController {
     
@@ -363,12 +364,7 @@ class StreamListViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
-        
-        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = nil
-        kContainerNav = ""
-        self.navigationController?.pushNormal(viewController: obj)
+        actionForCamera()
     }
     
     override func btnHomeAction() {
@@ -382,7 +378,40 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-        self.actionForAddStream()
+        
+        let actionController = ActionSheetController()
+        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
+            self.btnImportAction()
+        }))
+        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
+           
+            self.actionForCamera()
+            
+        }))
+        actionController.addAction(Action(ActionData(title: "Link", subtitle: "", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
+            
+            self.btnActionForLink()
+        }))
+        
+        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
+            
+           self.btnActionForGiphy()
+        }))
+        
+        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
+            
+            self.btnActionForMyStuff()
+
+        }))
+        
+        
+        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
+             self.actionForAddStream()
+        }))
+        
+        actionController.headerData = "ADD FROM"
+        present(actionController, animated: true, completion: nil)
+        
     }
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {
@@ -670,6 +699,7 @@ class StreamListViewController: UIViewController {
             }
         }
     }
+  
     
     func expandStreamHeight(){
         self.streamCollectionView.isHidden = true
@@ -887,7 +917,5 @@ extension StreamListViewController : UITextFieldDelegate {
         }
     }
 }
-extension StreamListViewController:UINavigationControllerDelegate {
-    
-}
+
 

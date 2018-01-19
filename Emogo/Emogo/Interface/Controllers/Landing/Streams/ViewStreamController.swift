@@ -8,6 +8,7 @@
 
 import UIKit
 import Lightbox
+import XLActionController
 
 class ViewStreamController: UIViewController {
     
@@ -294,7 +295,7 @@ class ViewStreamController: UIViewController {
             
             let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
-                let text = (self.objStream?.title!)! + "\n\n" +  (self.objStream?.description!)!
+                let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
                 let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
                 arrayContents.append(image)
                 let controller = LightboxController(images: arrayContents, startIndex:0)
@@ -308,7 +309,7 @@ class ViewStreamController: UIViewController {
             let array = objStream?.arrayContent.filter { $0.isAdd == false }
             for obj in array! {
                 var image:LightboxImage!
-                let text = obj.name + "\n\n" +  obj.description
+                let text = obj.name + "\n" +  obj.description
                 if obj.type == .image {
                     if obj.imgPreview != nil {
                         image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
@@ -397,6 +398,150 @@ class ViewStreamController: UIViewController {
             }
         }
     }
+    
+    
+    func btnActionForAddContent(){
+        let actionController = ActionSheetController()
+        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "1", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
+            self.btnImportAction()
+        }))
+        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "1", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
+            
+            self.actionForCamera()
+            
+        }))
+        actionController.addAction(Action(ActionData(title: "Link", subtitle: "1", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
+            
+            self.btnActionForLink()
+        }))
+        
+        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "1", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
+            
+            self.btnActionForGiphy()
+        }))
+        
+        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "1", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
+            
+            self.btnActionForMyStuff()
+            
+        }))
+        
+        actionController.headerData = "ADD ITEM"
+        present(actionController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func actionForCamera(){
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        self.navigationController?.pushNormal(viewController: obj)
+    }
+    
+    func btnActionForLink(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    func btnActionForGiphy(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_GiphyView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    
+    func btnActionForMyStuff(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    func btnImportAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            self?.preparePreview(assets: assets)
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = []
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 10
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    
+    func preparePreview(assets:[TLPHAsset]){
+        
+        HUDManager.sharedInstance.showHUD()
+        let group = DispatchGroup()
+        for obj in assets {
+            group.enter()
+            let camera = ContentDAO(contentData: [:])
+            camera.isUploaded = false
+            camera.fileName = obj.originalFileName
+            if obj.type == .photo {
+                camera.type = .image
+                if obj.fullResolutionImage != nil {
+                    camera.imgPreview = obj.fullResolutionImage
+                    self.updateData(content: camera)
+                    group.leave()
+                }else {
+                    
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            camera.imgPreview = img
+                            self.updateData(content: camera)
+                        }
+                        group.leave()
+                    })
+                }
+                
+            }else if obj.type == .video {
+                camera.type = .video
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                    camera.fileUrl = url
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                        camera.imgPreview = image
+                        self.updateData(content: camera)
+                    }
+                    group.leave()
+                })
+            }
+        }
+        group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
+            if ContentList.sharedInstance.arrayContent.count == assets.count {
+                self.previewScreenNavigated()
+            }
+        })
+    }
+    
+    func updateData(content:ContentDAO) {
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+    }
+    
+    func previewScreenNavigated(){
+        
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            ContentList.sharedInstance.objStream = self.objStream?.streamID
+            self.navigationController?.pushNormal(viewController: objPreview)
+        }
+    }
+
+    
+    
     /*
     // MARK: - Navigation
 
@@ -468,6 +613,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
+            btnActionForAddContent()
+            /*
             let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
                 kContainerNav = "1"
                 currentTag = 111
@@ -477,6 +624,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             ContentList.sharedInstance.arrayContent.removeAll()
             self.navigationController?.push(viewController: obj)
             //self.navigationController?.push(viewController: obj)
+ */
         }else {
                 ContentList.sharedInstance.arrayContent.removeAll()
              let array = objStream?.arrayContent.filter { $0.isAdd == false }

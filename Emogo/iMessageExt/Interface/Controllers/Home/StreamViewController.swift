@@ -382,7 +382,7 @@ class StreamViewController: MSMessagesAppViewController {
     @objc func openFullView(){
         var arrayContents = [LightboxImage]()
         let arrayTemp = [self.objStream]
-        let text = (self.objStream?.title!)! + "\n\n" +  (self.objStream?.description!)!
+        let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
         for obj in arrayTemp {
             var image:LightboxImage!
             if obj?.coverImage != nil {

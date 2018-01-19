@@ -28,6 +28,7 @@ target 'Emogo' do
     pod 'ReadabilityKit'
     pod 'GiphyCoreSDK'
 pod 'ALCameraViewController'
+  pod 'XLActionController'
 
 
     target 'EmogoTests' do

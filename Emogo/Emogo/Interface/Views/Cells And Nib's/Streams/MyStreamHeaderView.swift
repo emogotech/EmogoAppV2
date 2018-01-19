@@ -127,22 +127,32 @@ class MyStreamCell:UICollectionViewCell {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
-    
+    @IBOutlet weak var imgAdd: UIImageView!
+    @IBOutlet weak var cardView: CardView!
+
     func prepareLayout(stream:StreamDAO?){
         guard let stream = stream  else {
             return
         }
-        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
-        self.lblTitle.text = stream.Title.trim().capitalized
-        self.lblTitle.minimumScaleFactor = 1.0
-        self.lblName.text =  "by \(stream.Author.trim().capitalized)"
-        self.lblName.minimumScaleFactor = 1.0
-        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
-        if stream.isSelected {
-            imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+        if stream.isAdd {
+          imgAdd.isHidden = false
+           cardView.isHidden = true
         }else {
-            imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            imgAdd.isHidden = true
+            cardView.isHidden = false
+            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
+            self.lblTitle.text = stream.Title.trim().capitalized
+            self.lblTitle.minimumScaleFactor = 1.0
+            self.lblName.text =  "by \(stream.Author.trim().capitalized)"
+            self.lblName.minimumScaleFactor = 1.0
+            self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+            if stream.isSelected {
+                imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
         }
+       
     }
 
 }

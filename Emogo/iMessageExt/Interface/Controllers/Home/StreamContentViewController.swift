@@ -267,7 +267,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         var arrayContents = [LightboxImage]()
         for obj in arrContentData {
             var image:LightboxImage!
-            let text = obj.name + "\n\n" +  obj.description
+            let text = obj.name + "\n" +  obj.description
 
             if obj.type == .image {
                 if obj.imgPreview != nil {

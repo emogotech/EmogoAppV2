@@ -42,7 +42,7 @@
                                             <constraint firstAttribute="height" constant="40" id="Lrg-ko-cb4"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="webSearch" keyboardAppearance="alert" returnKeyType="done"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="webSearch" keyboardAppearance="alert" returnKeyType="done" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="paddingLeft">
                                                 <real key="value" value="20"/>
@@ -346,6 +346,7 @@
                         <viewLayoutGuide key="safeArea" id="Msp-8m-IHK"/>
                     </view>
                     <connections>
+                        <outlet property="btnNext" destination="ti4-Yr-x4l" id="E74-GX-ham"/>
                         <outlet property="giphyCollectionView" destination="hS3-Pw-TCj" id="9Dd-wF-zml"/>
                         <outlet property="txtSearch" destination="P49-mj-dyu" id="fmz-s7-0oB"/>
                     </connections>
@@ -523,6 +524,7 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
+                        <outlet property="btnNext" destination="TP4-IN-4cl" id="Fh4-Mg-ARF"/>
                         <outlet property="stuffCollectionView" destination="4fp-9I-vdi" id="B1x-dx-TXp"/>
                     </connections>
                 </viewController>
@@ -1261,7 +1263,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="120.5" y="243" width="134" height="21"/>
+                                        <rect key="frame" x="115.5" y="243" width="145.5" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1449,7 +1451,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3fG-sN-hSC" customClass="MBAutoGrowingTextView">
-                                        <rect key="frame" x="17" y="31" width="284" height="38"/>
+                                        <rect key="frame" x="15" y="31" width="284" height="38"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="150" id="GoB-kH-O7g"/>
@@ -1478,11 +1480,11 @@
                                     <constraint firstAttribute="trailing" secondItem="TWD-Xl-TvZ" secondAttribute="trailing" constant="8" id="4qE-fH-f6f"/>
                                     <constraint firstItem="3fG-sN-hSC" firstAttribute="top" secondItem="mXt-SR-BQJ" secondAttribute="bottom" constant="1" id="8Uq-x7-LsI"/>
                                     <constraint firstAttribute="trailing" secondItem="mXt-SR-BQJ" secondAttribute="trailing" constant="74" id="Ib6-uo-Yg4"/>
-                                    <constraint firstAttribute="trailing" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="74" id="MbU-61-Am2"/>
+                                    <constraint firstAttribute="trailing" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="76" id="MbU-61-Am2"/>
                                     <constraint firstAttribute="bottom" secondItem="TWD-Xl-TvZ" secondAttribute="bottom" constant="9" id="Yb3-jR-rBa"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="b9u-Co-LXI"/>
                                     <constraint firstItem="mXt-SR-BQJ" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="17" id="mAM-FM-Jmz"/>
-                                    <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="17" id="np9-Va-Ihj"/>
+                                    <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="15" id="np9-Va-Ihj"/>
                                     <constraint firstAttribute="bottom" secondItem="3fG-sN-hSC" secondAttribute="bottom" id="p69-Lc-jOv"/>
                                 </constraints>
                             </view>

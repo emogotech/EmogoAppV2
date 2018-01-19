@@ -48,7 +48,7 @@ class AddStreamViewController: UITableViewController {
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
     var isPerform:Bool! = false
-    
+    var isAddContent:Bool!
     var minimumSize: CGSize = CGSize(width: 100, height: 100)
     
     var contentRowHeight : CGFloat = 30.0 
@@ -346,7 +346,7 @@ class AddStreamViewController: UITableViewController {
     
     @objc func openFullView(){
         var image:LightboxImage!
-        let text = (txtStreamName.text?.trim())! + "\n\n" +  txtStreamCaption.text.trim()
+        let text = (txtStreamName.text?.trim())! + "\n" +  txtStreamCaption.text.trim()
 
         if self.coverImage == nil {
             if self.objStream != nil {
@@ -421,12 +421,17 @@ class AddStreamViewController: UITableViewController {
                 DispatchQueue.main.async{
                       self.navigationController?.pop()
                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
+                    if self.isAddContent != nil {
+                        
+                    }
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
             }
         }
     }
+    
+    
     private func editStream(cover:String,width:Int,hieght:Int){
         APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
@@ -442,6 +447,22 @@ class AddStreamViewController: UITableViewController {
         }
     }
     
+    func associateContentToStream(id:String){
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            HUDManager.sharedInstance.showProgress()
+            let array = ContentList.sharedInstance.arrayContent
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: [id], contents: array!, completion: { (isScuccess, errorMSG) in
+                HUDManager.sharedInstance.hideProgress()
+                if (errorMSG?.isEmpty)! {
+                }
+            })
+            ContentList.sharedInstance.arrayContent.removeAll()
+            let when = DispatchTime.now() + 1.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                // Back Screen
+            }
+        }
+    }
    
     // MARK: - Navigation
 
