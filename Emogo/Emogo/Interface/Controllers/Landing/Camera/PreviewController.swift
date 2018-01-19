@@ -77,7 +77,7 @@ class PreviewController: UIViewController {
         // Preview Height
         // Remove Duplicate Objects
         self.txtTitleImage.maxLength = 50
-        txtDescription.placeholderName = "Description"
+//        txtDescription.placeholderName = "Description"
         txtDescription.delegate = self
 
         var seen = Set<String>()
