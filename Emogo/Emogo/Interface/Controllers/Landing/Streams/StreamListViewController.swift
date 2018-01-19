@@ -383,7 +383,6 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-      //  self.actionForAddStream()
         
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
@@ -401,6 +400,7 @@ class StreamListViewController: UIViewController {
         
         
         actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
+             self.actionForAddStream()
         }))
         
         actionController.headerData = "ADD FROM"
