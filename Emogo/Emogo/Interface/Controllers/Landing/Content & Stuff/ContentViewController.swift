@@ -567,6 +567,7 @@ class ContentViewController: UIViewController {
     
     @objc func openFullView(){
         if self.seletedImage.type == .gif {
+            self.gifPreview()
             return
         }
         if seletedImage.type == .link {
@@ -635,7 +636,11 @@ class ContentViewController: UIViewController {
         }
     }
     
-   
+    func gifPreview(){
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = self.seletedImage
+        self.present(obj, animated: false, completion: nil)
+    }
     func deleteContent(){
         HUDManager.sharedInstance.showHUD()
         let content = [seletedImage.contentID.trim()]

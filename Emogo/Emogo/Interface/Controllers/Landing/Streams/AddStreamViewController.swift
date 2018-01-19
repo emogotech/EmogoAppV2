@@ -150,7 +150,7 @@ class AddStreamViewController: UITableViewController {
             }
             self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
             self.selectedCollaborators = (self.objStream?.arrayColab)!
-            if self.selectedCollaborators.count != 0 {
+            if self.selectedCollaborators.count != 0 || self.objStream?.canAddPeople == true {
                 self.rowHieght.constant = 325.0
                 self.isExpandRow = true
                 self.switchAddCollaborators.isOn = true

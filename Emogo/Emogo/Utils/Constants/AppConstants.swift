@@ -79,6 +79,8 @@ let kStoryboardID_ContentView = "contentView"
 let kStoryboardID_ProfileView = "profileView"
 let kStoryboardID_UserProfileView = "userProfileView"
 let kStoryboardID_ProfileUpdateView = "profileUpdateView"
+let kStoryboardID_ShowPreviewView = "showPreviewView"
+
 
 
 let iMsgSegue_Root                              = "MessagesViewController"

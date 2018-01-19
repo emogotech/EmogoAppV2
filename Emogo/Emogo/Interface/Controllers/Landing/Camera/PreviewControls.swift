@@ -24,6 +24,7 @@ extension PreviewController {
    @objc func openFullView(){
     var index = 0
     if self.seletedImage.type == .gif {
+        self.gifPreview()
         return
     }
     if seletedImage.type == .link {
@@ -73,6 +74,12 @@ extension PreviewController {
         present(controller, animated: true, completion: nil)
     }
     
+}
+    
+    func gifPreview(){
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = self.seletedImage
+        self.present(obj, animated: false, completion: nil)
     }
 }
 
