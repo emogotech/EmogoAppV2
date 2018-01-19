@@ -31,12 +31,15 @@ class LinkViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.configureNavigationWithTitle()
+    }
     
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
         // Attach datasource and delegate
-        self.configureNavigationWithTitle()
         ContentList.sharedInstance.arrayContent.removeAll()
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self

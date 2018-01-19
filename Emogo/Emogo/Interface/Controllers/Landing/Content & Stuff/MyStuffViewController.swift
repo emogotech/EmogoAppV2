@@ -34,12 +34,17 @@ class MyStuffViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.configureNavigationWithTitle()
+    }
+    
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         
         btnNext.isUserInteractionEnabled = false
         ContentList.sharedInstance.arrayContent.removeAll()
-        self.configureNavigationWithTitle()
         // Attach datasource and delegate
 
         self.stuffCollectionView.dataSource  = self

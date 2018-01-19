@@ -28,9 +28,12 @@ class GiphyViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.configureNavigationWithTitle()
+    }
     
     func prepareLayout(){
-        self.configureNavigationWithTitle()
         ContentList.sharedInstance.arrayContent.removeAll()
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells

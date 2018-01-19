@@ -849,6 +849,10 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-zA-5Li">
+                                                    <rect key="frame" x="-1" y="-3" width="147" height="116"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
@@ -858,6 +862,8 @@
                                             <constraint firstItem="bhH-ub-8ED" firstAttribute="leading" secondItem="BR1-8l-QIH" secondAttribute="leading" id="ygG-NN-R8d"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="cardView" destination="bhH-ub-8ED" id="xG7-lp-emm"/>
+                                            <outlet property="imgAdd" destination="X9Y-zA-5Li" id="ZcT-Dj-df1"/>
                                             <outlet property="imgCover" destination="pdA-6A-vGg" id="efi-Ak-1O6"/>
                                             <outlet property="imgSelect" destination="sZh-dW-p96" id="fNk-sq-Vmy"/>
                                             <outlet property="lblName" destination="jK9-xo-Skp" id="kHc-2F-YiQ"/>
@@ -2764,6 +2770,7 @@
         <image name="share_button" width="17" height="15"/>
         <image name="sign-in-btn" width="160" height="53"/>
         <image name="sign-up-btn" width="160" height="53"/>
+        <image name="stream_icon_add" width="147" height="147"/>
         <image name="text-me-my-code-btn" width="183" height="54"/>
         <image name="up_arrow" width="59" height="59"/>
         <image name="video-icon" width="30" height="25"/>
