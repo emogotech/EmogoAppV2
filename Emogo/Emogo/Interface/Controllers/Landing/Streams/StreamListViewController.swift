@@ -377,7 +377,7 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-        
+        ContentList.sharedInstance.arrayContent.removeAll()
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()

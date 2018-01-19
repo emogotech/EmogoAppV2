@@ -123,7 +123,7 @@ class ViewStreamController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
             if ContentList.sharedInstance.objStream != nil {
-            self.viewStreamCollectionView.gestureRecognizers?.removeAll(keepingCapacity: false)
+           // self.viewStreamCollectionView.gestureRecognizers?.removeAll(keepingCapacity: false)
                 self.updateLayOut()
                 //  ContentList.sharedInstance.objStream = nil
             }
@@ -402,6 +402,7 @@ class ViewStreamController: UIViewController {
     
     func btnActionForAddContent(){
         let actionController = ActionSheetController()
+        ContentList.sharedInstance.arrayContent.removeAll()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "1", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()
         }))
@@ -637,7 +638,6 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                 objPreview.currentIndex = indexPath.row
             }
                 self.navigationController?.push(viewController: objPreview)
-
         }
     }
     

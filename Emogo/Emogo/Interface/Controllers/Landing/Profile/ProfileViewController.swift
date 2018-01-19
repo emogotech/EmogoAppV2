@@ -459,6 +459,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 content.isEdit = true
                 objPreview.seletedImage = content
                 objPreview.isForEditOnly = true
+                objPreview.isEdit = true
                 self.navigationController?.push(viewController: objPreview)
             }
             
