@@ -77,7 +77,7 @@ class PreviewController: UIViewController {
         // Preview Height
         // Remove Duplicate Objects
         self.txtTitleImage.maxLength = 50
-//        txtDescription.placeholderName = "Description"
+        txtDescription.placeholderName = "Description"
         txtDescription.delegate = self
 
         var seen = Set<String>()
@@ -169,6 +169,7 @@ class PreviewController: UIViewController {
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
+            self.txtDescription.placeholderName = ""
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
