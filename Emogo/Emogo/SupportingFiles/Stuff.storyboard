@@ -346,6 +346,7 @@
                         <viewLayoutGuide key="safeArea" id="Msp-8m-IHK"/>
                     </view>
                     <connections>
+                        <outlet property="btnNext" destination="ti4-Yr-x4l" id="E74-GX-ham"/>
                         <outlet property="giphyCollectionView" destination="hS3-Pw-TCj" id="9Dd-wF-zml"/>
                         <outlet property="txtSearch" destination="P49-mj-dyu" id="fmz-s7-0oB"/>
                     </connections>
@@ -523,6 +524,7 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
+                        <outlet property="btnNext" destination="TP4-IN-4cl" id="Fh4-Mg-ARF"/>
                         <outlet property="stuffCollectionView" destination="4fp-9I-vdi" id="B1x-dx-TXp"/>
                     </connections>
                 </viewController>
@@ -1261,7 +1263,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="115" y="243" width="145.5" height="21"/>
+                                        <rect key="frame" x="115.5" y="243" width="145.5" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

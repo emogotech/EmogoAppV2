@@ -12,6 +12,7 @@ import GiphyCoreSDK
 class GiphyViewController: UIViewController {
     @IBOutlet weak var giphyCollectionView: UICollectionView!
     @IBOutlet weak var txtSearch: UITextField!
+    @IBOutlet weak var btnNext: UIButton!
 
     var arrayGiphy = [GiphyDAO]()
     var filteredArray = [GiphyDAO]()
@@ -29,7 +30,8 @@ class GiphyViewController: UIViewController {
     }
     
     func prepareLayout(){
-        
+        self.configureNavigationWithTitle()
+        ContentList.sharedInstance.arrayContent.removeAll()
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
@@ -57,6 +59,15 @@ class GiphyViewController: UIViewController {
     }
     
     @IBAction func btnActionNext(_ sender: Any) {
+        
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+        }else {
+            self.showToast(strMSG: kAlert_contentSelect)
+        }
+        
+        /*
         if let parent = self.parent {
             if arraySelectedContent?.count != 0 {
                 HUDManager.sharedInstance.showHUD()
@@ -75,6 +86,7 @@ class GiphyViewController: UIViewController {
                 self.showToast(strMSG: kAlert_contentSelect)
             }
         }
+ */
     }
     func getTrendingList(){
         let client = GPHClient(apiKey: kGiphyAPIKey)
@@ -241,12 +253,19 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
     }
     
     func updateSelected(obj:ContentDAO){
-        if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
-            arraySelectedContent?.remove(at: index)
+        if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
+             ContentList.sharedInstance.arrayContent.remove(at: index)
         }else {
             if obj.isSelected  {
-                arraySelectedContent?.insert(obj, at: 0)
+                 ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
             }
+        }
+        let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
+        
+        if contains {
+            btnNext.isUserInteractionEnabled = true
+        }else {
+            btnNext.isUserInteractionEnabled = false
         }
     }
     

@@ -126,10 +126,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
     }
     
-    func actionForAddStream(){
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-        self.navigationController?.push(viewController: obj)
-    }
     func actionForPeopleList(){
         isPeopleList = true
         collectionLayout.columnCount = 3
@@ -139,4 +135,117 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         HUDManager.sharedInstance.showHUD()
         self.getUsersList(type:.start)
     }
+    func actionForAddStream(){
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+        self.navigationController?.push(viewController: obj)
+    }
+    
+    func actionForCamera(){
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.objStream = nil
+        kContainerNav = ""
+        self.navigationController?.pushNormal(viewController: obj)
+    }
+    
+    func btnActionForLink(){
+        ContentList.sharedInstance.objStream = nil
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    func btnActionForGiphy(){
+        ContentList.sharedInstance.objStream = nil
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_GiphyView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    
+    func btnActionForMyStuff(){
+        ContentList.sharedInstance.objStream = nil
+       let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+        self.navigationController?.push(viewController: controller)
+    }
+    
+    func btnImportAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            self?.preparePreview(assets: assets)
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = []
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 10
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    
+    func preparePreview(assets:[TLPHAsset]){
+
+        HUDManager.sharedInstance.showHUD()
+        let group = DispatchGroup()
+        for obj in assets {
+            group.enter()
+            let camera = ContentDAO(contentData: [:])
+            camera.isUploaded = false
+            camera.fileName = obj.originalFileName
+            if obj.type == .photo {
+                camera.type = .image
+                if obj.fullResolutionImage != nil {
+                    camera.imgPreview = obj.fullResolutionImage
+                    self.updateData(content: camera)
+                    group.leave()
+                }else {
+                    
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            camera.imgPreview = img
+                            self.updateData(content: camera)
+                        }
+                        group.leave()
+                    })
+                }
+                
+            }else if obj.type == .video {
+                camera.type = .video
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                    camera.fileUrl = url
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                        camera.imgPreview = image
+                        self.updateData(content: camera)
+                    }
+                    group.leave()
+                })
+            }
+        }
+        group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
+            if ContentList.sharedInstance.arrayContent.count == assets.count {
+                self.previewScreenNavigated()
+            }
+        })
+    }
+    
+    func updateData(content:ContentDAO) {
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+    }
+    
+    func previewScreenNavigated(){
+      
+        if   ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            self.navigationController?.pushNormal(viewController: objPreview)
+        }
+    }
+
 }

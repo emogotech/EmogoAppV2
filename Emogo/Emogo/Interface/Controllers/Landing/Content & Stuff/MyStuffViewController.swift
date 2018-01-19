@@ -14,7 +14,8 @@ class MyStuffViewController: UIViewController {
     // MARK: - UI Elements
     
     @IBOutlet weak var stuffCollectionView: UICollectionView!
-    
+    @IBOutlet weak var btnNext: UIButton!
+
     
     // MARK: - Variables
 
@@ -36,23 +37,18 @@ class MyStuffViewController: UIViewController {
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         
+        btnNext.isUserInteractionEnabled = false
+        ContentList.sharedInstance.arrayContent.removeAll()
+        self.configureNavigationWithTitle()
         // Attach datasource and delegate
+
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
         HUDManager.sharedInstance.showHUD()
         self.getMyStuff(type:.start)
         
-        // Load More
-        
-        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-         self.stuffCollectionView.es.removeRefreshHeader()
-        self.stuffCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            print("reload more called")
-            self?.getMyStuff(type:.down)
-        }
-        self.stuffCollectionView.expiredTimeInterval = 20.0
-        
+       
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
@@ -66,10 +62,40 @@ class MyStuffViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.stuffCollectionView.collectionViewLayout = layout
         
+        self.configureLoadMoreAndRefresh()
         
     }
     
+    
+    func configureLoadMoreAndRefresh(){
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
+        
+        self.stuffCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            print("reload more called")
+            self?.getMyStuff(type:.down)
+        }
+        
+        self.stuffCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            self?.getMyStuff(type:.up)
+        }
+        
+        self.stuffCollectionView.expiredTimeInterval = 20.0
+        
+    }
+    
+    
+    
+    
     @IBAction func btnActionNext(_ sender: Any) {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+        }else {
+            self.showToast(strMSG: kAlert_contentSelect)
+        }
+        /*
         if let parent = self.parent {
             if arraySelectedContent?.count != 0 {
             HUDManager.sharedInstance.showHUD()
@@ -88,7 +114,7 @@ class MyStuffViewController: UIViewController {
                 self.showToast(strMSG: kAlert_contentSelect)
             }
         }
-       
+       */
     }
     
     @objc func btnPlayAction(sender:UIButton){
@@ -134,34 +160,27 @@ class MyStuffViewController: UIViewController {
     // MARK: - API Methods
     
     func getMyStuff(type:RefreshType){
-        if type == .start{
-            ContentList.sharedInstance.arrayStuff.removeAll()
-            self.stuffCollectionView.reloadData()
-        }
+        
+        if type == .start || type == .up {
+        ContentList.sharedInstance.arrayStuff.removeAll()
+          self.stuffCollectionView.reloadData()
+     }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
+          
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.stuffCollectionView.es.stopLoadingMore()
-                self.stuffCollectionView.es.removeRefreshFooter()
+                self.stuffCollectionView.es.noticeNoMoreData()
             }
-            if type == .down {
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.stuffCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
                 self.stuffCollectionView.es.stopLoadingMore()
             }
             
-                let array = arraySelectedContent
-                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-                    let con = ContentList.sharedInstance.arrayStuff[i]
-                    if array?.count != 0 {
-                        if let index =  array?.index(where: {$0.contentID.trim() == con.contentID.trim()}) {
-                            if array![index].isSelected == true {
-                                con.isSelected = true
-                                ContentList.sharedInstance.arrayStuff[i] = con
-                            }
-                        }
-                    }
-                }
+            
             if ContentList.sharedInstance.arrayStuff.count == 0 {
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
                 label.text = "No Contents Found!"
@@ -233,13 +252,23 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     func updateSelected(obj:ContentDAO){
         
-        if let index =  arraySelectedContent?.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
-                arraySelectedContent?.remove(at: index)
+        if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent.remove(at: index)
             }else {
                 if obj.isSelected  {
-                    arraySelectedContent?.insert(obj, at: 0)
+                    ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
                 }
             }
+        
+        let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
+        
+        if contains {
+            btnNext.isUserInteractionEnabled = true
+        }else {
+            btnNext.isUserInteractionEnabled = false
+        }
+
+    }
     }
     
-}
+
