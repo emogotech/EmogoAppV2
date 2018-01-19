@@ -30,7 +30,11 @@ open class LightboxImage {
       LightboxConfig.loadImage(imageView, imageURL, completion)
     }
   }
-    
+   
+}
+
+
+extension String {
     func trim() -> String{
         return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
     }
