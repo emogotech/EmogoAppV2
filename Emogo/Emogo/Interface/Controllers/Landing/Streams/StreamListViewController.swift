@@ -241,7 +241,6 @@ class StreamListViewController: UIViewController {
                 isMenuOpen = true
                 break
                 
-                
             default:
                 break
             }

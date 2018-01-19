@@ -319,11 +319,17 @@ class PreviewController: UIViewController {
                 let when = DispatchTime.now() + 1.5
                 DispatchQueue.main.asyncAfter(deadline: when) {
                     // Back Screen
-                    let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
-                    obj.title = currentStreamType.rawValue
-//                    obj.streamType
-                    self.navigationController?.popToViewController(vc: obj)
-                    
+                    if kNavForProfile.isEmpty {
+                        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+                        obj.title = currentStreamType.rawValue
+                        //                    obj.streamType
+                        self.navigationController?.popToViewController(vc: obj)
+                    }else {
+                        kNavForProfile = ""
+                        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+                        self.navigationController?.popToViewController(vc: obj)
+                    }
+                                    
                 }
             }
         }else {
