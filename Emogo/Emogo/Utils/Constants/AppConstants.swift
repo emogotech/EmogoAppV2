@@ -35,6 +35,7 @@ let kaddCardBorderWidth : CGFloat = 3
 var kContainerNav = ""
 var kBackNav = ""
 var kNavForProfile = ""
+var kShowOnlyMyStream = ""
 
 
 // Selected Tag For Container
