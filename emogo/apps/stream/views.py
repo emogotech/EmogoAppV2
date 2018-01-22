@@ -8,8 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer
-from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
+    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -120,22 +119,26 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
-class StreamCollaboratorAPI(StreamAPI):
+class DeleteStreamContentAPI(DestroyAPIView):
 
-    def retrieve(self, request, *args, **kwargs):
+    serializer_class = DeleteStreamContentSerializer
+    queryset = Stream.actives.all().order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def destroy(self, request, *args, **kwargs):
         """
         :param request: The request data
-        :param args: list or tuple data
+        :param args: Contents as list data
         :param kwargs: dict param
-        :return: Create Stream API.
+        :return: Delete Stream Content.
         """
 
         instance = self.get_object()
-        # Update stream view count
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
-        self.serializer_class = ViewCollaboratorSerializer(instance, many=True, fields=fields, context=self.request)
-        serializer = self.get_serializer(instance.collaborator_list(manager='actives').all().order_by('-id'), fields=fields)
-        return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.delete_content()
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
 class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):

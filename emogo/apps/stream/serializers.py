@@ -367,3 +367,21 @@ class ExtremistReportSerializer(DynamicFieldsModelSerializer):
         )
         new_obj.save()
 
+
+class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
+    """
+    Delete Stream Content API model Serializer
+    """
+    content = serializers.ListField(child=serializers.IntegerField(), min_length=1)
+
+    class Meta:
+        model = Stream
+        fields = '__all__'
+        extra_kwargs = {'content': {'required': True, 'allow_blank': False, 'allow_null': False},
+                        }
+
+    def delete_content(self):
+        map(self.instance.content_set.remove, self.validated_data.get("content"))
+        return True
+
+

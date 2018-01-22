@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^content/$', views.ContentAPI.as_view()),
     url(r'^move_content_to_stream/$', views.MoveContentToStream.as_view()),
     url(r'^extremist_report/$', views.ExtremistReportAPI.as_view()),
+    url(r'^delete_stream_content/(?P<pk>[0-9]+)/$', views.DeleteStreamContentAPI.as_view()),
 ]
