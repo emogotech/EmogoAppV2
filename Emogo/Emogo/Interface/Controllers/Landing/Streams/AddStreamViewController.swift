@@ -11,7 +11,6 @@ import Photos
 import PhotosUI
 import AVFoundation
 import Lightbox
-import ALCameraViewController
 
 class AddStreamViewController: UITableViewController {
     

@@ -27,8 +27,8 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
     pod 'GiphyCoreSDK'
-pod 'ALCameraViewController'
   pod 'XLActionController'
+pod 'CropViewController'
 
 
     target 'EmogoTests' do

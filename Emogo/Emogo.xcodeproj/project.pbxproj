@@ -194,6 +194,28 @@
 		F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */; };
 		F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4361D391FF226F800553E8E /* KASlideShow.m */; };
 		F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */; };
+		F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */ = {isa = PBXBuildFile; fileRef = F43649A32015CE96004FBEE2 /* CameraView.strings */; };
+		F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A52015CE9B004FBEE2 /* CameraGlobals.swift */; };
+		F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A62015CE9B004FBEE2 /* CameraShot.swift */; };
+		F43649BF2015CEA5004FBEE2 /* CroppingParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A72015CE9B004FBEE2 /* CroppingParameters.swift */; };
+		F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A82015CE9B004FBEE2 /* ImageFetcher.swift */; };
+		F43649C12015CEA5004FBEE2 /* PhotoLibraryAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A92015CE9B004FBEE2 /* PhotoLibraryAuthorizer.swift */; };
+		F43649C22015CEA5004FBEE2 /* SingleImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AA2015CE9B004FBEE2 /* SingleImageFetcher.swift */; };
+		F43649C32015CEA5004FBEE2 /* SingleImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AB2015CE9B004FBEE2 /* SingleImageSaver.swift */; };
+		F43649C42015CEA5004FBEE2 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AC2015CE9B004FBEE2 /* UIButtonExtensions.swift */; };
+		F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AD2015CE9B004FBEE2 /* UIViewExtensions.swift */; };
+		F43649C62015CEA5004FBEE2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AE2015CE9B004FBEE2 /* Utilities.swift */; };
+		F43649C72015CEA5004FBEE2 /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649AF2015CE9B004FBEE2 /* VolumeControl.swift */; };
+		F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B12015CE9E004FBEE2 /* CameraView.swift */; };
+		F43649C92015CEA5004FBEE2 /* CropOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B22015CE9E004FBEE2 /* CropOverlay.swift */; };
+		F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B32015CE9E004FBEE2 /* ImageCell.swift */; };
+		F43649CB2015CEA5004FBEE2 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B42015CE9E004FBEE2 /* PermissionsView.swift */; };
+		F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B62015CEA0004FBEE2 /* CameraViewController.swift */; };
+		F43649CD2015CEA5004FBEE2 /* CameraViewControllerConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B72015CEA0004FBEE2 /* CameraViewControllerConstraint.swift */; };
+		F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649B82015CEA0004FBEE2 /* ConfirmViewController.swift */; };
+		F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F43649B92015CEA0004FBEE2 /* ConfirmViewController.xib */; };
+		F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649BA2015CEA0004FBEE2 /* PhotoLibraryViewController.swift */; };
+		F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F43649BB2015CEA4004FBEE2 /* CameraViewAssets.xcassets */; };
 		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
@@ -210,7 +232,6 @@
 		F4431A901FC6DD2C00311C9A /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6C1FC6DD2900311C9A /* ColorsCollectionViewDelegate.swift */; };
 		F4431A911FC6DD2C00311C9A /* CropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6D1FC6DD2900311C9A /* CropRectView.swift */; };
 		F4431A921FC6DD2C00311C9A /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6E1FC6DD2900311C9A /* CropView.swift */; };
-		F4431A931FC6DD2C00311C9A /* CropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A6F1FC6DD2900311C9A /* CropViewController.swift */; };
 		F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A701FC6DD2900311C9A /* EmojiCollectionViewCell.swift */; };
 		F4431A951FC6DD2C00311C9A /* EmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4431A711FC6DD2900311C9A /* EmojiCollectionViewCell.xib */; };
 		F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A721FC6DD2900311C9A /* EmojisCollectionViewDelegate.swift */; };
@@ -539,6 +560,28 @@
 		F4361D391FF226F800553E8E /* KASlideShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KASlideShow.m; sourceTree = "<group>"; };
 		F4361D3A1FF226FA00553E8E /* KASlideShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KASlideShow.h; sourceTree = "<group>"; };
 		F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		F43649A32015CE96004FBEE2 /* CameraView.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CameraView.strings; sourceTree = "<group>"; };
+		F43649A52015CE9B004FBEE2 /* CameraGlobals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraGlobals.swift; sourceTree = "<group>"; };
+		F43649A62015CE9B004FBEE2 /* CameraShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraShot.swift; sourceTree = "<group>"; };
+		F43649A72015CE9B004FBEE2 /* CroppingParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CroppingParameters.swift; sourceTree = "<group>"; };
+		F43649A82015CE9B004FBEE2 /* ImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		F43649A92015CE9B004FBEE2 /* PhotoLibraryAuthorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizer.swift; sourceTree = "<group>"; };
+		F43649AA2015CE9B004FBEE2 /* SingleImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleImageFetcher.swift; sourceTree = "<group>"; };
+		F43649AB2015CE9B004FBEE2 /* SingleImageSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleImageSaver.swift; sourceTree = "<group>"; };
+		F43649AC2015CE9B004FBEE2 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
+		F43649AD2015CE9B004FBEE2 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		F43649AE2015CE9B004FBEE2 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		F43649AF2015CE9B004FBEE2 /* VolumeControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
+		F43649B12015CE9E004FBEE2 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		F43649B22015CE9E004FBEE2 /* CropOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropOverlay.swift; sourceTree = "<group>"; };
+		F43649B32015CE9E004FBEE2 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		F43649B42015CE9E004FBEE2 /* PermissionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		F43649B62015CEA0004FBEE2 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		F43649B72015CEA0004FBEE2 /* CameraViewControllerConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewControllerConstraint.swift; sourceTree = "<group>"; };
+		F43649B82015CEA0004FBEE2 /* ConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmViewController.swift; sourceTree = "<group>"; };
+		F43649B92015CEA0004FBEE2 /* ConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmViewController.xib; sourceTree = "<group>"; };
+		F43649BA2015CEA0004FBEE2 /* PhotoLibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewController.swift; sourceTree = "<group>"; };
+		F43649BB2015CEA4004FBEE2 /* CameraViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CameraViewAssets.xcassets; sourceTree = "<group>"; };
 		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
@@ -553,7 +596,6 @@
 		F4431A6C1FC6DD2900311C9A /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		F4431A6D1FC6DD2900311C9A /* CropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropRectView.swift; sourceTree = "<group>"; };
 		F4431A6E1FC6DD2900311C9A /* CropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
-		F4431A6F1FC6DD2900311C9A /* CropViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropViewController.swift; sourceTree = "<group>"; };
 		F4431A701FC6DD2900311C9A /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4431A711FC6DD2900311C9A /* EmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmojiCollectionViewCell.xib; sourceTree = "<group>"; };
 		F4431A721FC6DD2900311C9A /* EmojisCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojisCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -1015,6 +1057,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F43649A22015CDBB004FBEE2 /* CameraView */,
 				F4539376200CDF3B00F7D029 /* VisualView */,
 				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				F42218012007AE2D002D4E4E /* CellResizeManager */,
@@ -1505,6 +1548,59 @@
 			path = Slider;
 			sourceTree = "<group>";
 		};
+		F43649A22015CDBB004FBEE2 /* CameraView */ = {
+			isa = PBXGroup;
+			children = (
+				F43649A32015CE96004FBEE2 /* CameraView.strings */,
+				F43649BB2015CEA4004FBEE2 /* CameraViewAssets.xcassets */,
+				F43649A42015CE9B004FBEE2 /* Utilities */,
+				F43649B52015CEA0004FBEE2 /* ViewController */,
+				F43649B02015CE9E004FBEE2 /* Views */,
+			);
+			path = CameraView;
+			sourceTree = "<group>";
+		};
+		F43649A42015CE9B004FBEE2 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F43649A52015CE9B004FBEE2 /* CameraGlobals.swift */,
+				F43649A62015CE9B004FBEE2 /* CameraShot.swift */,
+				F43649A72015CE9B004FBEE2 /* CroppingParameters.swift */,
+				F43649A82015CE9B004FBEE2 /* ImageFetcher.swift */,
+				F43649A92015CE9B004FBEE2 /* PhotoLibraryAuthorizer.swift */,
+				F43649AA2015CE9B004FBEE2 /* SingleImageFetcher.swift */,
+				F43649AB2015CE9B004FBEE2 /* SingleImageSaver.swift */,
+				F43649AC2015CE9B004FBEE2 /* UIButtonExtensions.swift */,
+				F43649AD2015CE9B004FBEE2 /* UIViewExtensions.swift */,
+				F43649AE2015CE9B004FBEE2 /* Utilities.swift */,
+				F43649AF2015CE9B004FBEE2 /* VolumeControl.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F43649B02015CE9E004FBEE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F43649B12015CE9E004FBEE2 /* CameraView.swift */,
+				F43649B22015CE9E004FBEE2 /* CropOverlay.swift */,
+				F43649B32015CE9E004FBEE2 /* ImageCell.swift */,
+				F43649B42015CE9E004FBEE2 /* PermissionsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F43649B52015CEA0004FBEE2 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F43649B62015CEA0004FBEE2 /* CameraViewController.swift */,
+				F43649B72015CEA0004FBEE2 /* CameraViewControllerConstraint.swift */,
+				F43649B82015CEA0004FBEE2 /* ConfirmViewController.swift */,
+				F43649B92015CEA0004FBEE2 /* ConfirmViewController.xib */,
+				F43649BA2015CEA0004FBEE2 /* PhotoLibraryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		F4402F6F1FCD917900152D01 /* TextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -1534,7 +1630,6 @@
 				F4431A6C1FC6DD2900311C9A /* ColorsCollectionViewDelegate.swift */,
 				F4431A6D1FC6DD2900311C9A /* CropRectView.swift */,
 				F4431A6E1FC6DD2900311C9A /* CropView.swift */,
-				F4431A6F1FC6DD2900311C9A /* CropViewController.swift */,
 				F4431A701FC6DD2900311C9A /* EmojiCollectionViewCell.swift */,
 				F4431A711FC6DD2900311C9A /* EmojiCollectionViewCell.xib */,
 				F4431A721FC6DD2900311C9A /* EmojisCollectionViewDelegate.swift */,
@@ -1955,6 +2050,7 @@
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				F423AF112008EFE500648A3E /* TLCollectionTableViewCell.xib in Resources */,
 				F423AF162008EFE500648A3E /* TLPhotosPickerViewController.xib in Resources */,
+				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
 				F4431A981FC6DD2C00311C9A /* icomoon.ttf in Resources */,
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
 				F404C06D1FDA951D00E8ACC2 /* StreamViewHeader.xib in Resources */,
@@ -1976,6 +2072,7 @@
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
 				F4431A9B1FC6DD2C00311C9A /* PhotoCropEditorBorder@2x.png in Resources */,
+				F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */,
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
@@ -1983,6 +2080,7 @@
 				F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
+				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
 				F4431AA61FC6DD2C00311C9A /* PhotoEditorViewController.xib in Resources */,
 				F423AF0C2008EFE500648A3E /* .gitkeep in Resources */,
 			);
@@ -2239,11 +2337,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Emogo/Pods-Emogo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ALCameraViewController/ALCameraViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework",
 				"${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
@@ -2259,11 +2357,11 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ALCameraViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gallery.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyCoreSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
@@ -2348,8 +2446,10 @@
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
 				F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */,
+				F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
+				F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */,
 				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
@@ -2357,6 +2457,8 @@
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
+				F43649C42015CEA5004FBEE2 /* UIButtonExtensions.swift in Sources */,
+				F43649C92015CEA5004FBEE2 /* CropOverlay.swift in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
@@ -2376,7 +2478,9 @@
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F423AF122008EFE500648A3E /* TLPhotoCollectionViewCell.swift in Sources */,
+				F43649CD2015CEA5004FBEE2 /* CameraViewControllerConstraint.swift in Sources */,
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
+				F43649CB2015CEA5004FBEE2 /* PermissionsView.swift in Sources */,
 				F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */,
 				F43612F11FD69B3200788FFE /* AGContrastFilter.metal in Sources */,
 				F423AF152008EFE500648A3E /* TLPhotosPickerViewController.swift in Sources */,
@@ -2396,6 +2500,7 @@
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
 				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
+				F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */,
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
@@ -2406,6 +2511,7 @@
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
 				F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */,
+				F43649BF2015CEA5004FBEE2 /* CroppingParameters.swift in Sources */,
 				F401DFB61FE2967B00BD7DDA /* ImportViewController.swift in Sources */,
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
@@ -2420,6 +2526,7 @@
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
+				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
@@ -2438,6 +2545,7 @@
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
+				F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */,
 				F423AF0F2008EFE500648A3E /* TLBundle.swift in Sources */,
 				F404C06C1FDA951D00E8ACC2 /* StreamViewHeader.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
@@ -2449,9 +2557,13 @@
 				F4431AA81FC6DD2C00311C9A /* ResizeControl.swift in Sources */,
 				F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */,
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
+				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
+				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
+				F43649C22015CEA5004FBEE2 /* SingleImageFetcher.swift in Sources */,
+				F43649C32015CEA5004FBEE2 /* SingleImageSaver.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
@@ -2469,12 +2581,13 @@
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
 				F423AF0E2008EFE500648A3E /* TLAssetsCollection.swift in Sources */,
+				F43649C62015CEA5004FBEE2 /* Utilities.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
-				F4431A931FC6DD2C00311C9A /* CropViewController.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
+				F43649C12015CEA5004FBEE2 /* PhotoLibraryAuthorizer.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				F4431AA91FC6DD2C00311C9A /* StickerCollectionViewCell.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
@@ -2508,6 +2621,7 @@
 				F423AF0D2008EFE500648A3E /* TLAlbumPopView.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
+				F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
@@ -2518,8 +2632,10 @@
 				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
+				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F4431AA51FC6DD2C00311C9A /* PhotoEditorViewController.swift in Sources */,
+				F43649C72015CEA5004FBEE2 /* VolumeControl.swift in Sources */,
 				F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
