@@ -77,8 +77,14 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
 
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+      
+        settings.behavior.hideOnScrollDown = false
+        settings.animation.scale = nil
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
+        settings.animation.dismiss.offset = 30
+        settings.animation.dismiss.options = .curveLinear
+        
         cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 42 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
@@ -114,27 +120,4 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         collectionView.sendSubview(toBack: hideBottomSpaceView)
     }
     
-    override open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
-        onWillDismissView()
-        let animationSettings = settings.animation.dismiss
-        let upTime = 0.1
-        UIView.animate(withDuration: upTime, delay: 0, options: .curveEaseIn, animations: { [weak self] in
-            self?.collectionView.frame.origin.y -= 10
-            }, completion: { [weak self] (completed) -> Void in
-                UIView.animate(withDuration: animationDuration - upTime,
-                               delay: 0,
-                               usingSpringWithDamping: animationSettings.damping,
-                               initialSpringVelocity: animationSettings.springVelocity,
-                               options: UIViewAnimationOptions.curveEaseIn,
-                               animations: { [weak self] in
-                                presentingView.transform = CGAffineTransform.identity
-                                self?.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-                    },
-                               completion: { [weak self] finished in
-                                self?.onDidDismissView()
-                                completion?(finished)
-                })
-        })
-    }
-
 }
