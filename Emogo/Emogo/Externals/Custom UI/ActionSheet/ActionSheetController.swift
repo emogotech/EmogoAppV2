@@ -40,6 +40,12 @@ open class PMActionCell: ActionCell {
 
 open class ActionControllerHeader: UICollectionReusableView {
     
+    var btnCross: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,9 +65,19 @@ open class ActionControllerHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        
         addSubview(label)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
+        
+        addSubview(btnCross)
+        btnCross.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        btnCross.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        let height : CGFloat = self.frame.size.height - 10
+        btnCross.heightAnchor.constraint(lessThanOrEqualToConstant: height).isActive = true
+        btnCross.widthAnchor.constraint(lessThanOrEqualToConstant: height).isActive = true
+        btnCross.backgroundColor = .clear
+        
         addSubview(bottomLine)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[line(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[line]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
