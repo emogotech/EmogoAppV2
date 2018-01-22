@@ -549,7 +549,11 @@ class ContentViewController: UIViewController {
 
     func deleteSelectedContent(){
         if !self.seletedImage.contentID.trim().isEmpty {
-            self.deleteContent()
+            if ContentList.sharedInstance.objStream != nil {
+                self.deleteContentFromStream()
+            }else {
+                self.deleteContent()
+            }
         }else {
             ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
             self.currentIndex =  self.currentIndex - 1
@@ -677,6 +681,40 @@ class ContentViewController: UIViewController {
         }
     }
     
+    func deleteContentFromStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                if self.isEdit == nil {
+                    ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    if  ContentList.sharedInstance.arrayContent.count == 0 {
+                        self.navigationController?.pop()
+                        return
+                    }
+                    self.currentIndex =  self.currentIndex - 1
+                    if(self.currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
+                        self.next()
+                    }else {
+                        self.previous()
+                    }
+                }else {
+                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+                        ContentList.sharedInstance.arrayContent.remove(at: index)
+                        self.navigationController?.pop()
+                    }
+                    if self.isForEditOnly != nil {
+                        self.navigationController?.pop()
+                    }
+                    
+                }
+                
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
     func deleteFileFromAWS(content:ContentDAO){
         if !content.coverImage.isEmpty {
             AWSManager.sharedInstance.removeFile(name: content.coverImage.getName(), completion: { (isDeleted, error) in
@@ -723,6 +761,7 @@ class ContentViewController: UIViewController {
             if error == nil {
                 DispatchQueue.main.async { // Correct
                     self.seletedImage.coverImage = imageURL
+                    self.seletedImage.imgPreview = nil
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
                 }
@@ -759,6 +798,7 @@ extension ContentViewController:PhotoEditorDelegate
         }
         self.updateContent()
         self.btnDone.isHidden = false
+        
     }
     
     func canceledEditing() {
@@ -803,9 +843,7 @@ extension ContentViewController:UITextViewDelegate {
         }
     }
     
-    public func textViewDidChange(_ textView: UITextView) {
 
-    }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {        
         if(text == "\n") {

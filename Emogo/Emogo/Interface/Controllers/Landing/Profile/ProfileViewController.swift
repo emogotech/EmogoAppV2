@@ -110,6 +110,7 @@ class ProfileViewController: UIViewController {
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         lblUserName.minimumScaleFactor = 1.0
         print(UserDAO.sharedInstance.user.userImage.trim())
+        self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
         self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
@@ -190,6 +191,7 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
             HUDManager.sharedInstance.showHUD()
+        
             self.profileUpdate(strURL: "")
         }
         let action2 = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
@@ -416,8 +418,7 @@ class ProfileViewController: UIViewController {
             
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
-                NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
-                
+                self.prepareLayout()
                 self.dismiss(animated: true, completion: nil)
             }else {
                 self.showToast(strMSG: errorMsg!)

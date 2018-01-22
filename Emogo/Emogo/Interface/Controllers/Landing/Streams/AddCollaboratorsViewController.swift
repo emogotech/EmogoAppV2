@@ -136,7 +136,9 @@ class AddCollaboratorsViewController: UIViewController {
                     }
             }
            self.arrayCollaborators = unique
-            
+             self.arrayCollaborators.sort {
+                $0.name.lowercased() < $1.name.lowercased()
+            }
             self.contactCollection.reloadData()
         }
     

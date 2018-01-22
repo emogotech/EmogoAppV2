@@ -39,6 +39,9 @@ class PeopleListViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Collaborator List"
         self.configureNavigationWithTitle()
+        arrayColab.sort {
+            $0.name < $1.name
+        }
     }
     
 

@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import Gallery
 import Lightbox
 import MessageUI
 import Messages
@@ -16,9 +15,76 @@ import Messages
 extension PreviewController {
     
     func openGallery(){
-        let gallery = GalleryController()
-        gallery.delegate = self
-        present(gallery, animated: true, completion: nil)
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            self?.preparePreview(assets: assets)
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = []
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 10
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func preparePreview(assets:[TLPHAsset]){
+        
+        HUDManager.sharedInstance.showHUD()
+        let group = DispatchGroup()
+        for obj in assets {
+            group.enter()
+            let camera = ContentDAO(contentData: [:])
+            camera.isUploaded = false
+            camera.fileName = obj.originalFileName
+            if obj.type == .photo {
+                camera.type = .image
+                if obj.fullResolutionImage != nil {
+                    camera.imgPreview = obj.fullResolutionImage
+                    self.updateData(content: camera)
+                    group.leave()
+                }else {
+                    
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            camera.imgPreview = img
+                            self.updateData(content: camera)
+                        }
+                        group.leave()
+                    })
+                }
+                
+            }else if obj.type == .video {
+                camera.type = .video
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                    camera.fileUrl = url
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                        camera.imgPreview = image
+                        self.updateData(content: camera)
+                    }
+                    group.leave()
+                })
+            }
+        }
+        
+        group.notify(queue: .main, execute: {
+            HUDManager.sharedInstance.hideHUD()
+            self.btnPreviewOpen.isHidden = false
+            self.previewCollection.reloadData()
+        })
+    }
+    
+    func updateData(content:ContentDAO) {
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        self.btnPreviewOpen.isHidden = false
     }
     
    @objc func openFullView(){
@@ -145,65 +211,6 @@ extension PreviewController:UITextFieldDelegate {
     }
 }
 
-
-extension PreviewController:GalleryControllerDelegate {
-    func galleryControllerDidCancel(_ controller: GalleryController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
-    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
-        controller.dismiss(animated: true, completion: nil)
-        HUDManager.sharedInstance.showHUD()
-        editor.edit(video: video) { (editedVideo: Video?, tempPath: URL?) in
-            DispatchQueue.main.async {
-                if let tempPath = tempPath {
-                    print(tempPath)
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:tempPath) {
-                        let camera = ContentDAO(contentData: [:])
-                        camera.imgPreview = image
-                        camera.fileName = tempPath.absoluteString.getName()
-                        camera.fileUrl = tempPath
-                        camera.type = .video
-                        print(camera.fileName)
-                        ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-                        self.btnPreviewOpen.isHidden = false
-                        self.previewCollection.reloadData()
-                        HUDManager.sharedInstance.hideHUD()
-                    }
-                }
-            }
-        }
-    }
-    
-    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
-        controller.dismiss(animated: true, completion: nil)
-        self.preparePreview(assets: images)
-    }
-    
-    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
-        
-
-    }
-    
-  private func preparePreview(assets:[Image]){
-    
-        Image.resolve(images: assets, completion: {  resolvedImages in
-            for i in 0..<resolvedImages.count {
-                let obj = resolvedImages[i]
-                let camera = ContentDAO(contentData: [:])
-                camera.imgPreview = obj
-                camera.type = .image
-                if let file =  assets[i].asset.value(forKey: "filename"){
-                    camera.fileName = file as! String
-                }
-                ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-            }
-            self.previewCollection.reloadData()
-        })
-        
-    }
-    
-}
 
 extension PreviewController:UITextViewDelegate {
     

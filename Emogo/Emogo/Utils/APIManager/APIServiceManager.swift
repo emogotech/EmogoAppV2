@@ -174,7 +174,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Create Stream API
     
-    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?,_ streamID:String?)->Void){
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
@@ -224,15 +224,15 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"")
+                        completionHandler(true,"","")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(false,errorMessage)
+                        completionHandler(false,errorMessage,nil)
                     }
                 }
             case .error(let error):
                 print(error.localizedDescription)
-                completionHandler(false,error.localizedDescription)
+                completionHandler(false,error.localizedDescription,nil)
             }
         }
     }
@@ -967,7 +967,7 @@ class APIServiceManager: NSObject {
     }
     
     
-    // MARK: - Verify OTP API
+    // MARK: - User Profile Update
     func apiForUserProfileUpdate(name:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
         let phone : String = UserDAO.sharedInstance.user.phoneNumber
@@ -997,6 +997,33 @@ class APIServiceManager: NSObject {
                 completionHandler(false,error.localizedDescription)
             }
         }
+    }
+    
+    
+    
+    func apiForDeleteContentFromStream(streamID:String,contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kDeleteStreamContentAPI + "\(streamID)/"
+        let params:[String:Any] = ["content":[contentID]]
+        print(params)
+        APIManager.sharedInstance.delete(strURL: url, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.NoContent.rawValue{
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+
     }
 }
 

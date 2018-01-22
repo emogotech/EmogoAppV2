@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Gallery
 import MessageUI
 import Messages
 
@@ -30,7 +29,6 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
 
     // MARK: - Variables
-    let editor: VideoEditing = VideoEditor()
 
     var isPreviewOpen:Bool! = false
     var selectedIndex:Int! = 0
@@ -106,10 +104,10 @@ class PreviewController: UIViewController {
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-        kWidthOptions.constant = 0.0
-        viewOptions.isHidden = true
+      //  kWidthOptions.constant = 0.0
+          viewOptions.isHidden = false
 //        if self.strPresented != nil {
-//            kWidthOptions.constant = 63.0
+           kWidthOptions.constant = 63.0
 //            viewOptions.isHidden = false
 //        }
         imgPreview.backgroundColor = .black
@@ -136,12 +134,7 @@ class PreviewController: UIViewController {
             }
         }
         
-        Gallery.Config.VideoEditor.maximumDuration = 30
-        Gallery.Config.tabsToShow = [.imageTab, .videoTab]
-        Gallery.Config.initialTab =  .imageTab
-        Gallery.Config.Camera.imageLimit =  10
-        Gallery.Config.VideoEditor.savesEditedVideoToLibrary = false
-
+    
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2

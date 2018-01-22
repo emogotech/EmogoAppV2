@@ -71,7 +71,7 @@ open class ActionControllerHeader: UICollectionReusableView {
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
         
         addSubview(btnCross)
-        btnCross.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        btnCross.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         btnCross.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         let height : CGFloat = self.frame.size.height - 10
         btnCross.heightAnchor.constraint(lessThanOrEqualToConstant: height).isActive = true
@@ -106,6 +106,7 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         
         onConfigureHeader = { header, title in
             header.label.text = title
+            header.btnCross.setImage(#imageLiteral(resourceName: "action_cross_image"), for: .normal)
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
