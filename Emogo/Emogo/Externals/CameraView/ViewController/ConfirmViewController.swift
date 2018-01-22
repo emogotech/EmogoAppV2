@@ -383,4 +383,11 @@ extension ConfirmViewController:CropViewControllerDelegate {
         cropViewController.dismiss(animated: true, completion: nil)
         self.onComplete?(image, self.asset)
     }
+    
+    public func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        guard let image = imageView.image else {
+            return
+        }
+        self.onComplete?(image, self.asset)
+    }
 }

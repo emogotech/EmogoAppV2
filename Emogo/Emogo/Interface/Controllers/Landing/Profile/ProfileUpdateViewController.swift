@@ -80,7 +80,7 @@ class ProfileUpdateViewController: UIViewController {
     
     private func uploadProfileImage(){
         HUDManager.sharedInstance.showHUD()
-        let image = self.imageToUpload.reduceSize()
+        let image = self.imageToUpload.resizeImage(targetSize: CGSize(width: 200, height: 200))
         let imageData = UIImageJPEGRepresentation(image, 1.0)
         let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)

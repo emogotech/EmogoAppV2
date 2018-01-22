@@ -183,19 +183,19 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
-        
+        self.updateProfileImage()
     }
     
     func updateProfileImage(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .default) { (action) in
+        let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
             HUDManager.sharedInstance.showHUD()
             self.profileUpdate(strURL: "")
         }
         let action2 = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
             self.profilepicUpload()
         }
-        let action3 = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
+        let action3 = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
         }
         alert.addAction(action2)
         alert.addAction(action1)
