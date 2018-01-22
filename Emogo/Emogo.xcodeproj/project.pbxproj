@@ -1064,7 +1064,6 @@
 				F43649A22015CDBB004FBEE2 /* CameraView */,
 				F4539376200CDF3B00F7D029 /* VisualView */,
 				F423AEFD2008EF1600648A3E /* PhotoPicker */,
-				F42218012007AE2D002D4E4E /* CellResizeManager */,
 				F42217A820074CB6002D4E4E /* PopupView */,
 				F4361D381FF226F100553E8E /* Slider */,
 				F44939BC1FEA549600AE2FCA /* Pull To Refresh */,
@@ -1457,13 +1456,6 @@
 				F42217B120074D4D002D4E4E /* k-popup-dismiss-button@3x.png */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		F42218012007AE2D002D4E4E /* CellResizeManager */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CellResizeManager;
 			sourceTree = "<group>";
 		};
 		F423AEFD2008EF1600648A3E /* PhotoPicker */ = {

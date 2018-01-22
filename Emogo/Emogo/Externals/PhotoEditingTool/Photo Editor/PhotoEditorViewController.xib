@@ -192,10 +192,10 @@
                     <rect key="frame" x="60" y="610" width="315" height="57"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ZRl-89-gRO">
-                            <rect key="frame" x="0.0" y="7" width="73" height="50"/>
+                            <rect key="frame" x="0.0" y="7" width="79" height="50"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mW4-Jz-sic">
-                                    <rect key="frame" x="0.0" y="0.0" width="29" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="32" height="50"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal" image="download_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -206,7 +206,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlw-H0-WcJ">
-                                    <rect key="frame" x="44" y="0.0" width="29" height="50"/>
+                                    <rect key="frame" x="47" y="0.0" width="32" height="50"/>
                                     <size key="titleShadowOffset" width="1" height="0.0"/>
                                     <state key="normal" image="emoji_icon">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -284,7 +284,7 @@
                     <rect key="frame" x="162" y="605" width="50" height="50"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqh-uS-U1m">
-                            <rect key="frame" x="7.5" y="7.5" width="35.5" height="35"/>
+                            <rect key="frame" x="8" y="7.5" width="35.5" height="35"/>
                             <fontDescription key="fontDescription" name="icomoon" family="icomoon" pointSize="30"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -639,24 +639,24 @@
         </view>
     </objects>
     <resources>
-        <image name="blur-effect-icon" width="35" height="35"/>
-        <image name="brigtness-effect-icon" width="35" height="35"/>
-        <image name="color_bucket_icon_unactive" width="27" height="27"/>
-        <image name="contrast-effect-icon" width="35" height="35"/>
-        <image name="crrop_icon" width="27" height="27"/>
-        <image name="download_icon" width="29" height="29"/>
-        <image name="editing_cross_icon" width="12" height="12"/>
-        <image name="editing_done_icon" width="17" height="14"/>
-        <image name="emoji_icon" width="29" height="29"/>
+        <image name="blur-effect-icon" width="41" height="41"/>
+        <image name="brigtness-effect-icon" width="41" height="41"/>
+        <image name="color_bucket_icon_unactive" width="32" height="32"/>
+        <image name="contrast-effect-icon" width="41" height="41"/>
+        <image name="crrop_icon" width="32" height="32"/>
+        <image name="download_icon" width="32" height="32"/>
+        <image name="editing_cross_icon" width="13" height="13"/>
+        <image name="editing_done_icon" width="21" height="16"/>
+        <image name="emoji_icon" width="32" height="32"/>
         <image name="image-effect-icon" width="29" height="29"/>
-        <image name="next_icon" width="11" height="18"/>
-        <image name="pen_big" width="27" height="27"/>
-        <image name="pen_icon_unactive" width="27" height="27"/>
-        <image name="pen_medium" width="27" height="27"/>
-        <image name="pen_small" width="27" height="27"/>
-        <image name="pencil_icon" width="27" height="27"/>
-        <image name="saturation-effect-icon" width="35" height="35"/>
-        <image name="text_icon" width="27" height="27"/>
-        <image name="undo_button" width="15" height="18"/>
+        <image name="next_icon" width="12" height="20"/>
+        <image name="pen_big" width="32" height="32"/>
+        <image name="pen_icon_unactive" width="32" height="32"/>
+        <image name="pen_medium" width="32" height="32"/>
+        <image name="pen_small" width="32" height="32"/>
+        <image name="pencil_icon" width="32" height="32"/>
+        <image name="saturation-effect-icon" width="41" height="41"/>
+        <image name="text_icon" width="32" height="32"/>
+        <image name="undo_button" width="17" height="21"/>
     </resources>
 </document>

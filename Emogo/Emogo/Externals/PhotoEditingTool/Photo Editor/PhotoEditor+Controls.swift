@@ -32,8 +32,6 @@ extension PhotoEditorViewController {
 
     @IBAction func cropButtonTapped(_ sender: UIButton) {
          let croppingStyle = CropViewCroppingStyle.default
-        let croppedRect = CGRect.zero
-        let  croppedAngle = 0
         let cropController = CropViewController(croppingStyle: croppingStyle, image: canvasImageView.image!)
         cropController.delegate = self
         present(cropController, animated: true, completion: nil)
@@ -261,6 +259,8 @@ extension PhotoEditorViewController {
         self.pencilView.isHidden = true
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
+        let img = self.canvasView.toImage()
+        self.canvasImageView.image = img
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
     }
     

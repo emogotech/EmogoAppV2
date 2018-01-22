@@ -16,6 +16,7 @@ extension PhotoEditorViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         cropViewController.dismiss(animated: true, completion: nil)
         self.canvasImageView.image = image
+        self.canvasImageView.contentMode = .scaleAspectFill
     }
 
 }
