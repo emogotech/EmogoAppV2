@@ -176,6 +176,15 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.isAddBackground = false
         pagerView.isAddTitle = false
         pagerView.layer.contents = UIImage(named: "grad-bottom")?.cgImage
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            if SharedData.sharedInstance.isPortrate {
+                pagerContent.isHidden = false
+                btnFeature.tag = 1
+            }else{
+                pagerContent.isHidden = false
+                    btnFeature.tag = 0
+            }
+        }
     }
     
     // MARK:- pull to refresh LoaderSetup
@@ -224,9 +233,11 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isPortrate {
             pagerContent.isHidden = false
+              btnFeature.tag = 1
             self.collectionStream.reloadData()
         }else{
             pagerContent.isHidden = true
+              btnFeature.tag = 0
             self.collectionStream.reloadData()
         }
         self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
@@ -238,24 +249,27 @@ class HomeViewController: MSMessagesAppViewController {
             if searchText.text == "" {
                 if SharedData.sharedInstance.isPortrate {
                     pagerContent.isHidden = false
+                        btnFeature.tag = 1
                 }else{
                     pagerContent.isHidden = true
+                        btnFeature.tag = 0
                 }
             }
             else{
                 pagerContent.isHidden = true
+                 btnFeature.tag = 0
             }
-            btnFeature.tag = 1
+           
         }
         else {
-            if searchText.text != "" {
-//                searchText.text = ""
-//                self.viewCollections.isHidden = true
-//                isSearch = false
-//                btnSearchHeader.isSelected = false
-//                btnSearchHeader.tag = 0
-//                self.getStreamList(type: RefreshType.start, filter: streamType)
-            }
+//            if searchText.text != "" {
+////                searchText.text = ""
+////                self.viewCollections.isHidden = true
+////                isSearch = false
+////                btnSearchHeader.isSelected = false
+////                btnSearchHeader.tag = 0
+////                self.getStreamList(type: RefreshType.start, filter: streamType)
+//            }
             pagerContent.isHidden = true
             btnFeature.tag = 0
         }
@@ -268,12 +282,15 @@ class HomeViewController: MSMessagesAppViewController {
             if searchText.text  == "" {
                 if SharedData.sharedInstance.isPortrate {
                     pagerContent.isHidden = false
+                      btnFeature.tag = 1
                 }else{
                     pagerContent.isHidden = true
+                      btnFeature.tag = 0
                 }
             }
             else{
                 pagerContent.isHidden = true
+                  btnFeature.tag = 0
             }
             collectionFrame = collectionStream.frame
             self.updatUIWhileSearch()
@@ -355,19 +372,22 @@ class HomeViewController: MSMessagesAppViewController {
         btnFeature.setTitleColor(#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), for: UIControlState.normal)
 //           0,173,243
         self.setupCollectionProperties()
-        if(SharedData.sharedInstance.isMessageWindowExpand) {
-            if searchText.text == "" {
-                pagerContent.isHidden = true
-            }
-            else{
-                if SharedData.sharedInstance.isPortrate {
-                    pagerContent.isHidden = false
-                }else{
-                    pagerContent.isHidden = true
-                }
-            }
-            btnFeature.tag = 1
-        }
+//        if(SharedData.sharedInstance.isMessageWindowExpand) {
+//            if searchText.text == "" {
+//                pagerContent.isHidden = true
+//                  btnFeature.tag = 0
+//            }
+//            else{
+//                if SharedData.sharedInstance.isPortrate {
+//                    pagerContent.isHidden = false
+//                      btnFeature.tag = 1
+//                }else{
+//                    pagerContent.isHidden = true
+//                      btnFeature.tag = 0
+//                }
+//            }
+//            btnFeature.tag = 1
+//        }
         self.setupRefreshLoader()
         setupAnchor()
     }
@@ -463,14 +483,17 @@ class HomeViewController: MSMessagesAppViewController {
                      btnFeature.tag = 1
                 }else{
                     pagerContent.isHidden = true
+                      btnFeature.tag = 0
                 }
                
             } else {
                 NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
                 if SharedData.sharedInstance.isPortrate {
                     pagerContent.isHidden = false
+                      btnFeature.tag = 1
                 }else{
                     pagerContent.isHidden = true
+                      btnFeature.tag = 0
                 }
             }
         }
@@ -993,6 +1016,7 @@ extension HomeViewController : UITextFieldDelegate {
             }
        
             pagerContent.isHidden = true
+              btnFeature.tag = 0
          
         }
         return true
@@ -1004,6 +1028,7 @@ extension HomeViewController : UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         pagerContent.isHidden = true
+          btnFeature.tag = 0
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name:   NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
             btnFeature.tag = 0
