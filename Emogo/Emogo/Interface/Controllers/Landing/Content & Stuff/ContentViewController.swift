@@ -107,8 +107,7 @@ class ContentViewController: UIViewController {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
         self.txtDescription.placeholder = "Description"
-        self.txtDescription.placeholderColor = .red
-//        self.txtDescription.placeholderName = (seletedImage.isEdit && seletedImage.description.isEmpty) ? "Description" : ""
+        self.txtDescription.placeholderColor = .white
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview

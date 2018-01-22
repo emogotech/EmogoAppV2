@@ -208,13 +208,7 @@ extension PreviewController:GalleryControllerDelegate {
 extension PreviewController:UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
-        
-        txtDescription.placeholderName = "Description"
-        
-        if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
-            let shouldHide = txtDescription.text.count > 0
-            placeholderLabel.isHidden = shouldHide
-        }
+
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

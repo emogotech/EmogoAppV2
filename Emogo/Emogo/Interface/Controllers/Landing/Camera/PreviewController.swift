@@ -77,9 +77,10 @@ class PreviewController: UIViewController {
         // Preview Height
         // Remove Duplicate Objects
         self.txtTitleImage.maxLength = 50
-        txtDescription.placeholderName = "Description"
         txtDescription.delegate = self
-
+        self.txtDescription.placeholder = "Description"
+        self.txtDescription.placeholderColor = .white
+        
         var seen = Set<String>()
         var unique = [ContentDAO]()
         for obj in  ContentList.sharedInstance.arrayContent {
@@ -169,7 +170,6 @@ class PreviewController: UIViewController {
         }
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
-            self.txtDescription.placeholderName = ""
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
