@@ -83,7 +83,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             }
         }
          menu  = self.menu.arrayMenu[sender]
-         pagerView.lblCurrentType.text = menu.iconName!
+         pagerView.lblCurrentType.text = menu.iconName
 //        let when = DispatchTime.now() + 0.3
 //        DispatchQueue.main.asyncAfter(deadline: when) {
 //            self.navigateToSelectedItem(index:sender,isSelect:isSelect)

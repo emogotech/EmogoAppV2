@@ -128,6 +128,7 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeProfile {
             let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
             self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
         }
         
     }
@@ -197,8 +198,10 @@ class StreamListViewController: UIViewController {
             isUpdateList = false
             if  menuView.currentIndex == 4 {
                 menuView.currentIndex = 4
+                collectionLayout.columnCount = 3
                 self.actionForPeopleList()
             }else{
+                collectionLayout.columnCount = 2
                 HUDManager.sharedInstance.showHUD()
                 self.getStreamList(type:.start,filter: currentStreamType)
             }

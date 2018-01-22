@@ -35,6 +35,7 @@ let kaddCardBorderWidth : CGFloat = 3
 var kContainerNav = ""
 var kBackNav = ""
 var kNavForProfile = ""
+var kShowOnlyMyStream = ""
 
 
 // Selected Tag For Container
@@ -240,6 +241,8 @@ let kAlert_Title_ActionSheet                                                  = 
 let kAlert_Select_Time                                                   = "Select Time"
 let kAlertTitle_Emogo                                                   = "Emogo"
 let kAlert_Capture_Title                                               = "Capture limit exceeded!"
+let kAlert_Message                                                     = "Message!"
+
 
 let kAlertTitle_Yes = "YES"
 let kAlertTitle_No =  "No"
@@ -299,4 +302,8 @@ let kName_Report_Spam = "Spam"
 let kAlert_No_Stream_found                                          = "No Stream found"
 
 let kAlert_No_User_Record_Found                                          = "No User found"
+
+let kAlert_RemoveProfile                                         = "Remove"
+let kAlert_UpateProfile                                         = "Update"
+
 

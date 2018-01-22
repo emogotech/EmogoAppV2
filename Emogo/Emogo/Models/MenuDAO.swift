@@ -43,6 +43,6 @@ class Menu {
 
     init(icon:UIImage, name:String) {
         self.icon = icon
-        self.iconName = name
+        self.iconName = name.uppercased()
     }
 }

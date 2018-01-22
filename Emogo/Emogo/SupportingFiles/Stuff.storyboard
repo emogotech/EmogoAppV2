@@ -1431,7 +1431,7 @@
                                 <rect key="frame" x="0.0" y="568" width="375" height="69"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mXt-SR-BQJ">
-                                        <rect key="frame" x="17" y="0.0" width="284" height="30"/>
+                                        <rect key="frame" x="15" y="0.0" width="284" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="k3U-bq-jBG"/>
                                         </constraints>
@@ -1444,6 +1444,9 @@
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="maxLength">
                                                 <integer key="value" value="50"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="paddingLeft">
+                                                <real key="value" value="4"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
@@ -1479,11 +1482,11 @@
                                     <constraint firstItem="mXt-SR-BQJ" firstAttribute="top" secondItem="GNc-aU-Vds" secondAttribute="top" id="2x6-yW-SlC"/>
                                     <constraint firstAttribute="trailing" secondItem="TWD-Xl-TvZ" secondAttribute="trailing" constant="8" id="4qE-fH-f6f"/>
                                     <constraint firstItem="3fG-sN-hSC" firstAttribute="top" secondItem="mXt-SR-BQJ" secondAttribute="bottom" constant="1" id="8Uq-x7-LsI"/>
-                                    <constraint firstAttribute="trailing" secondItem="mXt-SR-BQJ" secondAttribute="trailing" constant="74" id="Ib6-uo-Yg4"/>
+                                    <constraint firstAttribute="trailing" secondItem="mXt-SR-BQJ" secondAttribute="trailing" constant="76" id="Ib6-uo-Yg4"/>
                                     <constraint firstAttribute="trailing" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="76" id="MbU-61-Am2"/>
                                     <constraint firstAttribute="bottom" secondItem="TWD-Xl-TvZ" secondAttribute="bottom" constant="9" id="Yb3-jR-rBa"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="69" id="b9u-Co-LXI"/>
-                                    <constraint firstItem="mXt-SR-BQJ" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="17" id="mAM-FM-Jmz"/>
+                                    <constraint firstItem="mXt-SR-BQJ" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="15" id="mAM-FM-Jmz"/>
                                     <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="15" id="np9-Va-Ihj"/>
                                     <constraint firstAttribute="bottom" secondItem="3fG-sN-hSC" secondAttribute="bottom" id="p69-Lc-jOv"/>
                                 </constraints>

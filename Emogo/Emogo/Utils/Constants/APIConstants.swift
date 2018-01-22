@@ -50,7 +50,7 @@ let kUserStreamAPI                                  = "user_streams/"
 let kGetAllLinksAPI                                 = "content/link_type/"
 let kReportAPI                                      = "extremist_report/"
 let kProfileUpdateAPI                               = "users/"
-
+let kDeleteStreamContentAPI                         = "delete_stream_content/"
 
 
 

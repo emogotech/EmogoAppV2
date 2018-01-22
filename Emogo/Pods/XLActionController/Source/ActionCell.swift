@@ -52,7 +52,6 @@ open class ActionCell: UICollectionViewCell, SeparatorCellType {
         actionImageView?.image = image
         imageViewWidthConstraint?.constant = image == nil ? 0 : imageWidth
         setNeedsLayout()
-        actionImageView?.contentMode = .scaleAspectFit
     }
     
     open func showSeparator() {

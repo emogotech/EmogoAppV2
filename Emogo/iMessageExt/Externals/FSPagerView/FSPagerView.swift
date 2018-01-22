@@ -567,7 +567,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         configureAnchorInLabel()
         
         if self.isAddTitle == true {
-            lblCurrentType.text =  "Featured"
+            lblCurrentType.text =  "FEATURED"
         }else {
             lblCurrentType.text = "FEATURED"
         }

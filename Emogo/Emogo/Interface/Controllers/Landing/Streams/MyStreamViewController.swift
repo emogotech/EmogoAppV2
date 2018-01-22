@@ -22,6 +22,7 @@ class MyStreamViewController: UIViewController {
     var currentType:RefreshType! = .start
     
     var objContent:ContentDAO!
+    var streamID:String?
     
     // MARK: - Override Functions
 
@@ -39,6 +40,10 @@ class MyStreamViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        kShowOnlyMyStream = ""
     }
     
     // MARK: - Prepare Layouts
@@ -58,6 +63,8 @@ class MyStreamViewController: UIViewController {
         }
         myStreamCollectionView.alwaysBounceVertical = true
         self.myStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_MyStreamHeaderView)
+         kShowOnlyMyStream = "1"
+        HUDManager.sharedInstance.showHUD()
           self.getMyStreams(type:.start,filter: .myStream)
 
         // Load More
@@ -87,7 +94,7 @@ class MyStreamViewController: UIViewController {
     
     @IBAction func btnActionDone(_ sender: Any) {
         var streamID  = [String]()
-        for stream in StreamList.sharedInstance.arrayStream {
+        for stream in StreamList.sharedInstance.arrayMyStream {
             if stream.isSelected == true {
                 streamID.append(stream.ID.trim())
             }
@@ -151,11 +158,10 @@ class MyStreamViewController: UIViewController {
     
     func getMyStreams(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            HUDManager.sharedInstance.showHUD()
-            StreamList.sharedInstance.arrayStream.removeAll()
+            StreamList.sharedInstance.arrayMyStream.removeAll()
             let stream = StreamDAO(streamData: [:])
             stream.isAdd = true
-            StreamList.sharedInstance.arrayStream.insert(stream, at: 0)
+            StreamList.sharedInstance.arrayMyStream.insert(stream, at: 0)
             self.myStreamCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
@@ -174,10 +180,15 @@ class MyStreamViewController: UIViewController {
             }
             
           //  self.lblNoResult.isHidden = true
-            if StreamList.sharedInstance.arrayStream.count == 0 {
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
              //   self.lblNoResult.isHidden = false
             }
             self.currentType = refreshType
+            if self.streamID != nil {
+                if let index =   StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.streamID?.trim()}) {
+                    StreamList.sharedInstance.arrayMyStream.remove(at: index)
+                }
+            }
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -238,14 +249,14 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return StreamList.sharedInstance.arrayStream.count
+            return StreamList.sharedInstance.arrayMyStream.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStreamCell, for: indexPath) as! MyStreamCell
         // for Add Content
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+        let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
         cell.prepareLayout(stream: stream)
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
@@ -279,14 +290,14 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+        let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
         if stream.isAdd {
             actionForAddStream()
         }else {
             if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
-                let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+                let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
                 stream.isSelected = !stream.isSelected
-                StreamList.sharedInstance.arrayStream[indexPath.row] = stream
+                StreamList.sharedInstance.arrayMyStream[indexPath.row] = stream
                 if stream.isSelected {
                     (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
                 }else {

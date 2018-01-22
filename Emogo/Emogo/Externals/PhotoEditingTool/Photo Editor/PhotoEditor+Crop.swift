@@ -8,18 +8,15 @@
 
 import Foundation
 import UIKit
+import CropViewController
 
 // MARK: - CropView
 extension PhotoEditorViewController: CropViewControllerDelegate {
     
-    public func cropViewController(_ controller: CropViewController, didFinishCroppingImage image: UIImage, transform: CGAffineTransform, cropRect: CGRect) {
-        controller.dismiss(animated: true, completion: nil)
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true, completion: nil)
         self.canvasImageView.image = image
-      //  self.setImageView(image: image.fixOrientationCIImage())
+        self.canvasImageView.contentMode = .scaleAspectFill
     }
-    
-    public func cropViewControllerDidCancel(_ controller: CropViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
+
 }

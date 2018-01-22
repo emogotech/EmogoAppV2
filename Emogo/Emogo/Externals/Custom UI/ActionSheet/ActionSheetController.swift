@@ -40,6 +40,12 @@ open class PMActionCell: ActionCell {
 
 open class ActionControllerHeader: UICollectionReusableView {
     
+    var btnCross: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,9 +65,19 @@ open class ActionControllerHeader: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        
         addSubview(label)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["label": label]))
+        
+        addSubview(btnCross)
+        btnCross.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
+        btnCross.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        let height : CGFloat = self.frame.size.height - 10
+        btnCross.heightAnchor.constraint(lessThanOrEqualToConstant: height).isActive = true
+        btnCross.widthAnchor.constraint(lessThanOrEqualToConstant: height).isActive = true
+        btnCross.backgroundColor = .clear
+        
         addSubview(bottomLine)
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[line(1)]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
         addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[line]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["line": bottomLine]))
@@ -77,13 +93,20 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
 
     public override init(nibName nibNameOrNil: String? = nil, bundle nibBundleOrNil: Bundle? = nil) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+      
+        settings.behavior.hideOnScrollDown = false
+        settings.animation.scale = nil
         settings.animation.present.duration = 0.6
         settings.animation.dismiss.duration = 0.6
+        settings.animation.dismiss.offset = 30
+        settings.animation.dismiss.options = .curveLinear
+        
         cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 42 })
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
         onConfigureHeader = { header, title in
             header.label.text = title
+            header.btnCross.setImage(#imageLiteral(resourceName: "action_cross_image"), for: .normal)
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
@@ -114,27 +137,4 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         collectionView.sendSubview(toBack: hideBottomSpaceView)
     }
     
-    override open func dismissView(_ presentedView: UIView, presentingView: UIView, animationDuration: Double, completion: ((_ completed: Bool) -> Void)?) {
-        onWillDismissView()
-        let animationSettings = settings.animation.dismiss
-        let upTime = 0.1
-        UIView.animate(withDuration: upTime, delay: 0, options: .curveEaseIn, animations: { [weak self] in
-            self?.collectionView.frame.origin.y -= 10
-            }, completion: { [weak self] (completed) -> Void in
-                UIView.animate(withDuration: animationDuration - upTime,
-                               delay: 0,
-                               usingSpringWithDamping: animationSettings.damping,
-                               initialSpringVelocity: animationSettings.springVelocity,
-                               options: UIViewAnimationOptions.curveEaseIn,
-                               animations: { [weak self] in
-                                presentingView.transform = CGAffineTransform.identity
-                                self?.performCustomDismissingAnimation(presentedView, presentingView: presentingView)
-                    },
-                               completion: { [weak self] finished in
-                                self?.onDidDismissView()
-                                completion?(finished)
-                })
-        })
-    }
-
 }

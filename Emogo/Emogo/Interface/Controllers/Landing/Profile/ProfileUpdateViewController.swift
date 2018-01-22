@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ALCameraViewController
 
 class ProfileUpdateViewController: UIViewController {
     
@@ -17,10 +16,9 @@ class ProfileUpdateViewController: UIViewController {
 
     var imageToUpload:UIImage!
     var fileName:String! = ""
-    var minimumSize: CGSize = CGSize(width: 100, height: 100)
     
     var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: minimumSize)
+        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
     }
     
     override func viewDidLoad() {
@@ -82,7 +80,7 @@ class ProfileUpdateViewController: UIViewController {
     
     private func uploadProfileImage(){
         HUDManager.sharedInstance.showHUD()
-        let image = self.imageToUpload.reduceSize()
+        let image = self.imageToUpload.resizeImage(targetSize: CGSize(width: 200, height: 200))
         let imageData = UIImageJPEGRepresentation(image, 1.0)
         let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)

@@ -23,6 +23,10 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnCollab: MIBadgeButton!
     var delegate:StreamViewHeaderDelegate?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imgCover.image = nil
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

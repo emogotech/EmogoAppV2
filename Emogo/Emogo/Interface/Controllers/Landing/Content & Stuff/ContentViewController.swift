@@ -77,7 +77,7 @@ class ContentViewController: UIViewController {
             self.btnAddToStream.isHidden = true
         }
         self.txtTitleImage.maxLength = 50
-        self.txtDescription.placeholderName = "Description"
+
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
@@ -99,14 +99,15 @@ class ContentViewController: UIViewController {
     
     
     func updateContent() {
-         self.imgCover.image = nil
+        self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
-//        self.txtDescription.placeholderName = (seletedImage.isEdit && seletedImage.description.isEmpty) ? "Description" : ""
+        self.txtDescription.placeholder = "Description"
+        self.txtDescription.placeholderColor = .white
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -121,11 +122,7 @@ class ContentViewController: UIViewController {
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
             print(self.txtDescription.text)
-            if !self.txtDescription.text.trim().isEmpty {
-                self.txtDescription.placeholderName = ""
-            }else{
-                self.txtDescription.placeholderName = "Description"
-            }
+
         }else{
             self.txtDescription.text = ""
         }
@@ -156,9 +153,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
+
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -171,9 +166,6 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -186,10 +178,6 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -202,10 +190,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 
@@ -417,6 +402,7 @@ class ContentViewController: UIViewController {
         else{
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
         obj.objContent = seletedImage
+        obj.streamID =  ContentList.sharedInstance.objStream
         self.navigationController?.push(viewController: obj)
         }
     }
@@ -563,7 +549,11 @@ class ContentViewController: UIViewController {
 
     func deleteSelectedContent(){
         if !self.seletedImage.contentID.trim().isEmpty {
-            self.deleteContent()
+            if ContentList.sharedInstance.objStream != nil {
+                self.deleteContentFromStream()
+            }else {
+                self.deleteContent()
+            }
         }else {
             ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
             self.currentIndex =  self.currentIndex - 1
@@ -691,6 +681,40 @@ class ContentViewController: UIViewController {
         }
     }
     
+    func deleteContentFromStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                if self.isEdit == nil {
+                    ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    if  ContentList.sharedInstance.arrayContent.count == 0 {
+                        self.navigationController?.pop()
+                        return
+                    }
+                    self.currentIndex =  self.currentIndex - 1
+                    if(self.currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
+                        self.next()
+                    }else {
+                        self.previous()
+                    }
+                }else {
+                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+                        ContentList.sharedInstance.arrayContent.remove(at: index)
+                        self.navigationController?.pop()
+                    }
+                    if self.isForEditOnly != nil {
+                        self.navigationController?.pop()
+                    }
+                    
+                }
+                
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
     func deleteFileFromAWS(content:ContentDAO){
         if !content.coverImage.isEmpty {
             AWSManager.sharedInstance.removeFile(name: content.coverImage.getName(), completion: { (isDeleted, error) in
@@ -715,6 +739,7 @@ class ContentViewController: UIViewController {
                         ContentList.sharedInstance.arrayContent[index] = content!
                     }
                     self.seletedImage = content
+                    self.btnDone.isHidden = true
                     if self.isForEditOnly != nil {
                         self.navigationController?.pop()
                     }
@@ -731,9 +756,12 @@ class ContentViewController: UIViewController {
     func uploadFile(){
         // Create a object array to upload file to AWS
         self.deleteFileFromAWS(content: self.seletedImage)
-        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: NSUUID().uuidString + ".png") { (imageURL, error) in
+        let fileName = NSUUID().uuidString + ".png"
+        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: fileName) { (imageURL, error) in
             if error == nil {
                 DispatchQueue.main.async { // Correct
+                    self.seletedImage.coverImage = imageURL
+                    self.seletedImage.imgPreview = nil
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
                 }
@@ -770,6 +798,7 @@ extension ContentViewController:PhotoEditorDelegate
         }
         self.updateContent()
         self.btnDone.isHidden = false
+        
     }
     
     func canceledEditing() {
@@ -812,32 +841,13 @@ extension ContentViewController:UITextViewDelegate {
             isEditngContent = false
             self.btnDone.isHidden = true
         }
-        if txtDescription.text.isEmpty {
-            txtDescription.placeholderName = "Description"
-        }else{
-            txtDescription.placeholderName = ""
-        }
     }
     
-    public func textViewDidChange(_ textView: UITextView) {
-        if txtDescription.text.isEmpty {
-            txtDescription.placeholderName = "Description"
-        }else{
-            txtDescription.placeholderName = ""
-        }
-        if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
-            placeholderLabel.isHidden = txtDescription.text.count > 0
-        }
-    }
+
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {        
         if(text == "\n") {
             txtDescription.resignFirstResponder()
-            if txtDescription.text.isEmpty {
-                txtDescription.placeholderName = "Description"
-            }else{
-                txtDescription.placeholderName = ""
-            }
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250

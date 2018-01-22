@@ -228,6 +228,7 @@ class ViewStreamController: UIViewController {
             currentIndex = currentIndex + 1
         }
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
+        self.viewStreamCollectionView.reloadData()
         self.updateLayOut()
     }
     

@@ -11,7 +11,6 @@ import Photos
 import PhotosUI
 import AVFoundation
 import Lightbox
-import ALCameraViewController
 
 class AddStreamViewController: UITableViewController {
     
@@ -49,13 +48,13 @@ class AddStreamViewController: UITableViewController {
     var strCoverImage:String! = ""
     var isPerform:Bool! = false
     var isAddContent:Bool!
-    var minimumSize: CGSize = CGSize(width: 100, height: 100)
+    var minimumSize: CGSize = CGSize.zero
     
     var contentRowHeight : CGFloat = 30.0 
 
     
     var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: true, allowResizing: true, allowMoving: true, minimumSize: minimumSize)
+        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: minimumSize)
     }
     
     // MARK: - Override Functions
@@ -414,7 +413,7 @@ class AddStreamViewController: UITableViewController {
     
     private func createStream(cover:String,width:Int,hieght:Int){
         
-     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
+     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,streamID) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
