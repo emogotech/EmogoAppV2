@@ -112,17 +112,17 @@ class StreamContentViewController: MSMessagesAppViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 if currentContentIndex !=  arrContentData.count-1 {
-                    DispatchQueue.main.async {
-                        self.hudView.startLoaderWithAnimation()
-                    }
+//                    DispatchQueue.main.async {
+//                        self.hudView.startLoaderWithAnimation()
+//                    }
                     self.perform(#selector(self.nextContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
             case UISwipeGestureRecognizerDirection.right:
                 if currentContentIndex != 0 {
-                    DispatchQueue.main.async {
-                        self.hudView.startLoaderWithAnimation()
-                    }
+//                    DispatchQueue.main.async {
+//                        self.hudView.startLoaderWithAnimation()
+//                    }
                     self.perform(#selector(self.previousContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break

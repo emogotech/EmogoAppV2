@@ -13,6 +13,10 @@ class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber  : UITextField!
+    @IBOutlet weak var txtMobileCollapse  : UITextField!
+    @IBOutlet weak var viewExpand  : UIView!
+    @IBOutlet weak var viewCollapse  : UIView!
+    @IBOutlet weak var imgBackground : UIImageView!
     
     // MARK: - Variables
     var hudView                         : LoadingView!
@@ -34,11 +38,49 @@ class SignInViewController: MSMessagesAppViewController {
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
+         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
         
-//        txtMobileNumber.layer.cornerRadius = kCornor_Radius
-//        txtMobileNumber.clipsToBounds = true
         
-        txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
+        txtMobileCollapse.attributedPlaceholder = placeholder
+        txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+        }
+       
+    }
+    
+    @objc func requestMessageScreenChangeSize(){
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+            self.txtMobileNumber.text = self.txtMobileCollapse.text
+            self.txtMobileNumber.becomeFirstResponder()
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+            self.txtMobileCollapse.text = self.txtMobileNumber.text
+            self.txtMobileNumber.resignFirstResponder()
+        }
     }
     
     // MARK:- LoaderSetup
