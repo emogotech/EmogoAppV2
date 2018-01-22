@@ -97,6 +97,9 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK:- prepareLayout
     @objc func prepareLayout() {
         
+        let sizeofTextField = self.searchText.font?.pointSize
+        self.searchText.minimumFontSize = sizeofTextField!
+        
         collectionStream.delegate = self
         collectionStream.dataSource = self
         
@@ -160,13 +163,6 @@ class HomeViewController: MSMessagesAppViewController {
         let pagerView = FSPagerView()
         pagerView.frame = pagerContent.bounds
         pagerContent.addSubview(pagerView)
-//        pagerView.translatesAutoresizingMaskIntoConstraints = false
-
-//        pagerView.topAnchor.constraint(equalTo: pagerContent.topAnchor).isActive = true
-//        pagerView.leftAnchor.constraint(equalTo: pagerContent.leftAnchor).isActive = true
-//        pagerView.rightAnchor.constraint(equalTo: pagerContent.rightAnchor).isActive = true
-//        pagerView.bottomAnchor.constraint(equalTo: pagerContent.topAnchor).isActive = true
-//
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
@@ -184,26 +180,29 @@ class HomeViewController: MSMessagesAppViewController {
     
     // MARK:- pull to refresh LoaderSetup
     func setupRefreshLoader() {
-        self.refresher = UIRefreshControl.init(frame: CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100))
-        
-        hudRefreshView  = LoadingView.init(frame: (self.refresher?.frame)!)
-        hudRefreshView.load?.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        hudRefreshView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        hudRefreshView.loaderImage?.isHidden = true
-        hudRefreshView.load?.frame = CGRect(x: 0, y: (self.refresher?.frame.width)!/2-30, width: 30, height: 30)
-        hudRefreshView.load?.translatesAutoresizingMaskIntoConstraints = false
-        hudRefreshView.load?.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        hudRefreshView.load?.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        hudRefreshView.load?.lineWidth = 3.0
-        hudRefreshView.load?.duration = 2.0
-        self.refresher?.addSubview(hudRefreshView)
-        
-        self.collectionStream!.alwaysBounceVertical = true
-        self.refresher?.tintColor = UIColor.clear
-        self.refresher?.addTarget(self, action: #selector(pullToDownAction), for: .valueChanged)
-        self.collectionStream!.addSubview(refresher!)
-        viewCollections.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-        viewStream.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        if self.refresher == nil {
+            self.refresher = UIRefreshControl.init(frame: CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100))
+            
+            hudRefreshView  = LoadingView.init(frame: (self.refresher?.frame)!)
+            hudRefreshView.load?.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            hudRefreshView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+            hudRefreshView.loaderImage?.isHidden = true
+            hudRefreshView.load?.frame = CGRect(x: 0, y: (self.refresher?.frame.width)!/2-30, width: 30, height: 30)
+            hudRefreshView.load?.translatesAutoresizingMaskIntoConstraints = false
+            hudRefreshView.load?.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            hudRefreshView.load?.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            hudRefreshView.load?.lineWidth = 3.0
+            hudRefreshView.load?.duration = 2.0
+            self.refresher?.addSubview(hudRefreshView)
+            
+            self.collectionStream!.alwaysBounceVertical = true
+            self.refresher?.tintColor = UIColor.clear
+            self.refresher?.addTarget(self, action: #selector(pullToDownAction), for: .valueChanged)
+            self.collectionStream!.addSubview(refresher!)
+            viewCollections.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+            viewStream.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+        }
+      
     }
     
     func setupCollectionProperties() {
