@@ -39,6 +39,11 @@ class ProfileViewController: UIViewController {
     
     var isEdited:Bool! = false
     var isUpdateList:Bool! = false
+    var imageToUpload:UIImage!
+    var fileName:String! = ""
+    var croppingParameters: CroppingParameters {
+        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
+    }
     
     
     // MARK: - Override Functions
@@ -178,12 +183,26 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
-        let objUpdate:ProfileUpdateViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView) as! ProfileUpdateViewController
-        let objPopup = BIZPopupViewController(contentViewController: objUpdate, contentSize:  CGSize(width: 280.0, height: 340.0))
-        objPopup?.showDismissButton = false
-        self.present(objPopup!, animated: true, completion: nil)
+        
     }
     
+    func updateProfileImage(){
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .default) { (action) in
+            HUDManager.sharedInstance.showHUD()
+            self.profileUpdate(strURL: "")
+        }
+        let action2 = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
+            self.profilepicUpload()
+        }
+        let action3 = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
+        }
+        alert.addAction(action2)
+        alert.addAction(action1)
+        alert.addAction(action3)
+
+        present(alert, animated: true, completion: nil)
+    }
     
     private func updateSegment(selected:Int){
         switch selected {
@@ -371,7 +390,60 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    // MARK: - API
     
+    private func uploadProfileImage(){
+        HUDManager.sharedInstance.showHUD()
+        let image = self.imageToUpload.reduceSize()
+        let imageData = UIImageJPEGRepresentation(image, 1.0)
+        let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let fileUrl = URL(fileURLWithPath: url)
+        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.profileUpdate(strURL: imageUrl!)
+                }
+            }else {
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
+    
+    
+    private func profileUpdate(strURL:String){
+        
+        APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: UserDAO.sharedInstance.user.fullName, profilePic: strURL) { (isSuccess, errorMsg) in
+            
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
+                
+                self.dismiss(animated: true, completion: nil)
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func profilepicUpload() {
+        
+        let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+            if let img = image{
+                self?.setCoverImage(image: img)
+            }
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
+        present(cameraViewController, animated: true, completion: nil)
+        
+    }
+    
+    func setCoverImage(image:UIImage) {
+        self.imageToUpload = image
+        self.imgUser.image = image
+        self.fileName =  NSUUID().uuidString + ".png"
+        self.uploadProfileImage()
+    }
     
     /*
      // MARK: - Navigation
