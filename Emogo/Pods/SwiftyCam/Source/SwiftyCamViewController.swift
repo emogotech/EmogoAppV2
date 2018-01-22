@@ -1135,8 +1135,22 @@ extension SwiftyCamViewController {
 		switchCamera()
 	}
     
+    @objc func respondSwipeGesture(gesture: UIGestureRecognizer){
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+                
+            case UISwipeGestureRecognizerDirection.right:
+                self.cameraDelegate?.swipeBackDelegate()
+                break
+                
+            default:
+                break
+            }
+        }
+    }
+    
     @objc private func panGesture(pan: UIPanGestureRecognizer) {
-        
+    
         guard swipeToZoom == true && self.currentCamera == .rear else {
             //ignore pan
             return
@@ -1199,9 +1213,14 @@ extension SwiftyCamViewController {
 		doubleTapGesture.delegate = self
 		previewLayer.addGestureRecognizer(doubleTapGesture)
         
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
-        panGesture.delegate = self
-        previewLayer.addGestureRecognizer(panGesture)
+      //  panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(pan:)))
+      //  panGesture.delegate = self
+      //  previewLayer.addGestureRecognizer(panGesture)
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondSwipeGesture(gesture:)))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        previewLayer.addGestureRecognizer(swipeRight)
+
 	}
 }
 

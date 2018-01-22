@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import CropViewController
 
 // MARK: - Control
 public enum control {
@@ -30,11 +31,12 @@ extension PhotoEditorViewController {
     }
 
     @IBAction func cropButtonTapped(_ sender: UIButton) {
-        let controller = CropViewController()
-        controller.delegate = self
-        controller.image = canvasImageView.image
-        let navController = UINavigationController(rootViewController: controller)
-        present(navController, animated: true, completion: nil)
+         let croppingStyle = CropViewCroppingStyle.default
+        let croppedRect = CGRect.zero
+        let  croppedAngle = 0
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: canvasImageView.image!)
+        cropController.delegate = self
+        present(cropController, animated: true, completion: nil)
     }
 
     @IBAction func stickersButtonTapped(_ sender: Any) {

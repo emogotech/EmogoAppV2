@@ -99,7 +99,7 @@ class ContentViewController: UIViewController {
     
     
     func updateContent() {
-         self.imgCover.image = nil
+        self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
@@ -701,6 +701,7 @@ class ContentViewController: UIViewController {
                         ContentList.sharedInstance.arrayContent[index] = content!
                     }
                     self.seletedImage = content
+                    self.btnDone.isHidden = true
                     if self.isForEditOnly != nil {
                         self.navigationController?.pop()
                     }
@@ -717,9 +718,11 @@ class ContentViewController: UIViewController {
     func uploadFile(){
         // Create a object array to upload file to AWS
         self.deleteFileFromAWS(content: self.seletedImage)
-        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: NSUUID().uuidString + ".png") { (imageURL, error) in
+        let fileName = NSUUID().uuidString + ".png"
+        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: fileName) { (imageURL, error) in
             if error == nil {
                 DispatchQueue.main.async { // Correct
+                    self.seletedImage.coverImage = imageURL
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
                 }

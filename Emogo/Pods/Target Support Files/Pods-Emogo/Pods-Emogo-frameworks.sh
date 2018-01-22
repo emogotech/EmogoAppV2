@@ -102,11 +102,11 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/ALCameraViewController/ALCameraViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cache/Cache.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"
@@ -121,11 +121,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/ALCameraViewController/ALCameraViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cache/Cache.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Gallery/Gallery.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"

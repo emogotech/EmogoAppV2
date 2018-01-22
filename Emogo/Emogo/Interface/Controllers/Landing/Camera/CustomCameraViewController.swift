@@ -109,10 +109,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         btnCamera.addGestureRecognizer(longGesture)
         
         
-//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-//        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-//        previewLayer.addGestureRecognizer(swipeRight)
-        
     }
     
     func prepareContainerToPresent(){
@@ -227,6 +223,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         
     }
     
+    
+    
     @IBAction func btnActionShutter(_ sender: Any) {
         previewScreenNavigated()
     }
@@ -260,21 +258,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
-    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-                
-            case UISwipeGestureRecognizerDirection.right:
-                
-                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
-                self.navigationController?.popViewController(animated: false)
-                break
-                
-            default:
-                break
-            }
-        }
-    }
+  
   
     
     @IBAction func btnAnimateViewAction(_ sender: Any) {
@@ -327,8 +311,8 @@ class CustomCameraViewController: SwiftyCamViewController {
             
         default: break
         }
-        
     }
+    
     
     
     // MARK: - Class Methods
@@ -529,6 +513,9 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didSwitchCameras camera: SwiftyCamViewController.CameraSelection) {
         // Called when user switches between cameras
         // Returns current camera selection
+    }
+    func swipeBackDelegate() {
+        self.navigationController?.popNormal()
     }
 }
 
