@@ -123,6 +123,7 @@ extension SignInViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textFieldText: String! = textField.text
         
+        
         if range.location < SharedData.sharedInstance.countryCode.count {
             return false
         }
@@ -157,3 +158,5 @@ extension SignInViewController: UITextFieldDelegate {
     }
 
 }
+
+

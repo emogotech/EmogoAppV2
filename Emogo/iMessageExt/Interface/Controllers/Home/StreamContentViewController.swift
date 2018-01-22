@@ -242,6 +242,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnsendAction(_ sender:UIButton){
+        self.view.isUserInteractionEnabled = false
         if(SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
@@ -373,6 +374,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         message.layout = layout
         message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+         self.view.isUserInteractionEnabled = true
     }
     
     override func didReceiveMemoryWarning() {

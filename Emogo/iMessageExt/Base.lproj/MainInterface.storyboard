@@ -731,9 +731,11 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQr-0I-T8n">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQr-0I-T8n">
                                         <rect key="frame" x="8" y="5" width="151" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="kcQ-YE-3X2"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="15"/>
                                         <state key="normal" title="FEATURED">
                                             <color key="titleColor" red="0.0" green="0.5607843137254902" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -742,22 +744,12 @@
                                             <action selector="btnFeaturedTap:" destination="VaB-LN-Ug2" eventType="touchUpInside" id="nHc-vZ-6Uc"/>
                                         </connections>
                                     </button>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2st-yn-GXI">
-                                        <rect key="frame" x="169" y="5" width="198" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2st-yn-GXI">
+                                        <rect key="frame" x="169" y="8" width="198" height="34"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqC-U3-dfv">
-                                                <rect key="frame" x="163" y="0.0" width="28" height="41"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" image="search_icon_iphone"/>
-                                                <state key="selected" image="cross-icon"/>
-                                                <connections>
-                                                    <action selector="btnSearchAction:" destination="VaB-LN-Ug2" eventType="touchUpInside" id="UV6-YZ-uc3"/>
-                                                </connections>
-                                            </button>
-                                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="cIj-e9-fjI">
-                                                <rect key="frame" x="6" y="0.0" width="165" height="41"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="cIj-e9-fjI">
+                                                <rect key="frame" x="8" y="5" width="164" height="24"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -765,8 +757,30 @@
                                                     <outlet property="delegate" destination="VaB-LN-Ug2" id="ACU-ch-yJw"/>
                                                 </connections>
                                             </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqC-U3-dfv">
+                                                <rect key="frame" x="173" y="0.0" width="25" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="25" id="dN9-PI-joR"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" image="search_icon_iphone"/>
+                                                <state key="selected" image="cross-icon"/>
+                                                <connections>
+                                                    <action selector="btnSearchAction:" destination="VaB-LN-Ug2" eventType="touchUpInside" id="UV6-YZ-uc3"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2st-yn-GXI" secondAttribute="height" multiplier="99:20" constant="29.699999999999989" id="387-3U-87k"/>
+                                            <constraint firstItem="cIj-e9-fjI" firstAttribute="leading" secondItem="2st-yn-GXI" secondAttribute="leading" constant="8" id="Dl7-kI-0gS"/>
+                                            <constraint firstItem="BqC-U3-dfv" firstAttribute="top" secondItem="2st-yn-GXI" secondAttribute="top" id="HLn-eT-lJn"/>
+                                            <constraint firstAttribute="bottom" secondItem="BqC-U3-dfv" secondAttribute="bottom" id="Hlr-6N-Mq0"/>
+                                            <constraint firstItem="cIj-e9-fjI" firstAttribute="top" secondItem="2st-yn-GXI" secondAttribute="top" constant="5" id="Ue8-2d-Boj"/>
+                                            <constraint firstAttribute="bottom" secondItem="cIj-e9-fjI" secondAttribute="bottom" constant="5" id="Vs6-8A-1YK"/>
+                                            <constraint firstItem="BqC-U3-dfv" firstAttribute="leading" secondItem="cIj-e9-fjI" secondAttribute="trailing" constant="1" id="bdq-dJ-Qeg"/>
+                                            <constraint firstAttribute="trailing" secondItem="BqC-U3-dfv" secondAttribute="trailing" id="fes-vV-Ceq"/>
+                                        </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sWI-ZT-hbn">
                                         <rect key="frame" x="0.0" y="49" width="375" height="1"/>
@@ -782,15 +796,22 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="wQr-0I-T8n" firstAttribute="top" secondItem="sQl-z1-FpY" secondAttribute="top" constant="5" id="Hwb-bQ-Epe"/>
                                     <constraint firstItem="mgo-6E-ZSq" firstAttribute="top" secondItem="sQl-z1-FpY" secondAttribute="top" id="LpA-Qc-uii"/>
                                     <constraint firstAttribute="height" constant="50" id="P1w-2L-3dF"/>
                                     <constraint firstAttribute="trailing" secondItem="sWI-ZT-hbn" secondAttribute="trailing" id="Pd6-C7-Dg4"/>
+                                    <constraint firstItem="2st-yn-GXI" firstAttribute="top" secondItem="mgo-6E-ZSq" secondAttribute="bottom" constant="7" id="Xg5-mO-ZAl"/>
+                                    <constraint firstItem="sWI-ZT-hbn" firstAttribute="top" secondItem="2st-yn-GXI" secondAttribute="bottom" constant="7" id="c2X-su-rpM"/>
+                                    <constraint firstItem="wQr-0I-T8n" firstAttribute="leading" secondItem="sQl-z1-FpY" secondAttribute="leading" constant="8" id="d5J-QQ-4X3"/>
                                     <constraint firstItem="sWI-ZT-hbn" firstAttribute="leading" secondItem="sQl-z1-FpY" secondAttribute="leading" id="dfi-Ro-Dvh"/>
+                                    <constraint firstAttribute="bottom" secondItem="wQr-0I-T8n" secondAttribute="bottom" constant="5" id="eWI-BJ-cqv"/>
+                                    <constraint firstItem="2st-yn-GXI" firstAttribute="leading" secondItem="wQr-0I-T8n" secondAttribute="trailing" constant="10" id="kRf-s6-xyI"/>
                                     <constraint firstItem="mgo-6E-ZSq" firstAttribute="leading" secondItem="sQl-z1-FpY" secondAttribute="leading" id="p0o-io-ZUX"/>
                                     <constraint firstAttribute="bottom" secondItem="sWI-ZT-hbn" secondAttribute="bottom" id="pGG-PU-ADs"/>
                                     <constraint firstAttribute="trailing" secondItem="sWI-ZT-hbn" secondAttribute="trailing" id="qtV-1W-WgK"/>
                                     <constraint firstAttribute="trailing" secondItem="mgo-6E-ZSq" secondAttribute="trailing" id="sPa-cw-dai"/>
                                     <constraint firstItem="sWI-ZT-hbn" firstAttribute="leading" secondItem="sQl-z1-FpY" secondAttribute="leading" id="tFd-do-xgU"/>
+                                    <constraint firstAttribute="trailing" secondItem="2st-yn-GXI" secondAttribute="trailing" constant="8" id="xCK-Bm-1Au"/>
                                     <constraint firstAttribute="bottom" secondItem="sWI-ZT-hbn" secondAttribute="bottom" id="yw8-am-xmm"/>
                                 </constraints>
                             </view>
@@ -1902,7 +1923,7 @@
         <image name="white_up_arrow" width="12" height="7"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0JJ-eD-H3B"/>
+        <segue reference="A1q-kX-4z3"/>
         <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -81,6 +81,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
+        SharedData.sharedInstance.tempViewController = nil
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
         }
