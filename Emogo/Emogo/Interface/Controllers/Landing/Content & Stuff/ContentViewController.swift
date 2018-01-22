@@ -77,7 +77,7 @@ class ContentViewController: UIViewController {
             self.btnAddToStream.isHidden = true
         }
         self.txtTitleImage.maxLength = 50
-        self.txtDescription.placeholderName = "Description"
+
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
@@ -106,6 +106,8 @@ class ContentViewController: UIViewController {
         }
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
+        self.txtDescription.placeholder = "Description"
+        self.txtDescription.placeholderColor = .red
 //        self.txtDescription.placeholderName = (seletedImage.isEdit && seletedImage.description.isEmpty) ? "Description" : ""
         
         if  seletedImage.imgPreview != nil {
@@ -121,11 +123,7 @@ class ContentViewController: UIViewController {
         if !seletedImage.description.isEmpty {
             self.txtDescription.text = seletedImage.description.trim()
             print(self.txtDescription.text)
-            if !self.txtDescription.text.trim().isEmpty {
-                self.txtDescription.placeholderName = ""
-            }else{
-                self.txtDescription.placeholderName = "Description"
-            }
+
         }else{
             self.txtDescription.text = ""
         }
@@ -156,9 +154,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
+
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -171,9 +167,6 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -186,10 +179,6 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
-                        
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -202,10 +191,7 @@ class ContentViewController: UIViewController {
                         self.imgCover.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
-                        if self.txtDescription.text.trim().isEmpty{
-                            self.txtDescription.placeholderName = "Description"
-                        }
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 
@@ -812,32 +798,15 @@ extension ContentViewController:UITextViewDelegate {
             isEditngContent = false
             self.btnDone.isHidden = true
         }
-        if txtDescription.text.isEmpty {
-            txtDescription.placeholderName = "Description"
-        }else{
-            txtDescription.placeholderName = ""
-        }
     }
     
     public func textViewDidChange(_ textView: UITextView) {
-        if txtDescription.text.isEmpty {
-            txtDescription.placeholderName = "Description"
-        }else{
-            txtDescription.placeholderName = ""
-        }
-        if let placeholderLabel = txtDescription.viewWithTag(100) as? UILabel {
-            placeholderLabel.isHidden = txtDescription.text.count > 0
-        }
+
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {        
         if(text == "\n") {
             txtDescription.resignFirstResponder()
-            if txtDescription.text.isEmpty {
-                txtDescription.placeholderName = "Description"
-            }else{
-                txtDescription.placeholderName = ""
-            }
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250

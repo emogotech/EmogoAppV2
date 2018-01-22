@@ -104,6 +104,7 @@
 		C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89578601FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift */; };
 		C89ABA881FCBED0A00AFCB6A /* CameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */; };
 		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
+		C8FBD72E2015F5CE007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD72D2015F5CE007C7C1B /* UITextView+Placeholder.m */; };
 		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
 		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
 		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
@@ -438,6 +439,8 @@
 		C89ABA871FCBED0A00AFCB6A /* CameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewControllerTests.swift; sourceTree = "<group>"; };
 		C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmogoSignUpUITests.swift; sourceTree = "<group>"; };
 		C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8FBD72C2015F5CE007C7C1B /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		C8FBD72D2015F5CE007C7C1B /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
 		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
@@ -1015,6 +1018,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				C8FBD72B2015F5CE007C7C1B /* Text View PlaceHolder */,
 				F4539376200CDF3B00F7D029 /* VisualView */,
 				F423AEFD2008EF1600648A3E /* PhotoPicker */,
 				F42218012007AE2D002D4E4E /* CellResizeManager */,
@@ -1153,6 +1157,15 @@
 				512AC7A67B1967277A47AEDD /* Pods-EmogoUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C8FBD72B2015F5CE007C7C1B /* Text View PlaceHolder */ = {
+			isa = PBXGroup;
+			children = (
+				C8FBD72C2015F5CE007C7C1B /* UITextView+Placeholder.h */,
+				C8FBD72D2015F5CE007C7C1B /* UITextView+Placeholder.m */,
+			);
+			path = "Text View PlaceHolder";
 			sourceTree = "<group>";
 		};
 		F401DFAA1FE2890F00BD7DDA /* Content & Stuff */ = {
@@ -2493,6 +2506,7 @@
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
+				C8FBD72E2015F5CE007C7C1B /* UITextView+Placeholder.m in Sources */,
 				F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
 				F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */,
