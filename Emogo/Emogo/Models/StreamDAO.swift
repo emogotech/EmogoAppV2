@@ -61,6 +61,7 @@ class StreamDAO {
 class StreamList{
     
     var arrayStream:[StreamDAO]!
+    var arrayMyStream:[StreamDAO]!
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
 
@@ -72,6 +73,7 @@ class StreamList{
     }
     init() {
         arrayStream = [StreamDAO]()
+        arrayMyStream = [StreamDAO]()
     }
     
     func updateRequestType(filter:StreamType){

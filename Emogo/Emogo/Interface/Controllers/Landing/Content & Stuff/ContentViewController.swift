@@ -402,6 +402,7 @@ class ContentViewController: UIViewController {
         else{
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
         obj.objContent = seletedImage
+        obj.streamID =  ContentList.sharedInstance.objStream
         self.navigationController?.push(viewController: obj)
         }
     }

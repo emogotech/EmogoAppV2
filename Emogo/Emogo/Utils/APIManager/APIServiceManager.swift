@@ -366,11 +366,21 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
                             for obj in result {
+                                
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
-                                    // it exists, do something
-                                } else {
-                                    StreamList.sharedInstance.arrayStream.append(stream)                                }
+                                if kShowOnlyMyStream.isEmpty {
+                                    if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
+                                        // it exists, do something
+                                    } else {
+                                        StreamList.sharedInstance.arrayStream.append(stream)                                }
+                                }else {
+                                    if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
+                                        // it exists, do something
+                                    } else {
+                                    StreamList.sharedInstance.arrayMyStream.append(stream)
+                                    }
+                                }
+                               
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{
