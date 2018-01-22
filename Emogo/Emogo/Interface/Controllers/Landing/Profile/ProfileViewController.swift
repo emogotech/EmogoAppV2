@@ -112,12 +112,14 @@ class ProfileViewController: UIViewController {
     
     func updateList(){
         if isEdited {
-            isEdited = false
             HUDManager.sharedInstance.showHUD()
+            isEdited = false
             if  self.currentMenu == .stuff {
                 self.getMyStuff(type: .start)
-            }else {
+            }else if self.currentMenu == .stream{
                 self.getStreamList(type:.start,filter: .myStream)
+            }else {
+                self.getColabs(type: .start)
             }
         }
     }
