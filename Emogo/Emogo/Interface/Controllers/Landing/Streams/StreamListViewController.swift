@@ -439,8 +439,7 @@ class StreamListViewController: UIViewController {
             }, completion: nil)
             self.viewMenu.isHidden = false
             isSearch = false
-        }
-        else{
+        }else{
             if txtSearch.text?.trim() != "" {
                 btnSearch.tag = 1
                 btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
@@ -449,6 +448,13 @@ class StreamListViewController: UIViewController {
                 isSearch = true
             
             }
+        }
+        
+        if isMenuOpen {
+            self.menuView.isHidden = true
+            self.viewMenu.isHidden = false
+            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+            isMenuOpen = false
         }
     }
     
