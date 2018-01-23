@@ -27,6 +27,7 @@ class SignInViewController: MSMessagesAppViewController {
       
         self.prepareLayout()
         self.setupLoader()
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,7 +41,7 @@ class SignInViewController: MSMessagesAppViewController {
         txtMobileNumber.attributedPlaceholder = placeholder;
          txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
         
-        
+        self.addToolBar(textField: txtMobileNumber)
         txtMobileCollapse.attributedPlaceholder = placeholder
         txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
         
@@ -64,7 +65,6 @@ class SignInViewController: MSMessagesAppViewController {
     
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-            
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
@@ -80,6 +80,14 @@ class SignInViewController: MSMessagesAppViewController {
             viewCollapse.isHidden = false
             self.txtMobileCollapse.text = self.txtMobileNumber.text
             self.txtMobileNumber.resignFirstResponder()
+        }
+        if SharedData.sharedInstance.isPortrate {
+            
+        } else {
+            DispatchQueue.main.async(execute: {
+//                self.supportedInterfaceOrientations = .po
+                self.view.transform  = CGAffineTransform(rotationAngle: -180)
+            })
         }
     }
     
@@ -97,11 +105,15 @@ class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- Action Methods
     @IBAction func btnSignIn(_ sender : UIButton) {
+      self.checkValidation()
+    }
+    
+    func checkValidation() {
         if !(Validator.isEmpty(text: txtMobileNumber.text!)) {
             txtMobileNumber.shakeTextField()
         }
         else if !(Validator.isMobileLength(text: txtMobileNumber.text!, lenght: kCharacter_Min_Length_MobileNumber)) {
-             self.showToastIMsg(type: .error, strMSG: kAlert_Phone_Number_Length_Msg)
+            self.showToastIMsg(type: .error, strMSG: kAlert_Phone_Number_Length_Msg)
         }
         else {
             self.view.endEditing(true);
@@ -155,6 +167,31 @@ class SignInViewController: MSMessagesAppViewController {
 
 // MARK:- Extension TextField Delegate
 extension SignInViewController: UITextFieldDelegate {
+    
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.blackTranslucent
+        toolBar.isTranslucent = true
+        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = .white
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton1,doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePressed(){
+        self.checkValidation()
+    }
+    
+    func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand) {

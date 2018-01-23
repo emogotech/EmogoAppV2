@@ -40,7 +40,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     func prepareLayout()  {
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: UIColor.white)
         txtVeryficationCode.attributedPlaceholder = placeholder;
-        
+        self.addToolBar(textField: txtVeryficationCode)
         txtVeryficationCollapse.attributedPlaceholder = placeholder
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
@@ -92,6 +92,37 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- Action Methods
     @IBAction func btnDone(_ sender : UIButton) {
+     self.checkValidation()
+    }
+    
+    @IBAction func btnResend(_ sender : UIButton){
+        self.view.endEditing(true)
+        self.resendOTP()
+    }
+    
+    //MARK:- TextField Delegate method
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.blackTranslucent
+        toolBar.isTranslucent = true
+        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = .white
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton1,doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePressed(){
+        self.checkValidation()
+    }
+    
+    func checkValidation() {
         if !(Validator.isEmpty(text: txtVeryficationCode.text!)) {
             txtVeryficationCode.shakeTextField()
         }
@@ -104,12 +135,10 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
     }
     
-    @IBAction func btnResend(_ sender : UIButton){
-        self.view.endEditing(true)
-        self.resendOTP()
+    func cancelPressed(){
+        view.endEditing(true) // or do something
     }
     
-    //MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)

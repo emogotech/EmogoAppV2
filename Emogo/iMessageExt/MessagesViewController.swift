@@ -23,6 +23,10 @@ class MessagesViewController: MSMessagesAppViewController {
         // SharedData.sharedInstance.resetAllData()
         prepareLayout()
         setupLoader()
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeOrentation), name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
@@ -114,11 +118,14 @@ class MessagesViewController: MSMessagesAppViewController {
     
     @objc func changeOrentation() {
         print(self.view.frame.size.width)
-        self.perform(#selector(self.changeOrentationAfterBack), with: nil, afterDelay: 0.4)
+        self.perform(#selector(self.changeOrentationAfterBack), with: nil, afterDelay: 0.7)
     }
     
     @objc func changeOrentationAfterBack() {
-        print(self.view.frame.size.width)
+        print(UIApplication.shared.statusBarFrame.height)
+         print(UIApplication.shared.statusBarFrame.width)
+        print("self.view.frame.size.width----->",self.view.frame.size.width)
+        print("self.view.frame.size.height----->",self.view.frame.size.height)
         if self.view.frame.size.width > self.view.frame.size.height {
             SharedData.sharedInstance.isPortrate = false
         }

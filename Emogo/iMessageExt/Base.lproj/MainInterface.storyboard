@@ -988,7 +988,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="15"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="search"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="VaB-LN-Ug2" id="ACU-ch-yJw"/>
                                                 </connections>
@@ -2159,7 +2159,7 @@
         <image name="white_up_arrow" width="12" height="7"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rWE-0e-NjR"/>
+        <segue reference="0JJ-eD-H3B"/>
         <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>
