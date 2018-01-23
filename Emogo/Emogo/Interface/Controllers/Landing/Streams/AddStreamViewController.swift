@@ -113,6 +113,16 @@ class AddStreamViewController: UITableViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
+        // If Stream is public
+        self.switchAddCollaborators.isUserInteractionEnabled = false
+        self.rowHieght.constant = 0.0
+        self.isExpandRow = false
+        self.switchAddCollaborators.isOn = false
+        self.switchAddPeople.isOn = false
+        self.switchAddContent.isOn = false
+        self.switchAddPeople.isUserInteractionEnabled = false
+        self.switchAddContent.isUserInteractionEnabled = false
+        self.switchAnyOneCanEdit.isUserInteractionEnabled = true
     }
     
     
@@ -148,32 +158,34 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Private"
             }
             self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
-            self.selectedCollaborators = (self.objStream?.arrayColab)!
-            if self.selectedCollaborators.count != 0 || self.objStream?.canAddPeople == true {
-                self.rowHieght.constant = 325.0
-                self.isExpandRow = true
-                self.switchAddCollaborators.isOn = true
+            if self.switchAnyOneCanEdit.isOn == false {
+                self.selectedCollaborators = (self.objStream?.arrayColab)!
+                if self.selectedCollaborators.count != 0 || self.objStream?.canAddPeople == true {
+                    self.rowHieght.constant = 325.0
+                    self.isExpandRow = true
+                    self.switchAddCollaborators.isOn = true
+                }
+                
+                if self.switchAddCollaborators.isOn == false{
+                    self.switchAddContent.isUserInteractionEnabled = false
+                    self.switchAddPeople.isUserInteractionEnabled  = false
+                    self.switchAddPeople.isOn       = false
+                    self.switchAddContent.isOn      = false
+                }else{
+                    self.switchAddContent.isUserInteractionEnabled = true
+                    self.switchAddPeople.isUserInteractionEnabled  = true
+                    self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+                    self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+                }
             }
-
-            if self.switchAddCollaborators.isOn == false{
-                self.switchAddContent.isUserInteractionEnabled = false
-                self.switchAddPeople.isUserInteractionEnabled  = false
-                self.switchAddPeople.isOn       = false
-                self.switchAddContent.isOn      = false
-            }else{
-                self.switchAddContent.isUserInteractionEnabled = true
-                self.switchAddPeople.isUserInteractionEnabled  = true
-                self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-                self.switchAddContent.isOn = (self.objStream?.canAddContent)!
-            }
-
+          
             if self.objStream?.canAddPeople == true {
                 self.prepareEdit(isEnable: false)
             }
+            
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.prepareEdit(isEnable: true)
             }
-            
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             if self.txtStreamCaption.text.count > 0 {
@@ -230,15 +242,22 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Private"
                 self.switchAnyOneCanEdit.isOn = false
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = false
-                self.switchAddCollaborators.isEnabled = true
-                
+                self.switchAddCollaborators.isUserInteractionEnabled = true
+                self.switchAddPeople.isUserInteractionEnabled = true
+                self.switchAddContent.isUserInteractionEnabled = true
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = false
             }else{
                 streamType = "Public"
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = true
-                self.switchAddCollaborators.isEnabled = false
                 self.switchAddCollaborators.isOn = false
                 self.rowHieght.constant = 0.0
                 self.isExpandRow = false
+                self.switchAnyOneCanEdit.isOn = false
+                self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+                self.switchAddCollaborators.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled = false
+                self.switchAddContent.isUserInteractionEnabled = false
+
             }
     }
     
@@ -246,18 +265,15 @@ class AddStreamViewController: UITableViewController {
         if self.switchAddCollaborators.isOn {
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
-            self.switchAddContent.isEnabled = true
-            self.switchAddPeople.isEnabled = true
             self.switchAddContent.isUserInteractionEnabled = true
             self.switchAddPeople.isUserInteractionEnabled = true
-                self.rowHieght.constant = 325.0
-                self.isExpandRow = true
+            self.rowHieght.constant = 325.0
+            self.isExpandRow = true
         }else{
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
-            
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
             selectedCollaborators.removeAll()
@@ -421,7 +437,7 @@ class AddStreamViewController: UITableViewController {
                       self.navigationController?.pop()
                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if self.isAddContent != nil {
-                        
+                        self.associateContentToStream(id: streamID!)
                     }
                 }
             }else {

@@ -389,7 +389,7 @@ class ViewStreamController: UIViewController {
                 if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     self.navigationItem.rightBarButtonItem = nil
                 }else{
-                    let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "content_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+                    let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
                     self.navigationItem.rightBarButtonItem = btnRightBar
                 }
             }else {
