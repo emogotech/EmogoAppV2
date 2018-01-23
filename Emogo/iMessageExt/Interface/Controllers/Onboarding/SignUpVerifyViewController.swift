@@ -13,6 +13,11 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- UI Elements
     @IBOutlet weak var txtVeryficationCode  : UITextField!
+    @IBOutlet weak var txtVeryficationCollapse  : UITextField!
+    @IBOutlet weak var imgBackground : UIImageView!
+    
+    @IBOutlet weak var viewExpand  : UIView!
+    @IBOutlet weak var viewCollapse  : UIView!
     
     // MARK:- Variables
     var OTP                                 : String?
@@ -36,8 +41,43 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: UIColor.white)
         txtVeryficationCode.attributedPlaceholder = placeholder;
         
-//        txtVeryficationCode.layer.cornerRadius = kCornor_Radius
-//        txtVeryficationCode.clipsToBounds = true
+        txtVeryficationCollapse.attributedPlaceholder = placeholder
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+      
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+        }
+    }
+    
+    @objc func requestMessageScreenChangeSize(){
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+            self.txtVeryficationCode.text = self.txtVeryficationCollapse.text
+            self.txtVeryficationCode.becomeFirstResponder()
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+            self.txtVeryficationCollapse.text = self.txtVeryficationCode.text
+            self.txtVeryficationCollapse.resignFirstResponder()
+        }
     }
     
     func setupLoader() {

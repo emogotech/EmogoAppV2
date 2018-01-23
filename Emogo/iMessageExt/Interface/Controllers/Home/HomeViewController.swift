@@ -36,6 +36,7 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     
     
+    
     // MARK: - Varibales
     var arrayStreams                            = [StreamDAO]()
     var hudView                                 : LoadingView!
@@ -215,11 +216,20 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func setupCollectionProperties() {
-        // Change individual layout attributes for the spacing between cells
         collectionLayout.minimumColumnSpacing = 8.0
         collectionLayout.minimumInteritemSpacing = 8.0
         collectionLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
-        collectionLayout.columnCount = 2
+        // Change individual layout attributes for the spacing between cells
+        if isSearch && isStreamEnable  {
+                 collectionLayout.columnCount = 2
+        }else    if isSearch && !isStreamEnable  {
+                 collectionLayout.columnCount = 3
+        }  else if btnFeature.titleLabel?.text == kSearchType {
+                 collectionLayout.columnCount = 3
+        } else{
+            collectionLayout.columnCount = 2
+        }
+   
         collectionStream!.collectionViewLayout = collectionLayout
         
     }
@@ -232,20 +242,26 @@ class HomeViewController: MSMessagesAppViewController {
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isPortrate {
-            pagerContent.isHidden = false
-              btnFeature.tag = 1
+            if (searchText.text?.trim().isEmpty)! {
+                pagerContent.isHidden = true
+                btnFeature.tag = 0
+            }else{
+                pagerContent.isHidden = false
+                btnFeature.tag = 1
+            }
+            
             self.collectionStream.reloadData()
         }else{
             pagerContent.isHidden = true
               btnFeature.tag = 0
             self.collectionStream.reloadData()
         }
-        self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.2)
+        self.perform(#selector(self.changeUI), with: nil, afterDelay: 0.3)
     }
     
     @objc func changeUI(){
         if(SharedData.sharedInstance.isMessageWindowExpand) {
-            self.perform(#selector(self.changeUIInBackground), with: nil, afterDelay: 0.8)
+            self.perform(#selector(self.updatUIWhileSearch), with: nil, afterDelay: 0.3)
             if searchText.text == "" {
                 if SharedData.sharedInstance.isPortrate {
                     pagerContent.isHidden = false
@@ -272,29 +288,9 @@ class HomeViewController: MSMessagesAppViewController {
 //            }
             pagerContent.isHidden = true
             btnFeature.tag = 0
+            self.perform(#selector(self.updatUIWhileSearch), with: self, afterDelay: 0.3)
         }
         self.view.layoutIfNeeded()
-    }
-    
-    @objc func changeUIInBackground(){
-        print(self.viewCollections.frame)
-        if(SharedData.sharedInstance.isMessageWindowExpand) {
-            if searchText.text  == "" {
-                if SharedData.sharedInstance.isPortrate {
-                    pagerContent.isHidden = false
-                      btnFeature.tag = 1
-                }else{
-                    pagerContent.isHidden = true
-                      btnFeature.tag = 0
-                }
-            }
-            else{
-                pagerContent.isHidden = true
-                  btnFeature.tag = 0
-            }
-            collectionFrame = collectionStream.frame
-            self.updatUIWhileSearch()
-        }
     }
     
     @objc func changeUIInBackgroundCollapse(){
@@ -370,26 +366,17 @@ class HomeViewController: MSMessagesAppViewController {
         collectionStream.translatesAutoresizingMaskIntoConstraints = false
         SharedData.sharedInstance.tempViewController = self
         btnFeature.setTitleColor(#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), for: UIControlState.normal)
-//           0,173,243
+    
         self.setupCollectionProperties()
-//        if(SharedData.sharedInstance.isMessageWindowExpand) {
-//            if searchText.text == "" {
-//                pagerContent.isHidden = true
-//                  btnFeature.tag = 0
-//            }
-//            else{
-//                if SharedData.sharedInstance.isPortrate {
-//                    pagerContent.isHidden = false
-//                      btnFeature.tag = 1
-//                }else{
-//                    pagerContent.isHidden = true
-//                      btnFeature.tag = 0
-//                }
-//            }
-//            btnFeature.tag = 1
-//        }
         self.setupRefreshLoader()
         setupAnchor()
+        
+        if (isSearch  && !isStreamEnable){
+               self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
+        }
+        else if (isSearch  &&  isStreamEnable){
+              self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
+        }
     }
     
     func checkIsAvailableFilter() -> Bool {
@@ -448,6 +435,7 @@ class HomeViewController: MSMessagesAppViewController {
         else {
             sender.isSelected = false
             sender.tag = 0
+            self.btnFeature.isUserInteractionEnabled = true
             self.searchText.text = ""
             isSearch = false
             self.searchText.resignFirstResponder()
@@ -980,6 +968,7 @@ extension HomeViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if(!(self.searchText.text?.trim().isEmpty)!) {
+            self.btnFeature.isUserInteractionEnabled = false
             self.hudView.startLoaderWithAnimation()
             isSearch = true
             isStreamEnable = true

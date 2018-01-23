@@ -13,6 +13,9 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK:- UI Elements
     @IBOutlet weak var txtName  : UITextField!
+    @IBOutlet weak var txtNameCollapse  : UITextField!
+    @IBOutlet weak var imgBackground : UIImageView!
+    
     @IBOutlet weak var viewExpand  : UIView!
     @IBOutlet weak var viewCollapse  : UIView!
     
@@ -36,22 +39,46 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     func prepareLayout()  {
         
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: UIColor.white)
-        txtName.attributedPlaceholder = placeholder;
+        txtName.attributedPlaceholder = placeholder
+        
+        txtNameCollapse.attributedPlaceholder = placeholder
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
-//        self.viewExpand.isHidden = true
-//        viewCollapse.isHidden = false
-//        txtName.layer.cornerRadius = kCornor_Radius
-//        txtName.clipsToBounds = true
+        
+        if SharedData.sharedInstance.isMessageWindowExpand {
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+        }
     }
     
     
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-//                self.viewExpand.isHidden = false
-//                viewCollapse.isHidden = true
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = false
+            viewCollapse.isHidden = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+            self.txtName.text = self.txtNameCollapse.text
+            self.txtName.becomeFirstResponder()
         }else{
-//            self.viewExpand.isHidden = true
-//            viewCollapse.isHidden = false
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+            self.viewExpand.center = self.view.center
+            self.viewCollapse.center = self.view.center
+            self.viewExpand.isHidden = true
+            viewCollapse.isHidden = false
+            self.txtNameCollapse.text = self.txtName.text
+            self.txtNameCollapse.resignFirstResponder()
         }
     }
     
