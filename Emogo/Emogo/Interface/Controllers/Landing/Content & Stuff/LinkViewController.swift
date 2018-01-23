@@ -78,8 +78,8 @@ class LinkViewController: UIViewController {
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
         }
-        else if Validator.verifyUrl(urlString: txtLink.text!) {
-            let articleUrl = URL(string: txtLink.text!)
+        else if Validator.verifyUrl(urlString: txtLink.text?.smartURL().absoluteString) {
+            let articleUrl = txtLink.text?.smartURL()
             HUDManager.sharedInstance.showHUD()
             Readability.parse(url: articleUrl!, completion: { data in
                 print(data)

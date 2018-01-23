@@ -253,8 +253,7 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddCollaborators.isUserInteractionEnabled = false
                 self.switchAddPeople.isUserInteractionEnabled = false
                 self.switchAddContent.isUserInteractionEnabled = false
-
-            }
+        }
     }
     
     @IBAction func addCollaboatorsAction(_ sender: PMSwitch) {

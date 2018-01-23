@@ -203,6 +203,34 @@ extension String {
         let shortString = String(self.prefix(count))
         return shortString
     }
+    
+    func smartURL() -> URL {
+        let str = self
+        var result : URL!
+        var trimmedStr : NSString
+        var schemeMarkerRange : NSRange
+        var scheme  :   NSString
+     
+        trimmedStr = "\(str)" as NSString
+        
+        if  trimmedStr.length != 0 {
+            schemeMarkerRange = trimmedStr.rangeOfCharacter(from: CharacterSet.init(charactersIn: "://"))
+            
+            if schemeMarkerRange.location == NSNotFound {
+                trimmedStr = trimmedStr.contains("www") ? trimmedStr : trimmedStr.appending("www.") as NSString
+                result = URL(string: "http://\(trimmedStr)")!
+            }else{
+                scheme  =  trimmedStr.substring(with: NSMakeRange(0, schemeMarkerRange.location)) as NSString
+                if scheme.compare("http", options: .caseInsensitive) == .orderedSame || scheme.compare("https", options: .caseInsensitive) == .orderedSame{
+                    result = URL(string: trimmedStr as String)
+                }else{
+                    print("failed url")
+                }
+            }
+        }
+        return result
+    }
+    
 }
 
 
