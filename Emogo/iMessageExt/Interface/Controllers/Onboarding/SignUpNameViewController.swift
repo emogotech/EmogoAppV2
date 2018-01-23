@@ -43,6 +43,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         
         txtNameCollapse.attributedPlaceholder = placeholder
         
+        self.addToolBar(textField: txtName)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
@@ -96,18 +97,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
-        if !(Validator.isEmpty(text: txtName.text!)) {
-            txtName.shakeTextField()
-        } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: kName_Min_Length)) {
-            self.showToastIMsg(type: .error, strMSG: kAlert_Error_NameMsg)
-        } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: kName_Max_Length)){
-            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
-        } else if(!Validator.isNameContainSpace(text: txtName.text!)){
-            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
-        } else {
-            self.view.endEditing(true);
-            self.verifyUserName()
-        }
+       self.checkValidation()
     }
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
@@ -124,6 +114,32 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     }
     
     // MARK:- TextField Delegate method
+    
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.blackTranslucent
+        toolBar.isTranslucent = true
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = .white
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton1,doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePressed(){
+        self.checkValidation()
+    }
+    
+    func cancelPressed(){
+        view.endEditing(true) // or do something
+    }
+    
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
@@ -164,6 +180,10 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     // MARK: - Delegate Methods of Segue
     override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
         return false
+    }
+    
+    func checkValidation(){
+        
     }
         
     // MARK: - API Methods

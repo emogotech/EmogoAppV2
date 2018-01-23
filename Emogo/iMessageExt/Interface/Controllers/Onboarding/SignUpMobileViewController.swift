@@ -40,7 +40,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder
         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
-
+        self.addToolBar(textField: txtMobileNumber)
         
         txtMobileCollapse.attributedPlaceholder = placeholder
         txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
@@ -71,7 +71,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
             self.txtMobileNumber.text = self.txtMobileCollapse.text
             self.txtMobileNumber.becomeFirstResponder()
-        }else{
+        } else{
             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
@@ -96,6 +96,40 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- Action Methods
     @IBAction func btnTextMeCode(_ sender : UIButton){
+        self.checkValidation()
+    }
+    
+    @IBAction func btnTapSignIn(_ sender : UIButton) {
+        self.view.endEditing(true);
+        
+        let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
+        self.addRippleTransition()
+        self.present(obj, animated: false, completion: nil)
+    }
+    
+    // MARK:- TextField Delegate method
+    func addToolBar(textField: UITextField){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.blackTranslucent
+        toolBar.isTranslucent = true
+        //        toolBar.tintColor =  UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.8)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePressed))
+        doneButton.tintColor = .white
+        
+        let spaceButton1 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([spaceButton1,doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        textField.delegate = self
+        textField.inputAccessoryView = toolBar
+    }
+    
+    @objc func donePressed(){
+        self.checkValidation()
+    }
+    
+    func checkValidation() {
         if !(Validator.isEmpty(text: txtMobileNumber.text!)) {
             txtMobileNumber.shakeTextField()
         }
@@ -108,15 +142,10 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
     }
     
-    @IBAction func btnTapSignIn(_ sender : UIButton) {
-        self.view.endEditing(true);
-        
-        let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
-        self.addRippleTransition()
-        self.present(obj, animated: false, completion: nil)
+    func cancelPressed(){
+        view.endEditing(true) // or do something
     }
     
-    // MARK:- TextField Delegate method
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if(!SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)

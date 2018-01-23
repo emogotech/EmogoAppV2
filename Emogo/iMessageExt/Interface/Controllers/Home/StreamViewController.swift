@@ -49,8 +49,11 @@ class StreamViewController: MSMessagesAppViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
         
         requestMessageScreenChangeSize()

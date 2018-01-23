@@ -45,7 +45,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         let content = arrContentData.first
         if (content?.isAdd)! {
             arrContentData.remove(at: 0)
-                currentContentIndex = currentContentIndex - 1
+            currentContentIndex = currentContentIndex - 1
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
@@ -112,17 +112,11 @@ class StreamContentViewController: MSMessagesAppViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 if currentContentIndex !=  arrContentData.count-1 {
-//                    DispatchQueue.main.async {
-//                        self.hudView.startLoaderWithAnimation()
-//                    }
                     self.perform(#selector(self.nextContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
             case UISwipeGestureRecognizerDirection.right:
                 if currentContentIndex != 0 {
-//                    DispatchQueue.main.async {
-//                        self.hudView.startLoaderWithAnimation()
-//                    }
                     self.perform(#selector(self.previousContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
@@ -138,7 +132,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         self.addRightTransitionImage(imgV: self.imgStream)
-      
+        
         
         loadViewForUI()
     }
@@ -151,7 +145,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.addLeftTransitionImage(imgV: self.imgStream)
         loadViewForUI()
     }
-        
+    
     //MARK: - Load Data in UI
     func loadViewForUI(){
         let content = self.arrContentData[currentContentIndex]
@@ -160,50 +154,53 @@ class StreamContentViewController: MSMessagesAppViewController {
         if currentStreamTitle == "" {
             lblStreamTitle.text = ""
         }else{
-           lblStreamTitle.text   = currentStreamTitle!
+            lblStreamTitle.text   = currentStreamTitle!
         }
-       
-            if content.type != nil {
-                
-                if content.type == .image {
-                    self.imgStream.setForAnimatedImage(strImage:content.coverImage)
-                    SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
-                        image?.getColors({ (colors) in
-                            self.imgStream.backgroundColor = colors.background
-                        })
+        
+        if content.type != nil {
+            
+            if content.type == .image {
+                self.imgStream.contentMode = .scaleAspectFill
+                self.imgStream.setForAnimatedImage(strImage:content.coverImage)
+                SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
+                    image?.getColors({ (colors) in
+                        self.imgStream.backgroundColor = colors.background
                     })
-                    
-                    self.btnPlay.isHidden = true
-                }else   if content.type == .video {
-                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
-                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
-                        image?.getColors({ (colors) in
-                            self.imgStream.backgroundColor = colors.background
-                        })
-                    })
-                    self.btnPlay.isHidden = false
-                }else if content.type == .link {
-                    self.btnPlay.isHidden = true
-                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
-                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
-                        image?.getColors({ (colors) in
-                            self.imgStream.backgroundColor = colors.background
-                        })
-                    })
-                }else {
-                    self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
-                    SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
-                        image?.getColors({ (colors) in
-                            self.imgStream.backgroundColor = colors.background
-                        })
-                    })
-                }
-                if content.type == .image || content.type == .gif {
-                    self.btnPlay.isHidden = true
-                }else {
-                    self.btnPlay.isHidden = true
-                }
+                })
             }
+            else if content.type == .video {
+                self.imgStream.contentMode = .scaleAspectFill
+                self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                    image?.getColors({ (colors) in
+                        self.imgStream.backgroundColor = colors.background
+                    })
+                })
+            }
+            else if content.type == .link {
+                self.imgStream.contentMode = .scaleAspectFill
+                self.btnPlay.isHidden = true
+                self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                    image?.getColors({ (colors) in
+                        self.imgStream.backgroundColor = colors.background
+                    })
+                })
+            } else {
+                self.imgStream.contentMode = .scaleToFill
+                self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
+                    image?.getColors({ (colors) in
+                        self.imgStream.backgroundColor = colors.background
+                    })
+                })
+            }
+            if content.type == .video   {
+                self.btnPlay.isHidden = false
+            }else {
+                self.btnPlay.isHidden = true
+            }
+        }
         
         lblStreamDesc.text = content.description.trim().capitalized
         let currenProgressValue = Float(currentContentIndex)/Float(arrContentData.count-1)
@@ -233,11 +230,11 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.dismiss(animated: true, completion: nil)
         if SharedData.sharedInstance.iMessageNavigation != ""{
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
-        SharedData.sharedInstance.iMessageNavigation = ""
+            SharedData.sharedInstance.iMessageNavigation = ""
         }
         else {
             SharedData.sharedInstance.iMessageNavigation = ""
-              NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }
     }
     
@@ -253,7 +250,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.openFullView()
     }
     
-@objc func openFullView() {
+    @objc func openFullView() {
         let content = arrContentData[self.currentContentIndex]
         if content.type == .gif {
             return
@@ -269,7 +266,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         for obj in arrContentData {
             var image:LightboxImage!
             let text = obj.name + "\n" +  obj.description
-
+            
             if obj.type == .image {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
@@ -294,8 +291,8 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         if content.type == .video {
-                let videoUrl = URL(string: content.coverImage)
-                LightboxConfig.handleVideo(self, videoUrl!)
+            let videoUrl = URL(string: content.coverImage)
+            LightboxConfig.handleVideo(self, videoUrl!)
         }else{
             let controller = LightboxController(images: arrayContents, startIndex: self.currentContentIndex)
             controller.dynamicBackground = true
@@ -360,7 +357,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-      
+        
     }
     
     @objc func sendMessage(){
@@ -374,7 +371,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         message.layout = layout
         message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
-         self.view.isUserInteractionEnabled = true
+        self.view.isUserInteractionEnabled = true
     }
     
     override func didReceiveMemoryWarning() {
