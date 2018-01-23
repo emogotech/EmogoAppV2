@@ -43,7 +43,7 @@ class UsersFilter(django_filters.FilterSet):
         fields = ['people']
 
     def filter_people(self, qs, name, value):
-        return qs.filter(Q(full_name__contains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
+        return qs.filter(Q(full_name__icontains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
 
 
 class ContentsFilter(django_filters.FilterSet):

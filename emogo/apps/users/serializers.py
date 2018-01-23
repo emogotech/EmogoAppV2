@@ -306,5 +306,5 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
-        return UserDetailSerializer(UserProfile.actives.all().order_by('full_name')[0:5], many=True, fields = fields,
+        return UserDetailSerializer(UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')[0:5], many=True, fields = fields,
                                     context=self.context).data
