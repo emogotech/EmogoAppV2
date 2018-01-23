@@ -85,9 +85,11 @@ class AddStreamViewController: UITableViewController {
         self.configureNavigationWithTitle()
         txtStreamName.placeholder = "Stream Name"
         txtStreamName.title = "Stream Name"
-        txtStreamCaption.placeholderName = "Stream Caption"
+        txtStreamCaption.placeholder = "Stream Caption"
+        txtStreamCaption.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         txtStreamName.selectedLineColor = .clear
         self.lblStreamDescPlaceHolder.text = "Stream Caption"
+        self.lblStreamDescPlaceHolder.font = UIFont.systemFont(ofSize: 13)
         if self.txtStreamCaption.text.count > 0 {
             self.lblStreamDescPlaceHolder.isHidden = false
         }else{
@@ -135,11 +137,6 @@ class AddStreamViewController: UITableViewController {
             self.title =  self.objStream?.title.trim()
             txtStreamName.text = self.objStream?.title.trim()
             txtStreamCaption.text = self.objStream?.description.trim()
-            if !txtStreamCaption.text.trim().isEmpty {
-                txtStreamCaption.placeholderName = ""
-            }else{
-                txtStreamCaption.placeholderName = ""
-            }
             if !(objStream?.coverImage.trim().isEmpty)!  {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
                    // self.imgCover.image = image
@@ -520,7 +517,7 @@ extension AddStreamViewController {
 }
 
 
-extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
+extension AddStreamsViewController : UITextViewDelegate,UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == txtStreamName {
             txtStreamCaption.becomeFirstResponder()
@@ -529,15 +526,8 @@ extension AddStreamViewController:UITextViewDelegate,UITextFieldDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        
-        txtStreamCaption.placeholderName = "Stream Caption"
-        
-        if let placeholderLabel = txtStreamCaption.viewWithTag(100) as? UILabel {
-            let shouldHide = txtStreamCaption.text.count > 0
-            placeholderLabel.isHidden = shouldHide
-            self.lblStreamDescPlaceHolder.isHidden = !shouldHide
-        }
-        
+
+        self.lblStreamDescPlaceHolder.isHidden = textView.text.isEmpty
         
         if self.txtStreamCaption.contentSize.height > contentRowHeight {
             contentRowHeight = self.txtStreamCaption.contentSize.height
