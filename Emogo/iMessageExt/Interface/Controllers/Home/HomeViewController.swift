@@ -65,6 +65,7 @@ class HomeViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         
         setupLoader()
+        setupAnchor()
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         
@@ -350,12 +351,20 @@ class HomeViewController: MSMessagesAppViewController {
         
         self.setupCollectionProperties()
         self.setupRefreshLoader()
-        setupAnchor()
+      
         
         if (isSearch  && !isStreamEnable){
+            self.arrayStreams.removeAll()
+            PeopleList.sharedInstance.arrayPeople.removeAll()
+            StreamList.sharedInstance.requestURl = ""
+            PeopleList.sharedInstance.requestURl = ""
             self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
         }
         else if (isSearch  &&  isStreamEnable){
+            self.arrayStreams.removeAll()
+            PeopleList.sharedInstance.arrayPeople.removeAll()
+            StreamList.sharedInstance.requestURl = ""
+            PeopleList.sharedInstance.requestURl = ""
             self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
         }
     }
