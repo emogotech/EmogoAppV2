@@ -2,17 +2,19 @@
 //  StreamViewHeader.swift
 //  Emogo
 //
-//  Created by Pushpendra on 13/12/17.
-//  Copyright © 2017 Vikas Goyal. All rights reserved.
+//  Created by Pushpendra on 13/12/18.
+//  Copyright © 2018 Vikas Goyal. All rights reserved.
 //
 
 import UIKit
+import GSKStretchyHeaderView
 
 protocol StreamViewHeaderDelegate {
     func showPreview()
 }
 
-class StreamViewHeader: UICollectionViewCell {
+class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelegate {
+
     @IBOutlet weak var btnDropDown: UIButton!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
@@ -21,18 +23,20 @@ class StreamViewHeader: UICollectionViewCell {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
-    var delegate:StreamViewHeaderDelegate?
+    var streamDelegate:StreamViewHeaderDelegate?
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        self.imgCover.image = nil
-    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
         self.imgCover.addGestureRecognizer(tap)
+        
+        self.expansionMode = .immediate
+        // You can change the minimum and maximum content heights
+        self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
+        self.stretchDelegate  = self
+        
     }
     
     func prepareLayout(stream:StreamViewDAO?){
@@ -95,10 +99,19 @@ class StreamViewHeader: UICollectionViewCell {
     
     @objc func showPreview(){
         
-        if self.delegate != nil {
-            delegate?.showPreview()
+        if self.streamDelegate != nil {
+            streamDelegate?.showPreview()
         }
     }
     
+    override func didChangeStretchFactor(_ stretchFactor: CGFloat) {
+        
+    }
+    
+    
+    func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
+    }
+    
+    
+    
 }
-

@@ -16,14 +16,14 @@ class ViewStreamController: UIViewController {
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
     
     // Varibales
-    private let headerNib = UINib(nibName: "StreamViewHeader", bundle: Bundle.main)
     var streamType:String!
     var objStream:StreamViewDAO?
     var currentIndex:Int!
     var viewStream:String?
 
     // MARK: - Override Functions
-    
+    var stretchyHeader: StreamViewHeader!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,18 +82,14 @@ class ViewStreamController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
+        layout.sectionInset = UIEdgeInsetsMake(20, 8, 8, 8)
         layout.columnCount = 2
-        layout.headerHeight = 200.0
-        
         // Collection view attributes
         self.viewStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.viewStreamCollectionView.alwaysBounceVertical = true
         
         // Add the waterfall layout to your collection view
         self.viewStreamCollectionView.collectionViewLayout = layout
-        
-        self.viewStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ViewStreamHeaderView)
         
         if currentIndex != nil {
             viewStreamCollectionView.isUserInteractionEnabled = true
@@ -105,7 +101,25 @@ class ViewStreamController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
-       
+        configureStrechyHeader()
+
+    }
+    
+    func configureStrechyHeader(){
+        let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
+        self.stretchyHeader = nibViews?.first as! StreamViewHeader
+        self.viewStreamCollectionView.addSubview(self.stretchyHeader)
+        stretchyHeader.streamDelegate = self
+        stretchyHeader.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
+        stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
+        stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
+        stretchyHeader.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
+    }
+    
+    func prepareHeaderData(){
+        if self.objStream != nil {
+            stretchyHeader.prepareLayout(stream:self.objStream)
+        }
     }
     
     func prepareNavigation(){
@@ -370,6 +384,7 @@ class ViewStreamController: UIViewController {
             
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
+                self.prepareHeaderData()
                 self.viewStreamCollectionView.reloadData()
                 if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     self.navigationItem.rightBarButtonItem = nil
@@ -593,23 +608,6 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        switch kind {
-        case CHTCollectionElementKindSectionHeader:
-            let  view:StreamViewHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ViewStreamHeaderView, for: indexPath) as! StreamViewHeader
-            view.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
-            view.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
-            view.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
-            view.prepareLayout(stream:self.objStream)
-            //            view.btnDropDown.tag = indexPath.section
-            view.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
-            view.delegate = self
-            return view
-            
-        default:
-            return UICollectionReusableView()
-        }
-    }
 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

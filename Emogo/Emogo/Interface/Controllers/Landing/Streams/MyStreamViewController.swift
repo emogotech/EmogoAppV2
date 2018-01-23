@@ -299,7 +299,6 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         }
     }
     
-    
 }
 
 
