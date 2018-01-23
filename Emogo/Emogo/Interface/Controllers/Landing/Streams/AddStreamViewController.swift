@@ -516,7 +516,8 @@ extension AddStreamViewController {
 }
 
 
-extension AddStreamsViewController : UITextViewDelegate,UITextFieldDelegate {
+extension AddStreamViewController :UITextViewDelegate, UITextFieldDelegate {
+  
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == txtStreamName {
             txtStreamCaption.becomeFirstResponder()
@@ -525,7 +526,7 @@ extension AddStreamsViewController : UITextViewDelegate,UITextFieldDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-
+        
         self.lblStreamDescPlaceHolder.isHidden = textView.text.isEmpty
         
         if self.txtStreamCaption.contentSize.height > contentRowHeight {
@@ -533,23 +534,16 @@ extension AddStreamsViewController : UITextViewDelegate,UITextFieldDelegate {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
-
-        
     }
     
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        if txtStreamCaption.text.trim() == "Stream Caption"{
-//            txtStreamCaption.text = nil
-//        }
-//    }
-   
-   
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-           txtStreamCaption.resignFirstResponder()
+            txtStreamCaption.resignFirstResponder()
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
-
+        
     }
 }
+
+
