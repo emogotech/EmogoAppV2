@@ -20,17 +20,15 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var txtStreamCaption: MBAutoGrowingTextView!
     @IBOutlet weak var switchMakePrivate: PMSwitch!
     @IBOutlet weak var switchAnyOneCanEdit: PMSwitch!
-    @IBOutlet weak var switchAddContent: PMSwitch!
     @IBOutlet weak var switchAddPeople: PMSwitch!
     @IBOutlet weak var lblAnyOneCanEdit: UILabel!
     @IBOutlet weak var rowHieght: NSLayoutConstraint!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var btnCamera: UIButton!
-    
     @IBOutlet weak var lblStreamDescPlaceHolder : UILabel!
 
-    
+       @IBOutlet weak var switchAddContent: PMSwitch!
     // Varibales
 
     var isExpandRow: Bool = false {
@@ -262,6 +260,8 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddCollaborators.isUserInteractionEnabled = false
                 self.switchAddPeople.isUserInteractionEnabled = false
                 self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.isOn = false
+                self.switchAddContent.isOn = false
         }
     }
     

@@ -42,6 +42,19 @@ class AddCollaboratorsViewController: UIViewController {
         if self.arraySelected != nil {
             self.arrayCollaborators = self.arraySelected!
         }
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.columnCount = 3
+        // Collection view attributes
+        self.contactCollection.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.contactCollection.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.contactCollection.collectionViewLayout = layout
+        
         self.getContacts()
     }
     
@@ -168,7 +181,7 @@ class AddCollaboratorsViewController: UIViewController {
 
 
 
-extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
+extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout
 {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrayCollaborators.count
@@ -179,25 +192,26 @@ extension AddCollaboratorsViewController:UICollectionViewDelegate,UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_AddCollaboratorsView, for: indexPath) as! AddCollaboratorsViewCell
         let collaborator = self.arrayCollaborators[indexPath.row]
         cell.lblTitle.text = collaborator.name
-        cell.imgSelect.layer.cornerRadius = cell.imgSelect.frame.size.width/2.0
-        cell.imgSelect.layer.masksToBounds = true
         cell.imgSelect.isHidden = true
         if !collaborator.imgUser.isEmpty {
-            cell.imgCover.layer.cornerRadius = cell.imgCover.frame.size.width/2.0
-            cell.imgCover.layer.masksToBounds = true
+        cell.imgCover.setImageWithResizeURL(collaborator.imgUser.trim())
         }else {
             cell.imgCover.setImage(string: collaborator.name, color: UIColor.colorHash(name: collaborator.name), circular: true)
         }
         if collaborator.isSelected {
             cell.imgSelect.isHidden = false
         }
+        cell.imgSelect.contentMode = .center
         cell.isAccessibilityElement = true
         return cell
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+  
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let itemWidth = collectionView.bounds.size.width/3.0
         return CGSize(width: itemWidth, height: itemWidth)
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayCollaborators[indexPath.row]

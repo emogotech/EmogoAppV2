@@ -447,39 +447,6 @@ class ProfileViewController: UIViewController {
         self.uploadProfileImage()
     }
     
-    func btnActionForStreamAdd() {
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = nil
-        kContainerNav = ""
-        kNavForProfile = "1"
-        let actionController = ActionSheetController()
-        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
-            self.btnImportAction()
-        }))
-        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
-            
-            self.actionForCamera()
-            
-        }))
-        actionController.addAction(Action(ActionData(title: "Link", subtitle: "", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
-            
-            self.btnActionForLink()
-        }))
-        
-        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
-            
-            self.btnActionForGiphy()
-        }))
-        
-        
-        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
-            self.actionForAddStream()
-        }))
-        
-        actionController.headerData = "ADD FROM"
-        present(actionController, animated: true, completion: nil)
-    }
-    
     func btnActionForAddContent(){
         let actionController = ActionSheetController()
         ContentList.sharedInstance.arrayContent.removeAll()
@@ -710,7 +677,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
             if stream.isAdd {
                   isEdited = true
-                 btnActionForStreamAdd()
+                let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+                self.navigationController?.push(viewController: controller)
             }else {
                 isEdited = true
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController

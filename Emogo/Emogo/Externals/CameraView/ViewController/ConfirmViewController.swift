@@ -410,8 +410,8 @@ extension UIImage {
             ctx.draw(self.cgImage!, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
             break
         }
-        
-        return UIImage(cgImage: ctx.makeImage()!)
+        let image = UIImage(cgImage: ctx.makeImage()!)
+        return image
 	}
 }
 extension ConfirmViewController:CropViewControllerDelegate {

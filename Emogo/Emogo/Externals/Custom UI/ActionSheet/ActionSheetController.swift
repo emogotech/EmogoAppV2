@@ -30,7 +30,7 @@ open class PMActionCell: ActionCell {
         backgroundColor = .white
         actionImageView?.clipsToBounds = true
         actionImageView?.layer.cornerRadius = 5.0
-            actionImageView?.contentMode = .scaleAspectFit
+            //actionImageView?.contentMode = .scaleAspectFit
         let backgroundView = UIView()
         backgroundView.backgroundColor = UIColor(white: 0.0, alpha: 0.15)
         selectedBackgroundView = backgroundView
