@@ -215,7 +215,6 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                
             self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
 
             }

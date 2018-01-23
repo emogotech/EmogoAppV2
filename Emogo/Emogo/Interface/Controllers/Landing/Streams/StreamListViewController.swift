@@ -715,7 +715,7 @@ class StreamListViewController: UIViewController {
             self.isSearch = true
             self.streamCollectionView.isHidden = false
             self.viewCollection.frame = CGRect(x: self.viewCollection.frame.origin.x, y: self.viewSearchMain.frame.origin.y + self.viewSearchMain.frame.size.height + 40, width: self.viewSearch.frame.size.width, height: self.viewStream.frame.size.height-40)
-            self.streamCollectionView.reloadData()
+                 self.streamCollectionView.reloadData()
             //            if self.arrayStreams.count == 0 {
             //                self.lblNoResult.isHidden = false
             //            }

@@ -145,8 +145,6 @@
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
 		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
-		F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */; };
-		F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
 		F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */; };
@@ -175,6 +173,8 @@
 		F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
+		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612DA1FD69AFE00788FFE /* AGImageChain.swift */; };
 		F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612DB1FD69B0200788FFE /* AGImageDevice.swift */; };
 		F43612E11FD69B0E00788FFE /* AGImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612DC1FD69B0900788FFE /* AGImagePipeline.swift */; };
@@ -506,8 +506,6 @@
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
 		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
-		F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
-		F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
 		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
 		F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZPopupViewController.m; sourceTree = "<group>"; };
@@ -542,6 +540,8 @@
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
+		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
+		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F43612DA1FD69AFE00788FFE /* AGImageChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGImageChain.swift; sourceTree = "<group>"; };
 		F43612DB1FD69B0200788FFE /* AGImageDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGImageDevice.swift; sourceTree = "<group>"; };
 		F43612DC1FD69B0900788FFE /* AGImagePipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AGImagePipeline.swift; sourceTree = "<group>"; };
@@ -1377,8 +1377,8 @@
 				F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */,
 				F4402F691FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift */,
 				F404C06A1FDA951D00E8ACC2 /* StreamViewHeader.swift */,
-				F41C3ADA1FE10848009CD942 /* MyStreamHeaderView.swift */,
-				F41C3ADB1FE10848009CD942 /* MyStreamHeaderView.xib */,
+				F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */,
+				F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */,
 				F404C06B1FDA951D00E8ACC2 /* StreamViewHeader.xib */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
 			);
@@ -2057,6 +2057,7 @@
 				F423AF162008EFE500648A3E /* TLPhotosPickerViewController.xib in Resources */,
 				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
 				F4431A981FC6DD2C00311C9A /* icomoon.ttf in Resources */,
+				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
 				F404C06D1FDA951D00E8ACC2 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
@@ -2082,7 +2083,6 @@
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4431A9C1FC6DD2C00311C9A /* PhotoCropEditorBorder@3x.png in Resources */,
-				F41C3ADD1FE10848009CD942 /* MyStreamHeaderView.xib in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
@@ -2500,7 +2500,6 @@
 				F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
-				F41C3ADC1FE10848009CD942 /* MyStreamHeaderView.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F4431A9F1FC6DD2C00311C9A /* PhotoEditor+Drawing.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
@@ -2566,6 +2565,7 @@
 				F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */,
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
+				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,

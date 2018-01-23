@@ -2,20 +2,19 @@
 //  MyStreamHeaderView.swift
 //  Emogo
 //
-//  Created by Pushpendra on 13/12/17.
-//  Copyright © 2017 Vikas Goyal. All rights reserved.
+//  Created by Pushpendra on 13/12/18.
+//  Copyright © 2018 Vikas Goyal. All rights reserved.
 //
 
 import UIKit
 import GSKStretchyHeaderView
 
-
 protocol MyStreamHeaderViewDelegate {
     func selected(index:Int)
 }
 
-class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowDataSource {
-    
+class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowDataSource,GSKStretchyHeaderViewStretchDelegate {
+
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
@@ -24,7 +23,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     @IBOutlet weak var btnPlay: UIButton!
     var arrayContent = [Any]()
     var arrayContents = [ContentDAO]()
-    var delegate:MyStreamHeaderViewDelegate?
+    var sliderDelegate:MyStreamHeaderViewDelegate?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,18 +32,20 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         
         self.expansionMode = .immediate
         // You can change the minimum and maximum content heights
-        self.minimumContentHeight = 64 // you can replace the navigation bar with a stretchy header view
-        self.maximumContentHeight = 280
-        
-        // You can specify if the content expands when the table view bounces, and if it shrinks if contentView.height < maximumContentHeight. This is specially convenient if you use auto layout inside the stretchy header view
-        self.contentShrinks = true
-        self.contentExpands = false // useful if you want to display the refreshControl below the header view
-        
-        // You can specify wether the content view sticks to the top or the bottom of the header view if one of the previous properties is set to `false`
-        // In this case, when the user bounces the scrollView, the content will keep its height and will stick to the bottom of the header view
-        self.contentAnchor = .bottom
+        self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
+        self.stretchDelegate  = self
     }
-
+    
+    
+    override func didChangeStretchFactor(_ stretchFactor: CGFloat) {
+        
+    }
+    
+    
+    func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
+    }
+    
+    
     func prepareLayout(contents:[ContentDAO]){
         arrayContents = contents
         for obj in contents {
@@ -86,7 +87,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         guard let content = content  else {
             return
         }
-    
+        
         self.lblName.text = content.name.trim().capitalized
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
@@ -101,12 +102,12 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     
     
     @objc func playButtonAction(sender:UIButton){
-        if self.delegate != nil {
-            self.delegate?.selected(index: Int(sliderCover.currentIndex))
+        if self.sliderDelegate != nil {
+            self.sliderDelegate?.selected(index: Int(sliderCover.currentIndex))
         }
     }
-
-
+    
+    
     // MARK: - KASlideShow datasource
     
     func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
@@ -127,8 +128,8 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.prepareLayout(content: content)
     }
     func slideShowDidSelect(_ slideShow: KASlideShow!) {
-        if delegate != nil {
-            self.delegate?.selected(index: Int(slideShow.currentIndex))
+        if sliderDelegate != nil {
+            self.sliderDelegate?.selected(index: Int(slideShow.currentIndex))
         }
     }
     
@@ -143,14 +144,14 @@ class MyStreamCell:UICollectionViewCell {
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var imgAdd: UIImageView!
     @IBOutlet weak var cardView: CardView!
-
+    
     func prepareLayout(stream:StreamDAO?){
         guard let stream = stream  else {
             return
         }
         if stream.isAdd {
-          imgAdd.isHidden = false
-           cardView.isHidden = true
+            imgAdd.isHidden = false
+            cardView.isHidden = true
         }else {
             imgAdd.isHidden = true
             cardView.isHidden = false
@@ -166,7 +167,8 @@ class MyStreamCell:UICollectionViewCell {
                 imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
         }
-       
+        
     }
-
+    
 }
+

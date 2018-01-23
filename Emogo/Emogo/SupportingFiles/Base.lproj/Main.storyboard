@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -852,16 +852,19 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-zA-5Li">
-                                                    <rect key="frame" x="-1" y="-3" width="147" height="116"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream_icon_add" translatesAutoresizingMaskIntoConstraints="NO" id="X9Y-zA-5Li">
+                                                    <rect key="frame" x="0.0" y="0.0" width="145" height="110"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="X9Y-zA-5Li" firstAttribute="top" secondItem="BR1-8l-QIH" secondAttribute="top" id="MFn-RW-Efl"/>
                                             <constraint firstItem="bhH-ub-8ED" firstAttribute="top" secondItem="BR1-8l-QIH" secondAttribute="top" id="PPd-Ae-RKM"/>
                                             <constraint firstAttribute="bottom" secondItem="bhH-ub-8ED" secondAttribute="bottom" id="PgL-g7-GG9"/>
+                                            <constraint firstAttribute="trailing" secondItem="X9Y-zA-5Li" secondAttribute="trailing" id="U6B-AT-qvd"/>
                                             <constraint firstAttribute="trailing" secondItem="bhH-ub-8ED" secondAttribute="trailing" id="VqM-jv-UfX"/>
+                                            <constraint firstAttribute="bottom" secondItem="X9Y-zA-5Li" secondAttribute="bottom" id="YzB-vh-UFa"/>
+                                            <constraint firstItem="X9Y-zA-5Li" firstAttribute="leading" secondItem="BR1-8l-QIH" secondAttribute="leading" id="qzI-7J-0XT"/>
                                             <constraint firstItem="bhH-ub-8ED" firstAttribute="leading" secondItem="BR1-8l-QIH" secondAttribute="leading" id="ygG-NN-R8d"/>
                                         </constraints>
                                         <connections>
@@ -1920,7 +1923,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="56" y="76" width="253" height="48"/>
+                                        <rect key="frame" x="52" y="77" width="261.5" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1957,7 +1960,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DC-Lh-HM0">
-                                        <rect key="frame" x="123" y="296" width="119" height="29"/>
+                                        <rect key="frame" x="121" y="296" width="123" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="WLK-GW-PeV"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="g7l-Qx-35Z"/>
@@ -2161,7 +2164,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo! What Would you Like to do Next?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="w4s-Dl-PFp">
-                                        <rect key="frame" x="38.5" y="74" width="289" height="48"/>
+                                        <rect key="frame" x="33" y="75" width="300" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2297,7 +2300,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="INF-VS-5bF">
-                                                    <rect key="frame" x="10" y="6" width="111" height="22"/>
+                                                    <rect key="frame" x="10" y="6" width="119.5" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="TBf-db-Upj"/>
                                                     </constraints>

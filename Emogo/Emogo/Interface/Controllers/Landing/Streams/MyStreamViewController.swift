@@ -58,7 +58,7 @@ class MyStreamViewController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.sectionInset = UIEdgeInsetsMake(20, 8, 0, 8)
         layout.columnCount = 2
         // Collection view attributes
         self.myStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -78,16 +78,18 @@ class MyStreamViewController: UIViewController {
         let nibViews = Bundle.main.loadNibNamed("MyStreamHeaderView", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! MyStreamHeaderView
         self.myStreamCollectionView.addSubview(self.stretchyHeader)
+        if self.objContent != nil {
+            self.stretchyHeader.prepareLayout(contents: [self.objContent])
+        }else {
+            self.stretchyHeader.prepareLayout(contents: ContentList.sharedInstance.arrayContent)
+        }
+        self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
+        self.stretchyHeader.sliderDelegate = self
     }
     
     func configureLoadMoreAndRefresh(){
-        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
-        self.myStreamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
-            UIApplication.shared.beginIgnoringInteractionEvents()
-            self?.getMyStreams(type:.up,filter: .myStream)
-        }
         self.myStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
            
             self?.getMyStreams(type:.down,filter: .myStream)
