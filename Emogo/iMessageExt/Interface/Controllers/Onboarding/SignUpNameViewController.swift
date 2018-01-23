@@ -44,7 +44,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         txtNameCollapse.attributedPlaceholder = placeholder
         
         self.addToolBar(textField: txtName)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
         if SharedData.sharedInstance.isMessageWindowExpand {
@@ -62,7 +63,23 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         }
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.isMessageWindowExpand {
+                    self.view.frame.origin.y -= keyboardSize.height/2
+                }
+            }
+        }
+    }
     
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0{
+            if SharedData.sharedInstance.isMessageWindowExpand {
+                self.view.frame.origin.y = 0
+            }
+        }
+    }
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
             self.viewExpand.center = self.view.center
@@ -97,7 +114,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
-       self.checkValidation()
+       self.view.endEditing(true);
     }
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
@@ -183,7 +200,18 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     }
     
     func checkValidation(){
-        
+        if !(Validator.isEmpty(text: txtName.text!)) {
+            txtName.shakeTextField()
+        } else if(!Validator.isNameLengthMin(text: txtName.text!, lenghtMin: kName_Min_Length)) {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Error_NameMsg)
+        } else if(!Validator.isNameLengthMax(text: txtName.text!, lenghtMax: kName_Max_Length)){
+            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
+        } else if(!Validator.isNameContainSpace(text: txtName.text!)){
+            self.showToastIMsg(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
+        } else {
+            self.view.endEditing(true);
+            self.verifyUserName()
+        }
     }
         
     // MARK: - API Methods

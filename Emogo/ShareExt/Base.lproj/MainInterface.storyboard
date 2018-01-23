@@ -1,24 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A278a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j1y-V4-xli">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j1y-V4-xli">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Share View Controller-->
+        <!--Share View Controller New-->
         <scene sceneID="ceB-am-kn3">
             <objects>
-                <viewController id="j1y-V4-xli" customClass="ShareViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="j1y-V4-xli" customClass="ShareViewControllerNew" customModule="EmogoShare" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="wbc-yd-nQP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3iV-co-fGu">
+                                <rect key="frame" x="16" y="146.5" width="343" height="374"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0HS-EH-85N">
+                                        <rect key="frame" x="0.0" y="0.5" width="343" height="72"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbZ-kc-43c">
+                                                <rect key="frame" x="292" y="21" width="31" height="31"/>
+                                                <state key="normal" image="share_post_button"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axQ-gy-cbE">
+                                                <rect key="frame" x="20" y="21" width="31" height="31"/>
+                                                <state key="normal" image="share_cross_button"/>
+                                                <connections>
+                                                    <action selector="btnCancleAction:" destination="j1y-V4-xli" eventType="touchUpInside" id="j95-Kl-tJ7"/>
+                                                </connections>
+                                            </button>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_logo" translatesAutoresizingMaskIntoConstraints="NO" id="2Fs-eU-pyC">
+                                                <rect key="frame" x="145" y="16.5" width="53" height="40"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.93306452035903931" green="0.92948639392852783" blue="0.92926299571990967" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="0HS-EH-85N" secondAttribute="height" multiplier="343:72" id="HdN-iU-HR8"/>
+                                            <constraint firstItem="2Fs-eU-pyC" firstAttribute="centerY" secondItem="0HS-EH-85N" secondAttribute="centerY" id="P1H-Qc-SU4"/>
+                                            <constraint firstAttribute="trailing" secondItem="lbZ-kc-43c" secondAttribute="trailing" constant="20" id="SCe-SY-KLQ"/>
+                                            <constraint firstItem="axQ-gy-cbE" firstAttribute="centerY" secondItem="0HS-EH-85N" secondAttribute="centerY" id="SHY-uI-qT9"/>
+                                            <constraint firstItem="lbZ-kc-43c" firstAttribute="centerY" secondItem="0HS-EH-85N" secondAttribute="centerY" id="fxZ-NG-veq"/>
+                                            <constraint firstItem="axQ-gy-cbE" firstAttribute="leading" secondItem="0HS-EH-85N" secondAttribute="leading" constant="20" id="qBa-kk-wbd"/>
+                                            <constraint firstItem="2Fs-eU-pyC" firstAttribute="centerX" secondItem="0HS-EH-85N" secondAttribute="centerX" id="sNn-ep-cYM"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image1" translatesAutoresizingMaskIntoConstraints="NO" id="DRj-54-mHd">
+                                        <rect key="frame" x="8" y="92.5" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="HIA-zj-qsR"/>
+                                            <constraint firstAttribute="height" constant="100" id="NT5-jy-Mog"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Header" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MOE-C3-5A9">
+                                        <rect key="frame" x="118" y="92.5" width="217" height="23"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="23" id="QWA-xW-BZi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="http://iMessage.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rhl-z6-ChU">
+                                        <rect key="frame" x="118" y="167.5" width="217" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="KFW-Xq-PXh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.13890758156776428" green="0.64469599723815918" blue="0.90387850999832153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UxC-Dm-dTw">
+                                        <rect key="frame" x="91.5" y="258" width="161" height="53"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" image="share_in_imessage_button"/>
+                                        <connections>
+                                            <action selector="btnActionShare:" destination="j1y-V4-xli" eventType="touchUpInside" id="vey-uE-W7u"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5F-Dg-HXj">
+                                        <rect key="frame" x="91.5" y="316" width="161" height="53"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" image="share_add_to_stream"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iMessage App IconiMessage App Icon iMessage App Icon iMessage App Icon" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84F-h6-wop">
+                                        <rect key="frame" x="118" y="120.5" width="217" height="39"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="ngo-n5-POu"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="rhl-z6-ChU" secondAttribute="trailing" constant="8" id="1Oy-ps-dnZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="E5F-Dg-HXj" secondAttribute="bottom" constant="5" id="4Y8-0s-mHc"/>
+                                    <constraint firstAttribute="trailing" secondItem="84F-h6-wop" secondAttribute="trailing" constant="8" id="4rk-yW-W86"/>
+                                    <constraint firstItem="E5F-Dg-HXj" firstAttribute="top" secondItem="UxC-Dm-dTw" secondAttribute="bottom" constant="5" id="8Ny-hT-tdP"/>
+                                    <constraint firstItem="MOE-C3-5A9" firstAttribute="leading" secondItem="DRj-54-mHd" secondAttribute="trailing" constant="10" id="9eW-DT-gyW"/>
+                                    <constraint firstItem="rhl-z6-ChU" firstAttribute="top" secondItem="84F-h6-wop" secondAttribute="bottom" constant="8" id="Alb-oI-bzM"/>
+                                    <constraint firstItem="0HS-EH-85N" firstAttribute="top" secondItem="3iV-co-fGu" secondAttribute="top" id="H26-A1-dfL"/>
+                                    <constraint firstAttribute="width" secondItem="3iV-co-fGu" secondAttribute="height" multiplier="343:334" constant="-41.077844311377248" id="KXY-rz-CfJ"/>
+                                    <constraint firstItem="UxC-Dm-dTw" firstAttribute="centerX" secondItem="3iV-co-fGu" secondAttribute="centerX" id="NfO-sB-zcq"/>
+                                    <constraint firstItem="rhl-z6-ChU" firstAttribute="leading" secondItem="DRj-54-mHd" secondAttribute="trailing" constant="10" id="Oc2-o4-uCn"/>
+                                    <constraint firstItem="84F-h6-wop" firstAttribute="top" secondItem="MOE-C3-5A9" secondAttribute="bottom" constant="5" id="TMk-II-jeP"/>
+                                    <constraint firstAttribute="trailing" secondItem="0HS-EH-85N" secondAttribute="trailing" id="WfZ-qO-raj"/>
+                                    <constraint firstItem="E5F-Dg-HXj" firstAttribute="centerX" secondItem="3iV-co-fGu" secondAttribute="centerX" id="YOu-bh-FoF"/>
+                                    <constraint firstAttribute="trailing" secondItem="MOE-C3-5A9" secondAttribute="trailing" constant="8" id="Ze5-Zw-mVQ"/>
+                                    <constraint firstItem="MOE-C3-5A9" firstAttribute="top" secondItem="0HS-EH-85N" secondAttribute="bottom" constant="20" id="jJ9-pu-lMb"/>
+                                    <constraint firstItem="0HS-EH-85N" firstAttribute="leading" secondItem="3iV-co-fGu" secondAttribute="leading" id="np0-CW-MIz"/>
+                                    <constraint firstItem="84F-h6-wop" firstAttribute="leading" secondItem="DRj-54-mHd" secondAttribute="trailing" constant="10" id="rpU-ig-dCr"/>
+                                    <constraint firstItem="DRj-54-mHd" firstAttribute="leading" secondItem="3iV-co-fGu" secondAttribute="leading" constant="8" id="vEN-Po-KEr"/>
+                                    <constraint firstItem="DRj-54-mHd" firstAttribute="top" secondItem="0HS-EH-85N" secondAttribute="bottom" constant="20" id="zzb-RX-r4G"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.51620268485915488" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="3iV-co-fGu" firstAttribute="centerX" secondItem="wbc-yd-nQP" secondAttribute="centerX" id="4dY-Q1-9yj"/>
+                            <constraint firstItem="1Xd-am-t49" firstAttribute="trailing" secondItem="3iV-co-fGu" secondAttribute="trailing" constant="16" id="DHY-Iv-82f"/>
+                            <constraint firstItem="3iV-co-fGu" firstAttribute="centerY" secondItem="wbc-yd-nQP" secondAttribute="centerY" id="ow0-hO-I1r"/>
+                            <constraint firstItem="3iV-co-fGu" firstAttribute="leading" secondItem="1Xd-am-t49" secondAttribute="leading" constant="16" id="x3l-qJ-y1O"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="1Xd-am-t49"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEy-Cv-SGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="113" y="109"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="image1" width="597" height="593"/>
+        <image name="share_add_to_stream" width="161" height="53"/>
+        <image name="share_cross_button" width="31" height="31"/>
+        <image name="share_in_imessage_button" width="161" height="53"/>
+        <image name="share_logo" width="53" height="40"/>
+        <image name="share_post_button" width="31" height="31"/>
+    </resources>
 </document>

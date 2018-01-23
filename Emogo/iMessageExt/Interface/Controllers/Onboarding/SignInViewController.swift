@@ -61,6 +61,26 @@ class SignInViewController: MSMessagesAppViewController {
             viewCollapse.isHidden = false
         }
        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.isMessageWindowExpand {
+                    self.view.frame.origin.y -= keyboardSize.height/2
+                }
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+            if self.view.frame.origin.y != 0{
+                if SharedData.sharedInstance.isMessageWindowExpand {
+                    self.view.frame.origin.y = 0
+                }
+        }
     }
     
     @objc func requestMessageScreenChangeSize(){
@@ -79,7 +99,8 @@ class SignInViewController: MSMessagesAppViewController {
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
             self.txtMobileCollapse.text = self.txtMobileNumber.text
-            self.txtMobileNumber.resignFirstResponder()
+            self.view.endEditing(true)
+//            self.txtMobileNumber.resignFirstResponder()
         }
         if SharedData.sharedInstance.isPortrate {
             

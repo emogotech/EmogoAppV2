@@ -47,6 +47,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
         if SharedData.sharedInstance.isMessageWindowExpand {
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
@@ -59,6 +62,24 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.isMessageWindowExpand {
+                    self.view.frame.origin.y -= keyboardSize.height/2
+                }
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0{
+            if SharedData.sharedInstance.isMessageWindowExpand {
+                self.view.frame.origin.y = 0
+            }
         }
     }
     
