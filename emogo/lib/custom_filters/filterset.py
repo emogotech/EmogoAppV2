@@ -22,7 +22,7 @@ class StreamFilter(django_filters.FilterSet):
         collaborator_permission = qs.filter(collaborator_list__phone_number=self.request.user.username, collaborator_list__can_add_content=True).distinct()
 
         # merge result
-        result_list = list(chain(owner_qs,collaborator_permission))
+        result_list = list(chain(owner_qs, collaborator_permission))
         return result_list
 
     def filter_popular(self, qs, name, value):
@@ -43,7 +43,7 @@ class UsersFilter(django_filters.FilterSet):
         fields = ['people']
 
     def filter_people(self, qs, name, value):
-        return qs.filter(Q(full_name__contains=value) | Q(user__username__contains=value))
+        return qs.filter(Q(full_name__contains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
 
 
 class ContentsFilter(django_filters.FilterSet):
