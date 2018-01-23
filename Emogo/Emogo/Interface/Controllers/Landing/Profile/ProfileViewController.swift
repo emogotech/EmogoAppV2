@@ -471,12 +471,6 @@ class ProfileViewController: UIViewController {
             self.btnActionForGiphy()
         }))
         
-        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            
-            self.btnActionForMyStuff()
-            
-        }))
-        
         
         actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
             self.actionForAddStream()
@@ -510,11 +504,6 @@ class ProfileViewController: UIViewController {
             self.btnActionForGiphy()
         }))
         
-        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "1", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            
-            self.btnActionForMyStuff()
-            
-        }))
         
         actionController.headerData = "ADD ITEM"
         present(actionController, animated: true, completion: nil)

@@ -207,7 +207,7 @@ class StreamListViewController: UIViewController {
             }
         }
         
-        if  currentStreamType == StreamType.emogoStreams  && StreamList.sharedInstance.arrayStream.count == 0 {
+        if   StreamList.sharedInstance.arrayStream.count == 0 {
             self.lblNoResult.isHidden = false
         }else{
             self.lblNoResult.isHidden = true
@@ -225,6 +225,7 @@ class StreamListViewController: UIViewController {
                 self.navigationController?.pushViewController(obj, animated: false)
                 break
             case UISwipeGestureRecognizerDirection.right:
+               self.isUpdateList = true
                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                 self.addLeftTransitionView(subtype: kCATransitionFromLeft)
                 self.navigationController?.pushViewController(obj, animated: false)
