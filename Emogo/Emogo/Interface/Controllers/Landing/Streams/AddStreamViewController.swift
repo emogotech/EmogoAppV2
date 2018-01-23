@@ -108,7 +108,6 @@ class AddStreamViewController: UITableViewController {
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             self.tableView.reloadData()
         }
-        self.switchAddCollaborators.isEnabled = false
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
@@ -151,16 +150,11 @@ class AddStreamViewController: UITableViewController {
             }
 //            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
 //            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
-            if self.objStream?.type.lowercased() == "public"{
-                self.switchMakePrivate.isOn = false
-            }else {
-             self.switchMakePrivate.isOn = true
-                streamType = "Private"
-            }
+         
             self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
             if self.switchAnyOneCanEdit.isOn == false {
                 self.selectedCollaborators = (self.objStream?.arrayColab)!
-                if self.selectedCollaborators.count != 0 || self.objStream?.canAddPeople == true {
+                if self.selectedCollaborators.count != 0 && self.objStream?.canAddPeople == true {
                     self.rowHieght.constant = 325.0
                     self.isExpandRow = true
                     self.switchAddCollaborators.isOn = true
@@ -184,8 +178,23 @@ class AddStreamViewController: UITableViewController {
             }
             
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            self.prepareEdit(isEnable: true)
+               self.prepareEdit(isEnable: true)
             }
+            
+            if self.objStream?.type.lowercased() == "public"{
+                self.switchMakePrivate.isOn = false
+                self.switchAddContent.isOn = false
+                self.switchAddPeople.isOn = false
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled = false
+                
+            }else {
+                self.switchMakePrivate.isOn = true
+                streamType = "Private"
+                self.switchAddContent.isUserInteractionEnabled = true
+                self.switchAddPeople.isUserInteractionEnabled = true
+            }
+            
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
             if self.txtStreamCaption.text.count > 0 {
@@ -210,16 +219,6 @@ class AddStreamViewController: UITableViewController {
         self.btnCamera.isUserInteractionEnabled = isEnable
         switchMakePrivate.isUserInteractionEnabled = isEnable
         switchAnyOneCanEdit.isUserInteractionEnabled = isEnable
-        if self.objStream?.canAddContent == true {
-            switchAddContent.isUserInteractionEnabled = true
-        }else {
-            switchAddContent.isUserInteractionEnabled = false
-        }
-        if self.objStream?.canAddPeople == true {
-            switchAddPeople.isUserInteractionEnabled = true
-        }else {
-            switchAddPeople.isUserInteractionEnabled = false
-        }
     }
     
     // MARK: -  Action Methods And Selector
