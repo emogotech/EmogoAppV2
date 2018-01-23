@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import GSKStretchyHeaderView
+
 
 protocol MyStreamHeaderViewDelegate {
     func selected(index:Int)
 }
 
-class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDataSource {
+class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowDataSource {
     
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
@@ -28,7 +30,19 @@ class MyStreamHeaderView: UICollectionViewCell,KASlideShowDelegate,KASlideShowDa
         // Initialization code
         arrayContent = [Any]()
         self.btnPlay.addTarget(self, action: #selector(self.playButtonAction(sender:)), for: .touchUpInside)
-
+        
+        self.expansionMode = .immediate
+        // You can change the minimum and maximum content heights
+        self.minimumContentHeight = 64 // you can replace the navigation bar with a stretchy header view
+        self.maximumContentHeight = 280
+        
+        // You can specify if the content expands when the table view bounces, and if it shrinks if contentView.height < maximumContentHeight. This is specially convenient if you use auto layout inside the stretchy header view
+        self.contentShrinks = true
+        self.contentExpands = false // useful if you want to display the refreshControl below the header view
+        
+        // You can specify wether the content view sticks to the top or the bottom of the header view if one of the previous properties is set to `false`
+        // In this case, when the user bounces the scrollView, the content will keep its height and will stick to the bottom of the header view
+        self.contentAnchor = .bottom
     }
 
     func prepareLayout(contents:[ContentDAO]){

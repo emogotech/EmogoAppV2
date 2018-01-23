@@ -112,7 +112,9 @@ class LinkViewController: UIViewController {
                         self.createContentForExtractedData(content: content)
                     }
                     
-                  
+                }else {
+                    HUDManager.sharedInstance.hideHUD()
+                self.showToast(strMSG: "Enter valid url.")
                 }
             })
         }else{
@@ -132,32 +134,6 @@ class LinkViewController: UIViewController {
             self.navigationController?.push(viewController: objPreview)
             return
         }
-        
-        
-        /*
-        if let parent = self.parent {
-            arraySelectedContent?.append(content)
-            if arraySelectedContent?.count != 0 {
-                if arrayAssests?.count != 0 {
-                    HUDManager.sharedInstance.showHUD()
-                }
-                (parent as! ContainerViewController).updateConatentForGallery(array: arrayAssests!, completed: { (result) in
-                    HUDManager.sharedInstance.hideHUD()
-                    ContentList.sharedInstance.arrayContent.removeAll()
-                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    ContentList.sharedInstance.arrayContent = arraySelectedContent
-                    objPreview.strPresented = "TRUE"
-                    let nav = UINavigationController(rootViewController: objPreview)
-                    self.parent?.present(nav, animated: true, completion: nil)
-                })
-                arraySelectedContent?.removeAll()
-                arrayAssests?.removeAll()
-            }else {
-                self.showToast(strMSG: kAlert_contentSelect)
-            }
-        }
- */
-        
     }
     
     // MARK: - API Methods

@@ -8,7 +8,7 @@
 
 import UIKit
 import Lightbox
-
+import GSKStretchyHeaderView
 
 class MyStreamViewController: UIViewController {
     
@@ -18,11 +18,11 @@ class MyStreamViewController: UIViewController {
     @IBOutlet weak var lblNoResult: UILabel!
 
     // MARK: - Variables
-    private let headerNib = UINib(nibName: "MyStreamHeaderView", bundle: Bundle.main)
     var currentType:RefreshType! = .start
-    
     var objContent:ContentDAO!
     var streamID:String?
+    
+    var stretchyHeader: MyStreamHeaderView!
     
     // MARK: - Override Functions
 
@@ -50,27 +50,35 @@ class MyStreamViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
-        
+        self.configureStrechyHeader()
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
-        if let layout: IOStickyHeaderFlowLayout = self.myStreamCollectionView.collectionViewLayout as? IOStickyHeaderFlowLayout {
-            layout.parallaxHeaderReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 230.0)
-            layout.parallaxHeaderMinimumReferenceSize = CGSize(width: UIScreen.main.bounds.size.width, height: 40.0)
-            layout.itemSize = CGSize(width: UIScreen.main.bounds.size.width, height: layout.itemSize.height)
-            layout.parallaxHeaderAlwaysOnTop = false
-            layout.disableStickyHeaders = true
-            self.myStreamCollectionView.collectionViewLayout = layout
-        }
-        myStreamCollectionView.alwaysBounceVertical = true
-        self.myStreamCollectionView.register(self.headerNib, forSupplementaryViewOfKind: IOStickyHeaderParallaxHeader, withReuseIdentifier: kHeader_MyStreamHeaderView)
+        
+        let layout = CHTCollectionViewWaterfallLayout()
+        // Change individual layout attributes for the spacing between cells
+        layout.minimumColumnSpacing = 8.0
+        layout.minimumInteritemSpacing = 8.0
+        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.columnCount = 2
+        // Collection view attributes
+        self.myStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+        self.myStreamCollectionView.alwaysBounceVertical = true
+        
+        // Add the waterfall layout to your collection view
+        self.myStreamCollectionView.collectionViewLayout = layout
+        
          kShowOnlyMyStream = "1"
         HUDManager.sharedInstance.showHUD()
           self.getMyStreams(type:.start,filter: .myStream)
-
         // Load More
         configureLoadMoreAndRefresh()
     }
     
+    func configureStrechyHeader(){
+        let nibViews = Bundle.main.loadNibNamed("MyStreamHeaderView", owner: self, options: nil)
+        self.stretchyHeader = nibViews?.first as! MyStreamHeaderView
+        self.myStreamCollectionView.addSubview(self.stretchyHeader)
+    }
     
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
@@ -245,7 +253,7 @@ class MyStreamViewController: UIViewController {
 }
 
 
-extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -264,29 +272,11 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemWidth = collectionView.bounds.size.width/2.0 - 12.0
-        return CGSize(width: itemWidth, height: itemWidth)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let cell = UICollectionReusableView()
-        switch kind {
-        case IOStickyHeaderParallaxHeader:
-            let  view:MyStreamHeaderView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_MyStreamHeaderView, for: indexPath) as! MyStreamHeaderView
-            if self.objContent != nil {
-                view.prepareLayout(contents: [self.objContent])
-            }else {
-                view.prepareLayout(contents: ContentList.sharedInstance.arrayContent)
-            }
-            view.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
-            view.delegate = self
-            return view
-        default:
-            assert(false, "Unexpected element kind")
-        }
-        return cell
-    }
+  
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

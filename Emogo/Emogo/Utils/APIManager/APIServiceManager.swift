@@ -224,7 +224,13 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"","")
+                        var stremaID:String! = ""
+                        if let data = (value as! [String:Any])["data"] {
+                            if let value = (data as! [String:Any])["id"]{
+                                stremaID = "\(value)"
+                            }
+                        }
+                        completionHandler(true,"",stremaID)
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(false,errorMessage,nil)

@@ -29,6 +29,7 @@ target 'Emogo' do
     pod 'GiphyCoreSDK'
   pod 'XLActionController'
 pod 'CropViewController'
+pod "GSKStretchyHeaderView"
 
 
     target 'EmogoTests' do

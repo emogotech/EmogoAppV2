@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'B69A4A09E66A9655B7062F0104D92455'
+               BlueprintIdentifier = '6F41E5144680502F1422AEF6A11AA4D8'
                BlueprintName = 'ReadabilityKit'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'ReadabilityKit.framework'>

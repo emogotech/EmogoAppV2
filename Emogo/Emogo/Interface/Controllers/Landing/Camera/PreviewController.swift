@@ -159,7 +159,11 @@ class PreviewController: UIViewController {
         self.selectedIndex = index
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if !seletedImage.name.isEmpty {
-            self.txtTitleImage.text = seletedImage.name.trim()
+            var title  = seletedImage.name.trim()
+            if seletedImage.name.count > 75 {
+                title = seletedImage.name.trim(count: 75)
+            }
+            self.txtTitleImage.text = title.trim()
         }
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()
@@ -244,7 +248,6 @@ class PreviewController: UIViewController {
             if seletedImage.description.trim().isEmpty {
                 self.txtDescription.isHidden = true
             }
-            
         }
        
         self.imgPreview.contentMode = .scaleAspectFit
