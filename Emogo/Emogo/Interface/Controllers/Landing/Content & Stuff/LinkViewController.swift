@@ -93,7 +93,7 @@ class LinkViewController: UIViewController {
                         let imageUrl = data?.topImage
                         _ = data?.topVideo
                         if let title = title {
-                            content.name = title.trim()
+                            content.name = title.trim().replacingOccurrences(of: smartUrl.absoluteString, with: "")
                         }
                         if let description = description {
                             content.description = description.trim()

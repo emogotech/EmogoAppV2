@@ -28,7 +28,7 @@ class ViewProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = objPeople.fullName
         self.configureNavigationWithTitle()
-        let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "user_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         self.navigationItem.rightBarButtonItem = btnFlag
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
@@ -107,7 +107,7 @@ class ViewProfileViewController: UIViewController {
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
                 label.text = "No Streams Found!"
                 label.sizeToFit()
-                label.center = self.view.center
+                label.center = self.profileCollectionView.center
                 self.view.addSubview(label)
             }
             self.profileCollectionView.reloadData()
