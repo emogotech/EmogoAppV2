@@ -37,7 +37,7 @@ class CategoryMaster(DefaultStatusModel):
 
 
 class Stream(DefaultStatusModel):
-    name = models.CharField(max_length=45, null=True, blank=True)
+    name = models.CharField(max_length=75, null=True, blank=True)
     description = models.TextField(max_length=1000, null=True, blank=True)
     category = models.ForeignKey(CategoryMaster, null=True, blank=True)
     image = models.CharField(max_length=255, null=True, blank=True)
