@@ -162,7 +162,11 @@ class PreviewController: UIViewController {
             self.txtTitleImage.text = seletedImage.name.trim()
         }
         if !seletedImage.description.isEmpty {
-            self.txtDescription.text = seletedImage.description.trim()
+            var description  = seletedImage.description.trim()
+            if seletedImage.description.count > 250 {
+                description = seletedImage.description.trim(count: 250)
+            }
+            self.txtDescription.text = description
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
@@ -242,7 +246,6 @@ class PreviewController: UIViewController {
             }
             
         }
-        
        
         self.imgPreview.contentMode = .scaleAspectFit
 

@@ -120,8 +120,12 @@ class ContentViewController: UIViewController {
             self.txtTitleImage.isHidden = false
         }
         if !seletedImage.description.isEmpty {
-            self.txtDescription.text = seletedImage.description.trim()
-            print(self.txtDescription.text)
+            var description  = seletedImage.description.trim()
+            if seletedImage.description.count > 250 {
+                description = seletedImage.description.trim(count: 250)
+            }
+            self.txtDescription.text = description
+            print(description)
 
         }else{
             self.txtDescription.text = ""

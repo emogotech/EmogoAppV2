@@ -199,6 +199,10 @@ extension String {
         return type
     }
     
+    func trim(count:Int) -> String {
+        let shortString = String(self.prefix(count))
+        return shortString
+    }
 }
 
 
