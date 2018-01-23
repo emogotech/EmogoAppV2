@@ -77,48 +77,53 @@ class LinkViewController: UIViewController {
         }
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
+            return
         }
-        else if Validator.verifyUrl(urlString: txtLink.text?.smartURL().absoluteString) {
-            let articleUrl = txtLink.text?.smartURL()
-            HUDManager.sharedInstance.showHUD()
-            Readability.parse(url: articleUrl!, completion: { data in
-                print(data)
-                if data != nil {
-                    let content = ContentDAO(contentData: [:])
-                    let title = data?.title
-                    let description = data?.description
-                    _ = data?.keywords
-                    let imageUrl = data?.topImage
-                    _ = data?.topVideo
-                    if let title = title {
-                        content.name = title.trim()
-                    }
-                    if let description = description {
-                        content.description = description.trim()
-                    }
-                    content.coverImage = articleUrl?.absoluteString
-                    content.type = .link
-                    content.isUploaded = false
-                    
-                    if let imageUrl = imageUrl {
-                        content.coverImageVideo = imageUrl.trim()
-                        SharedData.sharedInstance.downloadImage(url:  imageUrl.trim(), handler: { (image) in
-                            if let img =  image {
-                                content.height = Int(img.size.height)
-                                content.width = Int(img.size.width)
-                            }
-                        })
+            
+        if let smartUrl = txtLink.text?.smartURL() {
+            if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
+                HUDManager.sharedInstance.showHUD()
+                Readability.parse(url: smartUrl, completion: { data in
+                    print(data)
+                    if data != nil {
+                        let content = ContentDAO(contentData: [:])
+                        let title = data?.title
+                        let description = data?.description
+                        _ = data?.keywords
+                        let imageUrl = data?.topImage
+                        _ = data?.topVideo
+                        if let title = title {
+                            content.name = title.trim()
+                        }
+                        if let description = description {
+                            content.description = description.trim()
+                        }
+                        content.coverImage = smartUrl.absoluteString
+                        content.type = .link
+                        content.isUploaded = false
+                        
+                        if let imageUrl = imageUrl {
+                            content.coverImageVideo = imageUrl.trim()
+                            SharedData.sharedInstance.downloadImage(url:  imageUrl.trim(), handler: { (image) in
+                                if let img =  image {
+                                    content.height = Int(img.size.height)
+                                    content.width = Int(img.size.width)
+                                }
+                            })
+                            HUDManager.sharedInstance.hideHUD()
+                            self.createContentForExtractedData(content: content)
+                        }
+                        
+                    }else {
                         HUDManager.sharedInstance.hideHUD()
-                        self.createContentForExtractedData(content: content)
+                        self.showToast(strMSG: "Enter valid url.")
                     }
-                    
-                }else {
-                    HUDManager.sharedInstance.hideHUD()
+                })
+            }else{
+                print("Invalid")
                 self.showToast(strMSG: "Enter valid url.")
-                }
-            })
-        }else{
-            print("Invalid")
+            }
+        }else {
             self.showToast(strMSG: "Enter valid url.")
         }
     }
