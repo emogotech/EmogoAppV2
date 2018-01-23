@@ -6,7 +6,7 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport
+from models import Stream, Content, ExtremistReport, StreamContent
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
@@ -241,6 +241,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer.is_valid(raise_exception=True)
         queryset = self.filter_queryset(self.get_queryset())
         queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
+        # Delete stream and content relation.
+        StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 

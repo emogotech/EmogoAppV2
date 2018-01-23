@@ -55,11 +55,10 @@ class Stream(DefaultStatusModel):
 
     def delete(self, using=None, keep_parents=False):
         collaborators = self.collaborator_list(manager='actives').all()
-        contents = self.content_set(manager='actives').all()
+        self.stream_contents.all().delete()
         # Delete collaborators
         map(self.update_status, collaborators, itertools.repeat('Inactive', collaborators.__len__()))
-        # Delete Contents
-        map(self.update_status, contents, itertools.repeat('Inactive', contents.__len__()))
+
         # Delete stream
         self.update_status(self, 'Inactive')
         return None
@@ -81,7 +80,7 @@ class Content(DefaultStatusModel):
     url = models.CharField(max_length=255, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     video_image = models.CharField(max_length=255, null=True, blank=True)
-    streams = models.ManyToManyField(Stream)
+    streams = models.ManyToManyField(Stream, through='StreamContent')
     created_by = models.ForeignKey(User, null=True, blank=True)
     height = models.CharField(max_length=10, null=True, blank=True, default=300)
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
@@ -90,6 +89,15 @@ class Content(DefaultStatusModel):
     class Meta:
         db_table = 'content'
 
+
+class StreamContent(models.Model):
+    stream = models.ForeignKey(Stream, related_name='stream_contents')
+    content = models.ForeignKey(Content, related_name='content_streams')
+    attached_date = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'stream_content'
 
 class Tags(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)

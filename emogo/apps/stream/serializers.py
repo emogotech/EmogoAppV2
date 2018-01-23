@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport
+from models import Stream, Content, ExtremistReport, StreamContent
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -74,8 +74,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         # 2. Create Contents
         contents = self.initial_data.get('content')
         if contents is not None:
-            # If collaborators list is empty then delete existing  collaborator.
-            [self.instance.content_set.remove(x) for x in self.instance.content_set.all()]
+            # If collaborators list is empty then delete existing  Contents.
+            self.instance.stream_contents.all().delete()
             if contents.__len__() > 0:
                 self.create_content(self.instance)
         return kwargs
@@ -150,7 +150,8 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             created_by=self.context.get('request').user
         )
         content.save()
-        content.streams.add(stream)
+        # Add content to stream
+        StreamContent.objects.get_or_create(content=content, stream=stream)
         return content
 
     def create_stream(self):
@@ -206,7 +207,9 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
-        return ViewContentSerializer(Content.actives.filter(streams=obj).distinct().order_by('-id'), many=True, fields=fields).data
+        # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
+        instances = [x.content for x in obj.stream_contents.all().order_by('-attached_date')]
+        return ViewContentSerializer(instances, many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active')
@@ -340,7 +343,8 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param stream: The stream object
         :return: Function add content to stream
         """
-        content.streams.add(stream)
+        # Create Stream and content
+        StreamContent.objects.get_or_create(content=content, stream=stream)
         return self.initial_data['contents']
 
 
@@ -381,7 +385,7 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
                         }
 
     def delete_content(self):
-        map(self.instance.content_set.remove, self.validated_data.get("content"))
+        self.instance.stream_contents.filter(content__in=self.validated_data.get("content")).delete()
         return True
 
 
