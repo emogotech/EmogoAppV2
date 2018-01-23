@@ -230,6 +230,15 @@ class AddStreamViewController: UITableViewController {
     
     @IBAction func anyOneCanEditAction(_ sender: PMSwitch) {
         self.switchAnyOneCanEdit.isOn = sender.isOn
+        if self.switchAnyOneCanEdit.isOn == true {
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            self.switchAddCollaborators.isOn = false
+            self.rowHieght.constant = 0.0
+            self.isExpandRow = false
+        }
     }
     
     @IBAction func makePrivateAction(_ sender: PMSwitch) {

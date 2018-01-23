@@ -231,6 +231,24 @@ extension String {
         return result
     }
     
+    
+    func findUrl() -> String {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+        var url:String! = ""
+        for match in matches {
+            guard let range = Range(match.range, in: self) else { continue }
+            let myNSString = self.nsRange(from: range)
+            url =  (self as NSString).substring(with: myNSString)
+            print(url)
+        }
+        return self.replacingOccurrences(of: url, with: "")
+    }
+    
+    func nsRange(from range: Range<Index>) -> NSRange {
+        return NSRange(range, in: self)
+    }
+    
 }
 
 
