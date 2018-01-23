@@ -53,8 +53,8 @@ class HomeViewController: MSMessagesAppViewController {
     var isSearch                                    : Bool = false
     var isLoadCall                                : Bool = false
     //    var collectionFrame                         : CGRect?
-    
-    var collectionLayout = CHTCollectionViewWaterfallLayout()
+    var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//    var collectionLayout = CHTCollectionViewWaterfallLayout()
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
     
@@ -210,24 +210,36 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func setupCollectionProperties() {
-        collectionLayout.minimumColumnSpacing = 8.0
-        collectionLayout.minimumInteritemSpacing = 8.0
-        collectionLayout.sectionInset = UIEdgeInsetsMake(8, 8, 8, 8)
-        // Change individual layout attributes for the spacing between cells
-        if isSearch && isStreamEnable  {
-            collectionLayout.columnCount = 2
-        }else    if isSearch && !isStreamEnable  {
-            collectionLayout.columnCount = 3
-        }  else if btnFeature.titleLabel?.text == kSearchType {
-            collectionLayout.columnCount = 3
-        } else{
-            collectionLayout.columnCount = 2
+        
+        
+        if (isSearch == true && !isStreamEnable){
+            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/2)
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 8
+            collectionStream!.collectionViewLayout = layout
         }
-        collectionStream!.collectionViewLayout = collectionLayout
-    }
-    
-    func setupCollectionPropertiesForUsers() {
-        collectionLayout.columnCount = 3
+        else if (isSearch == true &&  isStreamEnable){
+            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 8
+            collectionStream!.collectionViewLayout = layout
+        }
+        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 8
+            collectionStream!.collectionViewLayout = layout
+        }
+        else  {
+            layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 8
+            collectionStream!.collectionViewLayout = layout
+        }
     }
     
     
@@ -286,7 +298,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.collectionStream.isHidden = true
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                self.collectionLayout.columnCount = 2
+                self.setupCollectionProperties()
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -294,7 +306,7 @@ class HomeViewController: MSMessagesAppViewController {
         } else if  self.isSearch == true && !isStreamEnable{
             DispatchQueue.main.async {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
-                self.collectionLayout.columnCount = 3
+                self.setupCollectionProperties()
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -496,7 +508,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.isStreamEnable = false
             self.isSearch = true
             self.collectionStream.reloadData()
-            self.setupCollectionPropertiesForUsers()
+            self.setupCollectionProperties()
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             SharedData.sharedInstance.isMoreContentAvailable = false
@@ -525,7 +537,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
                 self.collectionStream.isHidden = false
                 
-                self.collectionLayout.columnCount = 3
+                self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
             if PeopleList.sharedInstance.arrayPeople.count == 0 {
@@ -546,7 +558,7 @@ class HomeViewController: MSMessagesAppViewController {
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
                 self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                self.collectionLayout.columnCount = 2
+                self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
             if self.arrayStreams.count == 0 {
@@ -588,8 +600,8 @@ class HomeViewController: MSMessagesAppViewController {
                 DispatchQueue.main.async {
                     self.collectionStream.isHidden = false
                     self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
-                    self.collectionLayout.columnCount = 2
-                           self.collectionStream.reloadData()
+                    self.setupCollectionProperties()
+                    self.collectionStream.reloadData()
                 }
                 self.setupCollectionProperties()
                 self.collectionStream.isHidden = false
@@ -674,10 +686,9 @@ class HomeViewController: MSMessagesAppViewController {
                         self.lblNoResult.isHidden = false
                     }
                     DispatchQueue.main.async {
-                        self.setupCollectionPropertiesForUsers()
                         self.collectionStream.isHidden = false
                         self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
-                        self.collectionLayout.columnCount = 2
+                        self.setupCollectionProperties()
                         self.collectionStream.isUserInteractionEnabled = true
                         self.collectionStream.reloadData()
                     }
@@ -755,43 +766,42 @@ class HomeViewController: MSMessagesAppViewController {
             self.resignRefreshLoader()
         }
     }
-    
 }
 
 // MARK:- Extension collectionview delegate
-extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
+extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
-        if (isSearch == true && !isStreamEnable){
-            let itemWidth = collectionView.bounds.size.width/3.0
-            return CGSize(width: itemWidth, height: itemWidth+20)
-        }
-        else if (isSearch == true &&  isStreamEnable){
-            let itemWidth = collectionView.bounds.size.width/2.0
-            if SharedData.sharedInstance.isPortrate {
-                return CGSize(width: itemWidth, height: itemWidth - 35)
-            }else{
-                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
-            }
-            
-        }
-        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-            let itemWidth = collectionView.bounds.size.width/3.0
-            return CGSize(width: itemWidth, height: itemWidth+20)
-        }  else  {
-            let itemWidth = collectionView.bounds.size.width/2.0
-            if SharedData.sharedInstance.isPortrate {
-                return CGSize(width: itemWidth, height: itemWidth - 35)
-            }else{
-                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
-            }
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+//
+//        if (isSearch == true && !isStreamEnable){
+//            let itemWidth = collectionView.bounds.size.width/3.0
+//            return CGSize(width: itemWidth, height: itemWidth+20)
+//        }
+//        else if (isSearch == true &&  isStreamEnable){
+//            let itemWidth = collectionView.bounds.size.width/2.0
+//            if SharedData.sharedInstance.isPortrate {
+//                return CGSize(width: itemWidth, height: itemWidth - 35)
+//            }else{
+//                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+//            }
+//
+//        }
+//        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+//            let itemWidth = collectionView.bounds.size.width/3.0
+//            return CGSize(width: itemWidth, height: itemWidth+20)
+//        }  else  {
+//            let itemWidth = collectionView.bounds.size.width/2.0
+//            if SharedData.sharedInstance.isPortrate {
+//                return CGSize(width: itemWidth, height: itemWidth - 35)
+//            }else{
+//                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+//            }
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (isSearch == true && !isStreamEnable){
@@ -979,7 +989,7 @@ extension HomeViewController : UITextFieldDelegate {
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
-                collectionLayout.columnCount  = 3
+                self.setupCollectionProperties()
                 self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             }else{
                 lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
@@ -992,7 +1002,7 @@ extension HomeViewController : UITextFieldDelegate {
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
-                collectionLayout.columnCount  = 2
+                self.setupCollectionProperties()
                 self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
             }
             
@@ -1303,6 +1313,7 @@ extension HomeViewController : UIScrollViewDelegate {
                 DispatchQueue.main.async {
                     self.footerView?.loadingView.isHidden = false
                     self.footerView?.loadingView.startLoaderWithAnimation()
+                    self.collectionStream.reloadData()
                 }
                 if (isSearch && !isStreamEnable){
                     getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
