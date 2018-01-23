@@ -93,10 +93,10 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
         //self.imgCover.backgroundColor = .black
-        if content.type == .image {
-            self.btnPlay.isHidden = true
-        }else {
+        if content.type == .video {
             self.btnPlay.isHidden = false
+        }else {
+            self.btnPlay.isHidden = true
         }
     }
     
