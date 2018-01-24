@@ -32,6 +32,16 @@ class ShowPreviewViewController: UIViewController {
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.imgView.addGestureRecognizer(swipeDown)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.isStatusBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.isStatusBarHidden = false
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

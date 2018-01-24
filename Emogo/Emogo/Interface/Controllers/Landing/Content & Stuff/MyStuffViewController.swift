@@ -169,7 +169,7 @@ class MyStuffViewController: UIViewController {
         if type == .start || type == .up {
         ContentList.sharedInstance.arrayStuff.removeAll()
           self.stuffCollectionView.reloadData()
-     }
+        }
         APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
           
             if type == .start {
@@ -230,6 +230,8 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         cell.isExclusiveTouch = true
         cell.btnPlay.tag = indexPath.row
         cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+        cell.btnSelect.tag = indexPath.row
+        cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
         cell.prepareLayout(content:content)
         return cell
     }
@@ -241,18 +243,52 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index       =   indexPath.row
+        let content = ContentList.sharedInstance.arrayStuff[index]
+        if content.type == .link{
+            guard let url = URL(string: content.coverImage) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+        }else if content.type == .gif{
+            self.gifPreview(content: content)
+        } else{
+            self.openFullView(index: index)
+        }
         
+//        if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
+//            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+//            content.isSelected = !content.isSelected
+//            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
+//            if content.isSelected {
+//               (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+//            }else {
+//                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+//            }
+//            self.updateSelected(obj: content)
+//        }
+    }
+    
+    @objc func btnSelectAction(button : UIButton)  {
+        let index   =   button.tag
+        let indexPath   =   IndexPath(item: index, section: 0)
         if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             content.isSelected = !content.isSelected
             ContentList.sharedInstance.arrayStuff[indexPath.row] = content
             if content.isSelected {
-               (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
             self.updateSelected(obj: content)
         }
+    }
+    
+    func gifPreview(content : ContentDAO){
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = content
+        self.present(obj, animated: false, completion: nil)
     }
     
     func updateSelected(obj:ContentDAO){

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -420,25 +420,34 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select_active_icon" translatesAutoresizingMaskIntoConstraints="NO" id="xfZ-bC-o7G">
-                                                                    <rect key="frame" x="119" y="21" width="20" height="20"/>
+                                                                    <rect key="frame" x="118" y="20" width="20" height="20"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="20" id="QXD-Ag-8dh"/>
                                                                         <constraint firstAttribute="width" constant="20" id="r2t-3c-gIn"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4r-q8-eGz">
+                                                                    <rect key="frame" x="113" y="0.0" width="30" height="45"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="45" id="TRy-S0-qiw"/>
+                                                                        <constraint firstAttribute="width" constant="30" id="wO2-wa-2Gq"/>
+                                                                    </constraints>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IdM-pV-cHT" secondAttribute="trailing" id="5SV-Te-w4x"/>
                                                                 <constraint firstAttribute="height" constant="45" id="5t4-Qd-x6Z"/>
                                                                 <constraint firstItem="IdM-pV-cHT" firstAttribute="leading" secondItem="Tne-C2-7cQ" secondAttribute="leading" constant="5" id="IDS-eW-RJT"/>
-                                                                <constraint firstItem="xfZ-bC-o7G" firstAttribute="leading" secondItem="GSs-bU-Fsu" secondAttribute="trailing" constant="14" id="Keu-ix-j3w"/>
-                                                                <constraint firstAttribute="trailing" secondItem="xfZ-bC-o7G" secondAttribute="trailing" constant="6" id="UMd-jm-S5P"/>
+                                                                <constraint firstItem="xfZ-bC-o7G" firstAttribute="leading" secondItem="GSs-bU-Fsu" secondAttribute="trailing" constant="13" id="Keu-ix-j3w"/>
+                                                                <constraint firstAttribute="trailing" secondItem="xfZ-bC-o7G" secondAttribute="trailing" constant="7" id="UMd-jm-S5P"/>
                                                                 <constraint firstAttribute="bottom" secondItem="GSs-bU-Fsu" secondAttribute="bottom" constant="3" id="WhH-X8-wCB"/>
-                                                                <constraint firstAttribute="bottom" secondItem="xfZ-bC-o7G" secondAttribute="bottom" constant="4" id="e1z-gh-syG"/>
+                                                                <constraint firstAttribute="bottom" secondItem="L4r-q8-eGz" secondAttribute="bottom" id="YRV-lE-zRT"/>
+                                                                <constraint firstAttribute="bottom" secondItem="xfZ-bC-o7G" secondAttribute="bottom" constant="5" id="e1z-gh-syG"/>
                                                                 <constraint firstItem="GSs-bU-Fsu" firstAttribute="top" secondItem="IdM-pV-cHT" secondAttribute="bottom" id="en4-pr-l6a"/>
                                                                 <constraint firstItem="GSs-bU-Fsu" firstAttribute="leading" secondItem="Tne-C2-7cQ" secondAttribute="leading" constant="5" id="fAd-bw-yR9"/>
                                                                 <constraint firstItem="IdM-pV-cHT" firstAttribute="top" secondItem="Tne-C2-7cQ" secondAttribute="top" id="gKg-0e-lFF"/>
+                                                                <constraint firstAttribute="trailing" secondItem="L4r-q8-eGz" secondAttribute="trailing" constant="2" id="gNy-yv-5lW"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -477,6 +486,7 @@
                                         </constraints>
                                         <connections>
                                             <outlet property="btnPlay" destination="Sz4-YJ-CC6" id="Nph-kc-TDo"/>
+                                            <outlet property="btnSelect" destination="L4r-q8-eGz" id="ajY-F1-Uqz"/>
                                             <outlet property="imgCover" destination="M0t-Ax-fma" id="GzZ-sA-QaQ"/>
                                             <outlet property="imgSelect" destination="xfZ-bC-o7G" id="Rpm-Sy-NpQ"/>
                                             <outlet property="lblDescription" destination="GSs-bU-Fsu" id="ajh-i1-IaG"/>
@@ -628,7 +638,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                                 <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -658,7 +668,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                                 <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1263,7 +1273,7 @@
                                         </connections>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="115" y="243" width="145.5" height="21"/>
+                                        <rect key="frame" x="121" y="243" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1437,7 +1447,7 @@
                                         </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="next"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="next"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                                 <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -111,7 +111,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             currentStreamType = StreamType.emogoStreams
             break
         case 4:
-            self.actionForPeopleList()
+            currentStreamType = StreamType.People
+            collectionLayout.columnCount = 3
+            self.lblNoResult.text = kAlert_No_User_Record_Found
+         //   self.actionForPeopleList()
             break
         default:
             break
@@ -119,11 +122,24 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         
         print("currrent index--->\(index)")
         if  index != 4 {
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
             collectionLayout.columnCount = 2
+            self.lblNoResult.text = kAlert_No_Stream_found
             isPeopleList = false
-            HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: currentStreamType)
+          //  HUDManager.sharedInstance.showHUD()
+          //  self.getStreamList(type:.start,filter: currentStreamType)
         }
+        
+        DispatchQueue.main.async {
+            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if self.arrayToShow.count == 0 {
+                self.lblNoResult.isHidden = false
+            }else {
+                self.lblNoResult.isHidden = true
+            }
+            self.streamCollectionView.reloadData()
+        }
+        
     }
     
     func actionForPeopleList(){
