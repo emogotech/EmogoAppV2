@@ -403,6 +403,15 @@ class ViewStreamController: UIViewController {
                 if let i = StreamList.sharedInstance.arrayViewStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
                     StreamList.sharedInstance.arrayViewStream.remove(at: i)
                 }
+                
+                for obj in StreamList.sharedInstance.arrayStream {
+                    if obj.ID == StreamList.sharedInstance.selectedStream.ID {
+                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == obj.ID.trim()}) {
+                            StreamList.sharedInstance.arrayStream.remove(at: index)
+                        }
+                    }
+                }
+                
                 self.navigationController?.pop()
               //self.prepareList()
             }else {

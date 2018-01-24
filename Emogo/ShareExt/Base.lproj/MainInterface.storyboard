@@ -11,6 +11,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Medium.otf">
+            <string>SFProDisplay-Medium</string>
+        </array>
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
         </array>
@@ -36,6 +39,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbZ-kc-43c">
                                                 <rect key="frame" x="292" y="21" width="31" height="31"/>
                                                 <state key="normal" image="share_post_button"/>
+                                                <connections>
+                                                    <action selector="btnPostAction:" destination="j1y-V4-xli" eventType="touchUpInside" id="7rk-Av-dxH"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="axQ-gy-cbE">
                                                 <rect key="frame" x="20" y="21" width="31" height="31"/>
@@ -109,10 +115,10 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSD-wb-kOS">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="374"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login first app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sy-KC-KcW">
-                                                <rect key="frame" x="91" y="176" width="160" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please login first in emogo app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="4sy-KC-KcW">
+                                                <rect key="frame" x="47.5" y="176" width="248.5" height="23"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="19"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bRJ-lz-6gV">
@@ -186,7 +192,7 @@
         <image name="share_cross_button" width="31" height="31"/>
         <image name="share_in_imessage_button" width="161" height="53"/>
         <image name="share_logo" width="53" height="40"/>
-        <image name="share_post_button" width="31" height="31"/>
+        <image name="share_post_button" width="32" height="32"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
     </resources>
 </document>
