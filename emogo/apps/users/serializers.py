@@ -262,6 +262,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     popular = serializers.SerializerMethodField()
     my_stream = serializers.SerializerMethodField()
     people = serializers.SerializerMethodField()
+    collaborator_qs = Collaborator.actives.all()
 
     def use_fields(self):
         fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width')
@@ -277,12 +278,11 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_popular(self, obj):
         # Get self created streams
-        owner_qs = self.qs.filter(created_by=self.context.user, type='Public').order_by('-view_count')
+        owner_qs = self.qs.filter(type='Public').order_by('-view_count')
         if owner_qs.count() < 5:
             # Get streams user as collaborator and has add content permission
-            stream_collaborators = Collaborator.actives.filter(can_add_content=True).distinct()
-            collaborator_permission = [x.stream for x in stream_collaborators if
-                                       str(x.phone_number) in str(self.context.user.username)]
+            collaborator_permission = [x.stream for x in self.collaborator_qs if
+                                       str(x.phone_number) in str(self.context.user.username) and x.stream.status == 'Active']
 
             # merge result
             result_list = list(chain(owner_qs, collaborator_permission))
@@ -301,8 +301,9 @@ class GetTopStreamSerializer(serializers.Serializer):
 
         if owner_qs.count() < 5:
             # Get streams user as collaborator and has add content permission
-            stream_collaborators = Collaborator.actives.filter(can_add_content=True).distinct()
-            collaborator_permission = [ x.stream for x in stream_collaborators if str(x.phone_number) in str(self.context.user.username)]
+            collaborator_permission = [x.stream for x in self.collaborator_qs if
+                                       str(x.phone_number) in str(
+                                           self.context.user.username) and x.stream.status == 'Active']
 
             # merge result
             result_list = list(chain(owner_qs, collaborator_permission))

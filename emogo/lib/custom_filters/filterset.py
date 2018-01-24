@@ -3,12 +3,14 @@ from emogo.apps.stream.models import Stream, Content
 from emogo.apps.users.models import UserProfile
 from django.db.models import Q
 from itertools import chain
+from emogo.apps.collaborator.models import Collaborator
 
 
 class StreamFilter(django_filters.FilterSet):
     my_stream = django_filters.filters.BooleanFilter(method='filter_my_stream')
     popular = django_filters.filters.BooleanFilter(method='filter_popular')
     global_search = django_filters.filters.CharFilter(method='filter_global_search')
+    collaborator_qs = Collaborator.actives.all()
 
     class Meta:
         model = Stream
@@ -16,22 +18,27 @@ class StreamFilter(django_filters.FilterSet):
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
-        owner_qs = qs.filter(created_by=self.request.user).distinct()
+        owner_qs = qs.filter(created_by=self.request.user)
 
         # Get streams user as collaborator and has add content permission
-        collaborator_permission = qs.filter(collaborator_list__phone_number=self.request.user.username, collaborator_list__can_add_content=True).distinct()
-
-        # merge result
+        collaborator_permission = [x.stream for x in self.collaborator_qs if
+                                   str(x.phone_number) in str(
+                                       self.request.user.username) and x.stream.status == 'Active']
+        # Merge result
         result_list = list(chain(owner_qs, collaborator_permission))
         return result_list
 
     def filter_popular(self, qs, name, value):
-        return qs.filter(
-            Q(type='Public') | Q(collaborator_list__phone_number=self.request.user.username) |\
-            Q(created_by=self.request.user)).distinct().order_by('-view_count')
+        owner_qs = self.qs.filter(type='Public').order_by('-view_count')
+        # Get streams user as collaborator
+        collaborator_permission = [x.stream for x in self.collaborator_qs if
+                                   str(x.phone_number) in str(
+                                       self.request.user.username) and x.stream.status == 'Active']
+        # Merge result
+        result_list = list(chain(owner_qs, collaborator_permission))
+        return result_list
 
     def filter_global_search(self, qs, name, value):
-        # return qs.filter(Q(name__contains=value) | Q(content__name__contains=value)).distinct().order_by('-view_count')
         return qs.filter(name__icontains=value, type='Public').order_by('-view_count')
 
 
