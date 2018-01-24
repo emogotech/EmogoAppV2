@@ -39,6 +39,7 @@ class ShareViewHomeController: UIViewController {
         }
         else {
             viewLogin.isHidden = false
+            self.perform(#selector(self.closeAfter), with: nil, afterDelay: 10.0)
         }
         
         viewContainer.layer.cornerRadius = 10.0
@@ -46,7 +47,6 @@ class ShareViewHomeController: UIViewController {
         
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,6 +69,10 @@ class ShareViewHomeController: UIViewController {
         hudView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    @objc func closeAfter(){
+        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     private func fetchAndSetContentFromContext() {
@@ -154,12 +158,21 @@ class ShareViewHomeController: UIViewController {
     @IBAction func btnAddToStreamAction(_ sender: UIButton) {
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
-
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
         let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
         self.presentAppViewWithDeepLink(strURL: str!)
           self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+    }
+    
+    @IBAction func btnPostAction(_ sender: UIButton) {
+        let width = Int((self.imgLink.image?.size.height)!)
+        let height = Int((self.imgLink.image?.size.width)!)
+        self.dictData["height"] = String(format: "%d", (width))
+        self.dictData["width"] =  String(format: "%d", (height))
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        self.presentAppViewWithDeepLink(strURL: str!)
+        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     func presentAppViewWithDeepLink(strURL : String) {

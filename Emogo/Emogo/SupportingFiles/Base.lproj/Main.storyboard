@@ -1819,7 +1819,7 @@
                                         <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cje-g7-C0y">
-                                        <rect key="frame" x="53" y="92" width="260" height="26"/>
+                                        <rect key="frame" x="13" y="92" width="338" height="26"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1873,7 +1873,7 @@
                                 <constraints>
                                     <constraint firstItem="QMv-gO-pLi" firstAttribute="leading" secondItem="SMn-dj-icE" secondAttribute="leading" constant="19" id="4Ht-7t-mVf"/>
                                     <constraint firstItem="QMv-gO-pLi" firstAttribute="centerX" secondItem="SMn-dj-icE" secondAttribute="centerX" id="A4H-Tu-MdQ"/>
-                                    <constraint firstItem="Cje-g7-C0y" firstAttribute="leading" secondItem="SMn-dj-icE" secondAttribute="leading" constant="53" id="BKl-rm-XP9"/>
+                                    <constraint firstItem="Cje-g7-C0y" firstAttribute="leading" secondItem="SMn-dj-icE" secondAttribute="leading" constant="13" id="BKl-rm-XP9"/>
                                     <constraint firstItem="QMv-gO-pLi" firstAttribute="centerY" secondItem="SMn-dj-icE" secondAttribute="centerY" id="Lmz-d4-jVu"/>
                                     <constraint firstItem="WdM-6f-wF5" firstAttribute="centerX" secondItem="SMn-dj-icE" secondAttribute="centerX" id="M0O-Ok-1OK"/>
                                     <constraint firstItem="WdM-6f-wF5" firstAttribute="top" secondItem="SMn-dj-icE" secondAttribute="top" constant="8.5" id="RE9-lX-TEL"/>
@@ -2065,14 +2065,14 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-BY-sC0">
-                                        <rect key="frame" x="102.5" y="226" width="160" height="53"/>
+                                        <rect key="frame" x="102.5" y="226" width="160" height="54"/>
                                         <state key="normal" image="done-btn"/>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="8aY-dE-SI1" eventType="touchUpInside" id="ZOe-QP-XJt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exw-Tc-RmJ">
-                                        <rect key="frame" x="108.5" y="296" width="148" height="34"/>
+                                        <rect key="frame" x="110.5" y="297" width="144" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Exw-Tc-RmJ" secondAttribute="height" multiplier="74:17" id="22N-g3-cKx"/>
                                         </constraints>
@@ -2301,7 +2301,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="INF-VS-5bF">
-                                                    <rect key="frame" x="14" y="6" width="111" height="22"/>
+                                                    <rect key="frame" x="14" y="6" width="119.5" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="TBf-db-Upj"/>
                                                     </constraints>
@@ -2344,7 +2344,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Private Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="mtn-KJ-vkC">
-                                                    <rect key="frame" x="10" y="22" width="138" height="17"/>
+                                                    <rect key="frame" x="10" y="22" width="140" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="HOT-8b-ddN"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="ZzM-Mw-sfb"/>
@@ -2490,7 +2490,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="L89-Gg-6A2">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="Dag-XE-f0V"/>
                                                     </constraints>
