@@ -501,6 +501,14 @@ class StreamListViewController: UIViewController {
     
     // MARK: - API Methods
 
+    
+    func getTopStreamList() {
+        
+        APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
+            
+        }
+    }
+    
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             self.addLoadMore()
@@ -513,9 +521,7 @@ class StreamListViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.streamCollectionView.es.stopLoadingMore()
-                self.streamCollectionView.es.removeRefreshFooter()
-                self.isPullToRefreshRemoved = true
+                self.streamCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -549,9 +555,7 @@ class StreamListViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
             if refreshType == .end {
-                self.streamCollectionView.es.stopLoadingMore()
-                self.streamCollectionView.es.removeRefreshFooter()
-                self.isPullToRefreshRemoved = true
+                self.streamCollectionView.es.noticeNoMoreData()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()

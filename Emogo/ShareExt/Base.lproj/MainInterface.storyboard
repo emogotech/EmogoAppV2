@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Share View Controller New-->
+        <!--Share View Home Controller-->
         <scene sceneID="ceB-am-kn3">
             <objects>
-                <viewController id="j1y-V4-xli" customClass="ShareViewControllerNew" customModule="EmogoShare" sceneMemberID="viewController">
+                <viewController id="j1y-V4-xli" customClass="ShareViewHomeController" customModule="EmogoShare" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="wbc-yd-nQP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -33,7 +33,7 @@
                                                 <rect key="frame" x="20" y="21" width="31" height="31"/>
                                                 <state key="normal" image="share_cross_button"/>
                                                 <connections>
-                                                    <action selector="btnCancleAction:" destination="j1y-V4-xli" eventType="touchUpInside" id="j95-Kl-tJ7"/>
+                                                    <action selector="btnCancleAction:" destination="j1y-V4-xli" eventType="touchUpInside" id="RgA-jM-Cll"/>
                                                 </connections>
                                             </button>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="share_logo" translatesAutoresizingMaskIntoConstraints="NO" id="2Fs-eU-pyC">
@@ -82,7 +82,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" image="share_in_imessage_button"/>
                                         <connections>
-                                            <action selector="btnActionShare:" destination="j1y-V4-xli" eventType="touchUpInside" id="vey-uE-W7u"/>
+                                            <action selector="btnActionShare:" destination="j1y-V4-xli" eventType="touchUpInside" id="U05-q0-cGA"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5F-Dg-HXj">
@@ -134,6 +134,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1Xd-am-t49"/>
                     </view>
+                    <connections>
+                        <outlet property="imgLink" destination="DRj-54-mHd" id="9hg-Qe-wWl"/>
+                        <outlet property="lblDesc" destination="84F-h6-wop" id="4mJ-qw-1pL"/>
+                        <outlet property="lblLink" destination="rhl-z6-ChU" id="ePI-gK-lst"/>
+                        <outlet property="lblTitle" destination="MOE-C3-5A9" id="2g4-XY-DPt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEy-Cv-SGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -27,11 +27,11 @@ target 'Emogo' do
     pod 'IQKeyboardManagerSwift'
     pod 'ReadabilityKit'
     pod 'GiphyCoreSDK'
-  pod 'XLActionController'
-pod 'CropViewController'
-pod "GSKStretchyHeaderView"
-
-
+    pod 'XLActionController'
+    pod 'CropViewController'
+    pod "GSKStretchyHeaderView"
+    
+    
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target
@@ -60,8 +60,9 @@ end
 target 'ShareExt' do
     # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
     use_frameworks!
-        pod 'ReadabilityKit'
-
+    pod 'ReadabilityKit'
+    pod 'SDWebImage'
+    
     # Pods for ShareExt
     
 end

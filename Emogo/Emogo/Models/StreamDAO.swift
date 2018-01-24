@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-enum StreamType:String{
+enum StreamType:String {
     case populer = "Popular"
     case myStream = "My Stream"
     case featured = "Featured Stream"
     case emogoStreams = "Emogo Stream"
-    
+    case People = "People"
 }
 
 
@@ -29,7 +29,16 @@ class StreamDAO {
     var streamType:String! = ""
     var width                  :Int! = 300
     var hieght                 :Int! = 300
+    var selectionType:StreamType!
+    
+    // People
 
+    var fullName                   :String! = ""
+    var phoneNumber                :String! = ""
+    var userId                     :String! = ""
+    var userImage                  :String! = ""
+    
+    
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {
             self.Title = obj as! String
@@ -55,6 +64,23 @@ class StreamDAO {
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
         }
+    }
+    
+    
+    init(peopleData:[String:Any]) {
+        if let obj = peopleData["user_profile_id"] {
+            self.userId = "\(obj)"
+        }
+        if let obj = peopleData["full_name"] {
+            self.fullName = obj as! String
+        }
+        if let obj = peopleData["phone_number"] {
+            self.phoneNumber = "\(obj)"
+        }
+        if let obj = peopleData["user_image"] {
+            self.userImage = obj as! String
+        }
+        self.selectionType = .People
     }
 }
 
@@ -90,7 +116,8 @@ class StreamList{
         case .emogoStreams:
             self.requestURl =  kStreamAPI + "emogo=True"
             break
-    
+        case .People:
+            break
         }
     }
     
