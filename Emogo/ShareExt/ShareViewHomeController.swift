@@ -20,30 +20,43 @@ class ShareViewHomeController: UIViewController {
     @IBOutlet weak var lblLink : UILabel!
     @IBOutlet weak var imgLink : UIImageView!
     @IBOutlet weak var viewContainer : UIView!
+    @IBOutlet weak var viewLogin : UIView!
      var hudView  : LoadingView!
     var dictData : Dictionary = [String:Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.lblTitle.text = ""
         self.lblDesc.text = ""
         self.lblLink.text = ""
         
-        setupLoader()
+        let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+        
+        if defaultUser?.bool(forKey: "userloggedin") == true {
+            setupLoader()
+            viewLogin.isHidden = true
+        }
+        else {
+            viewLogin.isHidden = false
+        }
         
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
         
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.async {
-            self.hudView.startLoaderWithAnimation()
+        let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+        if defaultUser?.bool(forKey: "userloggedin") == true {
+            DispatchQueue.main.async {
+                self.hudView.startLoaderWithAnimation()
+            }
+            self.fetchAndSetContentFromContext()
         }
-        self.fetchAndSetContentFromContext()
-
     }
     // MARK:- LoaderSetup
     func setupLoader() {
@@ -139,15 +152,14 @@ class ShareViewHomeController: UIViewController {
     }
     
     @IBAction func btnAddToStreamAction(_ sender: UIButton) {
-        let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-        if defaultUser?.bool(forKey: "userloggedin") == true {
-            self.dictData["height"] = String(format: "%ld", (self.imgLink.image?.size.height)!)
-            self.dictData["width"] =  String(format: "%ld", (self.imgLink.image?.size.width)!)
-            let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
-            self.presentAppViewWithDeepLink(strURL: str!)
-        }else{
-            self.showToastIMsg(strMSG: "Please login app first")
-        }
+        let width = Int((self.imgLink.image?.size.height)!)
+        let height = Int((self.imgLink.image?.size.width)!)
+
+        self.dictData["height"] = String(format: "%d", (width))
+        self.dictData["width"] =  String(format: "%d", (height))
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        self.presentAppViewWithDeepLink(strURL: str!)
+          self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     func presentAppViewWithDeepLink(strURL : String) {
@@ -178,8 +190,8 @@ class ShareViewHomeController: UIViewController {
         let type = URLQueryItem(name: "type", value: userInfo["type"] as? String )
         let isUploaded = URLQueryItem(name: "isUploaded", value: userInfo["isUploaded"] as? String )
         let coverImageVideo = URLQueryItem(name: "coverImageVideo", value: userInfo["coverImageVideo"] as? String )
-        let height = URLQueryItem(name: "height", value: userInfo["height"] as? String )
-        let width = URLQueryItem(name: "width", value: userInfo["width"]  as? String)
+        let height = URLQueryItem(name: "height", value: "200" )
+        let width = URLQueryItem(name: "width", value: "200")
         urlComponents.queryItems = [name, description, coverImage, type,isUploaded,coverImageVideo,height,width]
         let strURl = "\(urlComponents.url!)/addContentFromShare"
         return strURl

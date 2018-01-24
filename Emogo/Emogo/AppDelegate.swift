@@ -123,15 +123,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func getInfoFormURLAddToStream(url:URL){
 
-        let content = ContentDAO(contentData: [:])
-        content.name = url.valueOf("name")
-        content.description = url.valueOf("description")
-        content.coverImage = url.valueOf("coverImage")
+        
+//        if let obj  = contentData["name"] {
+//            self.name = obj as! String
+//        }
+//        if let obj  = contentData["type"] {
+//            let strType:String = obj as! String
+//            if strType.trim().lowercased() == "picture"{
+//                self.type = .image
+//            }else if strType.lowercased() == "video" {
+//                self.type = .video
+//            }else if strType.lowercased() == "link"{
+//                self.type = .link
+//            }else {
+//                self.type = .gif
+//            }
+//            if let obj  = contentData["url"] {
+//                self.coverImage = obj as! String
+//            }
+//            if let obj  = contentData["id"] {
+//                self.contentID = "\(obj)"
+//            }
+//            if let obj  = contentData["description"] {
+//                self.description = obj as! String
+//            }
+//            if let obj  = contentData["created_by"] {
+//                self.createdBy = "\(obj)"
+//            }
+//            if let obj  = contentData["video_image"] {
+//                self.coverImageVideo = obj as! String
+//            }
+        
+        
+        var dictData : Dictionary = [String:Any]()
+        dictData["name"] = url.valueOf("name")
+        dictData["url"] = url.valueOf("coverImage")
+        dictData["description"] = url.valueOf("description")
+        dictData["video_image"] = url.valueOf("coverImageVideo")
+        dictData["height"] = url.valueOf("height")
+        let width = url.valueOf("width")?.components(separatedBy: "/")
+        dictData["width"] = width?[0]
+        
+        let content = ContentDAO(contentData: dictData)
         content.type = .link
         content.isUploaded = false
-        content.coverImageVideo = url.valueOf("coverImageVideo")
-        content.height = Int(url.valueOf("height")!)
-        content.width = Int (url.valueOf("width")!)
         
         print(SharedData.sharedInstance.contentList.arrayContent)
         SharedData.sharedInstance.contentList.arrayContent.append(content)
