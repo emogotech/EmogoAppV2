@@ -86,8 +86,9 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
         }
-        self.prepareList()
-        self.streamCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.streamCollectionView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -180,7 +181,6 @@ class StreamListViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.streamCollectionView.addGestureRecognizer(swipeLeft)
         
-        
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.menuView.addGestureRecognizer(swipeDown)
@@ -191,27 +191,7 @@ class StreamListViewController: UIViewController {
         
     }
     
-    
-    func prepareList(){
-        if isUpdateList {
-            isUpdateList = false
-            if  menuView.currentIndex == 4 {
-                menuView.currentIndex = 4
-                collectionLayout.columnCount = 3
-                self.actionForPeopleList()
-            }else{
-                collectionLayout.columnCount = 2
-                HUDManager.sharedInstance.showHUD()
-                self.getStreamList(type:.start,filter: currentStreamType)
-            }
-        }
-        
-        if   StreamList.sharedInstance.arrayStream.count == 0 {
-            self.lblNoResult.isHidden = false
-        }else{
-            self.lblNoResult.isHidden = true
-        }
-    }
+
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -442,7 +422,6 @@ class StreamListViewController: UIViewController {
             btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
             isUpdateList = true
-            self.prepareList()
             UIView.animate(withDuration: 0.1, delay: 0.1, options: [.curveEaseOut], animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
                 self.viewCollection.frame = self.viewSearch.frame
@@ -637,6 +616,10 @@ class StreamListViewController: UIViewController {
     }
     
     
+    // MARK: - Search API Methods
+    
+    
+
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
         lblNoResult.text = kAlert_No_User_Record_Found
         if type != .up {
@@ -886,49 +869,31 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if isSearch && isTapPeople {
-            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+        if currentStreamType == .People {
+            let people = self.arrayToShow[indexPath.row]
             if (people.userId == UserDAO.sharedInstance.user.userId) {
                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                 self.addLeftTransitionView(subtype: kCATransitionFromLeft)
                 self.navigationController?.pushViewController(obj, animated: false)
             }
             else{
+                let objPeople = PeopleDAO(peopleData: [:])
+                objPeople.fullName = people.fullName
+                objPeople.userId = people.userId
+                objPeople.userImage = people.userImage
+                objPeople.phoneNumber = people.phoneNumber
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = people
+                obj.objPeople = objPeople
                 self.navigationController?.push(viewController: obj)
             }
-        }
-        else if isSearch && isTapStream {
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = indexPath.row
-            obj.streamType = currentStreamType.rawValue
-            ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
-        }
-        else if isPeopleList  {
-             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            if (people.userId == UserDAO.sharedInstance.user.userId) {
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.navigationController?.push(viewController: obj)
-            }
-            else{
-               
-                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = people
-                self.navigationController?.push(viewController: obj)
-            }
-            
         }else {
+             StreamList.sharedInstance.arrayViewStream = self.arrayToShow
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
         }
-        
-        
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
