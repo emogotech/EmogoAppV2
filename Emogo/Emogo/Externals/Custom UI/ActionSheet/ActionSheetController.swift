@@ -101,7 +101,7 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         settings.animation.dismiss.offset = 30
         settings.animation.dismiss.options = .curveLinear
         
-        cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 42 })
+        cellSpec = CellSpec.nibFile(nibName: "PMActionCell", bundle: Bundle(for: PMActionCell.self), height: { _ in 52 })//42
         headerSpec = .cellClass(height: { _ -> CGFloat in return 45 })
         
         onConfigureHeader = { header, title in
@@ -114,6 +114,11 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
                 if indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 2 {
                     cell.separatorView?.isHidden = false
                 }
+                if indexPath.item == (self?.collectionView.numberOfItems(inSection: indexPath.section))! - 1{
+                    cell.actionTitleLabel?.font = UIFont.init(name: kFontMedium, size: 16)
+                    cell.actionTitleLabel?.textColor = UIColor.init(r: 65, g: 64, b: 64)
+                }
+
             }
             cell.alpha = action.enabled ? 1.0 : 0.5
         }
