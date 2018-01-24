@@ -30,6 +30,7 @@ class StreamDAO {
     var width                  :Int! = 300
     var hieght                 :Int! = 300
     var selectionType:StreamType!
+    var count:Int! = 0
     
     // People
 
