@@ -273,7 +273,7 @@ let kAlert_Confirmation_Description_For_Edit_Stream                      = "We n
 
 let kAlert_Confirmation_For_Edit_Stream_Content                      = "Please first done edit contents"
 
-let kAlert_Confirmation_For_Edit_Content                      = "if you change the content then previous content update lost."
+let kAlert_Confirmation_For_Edit_Content                      = "If you switch to next content without saving changes, changes will be lost."
 
 
 let kAlert_Confirmation_Description_For_Edit_Content                     = "We need to redirect on Emogo App for the Edit content, Do you want to go to Emogo?"
@@ -285,7 +285,7 @@ let kAlert_Delete_Content_Msg                                             = "Are
 let kAlert_Logout                                                       = "Are you sure, You want to logout?"
 let kAlert_Stream_Not_Found                                               = "The stream you requested does not exists."
 let kAlert_Content_Not_Found                                              = "The content you requested does not exists."
-
+let kAlert_Stream_Add_Edited_Content = "If you proceed further without saving changes, recent changes will not appear later.Do you still want to continue?"
 let kAlert_Progress                                                     = "Content Will be shared by iMessage (work in progress)."
 let kAlert_waitProcess                                                  = "It may take a while, All Content will be added in MyStuff, After Uploading!"
 

@@ -1035,10 +1035,10 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
+                                if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
                                     // it exists, do something
                                 } else {
-                                    StreamList.sharedInstance.arrayStream.append(stream)                                }
+                                    StreamList.sharedInstance.arrayMyStream.append(stream)                                }
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{
