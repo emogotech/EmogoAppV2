@@ -14,6 +14,8 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
+    @IBOutlet weak var btnSelect: UIButton!
+
     @IBOutlet weak var btnPlay: UIButton!
     
    
