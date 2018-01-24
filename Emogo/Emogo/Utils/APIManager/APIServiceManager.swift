@@ -304,10 +304,44 @@ class APIServiceManager: NSObject {
             }
         }
         
-    }
+        // MARK: - Top Stream API
+
     
-    
-    
+        func  apiForGetTopStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
+            let url = kGetTopStreamAPI
+            var objects = [StreamDAO]()
+            APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+                switch(result){
+                case .success(let value):
+                    if let code = (value as! [String:Any])["status_code"] {
+                        let status = "\(code)"
+                        if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                            if let data = (value as! [String:Any])["data"] {
+                                let result:[Any] = data as! [Any]
+                                for obj in result {
+                                    let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    objects.append(stream)
+                                }
+                            }
+                            if let nextPagningUrl = (value as! [String:Any])["next"] as? String  {
+                                let lastIndexFromUrl = (nextPagningUrl ).components(separatedBy: "/")
+                                SharedData.sharedInstance.nextStreamString = lastIndexFromUrl.last
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                            }else{
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+                            }
+                            completionHandler(objects,"")
+                        }else {
+                            let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                            completionHandler(objects,errorMessage)
+                        }
+                    }
+                case .error(let error):
+                    print(error.localizedDescription)
+                    completionHandler(objects,error.localizedDescription)
+                }
+            }
+        }
     // MARK: - Get All Stream API
     
     func apiForGetStreamList(completionHandler:@escaping (_ results:[StreamDAO]?, _ strError:String?)->Void) {
@@ -1031,5 +1065,6 @@ class APIServiceManager: NSObject {
         }
 
     }
+}
 }
 

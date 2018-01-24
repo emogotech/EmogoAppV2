@@ -51,7 +51,7 @@ let kGetAllLinksAPI                                 = "content/link_type/"
 let kReportAPI                                      = "extremist_report/"
 let kProfileUpdateAPI                               = "users/"
 let kDeleteStreamContentAPI                         = "delete_stream_content/"
-
+let kGetTopStreamAPI                                = "get_top_stream/"
 
 
 // MARK: -  API STATUS CODE

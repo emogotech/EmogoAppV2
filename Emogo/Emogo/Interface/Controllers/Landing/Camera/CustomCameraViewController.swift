@@ -313,8 +313,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
-    
-    
     // MARK: - Class Methods
     
     func preparePreview(assets:[TLPHAsset]){
@@ -368,24 +366,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.btnShutter.isHidden = false
             self.previewCollection.reloadData()
         })
-        /*
-         
-         Image.resolve(images: assets, completion: {  resolvedImages in
-         for i in 0..<resolvedImages.count {
-         let obj = resolvedImages[i]
-         let camera = ContentDAO(contentData: [:])
-         camera.imgPreview = obj
-         camera.type = .image
-         camera.isUploaded = false
-         if let file =  assets[i].asset.value(forKey: "filename"){
-         camera.fileName = file as! String
-         }
-         ContentList.sharedInstance.arrayContent.insert(camera, at: 0)
-         }
-         self.btnPreviewOpen.isHidden = false
-         self.previewCollection.reloadData()
-         })
-         */
+      
     }
     
     private func animateView(){

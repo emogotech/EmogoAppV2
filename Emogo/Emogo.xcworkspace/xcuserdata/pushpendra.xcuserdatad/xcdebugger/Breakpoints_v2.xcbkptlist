@@ -473,8 +473,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "466"
             endingLineNumber = "466"
-            landmarkName = "swiftyCam(_:didTake:)"
-            landmarkType = "7">
+            landmarkName = "CustomCameraViewController"
+            landmarkType = "21">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -10,8 +10,6 @@
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
 		2B117C942017727E00852A59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		2B117C96201772D100852A59 /* ShareViewControllerNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B117C95201772D100852A59 /* ShareViewControllerNew.swift */; };
-		2B117C982017821700852A59 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B117C972017821700852A59 /* MainPageViewController.swift */; };
-		2B117C9A201782C600852A59 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B117C99201782C600852A59 /* HomeViewController.swift */; };
 		2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */; };
 		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
 		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
@@ -388,8 +386,6 @@
 		1F310BC23B336DA3B9A94C58 /* Pods-Emogo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Emogo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Emogo/Pods-Emogo.debug.xcconfig"; sourceTree = "<group>"; };
 		23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EmogoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B117C95201772D100852A59 /* ShareViewControllerNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewControllerNew.swift; sourceTree = "<group>"; };
-		2B117C972017821700852A59 /* MainPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
-		2B117C99201782C600852A59 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorViewController.swift; sourceTree = "<group>"; };
 		2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -887,8 +883,6 @@
 				335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */,
 				335B1A4A1FBB23FE006DA9D9 /* Info.plist */,
 				2B117C95201772D100852A59 /* ShareViewControllerNew.swift */,
-				2B117C972017821700852A59 /* MainPageViewController.swift */,
-				2B117C99201782C600852A59 /* HomeViewController.swift */,
 			);
 			path = ShareExt;
 			sourceTree = "<group>";
@@ -2686,9 +2680,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				335B1A461FBB23FE006DA9D9 /* ShareViewController.swift in Sources */,
-				2B117C982017821700852A59 /* MainPageViewController.swift in Sources */,
 				2B117C96201772D100852A59 /* ShareViewControllerNew.swift in Sources */,
-				2B117C9A201782C600852A59 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
