@@ -21,7 +21,8 @@ class StreamFilter(django_filters.FilterSet):
         owner_qs = qs.filter(created_by=self.request.user)
 
         # Get streams user as collaborator and has add content permission
-        collaborator_permission = [x.stream for x in self.collaborator_qs if
+        collaborator_permission = self.collaborator_qs
+        collaborator_permission = [x.stream for x in collaborator_permission if
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
         # Merge result
@@ -29,9 +30,10 @@ class StreamFilter(django_filters.FilterSet):
         return result_list
 
     def filter_popular(self, qs, name, value):
-        owner_qs = self.qs.filter(type='Public').order_by('-view_count')
+        owner_qs = qs.filter(type='Public').order_by('-view_count')
         # Get streams user as collaborator
-        collaborator_permission = [x.stream for x in self.collaborator_qs if
+        collaborator_permission = self.collaborator_qs
+        collaborator_permission = [x.stream for x in collaborator_permission if
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
         # Merge result
