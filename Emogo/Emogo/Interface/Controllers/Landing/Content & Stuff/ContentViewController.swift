@@ -231,7 +231,11 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage.type == .image {
             self.btnEdit.isHidden = false
-        }else{
+        }else if self.seletedImage.type == .link{
+            self.btnEdit.isHidden = false
+            self.btnEdit.isUserInteractionEnabled = false
+            self.btnEdit.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+        } else{
             self.btnEdit.isHidden = true
         }
         
