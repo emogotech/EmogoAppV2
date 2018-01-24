@@ -133,6 +133,11 @@ class StreamListViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
         
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+        }
+        
     }
     
     // MARK: - Prepare Layouts
@@ -936,6 +941,12 @@ extension StreamListViewController : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if txtSearch.text?.trim() != "" {
+            if isMenuOpen {
+                self.menuView.isHidden = true
+                self.viewMenu.isHidden = false
+                Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+                isMenuOpen = false
+            }
             self.didTapActionSearch(searchString: (txtSearch.text?.trim())!)
         }
         return true
