@@ -95,6 +95,8 @@ class StreamList{
     
     var arrayStream:[StreamDAO]!
     var arrayMyStream:[StreamDAO]!
+    var arraySearch:[StreamDAO]!
+    var arrayViewStream:[StreamDAO]!
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
 
@@ -104,9 +106,12 @@ class StreamList{
         }
         return Static.instance
     }
+    
     init() {
         arrayStream = [StreamDAO]()
         arrayMyStream = [StreamDAO]()
+        arraySearch = [StreamDAO]()
+        arrayViewStream = [StreamDAO]()
     }
     
     func updateRequestType(filter:StreamType){
