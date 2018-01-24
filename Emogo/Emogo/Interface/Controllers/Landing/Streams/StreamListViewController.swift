@@ -143,12 +143,10 @@ class StreamListViewController: UIViewController {
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
         
-        self.getTopStreamList()
         menuView.currentIndex = currentStreamType.hashValue
-        self.getStreamList(type:.start,filter: currentStreamType)
         print("current index ----\(currentStreamType)")
         print("current index ----\(currentStreamType.hashValue)")
-        
+        self.getTopStreamList()
         // Attach datasource and delegate
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
@@ -310,7 +308,12 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             UIApplication.shared.beginIgnoringInteractionEvents()
-            
+            if currentStreamType == .People {
+                self?.getUsersList(type:.up)
+            }else {
+                self?.getStreamList(type:.up,filter:currentStreamType)
+            }
+            /*
             if (self?.isSearch)! && (self?.isTapPeople)! {
                 self?.getPeopleGlobleSearch(searchText: (self?.searchStr)!, type: .start)
             }
@@ -320,11 +323,19 @@ class StreamListViewController: UIViewController {
             else if (self?.isPeopleList)! {
                 self?.getUsersList(type:.up)
             }else {
-                self?.getStreamList(type:.up,filter:currentStreamType)
             }
+ */
         }
         
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            
+            if currentStreamType == .People {
+                self?.getUsersList(type:.down)
+            }else {
+                self?.getStreamList(type:.down,filter:currentStreamType)
+            }
+            
+            /*
             if (self?.isSearch)! && (self?.isTapPeople)! {
                 self?.getPeopleGlobleSearch(searchText: (self?.searchStr)!, type: .up)
             }
@@ -336,11 +347,9 @@ class StreamListViewController: UIViewController {
             }else {
                 self?.getStreamList(type:.up,filter:currentStreamType)
             }
+ */
         }
-        self.streamCollectionView.expiredTimeInterval = 20.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.streamCollectionView.es.autoPullToRefresh()
-        }
+        self.streamCollectionView.expiredTimeInterval = 15.0
     }
     
     func addLoadMore(){
@@ -518,15 +527,14 @@ class StreamListViewController: UIViewController {
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            self.addLoadMore()
-            PeopleList.sharedInstance.arrayPeople.removeAll()
-            StreamList.sharedInstance.arrayStream.removeAll()
-            self.streamCollectionView.reloadData()
+            for obj in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: index)
+                    print("Removed")
+                }
+            }
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
@@ -552,15 +560,15 @@ class StreamListViewController: UIViewController {
     
     func getUsersList(type:RefreshType){
         if type == .up {
-            self.addLoadMore()
-            StreamList.sharedInstance.arrayStream.removeAll()
-            PeopleList.sharedInstance.arrayPeople.removeAll()
-            self.streamCollectionView.reloadData()
+            for obj in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: index)
+                    print("Removed")
+                }
+            }
         }
         APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
+           
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
@@ -838,6 +846,14 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        if currentStreamType == .People {
+            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+            return CGSize(width: itemWidth, height: 100)
+        }else {
+            let itemWidth = collectionView.bounds.size.width/2.0
+            return CGSize(width: itemWidth, height: itemWidth - 40)
+        }
+        /*
         if isSearch && isTapPeople {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
@@ -854,6 +870,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             let itemWidth = collectionView.bounds.size.width/2.0
             return CGSize(width: itemWidth, height: itemWidth - 40)
         }
+ */
     }
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

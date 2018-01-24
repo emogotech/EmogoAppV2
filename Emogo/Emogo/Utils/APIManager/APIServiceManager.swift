@@ -321,59 +321,80 @@ class APIServiceManager: NSObject {
                             print(data)
                             let result:[String:Any] = data as! [String:Any]
                             if let value = result["emogo"] {
-                                let array:[Any] = value as! [Any]
-                                for obj in array {
-                                    let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                    stream.selectionType = StreamType.emogoStreams
-                                  
-                                    if objects.contains(where: {$0.ID == stream.ID}) {
-                                        // it exists, do something
-                                    } else {
-                                        objects.append(stream)                            }
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.emogoStreams
+                                        
+                                        if objects.contains(where: {$0.ID == stream.ID}) {
+                                            // it exists, do something
+                                        } else {
+                                            objects.append(stream)                            }
+                                    }
                                 }
+                               
                             }
                             
                             if let value = result["featured"] {
-                                let array:[Any] = value as! [Any]
-                                for obj in array {
-                                    let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                    stream.selectionType = StreamType.featured
-                                    if objects.contains(where: {$0.ID == stream.ID}) {
-                                        // it exists, do something
-                                    } else {
-                                        objects.append(stream)                            }
+                               
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.emogoStreams
+                                        
+                                        if objects.contains(where: {$0.ID == stream.ID}) {
+                                            // it exists, do something
+                                        } else {
+                                            objects.append(stream)                            }
+                                    }
                                 }
+                                
                             }
                             
                             if let value = result["my_stream"] {
-                                let array:[Any] = value as! [Any]
-                                for obj in array {
-                                    let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                    stream.selectionType = StreamType.myStream
-                                    if objects.contains(where: {$0.ID == stream.ID}) {
-                                        // it exists, do something
-                                    } else {
-                                        objects.append(stream)                            }
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.emogoStreams
+                                        
+                                        if objects.contains(where: {$0.ID == stream.ID}) {
+                                            // it exists, do something
+                                        } else {
+                                            objects.append(stream)                            }
+                                    }
                                 }
                             }
                             
                             if let value = result["people"] {
-                                let array:[Any] = value as! [Any]
-                                for obj in array {
-                                    let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                    if objects.contains(where: {$0.userId == people.userId}) {
-                                        // it exists, do something
-                                    } else {
-                                        objects.append(people)                           }
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        if objects.contains(where: {$0.userId == people.userId}) {
+                                            // it exists, do something
+                                        } else {
+                                            objects.append(people)                           }
+                                    }
                                 }
+                               
                             }
                             
                             if let value = result["popular"] {
-                                let array:[Any] = value as! [Any]
-                                for obj in array {
-                                    let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                    stream.selectionType = StreamType.populer
-                                     objects.append(stream)
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.populer
+                                        objects.append(stream)
+                                    }
                                 }
                             }
                         }
@@ -458,8 +479,10 @@ class APIServiceManager: NSObject {
                                 
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 if kShowOnlyMyStream.isEmpty {
+                                    stream.selectionType = filter
                                     if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
                                         // it exists, do something
+                                        
                                     } else {
                                         StreamList.sharedInstance.arrayStream.append(stream)                                }
                                 }else {
