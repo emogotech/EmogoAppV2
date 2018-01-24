@@ -412,7 +412,7 @@ class ViewStreamController: UIViewController {
                     }
                 }
                 
-                self.navigationController?.pop()
+                self.navigationController?.popNormal()
               //self.prepareList()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
