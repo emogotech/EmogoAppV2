@@ -68,7 +68,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 if SharedData.sharedInstance.isMessageWindowExpand {
-                    self.view.frame.origin.y -= keyboardSize.height/2
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin.y -= keyboardSize.height/2
+                    })
                 }
             }
         }
@@ -76,31 +78,46 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0{
-            if SharedData.sharedInstance.isMessageWindowExpand {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.view.frame.origin.y = 0
-            }
+            })
         }
     }
-    
+
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+            self.viewExpand.isHidden = false
+            self.viewCollapse.isHidden = true
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = false
-            viewCollapse.isHidden = true
-            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
             self.txtVeryficationCode.text = self.txtVeryficationCollapse.text
             self.txtVeryficationCode.becomeFirstResponder()
         }else{
             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = true
-            viewCollapse.isHidden = false
-            self.txtVeryficationCollapse.text = self.txtVeryficationCode.text
-            self.txtVeryficationCollapse.resignFirstResponder()
+            UIView.animate(withDuration: 0.1, animations: {
+                self.view.endEditing(true)
+                self.txtVeryficationCollapse.resignFirstResponder()
+            }, completion: { (finshed) in
+                self.viewExpand.isHidden = true
+                self.viewCollapse.isHidden = false
+                self.viewExpand.center = self.view.center
+                self.viewCollapse.center = self.view.center
+                self.txtVeryficationCollapse.text = self.txtVeryficationCode.text
+            })
+        }
+        if SharedData.sharedInstance.isPortrate {
+            
+        } else {
+            DispatchQueue.main.async(execute: {
+                //                self.supportedInterfaceOrientations = .po
+                self.view.transform  = CGAffineTransform(rotationAngle: -180)
+            })
         }
     }
+    
+    
+    
     
     func setupLoader() {
         hudView  = LoadingView.init(frame: view.frame)

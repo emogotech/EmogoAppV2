@@ -44,6 +44,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         txtNameCollapse.attributedPlaceholder = placeholder
         
         self.addToolBar(textField: txtName)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
@@ -67,38 +69,58 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 if SharedData.sharedInstance.isMessageWindowExpand {
-                    self.view.frame.origin.y -= keyboardSize.height/2
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin.y -= keyboardSize.height/2
+                    })
                 }
             }
         }
     }
     
+ 
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0{
-            if SharedData.sharedInstance.isMessageWindowExpand {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.view.frame.origin.y = 0
-            }
+            })
         }
     }
+
+    
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = false
-            viewCollapse.isHidden = true
             imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+            self.viewExpand.isHidden = false
+            self.viewExpand.center = self.view.center
+            viewCollapse.isHidden = true
+            self.viewCollapse.center = self.view.center
             self.txtName.text = self.txtNameCollapse.text
             self.txtName.becomeFirstResponder()
         }else{
             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = true
-            viewCollapse.isHidden = false
-            self.txtNameCollapse.text = self.txtName.text
-            self.txtNameCollapse.resignFirstResponder()
+            UIView.animate(withDuration: 0.1, animations: {
+                self.view.endEditing(true)
+                self.txtNameCollapse.resignFirstResponder()
+            }, completion: { (finshed) in
+                self.viewExpand.isHidden = true
+                self.viewCollapse.isHidden = false
+                self.viewExpand.center = self.view.center
+                self.viewCollapse.center = self.view.center
+                self.txtNameCollapse.text = self.txtName.text
+            })
+        }
+        if SharedData.sharedInstance.isPortrate {
+            
+        } else {
+            DispatchQueue.main.async(execute: {
+                //                self.supportedInterfaceOrientations = .po
+                self.view.transform  = CGAffineTransform(rotationAngle: -180)
+            })
         }
     }
+    
+    
+    
     
     // MARK:- LoaderSetup
     func setupLoader() {
@@ -115,6 +137,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     // MARK:- Action Methods
     @IBAction func btnNext(_ sender : UIButton){
        self.view.endEditing(true);
+       self.checkValidation()
     }
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
