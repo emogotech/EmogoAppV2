@@ -130,14 +130,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
           //  self.getStreamList(type:.start,filter: currentStreamType)
         }
         
-
-          let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-        if array.count == 0 {
-        self.lblNoResult.isHidden = false
-        }else {
-            self.lblNoResult.isHidden = true
+        DispatchQueue.main.async {
+            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if self.arrayToShow.count == 0 {
+                self.lblNoResult.isHidden = false
+            }else {
+                self.lblNoResult.isHidden = true
+            }
+            self.streamCollectionView.reloadData()
         }
-        self.streamCollectionView.reloadData()
+        
     }
     
     func actionForPeopleList(){

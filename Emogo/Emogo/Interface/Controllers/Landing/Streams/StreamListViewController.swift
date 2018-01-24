@@ -65,6 +65,7 @@ class StreamListViewController: UIViewController {
     var isPeopleList:Bool! = false
     var isLoadFirst:Bool! = true
     var collectionLayout = CHTCollectionViewWaterfallLayout()
+    var arrayToShow = [StreamDAO]()
 
     
     // MARK: - Override Functions
@@ -518,7 +519,15 @@ class StreamListViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
-                self.streamCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                    if self.arrayToShow.count == 0 {
+                        self.lblNoResult.isHidden = false
+                    }else {
+                        self.lblNoResult.isHidden = true
+                    }
+                    self.streamCollectionView.reloadData()
+                }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -527,8 +536,8 @@ class StreamListViewController: UIViewController {
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            for obj in StreamList.sharedInstance.arrayStream {
-                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
                     print("Removed")
                 }
@@ -545,10 +554,15 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.lblNoResult.isHidden = true
-            if StreamList.sharedInstance.arrayStream.count == 0 {
-                self.lblNoResult.isHidden = false
-                self.lblNoResult.text = kAlert_No_Stream_found
-
+            self.lblNoResult.text = kAlert_No_Stream_found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
             }
             self.streamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -560,14 +574,14 @@ class StreamListViewController: UIViewController {
     
     func getUsersList(type:RefreshType){
         if type == .up {
-            for obj in StreamList.sharedInstance.arrayStream {
-                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
                     print("Removed")
                 }
             }
         }
-        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
            
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
@@ -578,12 +592,16 @@ class StreamListViewController: UIViewController {
             }else if type == .down {
                 self.streamCollectionView.es.stopLoadingMore()
             }
-            self.streamCollectionView.reloadData()
-            
+            self.lblNoResult.text = kAlert_No_User_Record_Found
             self.lblNoResult.isHidden = true
-            if PeopleList.sharedInstance.arrayPeople.count == 0 {
-                self.lblNoResult.text = kAlert_No_User_Record_Found
-                self.lblNoResult.isHidden = false
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
             }
             
             if !(errorMsg?.isEmpty)! {
@@ -767,8 +785,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-      let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-        return array.count
+        return self.arrayToShow.count
         
         /*
         if isSearch && isTapPeople {
@@ -788,23 +805,17 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        var arrayStream = [StreamDAO]()
         if currentStreamType == .People {
-              arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-            let people = arrayStream[indexPath.row]
+            let people = self.arrayToShow[indexPath.row]
             cell.prepareData(people:people)
             return cell
         }else {
-            arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-            
-            let stream = arrayStream[indexPath.row]
+            let stream = self.arrayToShow[indexPath.row]
             cell.prepareLayouts(stream: stream)
             return cell
         }

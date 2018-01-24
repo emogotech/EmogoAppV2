@@ -17,6 +17,12 @@ enum StreamType:String {
     case People = "People"
 }
 
+enum DeviceType:String {
+    case iPhone = "1"
+    case iMessage = "2"
+}
+
+
 
 class StreamDAO {
     var ID:String! = ""
@@ -118,6 +124,7 @@ class StreamList{
             self.requestURl =  kStreamAPI + "emogo=True"
             break
         case .People:
+            PeopleList.sharedInstance.requestURl = kPeopleAPI
             break
         }
     }

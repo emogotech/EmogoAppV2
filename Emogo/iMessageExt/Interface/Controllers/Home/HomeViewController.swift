@@ -678,7 +678,7 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 else if  type == .up {
                 }
-                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
+                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type,deviceType:.iMessage) { (refreshType, errorMsg) in
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
                     self.collectionStream.isHidden = false

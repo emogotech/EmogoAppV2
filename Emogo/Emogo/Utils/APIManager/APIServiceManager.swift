@@ -327,11 +327,7 @@ class APIServiceManager: NSObject {
                                     for obj in array {
                                         let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                         stream.selectionType = StreamType.emogoStreams
-                                        
-                                        if objects.contains(where: {$0.ID == stream.ID}) {
-                                            // it exists, do something
-                                        } else {
-                                            objects.append(stream)                            }
+                                         objects.append(stream)
                                     }
                                 }
                                
@@ -344,12 +340,8 @@ class APIServiceManager: NSObject {
                                     let array:[Any] = obj as! [Any]
                                     for obj in array {
                                         let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                        stream.selectionType = StreamType.emogoStreams
-                                        
-                                        if objects.contains(where: {$0.ID == stream.ID}) {
-                                            // it exists, do something
-                                        } else {
-                                            objects.append(stream)                            }
+                                        stream.selectionType = StreamType.featured
+                                        objects.append(stream)
                                     }
                                 }
                                 
@@ -361,12 +353,8 @@ class APIServiceManager: NSObject {
                                     let array:[Any] = obj as! [Any]
                                     for obj in array {
                                         let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                        stream.selectionType = StreamType.emogoStreams
-                                        
-                                        if objects.contains(where: {$0.ID == stream.ID}) {
-                                            // it exists, do something
-                                        } else {
-                                            objects.append(stream)                            }
+                                        stream.selectionType = StreamType.myStream
+                                        objects.append(stream)
                                     }
                                 }
                             }
@@ -377,10 +365,8 @@ class APIServiceManager: NSObject {
                                     let array:[Any] = obj as! [Any]
                                     for obj in array {
                                         let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                        if objects.contains(where: {$0.userId == people.userId}) {
-                                            // it exists, do something
-                                        } else {
-                                            objects.append(people)                           }
+                                        people.selectionType = .People
+                                        objects.append(people)
                                     }
                                 }
                                
@@ -480,11 +466,7 @@ class APIServiceManager: NSObject {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 if kShowOnlyMyStream.isEmpty {
                                     stream.selectionType = filter
-                                    if StreamList.sharedInstance.arrayStream.contains(where: {$0.ID == stream.ID}) {
-                                        // it exists, do something
-                                        
-                                    } else {
-                                        StreamList.sharedInstance.arrayStream.append(stream)                                }
+                                    StreamList.sharedInstance.arrayStream.append(stream)
                                 }else {
                                     if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
                                         // it exists, do something
@@ -557,7 +539,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - People List API
     
-    func apiForGetPeopleList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+    func apiForGetPeopleList(type:RefreshType,deviceType:DeviceType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
             PeopleList.sharedInstance.requestURl = kPeopleAPI
         }
@@ -575,10 +557,21 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
-                            for obj in result {
-                                let people = PeopleDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                PeopleList.sharedInstance.arrayPeople.append(people)
+                            if deviceType == .iPhone {
+                                for obj in result {
+                                    let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    if StreamList.sharedInstance.arrayStream.contains(where: {$0.userId == people.userId}) {
+                                        // it exists, do something
+                                    } else {
+                                        StreamList.sharedInstance.arrayStream.append(people)                           }
+                                }
+                            }else {
+                                for obj in result {
+                                    let people = PeopleDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    PeopleList.sharedInstance.arrayPeople.append(people)
+                                }
                             }
+                         
                         }
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {
