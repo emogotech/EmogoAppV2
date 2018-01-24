@@ -256,7 +256,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     """
     The Custom Serializer
     """
-    qs = Stream.actives.all()
+    qs = Stream.actives.all().order_by('-id')
     featured = serializers.SerializerMethodField()
     emogo = serializers.SerializerMethodField()
     popular = serializers.SerializerMethodField()
@@ -264,18 +264,20 @@ class GetTopStreamSerializer(serializers.Serializer):
     people = serializers.SerializerMethodField()
 
     def use_fields(self):
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width')
+        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width')
         return fields
 
     def get_featured(self, obj):
-        return ViewStreamSerializer(self.qs.filter(featured=True).order_by('-view_count')[0:5], many=True, fields=self.use_fields()).data
+        qs = self.qs.filter(featured=True)
+        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:5], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
-        return ViewStreamSerializer(self.qs.filter(emogo=True).order_by('-view_count')[0:5], many=True, fields=self.use_fields()).data
+        qs = self.qs.filter(emogo=True)
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:5], many=True, fields=self.use_fields()).data }
 
     def get_popular(self, obj):
         # Get self created streams
-        owner_qs = self.qs.filter(created_by=self.context.user, type='Public').order_by('-view_count')[0:5]
+        owner_qs = self.qs.filter(created_by=self.context.user, type='Public').order_by('-view_count')
         if owner_qs.count() < 5:
             # Get streams user as collaborator and has add content permission
             stream_collaborators = Collaborator.actives.filter(can_add_content=True).distinct()
@@ -283,15 +285,19 @@ class GetTopStreamSerializer(serializers.Serializer):
                                        str(x.phone_number) in str(self.context.user.username)]
 
             # merge result
-            result_list = list(chain(owner_qs, collaborator_permission))[0:5]
+            result_list = list(chain(owner_qs, collaborator_permission))
+            total = result_list.__len__()
+            result_list = result_list[0:5]
+
         else:
-            result_list = owner_qs
-        return ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data
+            total = owner_qs.count()
+            result_list = owner_qs[0:5]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_my_stream(self, obj):
 
         # Get self created streams
-        owner_qs = self.qs.filter(created_by=self.context.user).order_by('-view_count')[0:5]
+        owner_qs = self.qs.filter(created_by=self.context.user)
 
         if owner_qs.count() < 5:
             # Get streams user as collaborator and has add content permission
@@ -299,12 +305,16 @@ class GetTopStreamSerializer(serializers.Serializer):
             collaborator_permission = [ x.stream for x in stream_collaborators if str(x.phone_number) in str(self.context.user.username)]
 
             # merge result
-            result_list = list(chain(owner_qs, collaborator_permission))[0:5]
+            result_list = list(chain(owner_qs, collaborator_permission))
+            total = result_list.__len__()
+            result_list = result_list[0:5]
         else:
-            result_list = owner_qs
-        return ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data
+            total = owner_qs.count()
+            result_list = owner_qs[0:5]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
-        return UserDetailSerializer(UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')[0:5], many=True, fields = fields,
-                                    context=self.context).data
+        qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
+        return {"total": qs.count(), "data":UserDetailSerializer(qs[0:5], many=True, fields=fields,
+                                    context=self.context).data }
