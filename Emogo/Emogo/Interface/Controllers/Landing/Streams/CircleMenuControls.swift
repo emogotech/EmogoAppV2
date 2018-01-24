@@ -111,7 +111,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             currentStreamType = StreamType.emogoStreams
             break
         case 4:
-            self.actionForPeopleList()
+            currentStreamType = StreamType.People
+         //   self.actionForPeopleList()
             break
         default:
             break
@@ -121,9 +122,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         if  index != 4 {
             collectionLayout.columnCount = 2
             isPeopleList = false
-            HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: currentStreamType)
+          //  HUDManager.sharedInstance.showHUD()
+          //  self.getStreamList(type:.start,filter: currentStreamType)
         }
+          let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+        if array.count == 0 {
+        self.lblNoResult.isHidden = false
+        }else {
+            self.lblNoResult.isHidden = true
+        }
+        self.streamCollectionView.reloadData()
     }
     
     func actionForPeopleList(){

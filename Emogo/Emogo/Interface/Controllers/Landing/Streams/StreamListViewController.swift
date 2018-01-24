@@ -143,7 +143,7 @@ class StreamListViewController: UIViewController {
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
         
-        HUDManager.sharedInstance.showHUD()
+        self.getTopStreamList()
         menuView.currentIndex = currentStreamType.hashValue
         self.getStreamList(type:.start,filter: currentStreamType)
         print("current index ----\(currentStreamType)")
@@ -503,9 +503,16 @@ class StreamListViewController: UIViewController {
 
     
     func getTopStreamList() {
-        
+        HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
-            
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                StreamList.sharedInstance.arrayStream.removeAll()
+                StreamList.sharedInstance.arrayStream = streams
+                self.streamCollectionView.reloadData()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
         }
     }
     
@@ -751,6 +758,11 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+      let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+        return array.count
+        
+        /*
         if isSearch && isTapPeople {
             return PeopleList.sharedInstance.arrayPeople.count
         }
@@ -763,10 +775,32 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
                 return StreamList.sharedInstance.arrayStream.count
         }
+ */
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
+        var arrayStream = [StreamDAO]()
+        if currentStreamType == .People {
+              arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
+            let people = arrayStream[indexPath.row]
+            cell.prepareData(people:people)
+            return cell
+        }else {
+            arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
+            cell.layer.cornerRadius = 5.0
+            cell.layer.masksToBounds = true
+            cell.isExclusiveTouch = true
+            
+            let stream = arrayStream[indexPath.row]
+            cell.prepareLayouts(stream: stream)
+            return cell
+        }
+        /*
         if isSearch && isTapPeople {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
@@ -799,6 +833,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             cell.prepareLayouts(stream: stream)
             return cell
         }
+ */
     }
     
     

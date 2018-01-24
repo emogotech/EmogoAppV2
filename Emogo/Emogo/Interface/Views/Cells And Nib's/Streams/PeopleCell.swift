@@ -18,7 +18,7 @@ class PeopleCell: UICollectionViewCell {
         self.imgUser.layer.masksToBounds = true
     }
     
-    func prepareData(people:PeopleDAO){
+    func prepareData(people:StreamDAO){
         self.lblName.text = people.fullName!
    
         if people.userImage.isEmpty {
