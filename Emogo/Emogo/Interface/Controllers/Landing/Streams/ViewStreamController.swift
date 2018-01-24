@@ -44,9 +44,9 @@ class ViewStreamController: UIViewController {
     if ContentList.sharedInstance.objStream != nil {
         self.getStream(currentStream:nil,streamID:ContentList.sharedInstance.objStream)
     }else {
-        if StreamList.sharedInstance.arrayStream.count != 0 {
+        if StreamList.sharedInstance.arrayViewStream.count != 0 {
             if currentIndex != nil {
-                let stream =  StreamList.sharedInstance.arrayStream[currentIndex]
+                let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
                 StreamList.sharedInstance.selectedStream = stream
             }
             if StreamList.sharedInstance.selectedStream != nil {
@@ -220,7 +220,7 @@ class ViewStreamController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case .left:
-                if currentIndex !=  StreamList.sharedInstance.arrayStream.count-1 {
+                if currentIndex !=  StreamList.sharedInstance.arrayViewStream.count-1 {
                     self.next()
                 }
                 break
@@ -238,7 +238,7 @@ class ViewStreamController: UIViewController {
     }
     
     func next() {
-        if(currentIndex < StreamList.sharedInstance.arrayStream.count-1) {
+        if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
         }
         Animation.addRightTransition(collection: self.viewStreamCollectionView)
@@ -267,7 +267,7 @@ class ViewStreamController: UIViewController {
 /*
    @objc  func btnNextAction(){
     
-    if currentIndex == StreamList.sharedInstance.arrayStream.count - 1 {
+    if currentIndex == StreamList.sharedInstance.arrayViewStream.count - 1 {
         current = 0
     }
     else {
@@ -280,7 +280,7 @@ class ViewStreamController: UIViewController {
         
         if(self.currentIndex == 0)
         {
-            self.currentIndex = StreamList.sharedInstance.arrayStream.count - 1
+            self.currentIndex = StreamList.sharedInstance.arrayViewStream.count - 1
         }
         else
         {
@@ -297,69 +297,65 @@ class ViewStreamController: UIViewController {
         if self.currentIndex <= 0 {
             return
         }
-        let stream = StreamList.sharedInstance.arrayStream[self.currentIndex!]
+        let stream = StreamList.sharedInstance.arrayViewStream[self.currentIndex!]
         self.getStream(currentStream:stream )
     }
      */
    
     
     func openFullView(index:Int?){
-        var arrayContents = [LightboxImage]()
-
-        if index == nil {
-            
+          var arrayContents = [LightboxImage]()
+          var startIndex = 0
+        
             let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
                 let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
                 let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
                 arrayContents.append(image)
-                let controller = LightboxController(images: arrayContents, startIndex:0)
-                controller.dynamicBackground = true
-                if arrayContents.count != 0 {
-                    present(controller, animated: true, completion: nil)
+            }
+        
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        for obj in array! {
+            var image:LightboxImage!
+            let text = obj.name + "\n" +  obj.description
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImage)
+                    let videoUrl = URL(string: obj.coverImage)
+                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
             }
-            return
-        }else {
-            let array = objStream?.arrayContent.filter { $0.isAdd == false }
-            for obj in array! {
-                var image:LightboxImage!
-                let text = obj.name + "\n" +  obj.description
-                if obj.type == .image {
-                    if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
-                    }else{
-                        let url = URL(string: obj.coverImage)
-                        if url != nil {
-                            image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
-                        }
-                    }
-                }else if obj.type == .video {
-
-                    if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
-                    }else {
-                        let url = URL(string: obj.coverImage)
-                        let videoUrl = URL(string: obj.coverImage)
-                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
-                    }
-                }
-                if image != nil {
-                    arrayContents.append(image)
-                }
+            if image != nil {
+                arrayContents.append(image)
             }
         }
-        
-    
       
         if (self.objStream?.canAddContent)! {
-            let controller = LightboxController(images: arrayContents, startIndex: index! - 1)
+            if index != nil {
+                startIndex = index! - 1
+            }
+            let controller = LightboxController(images: arrayContents, startIndex: startIndex)
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
             }
         }else {
-            let controller = LightboxController(images: arrayContents, startIndex: index!)
+            if index != nil {
+                startIndex = index!
+            }
+            let controller = LightboxController(images: arrayContents, startIndex: startIndex)
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
@@ -404,8 +400,8 @@ class ViewStreamController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
 
             if (errorMsg?.isEmpty)! {
-                if let i = StreamList.sharedInstance.arrayStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
-                    StreamList.sharedInstance.arrayStream.remove(at: i)
+                if let i = StreamList.sharedInstance.arrayViewStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
+                    StreamList.sharedInstance.arrayViewStream.remove(at: i)
                 }
                 self.navigationController?.pop()
               //self.prepareList()
@@ -642,8 +638,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
 }
 
+
 extension ViewStreamController:StreamViewHeaderDelegate {
     func showPreview() {
-        self.openFullView(index: nil)
+     self.openFullView(index: nil)
     }
+    
+    
 }
+

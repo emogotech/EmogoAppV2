@@ -65,6 +65,7 @@ class StreamListViewController: UIViewController {
     var isPeopleList:Bool! = false
     var isLoadFirst:Bool! = true
     var collectionLayout = CHTCollectionViewWaterfallLayout()
+    var arrayToShow = [StreamDAO]()
 
     
     // MARK: - Override Functions
@@ -85,8 +86,9 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
         }
-        self.prepareList()
-        self.streamCollectionView.reloadData()
+        DispatchQueue.main.async {
+            self.streamCollectionView.reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -179,7 +181,6 @@ class StreamListViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.streamCollectionView.addGestureRecognizer(swipeLeft)
         
-        
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.menuView.addGestureRecognizer(swipeDown)
@@ -190,27 +191,7 @@ class StreamListViewController: UIViewController {
         
     }
     
-    
-    func prepareList(){
-        if isUpdateList {
-            isUpdateList = false
-            if  menuView.currentIndex == 4 {
-                menuView.currentIndex = 4
-                collectionLayout.columnCount = 3
-                self.actionForPeopleList()
-            }else{
-                collectionLayout.columnCount = 2
-                HUDManager.sharedInstance.showHUD()
-                self.getStreamList(type:.start,filter: currentStreamType)
-            }
-        }
-        
-        if   StreamList.sharedInstance.arrayStream.count == 0 {
-            self.lblNoResult.isHidden = false
-        }else{
-            self.lblNoResult.isHidden = true
-        }
-    }
+
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -441,7 +422,6 @@ class StreamListViewController: UIViewController {
             btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
             isUpdateList = true
-            self.prepareList()
             UIView.animate(withDuration: 0.1, delay: 0.1, options: [.curveEaseOut], animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
                 self.viewCollection.frame = self.viewSearch.frame
@@ -518,7 +498,15 @@ class StreamListViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
-                self.streamCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                    if self.arrayToShow.count == 0 {
+                        self.lblNoResult.isHidden = false
+                    }else {
+                        self.lblNoResult.isHidden = true
+                    }
+                    self.streamCollectionView.reloadData()
+                }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -527,8 +515,8 @@ class StreamListViewController: UIViewController {
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            for obj in StreamList.sharedInstance.arrayStream {
-                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
                     print("Removed")
                 }
@@ -545,10 +533,15 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.es.stopLoadingMore()
             }
             self.lblNoResult.isHidden = true
-            if StreamList.sharedInstance.arrayStream.count == 0 {
-                self.lblNoResult.isHidden = false
-                self.lblNoResult.text = kAlert_No_Stream_found
-
+            self.lblNoResult.text = kAlert_No_Stream_found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
             }
             self.streamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -560,14 +553,14 @@ class StreamListViewController: UIViewController {
     
     func getUsersList(type:RefreshType){
         if type == .up {
-            for obj in StreamList.sharedInstance.arrayStream {
-                if let index = StreamList.sharedInstance.arrayStream.index(where: {$0.ID == obj.ID && $0.selectionType == currentStreamType}) {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
                     print("Removed")
                 }
             }
         }
-        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForGetPeopleList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
            
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
@@ -578,12 +571,16 @@ class StreamListViewController: UIViewController {
             }else if type == .down {
                 self.streamCollectionView.es.stopLoadingMore()
             }
-            self.streamCollectionView.reloadData()
-            
+            self.lblNoResult.text = kAlert_No_User_Record_Found
             self.lblNoResult.isHidden = true
-            if PeopleList.sharedInstance.arrayPeople.count == 0 {
-                self.lblNoResult.text = kAlert_No_User_Record_Found
-                self.lblNoResult.isHidden = false
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
             }
             
             if !(errorMsg?.isEmpty)! {
@@ -619,6 +616,10 @@ class StreamListViewController: UIViewController {
     }
     
     
+    // MARK: - Search API Methods
+    
+    
+
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
         lblNoResult.text = kAlert_No_User_Record_Found
         if type != .up {
@@ -767,8 +768,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-      let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-        return array.count
+        return self.arrayToShow.count
         
         /*
         if isSearch && isTapPeople {
@@ -788,23 +788,17 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        var arrayStream = [StreamDAO]()
         if currentStreamType == .People {
-              arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-            let people = arrayStream[indexPath.row]
+            let people = self.arrayToShow[indexPath.row]
             cell.prepareData(people:people)
             return cell
         }else {
-            arrayStream = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-            
-            let stream = arrayStream[indexPath.row]
+            let stream = self.arrayToShow[indexPath.row]
             cell.prepareLayouts(stream: stream)
             return cell
         }
@@ -875,49 +869,31 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if isSearch && isTapPeople {
-            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
+        if currentStreamType == .People {
+            let people = self.arrayToShow[indexPath.row]
             if (people.userId == UserDAO.sharedInstance.user.userId) {
                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                 self.addLeftTransitionView(subtype: kCATransitionFromLeft)
                 self.navigationController?.pushViewController(obj, animated: false)
             }
             else{
+                let objPeople = PeopleDAO(peopleData: [:])
+                objPeople.fullName = people.fullName
+                objPeople.userId = people.userId
+                objPeople.userImage = people.userImage
+                objPeople.phoneNumber = people.phoneNumber
                 let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = people
+                obj.objPeople = objPeople
                 self.navigationController?.push(viewController: obj)
             }
-        }
-        else if isSearch && isTapStream {
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = indexPath.row
-            obj.streamType = currentStreamType.rawValue
-            ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
-        }
-        else if isPeopleList  {
-             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            if (people.userId == UserDAO.sharedInstance.user.userId) {
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.navigationController?.push(viewController: obj)
-            }
-            else{
-               
-                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = people
-                self.navigationController?.push(viewController: obj)
-            }
-            
         }else {
+             StreamList.sharedInstance.arrayViewStream = self.arrayToShow
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             obj.currentIndex = indexPath.row
             obj.streamType = currentStreamType.rawValue
             ContentList.sharedInstance.objStream = nil
             self.navigationController?.push(viewController: obj)
         }
-        
-        
-        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

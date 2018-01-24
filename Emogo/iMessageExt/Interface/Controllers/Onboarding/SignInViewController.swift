@@ -14,9 +14,9 @@ class SignInViewController: MSMessagesAppViewController {
     // MARK:- UI Elements
     @IBOutlet weak var txtMobileNumber  : UITextField!
     @IBOutlet weak var txtMobileCollapse  : UITextField!
-    @IBOutlet weak var viewExpand  : UIView!
-    @IBOutlet weak var viewCollapse  : UIView!
-    @IBOutlet weak var imgBackground : UIImageView!
+    @IBOutlet weak var viewExpand       : UIView!
+    @IBOutlet weak var viewCollapse     : UIView!
+    @IBOutlet weak var imgBackground    : UIImageView!
     
     // MARK: - Variables
     var hudView                         : LoadingView!
@@ -27,7 +27,6 @@ class SignInViewController: MSMessagesAppViewController {
       
         self.prepareLayout()
         self.setupLoader()
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,7 +35,6 @@ class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
         txtMobileNumber.attributedPlaceholder = placeholder;
          txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
@@ -60,50 +58,59 @@ class SignInViewController: MSMessagesAppViewController {
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
         }
-       
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
+    //MARK: Keyboard Observer.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
                 if SharedData.sharedInstance.isMessageWindowExpand {
-                    self.view.frame.origin.y -= keyboardSize.height/2
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin.y -= keyboardSize.height/2
+                    })
                 }
             }
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-            if self.view.frame.origin.y != 0{
-                if SharedData.sharedInstance.isMessageWindowExpand {
-                    self.view.frame.origin.y = 0
-                }
+        if self.view.frame.origin.y != 0{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.frame.origin.y = 0
+            })
         }
     }
     
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = false
-            viewCollapse.isHidden = true
             imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
-            self.txtMobileNumber.text = self.txtMobileCollapse.text
-            self.txtMobileNumber.becomeFirstResponder()
+            UIView.animate(withDuration: 0.2, animations: {
+                self.viewExpand.isHidden = false
+                self.viewExpand.center = self.view.center
+                self.viewCollapse.isHidden = true
+                self.viewCollapse.center = self.view.center
+                self.txtMobileNumber.text = self.txtMobileCollapse.text
+            }, completion: { (finshed) in
+                self.txtMobileNumber.becomeFirstResponder()
+            })
         }else{
             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.viewExpand.isHidden = true
-            viewCollapse.isHidden = false
-            self.txtMobileCollapse.text = self.txtMobileNumber.text
-            self.view.endEditing(true)
-//            self.txtMobileNumber.resignFirstResponder()
+            UIView.animate(withDuration: 0.1, animations: {
+                self.view.endEditing(true)
+            }, completion: { (finshed) in
+                self.viewExpand.isHidden = true
+                self.viewCollapse.isHidden = false
+                self.viewExpand.center = self.view.center
+                self.viewCollapse.center = self.view.center
+                self.txtMobileCollapse.text = self.txtMobileNumber.text
+            })
         }
         if SharedData.sharedInstance.isPortrate {
-            
         } else {
             DispatchQueue.main.async(execute: {
 //                self.supportedInterfaceOrientations = .po
@@ -114,7 +121,6 @@ class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- LoaderSetup
     func setupLoader() {
-
         hudView  = LoadingView.init(frame: view.frame)
         view.addSubview(hudView)
         hudView.translatesAutoresizingMaskIntoConstraints = false
@@ -144,7 +150,6 @@ class SignInViewController: MSMessagesAppViewController {
     
     @IBAction func btnTapSignUp(_ sender : UIButton) {
         self.view.endEditing(true);
-
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -188,7 +193,6 @@ class SignInViewController: MSMessagesAppViewController {
 
 // MARK:- Extension TextField Delegate
 extension SignInViewController: UITextFieldDelegate {
-    
     func addToolBar(textField: UITextField){
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.blackTranslucent
@@ -256,7 +260,10 @@ extension SignInViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
+    func delay(delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            closure()
+        }
+    }
 }
-
 

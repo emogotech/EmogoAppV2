@@ -30,6 +30,7 @@ class SharedData: NSObject {
     var streamContent : StreamDAO?
     var contentData : ContentDAO?
     var peopleInfo:PeopleDAO?
+     var contentList:ContentList = ContentList.init()
     var tempViewController : MSMessagesAppViewController?
     var isPortrate : Bool = true
     

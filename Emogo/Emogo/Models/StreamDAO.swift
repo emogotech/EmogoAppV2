@@ -17,6 +17,12 @@ enum StreamType:String {
     case People = "People"
 }
 
+enum DeviceType:String {
+    case iPhone = "1"
+    case iMessage = "2"
+}
+
+
 
 class StreamDAO {
     var ID:String! = ""
@@ -89,6 +95,8 @@ class StreamList{
     
     var arrayStream:[StreamDAO]!
     var arrayMyStream:[StreamDAO]!
+    var arraySearch:[StreamDAO]!
+    var arrayViewStream:[StreamDAO]!
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
 
@@ -98,9 +106,12 @@ class StreamList{
         }
         return Static.instance
     }
+    
     init() {
         arrayStream = [StreamDAO]()
         arrayMyStream = [StreamDAO]()
+        arraySearch = [StreamDAO]()
+        arrayViewStream = [StreamDAO]()
     }
     
     func updateRequestType(filter:StreamType){
@@ -118,6 +129,7 @@ class StreamList{
             self.requestURl =  kStreamAPI + "emogo=True"
             break
         case .People:
+            PeopleList.sharedInstance.requestURl = kPeopleAPI
             break
         }
     }

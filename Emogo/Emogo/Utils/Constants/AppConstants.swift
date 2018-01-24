@@ -144,6 +144,7 @@ let kDeepLinkTypeAddStream = "AddStream"
 let kDeepLinkTypeAddContent = "AddStreamContent"
 let kDeepLinkTypeEditStream = "editStream"
 let kDeepLinkTypeEditContent = "editStreamContent"
+let kDeepLinkTypeShareAddContent = "addContentFromShare"
 let kUserDefaltForContentData = "editContentData"
 let kSearchType = "PEOPLE"
 let kCollaobatorList = "Collaborator List"
@@ -186,6 +187,7 @@ enum checkKeyType: String {
     case userId = "userId"
     case userImage = "userImage"
 }
+
 
 
 //**********

@@ -76,6 +76,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     SharedData.sharedInstance.streamID = splitArr[3]
                     SharedData.sharedInstance.contentID = splitArr[4]
                   return setTypeOfViewController(objType: kDeepLinkTypeEditContent)
+            } else if splitArr.last == kDeepLinkTypeShareAddContent as String {
+                self.getInfoFormURLAddToStream(url: url)
+                return setTypeOfViewController(objType: kDeepLinkTypeShareAddContent)
             }
             
             return false
@@ -96,6 +99,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditStream
         }else if objType == kDeepLinkTypeEditContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditContent
+        } else if objType == kDeepLinkTypeShareAddContent {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareAddContent
         }
         self.prepareViewController()
 
@@ -114,6 +119,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             peopleData["user_image"] = "\(url.valueOf(checkKeyType.userImage.rawValue)!)"
         }
         SharedData.sharedInstance.peopleInfo = PeopleDAO.init(peopleData: peopleData)
+    }
+    
+    func getInfoFormURLAddToStream(url:URL){
+
+        let content = ContentDAO(contentData: [:])
+        content.name = url.valueOf("name")
+        content.description = url.valueOf("description")
+        content.coverImage = url.valueOf("coverImage")
+        content.type = .link
+        content.isUploaded = false
+        content.coverImageVideo = url.valueOf("coverImageVideo")
+        content.height = Int(url.valueOf("height")!)
+        content.width = Int (url.valueOf("width")!)
+        
+        print(SharedData.sharedInstance.contentList.arrayContent)
+        SharedData.sharedInstance.contentList.arrayContent.append(content)
+        print(SharedData.sharedInstance.contentList.arrayContent)
     }
     
     private func prepareViewController() {
