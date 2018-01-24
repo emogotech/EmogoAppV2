@@ -696,7 +696,7 @@ class HomeViewController: MSMessagesAppViewController {
                  PeopleList.sharedInstance.arrayPeople.removeAll()
                 self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
-                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
+                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type, deviceType: .iMessage) { (refreshType, errorMsg) in
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
                     self.collectionStream.isHidden = false
