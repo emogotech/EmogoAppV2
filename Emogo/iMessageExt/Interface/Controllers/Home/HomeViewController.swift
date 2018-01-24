@@ -214,7 +214,7 @@ class HomeViewController: MSMessagesAppViewController {
         
         if (isSearch == true && !isStreamEnable){
             layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/2)
+            layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
             layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 8
             collectionStream!.collectionViewLayout = layout
@@ -314,7 +314,27 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @objc func pullToDownAction() {
-        if btnFeature.titleLabel?.text == kSearchType && isSearch == false {
+        
+        if (isSearch == true && !isStreamEnable){
+            if PeopleList.sharedInstance.arrayPeople.count > 0 {
+                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
+                SharedData.sharedInstance.nextStreamString = ""
+                self.hudRefreshView.startLoaderWithAnimation()
+                self.collectionStream.isUserInteractionEnabled = false
+                getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
+            }
+        }
+        else if (isSearch == true &&  isStreamEnable){
+            
+            if arrayStreams.count > 0 {
+                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
+                SharedData.sharedInstance.nextStreamString = ""
+                self.hudRefreshView.startLoaderWithAnimation()
+                self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
+            }
+            
+        }
+        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             if PeopleList.sharedInstance.arrayPeople.count > 0 {
                 self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
                 SharedData.sharedInstance.nextStreamString = ""
@@ -323,20 +343,14 @@ class HomeViewController: MSMessagesAppViewController {
                 self.getUsersList(type: .up)
             }
         }
-        else {
+        else  {
+            
             if arrayStreams.count > 0 {
                 self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
                 SharedData.sharedInstance.nextStreamString = ""
                 hudRefreshView.startLoaderWithAnimation()
-                if (isSearch == true && isStreamEnable == false){
-                    getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
-                } else if (isSearch == true && isStreamEnable == true){
-                    self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
-                }
-                else {
-                    self.collectionStream.isUserInteractionEnabled = false
-                    self.getStreamList(type:.up,filter:self.streamType)
-                }
+                self.collectionStream.isUserInteractionEnabled = false
+                self.getStreamList(type:.up,filter:self.streamType)
             }
         }
     }
@@ -401,7 +415,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.hudView.startLoaderWithAnimation()
                 StreamList.sharedInstance.requestURl = ""
                 if btnFeature.titleLabel?.text == "PEOPLE" {
-                    
+                    isStreamEnable = false
                     self.btnStreamSearch.isUserInteractionEnabled = true
                     self.btnPeopleSearch.isUserInteractionEnabled = false
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
@@ -416,6 +430,7 @@ class HomeViewController: MSMessagesAppViewController {
                     SharedData.sharedInstance.isMoreContentAvailable = false
                     self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
                 }else{
+                    isStreamEnable = true
                     lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                     self.btnStreamSearch.isUserInteractionEnabled = false
@@ -678,6 +693,9 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 else if  type == .up {
                 }
+                 PeopleList.sharedInstance.arrayPeople.removeAll()
+                self.arrayStreams.removeAll()
+                self.collectionStream.reloadData()
                 APIServiceManager.sharedInstance.apiForGetPeopleList(type:type) { (refreshType, errorMsg) in
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
@@ -703,7 +721,8 @@ class HomeViewController: MSMessagesAppViewController {
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
         
         lblNoResult.text = kAlert_No_User_Record_Found
-        
+        PeopleList.sharedInstance.arrayPeople.removeAll()
+        self.collectionStream.reloadData()
         APIServiceManager.sharedInstance.apiForGlobalSearchPeople(searchString: searchText) { (values, errorMsg) in
             if self.hudView != nil {
                 self.hudView.stopLoaderWithAnimation()
@@ -718,6 +737,8 @@ class HomeViewController: MSMessagesAppViewController {
             self.btnStreamSearch.isUserInteractionEnabled = true
             self.btnPeopleSearch.isUserInteractionEnabled = false
             self.viewCollections.isHidden = false
+            self.collectionStream.isUserInteractionEnabled = true
+
             self.expandPeopleHeight()
         }
     }
@@ -739,7 +760,8 @@ class HomeViewController: MSMessagesAppViewController {
                 self.arrayStreams = values!
                 self.lblNoResult.isHidden = true
                 self.viewCollections.isHidden = false
-                
+                self.collectionStream.isUserInteractionEnabled = true
+
                 self.streaminputDataType(type: type)
                 self.expandStreamHeight()
             }
@@ -979,6 +1001,7 @@ extension HomeViewController : UITextFieldDelegate {
             self.searchText.resignFirstResponder()
             
             if btnFeature.titleLabel?.text == "PEOPLE" {
+                isStreamEnable = false
                 self.btnStreamSearch.isUserInteractionEnabled = true
                 self.btnPeopleSearch.isUserInteractionEnabled = false
                 PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -989,9 +1012,10 @@ extension HomeViewController : UITextFieldDelegate {
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
-                self.setupCollectionProperties()
+//                self.setupCollectionProperties()
                 self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             }else{
+                isStreamEnable = true
                 lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                 PeopleList.sharedInstance.arrayPeople.removeAll()

@@ -81,6 +81,12 @@ class PreviewController: UIViewController {
         
         var seen = Set<String>()
         var unique = [ContentDAO]()
+        
+       if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+        SharedData.sharedInstance.deepLinkType = ""
+        }
+        
         for obj in  ContentList.sharedInstance.arrayContent {
             if obj.isUploaded {
                 if !seen.contains(obj.contentID) {
