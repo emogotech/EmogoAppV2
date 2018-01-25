@@ -85,8 +85,11 @@ class PreviewController: UIViewController {
         var unique = [ContentDAO]()
         
        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-        SharedData.sharedInstance.deepLinkType = ""
+            ContentList.sharedInstance.objStream = nil
+            SharedData.sharedInstance.contentList.objStream = nil
+        
         }
         
         for obj in  ContentList.sharedInstance.arrayContent {
@@ -107,8 +110,7 @@ class PreviewController: UIViewController {
                 }
             }
         }
-        ContentList.sharedInstance.arrayContent = unique
-        
+         ContentList.sharedInstance.arrayContent = unique
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
