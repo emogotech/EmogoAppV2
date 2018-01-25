@@ -89,6 +89,7 @@ class PreviewController: UIViewController {
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
             ContentList.sharedInstance.objStream = nil
             SharedData.sharedInstance.contentList.objStream = nil
+        SharedData.sharedInstance.deepLinkType = ""
         
         }
         

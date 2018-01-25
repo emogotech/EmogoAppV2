@@ -1352,7 +1352,7 @@ class APIServiceManager: NSObject {
     }
     
     func apiForGetContent(contenID:String, completionHandler:@escaping (_ results:[String:Any]?, _ strError:String?)->Void) {
-        let url = kGetContentDescriptionAPI+contenID
+        let url = kGetContentDescriptionAPI+contenID+"/"
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
