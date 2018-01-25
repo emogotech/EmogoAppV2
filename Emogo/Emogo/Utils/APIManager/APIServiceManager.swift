@@ -174,7 +174,7 @@ class APIServiceManager: NSObject {
     
     // MARK: - Create Stream API
     
-    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?,_ streamID:String?)->Void){
+    func apiForCreateStream( streamName:String, streamDescription:String,coverImage:String,streamType:String,anyOneCanEdit:Bool,collaborator:[CollaboratorDAO],canAddContent:Bool,canAddPeople:Bool,height:Int,width:Int,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?,_ stream:StreamDAO?)->Void){
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
             let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
@@ -224,13 +224,12 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        var stremaID:String! = ""
                         if let data = (value as! [String:Any])["data"] {
-                            if let value = (data as! [String:Any])["id"]{
-                                stremaID = "\(value)"
-                            }
+                            let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            stream.selectionType = StreamType.myStream
+                            StreamList.sharedInstance.arrayStream.insert(stream, at: 0)
+                            completionHandler(true,"",stream)
                         }
-                        completionHandler(true,"",stremaID)
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(false,errorMessage,nil)

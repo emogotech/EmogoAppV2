@@ -390,7 +390,7 @@ class AddStreamViewController: UITableViewController {
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
          let image = self.coverImage
-    let imageData = UIImageJPEGRepresentation(image!, 1.0)
+        let imageData = UIImageJPEGRepresentation(image!, 1.0)
        let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
         AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
@@ -433,7 +433,7 @@ class AddStreamViewController: UITableViewController {
     
     private func createStream(cover:String,width:Int,hieght:Int){
         
-     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,streamID) in
+     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
@@ -441,7 +441,7 @@ class AddStreamViewController: UITableViewController {
                       self.navigationController?.pop()
                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if self.isAddContent != nil {
-                        self.associateContentToStream(id: streamID!)
+                        self.associateContentToStream(id: stream.ID)
                     }
                 }
             }else {
