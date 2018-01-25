@@ -386,7 +386,7 @@ class ProfileViewController: UIViewController {
             }
            self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                self.lblNOResult.text  = "No Collabs Found"
+                self.lblNOResult.text  = "No Stream Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }

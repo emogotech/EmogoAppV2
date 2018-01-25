@@ -466,6 +466,7 @@ class StreamListViewController: UIViewController {
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             collectionLayout.columnCount = 2
+            HUDManager.sharedInstance.showHUD()
             self.getStreamGlobalSearch(searchText: searchStr, type: .start)
             break
             
@@ -476,6 +477,7 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
+            HUDManager.sharedInstance.showHUD()
             self.getPeopleGlobalSearch(searchText: searchStr, type: .start)
             break
             

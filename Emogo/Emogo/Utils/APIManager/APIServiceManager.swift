@@ -910,7 +910,7 @@ class APIServiceManager: NSObject {
     // -------------------------------Search----------------------------
 
     func apiForSearchStream(strSearch:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
-        if type == .start{
+        if type == .start || type == .up{
             let strURL =  kGlobleSearchStreamAPI+strSearch.replacingOccurrences(of: " ", with: "%20")
             StreamList.sharedInstance.requestURlSearch  = strURL
         }
@@ -956,7 +956,7 @@ class APIServiceManager: NSObject {
     
 
         func apiForSearchPeople(strSearch:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
-        if type == .start{
+            if type == .start || type == .up{
             let strURL =  kGlobleSearchPeopleAPI+strSearch.replacingOccurrences(of: " ", with: "%20")
             StreamList.sharedInstance.requestURlSearch  = strURL
         }
