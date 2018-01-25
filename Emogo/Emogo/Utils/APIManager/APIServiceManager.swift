@@ -534,9 +534,12 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             print(data)
-                            let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            completionHandler(stream,"")
-                            
+                            if data is NSDictionary {
+                                let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                completionHandler(stream,"")
+                            }else {
+                                completionHandler(nil,"request failed")
+                            }
                         }
                     }else if status == APIStatus.NotFound.rawValue {
                         completionHandler(nil,"\(APIStatus.NotFound.rawValue)")
