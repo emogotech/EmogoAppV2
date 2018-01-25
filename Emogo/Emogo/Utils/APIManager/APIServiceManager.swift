@@ -1352,5 +1352,32 @@ class APIServiceManager: NSObject {
         }
 
     }
+    
+    func apiForGetContent(contenID:String, completionHandler:@escaping (_ results:[String:Any]?, _ strError:String?)->Void) {
+        let url = kGetContentDescriptionAPI+contenID+"/"
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                            let result:[String:Any] = data as! [String:Any]
+                            print(result)
+                            completionHandler(result,"")
+                        }
+                        
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
 }
 

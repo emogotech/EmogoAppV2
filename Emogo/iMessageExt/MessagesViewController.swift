@@ -215,7 +215,7 @@ class MessagesViewController: MSMessagesAppViewController {
                 SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamData)
             }
             else if splitArr[0] == kNavigation_Content {
-                if splitArr.count>1{
+                if splitArr.count>2{
                         SharedData.sharedInstance.iMessageNavigationCurrentStreamID = splitArr[2]
                       SharedData.sharedInstance.contentData = ContentDAO.init(contentData: streamData)
                 }else{

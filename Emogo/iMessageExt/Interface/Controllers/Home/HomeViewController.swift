@@ -85,7 +85,6 @@ class HomeViewController: MSMessagesAppViewController {
             self.getStream(streamID: (SharedData.sharedInstance.streamContent?.ID)!)
         }
         else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
-            
             if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
                 self.getContenData()
             }else{
@@ -652,14 +651,14 @@ class HomeViewController: MSMessagesAppViewController {
                     else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
                         
                         if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
+                           
+                        } else{
                             var arrayTempStream  = [StreamDAO]()
                             var streamDatas  = [String:Any]()
                             streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
                             SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
                             arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                             obj.arrStream = arrayTempStream
-                        } else{
-                            
                         }
                     }
                     obj.currentStreamIndex = 0
@@ -696,9 +695,16 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func getContenData(){
-//        APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
-//
-//        }
+        APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
+//            if error == nil {
+            let objContent = ContentDAO.init(contentData: dict!)
+            let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+            obj.arrContentData = [objContent]
+            obj.currentContentIndex  = 0
+            obj.currentStreamTitle = ""
+            self.present(obj, animated: false, completion: nil)
+//            }
+        }
     }
     
     func getUsersList(type:RefreshType){

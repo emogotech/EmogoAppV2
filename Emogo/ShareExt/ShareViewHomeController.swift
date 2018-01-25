@@ -188,13 +188,13 @@ class ShareViewHomeController: UIViewController {
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
-        if MFMessageComposeViewController.canSendAttachments(){
-            let composeVC = MFMessageComposeViewController()
-            composeVC.message = composeMessage()
-            composeVC.recipients = ["9090909090"]
-            composeVC.messageComposeDelegate = self
-            self.present(composeVC, animated: true, completion: nil)
-        }
+        let width = Int((self.imgLink.image?.size.height)!)
+        let height = Int((self.imgLink.image?.size.width)!)
+        self.dictData["height"] = String(format: "%d", (width))
+        self.dictData["width"] =  String(format: "%d", (height))
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        self.presentAppViewWithDeepLink(strURL: str!)
+        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     @IBAction func btnAddToStreamAction(_ sender: UIButton) {
