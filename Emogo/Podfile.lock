@@ -8,7 +8,6 @@ PODS:
     - Fabric (~> 1.7.2)
   - CropViewController (2.3.6)
   - Fabric (1.7.2)
-  - Gallery (2.0.5)
   - GiphyCoreSDK (1.0.1)
   - GSKStretchyHeaderView (1.0.3)
   - Hue (3.0.1)
@@ -41,7 +40,6 @@ DEPENDENCIES:
   - Crashlytics
   - CropViewController
   - Fabric
-  - Gallery
   - GiphyCoreSDK
   - GSKStretchyHeaderView
   - IQKeyboardManagerSwift
@@ -61,7 +59,6 @@ SPEC CHECKSUMS:
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   CropViewController: e6d4bd512d15a1709e9ddf71fe7d98ffd05dda0f
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
-  Gallery: cff13f3b14b8923b02d7105e0f9ec26f15eebd0e
   GiphyCoreSDK: 8671cc9be3debd6c653cacf17240b1959bf0d5c4
   GSKStretchyHeaderView: 05afeffceced344c52334626a3b861e58dd82857
   Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
@@ -76,6 +73,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 285d0e0e575a440e79f0089de01c36f543e26d7a
+PODFILE CHECKSUM: 1831bb790eab3f898f23b9dc2ccfd78fcf7120cc
 
 COCOAPODS: 1.3.1

@@ -767,6 +767,8 @@ class APIServiceManager: NSObject {
                             for obj in result {
                                 let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 content.isUploaded = true
+                                content.isShowAddStream = true
+                                content.isEdit = true
                                 ContentList.sharedInstance.arrayStuff.append(content)
                             }
                           

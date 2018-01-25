@@ -129,7 +129,6 @@ class AddStreamViewController: UITableViewController {
 
     func prepareForEditStream(){
         if self.objStream != nil {
-            
             self.title =  self.objStream?.title.trim()
             txtStreamName.text = self.objStream?.title.trim()
             txtStreamCaption.text = self.objStream?.description.trim()
@@ -141,80 +140,98 @@ class AddStreamViewController: UITableViewController {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
             }
-//            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-//            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
-         
+            
             self.switchAnyOneCanEdit.isOn = (self.objStream?.anyOneCanEdit)!
-            if self.switchAnyOneCanEdit.isOn == false {
-                self.selectedCollaborators = (self.objStream?.arrayColab)!
-                if self.selectedCollaborators.count != 0 && self.objStream?.canAddPeople == true {
-                    self.rowHieght.constant = 325.0
-                    self.isExpandRow = true
-                    self.switchAddCollaborators.isOn = true
-                }
+            
+            if self.objStream?.type.lowercased() == "public"{
+                self.switchMakePrivate.isOn = false
+            }else {
+                self.switchMakePrivate.isOn = true
+                streamType = "Private"
+            }
+            
+            // If Editor is Creator
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                self.prepareEdit(isEnable: true)
                 
-                if self.switchAddCollaborators.isOn == false{
+                if self.switchAnyOneCanEdit.isOn == true {
+                    self.rowHieght.constant = 0.0
+                    self.isExpandRow = false
+                    self.switchAddCollaborators.isOn = false
+                    self.switchAddCollaborators.isUserInteractionEnabled = false
                     self.switchAddContent.isUserInteractionEnabled = false
                     self.switchAddPeople.isUserInteractionEnabled  = false
                     self.switchAddPeople.isOn       = false
                     self.switchAddContent.isOn      = false
-                }else{
-                    self.switchAddContent.isUserInteractionEnabled = true
-                    self.switchAddPeople.isUserInteractionEnabled  = true
-                    self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-                    self.switchAddContent.isOn = (self.objStream?.canAddContent)!
-                }
-            }
-          
-          
-            if self.objStream?.canAddPeople == true {
-                self.prepareEdit(isEnable: false)
-            }
-            
-            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-               self.prepareEdit(isEnable: true)
-            }
-            
-            if objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
-                if self.objStream?.canAddPeople == true {
+                }else {
+                    
                     self.switchAddCollaborators.isUserInteractionEnabled = true
+                    self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+                    self.switchAnyOneCanEdit.isOn = false
+
+                    self.selectedCollaborators = (self.objStream?.arrayColab)!
+                    if self.selectedCollaborators.count != 0 {
+                        self.rowHieght.constant = 325.0
+                        self.isExpandRow = true
+                        self.switchAddCollaborators.isOn = true
+                    }
+                    
+                    if self.switchAddCollaborators.isOn == false{
+                        self.switchAddContent.isUserInteractionEnabled = false
+                        self.switchAddPeople.isUserInteractionEnabled  = false
+                        self.switchAddPeople.isOn       = false
+                        self.switchAddContent.isOn      = false
+                    }else{
+                        self.switchAddContent.isUserInteractionEnabled = true
+                        self.switchAddPeople.isUserInteractionEnabled  = true
+                        self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+                        self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+                    }
+                }
+
+            }else {
+                // Colab is Logged in as Editor
+            self.prepareEdit(isEnable: false)
+            self.switchAddCollaborators.isUserInteractionEnabled = true
+
+            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+            if self.switchAddPeople.isOn == true {
+                self.switchAddPeople.isUserInteractionEnabled  = true
+            }else {
+                self.switchAddPeople.isUserInteractionEnabled  = false
+                }
+                
+            if self.switchAddContent.isOn == true {
+                    self.switchAddContent.isUserInteractionEnabled  = true
+            }else {
+                self.switchAddContent.isUserInteractionEnabled  = false
+                }
+            if self.selectedCollaborators.count != 0 {
                     self.rowHieght.constant = 325.0
                     self.isExpandRow = true
                     self.switchAddCollaborators.isOn = true
-                }
             }
-            
-            
-            if self.objStream?.type.lowercased() == "public"{
-                self.switchMakePrivate.isOn = false
-                self.switchAddContent.isOn = false
-                self.switchAddPeople.isOn = false
-                self.switchAddContent.isUserInteractionEnabled = false
-                self.switchAddPeople.isUserInteractionEnabled = false
                 
-            }else {
-                self.switchMakePrivate.isOn = true
-                streamType = "Private"
-                self.switchAddContent.isUserInteractionEnabled = true
-                self.switchAddPeople.isUserInteractionEnabled = true
-            }
-            
-            isPerform = true
-            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
-            if self.txtStreamCaption.text.count > 0 {
-                self.lblStreamDescPlaceHolder.isHidden = false
-            }else{
-                self.lblStreamDescPlaceHolder.isHidden = true
-            }
-            
-            if self.txtStreamCaption.contentSize.height > contentRowHeight {
-                contentRowHeight = self.txtStreamCaption.contentSize.height
-                self.tableView.beginUpdates()
-                self.tableView.endUpdates()
-            }
-            
-            self.tableView.reloadData()
         }
+            
+        isPerform = true
+        self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+        }
+        
+        if self.txtStreamCaption.text.count > 0 {
+            self.lblStreamDescPlaceHolder.isHidden = false
+        }else{
+            self.lblStreamDescPlaceHolder.isHidden = true
+        }
+        
+        if self.txtStreamCaption.contentSize.height > contentRowHeight {
+            contentRowHeight = self.txtStreamCaption.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
+        
+        self.tableView.reloadData()
     }
     
     func prepareEdit(isEnable:Bool) {
@@ -243,8 +260,11 @@ class AddStreamViewController: UITableViewController {
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddCollaborators.isOn = false
+            self.switchAddCollaborators.isUserInteractionEnabled = false
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
+        }else {
+            self.switchAddCollaborators.isUserInteractionEnabled = true
         }
     }
     
@@ -449,7 +469,14 @@ class AddStreamViewController: UITableViewController {
                     if self.isAddContent != nil {
                         self.associateContentToStream(id: (stream?.ID)!)
                     }else {
-                        self.navigationController?.popNormal()
+                    self.navigationController?.popNormal()
+
+//                        if kNavForProfile.isEmpty {
+//                            self.navigationController?.popNormal()
+//                        }else {
+//                            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+//                            self.navigationController?.popToViewController(vc: obj)
+//                        }
                     }
                 }
             }else {

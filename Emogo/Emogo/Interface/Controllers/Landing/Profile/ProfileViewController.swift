@@ -672,6 +672,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                
             }else {
                 isEdited = true
+                ContentList.sharedInstance.arrayContent.removeAll()
+                let array = ContentList.sharedInstance.arrayContent.filter { $0.isAdd == false }
+                ContentList.sharedInstance.arrayContent = array
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = indexPath.row - 1
+                self.navigationController?.push(viewController: objPreview)
+                
+                /*
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 content.isShowAddStream = true
                 content.isEdit = true
@@ -679,6 +687,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 objPreview.isForEditOnly = true
                 objPreview.isEdit = true
                 self.navigationController?.push(viewController: objPreview)
+ */
             }
             
         }else {

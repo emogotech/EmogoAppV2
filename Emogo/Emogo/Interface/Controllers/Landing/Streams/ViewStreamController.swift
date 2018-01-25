@@ -647,7 +647,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             }else {
                 objPreview.currentIndex = indexPath.row
             }
-                self.navigationController?.push(viewController: objPreview)
+          self.navigationController?.push(viewController: objPreview)
         }
     }
     

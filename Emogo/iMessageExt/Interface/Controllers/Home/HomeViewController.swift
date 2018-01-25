@@ -696,9 +696,9 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func getContenData(){
-        APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
-            
-        }
+//        APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
+//
+//        }
     }
     
     func getUsersList(type:RefreshType){

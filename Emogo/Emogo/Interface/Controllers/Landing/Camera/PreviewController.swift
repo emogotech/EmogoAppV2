@@ -80,7 +80,9 @@ class PreviewController: UIViewController {
         txtDescription.delegate = self
         self.txtDescription.placeholder = "Description"
         self.txtDescription.placeholderColor = .white
-        
+        self.txtTitleImage.addShadow()
+        self.txtDescription.addShadow()
+
         var seen = Set<String>()
         var unique = [ContentDAO]()
         

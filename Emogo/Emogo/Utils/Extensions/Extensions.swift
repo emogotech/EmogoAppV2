@@ -560,6 +560,27 @@ extension UITextField {
         self.attributedPlaceholder = NSAttributedString(string: text,
                                                         attributes: [NSAttributedStringKey.foregroundColor: color])
     }
+    
+    func addShadow(){
+        self.layer.masksToBounds = false
+        self.layer.shadowRadius = 3.0
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+    }
+    
+    
+}
+
+extension UITextView {
+    
+    func addShadow(){
+        self.layer.masksToBounds = false
+        self.layer.shadowRadius = 3.0
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+    }
 }
 
 extension UILabel {
