@@ -168,6 +168,7 @@ class AddStreamViewController: UITableViewController {
                 }
             }
           
+          
             if self.objStream?.canAddPeople == true {
                 self.prepareEdit(isEnable: false)
             }
@@ -175,6 +176,16 @@ class AddStreamViewController: UITableViewController {
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                self.prepareEdit(isEnable: true)
             }
+            
+            if objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+                if self.objStream?.canAddPeople == true {
+                    self.switchAddCollaborators.isUserInteractionEnabled = true
+                    self.rowHieght.constant = 325.0
+                    self.isExpandRow = true
+                    self.switchAddCollaborators.isOn = true
+                }
+            }
+            
             
             if self.objStream?.type.lowercased() == "public"{
                 self.switchMakePrivate.isOn = false
