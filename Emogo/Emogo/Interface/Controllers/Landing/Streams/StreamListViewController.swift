@@ -639,6 +639,7 @@ class StreamListViewController: UIViewController {
         
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
+            self.arrayToShow.removeAll()
             self.streamCollectionView.reloadData()
         }
         
@@ -729,6 +730,7 @@ class StreamListViewController: UIViewController {
 
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
+             self.arrayToShow.removeAll()
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.iMessageNavigation == "" {
