@@ -87,7 +87,7 @@ class ViewProfileViewController: UIViewController {
     
     func getStreamList(type:RefreshType){
         if type == .start || type == .up {
-            StreamList.sharedInstance.arrayStream.removeAll()
+            StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userId,type: type) { (refreshType, errorMsg) in
@@ -103,7 +103,7 @@ class ViewProfileViewController: UIViewController {
             }else if type == .down {
                 self.profileCollectionView.es.stopLoadingMore()
             }
-            if StreamList.sharedInstance.arrayStream.count == 0 {
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
                 label.text = "No Streams Found!"
                 label.sizeToFit()
@@ -116,7 +116,6 @@ class ViewProfileViewController: UIViewController {
             }
         }
     }
-    
     
     /*
     // MARK: - Navigation
@@ -135,7 +134,7 @@ class ViewProfileViewController: UIViewController {
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return StreamList.sharedInstance.arrayStream.count
+            return StreamList.sharedInstance.arrayMyStream.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -144,7 +143,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
+            let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
             return cell
     }
@@ -155,11 +154,14 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       
+        StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.currentIndex = indexPath.row
-        obj.viewStream = "View"
+        obj.streamType = currentStreamType.rawValue
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
+        
     }
 }
 

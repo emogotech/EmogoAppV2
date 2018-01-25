@@ -86,14 +86,13 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
         }
-        DispatchQueue.main.async {
-            self.streamCollectionView.reloadData()
-        }
+     
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
+        
     }
     
     func checkDeepLinkURL() {
@@ -149,7 +148,7 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
-        
+        kShowOnlyMyStream = ""
         menuView.currentIndex = currentStreamType.hashValue
         print("current index ----\(currentStreamType)")
         print("current index ----\(currentStreamType.hashValue)")
@@ -282,7 +281,9 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
+        self.streamCollectionView.reloadData()
     }
+    
 //
 //    @objc func callingAfterOneSec(){
 //

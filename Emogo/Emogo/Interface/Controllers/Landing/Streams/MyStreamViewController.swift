@@ -43,7 +43,6 @@ class MyStreamViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        kShowOnlyMyStream = ""
     }
     
     // MARK: - Prepare Layouts
