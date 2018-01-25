@@ -107,6 +107,7 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         onConfigureHeader = { header, title in
             header.label.text = title
             header.btnCross.setImage(#imageLiteral(resourceName: "action_cross_image"), for: .normal)
+            header.btnCross.addTarget(self, action: #selector(self.hideView), for: .touchUpInside)
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
@@ -130,7 +131,6 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
         collectionView.clipsToBounds = false
         let hideBottomSpaceView: UIView = {
             let hideBottomSpaceView = UIView(frame: CGRect(x: 0, y: 0, width: collectionView.bounds.width, height: contentHeight + 20))
@@ -140,6 +140,10 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
         }()
         collectionView.addSubview(hideBottomSpaceView)
         collectionView.sendSubview(toBack: hideBottomSpaceView)
+    }
+    
+    @objc func hideView(){
+        self.dismiss()
     }
     
 }

@@ -145,6 +145,15 @@ class PreviewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
         self.imgPreview.addGestureRecognizer(tap)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+        swipeUp.direction = .up
+        self.imgPreview.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+        swipeDown.direction = .down
+        self.imgPreview.addGestureRecognizer(swipeDown)
+        
         // Preview Footer
         self.previewCollection.reloadData()
         self.btnDone.isHidden = false
@@ -155,9 +164,24 @@ class PreviewController: UIViewController {
             self.btnShareAction.isHidden = true
         }
         self.imgPreview.contentMode = .scaleAspectFit
-
+//        if ContentList.sharedInstance.arrayContent.count > 0 {
+//            self.isPreviewOpen = true
+//        }
     }
-   
+    
+    @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
+        if gesture.direction == .up {
+            print("up")
+            if self.isPreviewOpen == true {
+                self.animateView()
+            }
+        }else if gesture.direction == .down {
+            print("down")
+            if self.isPreviewOpen == false {
+                self.animateView()
+            }
+        }
+    }
     
     func preparePreview(index:Int) {
         self.txtTitleImage.text = ""
@@ -460,7 +484,7 @@ class PreviewController: UIViewController {
         }
         self.previewCollection.reloadData()
     }
-    private func animateView(){
+    @objc private func animateView(){
         UIView.animate(withDuration: 0.5) {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
