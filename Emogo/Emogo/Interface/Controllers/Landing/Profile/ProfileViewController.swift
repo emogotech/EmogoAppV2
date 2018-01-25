@@ -691,6 +691,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
+                obj.viewStream = "fromProfile"
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }
