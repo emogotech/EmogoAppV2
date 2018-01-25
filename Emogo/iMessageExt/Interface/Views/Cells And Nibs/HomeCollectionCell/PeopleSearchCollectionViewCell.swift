@@ -30,7 +30,7 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
 //
 //    }
     
-    func prepareData(people:PeopleDAO){
+    func prepareData(people:StreamDAO){
         self.lblName.text = people.fullName!
         lblName.minimumScaleFactor = 1.0
         if people.userImage.isEmpty {
