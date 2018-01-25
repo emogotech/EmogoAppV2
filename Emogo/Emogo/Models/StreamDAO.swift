@@ -99,6 +99,7 @@ class StreamList{
     var arrayViewStream:[StreamDAO]!
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
+    var requestURlSearch:String! = ""
 
     class var sharedInstance: StreamList {
         struct Static {

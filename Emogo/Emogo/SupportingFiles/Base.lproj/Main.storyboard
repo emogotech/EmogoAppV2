@@ -641,6 +641,7 @@
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>
                     <connections>
+                        <outlet property="btnAddStream" destination="QKb-MD-C7d" id="27V-a3-6Lf"/>
                         <outlet property="btnDelete" destination="OfC-aG-FKj" id="uXc-uP-W4A"/>
                         <outlet property="btnDone" destination="4pY-ca-wue" id="KLR-cv-Pna"/>
                         <outlet property="btnEdit" destination="mGM-bQ-3S9" id="h5K-Ev-GoY"/>

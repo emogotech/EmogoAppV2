@@ -902,10 +902,103 @@ class APIServiceManager: NSObject {
             }
             
         }
+    }
+
+    // -------------------------------Search----------------------------
+
+    func apiForSearchStream(strSearch:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
+        if type == .start{
+            let strURL =  kGlobleSearchStreamAPI+strSearch.replacingOccurrences(of: " ", with: "%20")
+            StreamList.sharedInstance.requestURlSearch  = strURL
+        }
+        if StreamList.sharedInstance.requestURlSearch.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+       
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURlSearch) { (result) in
+            
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                StreamList.sharedInstance.arrayMyStream.append(stream)
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                               StreamList.sharedInstance.requestURlSearch = ""
+                                completionHandler(.end,"")
+                            }else {
+                               StreamList.sharedInstance.requestURlSearch = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+
+        func apiForSearchPeople(strSearch:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
+        if type == .start{
+            let strURL =  kGlobleSearchPeopleAPI+strSearch.replacingOccurrences(of: " ", with: "%20")
+            StreamList.sharedInstance.requestURlSearch  = strURL
+        }
+        if StreamList.sharedInstance.requestURlSearch.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
         
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURlSearch) { (result) in
+            
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                StreamList.sharedInstance.arrayMyStream.append(people)
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURlSearch = ""
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURlSearch = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
     }
     
     
+    // -------------------------------End----------------------------
     
     
     func apiForGlobalSearchPeople(searchString:String,completionHandler:@escaping (_ peopleList:[PeopleDAO]?, _ strError:String?)->Void){

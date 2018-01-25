@@ -82,6 +82,7 @@ class StreamListViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureLandingNavigation()
         menuView.isHidden = true
+        kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
@@ -157,7 +158,6 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
-        kShowOnlyMyStream = ""
         menuView.currentIndex = currentStreamType.hashValue
         print("current index ----\(currentStreamType)")
         print("current index ----\(currentStreamType.hashValue)")
@@ -304,11 +304,22 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             UIApplication.shared.beginIgnoringInteractionEvents()
-            if currentStreamType == .People {
-                self?.getUsersList(type:.up)
-            }else {
-                self?.getStreamList(type:.up,filter:currentStreamType)
+          
+            if (self?.isSearch)! && (self?.isTapPeople)! {
+                self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .up)
             }
+            else if (self?.isSearch)! && (self?.isTapStream)! {
+                self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .up)
+            }
+            
+            if self?.isSearch == false {
+                if currentStreamType == .People {
+                    self?.getUsersList(type:.up)
+                }else {
+                    self?.getStreamList(type:.up,filter:currentStreamType)
+                }
+            }
+            
             /*
             if (self?.isSearch)! && (self?.isTapPeople)! {
                 self?.getPeopleGlobleSearch(searchText: (self?.searchStr)!, type: .start)
@@ -325,50 +336,25 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             
-            if currentStreamType == .People {
-                self?.getUsersList(type:.down)
-            }else {
-                self?.getStreamList(type:.down,filter:currentStreamType)
-            }
-            
-            /*
             if (self?.isSearch)! && (self?.isTapPeople)! {
-                self?.getPeopleGlobleSearch(searchText: (self?.searchStr)!, type: .up)
+                self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .down)
             }
             else if (self?.isSearch)! && (self?.isTapStream)! {
-                self?.getStreamGlobleSearch(searchText: (self?.searchStr)!, type: .up)
+                self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .down)
             }
-            else if (self?.isPeopleList)! {
-                self?.getUsersList(type:.up)
-            }else {
-                self?.getStreamList(type:.up,filter:currentStreamType)
+            if self?.isSearch == false {
+                if currentStreamType == .People {
+                    self?.getUsersList(type:.down)
+                }else {
+                    self?.getStreamList(type:.down,filter:currentStreamType)
+                }
             }
- */
+           
         }
         self.streamCollectionView.expiredTimeInterval = 15.0
     }
     
-    func addLoadMore(){
-        if  self.isPullToRefreshRemoved {
-            self.isPullToRefreshRemoved  = false
-            let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
-            self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-                
-                if (self?.isSearch)! && (self?.isTapPeople)! {
-                    self?.getPeopleGlobleSearch(searchText: (self?.searchStr)!, type: .down)
-                }
-                else if (self?.isSearch)! && (self?.isTapStream)! {
-                    self?.getStreamGlobleSearch(searchText: (self?.searchStr)!, type: .down)
-                }
-                else if (self?.isPeopleList)! {
-                    self?.getUsersList(type:.down)
-                }
-                else {
-                    self?.getStreamList(type:.down,filter:currentStreamType)
-                }
-            }
-        }
-    }
+
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
@@ -472,7 +458,7 @@ class StreamListViewController: UIViewController {
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             collectionLayout.columnCount = 2
-            self.getStreamGlobleSearch(searchText: searchStr, type: .start)
+            self.getStreamGlobalSearch(searchText: searchStr, type: .start)
             break
             
         case 1:         //People
@@ -482,7 +468,7 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
-            self.getPeopleGlobleSearch(searchText: searchStr, type: .start)
+            self.getPeopleGlobalSearch(searchText: searchStr, type: .start)
             break
             
         default:
@@ -566,6 +552,33 @@ class StreamListViewController: UIViewController {
     }
     
     
+ 
+    func getStream(currentStreamID:String, currentConytentID:String){
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                let allContents = stream?.arrayContent
+                if ((allContents?.count)! > 0){
+                    
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    
+                    for i in 0...(stream?.arrayContent.count)!-1 {
+                        let data : ContentDAO = allContents![i]
+                        print(data.contentID)
+                        print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
+                        if data.contentID ==  currentConytentID {
+                            objPreview.seletedImage = data
+                            objPreview.isEdit = true
+                            self.navigationController?.push(viewController: objPreview)
+                            break
+                        }
+                    }
+                }
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
     func getUsersList(type:RefreshType){
         if type == .up {
             for _ in StreamList.sharedInstance.arrayStream {
@@ -576,7 +589,7 @@ class StreamListViewController: UIViewController {
             }
         }
         APIServiceManager.sharedInstance.apiForGetPeopleList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
-           
+            
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
@@ -604,46 +617,56 @@ class StreamListViewController: UIViewController {
         }
     }
     
-    func getStream(currentStreamID:String, currentConytentID:String){
-        APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
-            if (errorMsg?.isEmpty)! {
-                let allContents = stream?.arrayContent
-                if ((allContents?.count)! > 0){
-                    
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    
-                    for i in 0...(stream?.arrayContent.count)!-1 {
-                        let data : ContentDAO = allContents![i]
-                        print(data.contentID)
-                        print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
-                        if data.contentID ==  currentConytentID {
-                            objPreview.seletedImage = data
-                            objPreview.isEdit = true
-                            self.navigationController?.push(viewController: objPreview)
-                            break
-                        }
-                    }
-                }
-            }else {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
     
     
     // MARK: - Search API Methods
     
     
 
-    func getPeopleGlobleSearch(searchText:String, type:RefreshType){
-        lblNoResult.text = kAlert_No_User_Record_Found
+    func getPeopleGlobalSearch(searchText:String, type:RefreshType){
+        
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayMyStream.removeAll()
+            self.streamCollectionView.reloadData()
+        }
+        
+        APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
+            
+            if refreshType == .end {
+                self.streamCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.streamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            self.lblNoResult.isHidden = true
+            self.lblNoResult.text = kAlert_No_User_Record_Found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayMyStream
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
+            }
+            self.streamCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+            
+        }
+        
+        
+        
+        /*
         if type != .up {
             HUDManager.sharedInstance.showHUD()
         }
         if type == .start || type == .up {
-            self.addLoadMore()
-            PeopleList.sharedInstance.arrayPeople.removeAll()
-            StreamList.sharedInstance.arrayStream.removeAll()
+            StreamList.sharedInstance.arrayMyStream.removeAll()
             self.streamCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGlobalSearchPeople(searchString: searchText) { (values, errorMsg) in
@@ -678,9 +701,57 @@ class StreamListViewController: UIViewController {
             self.lblNoResult.isHidden = true
             self.expandPeopleHeight()
         }
+ */
     }
     
-    func getStreamGlobleSearch(searchText:String, type:RefreshType){
+    func getStreamGlobalSearch(searchText:String, type:RefreshType){
+
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayMyStream.removeAll()
+            self.streamCollectionView.reloadData()
+        }
+        if SharedData.sharedInstance.iMessageNavigation == "" {
+            
+            APIServiceManager.sharedInstance.apiForSearchStream(strSearch: searchText, type: type, completionHandler: { (refreshType, errorMsg) in
+                
+                if refreshType == .end {
+                    self.streamCollectionView.es.noticeNoMoreData()
+                }
+                if type == .up {
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    self.streamCollectionView.es.stopPullToRefresh()
+                }else if type == .down {
+                    self.streamCollectionView.es.stopLoadingMore()
+                }
+                self.lblNoResult.isHidden = true
+                self.lblNoResult.text = kAlert_No_Stream_found
+                DispatchQueue.main.async {
+                    self.arrayToShow = StreamList.sharedInstance.arrayMyStream
+                    if self.arrayToShow.count == 0 {
+                        self.lblNoResult.isHidden = false
+                    }else {
+                        self.lblNoResult.isHidden = true
+                    }
+                    self.streamCollectionView.reloadData()
+                }
+                self.streamCollectionView.reloadData()
+                if !(errorMsg?.isEmpty)! {
+                    self.showToast(type: .success, strMSG: errorMsg!)
+                }
+                
+            })
+            
+        }
+    
+        
+        
+        /*
+        
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayMyStream.removeAll()
+            self.streamCollectionView.reloadData()
+        }
+                
         lblNoResult.text = kAlert_No_Stream_found
         if type != .up {
             HUDManager.sharedInstance.showHUD()
@@ -722,6 +793,7 @@ class StreamListViewController: UIViewController {
                 
             }
         }
+ */
     }
     
     
@@ -971,12 +1043,14 @@ extension StreamListViewController : UITextFieldDelegate {
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             collectionLayout.columnCount = 3
-            self.getPeopleGlobleSearch(searchText: searchString, type: .start)
+            HUDManager.sharedInstance.showHUD()
+            self.getPeopleGlobalSearch(searchText: searchString, type: .start)
         }else{
             lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             collectionLayout.columnCount = 2
-            self.getStreamGlobleSearch(searchText: searchString, type: .start)
+            HUDManager.sharedInstance.showHUD()
+            self.getStreamGlobalSearch(searchText: searchString, type: .start)
         }
     }
 }

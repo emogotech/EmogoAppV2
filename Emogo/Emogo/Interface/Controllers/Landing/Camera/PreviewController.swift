@@ -27,6 +27,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
+    @IBOutlet weak var btnAddStream: UIButton!
+
 
     // MARK: - Variables
 
@@ -329,6 +331,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
+        btnDone.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count > 10 {
             self.alertForLimit()
             return
@@ -369,6 +372,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnDoneAction(_ sender: Any) {
        self.view.endEditing(true)
+        btnAddStream.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             HUDManager.sharedInstance.showProgress()
