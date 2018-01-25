@@ -98,8 +98,7 @@ class AddStreamViewController: UITableViewController {
         self.txtStreamName.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
-        self.switchAddContent.isUserInteractionEnabled = false
-        self.switchAddPeople.isUserInteractionEnabled = false
+      
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
@@ -113,7 +112,6 @@ class AddStreamViewController: UITableViewController {
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
         // If Stream is public
-        self.switchAddCollaborators.isUserInteractionEnabled = false
         self.rowHieght.constant = 0.0
         self.isExpandRow = false
         self.switchAddCollaborators.isOn = false
@@ -256,19 +254,17 @@ class AddStreamViewController: UITableViewController {
                 streamType = "Private"
                 self.switchAnyOneCanEdit.isOn = false
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = false
-                self.switchAddCollaborators.isUserInteractionEnabled = true
-                self.switchAddPeople.isUserInteractionEnabled = true
-                self.switchAddContent.isUserInteractionEnabled = true
-                self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled = false
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.isOn = false
+                self.switchAddContent.isOn = false
             }else{
                 streamType = "Public"
-                self.switchAnyOneCanEdit.isUserInteractionEnabled = true
                 self.switchAddCollaborators.isOn = false
                 self.rowHieght.constant = 0.0
                 self.isExpandRow = false
                 self.switchAnyOneCanEdit.isOn = false
                 self.switchAnyOneCanEdit.isUserInteractionEnabled = true
-                self.switchAddCollaborators.isUserInteractionEnabled = false
                 self.switchAddPeople.isUserInteractionEnabled = false
                 self.switchAddContent.isUserInteractionEnabled = false
                 self.switchAddPeople.isOn = false
@@ -318,7 +314,6 @@ class AddStreamViewController: UITableViewController {
             }
         }
     }
-    
     
     @IBAction func btnActionCamera(_ sender: Any) {
         

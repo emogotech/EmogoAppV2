@@ -301,7 +301,7 @@ class ProfileViewController: UIViewController {
             StreamList.sharedInstance.arrayMyStream.insert(stream, at: 0)
             self.profileCollectionView.reloadData()
         }
-        APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForGetMyProfileStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
@@ -556,14 +556,16 @@ class ProfileViewController: UIViewController {
                 
             } else if obj.type == .video {
                     camera.type = .video
-                    obj.phAsset?.getURL(completionHandler: { (url) in
-                        camera.fileUrl = url
-                        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
-                            camera.imgPreview = image
-                            self.updateData(content: camera)
-                        }
-                        group.leave()
-                    })
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
+                    camera.fileUrl = url
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                        camera.imgPreview = image
+                        self.updateData(content: camera)
+                    }
+                    group.leave()
+                })
                     
                 }
         }

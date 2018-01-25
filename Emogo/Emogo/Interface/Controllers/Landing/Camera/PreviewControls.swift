@@ -63,9 +63,11 @@ extension PreviewController {
                 
             }else if obj.type == .video {
                 camera.type = .video
-                obj.phAsset?.getURL(completionHandler: { (url) in
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
