@@ -35,12 +35,12 @@ class ShowPreviewViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
 
     override func viewDidAppear(_ animated: Bool) {

@@ -262,6 +262,14 @@ extension UIButton {
 
 extension UIViewController {
     
+    func hideStatusBar(){
+        UIApplication.shared.isStatusBarHidden = true
+    }
+    
+    func showStatusBar(){
+        UIApplication.shared.isStatusBarHidden = false
+    }
+    
     func showAlert(strMessage:String){
         let alert = UIAlertController(title: "Message", message: strMessage, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .cancel) { (actoin) in

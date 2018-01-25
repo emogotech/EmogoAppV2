@@ -53,7 +53,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
         lblRecordTimer.isHidden = true
         if ContentList.sharedInstance.arrayContent.count == 0 {
             kPreviewHeight.constant = 24.0
@@ -70,7 +70,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
     
     

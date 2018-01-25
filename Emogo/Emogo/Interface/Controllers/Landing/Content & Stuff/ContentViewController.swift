@@ -49,12 +49,12 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -231,6 +231,8 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage.type == .image {
             self.btnEdit.isHidden = false
+            self.btnEdit.isUserInteractionEnabled = true
+            self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         }else if self.seletedImage.type == .link{
             self.btnEdit.isHidden = false
             self.btnEdit.isUserInteractionEnabled = false

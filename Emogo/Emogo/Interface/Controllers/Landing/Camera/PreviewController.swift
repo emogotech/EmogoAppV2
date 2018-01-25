@@ -50,7 +50,7 @@ class PreviewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
@@ -63,7 +63,7 @@ class PreviewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
     
     override func didReceiveMemoryWarning() {
