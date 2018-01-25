@@ -8,13 +8,14 @@ from emogo.apps.collaborator.models import Collaborator
 
 class StreamFilter(django_filters.FilterSet):
     my_stream = django_filters.filters.BooleanFilter(method='filter_my_stream')
+    self_created = django_filters.filters.BooleanFilter(method='filter_self_created')
     popular = django_filters.filters.BooleanFilter(method='filter_popular')
     global_search = django_filters.filters.CharFilter(method='filter_global_search')
     collaborator_qs = Collaborator.actives.all()
 
     class Meta:
         model = Stream
-        fields = ['featured', 'emogo', 'my_stream', 'popular']
+        fields = ['featured', 'emogo', 'my_stream', 'popular', 'self_created']
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
@@ -28,6 +29,10 @@ class StreamFilter(django_filters.FilterSet):
         # Merge result
         result_list = list(chain(owner_qs, collaborator_permission))
         return result_list
+
+    def filter_self_created(self, qs, name, value):
+        # Get self created streams
+        return qs.filter(created_by=self.request.user)
 
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')
