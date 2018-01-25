@@ -518,7 +518,7 @@ class ProfileViewController: UIViewController {
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
         configure.usedCameraButton = false
-        configure.usedPrefetch = false
+        configure.usedPrefetch = true
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }

@@ -62,7 +62,7 @@ target 'ShareExt' do
     use_frameworks!
     pod 'ReadabilityKit'
     pod 'SDWebImage'
-    
+    pod 'Kanna' 
     # Pods for ShareExt
     
 end
