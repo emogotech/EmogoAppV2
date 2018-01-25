@@ -288,7 +288,8 @@ class ContentViewController: UIViewController {
         
         // image aspect ratio----
         self.imgCover.contentMode = .scaleAspectFit
-
+        self.txtTitleImage.addShadow()
+        self.txtDescription.addShadow()
     }
     
 
