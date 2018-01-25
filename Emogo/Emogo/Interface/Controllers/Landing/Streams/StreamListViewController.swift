@@ -296,19 +296,21 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             UIApplication.shared.beginIgnoringInteractionEvents()
           
-            if (self?.isSearch)! && (self?.isTapPeople)! {
-                self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .up)
-            }
-            else if (self?.isSearch)! && (self?.isTapStream)! {
-                self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .up)
-            }
-            
             if self?.isSearch == false {
                 if currentStreamType == .People {
                     self?.getUsersList(type:.up)
                 }else {
                     self?.getStreamList(type:.up,filter:currentStreamType)
                 }
+            }else {
+                
+                if (self?.isSearch)! && (self?.isTapPeople)! {
+                    self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .up)
+                }
+                else if (self?.isSearch)! && (self?.isTapStream)! {
+                    self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .up)
+                }
+                
             }
             
             /*
@@ -327,17 +329,19 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             
-            if (self?.isSearch)! && (self?.isTapPeople)! {
-                self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .down)
-            }
-            else if (self?.isSearch)! && (self?.isTapStream)! {
-                self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .down)
-            }
+            
             if self?.isSearch == false {
                 if currentStreamType == .People {
                     self?.getUsersList(type:.down)
                 }else {
                     self?.getStreamList(type:.down,filter:currentStreamType)
+                }
+            }else {
+                if (self?.isSearch)! && (self?.isTapPeople)! {
+                    self?.getPeopleGlobalSearch(searchText: (self?.searchStr)!, type: .down)
+                }
+                else if (self?.isSearch)! && (self?.isTapStream)! {
+                    self?.getStreamGlobalSearch(searchText: (self?.searchStr)!, type: .down)
                 }
             }
            
@@ -544,6 +548,7 @@ class StreamListViewController: UIViewController {
             self.lblNoResult.text = kAlert_No_Stream_found
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
                 }else {

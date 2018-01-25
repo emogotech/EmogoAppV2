@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ReadabilityKit
+import SwiftLinkPreview
 
 class LinkViewController: UIViewController {
     
@@ -33,6 +33,7 @@ class LinkViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ContentList.sharedInstance.arrayContent.removeAll()
         self.configureNavigationWithTitle()
     }
     
@@ -40,7 +41,6 @@ class LinkViewController: UIViewController {
     
     func prepareLayouts(){
         // Attach datasource and delegate
-        ContentList.sharedInstance.arrayContent.removeAll()
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self
         linkCollectionView.alwaysBounceVertical = true
@@ -83,6 +83,47 @@ class LinkViewController: UIViewController {
         if let smartUrl = txtLink.text?.smartURL() {
             if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
                 HUDManager.sharedInstance.showHUD()
+                let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
+                
+                slp.preview(smartUrl.absoluteString,
+                            onSuccess: { result in
+                                print("\(result)")
+                                
+                                let content = ContentDAO(contentData: [:])
+                                let title = result[SwiftLinkResponseKey.title]
+                                let description = result[SwiftLinkResponseKey.description]
+                                let imageUrl = result[SwiftLinkResponseKey.image]
+                                if let title = title {
+                                    content.name = (title as! String).trim().findUrl()
+                                }
+                                if let description = description {
+                                    content.description = (description as! String).trim()
+                                }
+                                content.coverImage = smartUrl.absoluteString
+                                content.type = .link
+                                content.isUploaded = false
+                                if let imageUrl = imageUrl {
+                                    content.coverImageVideo = (imageUrl as! String).trim()
+                                    SharedData.sharedInstance.downloadImage(url:  (imageUrl as! String).trim(), handler: { (image) in
+                                        if let img =  image {
+                                            content.height = Int(img.size.height)
+                                            content.width = Int(img.size.width)
+                                        }
+                                    })
+                                    HUDManager.sharedInstance.hideHUD()
+                                    self.createContentForExtractedData(content: content)
+                                }
+                                
+
+                },
+                            onError: {
+                                error in print("\(error)")
+                                HUDManager.sharedInstance.hideHUD()
+                                self.showToast(strMSG: error.localizedDescription )
+
+                })
+                
+                /*
                 Readability.parse(url: smartUrl, completion: { data in
                     print(data)
                     if data != nil {
@@ -120,6 +161,8 @@ class LinkViewController: UIViewController {
                         self.showToast(strMSG: "Enter valid url.")
                     }
                 })
+                 */
+
             }else{
                 print("Invalid")
                 self.showToast(strMSG: "Enter valid url.")

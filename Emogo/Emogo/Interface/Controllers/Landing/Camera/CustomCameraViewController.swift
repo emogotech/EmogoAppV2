@@ -497,6 +497,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
     func swipeBackDelegate() {
+        self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.popNormal()
     }
 }

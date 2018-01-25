@@ -278,6 +278,7 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddContent.isUserInteractionEnabled = false
                 self.switchAddPeople.isOn = false
                 self.switchAddContent.isOn = false
+                self.switchAddCollaborators.isUserInteractionEnabled = true
             }else{
                 streamType = "Public"
                 self.switchAddCollaborators.isOn = false
@@ -289,6 +290,7 @@ class AddStreamViewController: UITableViewController {
                 self.switchAddContent.isUserInteractionEnabled = false
                 self.switchAddPeople.isOn = false
                 self.switchAddContent.isOn = false
+                self.switchAddCollaborators.isUserInteractionEnabled = true
         }
     }
     

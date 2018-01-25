@@ -480,6 +480,18 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
+                            if kShowOnlyMyStream.isEmpty {
+                                if  type == .down {
+                                    if !StreamList.sharedInstance.requestURl.contains(kBaseURL) {
+                                        for _ in StreamList.sharedInstance.arrayStream {
+                                            if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                                                StreamList.sharedInstance.arrayStream.remove(at: index)
+                                                print("Removed")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                             for obj in result {
                                 
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
