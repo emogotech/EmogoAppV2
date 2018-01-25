@@ -281,10 +281,10 @@ class ContentViewController: UIViewController {
             self.btnFlagIcon.isHidden = false
             self.btnEdit.isHidden = true
         }
-         self.btnShareAction.isHidden = false
-         if ContentList.sharedInstance.objStream == nil {
-            self.btnShareAction.isHidden = true
-        }
+    //     self.btnShareAction.isHidden = false
+//         if ContentList.sharedInstance.objStream == nil {
+//            self.btnShareAction.isHidden = true
+//        }
         
         // image aspect ratio----
         self.imgCover.contentMode = .scaleAspectFit

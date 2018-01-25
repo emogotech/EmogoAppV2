@@ -43,7 +43,11 @@ class ViewStreamController: UIViewController {
    @objc func updateLayOut(){
     if ContentList.sharedInstance.objStream != nil {
         self.getStream(currentStream:nil,streamID:ContentList.sharedInstance.objStream)
-    }else {
+        if SharedData.sharedInstance.deepLinkType != "" {
+            self.btnActionForAddContent()
+            SharedData.sharedInstance.deepLinkType = ""
+        }
+    } else {
         if StreamList.sharedInstance.arrayViewStream.count != 0 {
             if currentIndex != nil {
                 let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
@@ -633,7 +637,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             //self.navigationController?.push(viewController: obj)
  */
         }else {
-                ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.removeAll()
              let array = objStream?.arrayContent.filter { $0.isAdd == false }
              ContentList.sharedInstance.arrayContent = array
              ContentList.sharedInstance.objStream = objStream?.streamID

@@ -85,7 +85,13 @@ class HomeViewController: MSMessagesAppViewController {
             self.getStream(streamID: (SharedData.sharedInstance.streamContent?.ID)!)
         }
         else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
-            self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
+            
+            if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
+                self.getContenData()
+            }else{
+                 self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
+            }
+           
         }
     }
     
@@ -644,12 +650,17 @@ class HomeViewController: MSMessagesAppViewController {
                         
                     }
                     else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
-                        var arrayTempStream  = [StreamDAO]()
-                        var streamDatas  = [String:Any]()
-                        streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
-                        SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
-                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
-                        obj.arrStream = arrayTempStream
+                        
+                        if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
+                            var arrayTempStream  = [StreamDAO]()
+                            var streamDatas  = [String:Any]()
+                            streamDatas["id"] = SharedData.sharedInstance.iMessageNavigationCurrentStreamID
+                            SharedData.sharedInstance.streamContent = StreamDAO.init(streamData: streamDatas)
+                            arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                            obj.arrStream = arrayTempStream
+                        } else{
+                            
+                        }
                     }
                     obj.currentStreamIndex = 0
                     self.present(obj, animated: false, completion: nil)
@@ -681,6 +692,12 @@ class HomeViewController: MSMessagesAppViewController {
         }
         else {
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
+        }
+    }
+    
+    func getContenData(){
+        APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
+            
         }
     }
     
