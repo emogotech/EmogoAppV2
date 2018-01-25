@@ -27,6 +27,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
+    @IBOutlet weak var btnAddStream: UIButton!
+
 
     // MARK: - Variables
 
@@ -48,7 +50,7 @@ class PreviewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
@@ -61,7 +63,7 @@ class PreviewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
     
     override func didReceiveMemoryWarning() {
@@ -331,6 +333,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
+        btnDone.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count > 10 {
             self.alertForLimit()
             return
@@ -371,6 +374,7 @@ class PreviewController: UIViewController {
     }
     @IBAction func btnDoneAction(_ sender: Any) {
        self.view.endEditing(true)
+        btnAddStream.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             HUDManager.sharedInstance.showProgress()

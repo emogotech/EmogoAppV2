@@ -191,19 +191,22 @@ class ProfileViewController: UIViewController {
     
     func updateProfileImage(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
+        let actionRemove = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
             HUDManager.sharedInstance.showHUD()
         
             self.profileUpdate(strURL: "")
         }
-        let action2 = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
+        let actionUpdate = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
             self.profilepicUpload()
         }
-        let action3 = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
+        let actionCancel = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
         }
-        alert.addAction(action2)
-        alert.addAction(action1)
-        alert.addAction(action3)
+        
+        alert.addAction(actionUpdate)
+        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+            alert.addAction(actionRemove)
+        }
+        alert.addAction(actionCancel)
 
         present(alert, animated: true, completion: nil)
     }
@@ -443,7 +446,7 @@ class ProfileViewController: UIViewController {
     
     func setCoverImage(image:UIImage) {
         self.imageToUpload = image
-        self.imgUser.image = image
+//        self.imgUser.image = image
         self.fileName =  NSUUID().uuidString + ".png"
         self.uploadProfileImage()
     }
@@ -512,13 +515,13 @@ class ProfileViewController: UIViewController {
         viewController.didExceedMaximumNumberOfSelection = { (picker) in
             //exceed max selection
         }
-        viewController.selectedAssets = []
+        viewController.selectedAssets = [TLPHAsset]()
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
         configure.usedCameraButton = false
-        configure.usedPrefetch = true
+        configure.usedPrefetch = false
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }
@@ -551,19 +554,18 @@ class ProfileViewController: UIViewController {
                     })
                 }
                 
-            }else if obj.type == .video {
-                camera.type = .video
-                obj.tempCopyMediaFile(progressBlock: { (progress) in
-                    print(progress)
-                }, completionBlock: { (url, mimeType) in
-                    camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
-                        camera.imgPreview = image
-                        self.updateData(content: camera)
-                    }
-                    group.leave()
-                })
-            }
+            } else if obj.type == .video {
+                    camera.type = .video
+                    obj.phAsset?.getURL(completionHandler: { (url) in
+                        camera.fileUrl = url
+                        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
+                            camera.imgPreview = image
+                            self.updateData(content: camera)
+                        }
+                        group.leave()
+                    })
+                    
+                }
         }
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()
@@ -688,6 +690,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
+                obj.viewStream = "fromProfile"
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }

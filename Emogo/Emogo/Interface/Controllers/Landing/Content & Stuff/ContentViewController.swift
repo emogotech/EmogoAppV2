@@ -49,12 +49,12 @@ class ContentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
-        UIApplication.shared.isStatusBarHidden = true
+        self.hideStatusBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIApplication.shared.isStatusBarHidden = false
+        self.showStatusBar()
     }
     
     override func viewDidLayoutSubviews() {
@@ -231,6 +231,8 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage.type == .image {
             self.btnEdit.isHidden = false
+            self.btnEdit.isUserInteractionEnabled = true
+            self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         }else if self.seletedImage.type == .link{
             self.btnEdit.isHidden = false
             self.btnEdit.isUserInteractionEnabled = false
@@ -773,9 +775,9 @@ class ContentViewController: UIViewController {
             if error == nil {
                 DispatchQueue.main.async { // Correct
                     self.seletedImage.coverImage = imageURL
-                    self.seletedImage.imgPreview = nil
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
+                    self.seletedImage.imgPreview = nil
                 }
             }else {
                 HUDManager.sharedInstance.hideHUD()

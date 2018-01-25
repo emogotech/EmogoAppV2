@@ -73,6 +73,7 @@
                                  cornerRadius:(CGFloat)radius
                                    borderSize:(CGFloat)borderSize
                                   borderColor:(CGColorRef)borderColor;
+-(UIImage *)scaleAndRotateImage:(UIImage *)image;
 
 
 @end

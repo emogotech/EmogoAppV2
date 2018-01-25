@@ -191,13 +191,13 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         viewController.didExceedMaximumNumberOfSelection = { (picker) in
             //exceed max selection
         }
-        viewController.selectedAssets = []
+        viewController.selectedAssets.removeAll()
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
         configure.usedCameraButton = false
-        configure.usedPrefetch = true
+        configure.usedPrefetch = false
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }
@@ -233,16 +233,15 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                 
             }else if obj.type == .video {
                 camera.type = .video
-                obj.tempCopyMediaFile(progressBlock: { (progress) in
-                    print(progress)
-                }, completionBlock: { (url, mimeType) in
+                obj.phAsset?.getURL(completionHandler: { (url) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
                     group.leave()
                 })
+               
             }
         }
         group.notify(queue: .main, execute: {
