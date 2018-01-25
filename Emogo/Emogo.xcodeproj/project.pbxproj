@@ -28,6 +28,14 @@
 		2BFE0064200F84EF0086DEBF /* FLAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */; };
 		2BFE0065200F84F20086DEBF /* FLAnimatedImageView+ImageURL.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF3032005F186009A2D3A /* FLAnimatedImageView+ImageURL.m */; };
 		2BFE0066200F8C170086DEBF /* UIImageColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4539385200CF40800F7D029 /* UIImageColors.swift */; };
+		33079A172019E31C00FC59EF /* VGMetaDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A162019E31C00FC59EF /* VGMetaDataFetcher.m */; };
+		33079A182019E37000FC59EF /* VGMetaDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A162019E31C00FC59EF /* VGMetaDataFetcher.m */; };
+		33079A192019E37300FC59EF /* VGMetaDataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A162019E31C00FC59EF /* VGMetaDataFetcher.m */; };
+		33079A272019E6C000FC59EF /* DSFavIconCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A1C2019E6BF00FC59EF /* DSFavIconCache.m */; };
+		33079A282019E6C000FC59EF /* DSFavIconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A1E2019E6BF00FC59EF /* DSFavIconManager.m */; };
+		33079A292019E6C000FC59EF /* DSFavIconOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A202019E6BF00FC59EF /* DSFavIconOperation.m */; };
+		33079A2A2019E6C000FC59EF /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A242019E6C000FC59EF /* GTMNSString+HTML.m */; };
+		33079A2B2019E6C000FC59EF /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 33079A262019E6C000FC59EF /* NSString+HTML.m */; };
 		330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
 		330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		330FEB791FC3F68C00552260 /* SF-Pro-Display-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */; };
@@ -397,6 +405,19 @@
 		2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionReusableView.swift; sourceTree = "<group>"; };
 		2BDC4AAD1FD1188D0018FC6E /* HomeCollectionReusableView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeCollectionReusableView.xib; sourceTree = "<group>"; };
+		33079A152019E31C00FC59EF /* VGMetaDataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VGMetaDataFetcher.h; sourceTree = "<group>"; };
+		33079A162019E31C00FC59EF /* VGMetaDataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VGMetaDataFetcher.m; sourceTree = "<group>"; };
+		33079A1B2019E6BF00FC59EF /* DSFavIconCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSFavIconCache.h; sourceTree = "<group>"; };
+		33079A1C2019E6BF00FC59EF /* DSFavIconCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSFavIconCache.m; sourceTree = "<group>"; };
+		33079A1D2019E6BF00FC59EF /* DSFavIconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSFavIconManager.h; sourceTree = "<group>"; };
+		33079A1E2019E6BF00FC59EF /* DSFavIconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSFavIconManager.m; sourceTree = "<group>"; };
+		33079A1F2019E6BF00FC59EF /* DSFavIconOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSFavIconOperation.h; sourceTree = "<group>"; };
+		33079A202019E6BF00FC59EF /* DSFavIconOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSFavIconOperation.m; sourceTree = "<group>"; };
+		33079A212019E6BF00FC59EF /* UINSImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINSImage.h; sourceTree = "<group>"; };
+		33079A232019E6C000FC59EF /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		33079A242019E6C000FC59EF /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		33079A252019E6C000FC59EF /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		33079A262019E6C000FC59EF /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		330FEB751FC3F5CC00552260 /* KDLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDLoadingView.swift; sourceTree = "<group>"; };
 		330FEB771FC3F5F200552260 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3346053D1FD13DFC0040BD98 /* Emogo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Emogo.entitlements; sourceTree = "<group>"; };
@@ -820,6 +841,42 @@
 			path = HomeCollectionCell;
 			sourceTree = "<group>";
 		};
+		33079A142019E31C00FC59EF /* VGMetaDataFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				33079A222019E6C000FC59EF /* Encode */,
+				33079A1A2019E6BF00FC59EF /* Favicons */,
+				33079A152019E31C00FC59EF /* VGMetaDataFetcher.h */,
+				33079A162019E31C00FC59EF /* VGMetaDataFetcher.m */,
+			);
+			path = VGMetaDataFetcher;
+			sourceTree = "<group>";
+		};
+		33079A1A2019E6BF00FC59EF /* Favicons */ = {
+			isa = PBXGroup;
+			children = (
+				33079A1B2019E6BF00FC59EF /* DSFavIconCache.h */,
+				33079A1C2019E6BF00FC59EF /* DSFavIconCache.m */,
+				33079A1D2019E6BF00FC59EF /* DSFavIconManager.h */,
+				33079A1E2019E6BF00FC59EF /* DSFavIconManager.m */,
+				33079A1F2019E6BF00FC59EF /* DSFavIconOperation.h */,
+				33079A202019E6BF00FC59EF /* DSFavIconOperation.m */,
+				33079A212019E6BF00FC59EF /* UINSImage.h */,
+			);
+			path = Favicons;
+			sourceTree = "<group>";
+		};
+		33079A222019E6C000FC59EF /* Encode */ = {
+			isa = PBXGroup;
+			children = (
+				33079A232019E6C000FC59EF /* GTMNSString+HTML.h */,
+				33079A242019E6C000FC59EF /* GTMNSString+HTML.m */,
+				33079A252019E6C000FC59EF /* NSString+HTML.h */,
+				33079A262019E6C000FC59EF /* NSString+HTML.m */,
+			);
+			path = Encode;
+			sourceTree = "<group>";
+		};
 		335B1A051FBB238A006DA9D9 = {
 			isa = PBXGroup;
 			children = (
@@ -1016,6 +1073,7 @@
 		33BCB0321FBB353E004FF634 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				33079A142019E31C00FC59EF /* VGMetaDataFetcher */,
 				33BCB0331FBB353E004FF634 /* APIManager */,
 				33BCB0351FBB353E004FF634 /* Constants */,
 				33BCB0381FBB353E004FF634 /* Core */,
@@ -2504,6 +2562,7 @@
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F433EDA62017421D004FEB93 /* StreamViewHeader.swift in Sources */,
 				F423AF122008EFE500648A3E /* TLPhotoCollectionViewCell.swift in Sources */,
+				33079A2B2019E6C000FC59EF /* NSString+HTML.m in Sources */,
 				F43649CD2015CEA5004FBEE2 /* CameraViewControllerConstraint.swift in Sources */,
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
 				F43649CB2015CEA5004FBEE2 /* PermissionsView.swift in Sources */,
@@ -2547,6 +2606,7 @@
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
 				F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
+				33079A272019E6C000FC59EF /* DSFavIconCache.m in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
@@ -2555,6 +2615,7 @@
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
+				33079A172019E31C00FC59EF /* VGMetaDataFetcher.m in Sources */,
 				F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */,
 				F4431A921FC6DD2C00311C9A /* CropView.swift in Sources */,
 				F4431A941FC6DD2C00311C9A /* EmojiCollectionViewCell.swift in Sources */,
@@ -2611,6 +2672,7 @@
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
+				33079A292019E6C000FC59EF /* DSFavIconOperation.m in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
 				F43649C12015CEA5004FBEE2 /* PhotoLibraryAuthorizer.swift in Sources */,
@@ -2622,6 +2684,7 @@
 				F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */,
 				F4522CA41FCC1AA50021562D /* Animation.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
+				33079A2A2019E6C000FC59EF /* GTMNSString+HTML.m in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
@@ -2637,6 +2700,7 @@
 				F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */,
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
 				F4431AA31FC6DD2C00311C9A /* PhotoEditor+StickersViewController.swift in Sources */,
+				33079A282019E6C000FC59EF /* DSFavIconManager.m in Sources */,
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
@@ -2695,6 +2759,7 @@
 				2B531A9B2018735A00D646DC /* shareExt.swift in Sources */,
 				2B531AA12018AB8800D646DC /* ASToast.swift in Sources */,
 				2B531A9E2018759D00D646DC /* LoadingView.swift in Sources */,
+				33079A182019E37000FC59EF /* VGMetaDataFetcher.m in Sources */,
 				2B531A9F201875A900D646DC /* KDLoadingView.swift in Sources */,
 				2B531A9D2018740800D646DC /* ShareViewHomeController.swift in Sources */,
 			);
@@ -2752,6 +2817,7 @@
 				F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */,
 				2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
+				33079A192019E37300FC59EF /* VGMetaDataFetcher.m in Sources */,
 				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
 				2BFE0063200F84ED0086DEBF /* FLAnimatedImageView.m in Sources */,
 			);
