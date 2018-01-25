@@ -212,8 +212,7 @@ class APIServiceManager: NSObject {
                 ]
             ]
         }
-        
-        
+
         print(params)
         
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamAPI, Param: params) { (result) in
@@ -227,7 +226,6 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                             stream.selectionType = StreamType.myStream
-                            StreamList.sharedInstance.arrayStream.insert(stream, at: 0)
                             completionHandler(true,"",stream)
                         }
                     }else {

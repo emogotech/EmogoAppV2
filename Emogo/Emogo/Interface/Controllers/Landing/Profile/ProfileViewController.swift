@@ -636,6 +636,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
+            if currentMenu == .stream {
+                cell.lblName.isHidden = true
+            }
             return cell
             
         }

@@ -83,6 +83,15 @@ class StreamListViewController: UIViewController {
         self.configureLandingNavigation()
         menuView.isHidden = true
         self.viewMenu.isHidden = false
+        DispatchQueue.main.async {
+            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if self.arrayToShow.count == 0 {
+                self.lblNoResult.isHidden = false
+            }else {
+                self.lblNoResult.isHidden = true
+            }
+            self.streamCollectionView.reloadData()
+        }
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
         }
@@ -281,7 +290,7 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-        self.streamCollectionView.reloadData()
+      
     }
     
 //

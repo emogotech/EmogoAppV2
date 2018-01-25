@@ -29,6 +29,7 @@ class ProfileStreamCell: UICollectionViewCell {
         }else {
             self.imgCover.contentMode = .scaleAspectFill
             self.cardView.isHidden =  false
+            self.lblName.isHidden = false
             self.imgAdd.isHidden =  true
             //   self.imgCover.backgroundColor = .black
             self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)

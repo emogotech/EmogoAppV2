@@ -365,7 +365,7 @@ public class CropViewController: UIViewController, TOCropViewControllerDelegate 
     }
     
     public override var prefersStatusBarHidden: Bool {
-        return false
+        return true
     }
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {

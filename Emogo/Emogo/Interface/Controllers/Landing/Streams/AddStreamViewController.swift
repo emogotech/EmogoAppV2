@@ -438,10 +438,13 @@ class AddStreamViewController: UITableViewController {
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
-                      self.navigationController?.pop()
+                    currentStreamType = StreamType.myStream
+                    StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if self.isAddContent != nil {
-                        self.associateContentToStream(id: stream.ID)
+                        self.associateContentToStream(id: (stream?.ID)!)
+                    }else {
+                        self.navigationController?.popNormal()
                     }
                 }
             }else {
@@ -457,7 +460,7 @@ class AddStreamViewController: UITableViewController {
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
                 DispatchQueue.main.async{
-                    self.navigationController?.pop()
+                    self.navigationController?.popNormal()
                      NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
                 }
             }else {
@@ -479,6 +482,17 @@ class AddStreamViewController: UITableViewController {
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
                 // Back Screen
+                currentStreamType = StreamType.myStream
+                let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if array.count != 0 {
+                    StreamList.sharedInstance.arrayViewStream = array
+                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                    obj.currentIndex = 0
+                    obj.streamType = currentStreamType.rawValue
+                    ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.popToViewController(vc: obj)
+                }
+            
             }
         }
     }

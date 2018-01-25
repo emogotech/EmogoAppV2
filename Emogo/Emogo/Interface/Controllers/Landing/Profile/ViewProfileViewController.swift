@@ -145,6 +145,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.isExclusiveTouch = true
             let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
+            cell.lblName.isHidden = true
             return cell
     }
     
