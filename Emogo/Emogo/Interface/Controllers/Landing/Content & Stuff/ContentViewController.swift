@@ -775,9 +775,9 @@ class ContentViewController: UIViewController {
             if error == nil {
                 DispatchQueue.main.async { // Correct
                     self.seletedImage.coverImage = imageURL
-                    self.seletedImage.imgPreview = nil
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
+                    self.seletedImage.imgPreview = nil
                 }
             }else {
                 HUDManager.sharedInstance.hideHUD()
