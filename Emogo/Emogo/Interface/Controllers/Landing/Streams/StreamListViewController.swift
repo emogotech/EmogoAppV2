@@ -428,6 +428,11 @@ class StreamListViewController: UIViewController {
             }, completion: nil)
             self.viewMenu.isHidden = false
             isSearch = false
+            if currentStreamType == .People {
+                collectionLayout.columnCount = 3
+            }else {
+                collectionLayout.columnCount = 2
+            }
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if self.arrayToShow.count == 0 {
