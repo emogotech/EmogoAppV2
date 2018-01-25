@@ -106,15 +106,7 @@ class StreamListViewController: UIViewController {
     
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-            kContainerNav = "1"
-            currentTag = 111
-            ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
-            arraySelectedContent = [ContentDAO]()
-            arrayAssests = [ImportDAO]()
-            ContentList.sharedInstance.arrayContent.removeAll()
-            self.navigationController?.push(viewController: obj)
-            SharedData.sharedInstance.deepLinkType = ""
+            self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditStream{
@@ -203,7 +195,7 @@ class StreamListViewController: UIViewController {
         
     }
     
-
+    
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
@@ -573,23 +565,31 @@ class StreamListViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
                 if ((allContents?.count)! > 0){
-                    
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    
-                    for i in 0...(stream?.arrayContent.count)!-1 {
-                        let data : ContentDAO = allContents![i]
-                        print(data.contentID)
-                        print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
-                        if data.contentID ==  currentConytentID {
-                            objPreview.seletedImage = data
-                            objPreview.isEdit = true
-                            self.navigationController?.push(viewController: objPreview)
-                            break
+                  if    SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
+                        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                        
+                        for i in 0...(stream?.arrayContent.count)!-1 {
+                            let data : ContentDAO = allContents![i]
+                            print(data.contentID)
+                            print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
+                            if data.contentID ==  currentConytentID {
+                                objPreview.seletedImage = data
+                                objPreview.isEdit = true
+                                self.navigationController?.push(viewController: objPreview)
+                                break
+                            }
                         }
                     }
-                }
+                    else {
+                        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                        ContentList.sharedInstance.arrayContent = stream?.arrayContent
+                      ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
+                        self.navigationController?.push(viewController: obj)
+                    }
+               }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
+                     SharedData.sharedInstance.deepLinkType = ""
             }
         }
     }
