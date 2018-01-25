@@ -424,7 +424,6 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.prepareLayout()
-                self.imgUser.image = self.imageToUpload
                 self.dismiss(animated: true, completion: nil)
             }else {
                 self.showToast(strMSG: errorMsg!)
