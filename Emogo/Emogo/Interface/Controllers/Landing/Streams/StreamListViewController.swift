@@ -102,7 +102,6 @@ class StreamListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
-        
     }
     
     func checkDeepLinkURL() {
@@ -429,6 +428,15 @@ class StreamListViewController: UIViewController {
             }, completion: nil)
             self.viewMenu.isHidden = false
             isSearch = false
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
+            }
         }else{
             if txtSearch.text?.trim() != "" {
                 btnSearch.tag = 1

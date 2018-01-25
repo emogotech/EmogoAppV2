@@ -348,16 +348,15 @@ class CustomCameraViewController: SwiftyCamViewController {
                 
             }else if obj.type == .video {
                 camera.type = .video
-                obj.tempCopyMediaFile(progressBlock: { (progress) in
-                    print(progress)
-                }, completionBlock: { (url, mimeType) in
+                obj.phAsset?.getURL(completionHandler: { (url) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
                     group.leave()
                 })
+                
             }
         }
         
@@ -445,7 +444,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let camera = ContentDAO(contentData: [:])
         camera.type = .image
-        camera.imgPreview = photo.fixOrientation()
+        camera.imgPreview = photo.scaleAndRotateImage(photo)
         camera.fileName = NSUUID().uuidString + ".png"
         self.updateData(content: camera)
         self.btnCamera.isUserInteractionEnabled = true
