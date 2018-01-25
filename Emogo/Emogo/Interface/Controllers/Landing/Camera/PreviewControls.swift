@@ -22,13 +22,13 @@ extension PreviewController {
         viewController.didExceedMaximumNumberOfSelection = { (picker) in
             //exceed max selection
         }
-        viewController.selectedAssets = []
+        viewController.selectedAssets = [TLPHAsset]()
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
         configure.usedCameraButton = false
-        configure.usedPrefetch = true
+        configure.usedPrefetch = false
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }

@@ -593,6 +593,10 @@ class StreamListViewController: UIViewController {
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
+            
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
                 self.streamCollectionView.es.stopPullToRefresh()
@@ -632,8 +636,12 @@ class StreamListViewController: UIViewController {
         
         APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
             
+            
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
+            }
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
             }
             if type == .up {
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -652,7 +660,12 @@ class StreamListViewController: UIViewController {
                 }
                 self.streamCollectionView.reloadData()
             }
-            self.streamCollectionView.reloadData()
+            
+            self.btnStreamSearch.isUserInteractionEnabled = true
+            self.btnPeopleSearch.isUserInteractionEnabled = false
+            self.viewSearch.isHidden = false
+            self.expandPeopleHeight()
+            
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -717,6 +730,9 @@ class StreamListViewController: UIViewController {
                 if refreshType == .end {
                     self.streamCollectionView.es.noticeNoMoreData()
                 }
+                if type == .start {
+                    HUDManager.sharedInstance.hideHUD()
+                }
                 if type == .up {
                     UIApplication.shared.endIgnoringInteractionEvents()
                     self.streamCollectionView.es.stopPullToRefresh()
@@ -734,7 +750,12 @@ class StreamListViewController: UIViewController {
                     }
                     self.streamCollectionView.reloadData()
                 }
-                self.streamCollectionView.reloadData()
+                
+                self.viewMenu.isHidden = true
+                self.viewSearch.isHidden = false
+                self.btnStreamSearch.isUserInteractionEnabled = false
+                self.btnPeopleSearch.isUserInteractionEnabled = true
+                self.expandStreamHeight()
                 if !(errorMsg?.isEmpty)! {
                     self.showToast(type: .success, strMSG: errorMsg!)
                 }
@@ -742,7 +763,6 @@ class StreamListViewController: UIViewController {
             })
             
         }
-    
         
         
         /*

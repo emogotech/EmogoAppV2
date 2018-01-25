@@ -279,16 +279,17 @@ extension UIViewController {
     }
     
     func showToast(type:AlertType = .success,strMSG:String) {
-        
-        self.view.makeToast(message: strMSG,
-                            duration: TimeInterval(3.0),
-                            position: .top,
-                            image: nil,
-                            backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                            titleColor: UIColor.yellow,
-                            messageColor: UIColor.white,
-                            font: nil)
-    
+        if strMSG != "request failed" {
+            self.view.makeToast(message: strMSG,
+                                duration: TimeInterval(3.0),
+                                position: .top,
+                                image: nil,
+                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                                titleColor: UIColor.yellow,
+                                messageColor: UIColor.white,
+                                font: nil)
+        }
+       
     }
     
     func configureLandingNavigation(){
