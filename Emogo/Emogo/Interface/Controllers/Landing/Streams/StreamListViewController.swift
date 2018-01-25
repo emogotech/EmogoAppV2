@@ -678,10 +678,7 @@ class StreamListViewController: UIViewController {
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
-            
         }
-        
-        
         
         /*
         if type != .up {
@@ -905,37 +902,41 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        if currentStreamType == .People {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-            let people = self.arrayToShow[indexPath.row]
-            cell.prepareData(people:people)
-            return cell
+        if self.isSearch == false {
+            if currentStreamType == .People {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
+                let people = self.arrayToShow[indexPath.row]
+                cell.prepareData(people:people)
+                return cell
+            }else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
+                cell.layer.cornerRadius = 5.0
+                cell.layer.masksToBounds = true
+                cell.isExclusiveTouch = true
+                let stream = self.arrayToShow[indexPath.row]
+                cell.prepareLayouts(stream: stream)
+                return cell
+            }
         }else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
-            cell.layer.cornerRadius = 5.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-            let stream = self.arrayToShow[indexPath.row]
-            cell.prepareLayouts(stream: stream)
-            return cell
+            if isSearch && isTapPeople {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
+                let people = self.arrayToShow[indexPath.row]
+                cell.prepareData(people:people)
+                return cell
+            }
+            else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
+                cell.layer.cornerRadius = 5.0
+                cell.layer.masksToBounds = true
+                cell.isExclusiveTouch = true
+                let stream = self.arrayToShow[indexPath.row]
+                cell.prepareLayouts(stream: stream)
+                return cell
+            }
         }
+
         /*
-        if isSearch && isTapPeople {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
-            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-            cell.prepareData(people:people)
-            return cell
-        }
-        else if isSearch && isTapStream {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamCell, for: indexPath) as! StreamCell
-            cell.layer.cornerRadius = 5.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-            
-            let stream = StreamList.sharedInstance.arrayStream[indexPath.row]
-            cell.prepareLayouts(stream: stream)
-            return cell
-        }
+       
         else if isPeopleList {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
@@ -957,22 +958,27 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        if currentStreamType == .People {
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
+        if self.isSearch == false {
+            if currentStreamType == .People {
+                let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+                return CGSize(width: itemWidth, height: 100)
+            }else {
+                let itemWidth = collectionView.bounds.size.width/2.0
+                return CGSize(width: itemWidth, height: itemWidth - 40)
+            }
         }else {
-            let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
+            if isSearch && isTapPeople {
+                let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+                return CGSize(width: itemWidth, height: 100)
+            }
+            else {
+                let itemWidth = collectionView.bounds.size.width/2.0
+                return CGSize(width: itemWidth, height: itemWidth - 40)
+            }
         }
+      
         /*
-        if isSearch && isTapPeople {
-            let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
-            return CGSize(width: itemWidth, height: 100)
-        }
-        else if isSearch && isTapStream {
-            let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
-        }
+       
         else if isPeopleList {
             let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
             return CGSize(width: itemWidth, height: 100)
@@ -985,32 +991,60 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
     }
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        if currentStreamType == .People {
-            let people = self.arrayToShow[indexPath.row]
-            if (people.userId == UserDAO.sharedInstance.user.userId) {
-                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.addLeftTransitionView(subtype: kCATransitionFromLeft)
-                self.navigationController?.pushViewController(obj, animated: false)
-            }
-            else{
-                let objPeople = PeopleDAO(peopleData: [:])
-                objPeople.fullName = people.fullName
-                objPeople.userId = people.userId
-                objPeople.userImage = people.userImage
-                objPeople.phoneNumber = people.phoneNumber
-                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = objPeople
+        if self.isSearch == false {
+            if currentStreamType == .People {
+                let people = self.arrayToShow[indexPath.row]
+                if (people.userId == UserDAO.sharedInstance.user.userId) {
+                    let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                    self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                    self.navigationController?.pushViewController(obj, animated: false)
+                }
+                else{
+                    let objPeople = PeopleDAO(peopleData: [:])
+                    objPeople.fullName = people.fullName
+                    objPeople.userId = people.userId
+                    objPeople.userImage = people.userImage
+                    objPeople.phoneNumber = people.phoneNumber
+                    let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                    obj.objPeople = objPeople
+                    self.navigationController?.push(viewController: obj)
+                }
+            }else {
+                StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                obj.currentIndex = indexPath.row
+                obj.streamType = currentStreamType.rawValue
+                ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }
         }else {
-             StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = indexPath.row
-            obj.streamType = currentStreamType.rawValue
-            ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
+            if isSearch && isTapPeople {
+                let people = self.arrayToShow[indexPath.row]
+                if (people.userId == UserDAO.sharedInstance.user.userId) {
+                    let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                    self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+                    self.navigationController?.pushViewController(obj, animated: false)
+                }
+                else{
+                    let objPeople = PeopleDAO(peopleData: [:])
+                    objPeople.fullName = people.fullName
+                    objPeople.userId = people.userId
+                    objPeople.userImage = people.userImage
+                    objPeople.phoneNumber = people.phoneNumber
+                    let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                    obj.objPeople = objPeople
+                    self.navigationController?.push(viewController: obj)
+                }
+            }else {
+                StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                obj.currentIndex = indexPath.row
+                obj.streamType = currentStreamType.rawValue
+                ContentList.sharedInstance.objStream = nil
+                self.navigationController?.push(viewController: obj)
+            }
         }
+       
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

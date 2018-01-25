@@ -373,7 +373,6 @@ class AddStreamViewController: UITableViewController {
     }
    
   
-    
     @objc func openFullView(){
         var image:LightboxImage!
         let text = (txtStreamName.text?.trim())! + "\n" +  txtStreamCaption.text.trim()
@@ -576,7 +575,6 @@ extension AddStreamViewController :UITextViewDelegate, UITextFieldDelegate {
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
-        
     }
 }
 
