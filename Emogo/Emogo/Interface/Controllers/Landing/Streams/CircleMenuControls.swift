@@ -197,6 +197,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         configure.maxSelectedAssets = 10
         configure.muteAudio = true
         configure.usedCameraButton = false
+        configure.usedPrefetch = false
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }
