@@ -176,11 +176,6 @@ class MessagesViewController: MSMessagesAppViewController {
     
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         if(presentationStyle == .expanded) {
-//            if self.view.frame.size.width > self.view.frame.size.height {
-//                SharedData.sharedInstance.isPortrate = false
-//            }else{
-//                SharedData.sharedInstance.isPortrate = true
-//            }
             SharedData.sharedInstance.isMessageWindowExpand = true
         }
         else {
@@ -219,9 +214,9 @@ class MessagesViewController: MSMessagesAppViewController {
                         SharedData.sharedInstance.iMessageNavigationCurrentStreamID = splitArr[2]
                       SharedData.sharedInstance.contentData = ContentDAO.init(contentData: streamData)
                 }else{
+                        SharedData.sharedInstance.iMessageNavigationCurrentStreamID = ""
                        SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
                 }
-              
             }
             
             if SharedData.sharedInstance.tempViewController == nil {
