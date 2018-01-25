@@ -219,16 +219,15 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                     self.updateData(content: camera)
                     group.leave()
                 }else {
-                    
-                    obj.cloudImageDownload(progressBlock: { (progress) in
-                        
-                    }, completionBlock: { (image) in
+
+                    obj.phAsset?.getOrigianlImage(handler: { (image) in
                         if let img = image {
                             camera.imgPreview = img
                             self.updateData(content: camera)
                         }
                         group.leave()
                     })
+                   
                 }
                 
             }else if obj.type == .video {
@@ -241,7 +240,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                     }
                     group.leave()
                 })
-               
+                
             }
         }
         group.notify(queue: .main, execute: {

@@ -521,6 +521,66 @@ class APIServiceManager: NSObject {
             
         }
     }
+    
+    
+    func apiForGetMyProfileStreamList(type:RefreshType,filter:StreamType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        
+        if type == .start || type == .up{
+            StreamList.sharedInstance.requestURl = "stream?self_created=True"
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                               
+                                    if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
+                                        // it exists, do something
+                                    } else {
+                                        StreamList.sharedInstance.arrayMyStream.append(stream)
+                                    }
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURl = ""
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+                                
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURl = obj as! String
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                                
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    
     // MARK: - People List API
     func apiForViewStream(streamID:String,completionHandler:@escaping (_ stream:StreamViewDAO?, _ strError:String?)->Void){
         let url = kStreamViewAPI + "\(streamID)/"

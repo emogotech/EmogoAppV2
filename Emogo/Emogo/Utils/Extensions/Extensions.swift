@@ -781,6 +781,26 @@ extension PHAsset {
             })
         }
     }
+    
+    
+    func getOrigianlImage(handler:@escaping (_ image:UIImage?)->Void){
+        
+        let options = PHImageRequestOptions()
+        options.isSynchronous = true
+        options.resizeMode = .none
+        options.isNetworkAccessAllowed = false
+        options.version = .current
+        
+        _ = PHCachingImageManager().requestImageData(for: self, options: options) { (imageData, dataUTI, orientation, info) in
+            if let data = imageData {
+                let image = UIImage(data: data)
+                handler(image)
+            }
+        }
+        
+    }
+    
+    
 }
 
 
