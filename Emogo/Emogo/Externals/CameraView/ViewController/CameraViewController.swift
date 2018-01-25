@@ -285,6 +285,7 @@ open class CameraViewController: UIViewController {
      */
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.hideStatusBar()
         cameraView.startSession()
         addCameraObserver()
         addRotateObserver()
@@ -307,6 +308,7 @@ open class CameraViewController: UIViewController {
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.showStatusBar()
         NotificationCenter.default.removeObserver(self)
         volumeControl = nil
     }
