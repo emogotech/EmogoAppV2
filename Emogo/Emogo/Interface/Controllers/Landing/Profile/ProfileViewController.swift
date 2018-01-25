@@ -191,19 +191,22 @@ class ProfileViewController: UIViewController {
     
     func updateProfileImage(){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let action1 = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
+        let actionRemove = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
             HUDManager.sharedInstance.showHUD()
         
             self.profileUpdate(strURL: "")
         }
-        let action2 = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
+        let actionUpdate = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
             self.profilepicUpload()
         }
-        let action3 = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
+        let actionCancel = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
         }
-        alert.addAction(action2)
-        alert.addAction(action1)
-        alert.addAction(action3)
+        
+        alert.addAction(actionUpdate)
+        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+            alert.addAction(actionRemove)
+        }
+        alert.addAction(actionCancel)
 
         present(alert, animated: true, completion: nil)
     }
@@ -421,6 +424,7 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.prepareLayout()
+                self.imgUser.image = self.imageToUpload
                 self.dismiss(animated: true, completion: nil)
             }else {
                 self.showToast(strMSG: errorMsg!)
@@ -443,7 +447,7 @@ class ProfileViewController: UIViewController {
     
     func setCoverImage(image:UIImage) {
         self.imageToUpload = image
-        self.imgUser.image = image
+//        self.imgUser.image = image
         self.fileName =  NSUUID().uuidString + ".png"
         self.uploadProfileImage()
     }
