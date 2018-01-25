@@ -185,8 +185,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :param kwargs: dict param
         :return: Get Stream detail API.
         """
-
-        instance = self.get_object()
+        #  Developer overwrite the self.get_object() method because any one can see content Detail
+        instance = Content.actives.get(id=kwargs.get('pk'))
         self.serializer_class = ViewContentSerializer
         serializer = self.get_serializer(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
