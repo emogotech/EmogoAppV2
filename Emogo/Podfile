@@ -29,6 +29,8 @@ target 'Emogo' do
     pod 'XLActionController'
     pod 'CropViewController'
     pod "GSKStretchyHeaderView"
+pod 'SwiftLinkPreview'
+
     
     target 'EmogoTests' do
         inherit! :search_paths
