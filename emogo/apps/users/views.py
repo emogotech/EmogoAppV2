@@ -133,33 +133,6 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get_queryset(self):
-        """
-        Get the list of items for this view.
-        This must be an iterable, and may be a queryset.
-        Defaults to using `self.queryset`.
-
-        This method should always be used rather than accessing `self.queryset`
-        directly, as `self.queryset` gets evaluated only once, and those results
-        are cached for all subsequent requests.
-
-        You may want to override this if you need to provide different
-        querysets depending on the incoming request.
-
-        (Eg. return a list of items that is specific to the user)
-        """
-        assert self.queryset is not None, (
-            "'%s' should either include a `queryset` attribute, "
-            "or override the `get_queryset()` method."
-            % self.__class__.__name__
-        )
-
-        queryset = self.queryset.exclude(user=self.request.user)
-        if isinstance(queryset, QuerySet):
-            # Ensure queryset is re-evaluated on each request.
-            queryset = queryset.all()
-        return queryset
-
     def get(self, request, *args, **kwargs):
         if kwargs.get('pk') is not None:
             return self.retrieve(self, request, *args, **kwargs)
@@ -185,6 +158,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.exclude(user=self.request.user)
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
         page = self.paginate_queryset(queryset)
