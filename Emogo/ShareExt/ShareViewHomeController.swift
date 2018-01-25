@@ -87,29 +87,51 @@ class ShareViewHomeController: UIViewController {
                     if itemProvider?.hasItemConformingToTypeIdentifier(urlType) == true {
                         itemProvider?.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) -> Void in
                             if error == nil {
-                                if let url = item as? NSURL {
-                                    Readability.parse(url: url as URL, completion: { data in
-                                        if data != nil {
-                                            let title = data?.title
-                                          let description = data?.description
-                                            if let topImage = data?.topImage {
-                                                self.imgLink.setImageWithURL(strImage: topImage, placeholder: "stream-card-placeholder")
-                                                
-                                                self.dictData["name"] = title
-                                                self.dictData["description"] = description
-                                                self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
-                                                self.dictData["type"] = "link"
-                                                self.dictData["isUploaded"] = "false"
-                                                self.dictData["coverImageVideo"] = topImage
+                                if let url = item as? URL {
+                                        url.fetchPageInfo({ (title, description, previewImage) -> Void in
+                                            if let title = title {
+                                                DispatchQueue.main.async {
+                                                    self.lblTitle.text = title
+                                                    self.lblLink.text = (item as? NSURL)?.absoluteString!
+                                                }
                                             }
-                                            DispatchQueue.main.async {
-                                                self.lblTitle.text = title
-                                                self.lblDesc.text = description
-                                                self.lblLink.text = (item as? NSURL)?.absoluteString!
+                                            if let description = description {
+                                                DispatchQueue.main.async {
+                                                    self.lblDesc.text = description
+                                                    self.lblLink.text = (item as? NSURL)?.absoluteString!
+                                                    self.imgLink.contentMode  = .scaleAspectFill
+                                                }
+                                            }
+                                            if let imageUrl = previewImage {
+                                                self.imgLink.setImageWithURL(strImage: imageUrl, placeholder: "stream-card-placeholder")
+                                                self.hudView.stopLoaderWithAnimation()
+                                                self.imgLink.contentMode = .scaleToFill
+                                                self.dictData["coverImageVideo"] = imageUrl
+                                            } else {
+                                                let linkURL = (item as? NSURL)?.absoluteString!
+                                                let s2DelAll2 = linkURL?.components(separatedBy: "https://").joined(separator: "")
+
+                                                let myURLString = "https://www.google.com/s2/favicons?domain="+s2DelAll2!
+                                                let url = URL(string:myURLString)
+                                                if let data = try? Data(contentsOf: url!)
+                                                {
+                                                    let image: UIImage = UIImage(data: data)!
+                                                    self.imgLink.image = image
+                                                    self.imgLink.contentMode  = .center
+                                                }
+                                                self.dictData["coverImageVideo"] = url
                                                 self.hudView.stopLoaderWithAnimation()
                                             }
-                                        }
-                                    })
+                                            self.dictData["name"] = title
+                                            self.dictData["description"] = description
+                                            self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
+                                            self.dictData["type"] = "link"
+                                            self.dictData["isUploaded"] = "false"
+                                            
+                                        }, failure: { (errorMessage) -> Void in
+                                            self.hudView.stopLoaderWithAnimation()
+                                            print(errorMessage)
+                                        })
                                 }
                             }else{
                                 DispatchQueue.main.async {
@@ -121,6 +143,26 @@ class ShareViewHomeController: UIViewController {
                     
                 }
             }
+        }
+    }
+    
+    // helper for loading image
+    func getDataFromUrl(_ url:URL, completion: @escaping ((_ data: Data?, _ response: URLResponse?, _ error: Error? ) -> Void)) {
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+            completion(data, response, error)
+        }).resume()
+    }
+    
+    func downloadImage(_ url: URL, imageView: UIImageView){
+        print("Download Started")
+        print("lastPathComponent: " + url.lastPathComponent)
+        getDataFromUrl(url) { (data, response, error)  in
+            DispatchQueue.main.async(execute: {
+                guard let data = data , error == nil else { return }
+                print(response?.suggestedFilename ?? "")
+                print("Download Finished")
+                imageView.image = UIImage(data: data)
+            })
         }
     }
     
@@ -148,8 +190,8 @@ class ShareViewHomeController: UIViewController {
     @IBAction func btnActionShare(_ sender: Any) {
         if MFMessageComposeViewController.canSendAttachments(){
             let composeVC = MFMessageComposeViewController()
-            composeVC.recipients = []
             composeVC.message = composeMessage()
+            composeVC.recipients = ["9090909090"]
             composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
         }
@@ -211,16 +253,19 @@ class ShareViewHomeController: UIViewController {
     }
     
     func composeMessage() -> MSMessage {
-        let session = MSSession()
-        let message = MSMessage(session: session)
-        let layout = MSMessageTemplateLayout()
         
-        layout.caption = "txtTitleImage.text!"
-        layout.subcaption = "txtDescription.text"
-        message.layout = layout
+            let session = MSSession()
+            let message = MSMessage(session: session)
+            let layout = MSMessageTemplateLayout()
+            layout.caption = lblTitle.text!
+            layout.image  = imgLink.image
+            layout.subcaption = lblDesc.text!
+            message.layout = layout
+            message.url = URL(string: "Content/0000/0000")
         
         return message
     }
+    
 }
 
 extension ShareViewHomeController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
