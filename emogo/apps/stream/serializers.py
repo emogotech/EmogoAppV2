@@ -7,6 +7,7 @@ from rest_framework import serializers
 import itertools
 from django.db import transaction
 from emogo.constants import messages
+import datetime
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -334,6 +335,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :param kwargs: validated data
         :return: save serializer data
         """
+        self.initial_data['contents'].update(upd=datetime.datetime.now())
         for stream in self.initial_data.get('streams'):
             map(self.add_content_to_stream, self.initial_data.get('contents'),
                                 itertools.repeat(stream, self.initial_data.get('contents').__len__()))
