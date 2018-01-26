@@ -48,7 +48,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             currentContentIndex = currentContentIndex - 1
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
-        ContentList.sharedInstance.arrayContent = arrContentData
+//        ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
         
     }
@@ -312,7 +312,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
                     self.hudView.stopLoaderWithAnimation()
                     if isSuccess == true {
-                        ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+//                        ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
                         self.arrContentData.remove(at: self.currentContentIndex)
                         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
                         if(self.arrContentData.count == 0){
