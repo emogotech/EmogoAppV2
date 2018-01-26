@@ -25,7 +25,7 @@
         <!--Share View Home Controller-->
         <scene sceneID="ceB-am-kn3">
             <objects>
-                <viewController id="j1y-V4-xli" customClass="ShareViewHomeController" customModule="EmogoShare" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareViewHomeController" id="j1y-V4-xli" customClass="ShareViewHomeController" customModule="EmogoShare" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="wbc-yd-nQP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

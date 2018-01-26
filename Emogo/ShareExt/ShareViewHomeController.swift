@@ -21,7 +21,7 @@ class ShareViewHomeController: UIViewController {
     @IBOutlet weak var imgLink : UIImageView!
     @IBOutlet weak var viewContainer : UIView!
     @IBOutlet weak var viewLogin : UIView!
-     var hudView  : LoadingView!
+    var hudView  : LoadingView!
     var dictData : Dictionary = [String:Any]()
     
     override func viewDidLoad() {
@@ -32,9 +32,10 @@ class ShareViewHomeController: UIViewController {
         self.lblLink.text = ""
         
         let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-        
+    
         if defaultUser?.bool(forKey: "userloggedin") == true {
             setupLoader()
+            self.navigationController?.navigationBar.isHidden  = true
             viewLogin.isHidden = true
         }
         else {
@@ -72,72 +73,97 @@ class ShareViewHomeController: UIViewController {
     }
     
     @objc func closeAfter(){
-        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+        })
+    }
+    
+    func hideExtensionWithCompletionHandler(completion:@escaping (Bool) -> Void) {
+        UIView.animate(withDuration: 0.20, animations: {
+            self.navigationController!.view.transform = CGAffineTransform(translationX: 0, y: self.navigationController!.view.frame.size.height)
+        }, completion: completion)
     }
     
     private func fetchAndSetContentFromContext() {
-        let items = extensionContext?.inputItems
-        var itemProvider: NSItemProvider?
-        if items != nil && items!.isEmpty == false {
-            let item = items![0] as! NSExtensionItem
-            if let attachments = item.attachments {
-                for attachment in attachments {
-                    itemProvider = attachment as? NSItemProvider
-                    let urlType = kUTTypeURL as NSString  as String
-                    if itemProvider?.hasItemConformingToTypeIdentifier(urlType) == true {
-                        itemProvider?.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) -> Void in
-                            if error == nil {
-                                if let url = item as? URL {
-                                    
-                                    let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
-                                    slp.preview(url.absoluteString,
-                                                onSuccess: { result in
-                                                    let title = result[SwiftLinkResponseKey.title]
-                                                    let description = result[SwiftLinkResponseKey.description]
-                                                    let imageUrl = result[SwiftLinkResponseKey.image]
-                                                    
-                                                    if let title = title {
-                                                        DispatchQueue.main.async {
-                                                            self.lblTitle.text = title as? String
-                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
-                                                        }
-                                                    }
-                                                    if let description = description {
-                                                        DispatchQueue.main.async {
-                                                            self.lblDesc.text = description as? String
-                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
-                                                            self.imgLink.contentMode  = .scaleAspectFill
-                                                        }
-                                                    }
-                                                    if let imageUrl = imageUrl {
-                                                        self.imgLink.setImageWithURL(strImage: imageUrl as! String, placeholder: "stream-card-placeholder")
-                                                        self.hudView.stopLoaderWithAnimation()
-                                                        self.imgLink.contentMode = .scaleToFill
-                                                        self.dictData["coverImageVideo"] = imageUrl
-                                                    }
-                                                    self.dictData["name"] = title
-                                                    self.dictData["description"] = description
-                                                    self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
-                                                    self.dictData["type"] = "link"
-                                                    self.dictData["isUploaded"] = "false"
-                                    },
-                                                onError: {
-                                                    error in print("\(error)")
-                                                    self.hudView.stopLoaderWithAnimation()
-                                                    self.showToastIMsg(strMSG: error.localizedDescription )
-                                                    
-                                    })
-                                }
-                            }else{
+        let extensionItem = extensionContext?.inputItems.first as! NSExtensionItem
+        let itemProvider = extensionItem.attachments?.first as! NSItemProvider
+        let propertyList = String(kUTTypePropertyList)
+        if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
+            itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
+                guard let dictionary = item as? NSDictionary else { return }
+                OperationQueue.main.addOperation {
+                    if let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
+                        let urlString = results["URL"] as? String,
+                        let url = NSURL(string: urlString) {
+                        print("URL retrieved: \(urlString)")
+                        self.getData(url: url as URL!)
+                    }
+                }
+            })
+        } else {
+            print("error")
+        }
+    }
+
+    func getData(url : URL!){
+        if let url = url  {
+            let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
+            slp.preview(url.absoluteString,
+                        onSuccess: { result in
+                            let title = result[SwiftLinkResponseKey.title]
+                            let description = result[SwiftLinkResponseKey.description]
+                            let imageUrl = result[SwiftLinkResponseKey.image]
+                            if let title = title {
                                 DispatchQueue.main.async {
-                                    self.hudView.stopLoaderWithAnimation()
+                                    self.lblTitle.text = title as? String
+                                    self.lblLink.text = url.absoluteString
                                 }
                             }
-                        }
-                    }
-                    
-                }
-            }
+                            if let description = description {
+                                DispatchQueue.main.async {
+                                    self.lblDesc.text = description as? String
+                                    self.lblLink.text = url.absoluteString
+                                    self.imgLink.contentMode  = .scaleAspectFit
+                                }
+                            }
+                            if let imageUrl = imageUrl {
+                                let url = URL(string: imageUrl as! String)
+                                
+                                if url != nil {
+                                URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                                    if error != nil {
+                                        print(error!)
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        let img = UIImage(data: data!)
+                                        self.imgLink.image = img
+                                        self.imgLink.contentMode = .scaleAspectFit
+                                    }
+                                }).resume()
+                                      self.dictData["coverImageVideo"] = imageUrl
+                                }else{
+                                    self.dictData["coverImageVideo"] = ""
+                                }
+                              
+                            
+                            }
+                            self.dictData["name"] = title
+                            self.dictData["description"] = description
+                            self.dictData["coverImage"] = url.absoluteString
+                            self.dictData["type"] = "link"
+                            self.dictData["isUploaded"] = "false"
+                            DispatchQueue.main.async {
+                                    self.hudView.stopLoaderWithAnimation()
+                            }
+            },
+                        onError: {
+                            error in print("\(error)")
+                            self.hudView.stopLoaderWithAnimation()
+                            self.showToastIMsg(strMSG: error.localizedDescription )
+                            
+            })
         }
     }
     
@@ -148,38 +174,14 @@ class ShareViewHomeController: UIViewController {
         }).resume()
     }
     
-    func downloadImage(_ url: URL, imageView: UIImageView){
-        print("Download Started")
-        print("lastPathComponent: " + url.lastPathComponent)
-        getDataFromUrl(url) { (data, response, error)  in
-            DispatchQueue.main.async(execute: {
-                guard let data = data , error == nil else { return }
-                print(response?.suggestedFilename ?? "")
-                print("Download Finished")
-                imageView.image = UIImage(data: data)
-            })
-        }
-    }
-    
-    func downloadImage(url:String,handler:@escaping (_ image: UIImage?)-> Void){
-        if url.trimStr().isEmpty  {
-            handler(nil)
-            return
-        }
-        let imageURL = URL(string: url.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        
-        let imgView = UIImageView()
-        imgView.sd_setImage(with: imageURL) { (image, _, _, _) in
-            handler(image)
-        }
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     @IBAction func btnCancleAction(_ sender:UIButton) {
-        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+        })
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
@@ -187,7 +189,7 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "shareWithMessage")
         self.presentAppViewWithDeepLink(strURL: str!)
         self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -197,9 +199,9 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
         self.presentAppViewWithDeepLink(strURL: str!)
-          self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
     
     @IBAction func btnPostAction(_ sender: UIButton) {
@@ -207,7 +209,7 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
         self.presentAppViewWithDeepLink(strURL: str!)
         self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -227,7 +229,7 @@ class ShareViewHomeController: UIViewController {
         }
     }
     
-    func createURLWithComponentsForStream(userInfo: Dictionary<String, Any>) -> String? {
+    func createURLWithComponentsForStream(userInfo: Dictionary<String, Any>,typeNavigation:String!) -> String? {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "Emogo";
         urlComponents.host = "emogo"
@@ -243,20 +245,20 @@ class ShareViewHomeController: UIViewController {
         let height = URLQueryItem(name: "height", value: "200" )
         let width = URLQueryItem(name: "width", value: "200")
         urlComponents.queryItems = [name, description, coverImage, type,isUploaded,coverImageVideo,height,width]
-        let strURl = "\(urlComponents.url!)/addContentFromShare"
+        let strURl = "\(urlComponents.url!)/"+typeNavigation
         return strURl
     }
     
     func composeMessage() -> MSMessage {
         
-            let session = MSSession()
-            let message = MSMessage(session: session)
-            let layout = MSMessageTemplateLayout()
-            layout.caption = lblTitle.text!
-            layout.image  = imgLink.image
-            layout.subcaption = lblDesc.text!
-            message.layout = layout
-            message.url = URL(string: "Content/0000/0000")
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        layout.caption = lblTitle.text!
+        layout.image  = imgLink.image
+        layout.subcaption = lblDesc.text!
+        message.layout = layout
+        message.url = URL(string: "Content/0000/0000")
         
         return message
     }
