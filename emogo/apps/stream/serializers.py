@@ -117,16 +117,18 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         :param stream: Stream object
         :return: Save Collaborator  object
         """
-        collaborator, created = Collaborator.objects.get_or_create(
-            phone_number=data.get('phone_number'),
-            stream=stream
-        )
-        collaborator.name = data.get('name')
-        collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
-        collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
-        collaborator.created_by = self.context.get('request').user
-        collaborator.save()
-        return collaborator
+        if str(data.get('phone_number')) not in str(self.context.get('request').user) :
+            collaborator, created = Collaborator.objects.get_or_create(
+                phone_number=data.get('phone_number'),
+                stream=stream
+            )
+            collaborator.name = data.get('name')
+            collaborator.can_add_content = self.initial_data.get('collaborator_permission').get('can_add_content')
+            collaborator.can_add_people = self.initial_data.get('collaborator_permission').get('can_add_people')
+            collaborator.created_by = self.context.get('request').user
+            collaborator.save()
+            return collaborator
+        return False
 
     def create_content(self, stream):
         """
