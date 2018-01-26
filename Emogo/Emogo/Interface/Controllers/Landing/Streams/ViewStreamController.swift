@@ -394,7 +394,16 @@ class ViewStreamController: UIViewController {
                     self.navigationItem.rightBarButtonItem = btnRightBar
                 }
             }else {
-                self.showToast(type: .success, strMSG: errorMsg!)
+                if errorMsg == "404" {
+                    self.showToast(type: .success, strMSG: kAlert_Stream_Deleted)
+                    let when = DispatchTime.now() + 1.5
+                    DispatchQueue.main.asyncAfter(deadline: when) {
+            
+                        self.navigationController?.popNormal()
+                    }
+                }else {
+                    self.showToast(type: .success, strMSG: errorMsg!)
+                }
             }
         }
     }
