@@ -11,6 +11,7 @@ import Social
 import MobileCoreServices
 import Messages
 import MessageUI
+import SwiftLinkPreview
 
 class ShareViewHomeController: UIViewController {
     
@@ -87,50 +88,45 @@ class ShareViewHomeController: UIViewController {
                         itemProvider?.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) -> Void in
                             if error == nil {
                                 if let url = item as? URL {
-                                        url.fetchPageInfo({ (title, description, previewImage) -> Void in
-                                            if let title = title {
-                                                DispatchQueue.main.async {
-                                                    self.lblTitle.text = title
-                                                    self.lblLink.text = (item as? NSURL)?.absoluteString!
-                                                }
-                                            }
-                                            if let description = description {
-                                                DispatchQueue.main.async {
-                                                    self.lblDesc.text = description
-                                                    self.lblLink.text = (item as? NSURL)?.absoluteString!
-                                                    self.imgLink.contentMode  = .scaleAspectFill
-                                                }
-                                            }
-                                            if let imageUrl = previewImage {
-                                                self.imgLink.setImageWithURL(strImage: imageUrl, placeholder: "stream-card-placeholder")
-                                                self.hudView.stopLoaderWithAnimation()
-                                                self.imgLink.contentMode = .scaleToFill
-                                                self.dictData["coverImageVideo"] = imageUrl
-                                            } else {
-                                                let linkURL = (item as? NSURL)?.absoluteString!
-                                                let s2DelAll2 = linkURL?.components(separatedBy: "https://").joined(separator: "")
-
-                                                let myURLString = "https://www.google.com/s2/favicons?domain="+s2DelAll2!
-                                                let url = URL(string:myURLString)
-                                                if let data = try? Data(contentsOf: url!)
-                                                {
-                                                    let image: UIImage = UIImage(data: data)!
-                                                    self.imgLink.image = image
-                                                    self.imgLink.contentMode  = .center
-                                                }
-                                                self.dictData["coverImageVideo"] = url
-                                                self.hudView.stopLoaderWithAnimation()
-                                            }
-                                            self.dictData["name"] = title
-                                            self.dictData["description"] = description
-                                            self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
-                                            self.dictData["type"] = "link"
-                                            self.dictData["isUploaded"] = "false"
-                                            
-                                        }, failure: { (errorMessage) -> Void in
-                                            self.hudView.stopLoaderWithAnimation()
-                                            print(errorMessage)
-                                        })
+                                    
+                                    let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
+                                    slp.preview(url.absoluteString,
+                                                onSuccess: { result in
+                                                    let title = result[SwiftLinkResponseKey.title]
+                                                    let description = result[SwiftLinkResponseKey.description]
+                                                    let imageUrl = result[SwiftLinkResponseKey.image]
+                                                    
+                                                    if let title = title {
+                                                        DispatchQueue.main.async {
+                                                            self.lblTitle.text = title as? String
+                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
+                                                        }
+                                                    }
+                                                    if let description = description {
+                                                        DispatchQueue.main.async {
+                                                            self.lblDesc.text = description as? String
+                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
+                                                            self.imgLink.contentMode  = .scaleAspectFill
+                                                        }
+                                                    }
+                                                    if let imageUrl = imageUrl {
+                                                        self.imgLink.setImageWithURL(strImage: imageUrl as! String, placeholder: "stream-card-placeholder")
+                                                        self.hudView.stopLoaderWithAnimation()
+                                                        self.imgLink.contentMode = .scaleToFill
+                                                        self.dictData["coverImageVideo"] = imageUrl
+                                                    }
+                                                    self.dictData["name"] = title
+                                                    self.dictData["description"] = description
+                                                    self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
+                                                    self.dictData["type"] = "link"
+                                                    self.dictData["isUploaded"] = "false"
+                                    },
+                                                onError: {
+                                                    error in print("\(error)")
+                                                    self.hudView.stopLoaderWithAnimation()
+                                                    self.showToastIMsg(strMSG: error.localizedDescription )
+                                                    
+                                    })
                                 }
                             }else{
                                 DispatchQueue.main.async {

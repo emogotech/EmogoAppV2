@@ -780,13 +780,17 @@ class HomeViewController: MSMessagesAppViewController {
     func getContenData(){
         APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
             //            if error == nil {
+            if !(error?.isEmpty)! {
+                self.showToastIMsg(type: .success, strMSG: error!)
+                return
+            }
             let objContent = ContentDAO.init(contentData: dict!)
             let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
             obj.arrContentData = [objContent]
             obj.currentContentIndex  = 0
             obj.currentStreamTitle = ""
             self.present(obj, animated: false, completion: nil)
-            //            }
+    
         }
     }
     
