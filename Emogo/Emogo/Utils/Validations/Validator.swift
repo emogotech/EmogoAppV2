@@ -231,7 +231,6 @@ extension String {
         return result
     }
     
-    
     func findUrl() -> String {
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))

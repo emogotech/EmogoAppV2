@@ -160,6 +160,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.currentIndex = indexPath.row
         obj.streamType = currentStreamType.rawValue
+        obj.viewStream = "View"
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
         

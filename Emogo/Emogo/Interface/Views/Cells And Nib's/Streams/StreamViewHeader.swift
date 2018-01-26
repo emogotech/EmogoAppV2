@@ -89,7 +89,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
-            self.lblDescription.numberOfLines = 4
+            self.lblDescription.numberOfLines = 0
             self.lblDescription.sizeToFit()
         }else {
             self.lblDescription.numberOfLines = 2

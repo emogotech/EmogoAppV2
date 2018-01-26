@@ -159,8 +159,6 @@ class ProfileViewController: UIViewController {
     }
     
     
-    
-    
     // MARK: -  Action Methods And Selector
     
     
@@ -670,11 +668,13 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 btnActionForAddContent()
             }else {
                 isEdited = true
-                let array = ContentList.sharedInstance.arrayContent.filter { $0.isAdd == false }
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
-                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                objPreview.currentIndex = indexPath.row - 1
-                self.navigationController?.push(viewController: objPreview)
+                if ContentList.sharedInstance.arrayContent.count != 0 {
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    objPreview.currentIndex = indexPath.row - 1
+                    self.navigationController?.push(viewController: objPreview)
+                }
             }
         }else {
             let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]

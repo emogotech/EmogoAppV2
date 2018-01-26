@@ -80,7 +80,7 @@ class LinkViewController: UIViewController {
             return
         }
             
-        if let smartUrl = txtLink.text?.smartURL() {
+        if let smartUrl = txtLink.text?.trim().smartURL() {
             if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
                 HUDManager.sharedInstance.showHUD()
                 let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
