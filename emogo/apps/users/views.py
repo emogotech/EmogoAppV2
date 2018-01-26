@@ -261,8 +261,8 @@ class UserCollaborators(ListAPIView):
             "or override the `get_queryset()` method."
             % self.__class__.__name__
         )
-
-        streams = [x.stream.id for x in Collaborator.actives.filter(stream__status='Active') if not str(self.request.user.username).find(x.phone_number) == -1]
+        collaborator_qs = Collaborator.actives.filter(stream__status='Active')
+        streams = [x.stream.id for x in collaborator_qs if str(x.phone_number) in str(self.request.user.username) ]
         queryset = self.queryset
         if isinstance(queryset, QuerySet):
             # Ensure queryset is re-evaluated on each request.
