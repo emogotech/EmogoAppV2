@@ -339,6 +339,7 @@
 		F4FFF912201A07CE00680571 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF906201A07CD00680571 /* TLPhotosPickerViewController.swift */; };
 		F4FFF913201A07CE00680571 /* TLPhotosPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF907201A07CD00680571 /* TLPhotosPickerViewController.xib */; };
 		F4FFF914201A07CE00680571 /* TLPhotoPickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF908201A07CE00680571 /* TLPhotoPickerController.bundle */; };
+		FC44FDD5201BB4E1001F2C33 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44FDD4201BB4E1001F2C33 /* SwiftyRecordButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -725,6 +726,8 @@
 		F4FFF906201A07CD00680571 /* TLPhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotosPickerViewController.swift; sourceTree = "<group>"; };
 		F4FFF907201A07CD00680571 /* TLPhotosPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotosPickerViewController.xib; sourceTree = "<group>"; };
 		F4FFF908201A07CE00680571 /* TLPhotoPickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TLPhotoPickerController.bundle; sourceTree = "<group>"; };
+		FC44FDD4201BB4E1001F2C33 /* SwiftyRecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyRecordButton.swift; sourceTree = "<group>"; };
+		FC44FDD6201BB4EF001F2C33 /* SwiftyCam-iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftyCam-iOS.h"; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1714,6 +1717,8 @@
 		F4522CA01FCBFBF90021562D /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				FC44FDD6201BB4EF001F2C33 /* SwiftyCam-iOS.h */,
+				FC44FDD4201BB4E1001F2C33 /* SwiftyRecordButton.swift */,
 				F463DAD0200DE69C0039A58A /* CustomCameraViewController.swift */,
 				F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */,
 				F42864311FC4A12500E3549D /* PreviewController.swift */,
@@ -2516,6 +2521,7 @@
 				F4431A9F1FC6DD2C00311C9A /* PhotoEditor+Drawing.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
+				FC44FDD5201BB4E1001F2C33 /* SwiftyRecordButton.swift in Sources */,
 				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
 				F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */,

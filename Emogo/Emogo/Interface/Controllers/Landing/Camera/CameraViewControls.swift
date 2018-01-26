@@ -88,20 +88,20 @@ extension CustomCameraViewController {
     
     // MARK: - Record Button Status
 
-    func recordButtonTapped(isShow:Bool){
-        isCaptureMode = false
-        self.btnGallery.isHidden = isShow
-        self.btnRecording.isHidden = isShow
-        self.btnFlash.isHidden = isShow
-        self.btnShutter.isHidden = isShow
-        self.btnTimer.isHidden = isShow
-        if isShow == true {
-            self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
-        }else {
-            self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
-            isCaptureMode = true
-        }
-    }
+//    func recordButtonTapped(isShow:Bool){
+//        isCaptureMode = false
+//        self.btnGallery.isHidden = isShow
+//        self.btnRecording.isHidden = isShow
+//        self.btnFlash.isHidden = isShow
+//        self.btnShutter.isHidden = isShow
+//        self.btnTimer.isHidden = isShow
+//        if isShow == true {
+//            self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
+//        }else {
+//            self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
+//            isCaptureMode = true
+//        }
+//    }
     
     // MARK: -  Update Buttons
 
