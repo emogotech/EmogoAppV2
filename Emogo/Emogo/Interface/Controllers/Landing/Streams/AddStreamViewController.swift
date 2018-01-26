@@ -504,14 +504,15 @@ class AddStreamViewController: UITableViewController {
     }
     
     func associateContentToStream(id:String){
-        if ContentList.sharedInstance.arrayContent.count != 0 {
+        if  ContentList.sharedInstance.arrayToCreate.count != 0 {
             HUDManager.sharedInstance.showProgress()
-            let array = ContentList.sharedInstance.arrayContent
+            let array = ContentList.sharedInstance.arrayToCreate
             AWSRequestManager.sharedInstance.associateContentToStream(streamID: [id], contents: array!, completion: { (isScuccess, errorMSG) in
                 HUDManager.sharedInstance.hideProgress()
                 if (errorMSG?.isEmpty)! {
                 }
             })
+            ContentList.sharedInstance.arrayToCreate.removeAll()
             ContentList.sharedInstance.arrayContent.removeAll()
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {

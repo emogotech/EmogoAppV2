@@ -49,6 +49,7 @@ class MyStreamViewController: UIViewController {
     func prepareLayouts(){
         
         // Attach datasource and delegate
+        
         self.configureStrechyHeader()
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
@@ -71,6 +72,12 @@ class MyStreamViewController: UIViewController {
           self.getMyStreams(type:.start,filter: .myStream)
         // Load More
         configureLoadMoreAndRefresh()
+        ContentList.sharedInstance.arrayToCreate.removeAll()
+        if objContent == nil {
+            ContentList.sharedInstance.arrayToCreate = ContentList.sharedInstance.arrayContent
+        }else{
+            ContentList.sharedInstance.arrayToCreate.insert(objContent, at: 0)
+        }
     }
     
     func configureStrechyHeader(){
@@ -78,9 +85,9 @@ class MyStreamViewController: UIViewController {
         self.stretchyHeader = nibViews?.first as! MyStreamHeaderView
         self.myStreamCollectionView.addSubview(self.stretchyHeader)
         if self.objContent != nil {
-            self.stretchyHeader.prepareLayout(contents: [self.objContent])
+            self.stretchyHeader.prepareLayout(contents: ContentList.sharedInstance.arrayToCreate)
         }else {
-            self.stretchyHeader.prepareLayout(contents: ContentList.sharedInstance.arrayContent)
+            self.stretchyHeader.prepareLayout(contents: ContentList.sharedInstance.arrayToCreate)
         }
         self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
         self.stretchyHeader.sliderDelegate = self
@@ -124,13 +131,8 @@ class MyStreamViewController: UIViewController {
     // MARK: - Class Methods
     func openFullView(index:Int){
         var arrayContents = [LightboxImage]()
-        var arrayTemp = [ContentDAO]()
-        if objContent == nil {
-            arrayTemp = ContentList.sharedInstance.arrayContent
-        }else{
-            arrayTemp.append(objContent)
-        }
-        for obj in arrayTemp {
+       
+        for obj in  ContentList.sharedInstance.arrayToCreate {
             var image:LightboxImage!
             let text = obj.name.trim() + "\n" +  obj.description.trim()
             if obj.type == .image {
@@ -208,7 +210,7 @@ class MyStreamViewController: UIViewController {
     func associateContentToStream(id:[String]){
         if self.objContent != nil {
          HUDManager.sharedInstance.showHUD()
-            AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: [self.objContent], completion: { (isScuccess, errorMSG) in
+            AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: ContentList.sharedInstance.arrayToCreate, completion: { (isScuccess, errorMSG) in
               HUDManager.sharedInstance.hideHUD()
                 if (errorMSG?.isEmpty)! {
                     self.navigationController?.pop()
@@ -218,7 +220,7 @@ class MyStreamViewController: UIViewController {
         }else {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()
-                let array = ContentList.sharedInstance.arrayContent
+                let array = ContentList.sharedInstance.arrayToCreate
                 AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
                     if (errorMSG?.isEmpty)! {
                         
@@ -230,7 +232,7 @@ class MyStreamViewController: UIViewController {
                     let objStream = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
                     self.navigationController?.popToViewController(vc: objStream)
                 }
-                
+                ContentList.sharedInstance.arrayToCreate.removeAll()
                 ContentList.sharedInstance.arrayContent.removeAll()
             }
         }
