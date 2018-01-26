@@ -36,34 +36,23 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     
     // MARK: - Varibales
-    var arrayStreams                            = [StreamDAO]()
     var hudView                                 : LoadingView!
     var hudRefreshView                          : LoadingView!
     var lastIndex                               : Int = 10
     var refresher                               : UIRefreshControl?
     var footerView                              : HomeCollectionReusableView?
-//    var streamType                              : StreamType!
     var paging                                  : Int = 1;
     var currentIndex                            : Int = 1
-    var fectchingStreamData                     : Bool = false
+    var fectchingStreamData                     : Bool = true
     var heightPeople                            : NSLayoutConstraint?
     var heightStream                            : NSLayoutConstraint?
-    
     var isStreamEnable                          : Bool = true
     var isSearch                                    : Bool = false
     var isLoadCall                                : Bool = false
-    //    var collectionFrame                         : CGRect?
     var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//    var collectionLayout = CHTCollectionViewWaterfallLayout()
-    
-    
     var arrayToShow = [StreamDAO]()
-
-    
-    
     
     fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
-    
     fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     
     // MARK:- Life-cycle methods
@@ -94,16 +83,16 @@ class HomeViewController: MSMessagesAppViewController {
             if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
                 self.getContenData()
             }else{
-                 self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
+                self.getStream(streamID: SharedData.sharedInstance.iMessageNavigationCurrentStreamID)
             }
-           
+            
         }
     }
     
     @objc func reloadStreamData(){
         if !isSearch {
             
-//            self.getStreamList(type:.start,filter:self.streamType)
+            //            self.getStreamList(type:.start,filter:self.streamType)
             self.changePager()
         }
     }
@@ -123,18 +112,18 @@ class HomeViewController: MSMessagesAppViewController {
         self.searchView.clipsToBounds = true
         
         currentStreamType =  StreamType.featured
-
         
         
-//        streamType = StreamType.featured
-//        self.getStreamList(type:.start,filter:.featured)
+        
+        //        streamType = StreamType.featured
+        //        self.getStreamList(type:.start,filter:.featured)
         self.collectionStream.register(UINib(nibName: iMgsSegue_HomeCollectionReusableV, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: iMgsSegue_HomeCollectionReusableV)
         
         btnStreamSearch.isUserInteractionEnabled = false
         btnPeopleSearch.isUserInteractionEnabled = true
         
         viewCollections.isHidden = true
-//        streamType  = StreamType.featured
+        //        streamType  = StreamType.featured
     }
     
     // MARK:- LoaderSetup
@@ -245,7 +234,7 @@ class HomeViewController: MSMessagesAppViewController {
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
-
+                
             }
         }
         else {
@@ -262,7 +251,7 @@ class HomeViewController: MSMessagesAppViewController {
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
-
+                
             }
         }
         
@@ -367,42 +356,24 @@ class HomeViewController: MSMessagesAppViewController {
     
     @objc func pullToDownAction() {
         
-        if (isSearch == true && !isStreamEnable){
-            if PeopleList.sharedInstance.arrayPeople.count > 0 {
-                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
-                SharedData.sharedInstance.nextStreamString = ""
-                self.hudRefreshView.startLoaderWithAnimation()
-                self.collectionStream.isUserInteractionEnabled = false
-                getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .start)
-            }
-        }
-        else if (isSearch == true &&  isStreamEnable){
-            
-            if arrayStreams.count > 0 {
-                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
-                SharedData.sharedInstance.nextStreamString = ""
-                self.hudRefreshView.startLoaderWithAnimation()
-                self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .start)
-            }
-            
-        }
-        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-            if PeopleList.sharedInstance.arrayPeople.count > 0 {
-                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
-                SharedData.sharedInstance.nextStreamString = ""
-                self.hudRefreshView.startLoaderWithAnimation()
-                self.collectionStream.isUserInteractionEnabled = false
+        self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
+        SharedData.sharedInstance.nextStreamString = ""
+        self.hudRefreshView.startLoaderWithAnimation()
+        self.collectionStream.isUserInteractionEnabled = false
+        
+        if self.isSearch == false {
+            if currentStreamType == .People {
                 self.getUsersList(type: .up)
+            }else {
+                self.getStreamList(type: .up, filter: currentStreamType)
             }
         }
-        else  {
-            
-            if arrayStreams.count > 0 {
-                self.refresher?.frame = CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100)
-                SharedData.sharedInstance.nextStreamString = ""
-                hudRefreshView.startLoaderWithAnimation()
-                self.collectionStream.isUserInteractionEnabled = false
-//                self.getStreamList(type:.up,filter:self.streamType)
+        else {
+            if isSearch && !isStreamEnable {
+                self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
+            }
+            else {
+                self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
             }
         }
     }
@@ -429,17 +400,15 @@ class HomeViewController: MSMessagesAppViewController {
         
         self.setupCollectionProperties()
         self.setupRefreshLoader()
-      
+        
         
         if (isSearch  && !isStreamEnable){
-            self.arrayStreams.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             StreamList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.requestURl = ""
             self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
         }
         else if (isSearch  &&  isStreamEnable){
-            self.arrayStreams.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             StreamList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.requestURl = ""
@@ -489,7 +458,6 @@ class HomeViewController: MSMessagesAppViewController {
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                     lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                     
-                    self.arrayStreams.removeAll()
                     PeopleList.sharedInstance.arrayPeople.removeAll()
                     collectionStream.reloadData()
                     self.collectionStream.isHidden = true
@@ -503,7 +471,6 @@ class HomeViewController: MSMessagesAppViewController {
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                     self.btnStreamSearch.isUserInteractionEnabled = false
                     self.btnPeopleSearch.isUserInteractionEnabled = true
-                    self.arrayStreams.removeAll()
                     PeopleList.sharedInstance.arrayPeople.removeAll()
                     collectionStream.reloadData()
                     self.collectionStream.isHidden = true
@@ -525,15 +492,19 @@ class HomeViewController: MSMessagesAppViewController {
             self.viewCollections.isHidden = true
             SharedData.sharedInstance.isMoreContentAvailable = false
             PeopleList.sharedInstance.requestURl = ""
-            self.arrayStreams.removeAll()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
-//            if btnFeature.titleLabel?.text == "PEOPLE" {
-////                self.getUsersList(type: .start)
-//            }else{
-////                self.getStreamList(type: .start, filter: streamType)
-//            }
-            
+            //            if btnFeature.titleLabel?.text == "PEOPLE" {
+            ////                self.getUsersList(type: .start)
+            //            }else{
+            ////                self.getStreamList(type: .start, filter: streamType)
+            //            }
+            DispatchQueue.main.async {
+                self.collectionStream.isHidden = false
+                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
+                self.setupCollectionProperties()
+                self.collectionStream.reloadData()
+            }
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if self.arrayToShow.count == 0 {
@@ -543,9 +514,9 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 self.collectionStream.reloadData()
             }
-
             
-
+            
+            
         }
     }
     
@@ -582,7 +553,6 @@ class HomeViewController: MSMessagesAppViewController {
             lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.hudView.startLoaderWithAnimation()
-            self.arrayStreams.removeAll()
             self.isStreamEnable = true
             self.isSearch = true
             PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -599,7 +569,6 @@ class HomeViewController: MSMessagesAppViewController {
             lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
-            self.arrayStreams.removeAll()
             self.collectionStream.isHidden = true
             self.isStreamEnable = false
             self.isSearch = true
@@ -654,9 +623,6 @@ class HomeViewController: MSMessagesAppViewController {
                 self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
-            if self.arrayStreams.count == 0 {
-                self.lblNoResult.isHidden = false
-            }
         }
     }
     
@@ -665,7 +631,7 @@ class HomeViewController: MSMessagesAppViewController {
     func getTopStreamList() {
         self.hudView.startLoaderWithAnimation()
         APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
-        self.hudView.stopLoaderWithAnimation()
+            self.hudView.stopLoaderWithAnimation()
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
@@ -678,9 +644,9 @@ class HomeViewController: MSMessagesAppViewController {
                     }
                     self.collectionStream.reloadData()
                 }
-            }else {
+            } else {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
-
+                
             }
         }
     }
@@ -693,28 +659,33 @@ class HomeViewController: MSMessagesAppViewController {
             return
         }
         
+        
         if Reachability.isNetworkAvailable() {
-            if type == .start {
-                StreamList.sharedInstance.arrayStream.removeAll()
-                self.collectionStream.reloadData()
-                self.hudView.startLoaderWithAnimation()
+            
+            if type == .start || type == .up {
+                for _ in StreamList.sharedInstance.arrayStream {
+                    if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                        StreamList.sharedInstance.arrayStream.remove(at: index)
+                        print("Removed")
+                    }
+                }
             }
-            else if  type == .up {
-                StreamList.sharedInstance.arrayStream.removeAll()
-                self.collectionStream.reloadData()
-            }
+            
             APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
                 
                 self.streaminputDataType(type: type)
                 self.lblNoResult.isHidden = true
+                
                 if StreamList.sharedInstance.arrayStream.count == 0 {
                     self.lblNoResult.isHidden = false
                 }
+                if refreshType == .end {
+                    self.fectchingStreamData = false
+                }else{
+                    self.fectchingStreamData = true
+                }
                 
-           
                 
-                self.arrayStreams = StreamList.sharedInstance.arrayStream!
-         
                 DispatchQueue.main.async {
                     self.collectionStream.isHidden = false
                     self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
@@ -736,7 +707,7 @@ class HomeViewController: MSMessagesAppViewController {
                     }
                     self.collectionStream.reloadData()
                 }
-
+                
                 
                 if !(errorMsg?.isEmpty)! {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -763,7 +734,7 @@ class HomeViewController: MSMessagesAppViewController {
                     else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
                         
                         if SharedData.sharedInstance.iMessageNavigationCurrentStreamID == "" {
-                           
+                            
                         } else{
                             var arrayTempStream  = [StreamDAO]()
                             var streamDatas  = [String:Any]()
@@ -808,14 +779,14 @@ class HomeViewController: MSMessagesAppViewController {
     
     func getContenData(){
         APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
-//            if error == nil {
+            //            if error == nil {
             let objContent = ContentDAO.init(contentData: dict!)
             let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
             obj.arrContentData = [objContent]
             obj.currentContentIndex  = 0
             obj.currentStreamTitle = ""
             self.present(obj, animated: false, completion: nil)
-//            }
+            //            }
         }
     }
     
@@ -823,18 +794,30 @@ class HomeViewController: MSMessagesAppViewController {
         lblNoResult.text = kAlert_No_User_Record_Found
         if SharedData.sharedInstance.iMessageNavigation == "" {
             if Reachability.isNetworkAvailable() {
-                if type == .start {
-                    self.hudView.startLoaderWithAnimation()
+                
+                if type == .up {
+                    for _ in StreamList.sharedInstance.arrayStream {
+                        if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                            StreamList.sharedInstance.arrayStream.remove(at: index)
+                            print("Removed")
+                        }
+                    }
                 }
-                else if  type == .up {
-                }
-                 PeopleList.sharedInstance.arrayPeople.removeAll()
-                self.arrayStreams.removeAll()
                 self.collectionStream.reloadData()
-                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type, deviceType: .iMessage) { (refreshType, errorMsg) in
+                APIServiceManager.sharedInstance.apiForGetPeopleList(type:type, deviceType: .iPhone) { (refreshType, errorMsg) in
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
                     self.collectionStream.isHidden = false
+                    
+                    if self.hudRefreshView != nil {
+                        self.hudRefreshView.stopLoaderWithAnimation()
+                    }
+                    if refreshType == .end {
+                        self.fectchingStreamData = false
+                    }else{
+                        self.fectchingStreamData = true
+                    }
+                    
                     if PeopleList.sharedInstance.arrayPeople.count == 0 {
                         self.lblNoResult.isHidden = false
                     }
@@ -870,11 +853,23 @@ class HomeViewController: MSMessagesAppViewController {
         StreamList.sharedInstance.arrayMyStream.removeAll()
         self.arrayToShow.removeAll()
         self.collectionStream.reloadData()
-
+        
         APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
             if self.hudView != nil {
                 self.hudView.stopLoaderWithAnimation()
             }
+            
+            if self.hudRefreshView != nil {
+                self.hudRefreshView.stopLoaderWithAnimation()
+            }
+            
+            if refreshType == .end {
+                self.fectchingStreamData = false
+            }else{
+                self.fectchingStreamData = true
+            }
+            
+            
             if !(errorMsg?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 return
@@ -910,6 +905,17 @@ class HomeViewController: MSMessagesAppViewController {
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
                 }
+                
+                if self.hudRefreshView != nil {
+                    self.hudRefreshView.stopLoaderWithAnimation()
+                }
+                
+                if refreshType == .end {
+                    self.fectchingStreamData = false
+                }else{
+                    self.fectchingStreamData = true
+                }
+                
                 if !(errorMsg?.isEmpty)! {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     return
@@ -936,12 +942,6 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func streaminputDataType(type:RefreshType) {
-        if(SharedData.sharedInstance.isMoreContentAvailable || (PeopleList.sharedInstance.requestURl != "")){
-            self.fectchingStreamData = true
-        }
-        else {
-            self.fectchingStreamData = false
-        }
         if(type == .down) {
             self.footerView?.loadingView.stopLoaderWithAnimation()
         }
@@ -964,47 +964,36 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         return 1
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-//
-//        if (isSearch == true && !isStreamEnable){
-//            let itemWidth = collectionView.bounds.size.width/3.0
-//            return CGSize(width: itemWidth, height: itemWidth+20)
-//        }
-//        else if (isSearch == true &&  isStreamEnable){
-//            let itemWidth = collectionView.bounds.size.width/2.0
-//            if SharedData.sharedInstance.isPortrate {
-//                return CGSize(width: itemWidth, height: itemWidth - 35)
-//            }else{
-//                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
-//            }
-//
-//        }
-//        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-//            let itemWidth = collectionView.bounds.size.width/3.0
-//            return CGSize(width: itemWidth, height: itemWidth+20)
-//        }  else  {
-//            let itemWidth = collectionView.bounds.size.width/2.0
-//            if SharedData.sharedInstance.isPortrate {
-//                return CGSize(width: itemWidth, height: itemWidth - 35)
-//            }else{
-//                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
-//            }
-//        }
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    //
+    //        if (isSearch == true && !isStreamEnable){
+    //            let itemWidth = collectionView.bounds.size.width/3.0
+    //            return CGSize(width: itemWidth, height: itemWidth+20)
+    //        }
+    //        else if (isSearch == true &&  isStreamEnable){
+    //            let itemWidth = collectionView.bounds.size.width/2.0
+    //            if SharedData.sharedInstance.isPortrate {
+    //                return CGSize(width: itemWidth, height: itemWidth - 35)
+    //            }else{
+    //                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+    //            }
+    //
+    //        }
+    //        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
+    //            let itemWidth = collectionView.bounds.size.width/3.0
+    //            return CGSize(width: itemWidth, height: itemWidth+20)
+    //        }  else  {
+    //            let itemWidth = collectionView.bounds.size.width/2.0
+    //            if SharedData.sharedInstance.isPortrate {
+    //                return CGSize(width: itemWidth, height: itemWidth - 35)
+    //            }else{
+    //                return CGSize(width: itemWidth, height: (itemWidth / 2+10))
+    //            }
+    //        }
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.arrayToShow.count
-
-        if (isSearch == true && !isStreamEnable){
-            return   PeopleList.sharedInstance.arrayPeople.count
-        }    else if (isSearch == true &&  isStreamEnable){
-            return self.arrayStreams.count
-        }
-        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-            return   PeopleList.sharedInstance.arrayPeople.count
-        }  else  {
-            return self.arrayStreams.count
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -1024,7 +1013,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                 (cell as! HomeCollectionViewCell).btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
                 (cell as! HomeCollectionViewCell).btnShare.tag = indexPath.row
                 (cell as! HomeCollectionViewCell).btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
-           }
+            }
         }
         else {
             if isSearch && !isStreamEnable {
@@ -1043,35 +1032,6 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                 (cell as! HomeCollectionViewCell).btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
             }
         }
-        
-//        if (isSearch == true && !isStreamEnable){
-//
-//        }
-//        else if (isSearch == true &&  isStreamEnable){
-//            cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
-//            let stream = self.arrayStreams[indexPath.row]
-//            (cell as! HomeCollectionViewCell).prepareLayouts(stream: stream)
-//            (cell as! HomeCollectionViewCell).imgStream.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnView.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
-//            (cell as! HomeCollectionViewCell).btnShare.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
-//        }
-//        else  if (btnFeature.titleLabel?.text == "PEOPLE"){
-//            cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollectionPeople, for: indexPath) as! PeopleSearchCollectionViewCell
-//            let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
-//            (cell as! PeopleSearchCollectionViewCell).prepareData(people:people)
-//        }  else  {
-//            cell  = collectionStream.dequeueReusableCell(withReuseIdentifier: iMsgSegue_HomeCollection, for: indexPath) as! HomeCollectionViewCell
-//            let stream = self.arrayStreams[indexPath.row]
-//            (cell as! HomeCollectionViewCell).prepareLayouts(stream: stream)
-//            (cell as! HomeCollectionViewCell).imgStream.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnView.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnView.addTarget(self, action: #selector(self.btnViewAction(_:)), for: UIControlEvents.touchUpInside)
-//            (cell as! HomeCollectionViewCell).btnShare.tag = indexPath.row
-//            (cell as! HomeCollectionViewCell).btnShare.addTarget(self, action: #selector(self.btnShareAction(_:)), for: UIControlEvents.touchUpInside)
-//        }
-        
         return cell
     }
     
@@ -1109,8 +1069,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     @objc func btnViewAction(_ sender:UIButton) {
         let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
         self.addRippleTransition()
-//        StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-
+        //        StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+        
         obj.arrStream = self.arrayToShow
         
         obj.currentStreamIndex = sender.tag
@@ -1122,7 +1082,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         if(SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
-        let stream = self.arrayStreams[sender.tag]
+        let stream = self.arrayToShow[sender.tag]
         self.sendMessage(content: stream, sender: sender.tag)
     }
     
@@ -1154,10 +1114,10 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                         return
                     }
                 }
-
+                
             }else {
                 self.changeCellImageAnimation(indexPath.row)
-
+                
             }
         }
         else {
@@ -1170,11 +1130,11 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
                         return
                     }
                 }
-
+                
             }
             else {
                 self.changeCellImageAnimation(indexPath.row)
-
+                
             }
         }
         
@@ -1228,21 +1188,19 @@ extension HomeViewController : UITextFieldDelegate {
                 self.btnStreamSearch.isUserInteractionEnabled = true
                 self.btnPeopleSearch.isUserInteractionEnabled = false
                 PeopleList.sharedInstance.arrayPeople.removeAll()
-                self.arrayStreams.removeAll()
                 collectionStream.reloadData()
                 StreamList.sharedInstance.requestURl = ""
                 PeopleList.sharedInstance.requestURl = ""
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
-//                self.setupCollectionProperties()
+                //                self.setupCollectionProperties()
                 self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             }else{
                 isStreamEnable = true
                 lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
                 PeopleList.sharedInstance.arrayPeople.removeAll()
-                self.arrayStreams.removeAll()
                 collectionStream.reloadData()
                 StreamList.sharedInstance.requestURl = ""
                 PeopleList.sharedInstance.requestURl = ""
@@ -1313,6 +1271,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         return cell
     }
     
+    
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
@@ -1325,42 +1284,30 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 0:
                 lastIndex = index
-                
                 currentStreamType  =  StreamType.populer
-
-//                self.streamType = StreamType.populer
-
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                //                self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 1:
                 lastIndex = index
-//                self.streamType = StreamType.myStream
                 currentStreamType =  StreamType.myStream
-
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-            
                 break
                 
             case 2:
                 lastIndex = index
-                
                 currentStreamType =  StreamType.featured
-            
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                
-
-//                self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 3:
                 lastIndex = index
-                
                 currentStreamType = StreamType.emogoStreams
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-            
-//                self.getStreamList(type: .start, filter: self.streamType)
                 break
                 
             case 4:
@@ -1369,70 +1316,57 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 5:
                 lastIndex = index
-                
-                
                 currentStreamType = StreamType.People
-                
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-
-//                self.getUsersList(type: .start)
                 break
                 
             default :
                 break
             }
+            
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(index, pagerView: pagerView)
             })
+            
         }
         pagerView.scrollToItem(at: index, animated: true)
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
+        
         if(lastIndex != pagerView.currentIndex) {
-            
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
             
-            
             switch  pagerView.currentIndex {
             case 0:
                 lastIndex = pagerView.currentIndex
-                
                 currentStreamType  =  StreamType.populer
-                //cell = UICollectionViewCell
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                self.collectionStream.reloadData()
-
                 break
                 
             case 1:
                 lastIndex = pagerView.currentIndex
-    
                 currentStreamType =  StreamType.myStream
-            
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                
                 break
                 
             case 2:
                 lastIndex = pagerView.currentIndex
-                
                 currentStreamType =  StreamType.featured
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                
                 break
                 
             case 3:
                 lastIndex = pagerView.currentIndex
-                
-            
                 currentStreamType = StreamType.emogoStreams
-
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
-                
-        
                 break
                 
             case 4:
@@ -1442,6 +1376,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 5:
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.People
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
                 break
                 
@@ -1455,18 +1390,18 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         }
     }
     
-    func changePager(){
+    func changePager() {
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
             if self.arrayToShow.count == 0 {
                 self.lblNoResult.isHidden = false
-            }else {
+            }
+            else {
                 self.lblNoResult.isHidden = true
             }
             self.setupCollectionProperties()
             self.collectionStream.reloadData()
         }
-
     }
     
     func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView) {
@@ -1522,7 +1457,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 case 5:
                     self.lastIndex = index
                     let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
-                    let userInfo = PeopleList.sharedInstance.arrayPeople[selectedIndex]
+                    let userInfo = self.arrayToShow[selectedIndex]
                     let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
                     SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
                     break
@@ -1539,7 +1474,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func createURLWithComponents(userInfo: PeopleDAO, urlString:String) -> String? {
+    func createURLWithComponents(userInfo: StreamDAO, urlString:String) -> String? {
         // create "https://api.nasa.gov/planetary/apod" URL using NSURLComponents
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "Emogo";
@@ -1575,12 +1510,8 @@ extension HomeViewController : UIScrollViewDelegate {
         triggerThreshold   =  min(triggerThreshold, 0.0)
         let pullRatio  = min(fabs(triggerThreshold),1.0)
         if pullRatio >= 1 {
-            if !isSearch {
-                if(SharedData.sharedInstance.isMoreContentAvailable || (PeopleList.sharedInstance.requestURl != nil)){
-                    self.footerView?.loadingView.isHidden = false
-                }else{
-                    self.footerView?.loadingView.isHidden = true
-                }
+            if self.fectchingStreamData {
+                self.footerView?.loadingView.isHidden = false
             }
         }
     }
@@ -1592,23 +1523,25 @@ extension HomeViewController : UIScrollViewDelegate {
         let frameHeight = scrollView.bounds.size.height;
         let pullHeight  = fabs(diffHeight - frameHeight);
         if pullHeight < 1.0 {
-            if(SharedData.sharedInstance.isMoreContentAvailable || (PeopleList.sharedInstance.requestURl != "")){
-                DispatchQueue.main.async {
-                    self.footerView?.loadingView.isHidden = false
-                    self.footerView?.loadingView.startLoaderWithAnimation()
-                    self.collectionStream.reloadData()
-                }
-                if (isSearch && !isStreamEnable){
-//                    getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
-                }
-                else if (isSearch && isStreamEnable){
-//                    self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type:  .down)
-                }
-                else if btnFeature.titleLabel?.text == kSearchType {
-//                    self.getUsersList(type: .down)
+            if self.fectchingStreamData {
+                self.footerView?.loadingView.isHidden = false
+                self.footerView?.loadingView.startLoaderWithAnimation()
+                self.collectionStream.reloadData()
+                if self.isSearch == false {
+                    if currentStreamType == .People {
+                        self.getUsersList(type: .down)
+                    }else {
+                        self.getStreamList(type: .down, filter: currentStreamType)
+                    }
                 }
                 else {
-//                    self.getStreamList(type:.down,filter:self.streamType)
+                    if isSearch && !isStreamEnable {
+                        self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
+                    }
+                    else {
+                        self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
+                        
+                    }
                 }
             }
         }

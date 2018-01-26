@@ -80,6 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.getInfoFormURLAddToStream(url: url)
                 return setTypeOfViewController(objType: kDeepLinkTypeShareAddContent)
             }
+            else if splitArr.last == kDeepLinkTypeShareMessage as String {
+                self.getInfoFormURLAddToStream(url: url)
+                return setTypeOfViewController(objType: kDeepLinkTypeShareMessage)
+            }
             
             return false
         }
@@ -102,6 +106,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if objType == kDeepLinkTypeShareAddContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareAddContent
         }
+        else if objType == kDeepLinkTypeShareMessage {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareMessage
+        }
+        
         self.prepareViewController()
 
         return true
@@ -122,38 +130,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func getInfoFormURLAddToStream(url:URL){
-
-        
-//        if let obj  = contentData["name"] {
-//            self.name = obj as! String
-//        }
-//        if let obj  = contentData["type"] {
-//            let strType:String = obj as! String
-//            if strType.trim().lowercased() == "picture"{
-//                self.type = .image
-//            }else if strType.lowercased() == "video" {
-//                self.type = .video
-//            }else if strType.lowercased() == "link"{
-//                self.type = .link
-//            }else {
-//                self.type = .gif
-//            }
-//            if let obj  = contentData["url"] {
-//                self.coverImage = obj as! String
-//            }
-//            if let obj  = contentData["id"] {
-//                self.contentID = "\(obj)"
-//            }
-//            if let obj  = contentData["description"] {
-//                self.description = obj as! String
-//            }
-//            if let obj  = contentData["created_by"] {
-//                self.createdBy = "\(obj)"
-//            }
-//            if let obj  = contentData["video_image"] {
-//                self.coverImageVideo = obj as! String
-//            }
-        
         
         var dictData : Dictionary = [String:Any]()
         dictData["name"] = url.valueOf("name")
@@ -169,16 +145,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         content.isUploaded = false
         
         print(SharedData.sharedInstance.contentList.arrayContent)
+        SharedData.sharedInstance.contentList.arrayContent.removeAll()
         SharedData.sharedInstance.contentList.arrayContent.append(content)
         print(SharedData.sharedInstance.contentList.arrayContent)
     }
     
     private func prepareViewController() {
-         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-        self.window = UIWindow(frame:  UIScreen.main.bounds)
-        let navigation = UINavigationController(rootViewController: objHome)
-        self.window?.rootViewController = navigation
-        self.window?.makeKeyAndVisible()
+        if kDefault?.bool(forKey: kUserLogggedIn) == true {
+            let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+            self.window = UIWindow(frame:  UIScreen.main.bounds)
+            let navigation = UINavigationController(rootViewController: objHome)
+            self.window?.rootViewController = navigation
+            self.window?.makeKeyAndVisible()
+        }
     }
     
     // MARK: - Initialize

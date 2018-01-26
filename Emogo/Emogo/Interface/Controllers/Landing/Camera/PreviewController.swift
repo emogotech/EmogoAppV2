@@ -89,10 +89,23 @@ class PreviewController: UIViewController {
        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+        
             ContentList.sharedInstance.objStream = nil
             SharedData.sharedInstance.contentList.objStream = nil
-        SharedData.sharedInstance.deepLinkType = ""
+            self.preparePreview(index: 0)
         
+            let conten = ContentList.sharedInstance.arrayContent[0]
+            conten.name = self.txtTitleImage.text?.trim()
+            conten.description = self.txtDescription.text.trim()
+        
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(conten)
+            let arrayC = [String]()
+            let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
+            AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
+            self.showToast(strMSG: "Please while wait content is upload...")
+        self.btnDone.isHidden = true
         }
         
         for obj in  ContentList.sharedInstance.arrayContent {
@@ -172,9 +185,14 @@ class PreviewController: UIViewController {
             self.btnShareAction.isHidden = true
         }
         self.imgPreview.contentMode = .scaleAspectFit
-//        if ContentList.sharedInstance.arrayContent.count > 0 {
-//            self.isPreviewOpen = true
-//        }
+        
+        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            self.btnAddStream.isHidden = false
+            self.btnEdit.isHidden = true
+            self.btnDelete.isHidden = true
+            self.btnDone.isHidden = true
+            SharedData.sharedInstance.deepLinkType = ""
+        }
     }
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){

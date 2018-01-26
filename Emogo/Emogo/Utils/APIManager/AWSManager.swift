@@ -311,6 +311,8 @@ class AWSRequestManager:NSObject {
           print("contents Uploaded----->\(arrayContentToCreate.count)")
             if arrayContentToCreate.count == array.count {
                 self.createContent(StreamID: StreamID, array: arrayContentToCreate)
+            }else{
+                 AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             }
         }
     }
@@ -325,6 +327,7 @@ class AWSRequestManager:NSObject {
         print(arrayParams)
         APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "",width:0,height:0) { (contents, errorMsg) in
             if (errorMsg?.isEmpty)! {
+                SharedData.sharedInstance.contentList.arrayContent = contents
                 self.completed()
                 if StreamID.count != 0 {
                     self.associateContentToStream(streamID: StreamID, contents: contents!, completion: { (success, errorMsg) in
@@ -334,6 +337,8 @@ class AWSRequestManager:NSObject {
                     self.showToast(strMSG: kAlert_Content_Added)
                 }
             }
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+
         }
     }
     
