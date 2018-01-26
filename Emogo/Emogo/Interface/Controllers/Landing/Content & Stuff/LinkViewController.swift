@@ -78,6 +78,9 @@ class LinkViewController: UIViewController {
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
             return
+        }else if  (txtLink.text?.trim().checkUrlExists())! {
+            self.showToast(strMSG: "Enter valid url.")
+            return
         }
             
         if let smartUrl = txtLink.text?.trim().smartURL() {

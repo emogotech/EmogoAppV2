@@ -50,7 +50,6 @@ class MyStreamViewController: UIViewController {
         
         // Attach datasource and delegate
         
-        self.configureStrechyHeader()
         self.myStreamCollectionView.dataSource  = self
         self.myStreamCollectionView.delegate = self
         
@@ -78,6 +77,8 @@ class MyStreamViewController: UIViewController {
         }else{
             ContentList.sharedInstance.arrayToCreate.insert(objContent, at: 0)
         }
+        self.configureStrechyHeader()
+
     }
     
     func configureStrechyHeader(){

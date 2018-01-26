@@ -180,6 +180,7 @@ class PreviewController: UIViewController {
        if ContentList.sharedInstance.objStream != nil {
         self.btnDone.isHidden = true
         }
+        self.btnShareAction.isHidden = false
         if self.seletedImage.isUploaded  == false{
             self.btnShareAction.isHidden = true
         }
@@ -350,7 +351,10 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-        shareSticker()
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        obj.retakeIndex = self.selectedIndex
+        self.navigationController?.popToViewController(vc: obj)
+       // shareSticker()
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)

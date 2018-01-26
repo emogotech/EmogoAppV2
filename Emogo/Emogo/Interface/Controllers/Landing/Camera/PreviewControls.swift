@@ -184,6 +184,7 @@ extension PreviewController:PhotoEditorDelegate
         // the edited image
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         seletedImage.imgPreview = image
+        seletedImage.fileName = NSUUID().uuidString + ".png"
         seletedImage.isUploaded = false
         ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
         self.preparePreview(index: selectedIndex)

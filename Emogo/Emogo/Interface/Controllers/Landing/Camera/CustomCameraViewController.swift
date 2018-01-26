@@ -39,6 +39,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     var beepSound: Sound?
     let interactor = PMInteractor()
     var selectedAssets = [TLPHAsset]()
+    var retakeIndex:Int?
     
     // MARK: - Override Functions
     
@@ -149,6 +150,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         if ContentList.sharedInstance.arrayContent.count == 0 {
             self.btnShutter.isHidden = true
+            self.btnPreviewOpen.isHidden = true
+            kPreviewHeight.constant = 24.0
         }else {
             self.btnShutter.isHidden = false
         }
