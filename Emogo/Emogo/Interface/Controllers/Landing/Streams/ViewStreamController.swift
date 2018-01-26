@@ -351,20 +351,16 @@ class ViewStreamController: UIViewController {
             if index != nil {
                 startIndex = index! - 1
             }
-            let controller = LightboxController(images: arrayContents, startIndex: startIndex)
-            controller.dynamicBackground = true
-            if arrayContents.count != 0 {
-                present(controller, animated: true, completion: nil)
-            }
         }else {
             if index != nil {
                 startIndex = index!
             }
-            let controller = LightboxController(images: arrayContents, startIndex: startIndex)
-            controller.dynamicBackground = true
-            if arrayContents.count != 0 {
-                present(controller, animated: true, completion: nil)
-            }
+        }
+        
+        let controller = LightboxController(images: arrayContents, startIndex: startIndex)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
         }
         
     }
@@ -486,6 +482,7 @@ class ViewStreamController: UIViewController {
     }
     
     func btnImportAction(){
+       
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets
             self?.preparePreview(assets: assets)
@@ -539,7 +536,7 @@ class ViewStreamController: UIViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
@@ -625,17 +622,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
             btnActionForAddContent()
-            /*
-            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-                kContainerNav = "1"
-                currentTag = 111
-            ContentList.sharedInstance.objStream = self.objStream?.streamID
-             arraySelectedContent = [ContentDAO]()
-             arrayAssests = [ImportDAO]()
-            ContentList.sharedInstance.arrayContent.removeAll()
-            self.navigationController?.push(viewController: obj)
-            //self.navigationController?.push(viewController: obj)
- */
+    
         }else {
             ContentList.sharedInstance.arrayContent.removeAll()
              let array = objStream?.arrayContent.filter { $0.isAdd == false }

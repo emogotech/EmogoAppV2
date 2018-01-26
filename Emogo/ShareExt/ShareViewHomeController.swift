@@ -11,7 +11,6 @@ import Social
 import MobileCoreServices
 import Messages
 import MessageUI
-import ReadabilityKit
 
 class ShareViewHomeController: UIViewController {
     

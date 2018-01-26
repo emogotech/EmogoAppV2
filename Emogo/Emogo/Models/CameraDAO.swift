@@ -61,6 +61,8 @@ class ContentList{
     var arrayContent:[ContentDAO]!
     var arrayStuff:[ContentDAO]!
     var arrayLink:[ContentDAO]!
+    var arrayToCreate:[ContentDAO]!
+
     var objStream:String?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
@@ -74,6 +76,7 @@ class ContentList{
         arrayContent = [ContentDAO]()
         arrayLink = [ContentDAO]()
         arrayStuff = [ContentDAO]()
+        arrayToCreate = [ContentDAO]()
     }
     
 }

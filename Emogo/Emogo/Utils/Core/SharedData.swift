@@ -107,8 +107,10 @@ class SharedData: NSObject {
         }
     }
     
-    func videoPreviewImage(moviePath: URL) -> UIImage? {
-        self.saveVideo(fileUrl: moviePath)
+    func videoPreviewImage(moviePath: URL,isSave:Bool) -> UIImage? {
+        if isSave == true {
+            self.saveVideo(fileUrl: moviePath)
+        }
         do {
             
             let asset = AVURLAsset(url: moviePath , options: nil)

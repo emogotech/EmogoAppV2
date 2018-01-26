@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 
-
 extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
         return menu.arrayMenu.count
@@ -191,7 +190,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         viewController.didExceedMaximumNumberOfSelection = { (picker) in
             //exceed max selection
         }
-        viewController.selectedAssets.removeAll()
+        viewController.selectedAssets = [TLPHAsset]()
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
@@ -202,9 +201,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         self.present(viewController, animated: true, completion: nil)
     }
     
-    
     func preparePreview(assets:[TLPHAsset]){
-
+        
         HUDManager.sharedInstance.showHUD()
         let group = DispatchGroup()
         for obj in assets {
@@ -219,22 +217,25 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                     self.updateData(content: camera)
                     group.leave()
                 }else {
-
-                    obj.phAsset?.getOrigianlImage(handler: { (image) in
+                    
+                    obj.cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
                         if let img = image {
                             camera.imgPreview = img
                             self.updateData(content: camera)
                         }
                         group.leave()
                     })
-                   
                 }
                 
-            }else if obj.type == .video {
+            } else if obj.type == .video {
                 camera.type = .video
-                obj.phAsset?.getURL(completionHandler: { (url) in
+                obj.tempCopyMediaFile(progressBlock: { (progress) in
+                    print(progress)
+                }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url!) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }

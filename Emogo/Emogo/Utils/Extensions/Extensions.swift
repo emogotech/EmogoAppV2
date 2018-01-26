@@ -804,22 +804,28 @@ extension PHAsset {
     }
     
     
-    func getOrigianlImage(handler:@escaping (_ image:UIImage?)->Void){
+    func getOrigianlImage(handler:@escaping (_ image:UIImage?, _ fileName:String?)->Void){
         
         let options = PHImageRequestOptions()
         options.isSynchronous = true
         options.resizeMode = .none
-        options.isNetworkAccessAllowed = false
+        options.isNetworkAccessAllowed = true
         options.version = .current
         
         _ = PHCachingImageManager().requestImageData(for: self, options: options) { (imageData, dataUTI, orientation, info) in
             if let data = imageData {
                 let image = UIImage(data: data)
-                handler(image)
+                var fileName:String! = NSUUID().uuidString + ".png"
+                if let file =  self.value(forKey: "filename"){
+                    fileName = file as! String
+                    handler(image,fileName)
+                }
             }
         }
         
     }
+    
+    
     
     
 }

@@ -352,7 +352,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
@@ -445,7 +445,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         let camera = ContentDAO(contentData: [:])
         camera.type = .image
-        camera.imgPreview = photo.scaleAndRotateImage(photo)
+        camera.imgPreview = photo.scaleAndRotate()
         camera.fileName = NSUUID().uuidString + ".png"
         self.updateData(content: camera)
         self.btnCamera.isUserInteractionEnabled = true
@@ -468,7 +468,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
-        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:true) {
             let camera = ContentDAO(contentData: [:])
             camera.type = .video
             camera.imgPreview = image

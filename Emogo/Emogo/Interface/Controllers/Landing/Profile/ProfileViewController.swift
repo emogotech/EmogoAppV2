@@ -560,7 +560,7 @@ class ProfileViewController: UIViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }
@@ -627,7 +627,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-            
             cell.prepareLayout(content:content)
             return cell
             
@@ -669,27 +668,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             if content.isAdd {
                 btnActionForAddContent()
-               
             }else {
                 isEdited = true
-                ContentList.sharedInstance.arrayContent.removeAll()
                 let array = ContentList.sharedInstance.arrayContent.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = indexPath.row - 1
                 self.navigationController?.push(viewController: objPreview)
-                
-                /*
-                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                content.isShowAddStream = true
-                content.isEdit = true
-                objPreview.seletedImage = content
-                objPreview.isForEditOnly = true
-                objPreview.isEdit = true
-                self.navigationController?.push(viewController: objPreview)
- */
             }
-            
         }else {
             let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             if stream.isAdd {
@@ -698,9 +684,18 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 self.navigationController?.push(viewController: controller)
             }else {
                 isEdited = true
-                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+                var index = 0
+                if currentMenu == .stream {
+                    let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+                    StreamList.sharedInstance.arrayViewStream = array
+                    index = indexPath.row - 1
+                }else {
+                    index = indexPath.row
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+                }
+
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                obj.currentIndex = indexPath.row
+                obj.currentIndex = index
                 obj.viewStream = "fromProfile"
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
