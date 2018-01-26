@@ -297,21 +297,24 @@ class GetTopStreamSerializer(serializers.Serializer):
     def get_my_stream(self, obj):
 
         # Get self created streams
-        owner_qs = self.qs.filter(created_by=self.context.user)
+        result_list = self.qs.filter(created_by=self.context.user)
+        total = result_list.count()
+        result_list = result_list[0:5]
 
-        if owner_qs.count() < 5:
-            # Get streams user as collaborator and has add content permission
-            collaborator_permission = [x.stream for x in self.collaborator_qs if
-                                       str(x.phone_number) in str(
-                                           self.context.user.username) and x.stream.status == 'Active']
-
-            # merge result
-            result_list = list(chain(owner_qs, collaborator_permission))
-            total = result_list.__len__()
-            result_list = result_list[0:5]
-        else:
-            total = owner_qs.count()
-            result_list = owner_qs[0:5]
+        #
+        # if owner_qs.count() < 5:
+        #     # Get streams user as collaborator and has add content permission
+        #     collaborator_permission = [x.stream for x in self.collaborator_qs if
+        #                                str(x.phone_number) in str(
+        #                                    self.context.user.username) and x.stream.status == 'Active']
+        #
+        #     # merge result
+        #     result_list = list(chain(owner_qs, collaborator_permission))
+        #     total = result_list.__len__()
+        #     result_list = result_list[0:5]
+        # else:
+        #     total = owner_qs.count()
+        #     result_list = owner_qs[0:5]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):

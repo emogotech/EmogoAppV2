@@ -19,16 +19,17 @@ class StreamFilter(django_filters.FilterSet):
 
     def filter_my_stream(self, qs, name, value):
         # Get self created streams
-        owner_qs = qs.filter(created_by=self.request.user)
-
-        # Get streams user as collaborator and has add content permission
-        collaborator_permission = self.collaborator_qs
-        collaborator_permission = [x.stream for x in collaborator_permission if
-                                   str(x.phone_number) in str(
-                                       self.request.user.username) and x.stream.status == 'Active']
-        # Merge result
-        result_list = list(chain(owner_qs, collaborator_permission))
-        return result_list
+        # owner_qs = qs.filter(created_by=self.request.user)
+        #
+        # # Get streams user as collaborator and has add content permission
+        # collaborator_permission = self.collaborator_qs
+        # collaborator_permission = [x.stream for x in collaborator_permission if
+        #                            str(x.phone_number) in str(
+        #                                self.request.user.username) and x.stream.status == 'Active']
+        # # Merge result
+        # result_list = list(chain(owner_qs, collaborator_permission))
+        # return result_list
+        return qs.filter(created_by=self.request.user)
 
     def filter_self_created(self, qs, name, value):
         # Get self created streams
