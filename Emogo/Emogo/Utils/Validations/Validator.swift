@@ -206,6 +206,7 @@ extension String {
     
     func smartURL() -> URL {
         let str = self
+      
         var result : URL!
         var trimmedStr : NSString
         var schemeMarkerRange : NSRange
@@ -243,9 +244,22 @@ extension String {
         }
         return self.replacingOccurrences(of: url, with: "")
     }
+    func checkUrlExists() -> Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+        var url:String! = ""
+        for match in matches {
+            guard let range = Range(match.range, in: self) else { continue }
+            let myNSString = self.nsRange(from: range)
+            url =  (self as NSString).substring(with: myNSString)
+            print(url)
+        }
+        return url.isEmpty
+    }
     
     func nsRange(from range: Range<Index>) -> NSRange {
         return NSRange(range, in: self)
+        
     }
     
 }

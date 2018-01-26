@@ -124,18 +124,23 @@ class AddCollaboratorsViewController: UIViewController {
                 let allowedCharactersSet = NSMutableCharacterSet.decimalDigit()
                 allowedCharactersSet.addCharacters(in: "+")
                 phone = phone.components(separatedBy: allowedCharactersSet.inverted).joined(separator: "")
-                print(phone)
             }
-        
-            let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
-            let collaborator = CollaboratorDAO(colabData: dict)
-            if self.arraySelected != nil {
-                if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim() && $0.addedByMe == true }))! {
-                    
-                    collaborator.isSelected = true
+            
+            if UserDAO.sharedInstance.user.phoneNumber.trim().contains(phone.trim()) || phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {
+                print("user number found")
+            }else {
+                let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
+                
+                let collaborator = CollaboratorDAO(colabData: dict)
+                if self.arraySelected != nil {
+                    if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim() && $0.addedByMe == true }))! {
+                        
+                        collaborator.isSelected = true
+                    }
                 }
+                self.arrayCollaborators.append(collaborator)
             }
-            self.arrayCollaborators.append(collaborator)
+           
         }
         DispatchQueue.main.async {
             

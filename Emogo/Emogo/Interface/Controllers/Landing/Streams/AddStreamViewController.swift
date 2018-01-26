@@ -514,7 +514,7 @@ class AddStreamViewController: UITableViewController {
             })
             ContentList.sharedInstance.arrayToCreate.removeAll()
             ContentList.sharedInstance.arrayContent.removeAll()
-            let when = DispatchTime.now() + 1.5
+            let when = DispatchTime.now() + 0.0
             DispatchQueue.main.asyncAfter(deadline: when) {
                 // Back Screen
                 currentStreamType = StreamType.myStream
