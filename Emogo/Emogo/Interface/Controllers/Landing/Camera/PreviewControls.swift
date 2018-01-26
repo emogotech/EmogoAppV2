@@ -67,7 +67,7 @@ extension PreviewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                         camera.imgPreview = image
                         self.updateData(content: camera)
                     }

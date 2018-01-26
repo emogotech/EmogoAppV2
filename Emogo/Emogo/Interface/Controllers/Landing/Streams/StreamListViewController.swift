@@ -91,6 +91,11 @@ class StreamListViewController: UIViewController {
             }else {
                 self.lblNoResult.isHidden = true
             }
+            if  currentStreamType == .People {
+                self.collectionLayout.columnCount = 3
+            }else {
+                self.collectionLayout.columnCount = 2
+            }
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {

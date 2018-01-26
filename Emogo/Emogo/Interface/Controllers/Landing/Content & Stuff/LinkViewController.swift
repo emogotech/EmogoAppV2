@@ -80,7 +80,7 @@ class LinkViewController: UIViewController {
             return
         }
             
-        if let smartUrl = txtLink.text?.smartURL() {
+        if let smartUrl = txtLink.text?.trim().smartURL() {
             if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
                 HUDManager.sharedInstance.showHUD()
                 let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
@@ -123,46 +123,6 @@ class LinkViewController: UIViewController {
 
                 })
                 
-                /*
-                Readability.parse(url: smartUrl, completion: { data in
-                    print(data)
-                    if data != nil {
-                        let content = ContentDAO(contentData: [:])
-                        let title = data?.title
-                        let description = data?.description
-                        _ = data?.keywords
-                        let imageUrl = data?.topImage
-                        _ = data?.topVideo
-                        if let title = title {
-                        print(title.trim().findUrl())
-                        content.name = title.trim().findUrl()
-                        }
-                        if let description = description {
-                            content.description = description.trim()
-                        }
-                        content.coverImage = smartUrl.absoluteString
-                        content.type = .link
-                        content.isUploaded = false
-                        
-                        if let imageUrl = imageUrl {
-                            content.coverImageVideo = imageUrl.trim()
-                            SharedData.sharedInstance.downloadImage(url:  imageUrl.trim(), handler: { (image) in
-                                if let img =  image {
-                                    content.height = Int(img.size.height)
-                                    content.width = Int(img.size.width)
-                                }
-                            })
-                            HUDManager.sharedInstance.hideHUD()
-                            self.createContentForExtractedData(content: content)
-                        }
-                        
-                    }else {
-                        HUDManager.sharedInstance.hideHUD()
-                        self.showToast(strMSG: "Enter valid url.")
-                    }
-                })
-                 */
-
             }else{
                 print("Invalid")
                 self.showToast(strMSG: "Enter valid url.")

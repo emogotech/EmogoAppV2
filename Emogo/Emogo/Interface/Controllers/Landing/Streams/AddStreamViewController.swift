@@ -11,6 +11,7 @@ import Photos
 import PhotosUI
 import AVFoundation
 import Lightbox
+import Contacts
 
 class AddStreamViewController: UITableViewController {
     
@@ -300,8 +301,7 @@ class AddStreamViewController: UITableViewController {
             self.switchAddPeople.isOn = false
             self.switchAddContent.isUserInteractionEnabled = true
             self.switchAddPeople.isUserInteractionEnabled = true
-            self.rowHieght.constant = 325.0
-            self.isExpandRow = true
+            self.getContacts()
         }else{
             self.switchAddContent.isOn = false
             self.switchAddPeople.isOn = false
@@ -310,8 +310,8 @@ class AddStreamViewController: UITableViewController {
             self.rowHieght.constant = 0.0
             self.isExpandRow = false
             selectedCollaborators.removeAll()
+            self.tableView.reloadData()
         }
-        self.tableView.reloadData()
     }
     @IBAction func btnActionDone(_ sender: Any) {
         
@@ -504,14 +504,15 @@ class AddStreamViewController: UITableViewController {
     }
     
     func associateContentToStream(id:String){
-        if ContentList.sharedInstance.arrayContent.count != 0 {
+        if  ContentList.sharedInstance.arrayToCreate.count != 0 {
             HUDManager.sharedInstance.showProgress()
-            let array = ContentList.sharedInstance.arrayContent
+            let array = ContentList.sharedInstance.arrayToCreate
             AWSRequestManager.sharedInstance.associateContentToStream(streamID: [id], contents: array!, completion: { (isScuccess, errorMSG) in
                 HUDManager.sharedInstance.hideProgress()
                 if (errorMSG?.isEmpty)! {
                 }
             })
+            ContentList.sharedInstance.arrayToCreate.removeAll()
             ContentList.sharedInstance.arrayContent.removeAll()
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
@@ -531,6 +532,36 @@ class AddStreamViewController: UITableViewController {
         }
     }
    
+    
+    func getContacts() {
+        let store = CNContactStore()
+        switch CNContactStore.authorizationStatus(for: .contacts){
+        case .authorized:
+            self.rowHieght.constant = 325.0
+            self.isExpandRow = true
+            self.tableView.reloadData()
+            break
+        case .denied, .restricted :
+            SharedData.sharedInstance.showPermissionAlert(viewController: (AppDelegate.appDelegate.window?.rootViewController)!, strMessage: "contacts")
+            self.switchAddCollaborators.isOn = false
+            break
+        case .notDetermined:
+            store.requestAccess(for: .contacts){succeeded, err in
+                guard err == nil && succeeded else{
+                    self.switchAddCollaborators.isOn = false
+                    SharedData.sharedInstance.showPermissionAlert(viewController: (AppDelegate.appDelegate.window?.rootViewController)!, strMessage: "contacts")
+                    return
+                }
+                self.rowHieght.constant = 325.0
+                self.isExpandRow = true
+                self.tableView.reloadData()
+            }
+            break
+            
+        }
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

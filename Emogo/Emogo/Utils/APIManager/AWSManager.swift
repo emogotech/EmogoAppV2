@@ -211,7 +211,7 @@ class AWSRequestManager:NSObject {
                 if compressed != nil {
                     let fileUrl = URL(fileURLWithPath: compressed!)
                    
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl) {
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl,isSave:false) {
                         var strThumb:String!
                         var strVideo:String!
                         

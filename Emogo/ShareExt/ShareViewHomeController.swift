@@ -11,8 +11,6 @@ import Social
 import MobileCoreServices
 import Messages
 import MessageUI
-import ReadabilityKit
-//import SwiftLinkPreview
 
 class ShareViewHomeController: UIViewController {
     
@@ -89,52 +87,6 @@ class ShareViewHomeController: UIViewController {
                         itemProvider?.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) -> Void in
                             if error == nil {
                                 if let url = item as? URL {
-                                    
-//                                    let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
-//
-//                                    slp.preview(smartUrl.absoluteString,
-//                                                onSuccess: { result in
-//                                                    print("\(result)")
-//
-//                                                    let content = ContentDAO(contentData: [:])
-//                                                    let title = result[SwiftLinkResponseKey.title]
-//                                                    let description = result[SwiftLinkResponseKey.description]
-//                                                    let imageUrl = result[SwiftLinkResponseKey.image]
-//
-//
-//                                                    if let title = title {
-//                                                        DispatchQueue.main.async {
-//                                                            self.lblTitle.text = title
-//                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
-//                                                        }
-//                                                    }
-//                                                    if let description = description {
-//                                                        DispatchQueue.main.async {
-//                                                            self.lblDesc.text = description
-//                                                            self.lblLink.text = (item as? NSURL)?.absoluteString!
-//                                                            self.imgLink.contentMode  = .scaleAspectFill
-//                                                        }
-//                                                    }
-//                                                    if let imageUrl = previewImage {
-//                                                        self.imgLink.setImageWithURL(strImage: imageUrl, placeholder: "stream-card-placeholder")
-//                                                        self.hudView.stopLoaderWithAnimation()
-//                                                        self.imgLink.contentMode = .scaleToFill
-//                                                        self.dictData["coverImageVideo"] = imageUrl
-//                                                    }
-//                                                    self.dictData["name"] = title
-//                                                    self.dictData["description"] = description
-//                                                    self.dictData["coverImage"] = (item as? NSURL)?.absoluteString!
-//                                                    self.dictData["type"] = "link"
-//                                                    self.dictData["isUploaded"] = "false"
-//                                    },
-//                                                onError: {
-//                                                    error in print("\(error)")
-//                                                    HUDManager.sharedInstance.hideHUD()
-//                                                    self.showToast(strMSG: error.localizedDescription )
-//                                    })
-                                    
-                                    
-                                    
                                         url.fetchPageInfo({ (title, description, previewImage) -> Void in
                                             if let title = title {
                                                 DispatchQueue.main.async {
@@ -239,7 +191,7 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "shareWithMessage")
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
         self.presentAppViewWithDeepLink(strURL: str!)
         self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -249,7 +201,7 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-          let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
         self.presentAppViewWithDeepLink(strURL: str!)
           self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -259,7 +211,7 @@ class ShareViewHomeController: UIViewController {
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
-       let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData)
         self.presentAppViewWithDeepLink(strURL: str!)
         self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -279,7 +231,7 @@ class ShareViewHomeController: UIViewController {
         }
     }
     
-    func createURLWithComponentsForStream(userInfo: Dictionary<String, Any>,typeNavigation:String!) -> String? {
+    func createURLWithComponentsForStream(userInfo: Dictionary<String, Any>) -> String? {
         let urlComponents = NSURLComponents()
         urlComponents.scheme = "Emogo";
         urlComponents.host = "emogo"
@@ -295,7 +247,7 @@ class ShareViewHomeController: UIViewController {
         let height = URLQueryItem(name: "height", value: "200" )
         let width = URLQueryItem(name: "width", value: "200")
         urlComponents.queryItems = [name, description, coverImage, type,isUploaded,coverImageVideo,height,width]
-        let strURl = "\(urlComponents.url!)/"+typeNavigation
+        let strURl = "\(urlComponents.url!)/addContentFromShare"
         return strURl
     }
     

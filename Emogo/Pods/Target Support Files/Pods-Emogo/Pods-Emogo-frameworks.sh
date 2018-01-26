@@ -112,15 +112,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Ji/Ji.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ReadabilityKit/ReadabilityKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework"
@@ -133,15 +130,12 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Hue/Hue.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Ji/Ji.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ReadabilityKit/ReadabilityKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Kanna/Kanna.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

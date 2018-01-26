@@ -104,9 +104,9 @@ class TLPhotoLibrary {
     @discardableResult
     class func fullResolutionImageData(asset: PHAsset) -> UIImage? {
         let options = PHImageRequestOptions()
-        options.isSynchronous = true
+        options.isSynchronous = false
         options.resizeMode = .none
-        options.isNetworkAccessAllowed = false
+        options.isNetworkAccessAllowed = true
         options.version = .current
         var image: UIImage? = nil
         _ = PHCachingImageManager().requestImageData(for: asset, options: options) { (imageData, dataUTI, orientation, info) in

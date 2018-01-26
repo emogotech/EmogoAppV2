@@ -8,7 +8,6 @@
 
 import Foundation
 import SDWebImage
-import Kanna
 
 public extension URL {
     
@@ -34,7 +33,7 @@ public extension URL {
             if let urlResponse = response as? HTTPURLResponse {
                 if urlResponse.statusCode >= 200 && urlResponse.statusCode < 400 {
                     if let data = data {
-                        
+                        /*
                         if let doc = Kanna.HTML(html: data, encoding: String.Encoding.utf8) {
                             let title = doc.title
                             var description: String? = nil
@@ -56,7 +55,7 @@ public extension URL {
                                 completion(title, description, previewImage)
                             })
                         }
-                        
+                        */
                     }
                 } else {
                     DispatchQueue.main.async(execute: {
