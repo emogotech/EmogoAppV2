@@ -380,7 +380,7 @@ extension UIImage {
 extension ConfirmViewController:CropViewControllerDelegate {
     
     public func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         self.onComplete?(image, self.asset)
     }
     

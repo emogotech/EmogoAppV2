@@ -58,7 +58,7 @@ class ViewStreamController: UIViewController {
             }
         }
     }
-   
+    
 }
     
     override func didReceiveMemoryWarning() {
@@ -243,6 +243,7 @@ class ViewStreamController: UIViewController {
     }
     
     func next() {
+        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
         }
@@ -252,6 +253,7 @@ class ViewStreamController: UIViewController {
     }
     
     func previous() {
+        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }
@@ -309,10 +311,21 @@ class ViewStreamController: UIViewController {
    
     
     func openFullView(index:Int?){
-          var arrayContents = [LightboxImage]()
-          var startIndex = 0
         
-            let url = URL(string: (self.objStream?.coverImage)!)
+        var arrayContents = [LightboxImage]()
+          var startIndex = 0
+         if (self.objStream?.canAddContent)! {
+            if index != nil {
+                startIndex = index!
+            }
+        }else {
+            if index != nil {
+                startIndex = 1 + index!
+            }
+        }
+        
+        
+        let url = URL(string: (self.objStream?.coverImage)!)
             if url != nil {
                 let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
                 let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
@@ -347,16 +360,7 @@ class ViewStreamController: UIViewController {
             }
         }
       
-        if (self.objStream?.canAddContent)! {
-            if index != nil {
-                startIndex = index! - 1
-            }
-        }else {
-            if index != nil {
-                startIndex = index!
-            }
-        }
-        
+       
         let controller = LightboxController(images: arrayContents, startIndex: startIndex)
         controller.dynamicBackground = true
         if arrayContents.count != 0 {
@@ -511,7 +515,7 @@ class ViewStreamController: UIViewController {
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
             camera.fileName = obj.originalFileName
-            if obj.type == .photo {
+            if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage

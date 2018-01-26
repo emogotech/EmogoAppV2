@@ -244,6 +244,21 @@ extension String {
         }
         return self.replacingOccurrences(of: url, with: "")
     }
+    
+    
+    func extractUrlFromText() -> [String] {
+        var arrayURL = [String]()
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
+        for match in matches {
+            guard let range = Range(match.range, in: self) else { continue }
+            let myNSString = self.nsRange(from: range)
+           let url =  (self as NSString).substring(with: myNSString)
+            arrayURL.append(url)
+        }
+        return arrayURL
+    }
+    
     func checkUrlExists() -> Bool {
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))

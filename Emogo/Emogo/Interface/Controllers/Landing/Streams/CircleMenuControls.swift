@@ -210,7 +210,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
             camera.fileName = obj.originalFileName
-            if obj.type == .photo {
+            if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage

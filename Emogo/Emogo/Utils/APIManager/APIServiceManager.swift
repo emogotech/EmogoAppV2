@@ -559,10 +559,10 @@ class APIServiceManager: NSObject {
                                 
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                
-                                    if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
+                                    if StreamList.sharedInstance.arrayProfileStream.contains(where: {$0.ID == stream.ID}) {
                                         // it exists, do something
                                     } else {
-                                        StreamList.sharedInstance.arrayMyStream.append(stream)
+                                        StreamList.sharedInstance.arrayProfileStream.append(stream)
                                     }
                             }
                         }
@@ -1202,10 +1202,10 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
+                                if StreamList.sharedInstance.arrayProfileStream.contains(where: {$0.ID == stream.ID}) {
                                     // it exists, do something
                                 } else {
-                                    StreamList.sharedInstance.arrayMyStream.append(stream)                                }
+                                    StreamList.sharedInstance.arrayProfileStream.append(stream)                                }
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{

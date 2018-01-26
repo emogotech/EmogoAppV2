@@ -85,17 +85,30 @@ class StreamListViewController: UIViewController {
         kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
-            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            
+            if self.isSearch == false {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+
+                if  currentStreamType == .People {
+                    self.collectionLayout.columnCount = 3
+                }else {
+                    self.collectionLayout.columnCount = 2
+                }
+            }else {
+
+                if self.isSearch && self.isTapPeople {
+                    self.collectionLayout.columnCount = 3
+                }
+                else {
+                    self.collectionLayout.columnCount = 2
+                }
+            }
             if self.arrayToShow.count == 0 {
                 self.lblNoResult.isHidden = false
             }else {
                 self.lblNoResult.isHidden = true
             }
-            if  currentStreamType == .People {
-                self.collectionLayout.columnCount = 3
-            }else {
-                self.collectionLayout.columnCount = 2
-            }
+
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {
@@ -246,7 +259,6 @@ class StreamListViewController: UIViewController {
         }
     }
     
-   
     
     func setupAnchor(){
         viewSearch.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
@@ -474,7 +486,7 @@ class StreamListViewController: UIViewController {
             
         case 0:         //Stream
             lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
@@ -486,7 +498,7 @@ class StreamListViewController: UIViewController {
         case 1:         //People
             collectionLayout.columnCount = 3
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             self.streamCollectionView.isHidden = true
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
@@ -1129,13 +1141,13 @@ extension StreamListViewController : UITextFieldDelegate {
         searchStr = searchString
         if isPeopleList {
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             collectionLayout.columnCount = 3
             HUDManager.sharedInstance.showHUD()
             self.getPeopleGlobalSearch(searchText: searchString, type: .start)
         }else{
             lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             collectionLayout.columnCount = 2
             HUDManager.sharedInstance.showHUD()
             self.getStreamGlobalSearch(searchText: searchString, type: .start)

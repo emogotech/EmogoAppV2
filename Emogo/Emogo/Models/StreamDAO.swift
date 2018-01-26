@@ -95,7 +95,7 @@ class StreamList{
     
     var arrayStream:[StreamDAO]!
     var arrayMyStream:[StreamDAO]!
-    var arraySearch:[StreamDAO]!
+    var arrayProfileStream:[StreamDAO]!
     var arrayViewStream:[StreamDAO]!
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
@@ -111,7 +111,7 @@ class StreamList{
     init() {
         arrayStream = [StreamDAO]()
         arrayMyStream = [StreamDAO]()
-        arraySearch = [StreamDAO]()
+        arrayProfileStream = [StreamDAO]()
         arrayViewStream = [StreamDAO]()
     }
     

@@ -514,7 +514,7 @@ class AddStreamViewController: UITableViewController {
             })
             ContentList.sharedInstance.arrayToCreate.removeAll()
             ContentList.sharedInstance.arrayContent.removeAll()
-            let when = DispatchTime.now() + 0.0
+            let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
                 // Back Screen
                 currentStreamType = StreamType.myStream
@@ -522,9 +522,8 @@ class AddStreamViewController: UITableViewController {
                 if array.count != 0 {
                     StreamList.sharedInstance.arrayViewStream = array
                     let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                    obj.currentIndex = 0
                     obj.streamType = currentStreamType.rawValue
-                    ContentList.sharedInstance.objStream = nil
+                    ContentList.sharedInstance.objStream = id
                     self.navigationController?.popToViewController(vc: obj)
                 }
             

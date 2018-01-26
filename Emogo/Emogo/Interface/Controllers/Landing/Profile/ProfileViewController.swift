@@ -285,7 +285,7 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         isEdited = true
-        let stream = StreamList.sharedInstance.arrayMyStream[sender.tag]
+        let stream = StreamList.sharedInstance.arrayProfileStream[sender.tag]
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
         obj.streamID = stream.ID
         self.navigationController?.push(viewController: obj)
@@ -293,10 +293,10 @@ class ProfileViewController: UIViewController {
     
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
-            StreamList.sharedInstance.arrayMyStream.removeAll()
+            StreamList.sharedInstance.arrayProfileStream.removeAll()
             let stream = StreamDAO(streamData: [:])
             stream.isAdd = true
-            StreamList.sharedInstance.arrayMyStream.insert(stream, at: 0)
+            StreamList.sharedInstance.arrayProfileStream.insert(stream, at: 0)
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetMyProfileStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
@@ -314,7 +314,7 @@ class ProfileViewController: UIViewController {
             }
             
             self.lblNOResult.isHidden = true
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+            if StreamList.sharedInstance.arrayProfileStream.count == 0 {
                self.lblNOResult.text  = "No Stream Found"
                  self.lblNOResult.minimumScaleFactor = 1.0
                self.lblNOResult.isHidden = false
@@ -366,7 +366,7 @@ class ProfileViewController: UIViewController {
     
     func getColabs(type:RefreshType){
         if type == .start || type == .up {
-            StreamList.sharedInstance.arrayMyStream.removeAll()
+            StreamList.sharedInstance.arrayProfileStream.removeAll()
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetColabList(type: type) { (refreshType, errorMsg) in
@@ -383,7 +383,7 @@ class ProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
            self.lblNOResult.isHidden = true
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+            if StreamList.sharedInstance.arrayProfileStream.count == 0 {
                 self.lblNOResult.text  = "No Stream Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
@@ -533,7 +533,7 @@ class ProfileViewController: UIViewController {
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
             camera.fileName = obj.originalFileName
-            if obj.type == .photo {
+            if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
@@ -611,7 +611,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if currentMenu == .stuff {
             return ContentList.sharedInstance.arrayStuff.count
         }else {
-            return StreamList.sharedInstance.arrayMyStream.count
+            return StreamList.sharedInstance.arrayProfileStream.count
         }
     }
     
@@ -635,9 +635,10 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.isExclusiveTouch = true
             cell.btnEdit.tag = indexPath.row
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
-            let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+            let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
             if currentMenu == .stream {
+                cell.lblName.text = ""
                 cell.lblName.isHidden = true
             }
             return cell
@@ -677,7 +678,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 }
             }
         }else {
-            let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+            let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
             if stream.isAdd {
                   isEdited = true
                 let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
@@ -686,12 +687,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 isEdited = true
                 var index = 0
                 if currentMenu == .stream {
-                    let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+                    let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
                     StreamList.sharedInstance.arrayViewStream = array
                     index = indexPath.row - 1
                 }else {
                     index = indexPath.row
-                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }
 
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController

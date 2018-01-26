@@ -91,7 +91,7 @@ class LinkViewController: UIViewController {
                 slp.preview(smartUrl.absoluteString,
                             onSuccess: { result in
                                 print("\(result)")
-                                
+                                debugPrint(result)
                                 let content = ContentDAO(contentData: [:])
                                 let title = result[SwiftLinkResponseKey.title]
                                 let description = result[SwiftLinkResponseKey.description]
@@ -105,18 +105,49 @@ class LinkViewController: UIViewController {
                                 content.coverImage = smartUrl.absoluteString
                                 content.type = .link
                                 content.isUploaded = false
+                                var imgUrl:String! = ""
                                 if let imageUrl = imageUrl {
-                                    content.coverImageVideo = (imageUrl as! String).trim()
-                                    SharedData.sharedInstance.downloadImage(url:  (imageUrl as! String).trim(), handler: { (image) in
+                                    imgUrl = imageUrl as! String
+                                }
+                                if imgUrl.isEmpty {
+                                    let imageUrl1 = result[SwiftLinkResponseKey.icon]
+                                    if let imageUrl = imageUrl1 {
+                                        imgUrl = imageUrl as! String
+                                    }
+                                }
+
+                            
+                                if imgUrl.isEmpty {
+                                    let imageUrl1 = result[SwiftLinkResponseKey.images]
+                                    if let imageUrl = imageUrl1 {
+                                        let arrayImages:[Any] = imageUrl as! [Any]
+                                        if arrayImages.count != 0 {
+                                            imgUrl = arrayImages[0] as! String
+                                        }
+                                    }
+                                }
+//
+//                                print(result[SwiftLinkResponseKey.canonicalUrl])
+//                                if imgUrl.isEmpty {
+//                                    let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
+//                                    if let imageUrl = imageUrl1 {
+//                                        let strImages:URL = imageUrl as! URL
+//                                        print(strImages.absoluteString.extractUrlFromText())
+//                                    }
+//                                }
+//
+                                if !imgUrl.isEmpty {
+                                    content.coverImageVideo = imgUrl.trim()
+                                    SharedData.sharedInstance.downloadImage(url:  imgUrl.trim(), handler: { (image) in
                                         if let img =  image {
                                             content.height = Int(img.size.height)
                                             content.width = Int(img.size.width)
                                         }
                                     })
-                                    HUDManager.sharedInstance.hideHUD()
                                     self.createContentForExtractedData(content: content)
                                 }
                                 
+                            HUDManager.sharedInstance.hideHUD()
 
                 },
                             onError: {
