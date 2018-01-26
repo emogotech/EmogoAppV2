@@ -138,6 +138,13 @@ class StreamListViewController: UIViewController {
             self.navigationController?.push(viewController: objPreview)
         }
         
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            objPreview.currentIndex = 0
+            self.navigationController?.push(viewController: objPreview)
+        }
+        
     }
     
     // MARK: - Prepare Layouts
