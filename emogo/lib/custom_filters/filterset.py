@@ -47,7 +47,15 @@ class StreamFilter(django_filters.FilterSet):
         return result_list
 
     def filter_global_search(self, qs, name, value):
-        return qs.filter(name__icontains=value, type='Public').order_by('-view_count')
+        public_stream = qs.filter(name__icontains=value, type='Public')
+        # Get streams user as collaborator
+        collaborator_permission = self.collaborator_qs.filter(stream__name__icontains=value).exclude(type='Public')
+        collaborator_permission = [x.stream for x in collaborator_permission if
+                                   str(x.phone_number) in str(
+                                       self.request.user.username) and x.stream.status == 'Active']
+        # Merge result
+        result_list = list(chain(public_stream, collaborator_permission))
+        return result_list
 
 
 class UsersFilter(django_filters.FilterSet):
