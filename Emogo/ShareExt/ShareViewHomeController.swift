@@ -144,6 +144,16 @@ class ShareViewHomeController: UIViewController {
                                 }).resume()
                                       self.dictData["coverImageVideo"] = imageUrl
                                 }else{
+//                                    let linkURL = url?.absoluteString
+//                                    let s2DelAll2 = linkURL?.components(separatedBy: "https://").joined(separator: "")
+//                                    let myURLString = "https://www.google.com/s2/favicons?domain="+s2DelAll2!
+//                                    let url = URL(string:myURLString)
+//                                    if let data = try? Data(contentsOf: url!)
+//                                    {
+//                                        let image: UIImage = UIImage(data: data)!
+//                                        self.imgLink.image = image
+//                                        self.imgLink.contentMode  = .center
+//                                    }
                                     self.dictData["coverImageVideo"] = ""
                                 }
                               
@@ -161,9 +171,12 @@ class ShareViewHomeController: UIViewController {
                         onError: {
                             error in print("\(error)")
                             self.hudView.stopLoaderWithAnimation()
+                            self.hudView.stopLoaderWithAnimation()
                             self.showToastIMsg(strMSG: error.localizedDescription )
                             
             })
+        }else{
+            self.hudView.stopLoaderWithAnimation()
         }
     }
     
