@@ -309,7 +309,7 @@ class MoveContentToStreamSerializer(ContentSerializer):
         :return: Validate contents data.
         """
         contents = set(self.initial_data.get('contents'))
-        contents = Content.actives.filter(created_by=self.context.user, id__in=contents)
+        contents = Content.actives.filter(id__in=contents)
         if contents.exists():
             self.initial_data['contents'] = contents
         else:
