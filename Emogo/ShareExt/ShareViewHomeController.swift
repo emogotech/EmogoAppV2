@@ -22,6 +22,11 @@ class ShareViewHomeController: UIViewController {
     @IBOutlet weak var viewContainer : UIView!
     @IBOutlet weak var viewLogin : UIView!
     var hudView  : LoadingView!
+    var isLoadWeb : Bool = false
+    
+     var tempWebView  : UIWebView!
+    
+    
     var dictData : Dictionary = [String:Any]()
     
     override func viewDidLoad() {
@@ -97,7 +102,7 @@ class ShareViewHomeController: UIViewController {
                         let urlString = results["URL"] as? String,
                         let url = NSURL(string: urlString) {
                         print("URL retrieved: \(urlString)")
-                        self.getData(url: url as URL!)
+                        self.getData(mainURL: url as URL!)
                     }
                 }
             })
@@ -106,8 +111,8 @@ class ShareViewHomeController: UIViewController {
         }
     }
 
-    func getData(url : URL!){
-        if let url = url  {
+    func getData(mainURL : URL!){
+        if let url = mainURL  {
             let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
             slp.preview(url.absoluteString,
                         onSuccess: { result in
@@ -142,42 +147,43 @@ class ShareViewHomeController: UIViewController {
                                         self.imgLink.contentMode = .scaleAspectFit
                                     }
                                 }).resume()
-                                      self.dictData["coverImageVideo"] = imageUrl
-                                }else{
-//                                    let linkURL = url?.absoluteString
-//                                    let s2DelAll2 = linkURL?.components(separatedBy: "https://").joined(separator: "")
-//                                    let myURLString = "https://www.google.com/s2/favicons?domain="+s2DelAll2!
-//                                    let url = URL(string:myURLString)
-//                                    if let data = try? Data(contentsOf: url!)
-//                                    {
-//                                        let image: UIImage = UIImage(data: data)!
-//                                        self.imgLink.image = image
-//                                        self.imgLink.contentMode  = .center
-//                                    }
-                                    self.dictData["coverImageVideo"] = ""
+                                    self.dictData["coverImageVideo"] = imageUrl
+                                    DispatchQueue.main.async {
+                                        self.hudView.stopLoaderWithAnimation()
+                                    }
                                 }
-                              
-                            
+                                else {
+                                    self.setupWebViewWithUrlStr(strUrl: mainURL!)
+                                }
+                            } else {
+                                self.setupWebViewWithUrlStr(strUrl: mainURL!)
                             }
                             self.dictData["name"] = title
                             self.dictData["description"] = description
                             self.dictData["coverImage"] = url.absoluteString
                             self.dictData["type"] = "link"
                             self.dictData["isUploaded"] = "false"
-                            DispatchQueue.main.async {
-                                    self.hudView.stopLoaderWithAnimation()
-                            }
             },
                         onError: {
                             error in print("\(error)")
                             self.hudView.stopLoaderWithAnimation()
-                            self.hudView.stopLoaderWithAnimation()
                             self.showToastIMsg(strMSG: error.localizedDescription )
-                            
             })
         }else{
             self.hudView.stopLoaderWithAnimation()
+            
+            //Sushobhit
+            self.showToastIMsg(strMSG: "Plesae Provide message")
         }
+    }
+    
+    func setupWebViewWithUrlStr(strUrl:URL) {
+        tempWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 250, height: 150))
+        tempWebView.delegate = self
+        tempWebView.scalesPageToFit = true
+        tempWebView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        let request = URLRequest(url: strUrl)
+        tempWebView.loadRequest(request)
     }
     
     // helper for loading image
@@ -192,39 +198,53 @@ class ShareViewHomeController: UIViewController {
     }
     
     @IBAction func btnCancleAction(_ sender:UIButton) {
+        self.view.isUserInteractionEnabled = false
         self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
             self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
         })
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
+        self.view.isUserInteractionEnabled = false
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
         let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "shareWithMessage")
         self.presentAppViewWithDeepLink(strURL: str!)
-        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            self.view.isUserInteractionEnabled = true
+        })
     }
     
     @IBAction func btnAddToStreamAction(_ sender: UIButton) {
+        self.view.isUserInteractionEnabled = false
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
         let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
         self.presentAppViewWithDeepLink(strURL: str!)
-        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            self.view.isUserInteractionEnabled = true
+        })
     }
     
     @IBAction func btnPostAction(_ sender: UIButton) {
+        self.view.isUserInteractionEnabled = false
+
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
         self.dictData["width"] =  String(format: "%d", (height))
         let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
         self.presentAppViewWithDeepLink(strURL: str!)
-        self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            self.view.isUserInteractionEnabled = true
+        })
     }
     
     func presentAppViewWithDeepLink(strURL : String) {
@@ -284,3 +304,90 @@ extension ShareViewHomeController:MFMessageComposeViewControllerDelegate,UINavig
         controller.dismiss(animated: true, completion: nil)
     }
 }
+
+extension ShareViewHomeController : UIWebViewDelegate {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        print(error.localizedDescription)
+        DispatchQueue.main.async {
+            self.hudView.stopLoaderWithAnimation()
+        }
+        //Sushobhit
+        self.showToastIMsg(strMSG: "Plesae Provide message")
+    }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        if !isLoadWeb {
+            self.perform(#selector(self.getImageForWebView), with: nil, afterDelay: 5.0)
+            isLoadWeb = true
+        }
+        
+    }
+    
+    @objc func getImageForWebView(){
+        let image  : UIImage! = self.captureScreen(viewToCapture: self.tempWebView)
+        if image != nil {
+            let relativePath = "image_\(NSDate.timeIntervalSinceReferenceDate).png"
+            if   self.writeFile(image, relativePath) {
+                print("success")
+            }
+            DispatchQueue.main.async {
+                self.imgLink.image = image
+                self.imgLink.contentMode = .scaleAspectFill
+            }
+            DispatchQueue.main.async {
+                self.hudView.stopLoaderWithAnimation()
+            }
+        }else{
+            //Sushobhit
+            self.showToastIMsg(strMSG: "Plesae Provide message")
+            
+        }
+        self.tempWebView = nil
+    }
+    
+    func captureScreen(viewToCapture : UIView)  -> UIImage {
+        UIGraphicsBeginImageContext(viewToCapture.bounds.size)
+        viewToCapture.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let viewImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return viewImage!
+    }
+    
+    
+    func writeFile(_ image: UIImage, _ imgName: String) -> Bool{
+        let imageData = UIImageJPEGRepresentation(image, 1)
+        let relativePath = imgName
+        let path = self.documentsPathForFileName(name: relativePath)
+        
+        do {
+            try imageData?.write(to: path, options: .atomic)
+            let strPath = path.absoluteString
+               self.dictData["coverImageVideo"] = strPath
+        } catch {
+            return false
+        }
+        return true
+    }
+    
+    func readFile(_ name: String) -> UIImage{
+        let fullPath = self.documentsPathForFileName(name: name)
+        var image = UIImage()
+        
+        if FileManager.default.fileExists(atPath: fullPath.path){
+            image = UIImage(contentsOfFile: fullPath.path)!
+        }else{
+            image = UIImage(named: "user")!  //a default place holder image from apps asset folder
+        }
+        return image
+    }
+    
+    func documentsPathForFileName(name: String) -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let path = paths[0]
+        let fullPath = path.appendingPathComponent(name)
+        return fullPath
+    }
+    
+}
+

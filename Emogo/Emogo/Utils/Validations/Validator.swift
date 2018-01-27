@@ -218,7 +218,7 @@ extension String {
             schemeMarkerRange = trimmedStr.rangeOfCharacter(from: CharacterSet.init(charactersIn: "://"))
             
             if schemeMarkerRange.location == NSNotFound {
-                trimmedStr = trimmedStr.contains("www") ? trimmedStr : trimmedStr.appending("www.") as NSString
+                trimmedStr = trimmedStr.contains("www") ? trimmedStr : NSString(format:"www.%@", trimmedStr) as NSString
                 result = URL(string: "http://\(trimmedStr)")!
             }else{
                 scheme  =  trimmedStr.substring(with: NSMakeRange(0, schemeMarkerRange.location)) as NSString
