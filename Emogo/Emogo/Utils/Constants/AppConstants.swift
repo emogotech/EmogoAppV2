@@ -81,6 +81,7 @@ let kStoryboardID_ProfileView = "profileView"
 let kStoryboardID_UserProfileView = "userProfileView"
 let kStoryboardID_ProfileUpdateView = "profileUpdateView"
 let kStoryboardID_ShowPreviewView = "showPreviewView"
+let kStoryboardID_TermsAndPrivacyView = "termsAndPrivacyView"
 
 
 
@@ -260,6 +261,8 @@ let kAlert_Stream_Added_Success                                            = "St
 let kAlert_Stream_Cover_Empty                                              = "Please Select Stream Cover Image."
 let kAlert_Stream_Colab_Empty                                              = "Please Select Atleast one Collaborator."
 let kAlert_Invalid_User_Space_Msg                                           = "Space not allowed."
+let kAlert_Terms_Condition_Msg                                           = "Accept Terms And Condition."
+
 let kAlert_Content_Added                                                  = "Content Created Successfully."
 let kAlert_Content_Associated_To_Stream                                     = "Content associated with selected Stream."
 let kAlert_Select_Stream                                                  = "Please Select Atleast one Stream to add Content."

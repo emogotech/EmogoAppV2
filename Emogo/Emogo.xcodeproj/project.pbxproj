@@ -150,6 +150,8 @@
 		F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
 		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
+		F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */; };
+		F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E7201CB690005AFE4A /* Checkbox.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
@@ -514,6 +516,8 @@
 		F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSPhoneTextField.m; sourceTree = "<group>"; };
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
 		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyViewController.swift; sourceTree = "<group>"; };
+		F41752E7201CB690005AFE4A /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
 		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
@@ -1112,6 +1116,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F41752E6201CB684005AFE4A /* CheckBox */,
 				F4CDD4F22011DBC0005436A1 /* ActionSheet */,
 				F4961E1C1FFE929E00A406FF /* ImageView */,
 				F4647C021FFE132800CCEDA3 /* TextView */,
@@ -1241,6 +1246,7 @@
 				F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */,
 				F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */,
 				F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */,
+				F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */,
 			);
 			path = "Content & Stuff";
 			sourceTree = "<group>";
@@ -1431,6 +1437,14 @@
 				F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */,
 			);
 			path = PhoneValidation;
+			sourceTree = "<group>";
+		};
+		F41752E6201CB684005AFE4A /* CheckBox */ = {
+			isa = PBXGroup;
+			children = (
+				F41752E7201CB690005AFE4A /* Checkbox.swift */,
+			);
+			path = CheckBox;
 			sourceTree = "<group>";
 		};
 		F41C3ADE1FE13A90009CD942 /* BadgeButton */ = {
@@ -2643,8 +2657,10 @@
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
 				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
+				F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */,
 				F44939E81FEA567800AE2FCA /* ESRefreshProtocol.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
+				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
 				F4FFF911201A07CE00680571 /* TLPhotoLibrary.swift in Sources */,
