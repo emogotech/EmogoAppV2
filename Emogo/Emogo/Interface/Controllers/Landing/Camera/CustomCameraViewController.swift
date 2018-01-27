@@ -378,31 +378,42 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     private func animateView(){
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.2) {
             self.isPreviewOpen = !self.isPreviewOpen
             if self.isPreviewOpen == false {
                 // Down icon
+               
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
+            
                 self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 250.0, width: 75.0, height: 75.0)
+
+               
             }else {
                 // Up icon
+               
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                
                 self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 160.0, width: 75.0, height: 75.0)
+                
             }
             self.previewCollection.reloadData()
             self.view.updateConstraintsIfNeeded()
         }
     }
     private  func viewUP(){
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.2) {
+           
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
             self.kPreviewHeight.constant = 129.0
+  
             self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 250.0, width: 75.0, height: 75.0)
+   
             self.view.updateConstraintsIfNeeded()
         }
     }
+
     
     func updateData(content:ContentDAO) {
        

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "emogo logo_dbd_v1 copy 2.png",
+      "filename" : "emogo logo_dbd_v1 copy.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "emogo logo_dbd_v1 copy 2-1.png",
+      "filename" : "emogo logo_dbd_v1 copy-1.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "emogo logo_dbd_v1 copy 2-2.png",
+      "filename" : "emogo logo_dbd_v1 copy-2.png",
       "scale" : "3x"
     }
   ],
