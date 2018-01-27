@@ -13,7 +13,9 @@ import AWSCore
 
 let kAWS_AccessKey = "AKIAI44TFVCYXAX3XHIA"
 let kAWS_SecretKey = "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"
-let kGiphyAPIKey = "FOrDp22kTzIuLpLOtLSwrrwVMBwzPXWP"
+//let kGiphyAPIKey = "FOrDp22kTzIuLpLOtLSwrrwVMBwzPXWP"
+let kGiphyAPIKey = "f1NDrgCxt114Rnz4nEryeKFaUEcs9VY0"
+
 
 // MARK: -  AWS Bucket's
 let kBucketStreamMedia = "emogo-v2/stream-media"
