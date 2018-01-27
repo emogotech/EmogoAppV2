@@ -11,9 +11,9 @@ import MessageUI
 import Messages
 
 class PreviewController: UIViewController {
-
+    
     // MARK: - UI Elements
-
+    
     @IBOutlet weak var imgPreview: FLAnimatedImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
@@ -28,10 +28,10 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnAddStream: UIButton!
-
-
+    
+    
     // MARK: - Variables
-
+    
     var isPreviewOpen:Bool! = false
     var selectedIndex:Int! = 0
     var photoEditor:PhotoEditorViewController!
@@ -40,7 +40,7 @@ class PreviewController: UIViewController {
     var seletedImage:ContentDAO!
     var strPresented:String!
     var isEditingContent:Bool! = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -56,7 +56,7 @@ class PreviewController: UIViewController {
         }
         self.previewCollection.reloadData()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -71,17 +71,6 @@ class PreviewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - Prepare Gestures
-    func prepareGestures() {
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGestures))
-        swipeUp.direction = UISwipeGestureRecognizerDirection.up
-        self.view.addGestureRecognizer(swipeUp)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGestures))
-        swipeDown.direction = UISwipeGestureRecognizerDirection.down
-        self.view.addGestureRecognizer(swipeDown)
-    }
-    
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
@@ -93,29 +82,29 @@ class PreviewController: UIViewController {
         self.txtDescription.placeholderColor = .white
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
-
+        
         var seen = Set<String>()
         var unique = [ContentDAO]()
         
-       if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-        
+            
             ContentList.sharedInstance.objStream = nil
             SharedData.sharedInstance.contentList.objStream = nil
             self.preparePreview(index: 0)
-        
+            
             let conten = ContentList.sharedInstance.arrayContent[0]
             conten.name = self.txtTitleImage.text?.trim()
             conten.description = self.txtDescription.text.trim()
-        
+            
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent.append(conten)
             let arrayC = [String]()
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
             self.showToast(strMSG: "Please while wait content is upload...")
-           self.btnDone.isHidden = true
+            self.btnDone.isHidden = true
         }
         
         for obj in  ContentList.sharedInstance.arrayContent {
@@ -125,7 +114,7 @@ class PreviewController: UIViewController {
                     seen.insert(obj.contentID)
                 }
             }else if obj.type == .gif || obj.type == .link {
-                    if !seen.contains(obj.coverImage.trim()) {
+                if !seen.contains(obj.coverImage.trim()) {
                     unique.append(obj)
                     seen.insert(obj.coverImage.trim())
                 }
@@ -136,20 +125,20 @@ class PreviewController: UIViewController {
                 }
             }
         }
-         ContentList.sharedInstance.arrayContent = unique
+        ContentList.sharedInstance.arrayContent = unique
         self.preparePreview(index: 0)
         kPreviewHeight.constant = 129.0
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-      //  kWidthOptions.constant = 0.0
-          viewOptions.isHidden = false
-//        if self.strPresented != nil {
-           kWidthOptions.constant = 63.0
-//            viewOptions.isHidden = false
-//        }
+        //  kWidthOptions.constant = 0.0
+        viewOptions.isHidden = false
+        //        if self.strPresented != nil {
+        kWidthOptions.constant = 63.0
+        //            viewOptions.isHidden = false
+        //        }
         imgPreview.backgroundColor = .black
         
         if !self.seletedImage.createdBy.trim().isEmpty {
-           
+            
             if self.seletedImage.isEdit == false {
                 self.btnEdit.isHidden = true
             }else {
@@ -170,7 +159,7 @@ class PreviewController: UIViewController {
             }
         }
         
-    
+        
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
@@ -187,8 +176,8 @@ class PreviewController: UIViewController {
         // Preview Footer
         self.previewCollection.reloadData()
         self.btnDone.isHidden = false
-       if ContentList.sharedInstance.objStream != nil {
-        self.btnDone.isHidden = true
+        if ContentList.sharedInstance.objStream != nil {
+            self.btnDone.isHidden = true
         }
         if self.seletedImage.isUploaded  == false{
             self.btnShareAction.isHidden = true
@@ -257,7 +246,7 @@ class PreviewController: UIViewController {
             })
         }else {
             if seletedImage.type == .image  {
-        
+                
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     
                     image?.getColors({ (colors) in
@@ -269,7 +258,7 @@ class PreviewController: UIViewController {
                     
                 })
                 self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
-
+                
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     
@@ -280,8 +269,8 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-            self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
-
+                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true
@@ -313,9 +302,9 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
-       
+        
         self.imgPreview.contentMode = .scaleAspectFit
-
+        
     }
     
     
@@ -328,36 +317,10 @@ class PreviewController: UIViewController {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
     }
-
-    // MARK: -  Action Gestures
-    
-    @objc func respondToSwipeGestures(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.up:
-                // Up icon
-                self.kPreviewHeight.constant = 24.0
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-                self.imgPreview.contentMode = .scaleAspectFit
-                self.view.updateConstraintsIfNeeded()
-                break
-
-            case UISwipeGestureRecognizerDirection.down:
-                // Down icon
-                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-                self.kPreviewHeight.constant = 129.0
-                self.imgPreview.contentMode = .scaleAspectFit
-                self.view.updateConstraintsIfNeeded()
-                break
-
-            default:
-                break
-            }
-        }
-    }
     
     // MARK: -  Action Methods And Selector
-
+    
+    
     @IBAction func btnBackAction(_ sender: Any) {
         if self.strPresented == nil {
             self.imgPreview.image = nil
@@ -386,9 +349,9 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-//        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-//        obj.retakeIndex = self.selectedIndex
-//        self.navigationController?.popToViewController(vc: obj)
+        //        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        //        obj.retakeIndex = self.selectedIndex
+        //        self.navigationController?.popToViewController(vc: obj)
         shareSticker()
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
@@ -402,11 +365,11 @@ class PreviewController: UIViewController {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayContent
-                    AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream)!], contents: array!, completion: { (isScuccess, errorMSG) in
-                      HUDManager.sharedInstance.hideProgress()
-                        if (errorMSG?.isEmpty)! {
-                        }
-                    })
+                AWSRequestManager.sharedInstance.associateContentToStream(streamID: [(ContentList.sharedInstance.objStream)!], contents: array!, completion: { (isScuccess, errorMSG) in
+                    HUDManager.sharedInstance.hideProgress()
+                    if (errorMSG?.isEmpty)! {
+                    }
+                })
                 ContentList.sharedInstance.arrayContent.removeAll()
                 self.resetLayout()
                 self.previewCollection.reloadData()
@@ -423,7 +386,7 @@ class PreviewController: UIViewController {
                         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
                         self.navigationController?.popToViewController(vc: obj)
                     }
-                                    
+                    
                 }
             }
         }else {
@@ -433,12 +396,12 @@ class PreviewController: UIViewController {
         
     }
     @IBAction func btnDoneAction(_ sender: Any) {
-       self.view.endEditing(true)
+        self.view.endEditing(true)
         btnAddStream.isUserInteractionEnabled = false
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             HUDManager.sharedInstance.showProgress()
-
+            
             let arrayC = [String]()
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
             self.imgPreview.image = nil
@@ -453,13 +416,13 @@ class PreviewController: UIViewController {
                     
                     self.navigationController?.popToViewController(vc: objStream)
                 }else {
-                     kNavForProfile = ""
-                      let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+                    kNavForProfile = ""
+                    let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
                     self.navigationController?.popToViewController(vc: obj)
                 }
             }
         }
-       
+        
     }
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
@@ -477,7 +440,7 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnDeleteAction(_ sender: Any) {
-    
+        
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             
             let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
@@ -497,7 +460,7 @@ class PreviewController: UIViewController {
     }
     
     // MARK: - Class Methods
-
+    
     func deleteSelectedContent(){
         
         if self.seletedImage.isUploaded {
@@ -512,7 +475,7 @@ class PreviewController: UIViewController {
         }else {
             
             if self.seletedImage.type == .gif {
-             
+                
                 if let index =  arraySelectedContent?.index(where: {$0.coverImage.trim() == self.seletedImage.coverImage.trim()}) {
                     arraySelectedContent?.remove(at: index)
                 }
@@ -538,10 +501,10 @@ class PreviewController: UIViewController {
         }
         
         if  ContentList.sharedInstance.arrayContent.count != 0 {
-                self.preparePreview(index: 0)
+            self.preparePreview(index: 0)
         }else{
-             arrayAssests?.removeAll()
-             arraySelectedContent?.removeAll()
+            arrayAssests?.removeAll()
+            arraySelectedContent?.removeAll()
             if self.strPresented == nil {
                 self.navigationController?.popNormal()
             }else {
@@ -558,30 +521,30 @@ class PreviewController: UIViewController {
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
                 self.imgPreview.contentMode = .scaleAspectFit
-
+                
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.imgPreview.contentMode = .scaleAspectFit
-
+                
             }
             self.view.updateConstraintsIfNeeded()
-         //   self.imgPreview.image =  GalleryDAO.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
+            //   self.imgPreview.image =  GalleryDAO.sharedInstance.Images[self.selectedIndex].imgPreview.resizeImage(targetSize: CGSize(width: self.imgPreview.bounds.width * 2.0, height: self.imgPreview.bounds.height * 2.0))
         }
     }
-   
+    
     
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
-           photoEditor.image = image
+        photoEditor.image = image
         //PhotoEditorDelegate
-         photoEditor.photoEditorDelegate = self
-         photoEditor.hiddenControls = [.share]
+        photoEditor.photoEditorDelegate = self
+        photoEditor.hiddenControls = [.share]
         photoEditor.stickers = shapes.shapes
-         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-          present(photoEditor, animated: true) {
+        photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
+        present(photoEditor, animated: true) {
         }
     }
     
@@ -636,97 +599,97 @@ class PreviewController: UIViewController {
                 type = "Video"
                 AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
                     if error == nil {
-                self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
+                        self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
                     }
                 })
-
+                
             }else if seletedImage.type == .image {
                 AWSRequestManager.sharedInstance.imageUpload(image: seletedImage.imgPreview!, name: seletedImage.fileName!, completion: { (fileURL, error) in
                     self.addContent(fileUrl: fileURL!, type: type, fileUrlVideo:"")
-            })
-            }
-        }
-    }
-                /*
-                let image = seletedImage.imgPreview?.reduceSize()
-                var compressedData:NSData?
-                 compressedData = UIImageJPEGRepresentation(image!, 1.0) as NSData?
-                if compressedData == nil {
-                    compressedData = UIImagePNGRepresentation(seletedImage.imgPreview!) as NSData?
-                }
-                if let data = compressedData {
-                    let url = Document.saveFile(data: data as Data , name: seletedImage.fileName)
-                    let fileUrl = URL(fileURLWithPath: url)
-                    let obj = ["name":seletedImage.fileName!,"url":fileUrl] as [String : Any]
-                    arrayURL.append(obj)
-                    self.startUpload(arryUrl: arrayURL, type: type)
-                }else {
-                    self.showToast(strMSG: "Unable to Upload Image")
-                }
-                
-            }
-        }else {
-            if !self.seletedImage.contentID.trim().isEmpty {
-                HUDManager.sharedInstance.showHUD()
-                self.updateContent(coverImage: self.seletedImage.coverImage, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue)
-            }
-        }
-    }
-    */
-    /*
-    func startUpload(arryUrl:[Any],type:String){
-        var videoCover:String! = ""
-        var file:String! = ""
-        let dispatchGroup = DispatchGroup()
-        for url in arryUrl  {
-            let dict:[String:Any] = url as! [String : Any]
-            if let obj = dict["name"], let objurl = dict["url"]  {
-            print(obj)
-            print(objurl)
-            dispatchGroup.enter()
-            self.uploadFileToAWS(fileURL: objurl as! URL, name: obj as! String, completion: { (fileUrl,error) in
-                    if error == nil {
-                        if type == "Video" {
-                            if (fileUrl?.isImageType())! {
-                                videoCover = fileUrl
-                            }else {
-                               file = fileUrl
-                            }
-                        }else {
-                            file = fileUrl
-                        }
-                        dispatchGroup.leave()
-                }
                 })
             }
-            
-        }
-        dispatchGroup.notify(queue: .main) {
-            HUDManager.sharedInstance.hideProgress()
-            DispatchQueue.main.async {
-                print(videoCover)
-                HUDManager.sharedInstance.showHUD()
-                print(file)
-                if self.seletedImage.contentID.trim().isEmpty {
-                    self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
-                }else{
-                
-                self.updateContent(coverImage: file!, coverVideo: videoCover, type: type)
-                }
-            }
-            
-        }
-
- 
-    func uploadFileToAWS(fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void){
-        
-        AWSManager.sharedInstance.uploadFile(fileURL, name: name) { (fileUrl,error) in
-            completion(fileUrl,error)
-            
         }
     }
-*/
-
+    /*
+     let image = seletedImage.imgPreview?.reduceSize()
+     var compressedData:NSData?
+     compressedData = UIImageJPEGRepresentation(image!, 1.0) as NSData?
+     if compressedData == nil {
+     compressedData = UIImagePNGRepresentation(seletedImage.imgPreview!) as NSData?
+     }
+     if let data = compressedData {
+     let url = Document.saveFile(data: data as Data , name: seletedImage.fileName)
+     let fileUrl = URL(fileURLWithPath: url)
+     let obj = ["name":seletedImage.fileName!,"url":fileUrl] as [String : Any]
+     arrayURL.append(obj)
+     self.startUpload(arryUrl: arrayURL, type: type)
+     }else {
+     self.showToast(strMSG: "Unable to Upload Image")
+     }
+     
+     }
+     }else {
+     if !self.seletedImage.contentID.trim().isEmpty {
+     HUDManager.sharedInstance.showHUD()
+     self.updateContent(coverImage: self.seletedImage.coverImage, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue)
+     }
+     }
+     }
+     */
+    /*
+     func startUpload(arryUrl:[Any],type:String){
+     var videoCover:String! = ""
+     var file:String! = ""
+     let dispatchGroup = DispatchGroup()
+     for url in arryUrl  {
+     let dict:[String:Any] = url as! [String : Any]
+     if let obj = dict["name"], let objurl = dict["url"]  {
+     print(obj)
+     print(objurl)
+     dispatchGroup.enter()
+     self.uploadFileToAWS(fileURL: objurl as! URL, name: obj as! String, completion: { (fileUrl,error) in
+     if error == nil {
+     if type == "Video" {
+     if (fileUrl?.isImageType())! {
+     videoCover = fileUrl
+     }else {
+     file = fileUrl
+     }
+     }else {
+     file = fileUrl
+     }
+     dispatchGroup.leave()
+     }
+     })
+     }
+     
+     }
+     dispatchGroup.notify(queue: .main) {
+     HUDManager.sharedInstance.hideProgress()
+     DispatchQueue.main.async {
+     print(videoCover)
+     HUDManager.sharedInstance.showHUD()
+     print(file)
+     if self.seletedImage.contentID.trim().isEmpty {
+     self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
+     }else{
+     
+     self.updateContent(coverImage: file!, coverVideo: videoCover, type: type)
+     }
+     }
+     
+     }
+     
+     
+     func uploadFileToAWS(fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void){
+     
+     AWSManager.sharedInstance.uploadFile(fileURL, name: name) { (fileUrl,error) in
+     completion(fileUrl,error)
+     
+     }
+     }
+     */
+    
     func addContent(fileUrl:String,type:String,fileUrlVideo:String){
         APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl,coverImageVideo:fileUrlVideo, coverType: type,width:0,height:0) { (contents, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
@@ -741,13 +704,13 @@ class PreviewController: UIViewController {
         }
     }
     
-
+    
     func modifyObjects(contents:[ContentDAO]){
         
         if contents.count != 0 {
-        self.seletedImage = contents[0]
-        ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
-        self.preparePreview(index: selectedIndex)
+            self.seletedImage = contents[0]
+            ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
+            self.preparePreview(index: selectedIndex)
         }
         
         if self.isContentAdded {
@@ -756,9 +719,9 @@ class PreviewController: UIViewController {
     }
     
     func addContentToStream(){
-    let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+        let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
         self.navigationController?.push(viewController: obj)
-        }
+    }
     
     func deleteContent(){
         HUDManager.sharedInstance.showHUD()
@@ -789,29 +752,26 @@ class PreviewController: UIViewController {
     }
     
     func associateContent() {
-       
-//        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
-//            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
-//                if (errorMsg?.isEmpty)! {
-//                self.showToast(strMSG: kAlert_Content_Associated_To_Stream)
-//                }else {
-//                self.showToast(strMSG: errorMsg!)
-//                }
-//            })
-//        }
+        
+        //        if ContentList.sharedInstance.objStream != nil && contents.count != 0{
+        //            AWSRequestManager.sharedInstance.associateContentToStream(streamID: (ContentList.sharedInstance.objStream?.streamID)!, contentID: contents, completion: { (isSuccess, errorMsg) in
+        //                if (errorMsg?.isEmpty)! {
+        //                self.showToast(strMSG: kAlert_Content_Associated_To_Stream)
+        //                }else {
+        //                self.showToast(strMSG: errorMsg!)
+        //                }
+        //            })
+        //        }
         
     }
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
-
-
-
