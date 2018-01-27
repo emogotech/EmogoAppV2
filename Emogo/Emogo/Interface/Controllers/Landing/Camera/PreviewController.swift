@@ -71,6 +71,17 @@ class PreviewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Prepare Gestures
+    func prepareGestures() {
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGestures))
+        swipeUp.direction = UISwipeGestureRecognizerDirection.up
+        self.view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGestures))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        self.view.addGestureRecognizer(swipeDown)
+    }
+    
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
@@ -318,10 +329,36 @@ class PreviewController: UIViewController {
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
     }
+
+    // MARK: -  Action Gestures
+    
+    @objc func respondToSwipeGestures(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.up:
+                // Up icon
+                self.kPreviewHeight.constant = 24.0
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                self.imgPreview.contentMode = .scaleAspectFit
+                self.view.updateConstraintsIfNeeded()
+                break
+
+            case UISwipeGestureRecognizerDirection.down:
+                // Down icon
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
+                self.kPreviewHeight.constant = 129.0
+                self.imgPreview.contentMode = .scaleAspectFit
+                self.view.updateConstraintsIfNeeded()
+                break
+
+            default:
+                break
+            }
+        }
+    }
     
     // MARK: -  Action Methods And Selector
 
-    
     @IBAction func btnBackAction(_ sender: Any) {
         if self.strPresented == nil {
             self.imgPreview.image = nil
