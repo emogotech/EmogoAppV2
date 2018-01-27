@@ -239,7 +239,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ContentBulkDeleteSerializer
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = Content.actives.all().order_by('-upd')
         queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
         # Delete stream and content relation.
         StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
