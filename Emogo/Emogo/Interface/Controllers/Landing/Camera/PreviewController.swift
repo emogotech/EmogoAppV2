@@ -114,9 +114,8 @@ class PreviewController: UIViewController {
             let arrayC = [String]()
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
-            AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
             self.showToast(strMSG: "Please while wait content is upload...")
-        self.btnDone.isHidden = true
+           self.btnDone.isHidden = true
         }
         
         for obj in  ContentList.sharedInstance.arrayContent {
