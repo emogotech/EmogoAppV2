@@ -502,6 +502,12 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.popNormal()
     }
+    func swipeUpDelegate() {
+        self.animateView()
+    }
+    func swipeDownDelegate() {
+        self.animateView()
+    }
 }
 
 

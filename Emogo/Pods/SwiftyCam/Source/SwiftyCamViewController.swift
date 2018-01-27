@@ -1143,6 +1143,12 @@ extension SwiftyCamViewController {
                 self.cameraDelegate?.swipeBackDelegate()
                 break
                 
+            case UISwipeGestureRecognizerDirection.up:
+                self.cameraDelegate?.swipeUpDelegate()
+                break
+            case UISwipeGestureRecognizerDirection.down:
+                self.cameraDelegate?.swipeDownDelegate()
+                break
             default:
                 break
             }
@@ -1221,6 +1227,14 @@ extension SwiftyCamViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         previewLayer.addGestureRecognizer(swipeRight)
 
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondSwipeGesture(gesture:)))
+        swipeUp.direction = .up
+        previewLayer.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondSwipeGesture(gesture:)))
+        swipeDown.direction = .down
+        previewLayer.addGestureRecognizer(swipeDown)
+        
 	}
 }
 

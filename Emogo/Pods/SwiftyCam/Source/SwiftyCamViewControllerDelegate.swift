@@ -87,6 +87,8 @@ public protocol SwiftyCamViewControllerDelegate: class {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
     
     func swipeBackDelegate()
+    func swipeUpDelegate()
+    func swipeDownDelegate()
 
     
 }

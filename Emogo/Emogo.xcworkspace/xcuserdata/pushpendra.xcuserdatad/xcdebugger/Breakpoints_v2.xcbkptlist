@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/LinkViewController.swift"
-            timestampString = "538675723.580974"
+            filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
+            timestampString = "538752283.730742"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "btnConfirmActiion(_:)"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
+            landmarkName = "apiForViewStream(streamID:completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "538752283.730742"
+            filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/LinkViewController.swift"
+            timestampString = "538761864.2667021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "624"
-            endingLineNumber = "624"
-            landmarkName = "apiForViewStream(streamID:completionHandler:)"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "btnConfirmActiion(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

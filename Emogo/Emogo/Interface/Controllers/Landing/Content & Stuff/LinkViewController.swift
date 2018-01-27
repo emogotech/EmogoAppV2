@@ -70,6 +70,7 @@ class LinkViewController: UIViewController {
     
     
     @IBAction func btnConfirmActiion(_ sender: Any) {
+        self.view.endEditing(true)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
@@ -90,8 +91,6 @@ class LinkViewController: UIViewController {
                 
                 slp.preview(smartUrl.absoluteString,
                             onSuccess: { result in
-                                print("\(result)")
-                                debugPrint(result)
                                 let content = ContentDAO(contentData: [:])
                                 let title = result[SwiftLinkResponseKey.title]
                                 let description = result[SwiftLinkResponseKey.description]
@@ -100,7 +99,11 @@ class LinkViewController: UIViewController {
                                     content.name = (title as! String).trim().findUrl()
                                 }
                                 if let description = description {
-                                    content.description = (description as! String).trim()
+                                    var str  = (description as! String).trim()
+                                    if str.count > 250 {
+                                        str = (description as! String).trim(count: 250)
+                                    }
+                                    content.description = str
                                 }
                                 content.coverImage = smartUrl.absoluteString
                                 content.type = .link
@@ -126,28 +129,32 @@ class LinkViewController: UIViewController {
                                         }
                                     }
                                 }
-//
-//                                print(result[SwiftLinkResponseKey.canonicalUrl])
-//                                if imgUrl.isEmpty {
-//                                    let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
-//                                    if let imageUrl = imageUrl1 {
-//                                        let strImages:URL = imageUrl as! URL
-//                                        print(strImages.absoluteString.extractUrlFromText())
-//                                    }
-//                                }
-//
-                                if !imgUrl.isEmpty {
-                                    content.coverImageVideo = imgUrl.trim()
-                                    SharedData.sharedInstance.downloadImage(url:  imgUrl.trim(), handler: { (image) in
+
+                                if imgUrl.isEmpty {
+                                    let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
+                                    let url:String = (imageUrl1 as! URL).absoluteString.trim().slice(from: "?imgurl=", to: "&imgrefurl")!
+                                    print(url)
+                                    imgUrl = url
+                                    }
+
+                                if !imgUrl.trim().isEmpty {
+                                    SharedData.sharedInstance.downloadFile(strURl:  imgUrl.trim(), handler: { (image,_) in
                                         if let img =  image {
                                             content.height = Int(img.size.height)
                                             content.width = Int(img.size.width)
                                         }
+                                        content.coverImageVideo = imgUrl.trim()
+                                        self.createContentForExtractedData(content: content)
+
                                     })
+                                    
+                                }
+                                if imgUrl.isEmpty {
+                                    content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                                    content.coverImageVideo = imgUrl.trim()
                                     self.createContentForExtractedData(content: content)
                                 }
-                                
-                            HUDManager.sharedInstance.hideHUD()
+                               
 
                 },
                             onError: {
@@ -171,6 +178,7 @@ class LinkViewController: UIViewController {
 
     
     func createContentForExtractedData(content:ContentDAO){
+        HUDManager.sharedInstance.hideHUD()
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
