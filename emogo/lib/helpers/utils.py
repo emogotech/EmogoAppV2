@@ -53,7 +53,7 @@ def generate_pin(length=5):
     return random.sample(range(10 ** (length - 1), 10 ** length), 1)[0]
 
 
-def send_otp(phone_number):
+def send_otp(phone_number, body):
     """
     :param phone_number:
     :return: Sending sms to verify user registration
@@ -61,7 +61,7 @@ def send_otp(phone_number):
     pin = generate_pin()
     client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     try:
-        client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="Emogo sign up OTP : {0}".format(pin))
+        client.messages.create(to=phone_number, from_=settings.TWILIO_FROM_NUMBER, body="{0} : {1}".format(body, pin))
     except TwilioRestException as e:
         return None  # Todo : developer return here is None it should return proper error from TwilioRestException class
     return pin

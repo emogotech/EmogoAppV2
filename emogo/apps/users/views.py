@@ -67,8 +67,8 @@ class Login(APIView):
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
-            user_profile = serializer.authenticate()
-            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image")
+            user_profile = serializer.authenticate_user()
+            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image")
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -314,4 +314,17 @@ class GetTopStreamAPI(APIView):
         """
         serializer = self.serializer_class(data=request.data, context=self.request)
         if serializer.is_valid():
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+class VerifyLoginOTP(APIView):
+    """
+    User login API
+    """
+
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
+        if serializer.is_valid(raise_exception=True):
+            user_profile = serializer.authenticate_login_OTP(request.data["otp"])
+            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image")
+            serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)

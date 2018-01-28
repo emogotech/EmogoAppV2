@@ -39,7 +39,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
         # The code is run while user was not verified but try to sign-up with different user_name or phone number
         # 1. While user request with same user_name and different phone number
-        sent_otp = send_otp(validated_data.get('username'))  # Todo Uncomment this code before move to stage server
+        body =  "Emogo sign up OTP"
+        sent_otp = send_otp(validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
         # sent_otp = 12345
         if sent_otp is not None:
             setattr(self, 'user_pin', sent_otp)
@@ -209,6 +210,16 @@ class UserLoginSerializer(UserSerializer):
     User login serializer inherits : UserSerializer
     """
     phone_number = serializers.CharField(source='username')
+    otp = serializers.IntegerField(min_value=1, required=False)
+
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        self.Meta.fields.append('otp')
+        # self.Meta.fields.pop('streams')
+        # self.Meta.fields.append('otp')
+
+        # Instantiate the superclass normally
+        super(UserLoginSerializer, self).__init__(*args, **kwargs)
 
     def validate_phone_number(self, value):
         if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
@@ -216,10 +227,31 @@ class UserLoginSerializer(UserSerializer):
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
-    def authenticate(self):
-        user = authenticate(username=self.validated_data.get('username'), password=settings.DEFAULT_PASSWORD)
+    def authenticate_user(self):
+        try:
+            user = User.objects.get(username=self.validated_data.get('username'))
+            user_profile = UserProfile.objects.get(user=user)
+            body = "Emogo login OTP"
+            sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+            # sent_otp = 12345
+            if sent_otp is not None:
+                setattr(self, 'user_pin', sent_otp)
+            else:
+                raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
+            print self.user_pin
+            user.set_password(self.user_pin)
+            user.save()
+
+        except UserProfile.DoesNotExist:
+            raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
+        return user_profile
+
+    def authenticate_login_OTP(self, otp):
+        print self.validated_data.get('username')
+        user = authenticate(username=self.validated_data.get('username'), password=otp)
         try:
             user_profile = UserProfile.objects.get(user=user)
+
             if hasattr(user, 'auth_token'):
                 user.auth_token.delete()
             token = Token.objects.create(user=user)
@@ -227,7 +259,6 @@ class UserLoginSerializer(UserSerializer):
         except UserProfile.DoesNotExist:
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
-
 
 class UserResendOtpSerializer(UserProfileSerializer):
     """
