@@ -174,12 +174,20 @@ class SignInViewController: MSMessagesAppViewController {
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
-                    let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
-                        UserDAO.sharedInstance.parseUserInfo()
-                    }
+                    
+                    let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
+                    obj.OTP = errorMsg
+                    obj.isForLogin = "errorMsg"
+                    obj.phone = self.txtMobileNumber.text?.trim()
+                    //                self.addTransitionAtPresentingControllerRight()
                     self.present(obj, animated: false, completion: nil)
-                    self.addTransitionAtPresentingControllerRight()
+                    
+//                    let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+//                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
+//                        UserDAO.sharedInstance.parseUserInfo()
+//                    }
+//                    self.present(obj, animated: false, completion: nil)
+//                    self.addTransitionAtPresentingControllerRight()
                 }
                 else {
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)

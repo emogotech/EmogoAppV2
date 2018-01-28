@@ -80,7 +80,7 @@ class SignUpViewController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     let obj:VerificationViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
-                    obj.OTP = errorMsg
+                     obj.OTP = errorMsg
                     obj.phone = self.txtPhoneNumber.text?.trim()
                     self.navigationController?.push(viewController: obj)
                 }else {

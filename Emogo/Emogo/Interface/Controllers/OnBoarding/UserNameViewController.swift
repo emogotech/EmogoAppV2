@@ -66,7 +66,7 @@ class UserNameViewController: UIViewController {
             self.showToast(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
         }else if (txtUserName.text?.trim().contains(kString_singleSpace))!{
             self.showToast(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
-        }else if  checkBox.isChecked {
+        }else if  checkBox.isChecked == false{
             self.showToast(type: .error, strMSG: kAlert_Terms_Condition_Msg)
         }else {
             self.verifyUserName()

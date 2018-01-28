@@ -107,6 +107,36 @@ class APIServiceManager: NSObject {
         }
     }
     
+    func apiForVerifyLoginOTP(otp:String, phone:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let params:[String:Any] = ["otp":otp,"phone_number":phone]
+        APIManager.sharedInstance.POSTRequest(strURL: kVerifyLoginAPI, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        
+                        if let data = (value as! [String:Any])["data"] {
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            UserDAO.sharedInstance.parseUserInfo()
+                            kDefault?.set(true, forKey: kUserLogggedIn)
+                        }
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+    
+    
     // MARK: - Resend OTP API
     
     func apiForResendOTP( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
@@ -151,10 +181,10 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let dictUserData:NSDictionary = data as! NSDictionary
-                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
-                            UserDAO.sharedInstance.parseUserInfo()
-                            print(UserDAO.sharedInstance.user.fullName)
-                            kDefault?.set(true, forKey: kUserLogggedIn)
+                            //kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                          //  UserDAO.sharedInstance.parseUserInfo()
+                            print(dictUserData)
+                          //  kDefault?.set(true, forKey: kUserLogggedIn)
                         }
                         completionHandler(true,"")
                     }else {

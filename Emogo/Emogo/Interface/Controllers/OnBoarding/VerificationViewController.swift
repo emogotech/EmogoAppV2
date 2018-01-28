@@ -16,6 +16,7 @@ class VerificationViewController: UIViewController {
 
      var OTP:String!
      var phone:String!
+    var isForLogin:String!
 
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -47,7 +48,11 @@ class VerificationViewController: UIViewController {
         }else if (txtOtP.text?.trim().count)! != 5 {
             self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
-            self.verifyOTP()
+            if self.isForLogin == nil {
+                self.verifyOTP()
+            }else {
+                verifyLogin()
+            }
         }
     }
     
@@ -82,6 +87,24 @@ class VerificationViewController: UIViewController {
        
     }
     
+    func verifyLogin(){
+        
+        if Reachability.isNetworkAvailable() {
+            HUDManager.sharedInstance.showHUD()
+            APIServiceManager.sharedInstance.apiForVerifyLoginOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
+                if isSuccess == true {
+                    AppDelegate.appDelegate.removeOberserver()
+                    let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
+                    self.navigationController?.flipPush(viewController: obj)
+                }else {
+                    self.showToast(type: .error, strMSG: errorMsg!)
+                }
+            }
+        }else {
+            self.showToast(type: .error, strMSG: kAlert_Network_ErrorMsg)
+        }
+    }
     func resendOTP(){
         if Reachability.isNetworkAvailable() {
             HUDManager.sharedInstance.showHUD()

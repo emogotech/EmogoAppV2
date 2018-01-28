@@ -28,8 +28,10 @@ let kRegion = AWSRegionType.USEast1
 
 // MARK: -  API
 // base URL
-let kBaseURL                                      = "http://54.196.89.61/api/"
-let kGetCountryCode                               = "http://freegeoip.net/json/"
+//let kBaseURL                                      = "http://54.196.89.61/api/"
+let kBaseURL                                        = "http://prodapi.emogo.co/api/"
+
+let kGetCountryCode                                 = "http://freegeoip.net/json/"
 
 // MARK: -  API END POINTS
 
@@ -54,7 +56,10 @@ let kReportAPI                                      = "extremist_report/"
 let kProfileUpdateAPI                               = "users/"
 let kDeleteStreamContentAPI                         = "delete_stream_content/"
 let kGetTopStreamAPI                                = "get_top_stream/"
-let kGetContentDescriptionAPI                                = "content/"
+let kGetContentDescriptionAPI                       = "content/"
+let kVerifyLoginAPI                                 = "verify_login_otp/"
+
+
 
 // MARK: -  API STATUS CODE
 enum APIStatus: String {

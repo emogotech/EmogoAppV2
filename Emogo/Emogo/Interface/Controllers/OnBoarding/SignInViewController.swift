@@ -79,8 +79,16 @@ class SignInViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForUserLogin(phone: (txtPhoneNumber.text?.trim())!) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
+                    /*
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                     self.navigationController?.flipPush(viewController: obj)
+ */
+                    
+                    let obj:VerificationViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
+                    obj.isForLogin = "errorMsg"
+                    obj.phone = self.txtPhoneNumber.text?.trim()
+                    self.navigationController?.push(viewController: obj)
+                    
                 }else {
                     self.showToast(type: .error, strMSG: errorMsg!)
                 }

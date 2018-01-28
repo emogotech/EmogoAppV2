@@ -23,6 +23,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     var OTP                                 : String?
     var phone                               : String?
     var hudView                             : LoadingView!
+    var isForLogin:String!
+
     
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
@@ -170,7 +172,12 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
         else {
             self.view.endEditing(true)
-            self.verifyOTP()
+            if self.isForLogin == nil {
+                self.verifyOTP()
+            }else {
+                verifyLogin()
+            }
+            
         }
     }
     
@@ -239,6 +246,29 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
+    
+    func verifyLogin(){
+        
+        if Reachability.isNetworkAvailable() {
+            self.hudView.startLoaderWithAnimation()
+            APIServiceManager.sharedInstance.apiForVerifyLoginOTP(otp: self.txtVeryficationCode.text!,phone: self.phone!) { (isSuccess, errorMsg) in
+
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
+                if isSuccess == true {
+                    let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
+                    self.addTransitionAtPresentingControllerRight()
+                    self.present(obj, animated: false, completion: nil)
+                }else {
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
+                }
+            }
+        }else {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
+        }
+    }
+    
     
     func resendOTP(){
         if Reachability.isNetworkAvailable() {

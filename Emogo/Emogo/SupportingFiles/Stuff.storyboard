@@ -1612,8 +1612,9 @@
                                 <attributedString key="attributedText">
                                     <fragment content="Terms and Conditions - Emogo Technologies">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="22" name="Times-Bold"/>
+                                            <font key="NSFont" size="16" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1626,6 +1627,7 @@
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1637,8 +1639,9 @@ Cg
                                     </fragment>
                                     <fragment content="Please read these terms and conditions carefully before using Emogo, operated by Emogo Technologies.">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1651,6 +1654,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1662,8 +1666,9 @@ Cg
                                     </fragment>
                                     <fragment content="Conditions of Use">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1676,6 +1681,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1688,8 +1694,9 @@ Cg
                                     <fragment>
                                         <string key="content">We will provide services to you, which are subject to the conditions stated below in this document. Every time you visit this app, use its services or make a purchase, you accept the following conditions. This is why we urge you to read them carefully.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1702,6 +1709,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1713,8 +1721,9 @@ Cg
                                     </fragment>
                                     <fragment content="Privacy Policy">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1727,6 +1736,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1739,8 +1749,9 @@ Cg
                                     <fragment>
                                         <string key="content">Before you continue using our app we advise you to read our privacy policy [link to privacy policy] regarding our user data collection. It will help you better understand our practices.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1753,6 +1764,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1764,8 +1776,9 @@ Cg
                                     </fragment>
                                     <fragment content="Copyright">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1778,6 +1791,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1790,8 +1804,9 @@ Cg
                                     <fragment>
                                         <string key="content">Content published on this website (digital downloads, images, texts, graphics, logos) is the property of Emogo technologies and/or its content creators and protected by international copyright laws.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1804,6 +1819,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1815,8 +1831,9 @@ Cg
                                     </fragment>
                                     <fragment content="Communications">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1829,6 +1846,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1841,8 +1859,9 @@ Cg
                                     <fragment>
                                         <string key="content">The entire communication with us is electronic. Every time you send use this app you are going to be communicating with us. You hereby consent to receive communications from us. If you enable notifications, you are going to receive notifications from us. </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1855,6 +1874,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1866,8 +1886,9 @@ Cg
                                     </fragment>
                                     <fragment content="Applicable Law">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1880,6 +1901,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1892,8 +1914,9 @@ Cg
                                     <fragment>
                                         <string key="content">By visiting this app, you agree that the laws of the United States of America, without regard to principles of conflict laws, will govern these terms and conditions, or any dispute of any sort that might come between Emogo Technologies and you, or its business partners and associates.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1906,6 +1929,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1917,8 +1941,9 @@ Cg
                                     </fragment>
                                     <fragment content="Disputes">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1931,6 +1956,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1943,8 +1969,9 @@ Cg
                                     <fragment>
                                         <string key="content">Any dispute related in any way to your visit to this app shall be arbitrated by state or federal court and you consent to exclusive jurisdiction and venue of such courts.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1957,6 +1984,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1968,8 +1996,9 @@ Cg
                                     </fragment>
                                     <fragment content="Posts">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -1982,6 +2011,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -1994,8 +2024,9 @@ Cg
                                     <fragment>
                                         <string key="content">Visitors may post content as long as it is not obscene, illegal, defamatory, threatening, infringing of intellectual property rights, invasive of privacy or injurious in any other way to third parties. Content has to be free of software viruses.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2008,6 +2039,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -2020,8 +2052,9 @@ Cg
                                     <fragment>
                                         <string key="content">We reserve all rights (but not the obligation) to remove and/or edit such content. When you post your content public, you grant Emogo Technologies non-exclusive, royalty-free and irrevocable right to use, reproduce, publish, modify such content throughout the world in any media.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2034,6 +2067,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -2045,8 +2079,9 @@ Cg
                                     </fragment>
                                     <fragment content="License and Site Access">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2059,6 +2094,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -2068,16 +2104,27 @@ Cg
                                             <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         </attributes>
                                     </fragment>
-                                    <fragment>
-                                        <string key="content">We grant you a limited license to access and make personal use of this app. Exceptions may be granted only with written consent from us.</string>
+                                    <fragment content="We grant you a limited license to access and make personal use of this app. Exceptions may be granted ">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
                                             </paragraphStyle>
                                             <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="only with written consent from us.">
+                                        <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="12" name="SFProDisplay-Regular"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                         </attributes>
                                     </fragment>
                                     <fragment>
@@ -2085,19 +2132,20 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="Times-Roman"/>
-                                            <real key="NSKern" value="0.0"/>
+                                            <font key="NSFont" size="12" name="TimesNewRomanPSMT"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
                                             </paragraphStyle>
-                                            <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="NSUnderlineColor" red="0.0" green="0.0" blue="0.039215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                         </attributes>
                                     </fragment>
                                     <fragment content="User Account">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="Times-Bold"/>
+                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2110,6 +2158,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -2122,8 +2171,9 @@ Cg
                                     <fragment>
                                         <string key="content">If you are an owner of an account on this app, you are solely responsible for maintaining the confidentiality of your private user details (username and password). You are responsible for all activities that occur under your account or password.</string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2136,6 +2186,7 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
@@ -2147,8 +2198,9 @@ Cg
                                     </fragment>
                                     <fragment content="We reserve all rights to terminate accounts, edit or remove content and cancel orders in their sole discretion.">
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="Times-Roman"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2161,6 +2213,37 @@ Cg
 Cg
 </string>
                                         <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="11" name="Times-Roman"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <font key="NSFont" size="11" name="Times-Roman"/>
                                             <real key="NSKern" value="0.0"/>
