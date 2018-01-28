@@ -279,7 +279,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
-                    self.txtVeryficationCode.text = errorMsg
+                    self.showToastIMsg(type: .error, strMSG: kAlert_OTP_Msg)
+//                    self.txtVeryficationCode.text = errorMsg
                 }
             }
         }else {

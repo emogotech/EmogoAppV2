@@ -262,6 +262,7 @@ let kAlert_Stream_Cover_Empty                                              = "Pl
 let kAlert_Stream_Colab_Empty                                              = "Please Select Atleast one Collaborator."
 let kAlert_Invalid_User_Space_Msg                                           = "Space not allowed."
 let kAlert_Terms_Condition_Msg                                           = "Accept Terms And Condition."
+let kAlert_OTP_Msg                                       = "One time Password sent on your number Successfully."
 
 let kAlert_Content_Added                                                  = "Content Created Successfully."
 let kAlert_Content_Associated_To_Stream                                     = "Content associated with selected Stream."

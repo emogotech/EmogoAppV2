@@ -111,7 +111,8 @@ class VerificationViewController: UIViewController {
             APIServiceManager.sharedInstance.apiForResendOTP(phone: self.phone) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
-                    self.txtOtP.text = errorMsg
+                    self.showToast(type: .error, strMSG: kAlert_OTP_Msg)
+//                    self.txtOtP.text = errorMsg
                 }
             }
         }else {
