@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -533,8 +533,7 @@
                                         </constraints>
                                         <state key="normal" image="done-btn"/>
                                         <connections>
-                                            <action selector="btnDone:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="sSG-7U-JJj"/>
-                                            <action selector="btnResend:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="5hE-oL-s9S"/>
+                                            <action selector="btnDone:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="IMi-IR-r6i"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDn-OM-QzU">
@@ -603,6 +602,9 @@
                                         <state key="normal" title="Resend Code">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnResend:" destination="eQ0-lP-RCy" eventType="touchUpInside" id="rhS-te-JfB"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" background="input_text_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="2rj-8b-aOm">
                                         <rect key="frame" x="38" y="58" width="299" height="49"/>
