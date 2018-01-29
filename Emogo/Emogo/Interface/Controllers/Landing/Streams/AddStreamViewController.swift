@@ -12,6 +12,8 @@ import PhotosUI
 import AVFoundation
 import Lightbox
 import Contacts
+import CropViewController
+
 
 class AddStreamViewController: UITableViewController {
     
@@ -339,6 +341,12 @@ class AddStreamViewController: UITableViewController {
     
     @IBAction func btnActionCamera(_ sender: Any) {
         
+        let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        cameraViewController.isDismiss = true
+        cameraViewController.delegate = self
+        self.present(cameraViewController, animated: true, completion: nil)
+        
+        /*
         let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
             if let img = image{
                 self?.setCoverImage(image: img)
@@ -347,6 +355,7 @@ class AddStreamViewController: UITableViewController {
         }
         
         present(cameraViewController, animated: true, completion: nil)
+ */
        
     }
     
@@ -411,6 +420,13 @@ class AddStreamViewController: UITableViewController {
             controller.dynamicBackground = true
             present(controller, animated: true, completion: nil)
         }
+    }
+    
+    func presentCropperWithImage(image:UIImage){
+         let croppingStyle = CropViewCroppingStyle.default
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
+        cropController.delegate = self
+        self.present(cropController, animated: true, completion: nil)
     }
     
     
@@ -629,6 +645,29 @@ extension AddStreamViewController :UITextViewDelegate, UITextFieldDelegate {
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250
+    }
+}
+
+
+extension AddStreamViewController:CustomCameraViewControllerDelegate {
+    func dismissWith(image: UIImage?) {
+        if let img = image {
+            self.presentCropperWithImage(image: img)
+        }
+    }
+
+}
+
+
+extension AddStreamViewController:CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true, completion: nil)
+        self.setCoverImage(image: image)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        self.setCoverImage(image: cropViewController.image)
+        cropViewController.dismiss(animated: true, completion: nil)
     }
 }
 
