@@ -15,11 +15,13 @@ class ViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
+        AppDelegate.appDelegate.addOberserver()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

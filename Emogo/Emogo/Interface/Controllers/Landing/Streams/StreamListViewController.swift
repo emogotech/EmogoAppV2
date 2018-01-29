@@ -168,6 +168,7 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         // Logout User if Token Is Expired
+        AppDelegate.appDelegate.removeOberserver()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
             kDefault?.set(false, forKey: kUserLogggedIn)
             kDefault?.removeObject(forKey: kUserLogggedInData)
@@ -790,6 +791,7 @@ class StreamListViewController: UIViewController {
                         self.lblNoResult.isHidden = false
                     }else {
                         self.lblNoResult.isHidden = true
+                        self.lblStreamSearch.text = "Strem"
                     }
                     self.streamCollectionView.reloadData()
                 }
@@ -798,6 +800,7 @@ class StreamListViewController: UIViewController {
                 self.viewSearch.isHidden = false
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
+                
                 self.expandStreamHeight()
                 if !(errorMsg?.isEmpty)! {
                     self.showToast(type: .success, strMSG: errorMsg!)

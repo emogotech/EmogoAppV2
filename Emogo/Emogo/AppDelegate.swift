@@ -201,11 +201,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func removeOberserver(){
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
         NotificationCenter.default.removeObserver(self)
     }
     
     func addOberserver(){
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
 }
 

@@ -31,6 +31,7 @@ class SignInViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        AppDelegate.appDelegate.removeOberserver()
         AppDelegate.appDelegate.addOberserver()
         
         addToolBar(textField: txtPhoneNumber)

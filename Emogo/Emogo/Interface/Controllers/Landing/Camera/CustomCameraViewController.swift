@@ -9,6 +9,11 @@
 import UIKit
 import SwiftyCam
 
+
+protocol CustomCameraViewControllerDelegate {
+    func dismissWith(image:UIImage?)
+}
+
 class CustomCameraViewController: SwiftyCamViewController {
     // MARK: - UI Elements
     @IBOutlet weak var btnFlash:  UIButton!
@@ -39,7 +44,10 @@ class CustomCameraViewController: SwiftyCamViewController {
     var beepSound: Sound?
     let interactor = PMInteractor()
     var selectedAssets = [TLPHAsset]()
+    var delegate:CustomCameraViewControllerDelegate?
+    var isDismiss:Bool?
     
+
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -55,11 +63,12 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
-        if ContentList.sharedInstance.arrayContent.count == 0 {
-            kPreviewHeight.constant = 24.0
-            self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+        if self.isDismiss == nil {
+            if ContentList.sharedInstance.arrayContent.count == 0 {
+                kPreviewHeight.constant = 24.0
+                self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+            }
         }
-        
         print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -105,10 +114,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         tapGesture.numberOfTapsRequired = 1
         btnCamera.addGestureRecognizer(tapGesture)
         
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
-        btnCamera.addGestureRecognizer(longGesture)
-        
-        
+        if self.isDismiss == nil {
+            let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
+            btnCamera.addGestureRecognizer(longGesture)
+        }
+
     }
     
     func prepareContainerToPresent(){
@@ -217,8 +227,13 @@ class CustomCameraViewController: SwiftyCamViewController {
             viewController.selectedAssets = [TLPHAsset]()
             var configure = TLPhotosPickerConfigure()
             configure.numberOfColumn = 3
-            configure.maxSelectedAssets = 10
-            configure.muteAudio = true
+         if self.isDismiss != nil {
+            configure.allowedVideo =  false
+            configure.singleSelectedMode = true
+          }else {
+             configure.maxSelectedAssets = 10
+          }
+             configure.muteAudio = true
             configure.usedCameraButton = false
               configure.usedPrefetch = false
             viewController.configure = configure
@@ -243,10 +258,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @IBAction func btnActionBack(_ sender: Any) {
-        // self.beepSound?.stop()
         if timer != nil {
             self.timer.invalidate()
         }
+        if self.isDismiss != nil {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        // self.beepSound?.stop()
         if self.isCaptureMode == false {
             self.isRecording = false
             self.recordButtonTapped(isShow: false)
@@ -319,6 +338,29 @@ class CustomCameraViewController: SwiftyCamViewController {
     // MARK: - Class Methods
     
     func preparePreview(assets:[TLPHAsset]){
+        
+        if self.isDismiss != nil {
+            if self.delegate != nil {
+                if assets[0].fullResolutionImage == nil
+                {
+                    assets[0].cloudImageDownload(progressBlock: { (progress) in
+                        
+                    }, completionBlock: { (image) in
+                        if let img = image {
+                            self.dismiss(animated: true, completion: {
+                                self.delegate?.dismissWith(image: img)
+                            })
+                        }
+                    })
+                }else {
+                    self.dismiss(animated: true, completion: {
+                        self.delegate?.dismissWith(image: assets[0].fullResolutionImage!)
+                    })
+                }
+            }
+            return
+        }
+        
         if   ContentList.sharedInstance.arrayContent.count == 0  && assets.count != 0 {
             self.viewUP()
         }
@@ -445,13 +487,22 @@ class CustomCameraViewController: SwiftyCamViewController {
 extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        let camera = ContentDAO(contentData: [:])
-        camera.type = .image
-        camera.imgPreview = photo.scaleAndRotate()
-        camera.fileName = NSUUID().uuidString + ".png"
-        self.updateData(content: camera)
-        self.btnCamera.isUserInteractionEnabled = true
-        self.previewCollection.reloadData()
+        if isDismiss == nil {
+            let camera = ContentDAO(contentData: [:])
+            camera.type = .image
+            camera.imgPreview = photo.fixOrientation()
+            camera.fileName = NSUUID().uuidString + ".png"
+            self.updateData(content: camera)
+            self.btnCamera.isUserInteractionEnabled = true
+            self.previewCollection.reloadData()
+        }else {
+            if self.delegate != nil {
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.dismissWith(image: photo)
+                })
+            }
+        }
+    
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         // Called when startVideoRecording() is called
