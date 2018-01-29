@@ -224,12 +224,13 @@ class UserLoginSerializer(UserSerializer):
             user_profile = UserProfile.objects.get(user=user)
             body = "Emogo login OTP"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+            # print sent_otp
             # sent_otp = 12345
             if sent_otp is not None:
                 setattr(self, 'user_pin', sent_otp)
             else:
                 raise serializers.ValidationError({'phone_number': messages.MSG_UNABLE_TO_SEND_OTP.format(self.validated_data.get('username'))})
-            print self.user_pin
+            # print self.user_pin
             user.set_password(self.user_pin)
             user.save()
 
@@ -262,15 +263,17 @@ class VerifyOtpLoginSerializer(UserSerializer):
 
     def authenticate_login_OTP(self, otp):
         # print self.validated_data.get('username')
-        user = authenticate(username=self.validated_data.get('username'), password=otp)
         try:
+            User.objects.get(username=self.validated_data.get('username'))
+            user = authenticate(username=self.validated_data.get('username'), password=otp)
+            if user is None:
+                raise serializers.ValidationError(messages.MSG_INVALID_OTP)
             user_profile = UserProfile.objects.get(user=user)
-
             if hasattr(user, 'auth_token'):
                 user.auth_token.delete()
             token = Token.objects.create(user=user)
             token.save()
-        except UserProfile.DoesNotExist:
+        except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
 
