@@ -4,3 +4,5 @@ emogo/local_settings.py
 emogo/apps/users/migrations/
 emogo/apps/stream/migrations/
 emogo/apps/collaborator/migrations/
+logs/
+*.log
