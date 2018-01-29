@@ -190,19 +190,17 @@ LOGGING = {
         },
     }
 }
-# from django.utils.log import DEFAULT_LOGGING
-# LOGGING
-#
-# LOGGING['handlers']['slack_admins'] = {
-#   'level': 'ERROR',
-#   'filters': ['require_debug_false'],
-#   'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
-# }
-#
-# LOGGING['loggers']['django'] = {
-#   'handlers': ['console','slack_admins'],
-#   'level': 'INFO',
-# }
+
+LOGGING['handlers']['slack_admins'] = {
+  'level': 'ERROR',
+  'filters': ['require_debug_false'],
+  'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
+}
+
+LOGGING['loggers']['django'] = {
+  'handlers': ['slack_admins'],
+  'level': 'INFO',
+}
 
 
 # Get Local Settings
