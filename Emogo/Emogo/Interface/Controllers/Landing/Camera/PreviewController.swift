@@ -218,7 +218,6 @@ class PreviewController: UIViewController {
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
-    
     func changeButtonAccordingSwipe(selected:ContentDAO){
         //editing_cross_icon
         self.navigationItem.setRightBarButtonItems([], animated: true)
@@ -229,23 +228,29 @@ class PreviewController: UIViewController {
         let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
         let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
         
-        
-        if selected.isEdit == true {
+        if selected.isUploaded == false {
             var arrButtons = [UIBarButtonItem]()
             arrButtons.append(btnEdit)
-            if selected.isDelete == true {
-                arrButtons.append(btnDelete)
-            }
+            arrButtons.append(btnDelete)
             self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
         }else{
             var arrButtons = [UIBarButtonItem]()
-            
-            arrButtons.append(btnFlag)
-            if selected.isDelete == true {
+            if selected.isEdit == true {
+                if selected.type == .image {
+                    arrButtons.append(btnEdit)
+                }
+                if selected.isDelete == true {
+                    arrButtons.append(btnDelete)
+                }
+                self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+            }else{
+                var arrButtons = [UIBarButtonItem]()
                 arrButtons.append(btnDelete)
+                self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
             }
-            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+            
         }
+
     }
     
     
@@ -366,6 +371,9 @@ class PreviewController: UIViewController {
        
         self.imgPreview.contentMode = .scaleAspectFit
         
+        self.btnEdit.isHidden = true
+        self.btnDelete.isHidden = true
+        self.changeButtonAccordingSwipe(selected: seletedImage)
     }
     
     
