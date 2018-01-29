@@ -24,6 +24,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
     password = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
+    otp = serializers.IntegerField(read_only=True)
     phone_number = serializers.CharField(source='username', validators=[CustomUniqueValidator(queryset=User.objects.all(), message='Phone number already exists.')])
 
     class Meta:
