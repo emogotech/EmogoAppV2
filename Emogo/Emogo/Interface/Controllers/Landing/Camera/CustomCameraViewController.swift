@@ -503,7 +503,9 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         self.navigationController?.popNormal()
     }
     func swipeUpDelegate() {
-        self.animateView()
+        if ContentList.sharedInstance.arrayContent.count > 0{
+            self.animateView()
+        }
     }
     func swipeDownDelegate() {
         self.animateView()
