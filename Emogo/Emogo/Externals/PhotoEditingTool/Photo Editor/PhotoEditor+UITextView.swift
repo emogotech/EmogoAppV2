@@ -22,6 +22,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
     }
      func textViewDidBeginEditing(_ textView: UITextView) {
         isTyping = true
+        isText = true
         lastTextViewTransform =  textView.transform
         lastTextViewTransCenter = textView.center
         lastTextViewFont = textView.font!
@@ -55,7 +56,9 @@ extension PhotoEditorViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-            self.doneButtonAction()
+//            self.doneButtonAction()
+            textView.resignFirstResponder()
+            self.endDone()
             return false
         }
         return true

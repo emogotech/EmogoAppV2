@@ -24,7 +24,6 @@ public enum control {
 extension PhotoEditorViewController {
 
      //MARK: Top Toolbar
-    
     @IBAction func cancelButtonTapped(_ sender: Any) {
         photoEditorDelegate?.canceledEditing()
         self.dismiss(animated: true, completion: nil)
@@ -52,6 +51,14 @@ extension PhotoEditorViewController {
         hideToolbar(hide: true)
     }
 
+    func endDone(){
+        self.filterView.isHidden = true
+        self.filterButtonContainer.isHidden = true
+        self.colorsCollectionView.isHidden = true
+        doneButton.isHidden = false
+        hideToolbar(hide: true)
+    }
+    
     @IBAction func textButtonTapped(_ sender: Any) {
         isTyping = true
         self.colorsCollectionView.isHidden = false
@@ -59,7 +66,7 @@ extension PhotoEditorViewController {
         colorPickerButtonsWidth.constant = 0.0
         let textView = UITextView(frame: CGRect(x: 0, y: canvasImageView.center.y,
                                                 width: UIScreen.main.bounds.width, height: 30))
-        
+        textView.tag = 101
         textView.textAlignment = .center
         textView.font = UIFont(name: "Helvetica", size: 30)
         textView.textColor = textColor
@@ -262,6 +269,59 @@ extension PhotoEditorViewController {
         let img = self.canvasView.toImage()
         self.canvasImageView.image = img
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
+        if  isText {
+            isText = false
+            for beforeTextViewHide in self.canvasImageView.subviews {
+                if beforeTextViewHide.isKind(of: UITextView.self){
+                    if beforeTextViewHide.tag == 101{
+                        DispatchQueue.main.async {
+                            beforeTextViewHide.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+        }
+        
+        if isStriker {
+            isStriker = false
+            for beforeTextViewHide in self.canvasImageView.subviews {
+                if beforeTextViewHide.isKind(of: UIImageView.self){
+                    if beforeTextViewHide.tag == 111{
+                        DispatchQueue.main.async {
+                            beforeTextViewHide.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
+    
+    @objc func capturScreenShot(){
+        for beforeTextViewHide in self.canvasImageView.subviews {
+            if beforeTextViewHide.isKind(of: UITextView.self){
+                if beforeTextViewHide.tag == 101{
+                    DispatchQueue.main.async {
+                        beforeTextViewHide.isHidden = true
+                    }
+                    self.perform(#selector(self.capturScreenShot), with: nil, afterDelay: 0.2)
+                }
+            }
+        }
+        
+        let img = self.canvasView.toImage()
+        self.canvasImageView.image = img
+        Animation.viewSlideInFromTopToBottom(views:self.pencilView)
+        for afterTextViewShow in self.canvasImageView.subviews {
+            if afterTextViewShow.isKind(of: UITextView.self){
+                if afterTextViewShow.tag == 101{
+                    DispatchQueue.main.async {
+                        afterTextViewShow.isHidden = false
+                    }
+                }
+            }
+        }
     }
     
   @objc func sliderValueChanged (_ slider : UISlider) {
