@@ -132,6 +132,8 @@ let kSegue_ContainerSegue = "containerSegue"
 let kUserLogggedIn                      = "userloggedin"
 let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
+let kRetakeIndex = "indexRetake"
+
 
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"

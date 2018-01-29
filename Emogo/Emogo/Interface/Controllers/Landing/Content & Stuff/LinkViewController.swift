@@ -108,6 +108,7 @@ class LinkViewController: UIViewController {
                                 }
                                 content.coverImage = smartUrl.absoluteString
                                 content.type = .link
+                                content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                                 content.isUploaded = false
                                 var imgUrl:String! = ""
                                 if let imageUrl = imageUrl {
@@ -151,7 +152,6 @@ class LinkViewController: UIViewController {
                                     
                                 }
                                 if imgUrl.isEmpty {
-                                    content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                                     content.coverImageVideo = imgUrl.trim()
                                     self.createContentForExtractedData(content: content)
                                 }

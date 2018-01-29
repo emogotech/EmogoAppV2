@@ -47,7 +47,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     var selectedAssets = [TLPHAsset]()
     var delegate:CustomCameraViewControllerDelegate?
     var isDismiss:Bool?
-    var retakeIndex:Int?
 
     // MARK: - Override Functions
     
@@ -232,9 +231,13 @@ class CustomCameraViewController: SwiftyCamViewController {
          if self.isDismiss != nil {
             configure.allowedVideo =  false
             configure.singleSelectedMode = true
-          }else {
+         }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
+            configure.allowedVideo =  true
+            configure.singleSelectedMode = true
+         }
+          else {
              configure.maxSelectedAssets = 10
-          }
+           }
              configure.muteAudio = true
             configure.usedCameraButton = false
               configure.usedPrefetch = false
@@ -443,10 +446,11 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.btnShutter.isHidden = false
             self.viewUP()
         }
-        if retakeIndex == nil {
+        if kDefault?.value(forKey: kRetakeIndex) != nil {
+            let value:Int = kDefault?.value(forKey: kRetakeIndex) as! Int
+            ContentList.sharedInstance.arrayContent[value] = content
+        }else   {
             ContentList.sharedInstance.arrayContent.insert(content, at: 0)
-        }else {
-            ContentList.sharedInstance.arrayContent.insert(content, at: retakeIndex!)
         }
         self.btnPreviewOpen.isHidden = false
       
@@ -461,8 +465,16 @@ class CustomCameraViewController: SwiftyCamViewController {
             return
         }
         if   ContentList.sharedInstance.arrayContent.count != 0 {
+        
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             objPreview.isShowRetake = true
+            if kDefault?.value(forKey: kRetakeIndex) != nil {
+                let value:Int = kDefault?.value(forKey: kRetakeIndex) as! Int
+                objPreview.selectedIndex = value
+                kDefault?.removeObject(forKey: kRetakeIndex)
+            }else {
+                objPreview.selectedIndex = 0
+            }
             self.navigationController?.pushNormal(viewController: objPreview)
         }
     }

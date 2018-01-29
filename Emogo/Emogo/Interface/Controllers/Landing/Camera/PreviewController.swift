@@ -33,7 +33,7 @@ class PreviewController: UIViewController {
     // MARK: - Variables
     
     var isPreviewOpen:Bool! = false
-    var selectedIndex:Int! = 0
+    var selectedIndex:Int!
     var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
     var isContentAdded:Bool! = false
@@ -94,9 +94,12 @@ class PreviewController: UIViewController {
             
             ContentList.sharedInstance.objStream = nil
             SharedData.sharedInstance.contentList.objStream = nil
-            self.preparePreview(index: 0)
+            if selectedIndex == nil {
+                selectedIndex = 0
+            }
+            self.preparePreview(index: selectedIndex)
             
-            let conten = ContentList.sharedInstance.arrayContent[0]
+            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
             conten.name = self.txtTitleImage.text?.trim()
             conten.description = self.txtDescription.text.trim()
             
@@ -128,7 +131,10 @@ class PreviewController: UIViewController {
             }
         }
         ContentList.sharedInstance.arrayContent = unique
-        self.preparePreview(index: 0)
+        if selectedIndex == nil {
+            selectedIndex = 0
+        }
+        self.preparePreview(index: selectedIndex)
         kPreviewHeight.constant = 129.0
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
         //  kWidthOptions.constant = 0.0
@@ -181,9 +187,7 @@ class PreviewController: UIViewController {
         if ContentList.sharedInstance.objStream != nil {
             self.btnDone.isHidden = true
         }
-        if self.seletedImage.isUploaded  == false{
-            self.btnShareAction.isHidden = true
-        }
+        
         self.imgPreview.contentMode = .scaleAspectFit
         
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
@@ -193,6 +197,13 @@ class PreviewController: UIViewController {
             self.btnDone.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
         }
+        
+        self.btnShareAction.isHidden = true
+        
+        if self.isShowRetake != nil  {
+            self.btnShareAction.isHidden = false
+        }
+        
     }
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
@@ -304,13 +315,11 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
-        
-        self.btnShareAction.isHidden = true
-
-       if self.isShowRetake != nil  {
-        self.btnShareAction.isHidden = false
-        }
-        
+        // Preview
+//        if self.seletedImage.isUploaded {
+//            self.btnShareAction.isHidden = false
+//        }
+       
         self.imgPreview.contentMode = .scaleAspectFit
         
     }
@@ -362,8 +371,8 @@ class PreviewController: UIViewController {
         if self.isShowRetake != nil {
             // retake
                   let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-                    obj.retakeIndex = self.selectedIndex
-                   self.navigationController?.popToViewController(vc: obj)
+                      kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
+                     self.navigationController?.popToViewController(vc: obj)
         }else {
             shareSticker()
         }
@@ -455,6 +464,7 @@ class PreviewController: UIViewController {
         self.openGallery()
     }
     @IBAction func btnCameraAction(_ sender: Any) {
+        kDefault?.removeObject(forKey: kRetakeIndex)
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         self.navigationController?.popToViewController(vc: obj)
     }
