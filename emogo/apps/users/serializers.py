@@ -29,7 +29,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'phone_number', 'user_name']
+        fields = ['email', 'password', 'phone_number', 'user_name', 'otp']
         extra_kwargs = {'password': {'required': True}}
 
     def create(self, validated_data):
