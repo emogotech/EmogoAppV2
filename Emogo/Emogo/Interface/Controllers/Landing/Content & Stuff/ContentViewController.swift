@@ -48,8 +48,9 @@ class ContentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+//        self.navigationController?.isNavigationBarHidden = false
         self.hideStatusBar()
+        self.prepareNavBarButtons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -132,8 +133,22 @@ class ContentViewController: UIViewController {
         
     }
     
+    func prepareNavBarButtons(){
+        
+        
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = .white
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
+        self.navigationItem.leftBarButtonItem = btnBack
+    }
+    
     
     func updateContent() {
+        
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
         if self.isEdit == nil {
@@ -325,6 +340,43 @@ class ContentViewController: UIViewController {
         self.imgCover.contentMode = .scaleAspectFit
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
+        
+        self.btnEdit.isHidden = true
+        self.btnDelete.isHidden = true
+        self.btnFlagIcon.isHidden = true
+        self.changeButtonAccordingSwipe(selected: seletedImage)
+    }
+    
+    
+    func changeButtonAccordingSwipe(selected:ContentDAO){
+        //editing_cross_icon
+        self.navigationItem.setRightBarButtonItems([], animated: true)
+        
+        let imgEdit = #imageLiteral(resourceName: "edit_icon")
+        let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+        
+        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
+        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+        
+        let imgFlag = #imageLiteral(resourceName: "content_flag")
+        let btnFlag = UIBarButtonItem(image: imgFlag, style: .plain, target: self, action: #selector(self.btnShowReportListAction(_:)))
+        
+        if selected.isEdit == true {
+            var arrButtons = [UIBarButtonItem]()
+            arrButtons.append(btnEdit)
+            if selected.isDelete == true {
+                arrButtons.append(btnDelete)
+            }
+            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+        }else{
+            var arrButtons = [UIBarButtonItem]()
+
+            arrButtons.append(btnFlag)
+            if selected.isDelete == true {
+                arrButtons.append(btnDelete)
+            }
+            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+        }
     }
     
 

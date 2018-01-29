@@ -12,7 +12,6 @@ import PhotosUI
 import AVFoundation
 import Lightbox
 import Contacts
-import CropViewController
 
 
 class AddStreamViewController: UITableViewController {
@@ -421,14 +420,7 @@ class AddStreamViewController: UITableViewController {
             present(controller, animated: true, completion: nil)
         }
     }
-    
-    func presentCropperWithImage(image:UIImage){
-         let croppingStyle = CropViewCroppingStyle.default
-        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
-        cropController.delegate = self
-        self.present(cropController, animated: true, completion: nil)
-    }
-    
+   
     
    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
@@ -652,23 +644,12 @@ extension AddStreamViewController :UITextViewDelegate, UITextFieldDelegate {
 extension AddStreamViewController:CustomCameraViewControllerDelegate {
     func dismissWith(image: UIImage?) {
         if let img = image {
-            self.presentCropperWithImage(image: img)
+            self.setCoverImage(image: img)
         }
     }
 
 }
 
 
-extension AddStreamViewController:CropViewControllerDelegate {
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        cropViewController.dismiss(animated: true, completion: nil)
-        self.setCoverImage(image: image)
-    }
-    
-    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
-        self.setCoverImage(image: cropViewController.image)
-        cropViewController.dismiss(animated: true, completion: nil)
-    }
-}
 
 

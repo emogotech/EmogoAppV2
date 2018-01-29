@@ -36,6 +36,7 @@ var kContainerNav = ""
 var kBackNav = ""
 var kNavForProfile = ""
 var kShowOnlyMyStream = ""
+var kShowRetake = ""
 
 
 // Selected Tag For Container

@@ -72,7 +72,8 @@ class LinkViewController: UIViewController {
     @IBAction func btnConfirmActiion(_ sender: Any) {
         self.view.endEditing(true)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            objPreview.isShowRetake = true
             self.navigationController?.push(viewController: objPreview)
             return
         }
@@ -181,7 +182,8 @@ class LinkViewController: UIViewController {
         HUDManager.sharedInstance.hideHUD()
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            objPreview.isShowRetake = true
             self.navigationController?.push(viewController: objPreview)
             return
         }

@@ -8,7 +8,6 @@
 
 import UIKit
 import XLActionController
-import CropViewController
 
 
 enum ProfileMenu:String{
@@ -594,13 +593,6 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    func presentCropperWithImage(image:UIImage){
-        let croppingStyle = CropViewCroppingStyle.circular
-        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
-        cropController.delegate = self
-        self.present(cropController, animated: true, completion: nil)
-    }
-    
     
     /*
      // MARK: - Navigation
@@ -724,25 +716,11 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
 extension ProfileViewController:CustomCameraViewControllerDelegate {
     func dismissWith(image: UIImage?) {
         if let img = image {
-            self.presentCropperWithImage(image: img)
+            self.setCoverImage(image: img)
         }
     }
     
 }
 
-
-extension ProfileViewController:CropViewControllerDelegate {
-    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
-        self.dismiss(animated: true, completion: nil)
-        self.setCoverImage(image: image)
-    }
-    
-    
-    
-    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
-        self.setCoverImage(image: cropViewController.image)
-        cropViewController.dismiss(animated: true, completion: nil)
-    }
-}
 
 
