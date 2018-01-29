@@ -34,6 +34,8 @@ class SharedData: NSObject {
     var tempViewController : MSMessagesAppViewController?
     var isPortrate : Bool = true
     
+    var keyboardHeightForSignin : CGFloat = 0.0
+    
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {
         struct Static {

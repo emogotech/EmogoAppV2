@@ -22,7 +22,7 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     // MARK:- Variables
     var userName                        :  String?
     var hudView                         : LoadingView!
-    
+
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +44,10 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         
         txtMobileCollapse.attributedPlaceholder = placeholder
         txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         
@@ -68,9 +72,12 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.keyboardHeightForSignin == 0.0 {
+                    SharedData.sharedInstance.keyboardHeightForSignin =  keyboardSize.height
+                }
                 if SharedData.sharedInstance.isMessageWindowExpand {
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.view.frame.origin.y -= keyboardSize.height/2
+                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
                     })
                 }
             }

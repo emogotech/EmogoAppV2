@@ -521,7 +521,7 @@
                                         </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="15"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="namePhonePad" keyboardAppearance="alert"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                                         <connections>
                                             <outlet property="delegate" destination="eQ0-lP-RCy" id="qIu-vL-iBg"/>
                                         </connections>
@@ -614,7 +614,7 @@
                                         </constraints>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" keyboardAppearance="alert" returnKeyType="continue"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" keyboardAppearance="alert" returnKeyType="continue"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                                 <color key="value" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2148,7 +2148,7 @@
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="16" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="16"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2175,7 +2175,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2202,7 +2202,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2230,7 +2230,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2257,7 +2257,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2285,7 +2285,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2312,7 +2312,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2340,7 +2340,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2367,7 +2367,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2395,7 +2395,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2422,7 +2422,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2450,7 +2450,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2477,7 +2477,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2505,7 +2505,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2532,7 +2532,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2560,7 +2560,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2588,7 +2588,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2615,7 +2615,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2642,7 +2642,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2654,7 +2654,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="12" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="cellTitle"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
                                             </paragraphStyle>
@@ -2679,7 +2679,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="14" name="SFProDisplay-Bold"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2707,7 +2707,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2734,7 +2734,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>
@@ -2764,7 +2764,7 @@ Cg
                                         <attributes>
                                             <color key="NSBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="11" name="SFProDisplay-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <real key="NSKern" value="0.0"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="justified" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" paragraphSpacing="8" tailIndent="481.89999999999998" lineHeightMultiple="1.0666666666666667" defaultTabInterval="36" tighteningFactorForTruncation="0.0">
                                                 <tabStops/>

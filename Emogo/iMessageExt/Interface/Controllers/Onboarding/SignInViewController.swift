@@ -59,7 +59,6 @@ class SignInViewController: MSMessagesAppViewController {
             viewCollapse.isHidden = false
         }
         
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -69,9 +68,12 @@ class SignInViewController: MSMessagesAppViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.keyboardHeightForSignin == 0.0 {
+                    SharedData.sharedInstance.keyboardHeightForSignin =  keyboardSize.height
+                }
                 if SharedData.sharedInstance.isMessageWindowExpand {
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.view.frame.origin.y -= keyboardSize.height/2
+                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
                     })
                 }
             }
@@ -150,6 +152,9 @@ class SignInViewController: MSMessagesAppViewController {
     
     @IBAction func btnTapSignUp(_ sender : UIButton) {
         self.view.endEditing(true);
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -174,7 +179,9 @@ class SignInViewController: MSMessagesAppViewController {
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
-                    
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
                     let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
                     obj.OTP = errorMsg
                     obj.isForLogin = "errorMsg"
@@ -219,7 +226,8 @@ extension SignInViewController: UITextFieldDelegate {
     }
     
     @objc func donePressed(){
-        self.checkValidation()
+         view.endEditing(true)
+//        self.checkValidation()
     }
     
     func cancelPressed(){
