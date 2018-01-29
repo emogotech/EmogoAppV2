@@ -361,6 +361,12 @@ class PreviewController: UIViewController {
             self.alertForLimit()
             return
         }
+        
+        if SharedData.sharedInstance.contentList.arrayContent.count > 0 {
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            SharedData.sharedInstance.contentList.arrayContent.removeAll()
+        }
+        
         if ContentList.sharedInstance.objStream != nil {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 HUDManager.sharedInstance.showProgress()

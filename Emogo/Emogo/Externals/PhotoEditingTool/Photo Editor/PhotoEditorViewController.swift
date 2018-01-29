@@ -67,6 +67,7 @@ import UIKit
     // list of controls to be hidden
     public var hiddenControls : [control] = []
     
+    
     var stickersVCIsVisible = false
     var drawColor: UIColor = UIColor.black
     var textColor: UIColor = UIColor.white
@@ -88,6 +89,10 @@ import UIKit
     var stickersViewController: StickersViewController!
     
     var selectedItem : PMEditingModel? = nil
+    
+    
+    var isText : Bool = false
+    var isStriker : Bool = false
 
     lazy var editingService : PMPhotoEditingManager = { [unowned self] in
         return PMPhotoEditingManager.create()

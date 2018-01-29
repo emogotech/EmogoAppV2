@@ -485,7 +485,7 @@ class ContentViewController: UIViewController {
         
         if isEditngContent {
             
-            let alert = UIAlertController(title: kAlert_Confirmation_For_Edit_Content, message: kAlert_Stream_Add_Edited_Content, preferredStyle: .alert)
+            let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Stream_Add_Edited_Content, preferredStyle: .alert)
             let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
                 self.txtTitleImage.text = self.seletedImage.name
                 self.txtDescription.text = self.seletedImage.description
@@ -573,12 +573,12 @@ class ContentViewController: UIViewController {
                     if !self.isEditngContent {
                         self.previous()
                     }else{
-                        let alert = UIAlertController(title: kAlert_Confirmation_For_Edit_Content, message: kAlert_Delete_Content_Msg, preferredStyle: .alert)
-                        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+                        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_For_Edit_Content, preferredStyle: .alert)
+                        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
                             self.previous()
                             self.isEditngContent = false
                         }
-                        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+                        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
                             alert.dismiss(animated: true, completion: nil)
                         }
                         alert.addAction(yes)

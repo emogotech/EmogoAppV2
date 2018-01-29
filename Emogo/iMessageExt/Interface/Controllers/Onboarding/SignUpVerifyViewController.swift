@@ -24,7 +24,6 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     var phone                               : String?
     var hudView                             : LoadingView!
     var isForLogin:String!
-
     
     // MARK:- Life-Cycle Methods
     override func viewDidLoad() {
@@ -60,7 +59,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
         }
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
@@ -69,9 +70,12 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.keyboardHeightForSignin == 0.0 {
+                    SharedData.sharedInstance.keyboardHeightForSignin =  keyboardSize.height
+                }
                 if SharedData.sharedInstance.isMessageWindowExpand {
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.view.frame.origin.y -= keyboardSize.height/2
+                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
                     })
                 }
             }
