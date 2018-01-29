@@ -61,7 +61,7 @@ class UserSerializer(DynamicFieldsModelSerializer):
 
         # 2. While user request with same phone number and different user_name
         user, created = User.objects.get_or_create(username=validated_data.get('username'))
-        user.set_password(settings.DEFAULT_PASSWORD)
+        user.set_password(self.user_pin)
         user.save()
         if created:
             user_profile = UserProfile(full_name=validated_data.get('user_name'), user=user, otp=self.user_pin)
@@ -261,7 +261,7 @@ class VerifyOtpLoginSerializer(UserSerializer):
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
     def authenticate_login_OTP(self, otp):
-        print self.validated_data.get('username')
+        # print self.validated_data.get('username')
         user = authenticate(username=self.validated_data.get('username'), password=otp)
         try:
             user_profile = UserProfile.objects.get(user=user)
@@ -291,6 +291,9 @@ class UserResendOtpSerializer(UserProfileSerializer):
             user_profile = UserProfile.objects.get(user=user)
             user_profile.otp = self.user_pin
             user_profile.save()
+            # Again reset user password as otp code
+            user.set_password(self.user_pin)
+            user.save()
 
         return self.user_pin
 
