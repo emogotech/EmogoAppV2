@@ -30,6 +30,19 @@ extension PhotoEditorViewController {
     
     func removeStickersView() {
         stickersVCIsVisible = false
+        isStriker = false
+        for beforeTextViewHide in self.canvasImageView.subviews {
+            if beforeTextViewHide.isKind(of: UIImageView.self){
+                if beforeTextViewHide.tag == 111{
+                    isStriker = true
+                }
+            }
+            if beforeTextViewHide.isKind(of: UIView.self){
+                if   beforeTextViewHide.tag == 112 {
+                   isStriker = true
+                }
+            }
+        }
         self.canvasImageView.isUserInteractionEnabled = true
         UIView.animate(withDuration: 0.3,
                        delay: 0,
@@ -42,8 +55,12 @@ extension PhotoEditorViewController {
         }, completion: { (finished) -> Void in
             self.stickersViewController.view.removeFromSuperview()
             self.stickersViewController.removeFromParentViewController()
-            self.endDone()
-//            self.hideToolbar(hide: false)
+            if self.isStriker == true{
+                 self.endDone()
+            }else{
+                self.hideToolbar(hide: false)
+            }
+           
         })
     }
     
@@ -55,17 +72,18 @@ extension PhotoEditorViewController {
 extension PhotoEditorViewController: StickersViewControllerDelegate {
     
     func didSelectView(view: UIView) {
-        self.removeStickersView()
-        
+//        isStriker = true
+
         view.center = canvasImageView.center
+        view.tag = 112
         self.canvasImageView.addSubview(view)
+        self.removeStickersView()
         //Gestures
         addGestures(view: view)
     }
     
     func didSelectImage(image: UIImage) {
-        isStriker = true
-        self.removeStickersView()
+//        isStriker = true
         
         let imageView = UIImageView(image: image)
         imageView.tag = 111
@@ -75,6 +93,8 @@ extension PhotoEditorViewController: StickersViewControllerDelegate {
         
         self.canvasImageView.addSubview(imageView)
         //Gestures
+        self.removeStickersView()
+
         addGestures(view: imageView)
     }
     

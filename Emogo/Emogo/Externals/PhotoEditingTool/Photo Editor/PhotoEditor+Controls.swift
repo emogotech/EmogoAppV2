@@ -51,6 +51,36 @@ extension PhotoEditorViewController {
         hideToolbar(hide: true)
     }
 
+    func endDoneTextField(strTxt : String){
+        if strTxt.trim() == ""{
+            doneButton.isHidden = true
+            colorPickerView.isHidden = true
+            canvasImageView.isUserInteractionEnabled = true
+            hideToolbar(hide: false)
+            isDrawing = false
+            self.colorsCollectionView.isHidden = true
+            self.pencilView.isHidden = true
+            self.isPencilSelected = false
+            self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
+            for beforeTextViewHide in self.canvasImageView.subviews {
+                if beforeTextViewHide.isKind(of: UITextView.self){
+                    if beforeTextViewHide.tag == 101{
+                        DispatchQueue.main.async {
+                            beforeTextViewHide.removeFromSuperview()
+                        }
+                    }
+                }
+            }
+            
+        }else{
+        self.filterView.isHidden = true
+        self.filterButtonContainer.isHidden = true
+        self.colorsCollectionView.isHidden = true
+        doneButton.isHidden = false
+        hideToolbar(hide: true)
+        }
+    }
+    
     func endDone(){
         self.filterView.isHidden = true
         self.filterButtonContainer.isHidden = true
@@ -281,7 +311,6 @@ extension PhotoEditorViewController {
                 }
             }
         }
-        
         if isStriker {
             isStriker = false
             for beforeTextViewHide in self.canvasImageView.subviews {
@@ -292,10 +321,15 @@ extension PhotoEditorViewController {
                         }
                     }
                 }
+                if beforeTextViewHide.isKind(of: UIView.self){
+                    if   beforeTextViewHide.tag == 112 {
+                        DispatchQueue.main.async {
+                            beforeTextViewHide.removeFromSuperview()
+                        }
+                    }
+                }
             }
         }
-        
-        
     }
     
     @objc func capturScreenShot(){

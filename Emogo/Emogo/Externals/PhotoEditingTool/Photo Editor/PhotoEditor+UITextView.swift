@@ -58,7 +58,9 @@ extension PhotoEditorViewController: UITextViewDelegate {
         if(text == "\n") {
 //            self.doneButtonAction()
             textView.resignFirstResponder()
-            self.endDone()
+            
+            self.endDoneTextField(strTxt: textView.text.trim())
+//            self.endDone()
             return false
         }
         return true
