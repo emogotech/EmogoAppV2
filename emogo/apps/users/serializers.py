@@ -194,15 +194,22 @@ class UserOtpSerializer(UserProfileSerializer):
         return value
 
     def validate_phone_number(self, value):
+        try:
+            user = UserProfile.actives.get(user__username=self.initial_data.get('phone_number'), otp__isnull=True)
+            if user:
+                raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_EXISTS)
+        except UserProfile.DoesNotExist:
+            pass
         if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
             return value
         else:
             raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
 
+
     def save(self):
         self.instance.otp = None
         self.instance.save(update_fields=['otp'])
-        Token.objects.create(user=self.instance.user)
+        Token.objects.get_or_create(user=self.instance.user)
         return self.instance
 
 
