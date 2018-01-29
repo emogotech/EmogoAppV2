@@ -1273,7 +1273,7 @@
                                         </connections>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="115.5" y="243" width="145.5" height="21"/>
+                                        <rect key="frame" x="121" y="243" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1380,7 +1380,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="637"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcR-2C-ae9">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcR-2C-ae9">
                                 <rect key="frame" x="0.0" y="10" width="50" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="DHo-px-IcD"/>
@@ -1392,7 +1392,7 @@
                                     <action selector="btnBackAction:" destination="evI-UO-yab" eventType="touchUpInside" id="hfP-XH-RHP"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s8m-J6-CgU">
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s8m-J6-CgU">
                                 <rect key="frame" x="275" y="10" width="100" height="50"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bvt-rQ-TsC">
@@ -1607,7 +1607,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zwz-I9-4Mq">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment content="Terms and Conditions - Emogo Technologies">
@@ -2259,14 +2259,14 @@ Cg
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="top" secondItem="WGF-Mw-2qH" secondAttribute="top" id="0xB-k3-FXx"/>
-                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="bottom" secondItem="WGF-Mw-2qH" secondAttribute="bottom" id="DcS-Wi-Uth"/>
+                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="top" secondItem="EHZ-wM-Jnu" secondAttribute="top" id="1i1-E0-806"/>
+                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="bottom" secondItem="WGF-Mw-2qH" secondAttribute="bottom" id="3mJ-hY-3vs"/>
+                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="trailing" secondItem="WGF-Mw-2qH" secondAttribute="trailing" id="EXr-TE-4au"/>
                             <constraint firstItem="H3a-i5-FRT" firstAttribute="trailing" secondItem="WGF-Mw-2qH" secondAttribute="trailing" id="Xxy-4x-XaF"/>
+                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="leading" secondItem="WGF-Mw-2qH" secondAttribute="leading" id="cJP-sg-Z5I"/>
                             <constraint firstItem="H3a-i5-FRT" firstAttribute="bottom" secondItem="WGF-Mw-2qH" secondAttribute="bottom" id="pTb-kw-mmG"/>
                             <constraint firstItem="H3a-i5-FRT" firstAttribute="top" secondItem="EHZ-wM-Jnu" secondAttribute="top" id="rQ5-z5-l5J"/>
-                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="trailing" secondItem="WGF-Mw-2qH" secondAttribute="trailing" id="sSx-co-PD1"/>
                             <constraint firstItem="H3a-i5-FRT" firstAttribute="leading" secondItem="WGF-Mw-2qH" secondAttribute="leading" id="sff-fA-UX2"/>
-                            <constraint firstItem="Zwz-I9-4Mq" firstAttribute="leading" secondItem="WGF-Mw-2qH" secondAttribute="leading" id="wq2-YK-PvG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WGF-Mw-2qH"/>
                     </view>

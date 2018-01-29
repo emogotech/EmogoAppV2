@@ -367,24 +367,13 @@ extension UIImage {
 	func fixOrientation() -> UIImage {
         // No-op if the orientation is already correct
         print(self.imageOrientation.rawValue)
-
+        var imageToDisplay  = self
         if self.imageOrientation == UIImageOrientation.up {
             print("UP")
-
-        }else if self.imageOrientation == UIImageOrientation.down {
-            print("Down")
-        }else if self.imageOrientation == UIImageOrientation.left {
-            print("left")
-
-        }else if self.imageOrientation == UIImageOrientation.right {
-            print("Right")
-
+            return imageToDisplay
         }
-        
-
-      //  let imageToDisplay = UIImage(cgImage: photo.cgImage! , scale: photo.scale, orientation: .up)
-
-        return self.rotateCameraImageToProperOrientation()!
+        imageToDisplay = UIImage(cgImage: imageToDisplay.cgImage! , scale: imageToDisplay.scale, orientation: .up)
+        return imageToDisplay
 	}
     
   

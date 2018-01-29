@@ -890,8 +890,11 @@ class HomeViewController: MSMessagesAppViewController {
                 self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
+                    self.lblPeopleSearch.text = "People"
                 }else {
                     self.lblNoResult.isHidden = true
+                    let count = "(\(self.arrayToShow.count))"
+                    self.lblPeopleSearch.text = "People \(count)"
                 }
                 self.collectionStream.reloadData()
             }
@@ -936,8 +939,11 @@ class HomeViewController: MSMessagesAppViewController {
                     self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
+                        self.lblStreamSearch.text = "Stream"
                     }else {
                         self.lblNoResult.isHidden = true
+                        let count = "(\(self.arrayToShow.count))"
+                        self.lblStreamSearch.text = "Stream \(count)"
                     }
                     self.collectionStream.reloadData()
                 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyCam
+import CropViewController
 
 
 protocol CustomCameraViewControllerDelegate {
@@ -46,7 +47,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     var selectedAssets = [TLPHAsset]()
     var delegate:CustomCameraViewControllerDelegate?
     var isDismiss:Bool?
-    
+    var retakeIndex:Int?
 
     // MARK: - Override Functions
     
@@ -95,6 +96,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         cameraDelegate = self
         doubleTapCameraSwitch = false
         allowAutoRotate = true
+        shouldUseDeviceOrientation = true
         allowBackgroundAudio = true
         self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true
@@ -347,15 +349,12 @@ class CustomCameraViewController: SwiftyCamViewController {
                         
                     }, completionBlock: { (image) in
                         if let img = image {
-                            self.dismiss(animated: true, completion: {
-                                self.delegate?.dismissWith(image: img)
-                            })
+                            self.presentCropperWithImage(image: img)
                         }
                     })
                 }else {
-                    self.dismiss(animated: true, completion: {
-                        self.delegate?.dismissWith(image: assets[0].fullResolutionImage!)
-                    })
+                    self.presentCropperWithImage(image: assets[0].fullResolutionImage!)
+
                 }
             }
             return
@@ -444,7 +443,11 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.btnShutter.isHidden = false
             self.viewUP()
         }
-        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        if retakeIndex == nil {
+            ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        }else {
+            ContentList.sharedInstance.arrayContent.insert(content, at: retakeIndex!)
+        }
         self.btnPreviewOpen.isHidden = false
       
     }
@@ -459,6 +462,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+            objPreview.isShowRetake = true
             self.navigationController?.pushNormal(viewController: objPreview)
         }
     }
@@ -477,6 +481,19 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        print("Rotation Called")
+    }
+    
+    func presentCropperWithImage(image:UIImage){
+        let croppingStyle = CropViewCroppingStyle.default
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
+        cropController.delegate = self
+        self.present(cropController, animated: true, completion: nil)
+    }
+    
+    
 }
 
 
@@ -487,20 +504,17 @@ class CustomCameraViewController: SwiftyCamViewController {
 extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
+   
         if isDismiss == nil {
             let camera = ContentDAO(contentData: [:])
             camera.type = .image
-            camera.imgPreview = photo.fixOrientation()
+            camera.imgPreview = photo
             camera.fileName = NSUUID().uuidString + ".png"
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
             self.previewCollection.reloadData()
         }else {
-            if self.delegate != nil {
-                self.dismiss(animated: true, completion: {
-                    self.delegate?.dismissWith(image: photo)
-                })
-            }
+            self.presentCropperWithImage(image: photo)
         }
     
     }
@@ -596,6 +610,27 @@ extension CustomCameraViewController: UIViewControllerTransitioningDelegate {
             self.session.startRunning()
         }
         return interactor.hasStarted ? interactor : nil
+    }
+}
+
+
+extension CustomCameraViewController:CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        self.dismiss(animated: true, completion: nil)
+        
+        if self.delegate != nil {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.dismissWith(image: image)
+            })
+        }
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        if self.delegate != nil {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.dismissWith(image: cropViewController.image)
+            })
+        }
     }
 }
 

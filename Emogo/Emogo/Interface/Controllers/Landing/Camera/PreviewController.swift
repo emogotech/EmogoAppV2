@@ -40,7 +40,9 @@ class PreviewController: UIViewController {
     var seletedImage:ContentDAO!
     var strPresented:String!
     var isEditingContent:Bool! = false
+    var isShowRetake:Bool?
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -303,6 +305,12 @@ class PreviewController: UIViewController {
             }
         }
         
+        self.btnShareAction.isHidden = true
+
+       if self.isShowRetake != nil  {
+        self.btnShareAction.isHidden = false
+        }
+        
         self.imgPreview.contentMode = .scaleAspectFit
         
     }
@@ -349,10 +357,16 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-        //        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        //        obj.retakeIndex = self.selectedIndex
-        //        self.navigationController?.popToViewController(vc: obj)
-        shareSticker()
+      
+      //  shareSticker()
+        if self.isShowRetake != nil {
+            // retake
+                  let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+                    obj.retakeIndex = self.selectedIndex
+                   self.navigationController?.popToViewController(vc: obj)
+        }else {
+            shareSticker()
+        }
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)
