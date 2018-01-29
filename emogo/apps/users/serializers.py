@@ -23,8 +23,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
     """
 
     password = serializers.CharField(read_only=True)
+    otp = serializers.CharField(read_only=True)
     user_name = serializers.CharField()
-    otp = serializers.IntegerField(read_only=True)
     phone_number = serializers.CharField(source='username', validators=[CustomUniqueValidator(queryset=User.objects.all(), message='Phone number already exists.')])
 
     class Meta:
@@ -211,16 +211,6 @@ class UserLoginSerializer(UserSerializer):
     User login serializer inherits : UserSerializer
     """
     phone_number = serializers.CharField(source='username')
-    otp = serializers.IntegerField(min_value=1, required=False)
-
-    def __init__(self, *args, **kwargs):
-        # Don't pass the 'fields' arg up to the superclass
-        self.Meta.fields.append('otp')
-        # self.Meta.fields.pop('streams')
-        # self.Meta.fields.append('otp')
-
-        # Instantiate the superclass normally
-        super(UserLoginSerializer, self).__init__(*args, **kwargs)
 
     def validate_phone_number(self, value):
         if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
@@ -247,6 +237,29 @@ class UserLoginSerializer(UserSerializer):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
 
+
+class VerifyOtpLoginSerializer(UserSerializer):
+    """
+    User login serializer inherits : UserSerializer
+    """
+    phone_number = serializers.CharField(source='username')
+    otp = serializers.IntegerField(min_value=1, required=False)
+
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        # self.Meta.fields.append('otp')
+        # self.Meta.fields.pop('streams')
+        # self.Meta.fields.append('otp')
+
+        # Instantiate the superclass normally
+        super(VerifyOtpLoginSerializer, self).__init__(*args, **kwargs)
+
+    def validate_phone_number(self, value):
+        if re.match(r'(^[+0-9]{1,3})*([0-9]{10,11}$)', value):
+            return value
+        else:
+            raise serializers.ValidationError(messages.MSG_INVALID_PHONE_NUMBER)
+
     def authenticate_login_OTP(self, otp):
         print self.validated_data.get('username')
         user = authenticate(username=self.validated_data.get('username'), password=otp)
@@ -260,6 +273,7 @@ class UserLoginSerializer(UserSerializer):
         except UserProfile.DoesNotExist:
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
+
 
 class UserResendOtpSerializer(UserProfileSerializer):
     """

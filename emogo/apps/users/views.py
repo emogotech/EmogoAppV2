@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -316,13 +316,14 @@ class GetTopStreamAPI(APIView):
         if serializer.is_valid():
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
+
 class VerifyLoginOTP(APIView):
     """
     User login API
     """
 
     def post(self, request):
-        serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
+        serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image")
