@@ -168,6 +168,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
       
         hideToolbar(hide: true)
         deleteView.isHidden = false
+        doneButton.isHidden = true
         self.filterButtonContainer.isHidden = true
 
         view.superview?.bringSubview(toFront: view)
@@ -179,6 +180,8 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         recognizer.setTranslation(CGPoint.zero, in: canvasImageView)
         
         if let previousPoint = lastPanPoint {
+            
+         
             //View is going into deleteView
             if deleteView.frame.contains(pointToSuperView) && !deleteView.frame.contains(previousPoint) {
                 if #available(iOS 10.0, *) {
@@ -204,9 +207,27 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         if recognizer.state == .ended {
             imageViewToPan = nil
             lastPanPoint = nil
-            hideToolbar(hide: false)
-            deleteView.isHidden = true
-            self.filterButtonContainer.isHidden = false
+            
+            if isText {
+                self.filterView.isHidden = true
+                self.filterButtonContainer.isHidden = true
+                self.colorsCollectionView.isHidden = true
+                doneButton.isHidden = false
+                hideToolbar(hide: true)
+                deleteView.isHidden = true
+            } else if isStriker {
+                self.filterView.isHidden = true
+                self.filterButtonContainer.isHidden = true
+                self.colorsCollectionView.isHidden = true
+                doneButton.isHidden = false
+                hideToolbar(hide: true)
+                deleteView.isHidden = true
+            }
+            else{
+                hideToolbar(hide: false)
+                self.filterButtonContainer.isHidden = false
+                deleteView.isHidden = true
+            }
             let point = recognizer.location(in: self.view)
             
             if deleteView.frame.contains(point) { // Delete the view

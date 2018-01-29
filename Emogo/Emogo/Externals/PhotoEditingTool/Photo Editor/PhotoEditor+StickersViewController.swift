@@ -42,9 +42,14 @@ extension PhotoEditorViewController {
         }, completion: { (finished) -> Void in
             self.stickersViewController.view.removeFromSuperview()
             self.stickersViewController.removeFromParentViewController()
-            self.hideToolbar(hide: false)
+            self.endDone()
+//            self.hideToolbar(hide: false)
         })
-    }    
+    }
+    
+    func doneStrekarView(){
+          self.hideToolbar(hide: true)
+    }
 }
 
 extension PhotoEditorViewController: StickersViewControllerDelegate {
@@ -59,9 +64,11 @@ extension PhotoEditorViewController: StickersViewControllerDelegate {
     }
     
     func didSelectImage(image: UIImage) {
+        isStriker = true
         self.removeStickersView()
         
         let imageView = UIImageView(image: image)
+        imageView.tag = 111
         imageView.contentMode = .scaleAspectFill
         imageView.frame.size = CGSize(width: 150, height: 150)
         imageView.center = canvasImageView.center
