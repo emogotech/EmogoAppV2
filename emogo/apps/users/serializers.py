@@ -233,7 +233,7 @@ class UserLoginSerializer(UserSerializer):
             user.set_password(self.user_pin)
             user.save()
 
-        except UserProfile.DoesNotExist:
+        except (UserProfile.DoesNotExist, User.DoesNotExist):
             raise serializers.ValidationError(messages.MSG_PHONE_NUMBER_NOT_REGISTERED)
         return user_profile
 
