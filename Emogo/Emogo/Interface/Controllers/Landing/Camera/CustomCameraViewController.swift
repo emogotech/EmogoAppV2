@@ -60,15 +60,16 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
         if self.isDismiss == nil {
             if ContentList.sharedInstance.arrayContent.count == 0 {
                 kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
+                self.addNextButton(isAddButton: false)
             }
         }
+        prepareNavBarButtons()
         print(isSessionRunning)
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -122,6 +123,27 @@ class CustomCameraViewController: SwiftyCamViewController {
 
     }
     
+    func prepareNavBarButtons(){
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = .white
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
+        self.navigationItem.leftBarButtonItem = btnBack
+    }
+    
+    func addNextButton(isAddButton:Bool){
+        if isAddButton {
+            let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            self.navigationItem.rightBarButtonItem = btnNext
+        }else {
+            self.navigationItem.rightBarButtonItem  = nil
+        }
+      
+    }
+    
     func prepareContainerToPresent(){
         if kContainerNav == "1" {
             kContainerNav = "2"
@@ -159,11 +181,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
         if ContentList.sharedInstance.arrayContent.count == 0 {
-            self.btnShutter.isHidden = true
+        //    self.btnShutter.isHidden = true
+            self.addNextButton(isAddButton: false)
             self.btnPreviewOpen.isHidden = true
             kPreviewHeight.constant = 24.0
         }else {
-            self.btnShutter.isHidden = false
+            //self.btnShutter.isHidden = false
+            self.addNextButton(isAddButton: true)
+
         }
     }
     
@@ -340,6 +365,31 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
+    @objc  func btnBack() {
+      
+        if timer != nil {
+            self.timer.invalidate()
+        }
+        if self.isDismiss != nil {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        // self.beepSound?.stop()
+        if self.isCaptureMode == false {
+            self.isRecording = false
+            self.recordButtonTapped(isShow: false)
+        }else {
+            if kContainerNav.isEmpty {
+                //  addLeftTransitionView(subtype: kCATransitionFromLeft)
+                self.navigationController?.popNormal()
+            }else {
+                kContainerNav = "1"
+                self.prepareContainerToPresent()
+            }
+        }
+        
+    }
+    
     // MARK: - Class Methods
     
     func preparePreview(assets:[TLPHAsset]){
@@ -410,7 +460,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()
             self.btnPreviewOpen.isHidden = false
-            self.btnShutter.isHidden = false
+           // self.btnShutter.isHidden = false
+            self.addNextButton(isAddButton: true)
             self.previewCollection.reloadData()
         })
       
@@ -443,7 +494,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     func updateData(content:ContentDAO) {
        
         if  ContentList.sharedInstance.arrayContent.count == 0 {
-            self.btnShutter.isHidden = false
+          //  self.btnShutter.isHidden = false
+            self.addNextButton(isAddButton: true)
             self.viewUP()
         }
         if kDefault?.value(forKey: kRetakeIndex) != nil {
@@ -458,7 +510,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     // MARK: - Class Methods
     
-    func previewScreenNavigated(){
+    @objc func previewScreenNavigated(){
         if !kContainerNav.isEmpty {
             kContainerNav = "1"
             self.prepareContainerToPresent()

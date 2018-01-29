@@ -51,12 +51,12 @@ class PreviewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
         self.hideStatusBar()
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
         self.previewCollection.reloadData()
+        self.prepareNavBarButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -206,6 +206,50 @@ class PreviewController: UIViewController {
         
     }
     
+    
+    func prepareNavBarButtons(){
+        
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.tintColor = .white
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
+        self.navigationItem.leftBarButtonItem = btnBack
+    }
+    
+    
+    func changeButtonAccordingSwipe(selected:ContentDAO){
+        //editing_cross_icon
+        self.navigationItem.setRightBarButtonItems([], animated: true)
+        
+        let imgEdit = #imageLiteral(resourceName: "edit_icon")
+        let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+        
+        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
+        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+        
+        
+        if selected.isEdit == true {
+            var arrButtons = [UIBarButtonItem]()
+            arrButtons.append(btnEdit)
+            if selected.isDelete == true {
+                arrButtons.append(btnDelete)
+            }
+            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+        }else{
+            var arrButtons = [UIBarButtonItem]()
+            
+            arrButtons.append(btnFlag)
+            if selected.isDelete == true {
+                arrButtons.append(btnDelete)
+            }
+            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+        }
+    }
+    
+    
+    
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
         if gesture.direction == .up {
             print("up")
@@ -337,6 +381,14 @@ class PreviewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     
+   @objc func btnBack() {
+        if self.strPresented == nil {
+            self.imgPreview.image = nil
+            self.navigationController?.popNormal()
+        }else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @IBAction func btnBackAction(_ sender: Any) {
         if self.strPresented == nil {
