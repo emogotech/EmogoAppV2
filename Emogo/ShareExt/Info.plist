@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -37,10 +37,10 @@
 			<key>NSExtensionJavaScriptPreprocessingFile</key>
 			<string>DemoPreprocessor</string>
 		</dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>HomeViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>HomeViewController</string>
 	</dict>
 </dict>
 </plist>
