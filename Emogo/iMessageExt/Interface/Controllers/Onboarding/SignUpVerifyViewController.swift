@@ -137,6 +137,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- Action Methods
     @IBAction func btnDone(_ sender : UIButton) {
+        self.view.endEditing(true)
         self.checkValidation()
     }
     
@@ -164,6 +165,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     }
     
     @objc func donePressed(){
+        self.view.endEditing(true)
         self.checkValidation()
     }
     
