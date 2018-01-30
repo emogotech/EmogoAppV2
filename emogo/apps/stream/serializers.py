@@ -189,6 +189,7 @@ class ViewStreamSerializer(StreamSerializer):
     collaborators = serializers.SerializerMethodField()
     contents = serializers.SerializerMethodField()
     stream_permission = serializers.SerializerMethodField()
+    collaborator_permission = serializers.SerializerMethodField()
 
     def get_author(self, obj):
         try:
@@ -235,6 +236,12 @@ class ViewStreamSerializer(StreamSerializer):
                 # If stream is public and any_one_can_edit is False
                 else:
                     return {'can_add_content': False, 'can_add_people': False}
+
+    def get_collaborator_permission(self, obj):
+        qs = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user)
+        if qs.exists():
+            return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
+        return {'can_add_content': False , 'can_add_people': False}
 
 
 class ContentListSerializer(serializers.ListSerializer):
