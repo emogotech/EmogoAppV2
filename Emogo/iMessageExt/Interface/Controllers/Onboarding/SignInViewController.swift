@@ -134,6 +134,7 @@ class SignInViewController: MSMessagesAppViewController {
     
     // MARK:- Action Methods
     @IBAction func btnSignIn(_ sender : UIButton) {
+        view.endEditing(true)
       self.checkValidation()
     }
     
@@ -227,7 +228,7 @@ extension SignInViewController: UITextFieldDelegate {
     
     @objc func donePressed(){
          view.endEditing(true)
-//        self.checkValidation()
+        self.checkValidation()
     }
     
     func cancelPressed(){
