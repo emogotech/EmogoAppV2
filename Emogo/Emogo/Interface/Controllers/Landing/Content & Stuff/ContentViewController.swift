@@ -471,20 +471,21 @@ class ContentViewController: UIViewController {
                     return
                 }
                 self.openURL(url: url)
+                return
+            }else if self.seletedImage.type == .image {
+                if isEdit != nil {
+                    performEdit()
+                }else {
+                    if   ContentList.sharedInstance.arrayContent.count != 0 {
+                        performEdit()
+                    }else {
+                        self.showToast(type: .error, strMSG: kAlert_Edit_Image)
+                    }
+                }
             }
-            return
+            
         }
        
-        if isEdit != nil {
-            performEdit()
-        }else {
-            if   ContentList.sharedInstance.arrayContent.count != 0 {
-              performEdit()
-            }else {
-                self.showToast(type: .error, strMSG: kAlert_Edit_Image)
-            }
-        }
-        
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
@@ -655,7 +656,7 @@ class ContentViewController: UIViewController {
     func performEdit(){
         if seletedImage.type == .image {
             if self.seletedImage.imgPreview == nil {
-                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage, handler: { (image) in
+                SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
                     if image != nil {
                         self.openEditor(image:image!)
                     }

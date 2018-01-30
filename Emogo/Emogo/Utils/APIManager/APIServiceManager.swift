@@ -673,10 +673,12 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            let result:[Any] = data as! [Any]
-                            for obj in result {
-                               let colab = CollaboratorDAO(colabData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                arrayColabs.append(colab)
+                            if let colabDict = (data as! [String:Any])["collaborators"] {
+                                let result:[Any] = colabDict as! [Any]
+                                for obj in result {
+                                    let colab = CollaboratorDAO(colabData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    arrayColabs.append(colab)
+                                }
                             }
                             completionHandler(arrayColabs,"")
                         }

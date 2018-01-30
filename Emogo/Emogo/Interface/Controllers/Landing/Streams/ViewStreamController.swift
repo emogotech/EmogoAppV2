@@ -145,6 +145,7 @@ class ViewStreamController: UIViewController {
             if ContentList.sharedInstance.objStream != nil {
            // self.viewStreamCollectionView.gestureRecognizers?.removeAll(keepingCapacity: false)
                 self.updateLayOut()
+                ContentList.sharedInstance.objStream = nil
                 //  ContentList.sharedInstance.objStream = nil
             }
         }

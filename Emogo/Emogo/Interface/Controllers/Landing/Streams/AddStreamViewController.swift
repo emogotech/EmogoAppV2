@@ -151,7 +151,7 @@ class AddStreamViewController: UITableViewController {
                 self.switchMakePrivate.isOn = true
                 streamType = "Private"
             }
-            
+          
             // If Editor is Creator
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.prepareEdit(isEnable: true)
@@ -195,9 +195,6 @@ class AddStreamViewController: UITableViewController {
                 // Colab is Logged in as Editor
             self.prepareEdit(isEnable: false)
             self.switchAddCollaborators.isUserInteractionEnabled = true
-
-            self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
-            self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
             if self.switchAddPeople.isOn == true {
                 self.switchAddPeople.isUserInteractionEnabled  = true
             }else {
@@ -232,6 +229,8 @@ class AddStreamViewController: UITableViewController {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
+        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
+        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
         
         self.tableView.reloadData()
     }

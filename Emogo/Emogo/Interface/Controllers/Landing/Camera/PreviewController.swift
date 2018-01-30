@@ -110,10 +110,7 @@ class PreviewController: UIViewController {
             }
         }
         ContentList.sharedInstance.arrayContent = unique
-        if selectedIndex == nil {
-            selectedIndex = 0
-        }
-        self.preparePreview(index: selectedIndex)
+       
         kPreviewHeight.constant = 129.0
         self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
         //  kWidthOptions.constant = 0.0
@@ -169,6 +166,11 @@ class PreviewController: UIViewController {
         
         self.imgPreview.contentMode = .scaleAspectFit
         
+        if selectedIndex == nil {
+            selectedIndex = 0
+        }
+        self.preparePreview(index: selectedIndex)
+        
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
@@ -198,6 +200,7 @@ class PreviewController: UIViewController {
             self.btnShareAction.isHidden = false
             kWidth.constant = 50.0
         }
+      
         
     }
     

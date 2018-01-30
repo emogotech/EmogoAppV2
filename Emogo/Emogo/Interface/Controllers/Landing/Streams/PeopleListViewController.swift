@@ -50,6 +50,7 @@ class PeopleListViewController: UIViewController {
     func getColabListForStream(){
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetStreamColabList(streamID: self.streamID) { (arrayColab, errorMsg) in
+           HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.arrayColab = arrayColab!
                 self.arrayColab.sort {
