@@ -196,8 +196,8 @@ class AddStreamViewController: UITableViewController {
             self.prepareEdit(isEnable: false)
             self.switchAddCollaborators.isUserInteractionEnabled = true
 
-            self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-            self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+            self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
+            self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
             if self.switchAddPeople.isOn == true {
                 self.switchAddPeople.isUserInteractionEnabled  = true
             }else {

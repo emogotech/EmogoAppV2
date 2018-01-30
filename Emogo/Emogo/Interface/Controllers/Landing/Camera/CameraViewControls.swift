@@ -90,6 +90,7 @@ extension CustomCameraViewController {
 
     func recordButtonTapped(isShow:Bool){
         isCaptureMode = false
+        self.isRecording = true
         self.btnGallery.isHidden = isShow
         self.btnRecording.isHidden = isShow
         self.btnFlash.isHidden = isShow

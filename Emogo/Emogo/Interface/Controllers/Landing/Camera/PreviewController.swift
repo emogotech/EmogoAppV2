@@ -28,7 +28,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnAddStream: UIButton!
-    
+    @IBOutlet weak var kWidth: NSLayoutConstraint!
+
     
     // MARK: - Variables
     
@@ -192,9 +193,10 @@ class PreviewController: UIViewController {
         }
         
         self.btnShareAction.isHidden = true
-        
+        kWidth.constant = 0.0
         if self.isShowRetake != nil  {
             self.btnShareAction.isHidden = false
+            kWidth.constant = 50.0
         }
         
     }
@@ -213,25 +215,38 @@ class PreviewController: UIViewController {
     
     func changeButtonAccordingSwipe(selected:ContentDAO){
         //editing_cross_icon
+        var arrButtons = [UIBarButtonItem]()
+
         self.navigationItem.setRightBarButtonItems([], animated: true)
         
-        let imgEdit = #imageLiteral(resourceName: "edit_icon")
-        let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+        var imgEdit = #imageLiteral(resourceName: "edit_icon")
+        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
         let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
         let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
         
         if selected.isUploaded == false {
-            var arrButtons = [UIBarButtonItem]()
-            arrButtons.append(btnEdit)
             arrButtons.append(btnDelete)
-            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+
+            if selected.type == .image {
+                arrButtons.append(btnEdit)
+            }
+            if selected.type == .link {
+                imgEdit = #imageLiteral(resourceName: "change_link")
+                btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+                arrButtons.append(btnEdit)
+            }
         }else{
-            var arrButtons = [UIBarButtonItem]()
             if selected.isEdit == true {
                 if selected.type == .image {
                     arrButtons.append(btnEdit)
                 }
+                if selected.type == .link {
+                    imgEdit = #imageLiteral(resourceName: "change_link")
+                    btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+                    arrButtons.append(btnEdit)
+                }
+                
                 if selected.isDelete == true {
                     arrButtons.append(btnDelete)
                 }
@@ -239,13 +254,12 @@ class PreviewController: UIViewController {
             }else{
                 var arrButtons = [UIBarButtonItem]()
                 arrButtons.append(btnDelete)
-                self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
             }
             
         }
+        self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
 
     }
-    
     
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
@@ -413,6 +427,11 @@ class PreviewController: UIViewController {
                 }else{
                     self.openEditor(image:seletedImage.imgPreview!)
                 }
+            }else if seletedImage.type == .link {
+                guard let url = URL(string: self.seletedImage.coverImage) else {
+                    return
+                }
+                self.openURL(url: url)
             }
         }else {
             self.showToast(type: .error, strMSG: kAlert_Edit_Image)
