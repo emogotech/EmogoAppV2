@@ -331,7 +331,7 @@ class AWSRequestManager:NSObject {
                 self.completed()
                 if StreamID.count != 0 {
                     self.associateContentToStream(streamID: StreamID, contents: contents!, completion: { (success, errorMsg) in
-                        
+                        HUDManager.sharedInstance.hideProgress()
                     })
                 }else {
                     self.showToast(strMSG: kAlert_Content_Added)
@@ -359,6 +359,7 @@ class AWSRequestManager:NSObject {
             return
         }
         APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
+
             if (errorMsg?.isEmpty)! {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil)
                 self.showToast(strMSG: kAlert_contenAddedToStream)

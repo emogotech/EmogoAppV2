@@ -1406,6 +1406,7 @@ class APIServiceManager: NSObject {
     func apiForDeleteContentFromStream(streamID:String,contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let url = kDeleteStreamContentAPI + "\(streamID)/"
         let params:[String:Any] = ["content":[contentID]]
+        print(url)
         print(params)
         APIManager.sharedInstance.delete(strURL: url, Param: params) { (result) in
             switch(result){

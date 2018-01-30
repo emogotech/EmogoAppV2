@@ -79,6 +79,10 @@ class PreviewController: UIViewController {
     func prepareLayouts(){
         // Preview Height
         // Remove Duplicate Objects
+        if selectedIndex == nil {
+            selectedIndex = 0
+        }
+        
         self.txtTitleImage.maxLength = 50
         txtDescription.delegate = self
         self.txtDescription.placeholder = "Description"
@@ -90,6 +94,29 @@ class PreviewController: UIViewController {
         var unique = [ContentDAO]()
         
       
+        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            self.isShowRetake = true
+            ContentList.sharedInstance.objStream = nil
+            SharedData.sharedInstance.contentList.objStream = nil
+            
+            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
+            conten.isUploaded = false
+            conten.type = .link
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(conten)
+            if selectedIndex == nil {
+                selectedIndex = 0
+            }
+            self.preparePreview(index: selectedIndex)
+            self.btnDone.isHidden = true
+            self.btnAddStream.isHidden = false
+            self.btnDone.isHidden = true
+        }else{
+            self.preparePreview(index: selectedIndex)
+        }
+        
         
         for obj in  ContentList.sharedInstance.arrayContent {
             if obj.isUploaded {
@@ -166,34 +193,7 @@ class PreviewController: UIViewController {
         
         self.imgPreview.contentMode = .scaleAspectFit
         
-        if selectedIndex == nil {
-            selectedIndex = 0
-        }
-        self.preparePreview(index: selectedIndex)
-        
-        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-            self.isShowRetake = true
-            ContentList.sharedInstance.objStream = nil
-            SharedData.sharedInstance.contentList.objStream = nil
-            
-            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
-            conten.name = self.txtTitleImage.text?.trim()
-            conten.description = self.txtDescription.text.trim()
-            conten.isUploaded = false
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent.append(conten)
-            if selectedIndex == nil {
-                selectedIndex = 0
-            }
-            self.preparePreview(index: selectedIndex)
-            self.btnDone.isHidden = true
-            SharedData.sharedInstance.deepLinkType = ""
-            self.btnAddStream.isHidden = false
-            self.btnDone.isHidden = true
-        }
-        
+      
         self.btnShareAction.isHidden = true
         kWidth.constant = 0.0
         if self.isShowRetake != nil  {
@@ -283,6 +283,7 @@ class PreviewController: UIViewController {
         self.txtTitleImage.text = ""
         txtDescription.text = ""
         self.selectedIndex = index
+        
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if !seletedImage.name.isEmpty {
             var title  = seletedImage.name.trim()
