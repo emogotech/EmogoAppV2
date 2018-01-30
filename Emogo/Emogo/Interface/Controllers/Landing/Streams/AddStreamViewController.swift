@@ -479,7 +479,16 @@ class AddStreamViewController: UITableViewController {
                     if self.isAddContent != nil {
                         self.associateContentToStream(id: (stream?.ID)!)
                     }else {
-                    self.navigationController?.popNormal()
+                         let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                        StreamList.sharedInstance.arrayViewStream = array
+                        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                        obj.currentIndex = 0
+                        obj.streamType = currentStreamType.rawValue
+                        ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.popToViewController(vc: obj)
+
+                        
+                   // self.navigationController?.popNormal()
 
 //                        if kNavForProfile.isEmpty {
 //                            self.navigationController?.popNormal()

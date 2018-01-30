@@ -165,7 +165,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
-       
+        kDefault?.removeObject(forKey: kRetakeIndex)
         // If User already logged in
        self.performLogin()
         self.keyboardToolBar(disable:false)

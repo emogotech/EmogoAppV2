@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -42,30 +42,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fUE-ZT-mbe">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                 <subviews>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrP-ni-6K4">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="blO-Fr-cC0"/>
-                                            <constraint firstAttribute="height" constant="50" id="k1s-c7-fLW"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="-10" minY="10" maxX="0.0" maxY="10"/>
-                                        <state key="normal" image="white_back_icon"/>
-                                        <connections>
-                                            <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="D4i-rx-OCk"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Mn-zJ-uNp">
-                                        <rect key="frame" x="325" y="0.0" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="50" id="AX2-jD-EcT"/>
-                                            <constraint firstAttribute="height" constant="50" id="F0Y-Hg-vOb"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="8" minY="10" maxX="0.0" maxY="10"/>
-                                        <state key="normal" image="share_button"/>
-                                        <connections>
-                                            <action selector="btnActionShutter:" destination="taN-Fu-ihg" eventType="touchUpInside" id="Ved-Qd-xyC"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1G-sv-mO2">
                                         <rect key="frame" x="137.5" y="14" width="100" height="21"/>
                                         <constraints>
@@ -79,12 +55,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="SrP-ni-6K4" firstAttribute="leading" secondItem="fUE-ZT-mbe" secondAttribute="leading" id="XA8-oX-8Ux"/>
-                                    <constraint firstItem="SrP-ni-6K4" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" id="YjM-Wl-97z"/>
                                     <constraint firstItem="q1G-sv-mO2" firstAttribute="centerX" secondItem="fUE-ZT-mbe" secondAttribute="centerX" id="a1r-Ll-bDr"/>
                                     <constraint firstAttribute="height" constant="50" id="cea-wM-I2U"/>
-                                    <constraint firstAttribute="trailing" secondItem="2Mn-zJ-uNp" secondAttribute="trailing" id="rKl-nl-T4g"/>
-                                    <constraint firstItem="2Mn-zJ-uNp" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" id="xf9-1D-ma1"/>
                                     <constraint firstItem="q1G-sv-mO2" firstAttribute="top" secondItem="fUE-ZT-mbe" secondAttribute="top" constant="14" id="ymS-hG-4CW"/>
                                 </constraints>
                             </view>
@@ -306,7 +278,6 @@
                         <outlet property="btnGallery" destination="NaH-8y-x67" id="cFX-eH-GD2"/>
                         <outlet property="btnPreviewOpen" destination="K8V-sK-6fv" id="hNr-xL-USV"/>
                         <outlet property="btnRecording" destination="dzE-wF-npS" id="0Qh-Up-afC"/>
-                        <outlet property="btnShutter" destination="2Mn-zJ-uNp" id="Iw9-GL-Jhe"/>
                         <outlet property="btnTimer" destination="ktU-Wk-HJO" id="7no-gt-QOk"/>
                         <outlet property="kPreviewHeight" destination="7PC-vg-6WQ" id="gO8-Aj-GIb"/>
                         <outlet property="lblRecordTimer" destination="q1G-sv-mO2" id="daD-0a-G9l"/>
@@ -1588,17 +1559,26 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Content available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-xh-Pkz">
+                                <rect key="frame" x="107.5" y="462" width="161" height="21"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
+                                <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Hoq-NP-WLS" firstAttribute="trailing" secondItem="9PJ-SQ-ZVY" secondAttribute="trailing" id="4sS-SV-dtW"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="bottom" secondItem="Hoq-NP-WLS" secondAttribute="bottom" id="Ez2-Da-Y60"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="leading" secondItem="Hoq-NP-WLS" secondAttribute="leading" id="Kgs-fr-tRc"/>
+                            <constraint firstItem="vqO-xh-Pkz" firstAttribute="centerX" secondItem="eeg-pY-xwP" secondAttribute="centerX" id="N59-yx-6Ff"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="top" secondItem="Hoq-NP-WLS" secondAttribute="top" id="iT8-5e-GXt"/>
+                            <constraint firstItem="Hoq-NP-WLS" firstAttribute="bottom" secondItem="vqO-xh-Pkz" secondAttribute="bottom" constant="184" id="mY5-nL-V28"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Hoq-NP-WLS"/>
                     </view>
                     <connections>
+                        <outlet property="lblNoContent" destination="vqO-xh-Pkz" id="Mw9-mp-aJB"/>
                         <outlet property="viewStreamCollectionView" destination="9PJ-SQ-ZVY" id="W7V-e8-Jf0"/>
                     </connections>
                 </viewController>
@@ -1960,7 +1940,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="56" y="76" width="253" height="48"/>
+                                        <rect key="frame" x="57" y="76" width="253" height="48"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2806,7 +2786,6 @@
         <image name="search_icon_iphone" width="13" height="13"/>
         <image name="select_active_icon" width="23" height="23"/>
         <image name="select_icon" width="23" height="19"/>
-        <image name="share_button" width="17" height="15"/>
         <image name="sign-in-btn" width="160" height="53"/>
         <image name="sign-up-btn" width="160" height="53"/>
         <image name="stream_icon_add" width="147" height="147"/>

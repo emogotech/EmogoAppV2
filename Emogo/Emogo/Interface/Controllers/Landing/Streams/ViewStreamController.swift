@@ -14,7 +14,8 @@ class ViewStreamController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
-    
+    @IBOutlet weak var lblNoContent: UILabel!
+
     // Varibales
     var streamType:String!
     var objStream:StreamViewDAO?
@@ -77,7 +78,7 @@ class ViewStreamController: UIViewController {
     }
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-       
+        self.lblNoContent.isHidden = true
         // Attach datasource and delegate
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
@@ -95,7 +96,7 @@ class ViewStreamController: UIViewController {
         // Add the waterfall layout to your collection view
         self.viewStreamCollectionView.collectionViewLayout = layout
         
-        if currentIndex != nil {
+        if currentIndex != nil  && StreamList.sharedInstance.arrayViewStream.count > 1 {
             viewStreamCollectionView.isUserInteractionEnabled = true
             let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -243,6 +244,7 @@ class ViewStreamController: UIViewController {
     }
     
     func next() {
+        self.lblNoContent.isHidden = true
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
@@ -254,6 +256,7 @@ class ViewStreamController: UIViewController {
     
     func previous() {
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+        self.lblNoContent.isHidden = true
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }
@@ -264,7 +267,7 @@ class ViewStreamController: UIViewController {
     
    @objc func btnColabAction(){
     let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
-    obj.arrayColab = self.objStream?.arrayColab
+    obj.streamID = self.objStream?.streamID
     self.navigationController?.push(viewController: obj)
     }
     
@@ -392,6 +395,9 @@ class ViewStreamController: UIViewController {
                 }else{
                     let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
                     self.navigationItem.rightBarButtonItem = btnRightBar
+                    if self.objStream?.arrayContent.count == 0 {
+                        self.lblNoContent.isHidden = false
+                    }
                 }
             }else {
                 if errorMsg == "404" {

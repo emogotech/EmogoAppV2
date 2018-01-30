@@ -223,8 +223,8 @@ class MyStreamViewController: UIViewController {
                 HUDManager.sharedInstance.showProgress()
                 let array = ContentList.sharedInstance.arrayToCreate
                 AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: array!, completion: { (isScuccess, errorMSG) in
+                    HUDManager.sharedInstance.hideProgress()
                     if (errorMSG?.isEmpty)! {
-                        
                     }
                 })
                 

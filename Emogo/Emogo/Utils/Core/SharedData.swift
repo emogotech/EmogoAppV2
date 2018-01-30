@@ -126,7 +126,7 @@ class SharedData: NSObject {
         } catch let error {
             
             print("*** Error generating thumbnail: \(error.localizedDescription)")
-            return nil
+            return  #imageLiteral(resourceName: "stream-card-placeholder")
             
         }
     }

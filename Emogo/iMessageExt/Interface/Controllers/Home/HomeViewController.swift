@@ -456,8 +456,8 @@ class HomeViewController: MSMessagesAppViewController {
                     self.btnStreamSearch.isUserInteractionEnabled = true
                     self.btnPeopleSearch.isUserInteractionEnabled = false
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                    lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
-                    
+                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+
                     PeopleList.sharedInstance.arrayPeople.removeAll()
                     collectionStream.reloadData()
                     self.collectionStream.isHidden = true
@@ -468,7 +468,7 @@ class HomeViewController: MSMessagesAppViewController {
                 }else{
                     isStreamEnable = true
                     lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                    lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                     self.btnStreamSearch.isUserInteractionEnabled = false
                     self.btnPeopleSearch.isUserInteractionEnabled = true
                     PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -551,7 +551,7 @@ class HomeViewController: MSMessagesAppViewController {
             
         case 0:         //Stream
             lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             self.isStreamEnable = true
             self.isSearch = true
@@ -566,7 +566,7 @@ class HomeViewController: MSMessagesAppViewController {
             
         case 1:         //People
             lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             self.collectionStream.isHidden = true
@@ -1203,13 +1203,13 @@ extension HomeViewController : UITextFieldDelegate {
                 PeopleList.sharedInstance.requestURl = ""
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                lblStreamSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 //                self.setupCollectionProperties()
                 self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
             }else{
                 isStreamEnable = true
                 lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                lblPeopleSearch.textColor = #colorLiteral(red: 0.6618840643, green: 0.6980385184, blue: 0.7022444606, alpha: 1)
+                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 PeopleList.sharedInstance.arrayPeople.removeAll()
                 collectionStream.reloadData()
                 StreamList.sharedInstance.requestURl = ""

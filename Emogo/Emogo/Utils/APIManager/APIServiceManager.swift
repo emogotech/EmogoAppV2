@@ -661,6 +661,37 @@ class APIServiceManager: NSObject {
         }
     }
     
+    
+    func apiForGetStreamColabList(streamID:String,completionHandler:@escaping (_ colabs:[CollaboratorDAO]?, _ strError:String?)->Void){
+        let url = kStreamColabListAPI + "\(streamID)/"
+        var arrayColabs = [CollaboratorDAO]()
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                               let colab = CollaboratorDAO(colabData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                arrayColabs.append(colab)
+                            }
+                            completionHandler(arrayColabs,"")
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+
+    }
     // MARK: - People List API
     
     func apiForGetPeopleList(type:RefreshType,deviceType:DeviceType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {

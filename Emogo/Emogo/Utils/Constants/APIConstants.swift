@@ -58,7 +58,7 @@ let kDeleteStreamContentAPI                         = "delete_stream_content/"
 let kGetTopStreamAPI                                = "get_top_stream/"
 let kGetContentDescriptionAPI                       = "content/"
 let kVerifyLoginAPI                                 = "verify_login_otp/"
-
+let kStreamColabListAPI                             = "stream/collaborator/"
 
 
 // MARK: -  API STATUS CODE

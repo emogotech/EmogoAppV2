@@ -22,7 +22,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     @IBOutlet weak var btnRecording: UIButton!
     @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var btnTimer: UIButton!
-    @IBOutlet weak var btnShutter: UIButton!
     @IBOutlet weak var btnGallery: UIButton!
     @IBOutlet weak var btnFlashOn: UIButton!
     @IBOutlet weak var btnFlashOff: UIButton!
@@ -120,7 +119,6 @@ class CustomCameraViewController: SwiftyCamViewController {
             let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
             btnCamera.addGestureRecognizer(longGesture)
         }
-
     }
     
     func prepareNavBarButtons(){
@@ -136,6 +134,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     func addNextButton(isAddButton:Bool){
         if isAddButton {
+            self.navigationItem.rightBarButtonItem  = nil
             let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext
         }else {

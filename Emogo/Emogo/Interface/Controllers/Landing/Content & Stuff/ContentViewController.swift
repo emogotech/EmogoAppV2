@@ -182,7 +182,6 @@ class ContentViewController: UIViewController {
         }
         
         
-        
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = false
@@ -351,18 +350,45 @@ class ContentViewController: UIViewController {
     func changeButtonAccordingSwipe(selected:ContentDAO){
         //editing_cross_icon
         self.navigationItem.setRightBarButtonItems([], animated: true)
+     
+        var imgEdit = #imageLiteral(resourceName: "edit_icon")
+        var arrButtons = [UIBarButtonItem]()
         
-        let imgEdit = #imageLiteral(resourceName: "edit_icon")
-        let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
-        
-        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
-        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
-        
+        if selected.isUploaded {
+            if selected.isEdit {
+                if selected.type == .image {
+                    let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+                    arrButtons.append(btnEdit)
+                    
+                }
+            }else {
+                if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
+                    let imgFlag = #imageLiteral(resourceName: "content_flag")
+                    let btnFlag = UIBarButtonItem(image: imgFlag, style: .plain, target: self, action: #selector(self.btnShowReportListAction(_:)))
+                    arrButtons.append(btnFlag)
+                    
+                }
+            }
+            
+            if selected.type == .link {
+                imgEdit = #imageLiteral(resourceName: "change_link")
+                let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+                arrButtons.append(btnEdit)
+            }
+            
+            
+            if selected.isDelete {
+                let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
+                let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+                arrButtons.append(btnDelete)
+            }
+        }
+    
+        /*
         let imgFlag = #imageLiteral(resourceName: "content_flag")
         let btnFlag = UIBarButtonItem(image: imgFlag, style: .plain, target: self, action: #selector(self.btnShowReportListAction(_:)))
         
         if selected.isEdit == true {
-            var arrButtons = [UIBarButtonItem]()
             arrButtons.append(btnEdit)
             if selected.isDelete == true {
                 arrButtons.append(btnDelete)
@@ -375,8 +401,10 @@ class ContentViewController: UIViewController {
             if selected.isDelete == true {
                 arrButtons.append(btnDelete)
             }
-            self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
         }
+ */
+        self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
+
     }
     
 
@@ -436,6 +464,16 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
+        if self.seletedImage != nil {
+            if self.seletedImage.type == .link {
+                guard let url = URL(string: self.seletedImage.coverImage) else {
+                    return
+                }
+                self.openURL(url: url)
+            }
+            return
+        }
+       
         if isEdit != nil {
             performEdit()
         }else {
@@ -596,6 +634,7 @@ class ContentViewController: UIViewController {
     }
     
     func next() {
+        self.imgCover.backgroundColor = .black
         if(currentIndex < ContentList.sharedInstance.arrayContent.count-1) {
             currentIndex = currentIndex + 1
         }
@@ -604,6 +643,7 @@ class ContentViewController: UIViewController {
     }
     
     func previous() {
+        self.imgCover.backgroundColor = .black
         if currentIndex != 0{
             currentIndex =  currentIndex - 1
         }

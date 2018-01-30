@@ -14,7 +14,8 @@ class PeopleListViewController: UIViewController {
     @IBOutlet weak var peopleCollectionView: UICollectionView!
     
     
-    var arrayColab:[CollaboratorDAO]!
+    var arrayColab = [CollaboratorDAO]()
+    var streamID:String!
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -39,16 +40,27 @@ class PeopleListViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Collaborator List"
         self.configureNavigationWithTitle()
-        arrayColab.sort {
-            $0.name < $1.name
-        }
+        getColabListForStream()
     }
-    
 
     // MARK: -  Action Methods And Selector
 
     // MARK: - Class Methods
 
+    func getColabListForStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForGetStreamColabList(streamID: self.streamID) { (arrayColab, errorMsg) in
+            if (errorMsg?.isEmpty)! {
+                self.arrayColab = arrayColab!
+                self.arrayColab.sort {
+                    $0.name < $1.name
+                }
+            self.peopleCollectionView.reloadData()
+            } else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     
     /*
     // MARK: - Navigation
@@ -64,14 +76,10 @@ class PeopleListViewController: UIViewController {
 
 
 extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
-{
+    {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if arrayColab == nil {
-            return 0
-        }else {
             return arrayColab.count
         }
-    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell

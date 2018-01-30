@@ -93,7 +93,6 @@ extension CustomCameraViewController {
         self.btnGallery.isHidden = isShow
         self.btnRecording.isHidden = isShow
         self.btnFlash.isHidden = isShow
-        self.btnShutter.isHidden = isShow
         self.btnTimer.isHidden = isShow
         if isShow == true {
             self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
@@ -109,7 +108,6 @@ extension CustomCameraViewController {
         self.btnCamera.isUserInteractionEnabled = isEnable
         self.btnGallery.isUserInteractionEnabled = isEnable
         self.btnRecording.isUserInteractionEnabled = isEnable
-        self.btnShutter.isUserInteractionEnabled = isEnable
         self.btnTimer.isUserInteractionEnabled = isEnable
     }
     
@@ -163,7 +161,6 @@ extension CustomCameraViewController {
     self.btnCamera.isUserInteractionEnabled = isOn
     self.btnRecording.isUserInteractionEnabled = isOn
     self.btnGallery.isUserInteractionEnabled = isOn
-    self.btnShutter.isUserInteractionEnabled = isOn
     self.btnTimer.isUserInteractionEnabled = isOn
     }
 

@@ -88,29 +88,7 @@ class PreviewController: UIViewController {
         var seen = Set<String>()
         var unique = [ContentDAO]()
         
-        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-            
-            ContentList.sharedInstance.objStream = nil
-            SharedData.sharedInstance.contentList.objStream = nil
-            if selectedIndex == nil {
-                selectedIndex = 0
-            }
-            self.preparePreview(index: selectedIndex)
-            
-            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
-            conten.name = self.txtTitleImage.text?.trim()
-            conten.description = self.txtDescription.text.trim()
-            
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent.append(conten)
-            let arrayC = [String]()
-            let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
-            AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
-            self.showToast(strMSG: "Please while wait content is upload...")
-            self.btnDone.isHidden = true
-        }
+      
         
         for obj in  ContentList.sharedInstance.arrayContent {
             if obj.isUploaded {
@@ -191,11 +169,26 @@ class PreviewController: UIViewController {
         self.imgPreview.contentMode = .scaleAspectFit
         
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
-            self.btnAddStream.isHidden = false
-            self.btnEdit.isHidden = true
-            self.btnDelete.isHidden = true
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            self.isShowRetake = true
+            ContentList.sharedInstance.objStream = nil
+            SharedData.sharedInstance.contentList.objStream = nil
+            
+            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
+            conten.name = self.txtTitleImage.text?.trim()
+            conten.description = self.txtDescription.text.trim()
+            conten.isUploaded = false
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(conten)
+            if selectedIndex == nil {
+                selectedIndex = 0
+            }
+            self.preparePreview(index: selectedIndex)
             self.btnDone.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
+            self.btnAddStream.isHidden = false
+            self.btnDone.isHidden = true
         }
         
         self.btnShareAction.isHidden = true
@@ -443,11 +436,6 @@ class PreviewController: UIViewController {
         if ContentList.sharedInstance.arrayContent.count > 10 {
             self.alertForLimit()
             return
-        }
-        
-        if SharedData.sharedInstance.contentList.arrayContent.count > 0 {
-            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-            SharedData.sharedInstance.contentList.arrayContent.removeAll()
         }
         
         if ContentList.sharedInstance.objStream != nil {
