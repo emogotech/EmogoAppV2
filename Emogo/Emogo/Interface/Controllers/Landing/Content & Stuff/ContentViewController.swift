@@ -28,6 +28,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
+    @IBOutlet weak var kWidth: NSLayoutConstraint!
 
 
     var currentIndex:Int!

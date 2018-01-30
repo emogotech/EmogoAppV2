@@ -28,7 +28,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnAddStream: UIButton!
-    
+    @IBOutlet weak var kWidth: NSLayoutConstraint!
+
     
     // MARK: - Variables
     
@@ -192,9 +193,10 @@ class PreviewController: UIViewController {
         }
         
         self.btnShareAction.isHidden = true
-        
+        kWidth.constant = 0.0
         if self.isShowRetake != nil  {
             self.btnShareAction.isHidden = false
+            kWidth.constant = 50.0
         }
         
     }
