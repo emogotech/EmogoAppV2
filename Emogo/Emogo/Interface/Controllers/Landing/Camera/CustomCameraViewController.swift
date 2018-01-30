@@ -335,6 +335,13 @@ class CustomCameraViewController: SwiftyCamViewController {
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
         print("Normal tap")
         
+        if isRecording {
+            isRecording = false
+            self.lblRecordTimer.isHidden = true
+            self.recordButtonTapped(isShow: false)
+            self.performCamera(action: .stop)
+            return
+        }
         self.lblRecordTimer.isHidden = true
         if self.captureInSec != nil {
             self.performCamera(action: .timer)
@@ -348,18 +355,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         print("Long tap")
         switch sender.state {
         case .began:
+            isRecording = true
             self.lblRecordTimer.text = "00:00:00"
             self.timeSec = 0
             self.lblRecordTimer.isHidden = false
             self.performCamera(action: .recording)
             self.recordButtonTapped(isShow: true)
             break
-        case .ended:
-            self.lblRecordTimer.isHidden = true
-            self.recordButtonTapped(isShow: false)
-            self.performCamera(action: .stop)
-            break
-            
+       
         default: break
         }
     }

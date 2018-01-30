@@ -157,6 +157,8 @@ class StreamViewDAO{
     var arrayColab = [CollaboratorDAO]()
     var width                  :Int! = 0
     var hieght                 :Int! = 0
+    var userCanAddPeople:Bool! = false
+    var userCanAddContent:Bool! = false
 
     init(streamData:[String:Any]) {
         
@@ -186,6 +188,21 @@ class StreamViewDAO{
                 }
             }
         }
+        
+        if let obj  = streamData["collaborator_permission"] {
+            if obj is [String:Any] {
+                let dict:[String:Any] = obj as! [String : Any]
+                if let obj  = dict["can_add_content"] {
+                    let value  = "\(obj)"
+                    self.userCanAddContent = value.toBool()
+                }
+                if let obj  = dict["can_add_people"] {
+                    let value  = "\(obj)"
+                    self.userCanAddPeople = value.toBool()
+                }
+            }
+        }
+        
         
         if let obj  = streamData["any_one_can_edit"] {
             let value  = "\(obj)"
