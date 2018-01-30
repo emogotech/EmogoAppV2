@@ -339,16 +339,16 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:5], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
-        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:5], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_popular(self, obj):
         # Get self created streams
         owner_qs = self.qs.filter(type='Public').order_by('-view_count')
-        if owner_qs.count() < 5:
+        if owner_qs.count() < 10:
             # Get streams user as collaborator and has add content permission
             collaborator_permission = [x.stream for x in self.collaborator_qs if
                                        str(x.phone_number) in str(self.context.user.username) and x.stream.status == 'Active']
@@ -356,11 +356,11 @@ class GetTopStreamSerializer(serializers.Serializer):
             # merge result
             result_list = list(chain(owner_qs, collaborator_permission))
             total = result_list.__len__()
-            result_list = result_list[0:5]
+            result_list = result_list[0:10]
 
         else:
             total = owner_qs.count()
-            result_list = owner_qs[0:5]
+            result_list = owner_qs[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_my_stream(self, obj):
@@ -368,7 +368,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         # Get self created streams
         result_list = self.qs.filter(created_by=self.context.user)
         total = result_list.count()
-        result_list = result_list[0:5]
+        result_list = result_list[0:10]
 
         #
         # if owner_qs.count() < 5:
@@ -389,5 +389,5 @@ class GetTopStreamSerializer(serializers.Serializer):
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
-        return {"total": qs.count(), "data":UserDetailSerializer(qs[0:5], many=True, fields=fields,
-                                    context=self.context).data }
+        return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
+                                    context=self.context).data}
