@@ -129,7 +129,7 @@ class ShareViewHomeController: UIViewController {
                                 DispatchQueue.main.async {
                                     self.lblDesc.text = description as? String
                                     self.lblLink.text = url.absoluteString
-                                    self.imgLink.contentMode  = .scaleAspectFit
+                                    self.imgLink.contentMode  = .scaleAspectFill
                                 }
                             }
                             if let imageUrl = imageUrl {
@@ -143,14 +143,17 @@ class ShareViewHomeController: UIViewController {
                                         }
                                         DispatchQueue.main.async {
                                             let img = UIImage(data: data!)
-                                            self.imgLink.image = img
-                                            self.imgLink.contentMode = .scaleAspectFit
+                                            if img == nil {
+                                              self.setupWebViewWithUrlStr(strUrl: mainURL!)
+                                            }
+                                            else {
+                                                self.dictData["coverImageVideo"] = url?.absoluteString
+                                                self.imgLink.image = img
+                                                self.imgLink.contentMode = .scaleAspectFill
+                                                self.hudView.stopLoaderWithAnimation()
+                                            }
                                         }
                                     }).resume()
-                                    self.dictData["coverImageVideo"] = url?.absoluteString
-                                    DispatchQueue.main.async {
-                                        self.hudView.stopLoaderWithAnimation()
-                                    }
                                 }
                                 else {
                                     self.setupWebViewWithUrlStr(strUrl: mainURL!)
