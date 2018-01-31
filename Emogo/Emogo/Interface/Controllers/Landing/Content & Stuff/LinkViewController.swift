@@ -146,6 +146,7 @@ class LinkViewController: UIViewController {
                                             content.width = Int(img.size.width)
                                         }
                                         content.coverImageVideo = imgUrl.trim()
+                                        content.imgPreview = nil
                                         self.createContentForExtractedData(content: content)
 
                                     })
@@ -155,7 +156,7 @@ class LinkViewController: UIViewController {
                                     content.coverImageVideo = imgUrl.trim()
                                     self.createContentForExtractedData(content: content)
                                 }
-                               
+                                
 
                 },
                             onError: {

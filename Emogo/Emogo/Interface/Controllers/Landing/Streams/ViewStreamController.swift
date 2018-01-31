@@ -421,7 +421,18 @@ class ViewStreamController: UIViewController {
     
     func deleteStream(){
         HUDManager.sharedInstance.showHUD()
-     APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
+        var id:String! = ""
+       
+        if ContentList.sharedInstance.objStream != nil {
+            id = ContentList.sharedInstance.objStream
+        }else {
+            if currentIndex != nil {
+                let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                id =  stream.ID
+            }
+        }
+        
+     APIServiceManager.sharedInstance.apiForDeleteStream(streamID: id) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
 
             if (errorMsg?.isEmpty)! {

@@ -349,11 +349,7 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                if self.seletedImage.type == .gif {
-                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
-                }else {
-                    self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "")
-                }
+                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo.trim())
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true

@@ -37,6 +37,7 @@ class AWSManager: NSObject {
     fileprivate var arrayTotalBytesExpectedToSend = [Int64]()
     fileprivate var arrayRequest = [AWSS3TransferManagerUploadRequest]()
     fileprivate var arrayTotalSent = [Int64]()
+    var transferManager:AWSS3TransferManager!
 
     var TotalProgress:Progress!
 
@@ -52,6 +53,7 @@ class AWSManager: NSObject {
     
     override init() {
         super.init()
+        transferManager = AWSS3TransferManager.default()
         self.initAWS()
     }
     
@@ -84,7 +86,6 @@ class AWSManager: NSObject {
             })
         }
         // Upload Request
-        let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uRequest).continueWith { (task) -> Any? in
             if let error = task.error {
                 completion(.error(error))
@@ -144,7 +145,6 @@ class AWSManager: NSObject {
                 }
             })
         }
-        let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uploadRequest).continueWith { (task) -> Any? in
             if let error = task.error {
                 completion(nil, error)
