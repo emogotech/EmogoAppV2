@@ -206,7 +206,7 @@ let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 
 
 //Action sheet constant
-let kAlertSheet_Spam = "It's spam"
+let kAlertSheet_Spam = "Report"
 let kAlertSheet_Inappropiate = "It's inappropiate"
 
 

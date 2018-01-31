@@ -195,7 +195,8 @@ class PreviewController: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
         swipeDown.direction = .down
         self.imgPreview.addGestureRecognizer(swipeDown)
-        
+        self.previewCollection.addGestureRecognizer(swipeDown)
+
         // Preview Footer
         self.previewCollection.reloadData()
         self.btnDone.isHidden = false
@@ -238,7 +239,7 @@ class PreviewController: UIViewController {
         var imgEdit = #imageLiteral(resourceName: "edit_icon")
         var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
+        let imgDelete = #imageLiteral(resourceName: "delete-stream")
         let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
         
         if selected.isUploaded == false {
@@ -623,12 +624,17 @@ class PreviewController: UIViewController {
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
                 self.imgPreview.contentMode = .scaleAspectFit
+                //  kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = false
+                self.kWidthOptions.constant = 63.0
                 
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.imgPreview.contentMode = .scaleAspectFit
+                self.kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = true
                 
             }
             self.view.updateConstraintsIfNeeded()
