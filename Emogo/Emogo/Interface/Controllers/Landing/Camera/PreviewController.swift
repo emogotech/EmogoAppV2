@@ -218,7 +218,8 @@ class PreviewController: UIViewController {
     
     
     func prepareNavBarButtons(){
-        
+        btnDone.isUserInteractionEnabled = true
+        btnAddStream.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -348,7 +349,11 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                if self.seletedImage.type == .gif {
+                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                }else {
+                    self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "")
+                }
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true

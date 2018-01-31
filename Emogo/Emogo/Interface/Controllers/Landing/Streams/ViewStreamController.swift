@@ -137,8 +137,6 @@ class ViewStreamController: UIViewController {
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-
-        
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
@@ -393,7 +391,6 @@ class ViewStreamController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.prepareHeaderData()
-                self.viewStreamCollectionView.reloadData()
                 if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     self.navigationItem.rightBarButtonItem = nil
                 }else{
@@ -403,7 +400,11 @@ class ViewStreamController: UIViewController {
                         self.lblNoContent.isHidden = false
                     }
                 }
-            }else {
+                DispatchQueue.main.async {
+                    self.viewStreamCollectionView.reloadData()
+                }
+            }else
+            {
                 if errorMsg == "404" {
                     self.showToast(type: .success, strMSG: kAlert_Stream_Deleted)
                     let when = DispatchTime.now() + 1.5

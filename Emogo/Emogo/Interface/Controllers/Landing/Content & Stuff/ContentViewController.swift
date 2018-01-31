@@ -507,13 +507,12 @@ class ContentViewController: UIViewController {
         layout.image  = imgCover.image
         layout.subcaption = txtDescription.text
         
-        let content = SharedData.sharedInstance.contentList.arrayContent[0]
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
-            let strURl = String(format: "%@/%@", kNavigation_Content,(content.contentID!))
+            let strURl = String(format: "%@/%@", kNavigation_Content,seletedImage.contentID)
             message.url = URL(string: strURl)
         }else {
-            let strURl = String(format: "%@/%@/%@", kNavigation_Content,(content.contentID!),ContentList.sharedInstance.objStream!)
+            let strURl = String(format: "%@/%@/%@", kNavigation_Content,seletedImage.contentID,ContentList.sharedInstance.objStream!)
             message.url = URL(string: strURl)
         }
       
