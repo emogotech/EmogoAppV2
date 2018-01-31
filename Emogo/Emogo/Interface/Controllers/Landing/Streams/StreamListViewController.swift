@@ -108,7 +108,9 @@ class StreamListViewController: UIViewController {
             }else {
                 self.lblNoResult.isHidden = true
             }
-            self.menuView.selectItem(at: currentStreamType.hashValue, animated: true)
+            print("index to change----->\(currentStreamType.hashValue)")
+            self.menuView.currentIndex = currentStreamType.hashValue
+            self.menuView.reloadData()
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {
