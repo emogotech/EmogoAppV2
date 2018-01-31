@@ -24,7 +24,7 @@ class ShareViewHomeController: UIViewController {
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     
-     var tempWebView  : UIWebView!
+    var tempWebView  : UIWebView!
     
     
     var dictData : Dictionary = [String:Any]()
@@ -37,7 +37,7 @@ class ShareViewHomeController: UIViewController {
         self.lblLink.text = ""
         
         let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-    
+        
         if defaultUser?.bool(forKey: "userloggedin") == true {
             setupLoader()
             self.navigationController?.navigationBar.isHidden  = true
@@ -78,7 +78,7 @@ class ShareViewHomeController: UIViewController {
     }
     
     @objc func closeAfter(){
-
+        
         self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
             self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
         })
@@ -110,7 +110,7 @@ class ShareViewHomeController: UIViewController {
             print("error")
         }
     }
-
+    
     func getData(mainURL : URL!){
         if let url = mainURL  {
             let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
@@ -134,20 +134,20 @@ class ShareViewHomeController: UIViewController {
                             }
                             if let imageUrl = imageUrl {
                                 let url = URL(string: imageUrl as! String)
-                                
                                 if url != nil {
-                                URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
-                                    if error != nil {
-                                        print(error!)
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        let img = UIImage(data: data!)
-                                        self.imgLink.image = img
-                                        self.imgLink.contentMode = .scaleAspectFit
-                                    }
-                                }).resume()
-                                    self.dictData["coverImageVideo"] = imageUrl
+                                    
+                                    URLSession.shared.dataTask(with: url!, completionHandler: { (data, response, error) in
+                                        if error != nil {
+                                            print(error!)
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            let img = UIImage(data: data!)
+                                            self.imgLink.image = img
+                                            self.imgLink.contentMode = .scaleAspectFit
+                                        }
+                                    }).resume()
+                                    self.dictData["coverImageVideo"] = url?.absoluteString
                                     DispatchQueue.main.async {
                                         self.hudView.stopLoaderWithAnimation()
                                     }
@@ -234,7 +234,7 @@ class ShareViewHomeController: UIViewController {
     
     @IBAction func btnPostAction(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
-
+        
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
         self.dictData["height"] = String(format: "%d", (width))
@@ -363,7 +363,7 @@ extension ShareViewHomeController : UIWebViewDelegate {
         do {
             try imageData?.write(to: path, options: .atomic)
             let strPath = path.absoluteString
-               self.dictData["coverImageVideo"] = strPath
+            self.dictData["coverImageVideo"] = strPath
         } catch {
             return false
         }
@@ -390,4 +390,5 @@ extension ShareViewHomeController : UIWebViewDelegate {
     }
     
 }
+
 

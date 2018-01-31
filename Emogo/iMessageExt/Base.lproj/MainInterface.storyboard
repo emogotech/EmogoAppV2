@@ -1863,7 +1863,7 @@
                                             <constraint firstItem="3Ve-fs-dWQ" firstAttribute="leading" secondItem="smC-SE-zm5" secondAttribute="leading" id="wRa-R2-JzL"/>
                                         </constraints>
                                     </view>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nx8-M5-gcS" customClass="FLAnimatedImageView">
+                                    <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nx8-M5-gcS" customClass="FLAnimatedImageView">
                                         <rect key="frame" x="0.0" y="3" width="375" height="622"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="baw-tE-Uc5">
@@ -2004,7 +2004,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Htd-UC-YTt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1851.2" y="808.69565217391312"/>
+            <point key="canvasLocation" x="1850.4000000000001" y="808.24587706146929"/>
         </scene>
         <!--Collaborator View Controller-->
         <scene sceneID="O9b-s4-dSe">
@@ -2841,6 +2841,6 @@ Cg
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="rWE-0e-NjR"/>
-        <segue reference="7X6-Js-wGB"/>
+        <segue reference="EwF-BA-GLV"/>
     </inferredMetricsTieBreakers>
 </document>

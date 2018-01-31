@@ -102,6 +102,17 @@ class PreviewController: UIViewController {
             SharedData.sharedInstance.contentList.objStream = nil
             
             let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
+            
+            if !conten.name.isEmpty {
+                if conten.name.trim().count > 75 {
+                    conten.name = conten.name.trim(count: 75)
+                }
+            }
+            if !conten.description.isEmpty {
+                if conten.description.trim().count > 250 {
+                    conten.description = seletedImage.description.trim(count: 250)
+                }
+            }
             conten.isUploaded = false
             conten.type = .link
             ContentList.sharedInstance.arrayContent.removeAll()
@@ -113,6 +124,7 @@ class PreviewController: UIViewController {
             self.btnDone.isHidden = true
             self.btnAddStream.isHidden = false
             self.btnDone.isHidden = true
+            SharedData.sharedInstance.deepLinkType = ""
         }else{
             self.preparePreview(index: selectedIndex)
         }
@@ -261,7 +273,6 @@ class PreviewController: UIViewController {
             
         }
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
-
     }
     
     
@@ -319,22 +330,17 @@ class PreviewController: UIViewController {
             })
         }else {
             if seletedImage.type == .image  {
-                
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
-                    
                     image?.getColors({ (colors) in
                         self.imgPreview.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
-                    
                 })
                 self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
-                
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
-                    
                     image?.getColors({ (colors) in
                         self.imgPreview.backgroundColor = colors.background
                         self.txtTitleImage.textColor = .white//colors.secondary
@@ -343,7 +349,6 @@ class PreviewController: UIViewController {
                     })
                 })
                 self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
-                
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true
@@ -375,11 +380,6 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
-        // Preview
-//        if self.seletedImage.isUploaded {
-//            self.btnShareAction.isHidden = false
-//        }
-       
         self.imgPreview.contentMode = .scaleAspectFit
         
         self.btnEdit.isHidden = true
@@ -711,85 +711,6 @@ class PreviewController: UIViewController {
             }
         }
     }
-    /*
-     let image = seletedImage.imgPreview?.reduceSize()
-     var compressedData:NSData?
-     compressedData = UIImageJPEGRepresentation(image!, 1.0) as NSData?
-     if compressedData == nil {
-     compressedData = UIImagePNGRepresentation(seletedImage.imgPreview!) as NSData?
-     }
-     if let data = compressedData {
-     let url = Document.saveFile(data: data as Data , name: seletedImage.fileName)
-     let fileUrl = URL(fileURLWithPath: url)
-     let obj = ["name":seletedImage.fileName!,"url":fileUrl] as [String : Any]
-     arrayURL.append(obj)
-     self.startUpload(arryUrl: arrayURL, type: type)
-     }else {
-     self.showToast(strMSG: "Unable to Upload Image")
-     }
-     
-     }
-     }else {
-     if !self.seletedImage.contentID.trim().isEmpty {
-     HUDManager.sharedInstance.showHUD()
-     self.updateContent(coverImage: self.seletedImage.coverImage, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue)
-     }
-     }
-     }
-     */
-    /*
-     func startUpload(arryUrl:[Any],type:String){
-     var videoCover:String! = ""
-     var file:String! = ""
-     let dispatchGroup = DispatchGroup()
-     for url in arryUrl  {
-     let dict:[String:Any] = url as! [String : Any]
-     if let obj = dict["name"], let objurl = dict["url"]  {
-     print(obj)
-     print(objurl)
-     dispatchGroup.enter()
-     self.uploadFileToAWS(fileURL: objurl as! URL, name: obj as! String, completion: { (fileUrl,error) in
-     if error == nil {
-     if type == "Video" {
-     if (fileUrl?.isImageType())! {
-     videoCover = fileUrl
-     }else {
-     file = fileUrl
-     }
-     }else {
-     file = fileUrl
-     }
-     dispatchGroup.leave()
-     }
-     })
-     }
-     
-     }
-     dispatchGroup.notify(queue: .main) {
-     HUDManager.sharedInstance.hideProgress()
-     DispatchQueue.main.async {
-     print(videoCover)
-     HUDManager.sharedInstance.showHUD()
-     print(file)
-     if self.seletedImage.contentID.trim().isEmpty {
-     self.addContent(fileUrl: file!,type:type,fileUrlVideo:videoCover)
-     }else{
-     
-     self.updateContent(coverImage: file!, coverVideo: videoCover, type: type)
-     }
-     }
-     
-     }
-     
-     
-     func uploadFileToAWS(fileURL:URL,name:String, completion:@escaping (String?,Error?)->Void){
-     
-     AWSManager.sharedInstance.uploadFile(fileURL, name: name) { (fileUrl,error) in
-     completion(fileUrl,error)
-     
-     }
-     }
-     */
     
     func addContent(fileUrl:String,type:String,fileUrlVideo:String){
         APIServiceManager.sharedInstance.apiForCreateContent(contentName: (txtTitleImage.text?.trim())!, contentDescription: (txtDescription.text?.trim())!, coverImage: fileUrl,coverImageVideo:fileUrlVideo, coverType: type,width:0,height:0) { (contents, errorMsg) in
