@@ -891,6 +891,8 @@ class HomeViewController: MSMessagesAppViewController {
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
                     self.lblPeopleSearch.text = "People"
+                    self.lblStreamSearch.text = "Stream"
+
                 }else {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
@@ -941,6 +943,7 @@ class HomeViewController: MSMessagesAppViewController {
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
                         self.lblStreamSearch.text = "Stream"
+                        self.lblPeopleSearch.text = "People"
                     }else {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"

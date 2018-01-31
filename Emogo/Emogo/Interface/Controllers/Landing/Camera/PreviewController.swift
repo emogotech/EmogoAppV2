@@ -56,6 +56,7 @@ class PreviewController: UIViewController {
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
+      
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
     }
@@ -195,8 +196,7 @@ class PreviewController: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
         swipeDown.direction = .down
         self.imgPreview.addGestureRecognizer(swipeDown)
-        self.previewCollection.addGestureRecognizer(swipeDown)
-
+        
         // Preview Footer
         self.previewCollection.reloadData()
         self.btnDone.isHidden = false
@@ -239,7 +239,7 @@ class PreviewController: UIViewController {
         var imgEdit = #imageLiteral(resourceName: "edit_icon")
         var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let imgDelete = #imageLiteral(resourceName: "delete-stream")
+        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
         let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
         
         if selected.isUploaded == false {
@@ -448,6 +448,7 @@ class PreviewController: UIViewController {
       //  shareSticker()
         if self.isShowRetake != nil {
             // retake
+            self.isEditingContent = true
             let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
                       kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
                      self.navigationController?.popToViewController(vc: obj)
