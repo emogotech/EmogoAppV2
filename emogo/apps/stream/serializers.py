@@ -8,6 +8,7 @@ import itertools
 from django.db import transaction
 from emogo.constants import messages
 import datetime
+from django.core.urlresolvers import resolve
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -190,6 +191,13 @@ class ViewStreamSerializer(StreamSerializer):
     contents = serializers.SerializerMethodField()
     stream_permission = serializers.SerializerMethodField()
     collaborator_permission = serializers.SerializerMethodField()
+    total_collaborator = serializers.SerializerMethodField()
+
+    def get_total_collaborator(self, obj):
+        try:
+            return obj.collaborator_list(manager='actives').all().order_by('-id').count()
+        except Exception:
+            return '0'
 
     def get_author(self, obj):
         try:
@@ -201,7 +209,8 @@ class ViewStreamSerializer(StreamSerializer):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
 
         # If logged-in user is owner of stream show all collaborator
-        if obj.created_by == self.context.get('request').user:
+        current_url = resolve(self.context.get('request').path_info).url_name
+        if current_url == 'stream_collaborator':
             instances = obj.collaborator_list(manager='actives').all().order_by('-id')
         # else Show collaborator created by logged in user.
         else:
