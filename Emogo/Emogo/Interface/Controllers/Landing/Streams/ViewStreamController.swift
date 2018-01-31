@@ -21,6 +21,7 @@ class ViewStreamController: UIViewController {
     var objStream:StreamViewDAO?
     var currentIndex:Int!
     var viewStream:String?
+    var isRefresh:Bool! = true
 
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
@@ -149,7 +150,9 @@ class ViewStreamController: UIViewController {
                 //  ContentList.sharedInstance.objStream = nil
             }
         }
-        self.updateLayOut()
+        if isRefresh {
+            self.updateLayOut()
+        }
     }
     
     
@@ -502,7 +505,7 @@ class ViewStreamController: UIViewController {
     }
     
     func btnImportAction(){
-       
+        isRefresh = false
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets
             self?.preparePreview(assets: assets)
@@ -520,7 +523,6 @@ class ViewStreamController: UIViewController {
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }
-    
     
     func preparePreview(assets:[TLPHAsset]){
         
@@ -550,17 +552,21 @@ class ViewStreamController: UIViewController {
                     })
                 }
                 
-            }else if obj.type == .video {
+            } else if obj.type == .video {
                 camera.type = .video
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                        camera.imgPreview = image
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
                         self.updateData(content: camera)
-                    }
-                    group.leave()
+                        group.leave()
+                    })
                 })
             }
         }
@@ -576,8 +582,9 @@ class ViewStreamController: UIViewController {
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
     }
     
+  
     func previewScreenNavigated(){
-        
+        self.isRefresh = true
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             ContentList.sharedInstance.objStream = self.objStream?.streamID

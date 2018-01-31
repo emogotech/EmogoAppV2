@@ -158,9 +158,35 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.expiredTimeInterval = 20.0
     }
     
+    func configureProfileNavigation(){
+        
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        let img = UIImage(named: "forward_icon")
+        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.profileBackAction))
+        self.navigationItem.rightBarButtonItem = btnback
+        let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
+        self.navigationItem.leftBarButtonItem = btnLogout
+        
+    }
     
+   
     // MARK: -  Action Methods And Selector
     
+    @objc func profileBackAction(){
+        
+        self.addLeftTransitionView(subtype: kCATransitionFromRight)
+        self.navigationController?.popNormal()
+    }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -559,19 +585,22 @@ class ProfileViewController: UIViewController {
                 }
                 
             } else if obj.type == .video {
-                    camera.type = .video
+                camera.type = .video
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                        camera.imgPreview = image
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
                         self.updateData(content: camera)
-                    }
-                    group.leave()
+                        group.leave()
+                    })
                 })
-                    
-                }
+            }
         }
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()

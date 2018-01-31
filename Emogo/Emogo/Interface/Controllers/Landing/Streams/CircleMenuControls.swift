@@ -235,11 +235,15 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                        camera.imgPreview = image
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
                         self.updateData(content: camera)
-                    }
-                    group.leave()
+                        group.leave()
+                    })
                 })
                 
             }

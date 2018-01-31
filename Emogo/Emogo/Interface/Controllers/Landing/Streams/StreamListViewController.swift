@@ -387,8 +387,9 @@ class StreamListViewController: UIViewController {
     
     override func btnMyProfileAction() {
         isUpdateList = true
-        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
-        self.navigationController?.pushNormal(viewController: obj)
+        let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+        self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+        self.navigationController?.pushViewController(obj, animated: false)
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {

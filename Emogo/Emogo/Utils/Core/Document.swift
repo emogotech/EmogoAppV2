@@ -86,7 +86,7 @@ class Document: NSObject {
       let urlAsset = AVURLAsset(url: inputURL, options: nil)
        guard let exportSession = AVAssetExportSession(asset: urlAsset, presetName:  AVAssetExportPresetMediumQuality) else {
         handler(inputURL.absoluteString)
-                return
+            return
       }
     
       exportSession.outputURL = compressedURL

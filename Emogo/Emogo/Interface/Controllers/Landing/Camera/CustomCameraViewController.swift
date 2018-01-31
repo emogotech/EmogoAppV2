@@ -394,6 +394,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     // MARK: - Class Methods
     
+
+    
     func preparePreview(assets:[TLPHAsset]){
         
         if self.isDismiss != nil {
@@ -450,11 +452,15 @@ class CustomCameraViewController: SwiftyCamViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                        camera.imgPreview = image
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
                         self.updateData(content: camera)
-                    }
-                    group.leave()
+                        group.leave()
+                    })
                 })
             }
         }
@@ -502,7 +508,16 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         if kDefault?.value(forKey: kRetakeIndex) != nil {
             let value:Int = kDefault?.value(forKey: kRetakeIndex) as! Int
-            ContentList.sharedInstance.arrayContent[value] = content
+            let linkContent = ContentList.sharedInstance.arrayContent[value]
+            linkContent.imgPreview = content.imgPreview
+            linkContent.fileName = content.fileName
+            if linkContent.type == .link {
+                linkContent.coverImageVideo = ""
+            }
+            print(linkContent.type)
+            print(linkContent.fileName)
+
+            ContentList.sharedInstance.arrayContent[value] = linkContent
         }else   {
             ContentList.sharedInstance.arrayContent.insert(content, at: 0)
         }

@@ -113,12 +113,12 @@ class SharedData: NSObject {
         if isSave == true {
             self.saveVideo(fileUrl: moviePath)
         }
+        
         do {
-            
             let asset = AVURLAsset(url: moviePath , options: nil)
             let imgGenerator = AVAssetImageGenerator(asset: asset)
             imgGenerator.appliesPreferredTrackTransform = true
-            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(1, 100), actualTime: nil)
             let thumbnail = UIImage(cgImage: cgImage)
             
             return thumbnail
@@ -136,6 +136,7 @@ class SharedData: NSObject {
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         
         do {
+            imageGenerator.appliesPreferredTrackTransform = true
             let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(1, 60) , actualTime: nil)
             return UIImage(cgImage: thumbnailImage)
         } catch let error {
@@ -268,7 +269,6 @@ class SharedData: NSObject {
         })
     }
  
-   
     
  }
 

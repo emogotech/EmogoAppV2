@@ -938,13 +938,12 @@ extension ContentViewController:PhotoEditorDelegate
         seletedImage.imgPreview = image
         seletedImage.width = Int(image.size.width)
         seletedImage.height = Int(image.size.height)
-
         if currentIndex != nil {
             ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
         }
         self.updateContent()
         self.btnDone.isHidden = false
-        
+        self.isEditngContent = true
     }
     
     func canceledEditing() {

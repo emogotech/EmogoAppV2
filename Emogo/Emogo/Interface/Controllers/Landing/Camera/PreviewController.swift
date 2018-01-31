@@ -342,7 +342,12 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                if   seletedImage.type == .gif {
+            self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                }else {
+                self.imgPreview.setImageWithURL(strImage: seletedImage.coverImageVideo, placeholder: "")
+                }
+                
                 
             }
         }
@@ -698,7 +703,7 @@ class PreviewController: UIViewController {
             HUDManager.sharedInstance.showProgress()
             if seletedImage.type == .video {
                 type = "Video"
-                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
+                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, thumbImage: seletedImage.imgPreview, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
                     if error == nil {
                         self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
                     }
