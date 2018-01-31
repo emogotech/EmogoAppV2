@@ -323,7 +323,7 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-                self.imgPreview.backgroundColor = colors.background
+                self.imgPreview.backgroundColor = colors.primary
                 self.txtTitleImage.textColor = .white//colors.secondary
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -332,7 +332,7 @@ class PreviewController: UIViewController {
             if seletedImage.type == .image  {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.background
+                        self.imgPreview.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -342,7 +342,7 @@ class PreviewController: UIViewController {
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.background
+                        self.imgPreview.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -446,7 +446,7 @@ class PreviewController: UIViewController {
       //  shareSticker()
         if self.isShowRetake != nil {
             // retake
-                  let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
                       kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
                      self.navigationController?.popToViewController(vc: obj)
         }else {
@@ -698,7 +698,7 @@ class PreviewController: UIViewController {
             HUDManager.sharedInstance.showProgress()
             if seletedImage.type == .video {
                 type = "Video"
-                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
+                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, thumbImage: seletedImage.imgPreview, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
                     if error == nil {
                         self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
                     }

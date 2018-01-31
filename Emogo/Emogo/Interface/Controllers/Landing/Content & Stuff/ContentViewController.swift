@@ -193,7 +193,7 @@ class ContentViewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-                self.imgCover.backgroundColor = colors.background
+                self.imgCover.backgroundColor = colors.primary
                 self.txtTitleImage.textColor = .white//colors.secondary
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -205,7 +205,7 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
 
                         self.txtDescription.textColor = .white//colors.secondary
@@ -218,7 +218,7 @@ class ContentViewController: UIViewController {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -230,7 +230,7 @@ class ContentViewController: UIViewController {
           self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -241,7 +241,7 @@ class ContentViewController: UIViewController {
                 
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
