@@ -707,6 +707,7 @@ class StreamListViewController: UIViewController {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
                     self.lblPeopleSearch.text = "People \(count)"
+                    self.lblStreamSearch.text = "Stream"
                 }
                 self.streamCollectionView.reloadData()
             }
@@ -799,6 +800,8 @@ class StreamListViewController: UIViewController {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"
                         self.lblStreamSearch.text = "Stream \(count)"
+                        self.lblPeopleSearch.text = "People"
+
                     }
                     self.streamCollectionView.reloadData()
                 }

@@ -895,6 +895,7 @@ class HomeViewController: MSMessagesAppViewController {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
                     self.lblPeopleSearch.text = "People \(count)"
+                    self.lblStreamSearch.text = "Stream"
                 }
                 self.collectionStream.reloadData()
             }
@@ -944,6 +945,8 @@ class HomeViewController: MSMessagesAppViewController {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"
                         self.lblStreamSearch.text = "Stream \(count)"
+                        self.lblPeopleSearch.text = "People"
+
                     }
                     self.collectionStream.reloadData()
                 }

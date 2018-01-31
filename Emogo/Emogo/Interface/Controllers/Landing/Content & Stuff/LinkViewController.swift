@@ -92,6 +92,8 @@ class LinkViewController: UIViewController {
                 
                 slp.preview(smartUrl.absoluteString,
                             onSuccess: { result in
+                                
+                                debugPrint(result)
                                 let content = ContentDAO(contentData: [:])
                                 let title = result[SwiftLinkResponseKey.title]
                                 let description = result[SwiftLinkResponseKey.description]

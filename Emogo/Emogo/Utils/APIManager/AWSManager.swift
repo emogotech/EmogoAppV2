@@ -53,8 +53,8 @@ class AWSManager: NSObject {
     
     override init() {
         super.init()
-        transferManager = AWSS3TransferManager.default()
         self.initAWS()
+        transferManager = AWSS3TransferManager.default()
     }
     
     // MARK: -  Init AWS

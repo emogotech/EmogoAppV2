@@ -159,7 +159,7 @@ class StreamViewDAO{
     var hieght                 :Int! = 0
     var userCanAddPeople:Bool! = false
     var userCanAddContent:Bool! = false
-
+    var totalCollaborator:String! = ""
     init(streamData:[String:Any]) {
         
         if let obj  = streamData["created_by"] {
@@ -212,7 +212,9 @@ class StreamViewDAO{
 //                self.canAddPeople = true
 //            }
         }
-        
+        if let obj  = streamData["total_collaborator"] {
+           self.totalCollaborator = "\(obj)"
+        }
         
         if let obj  = streamData["emogo"] {
             let value  = "\(obj)"
