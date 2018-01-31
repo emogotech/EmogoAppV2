@@ -160,7 +160,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         if content.type != nil {
             
             if content.type == .image {
-                self.imgStream.contentMode = .scaleAspectFill
+                self.imgStream.contentMode = .scaleToFill
                 self.imgStream.setForAnimatedImage(strImage:content.coverImage)
                 SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
@@ -169,7 +169,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 })
             }
             else if content.type == .video {
-                self.imgStream.contentMode = .scaleAspectFill
+                self.imgStream.contentMode = .scaleToFill
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
@@ -178,7 +178,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 })
             }
             else if content.type == .link {
-                self.imgStream.contentMode = .scaleAspectFill
+                self.imgStream.contentMode = .scaleToFill
                 self.btnPlay.isHidden = true
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
