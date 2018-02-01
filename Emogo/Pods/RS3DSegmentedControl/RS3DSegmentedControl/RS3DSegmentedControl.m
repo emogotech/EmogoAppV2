@@ -33,7 +33,7 @@
         NSString *bundlePath = [resourcePath stringByAppendingPathComponent:@"RS3DSegmentedControl.bundle"];
         NSString *imagePath = [bundlePath stringByAppendingPathComponent:@"RS3DSegmentedControlBg.png"];
         self.backgroundImage = [[UIImageView alloc] initWithFrame:frame];
-        self.backgroundImage.contentMode = UIViewContentModeScaleToFill;
+        self.backgroundImage.contentMode = UIViewContentModeBottom;
         UIImage * image = [UIImage imageWithContentsOfFile:imagePath];
         self.backgroundImage.image = image;
         
@@ -120,12 +120,12 @@
 {
     if (!view)
     {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, self.frame.size.height)];
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, self.frame.size.height)];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
         label.textAlignment = NSTextAlignmentCenter;
         label.tag = 1;
         
@@ -224,14 +224,12 @@
 {
     _backgroundColor = backgroundColor;
     
-    self.backgroundImage.image = [self colorImage:self.backgroundImage.image withColor:[UIColor clearColor]];
+  //  self.backgroundImage.image = [self colorImage:self.backgroundImage.image withColor:backgroundColor];
 }
 
 
 - (UIImage *)colorImage:(UIImage *)image withColor:(UIColor *)color
 {
-    
-    color = [UIColor clearColor];
     // Make a rectangle the size of your image
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
     // Create a new bitmap context based on the current image's size and scale, that has opacity
