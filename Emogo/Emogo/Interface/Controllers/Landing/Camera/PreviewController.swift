@@ -13,7 +13,10 @@ import Messages
 class PreviewController: UIViewController {
     
     // MARK: - UI Elements
-    
+    @IBOutlet weak var containerView : UIView!
+    @IBOutlet weak var actionContainerView : UIView!
+
+
     @IBOutlet weak var imgPreview: FLAnimatedImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
@@ -59,6 +62,19 @@ class PreviewController: UIViewController {
       
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
+        
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+          
+            self.actionContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+            let guide = view.safeAreaLayoutGuide
+            
+            self.actionContainerView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+            self.actionContainerView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
+            self.actionContainerView.topAnchor.constraint(equalTo: self.containerView.bottomAnchor).isActive = true
+            
+            guide.bottomAnchor.constraintEqualToSystemSpacingBelow(actionContainerView.bottomAnchor, multiplier: 1.0).isActive = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -215,7 +231,7 @@ class PreviewController: UIViewController {
             kWidth.constant = 50.0
         }
       
-        
+        self.btnEdit.isHidden = true
     }
     
     
