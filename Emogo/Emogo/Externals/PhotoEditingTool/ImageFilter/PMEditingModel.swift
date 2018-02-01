@@ -42,6 +42,24 @@ class PMEditingModel {
         return newItem
     }
     
+    
+    class func sharpenItem () -> PMEditingModel  {
+        let newItem = PMEditingModel(type: .sharpen)
+        return newItem
+    }
+    
+    
+    class func structureItem () -> PMEditingModel  {
+        let newItem = PMEditingModel(type: .structure)
+        return newItem
+    }
+    
+    class func warmthItem () -> PMEditingModel  {
+        let newItem = PMEditingModel(type: .warmth)
+        return newItem
+    }
+    
+    
     func reset ()
     {
         self.currentValue = self.defaultValue

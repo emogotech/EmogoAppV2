@@ -302,6 +302,24 @@ extension PhotoEditorViewController {
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
+        case 55:
+            self.selectedItem = self.editingService.adjustmentItems[4]
+            self.selectedItem?.reset()
+            self.updateSliderForItem(item: self.selectedItem!)
+            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+            break
+        case 66:
+            self.selectedItem = self.editingService.adjustmentItems[5]
+            self.selectedItem?.reset()
+            self.updateSliderForItem(item: self.selectedItem!)
+            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+            break
+        case 77:
+            self.selectedItem = self.editingService.adjustmentItems[6]
+            self.selectedItem?.reset()
+            self.updateSliderForItem(item: self.selectedItem!)
+            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+            break
         default:
             break
         }

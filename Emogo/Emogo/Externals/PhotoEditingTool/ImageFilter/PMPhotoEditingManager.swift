@@ -29,7 +29,7 @@ class PMPhotoEditingManager: NSObject {
             return [PMEditingModel.brightnessItem(),
                     PMEditingModel.contrastItem(),
                     PMEditingModel.blurItem(),
-                    PMEditingModel.saturationItem()]
+                    PMEditingModel.saturationItem(),PMEditingModel.sharpenItem(),PMEditingModel.structureItem(),PMEditingModel.warmthItem()]
     }()
 
     var defaultImage                             : UIImage? = nil
@@ -112,6 +112,12 @@ class PMPhotoEditingManager: NSObject {
                     processMetal.contrast(($0.currentValue / 100.0) / 4 + 1.0)
                 case .blur:
                     processMetal.blur($0.currentValue / 2)
+                case .structure:
+                    processMetal.details($0.currentValue / 60)
+                case .sharpen:
+                    processMetal.sharpen($0.currentValue / 60)
+                case .warmth:
+                    processMetal.softLightFilter(Int($0.currentValue / 3))
               
                 default:
                     break
@@ -176,6 +182,30 @@ class PMPhotoEditingManager: NSObject {
                     newCIImage = self.addCIFilter(image: newCIImage,
                                                   coreImageFilter: "CIBoxBlur",
                                                   filterKeys: [kCIInputRadiusKey : $0.currentValue / 4])
+                    
+                case .structure:
+                    newCIImage = self.addCIFilter(image: newCIImage,
+                                                  coreImageFilter: "CISharpenLuminance",
+                                                  filterKeys: [kCIInputSharpnessKey : $0.currentValue / 50 + 0.4])
+            
+                case .sharpen:
+                    newCIImage = self.addCIFilter(image: newCIImage,
+                                                  coreImageFilter: "CIUnsharpMask",
+                                                  filterKeys: [kCIInputRadiusKey : $0.currentValue])
+                case .warmth:
+                    let correctionValue = $0.currentValue / 200
+                    let r: CGFloat = $0.currentValue > 0 ? CGFloat(1.0 + correctionValue) : CGFloat(1.0 + correctionValue)
+                    let g: CGFloat = 1.0
+                    let b: CGFloat = $0.currentValue < 0 ? CGFloat(1.0 - correctionValue) : CGFloat(1.0 - correctionValue)
+                    let a: CGFloat = 1.0
+                    newCIImage = self.addCIFilter(image: newCIImage,
+                                                  coreImageFilter: "CIColorMatrix",
+                                                  filterKeys: ["inputRVector" : CIVector(x:r, y:0, z:0, w:0),
+                                                               "inputGVector" : CIVector(x:0, y:g, z:0, w:0),
+                                                               "inputBVector" : CIVector(x:0, y:0, z:b, w:0),
+                                                               "inputAVector" : CIVector(x:0, y:0, z:0, w:a),] )
+                    
+                    
                 default:
                     break
                 
