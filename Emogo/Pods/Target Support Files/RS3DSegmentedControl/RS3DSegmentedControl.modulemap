@@ -1,0 +1,6 @@
+framework module RS3DSegmentedControl {
+  umbrella header "RS3DSegmentedControl-umbrella.h"
+
+  export *
+  module * { export * }
+}

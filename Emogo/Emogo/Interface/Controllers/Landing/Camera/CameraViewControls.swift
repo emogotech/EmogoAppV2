@@ -9,7 +9,7 @@
 
 import Foundation
 import UIKit
-
+import RS3DSegmentedControl
 
 // MARK: - ENUM'S
 
@@ -27,6 +27,10 @@ enum CameraAction:String {
     case timer = "timer"
 }
 
+enum CameraMode:String {
+    case normal = "1"
+    case handFree = "2"
+}
 
 extension CustomCameraViewController {
     
@@ -178,4 +182,36 @@ extension CustomCameraViewController {
             return String(format:"%02i:%02i:%02i", hours, minutes, seconds)
         }
     }
+}
+
+
+
+extension CustomCameraViewController:RS3DSegmentedControlDelegate {
+    
+    
+
+    func number(ofSegmentsIn3DSegmentedControl segmentedControl: RS3DSegmentedControl!) -> UInt {
+        return 2
+    }
+    
+    func titleForSegment(at segmentIndex: UInt, segmentedControl: RS3DSegmentedControl!) -> String! {
+        return ["NORMAL","HANDS-FREE"][Int(segmentIndex)]
+    }
+    
+    func didSelectSegment(at segmentIndex: UInt, segmentedControl: RS3DSegmentedControl!) {
+        switch Int(segmentIndex) {
+        case 0:
+            self.cameraMode = .normal
+            break
+        case 1:
+            self.cameraMode = .handFree
+            break
+        default:
+            self.cameraMode = .normal
+
+        }
+    }
+    
+    
+    
 }

@@ -29,6 +29,7 @@ target 'Emogo' do
     pod 'CropViewController'
     pod "GSKStretchyHeaderView"
     pod 'SwiftLinkPreview'
+    pod ‘RS3DSegmentedControl’
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

@@ -39,6 +39,7 @@ class VerificationViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
+        addToolBar(textField: txtOtP)
     }
     
     func addToolBar(textField: UITextField){
@@ -54,7 +55,7 @@ class VerificationViewController: UIViewController {
         toolBar.setItems([spaceButton1,doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true
         toolBar.sizeToFit()
-        txtOtP.inputAccessoryView = toolBar
+        textField.inputAccessoryView = toolBar
     }
     @objc func donePressed(){
         self.btnGoToLandingScreen(UIButton())

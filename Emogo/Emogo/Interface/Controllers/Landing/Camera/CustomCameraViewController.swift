@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyCam
 import CropViewController
-
+import RS3DSegmentedControl
 
 protocol CustomCameraViewControllerDelegate {
     func dismissWith(image:UIImage?)
@@ -31,7 +31,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     @IBOutlet weak var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet weak var previewCollection: UICollectionView!
     @IBOutlet weak var lblRecordTimer: UILabel!
-    
+    @IBOutlet weak var cameraModeOptions: UIView!
+
     // MARK: - Variables
     var isRecording:Bool! = false
     var isPreviewOpen:Bool! = false
@@ -46,7 +47,16 @@ class CustomCameraViewController: SwiftyCamViewController {
     var selectedAssets = [TLPHAsset]()
     var delegate:CustomCameraViewControllerDelegate?
     var isDismiss:Bool?
-
+    var cameraMode:CameraMode! = .normal
+    
+    var cameraOption:RS3DSegmentedControl! = {
+        let view = RS3DSegmentedControl()
+        view.frame = .zero
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+     }()
+    
     // MARK: - Override Functions
     
     override func viewDidLoad() {
@@ -119,8 +129,20 @@ class CustomCameraViewController: SwiftyCamViewController {
             let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(recordingModeTap(_:)))
             btnCamera.addGestureRecognizer(longGesture)
         }
+        
+        // Camera Options
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+        swipeDown.direction = .down
+        self.previewCollection.addGestureRecognizer(swipeDown)
+        self.prepareForCameraMode()
     }
     
+    func prepareForCameraMode(){
+        self.cameraOption.frame = CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height)
+         self.cameraOption.delegate = self
+        self.cameraModeOptions.addSubview(self.cameraOption)
+    }
     func prepareNavBarButtons(){
         
         self.navigationController?.isNavigationBarHidden = false
@@ -144,6 +166,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     func prepareContainerToPresent(){
+        
         if kContainerNav == "1" {
             kContainerNav = "2"
             arraySelectedContent! += ContentList.sharedInstance.arrayContent
@@ -334,23 +357,34 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
+    @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
+         if gesture.direction == .down {
+            self.animateView()
+        }
+    }
+    
+    
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
         print("Normal tap")
         
-        if isRecording {
-            self.lblRecordTimer.isHidden = true
-            self.recordButtonTapped(isShow: false)
-            self.performCamera(action: .stop)
-            isRecording = false
-            return
-        }
-        self.lblRecordTimer.isHidden = true
-        if self.captureInSec != nil {
-            self.performCamera(action: .timer)
-            self.btnCamera.isUserInteractionEnabled = false
+        if self.cameraMode  == .handFree {
+            if isRecording {
+                self.lblRecordTimer.isHidden = true
+                self.recordButtonTapped(isShow: false)
+                self.performCamera(action: .stop)
+                isRecording = false
+                return
+            }
         }else {
-            self.performCamera(action: .capture)
+            self.lblRecordTimer.isHidden = true
+            if self.captureInSec != nil {
+                self.performCamera(action: .timer)
+                self.btnCamera.isUserInteractionEnabled = false
+            }else {
+                self.performCamera(action: .capture)
+            }
         }
+       
     }
     
     @objc func recordingModeTap(_ sender: UIGestureRecognizer){
@@ -363,6 +397,13 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.lblRecordTimer.isHidden = false
             self.performCamera(action: .recording)
             self.recordButtonTapped(isShow: true)
+            break
+        case .ended:
+            if self.cameraMode == .normal {
+                self.lblRecordTimer.isHidden = true
+                self.recordButtonTapped(isShow: false)
+                self.performCamera(action: .stop)
+            }
             break
        
         default: break

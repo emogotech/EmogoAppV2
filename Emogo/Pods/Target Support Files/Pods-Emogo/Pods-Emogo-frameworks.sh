@@ -113,11 +113,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework"
@@ -131,11 +133,13 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -1116,6 +1116,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4B38D3B2022FDA1005E07CF /* Segment */,
 				F41752E6201CB684005AFE4A /* CheckBox */,
 				F4CDD4F22011DBC0005436A1 /* ActionSheet */,
 				F4961E1C1FFE929E00A406FF /* ImageView */,
@@ -1834,6 +1835,13 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
+		F4B38D3B2022FDA1005E07CF /* Segment */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Segment;
+			sourceTree = "<group>";
+		};
 		F4CDD4F22011DBC0005436A1 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -2383,11 +2391,13 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
+				"${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/XLActionController/XLActionController.framework",
+				"${BUILT_PRODUCTS_DIR}/iCarousel/iCarousel.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -2402,11 +2412,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RS3DSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XLActionController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iCarousel.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
