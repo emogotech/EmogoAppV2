@@ -1623,7 +1623,7 @@
                                 <rect key="frame" x="5" y="173.5" width="365" height="320"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="PTS-vN-uUt">
-                                        <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93.5" y="8.5" width="178" height="33"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OhZ-MO-yiQ">
                                         <rect key="frame" x="102.5" y="123.5" width="160" height="53"/>
@@ -1703,7 +1703,7 @@
                                 <rect key="frame" x="5" y="145" width="365" height="377"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="YUj-8s-mpQ">
-                                        <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93.5" y="8.5" width="178" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n4D-j1-QvJ">
                                         <rect key="frame" x="72" y="67" width="220" height="26"/>
@@ -1854,7 +1854,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="WdM-6f-wF5">
-                                        <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93.5" y="8.5" width="178" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cje-g7-C0y">
                                         <rect key="frame" x="13" y="92" width="338" height="26"/>
@@ -2013,7 +2013,7 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="6xK-Rf-qzU">
-                                        <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93.5" y="8.5" width="178" height="33"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2070,7 +2070,7 @@
                                 <rect key="frame" x="5" y="165.5" width="365" height="336"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="6H3-2j-M3Y">
-                                        <rect key="frame" x="108" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93" y="8.5" width="178" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="6Wv-90-VoZ">
                                         <rect key="frame" x="46" y="94" width="273" height="26"/>
@@ -2179,7 +2179,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="n7h-5R-CKE">
-                                        <rect key="frame" x="108.5" y="8.5" width="148" height="38"/>
+                                        <rect key="frame" x="93.5" y="8.5" width="178" height="33"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uub-s3-GoF">
                                         <rect key="frame" x="91.5" y="142" width="182" height="53"/>
@@ -2800,7 +2800,7 @@
         <image name="input_text_iphone" width="329" height="58"/>
         <image name="lapse-icon" width="25" height="25"/>
         <image name="link_unactive_icon" width="26" height="45"/>
-        <image name="logo-iPhone" width="148" height="38"/>
+        <image name="logo-iPhone" width="178" height="33"/>
         <image name="menu_down_arrow" width="17" height="10"/>
         <image name="my_stuff_active_icon" width="46" height="45"/>
         <image name="next-btn" width="160" height="53"/>

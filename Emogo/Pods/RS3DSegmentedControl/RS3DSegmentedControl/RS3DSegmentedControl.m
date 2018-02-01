@@ -122,10 +122,10 @@
     {
         view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, self.frame.size.height)];
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 90, 30)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15];
         label.textAlignment = NSTextAlignmentCenter;
         label.tag = 1;
         
