@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -635,6 +635,7 @@
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>
                     <connections>
+                        <outlet property="actionContainerView" destination="Kqd-OM-WJP" id="T4c-fx-HPq"/>
                         <outlet property="btnAddStream" destination="QKb-MD-C7d" id="27V-a3-6Lf"/>
                         <outlet property="btnDelete" destination="OfC-aG-FKj" id="uXc-uP-W4A"/>
                         <outlet property="btnDone" destination="4pY-ca-wue" id="KLR-cv-Pna"/>
@@ -642,6 +643,7 @@
                         <outlet property="btnPlayIcon" destination="3RP-cT-R1w" id="cNK-fE-BZ0"/>
                         <outlet property="btnPreviewOpen" destination="ecZ-93-WDO" id="9WK-S1-11P"/>
                         <outlet property="btnShareAction" destination="4kB-Xn-YG0" id="xrY-tV-7Sb"/>
+                        <outlet property="containerView" destination="xL0-eK-8Ba" id="6ug-eI-cj6"/>
                         <outlet property="imgPreview" destination="otu-8u-hua" id="USj-Zf-hmb"/>
                         <outlet property="kPreviewHeight" destination="cjs-HB-qrF" id="R6b-OV-4f1"/>
                         <outlet property="kWidth" destination="2oo-eG-s16" id="ECP-3k-3vm"/>

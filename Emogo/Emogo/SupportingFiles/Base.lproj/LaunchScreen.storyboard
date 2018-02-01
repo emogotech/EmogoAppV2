@@ -20,25 +20,25 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="q3C-1X-lbE">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <viewLayoutGuide key="safeArea" id="0GW-OO-wwe"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="ZVo-AQ-bk8">
-                                <rect key="frame" x="113" y="314.5" width="148" height="38"/>
+                                <rect key="frame" x="98" y="317" width="178" height="33"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1vC-QV-GAj"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="93l-om-oet"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="93l-om-oet"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ECf-Fx-mkm"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="RlZ-jS-H9J"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Snh-4z-4bT"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XxK-45-9i1"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="RlZ-jS-H9J"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="Snh-4z-4bT"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="XxK-45-9i1"/>
                             <constraint firstItem="ZVo-AQ-bk8" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="a6b-vS-Nj8"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hyJ-MB-Mh3"/>
-                            <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="mnz-zf-yFq"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="hyJ-MB-Mh3"/>
+                            <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="mnz-zf-yFq"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="wZq-XM-XrF"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -48,6 +48,6 @@
     </scenes>
     <resources>
         <image name="background-iPhone" width="375" height="665"/>
-        <image name="logo-iPhone" width="148" height="38"/>
+        <image name="logo-iPhone" width="178" height="33"/>
     </resources>
 </document>
