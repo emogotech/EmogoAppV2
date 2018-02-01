@@ -277,10 +277,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
             self.collectionView.translatesAutoresizingMaskIntoConstraints = false
             let guide = view.safeAreaLayoutGuide
+
+            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
             
             self.collectionView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
             self.collectionView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
-            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -50.0 ).isActive = true
+            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -(extraBottomSpace!) ).isActive = true
             guide.bottomAnchor.constraintEqualToSystemSpacingBelow(collectionView.bottomAnchor, multiplier: 1.0).isActive = true
         }
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
