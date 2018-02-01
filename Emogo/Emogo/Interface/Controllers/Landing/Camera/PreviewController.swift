@@ -56,6 +56,7 @@ class PreviewController: UIViewController {
         if self.isEditingContent{
             self.preparePreview(index: selectedIndex)
         }
+      
         self.previewCollection.reloadData()
         self.prepareNavBarButtons()
     }
@@ -218,7 +219,8 @@ class PreviewController: UIViewController {
     
     
     func prepareNavBarButtons(){
-        
+        btnDone.isUserInteractionEnabled = true
+        btnAddStream.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -323,7 +325,7 @@ class PreviewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-                self.imgPreview.backgroundColor = colors.background
+                self.imgPreview.backgroundColor = colors.primary
                 self.txtTitleImage.textColor = .white//colors.secondary
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -332,7 +334,7 @@ class PreviewController: UIViewController {
             if seletedImage.type == .image  {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.background
+                        self.imgPreview.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -342,13 +344,13 @@ class PreviewController: UIViewController {
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgPreview.backgroundColor = colors.background
+                        self.imgPreview.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImageVideo.trim())
             }
         }
         self.txtTitleImage.isUserInteractionEnabled = true
@@ -446,7 +448,8 @@ class PreviewController: UIViewController {
       //  shareSticker()
         if self.isShowRetake != nil {
             // retake
-                  let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+            self.isEditingContent = true
+            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
                       kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
                      self.navigationController?.popToViewController(vc: obj)
         }else {
@@ -622,12 +625,17 @@ class PreviewController: UIViewController {
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
                 self.imgPreview.contentMode = .scaleAspectFit
+                //  kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = false
+                self.kWidthOptions.constant = 63.0
                 
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
                 self.imgPreview.contentMode = .scaleAspectFit
+                self.kWidthOptions.constant = 0.0
+                self.viewOptions.isHidden = true
                 
             }
             self.view.updateConstraintsIfNeeded()
@@ -698,7 +706,7 @@ class PreviewController: UIViewController {
             HUDManager.sharedInstance.showProgress()
             if seletedImage.type == .video {
                 type = "Video"
-                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
+                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, thumbImage: seletedImage.imgPreview, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
                     if error == nil {
                         self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
                     }

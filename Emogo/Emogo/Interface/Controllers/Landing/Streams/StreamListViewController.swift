@@ -108,7 +108,9 @@ class StreamListViewController: UIViewController {
             }else {
                 self.lblNoResult.isHidden = true
             }
+            print("index to change----->\(currentStreamType.hashValue)")
             self.menuView.currentIndex = currentStreamType.hashValue
+            self.menuView.reloadData()
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {
@@ -387,8 +389,9 @@ class StreamListViewController: UIViewController {
     
     override func btnMyProfileAction() {
         isUpdateList = true
-        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
-        self.navigationController?.pushNormal(viewController: obj)
+        let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+        self.addLeftTransitionView(subtype: kCATransitionFromLeft)
+        self.navigationController?.pushViewController(obj, animated: false)
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
@@ -702,10 +705,12 @@ class StreamListViewController: UIViewController {
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
                     self.lblPeopleSearch.text = "People"
+                    self.lblStreamSearch.text = "Stream"
                 }else {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
                     self.lblPeopleSearch.text = "People \(count)"
+                    self.lblStreamSearch.text = "Stream"
                 }
                 self.streamCollectionView.reloadData()
             }
@@ -793,11 +798,14 @@ class StreamListViewController: UIViewController {
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
                         self.lblStreamSearch.text = "Stream"
+                        self.lblPeopleSearch.text = "People"
 
                     }else {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"
                         self.lblStreamSearch.text = "Stream \(count)"
+                        self.lblPeopleSearch.text = "People"
+
                     }
                     self.streamCollectionView.reloadData()
                 }

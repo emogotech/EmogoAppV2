@@ -21,6 +21,7 @@ class ViewStreamController: UIViewController {
     var objStream:StreamViewDAO?
     var currentIndex:Int!
     var viewStream:String?
+    var isRefresh:Bool! = true
 
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
@@ -136,8 +137,6 @@ class ViewStreamController: UIViewController {
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-
-        
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
@@ -149,7 +148,9 @@ class ViewStreamController: UIViewController {
                 //  ContentList.sharedInstance.objStream = nil
             }
         }
-        self.updateLayOut()
+        if isRefresh {
+            self.updateLayOut()
+        }
     }
     
     
@@ -390,7 +391,6 @@ class ViewStreamController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.prepareHeaderData()
-                self.viewStreamCollectionView.reloadData()
                 if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     self.navigationItem.rightBarButtonItem = nil
                 }else{
@@ -400,7 +400,11 @@ class ViewStreamController: UIViewController {
                         self.lblNoContent.isHidden = false
                     }
                 }
-            }else {
+                DispatchQueue.main.async {
+                    self.viewStreamCollectionView.reloadData()
+                }
+            }else
+            {
                 if errorMsg == "404" {
                     self.showToast(type: .success, strMSG: kAlert_Stream_Deleted)
                     let when = DispatchTime.now() + 1.5
@@ -417,7 +421,18 @@ class ViewStreamController: UIViewController {
     
     func deleteStream(){
         HUDManager.sharedInstance.showHUD()
-     APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (objStream?.streamID)!) { (isSuccess, errorMsg) in
+        var id:String! = ""
+       
+        if ContentList.sharedInstance.objStream != nil {
+            id = ContentList.sharedInstance.objStream
+        }else {
+            if currentIndex != nil {
+                let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                id =  stream.ID
+            }
+        }
+        
+     APIServiceManager.sharedInstance.apiForDeleteStream(streamID: id) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
 
             if (errorMsg?.isEmpty)! {
@@ -502,7 +517,7 @@ class ViewStreamController: UIViewController {
     }
     
     func btnImportAction(){
-       
+        isRefresh = false
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets
             self?.preparePreview(assets: assets)
@@ -520,7 +535,6 @@ class ViewStreamController: UIViewController {
         viewController.configure = configure
         self.present(viewController, animated: true, completion: nil)
     }
-    
     
     func preparePreview(assets:[TLPHAsset]){
         
@@ -550,17 +564,21 @@ class ViewStreamController: UIViewController {
                     })
                 }
                 
-            }else if obj.type == .video {
+            } else if obj.type == .video {
                 camera.type = .video
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                        camera.imgPreview = image
+                    obj.phAsset?.getOrigianlImage(handler: { (img, _) in
+                        if img != nil {
+                            camera.imgPreview = img
+                        }else {
+                            camera.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
+                        }
                         self.updateData(content: camera)
-                    }
-                    group.leave()
+                        group.leave()
+                    })
                 })
             }
         }
@@ -576,8 +594,9 @@ class ViewStreamController: UIViewController {
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
     }
     
+  
     func previewScreenNavigated(){
-        
+        self.isRefresh = true
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             ContentList.sharedInstance.objStream = self.objStream?.streamID

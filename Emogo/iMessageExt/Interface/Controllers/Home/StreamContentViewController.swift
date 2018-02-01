@@ -164,7 +164,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImage)
                 SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgStream.backgroundColor = colors.background
+                        self.imgStream.backgroundColor = colors.primary
                     })
                 })
             }
@@ -173,7 +173,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgStream.backgroundColor = colors.background
+                        self.imgStream.backgroundColor = colors.primary
                     })
                 })
             }
@@ -183,7 +183,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgStream.backgroundColor = colors.background
+                        self.imgStream.backgroundColor = colors.primary
                     })
                 })
             } else {
@@ -191,7 +191,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgStream.backgroundColor = colors.background
+                        self.imgStream.backgroundColor = colors.primary
                     })
                 })
             }

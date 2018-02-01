@@ -100,12 +100,18 @@ class ContentDAO{
     var isShowAddStream:Bool! = false
     var width:Int! = 300
     var height:Int! = 300
+    var color:String! = ""
     var imgPreview:UIImage? = nil {
         
         didSet {
             if self.imgPreview != nil {
                 self.width = Int(imgPreview!.size.width)
                 self.height = Int(imgPreview!.size.height)
+//                let r = self.imgPreview?.getColors().background.ciColor.red
+//                let g = self.imgPreview?.getColors().background.ciColor.green
+//                let b = self.imgPreview?.getColors().background.ciColor.blue
+//                let bgColor = "\(String(describing: r))," + "\(String(describing: g))," + "\(String(describing: b))"
+//                self.color = bgColor
             }
         }
     }

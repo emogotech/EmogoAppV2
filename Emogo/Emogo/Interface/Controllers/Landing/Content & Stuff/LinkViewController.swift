@@ -92,6 +92,8 @@ class LinkViewController: UIViewController {
                 
                 slp.preview(smartUrl.absoluteString,
                             onSuccess: { result in
+                                
+                                debugPrint(result)
                                 let content = ContentDAO(contentData: [:])
                                 let title = result[SwiftLinkResponseKey.title]
                                 let description = result[SwiftLinkResponseKey.description]
@@ -146,6 +148,7 @@ class LinkViewController: UIViewController {
                                             content.width = Int(img.size.width)
                                         }
                                         content.coverImageVideo = imgUrl.trim()
+                                        content.imgPreview = nil
                                         self.createContentForExtractedData(content: content)
 
                                     })
@@ -155,7 +158,7 @@ class LinkViewController: UIViewController {
                                     content.coverImageVideo = imgUrl.trim()
                                     self.createContentForExtractedData(content: content)
                                 }
-                               
+                                
 
                 },
                             onError: {

@@ -220,7 +220,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-         self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+         self.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "stream-card-placeholder"))
     }
     
     
@@ -346,26 +346,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = kNavigationColor
     }
     
-    func configureProfileNavigation(){
-     
-        var myAttribute2:[NSAttributedStringKey:Any]!
-        if let font = UIFont(name: kFontBold, size: 20.0) {
-            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
-        }else {
-            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
-        }
-        
-        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = kNavigationColor
-        let img = UIImage(named: "forward_icon")
-        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
-        self.navigationItem.rightBarButtonItem = btnback
-        let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
-        self.navigationItem.leftBarButtonItem = btnLogout
-
-    }
+   
     
     @objc func btnMyProfileAction(){
         
@@ -811,7 +792,6 @@ extension PHAsset {
         options.resizeMode = .none
         options.isNetworkAccessAllowed = true
         options.version = .current
-        
         _ = PHCachingImageManager().requestImageData(for: self, options: options) { (imageData, dataUTI, orientation, info) in
             if let data = imageData {
                 let image = UIImage(data: data)
@@ -824,9 +804,6 @@ extension PHAsset {
         }
         
     }
-    
-    
-    
     
 }
 

@@ -193,7 +193,7 @@ class ContentViewController: UIViewController {
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
-                self.imgCover.backgroundColor = colors.background
+                self.imgCover.backgroundColor = colors.primary
                 self.txtTitleImage.textColor = .white//colors.secondary
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -205,7 +205,7 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
 
                         self.txtDescription.textColor = .white//colors.secondary
@@ -218,7 +218,7 @@ class ContentViewController: UIViewController {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -230,7 +230,7 @@ class ContentViewController: UIViewController {
           self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -241,7 +241,7 @@ class ContentViewController: UIViewController {
                 
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
-                        self.imgCover.backgroundColor = colors.background
+                        self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -507,13 +507,12 @@ class ContentViewController: UIViewController {
         layout.image  = imgCover.image
         layout.subcaption = txtDescription.text
         
-        let content = SharedData.sharedInstance.contentList.arrayContent[0]
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
-            let strURl = String(format: "%@/%@", kNavigation_Content,(content.contentID!))
+            let strURl = String(format: "%@/%@", kNavigation_Content,seletedImage.contentID)
             message.url = URL(string: strURl)
         }else {
-            let strURl = String(format: "%@/%@/%@", kNavigation_Content,(content.contentID!),ContentList.sharedInstance.objStream!)
+            let strURl = String(format: "%@/%@/%@", kNavigation_Content,seletedImage.contentID,ContentList.sharedInstance.objStream!)
             message.url = URL(string: strURl)
         }
       
@@ -938,13 +937,12 @@ extension ContentViewController:PhotoEditorDelegate
         seletedImage.imgPreview = image
         seletedImage.width = Int(image.size.width)
         seletedImage.height = Int(image.size.height)
-
         if currentIndex != nil {
             ContentList.sharedInstance.arrayContent[currentIndex] = seletedImage
         }
         self.updateContent()
         self.btnDone.isHidden = false
-        
+        self.isEditngContent = true
     }
     
     func canceledEditing() {

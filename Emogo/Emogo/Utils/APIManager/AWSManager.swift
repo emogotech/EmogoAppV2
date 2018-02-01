@@ -37,6 +37,7 @@ class AWSManager: NSObject {
     fileprivate var arrayTotalBytesExpectedToSend = [Int64]()
     fileprivate var arrayRequest = [AWSS3TransferManagerUploadRequest]()
     fileprivate var arrayTotalSent = [Int64]()
+    var transferManager:AWSS3TransferManager!
 
     var TotalProgress:Progress!
 
@@ -53,6 +54,7 @@ class AWSManager: NSObject {
     override init() {
         super.init()
         self.initAWS()
+        transferManager = AWSS3TransferManager.default()
     }
     
     // MARK: -  Init AWS
@@ -84,7 +86,6 @@ class AWSManager: NSObject {
             })
         }
         // Upload Request
-        let transferManager = AWSS3TransferManager.default()
         transferManager.upload(uRequest).continueWith { (task) -> Any? in
             if let error = task.error {
                 completion(.error(error))
@@ -136,8 +137,14 @@ class AWSManager: NSObject {
         uploadRequest.bucket = kBucketStreamMedia
         uploadRequest.contentType = type
         uploadRequest.acl = .publicRead
-        
-        let transferManager = AWSS3TransferManager.default()
+        uploadRequest.uploadProgress = {(bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) -> Void in
+            DispatchQueue.main.async(execute: {() -> Void in
+                if totalBytesExpectedToSend != 0 && totalBytesExpectedToSend != 0 {
+                    let  percentage = totalBytesSent*100/totalBytesExpectedToSend
+                    print(" total size---->\(totalBytesExpectedToSend) video upload percentage-------->\(percentage)")
+                }
+            })
+        }
         transferManager.upload(uploadRequest).continueWith { (task) -> Any? in
             if let error = task.error {
                 completion(nil, error)
@@ -206,34 +213,31 @@ class AWSRequestManager:NSObject {
             }
     }
     
-    func prepareVideoToUpload(name:String,videoURL:URL,completion:@escaping (String?,String?,Error?)->Void) {
+    func prepareVideoToUpload(name:String,thumbImage:UIImage?,videoURL:URL,completion:@escaping (String?,String?,Error?)->Void) {
             Document.compressVideoFile(name:name, inputURL: videoURL, handler: { (compressed) in
                 if compressed != nil {
                     let fileUrl = URL(fileURLWithPath: compressed!)
-                   
-                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:fileUrl,isSave:false) {
+                    if let image =  thumbImage {
                         var strThumb:String!
                         var strVideo:String!
                         
                         self.uploadVideo(name: name, videoURL: fileUrl, completion: { ( video, error) in
                             if error == nil {
                                 strVideo = video
-                                if strThumb != nil &&  strVideo != nil {
-                                    completion(strThumb,strVideo,error)
-                                }
+                                self.imageUpload(image: image, name: NSUUID().uuidString + ".png", completion: { (imageUrl,error) in
+                                    if error == nil {
+                                        strThumb = imageUrl
+                                        if strThumb != nil &&  strVideo != nil {
+                                        print("video------>\(strVideo),image------>\(strThumb)")
+                                            completion(strThumb,strVideo,error)
+                                        }
+                                    }
+                                })
                             }
                         })
-                        
-                        self.imageUpload(image: image, name: NSUUID().uuidString + ".jpeg", completion: { (imageUrl,error) in
-                            if error == nil {
-                                strThumb = imageUrl
-                                if strThumb != nil &&  strVideo != nil {
-                                    completion(strThumb,strVideo,error)
-                                }
-                            }
-                        })
-                        
                     }
+                }else {
+                    print("Nil video upload")
                 }
             })
         }
@@ -285,7 +289,7 @@ class AWSRequestManager:NSObject {
                         dispatchGroup.leave()
                     })
                 }else if obj.type == .video {
-                    self.prepareVideoToUpload(name: obj.fileName, videoURL: obj.fileUrl!, completion: { (strThumb,strVideo,error) in
+                    self.prepareVideoToUpload(name: obj.fileName, thumbImage:obj.imgPreview ,videoURL: obj.fileUrl!, completion: { (strThumb,strVideo,error) in
                         if error == nil {
                             let ext = strVideo?.getName()
                             if let index = array.index(where: {$0.fileName == ext}) {
@@ -300,8 +304,27 @@ class AWSRequestManager:NSObject {
                         dispatchGroup.leave()
                     })
                 }else {
-                   arrayContentToCreate.append(obj)
-                    dispatchGroup.leave()
+                    
+                    if obj.type == .link  && obj.imgPreview != nil {
+                        self.imageUpload(image: obj.imgPreview!, name: obj.fileName, completion: { (imageUrl,error) in
+                            if error == nil {
+                                let ext = imageUrl?.getName()
+                                if let index = array.index(where: {$0.fileName == ext}) {
+                                    let value = array[index]
+                                    value.imgPreview = nil
+                                    value.coverImageVideo = imageUrl
+                                    value.type = .link
+                                    arrayContentToCreate.append(value)
+                                    print(arrayContentToCreate.count)
+                                }
+                            }
+                            dispatchGroup.leave()
+                        })
+                    }else {
+                        arrayContentToCreate.append(obj)
+                        dispatchGroup.leave()
+                    }
+                 
             }
             }
         }
