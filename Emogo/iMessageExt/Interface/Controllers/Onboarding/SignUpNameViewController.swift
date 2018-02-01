@@ -128,7 +128,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    // MARK:- Action Methods
+    // MARK:- Action Methods````````
     @IBAction func btnNext(_ sender : UIButton){
        self.view.endEditing(true);
        self.checkValidation()
@@ -139,7 +139,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
 
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-
+        
         
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()

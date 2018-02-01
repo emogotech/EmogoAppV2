@@ -235,6 +235,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
                     let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
                     self.addTransitionAtPresentingControllerRight()
                     self.present(obj, animated: false, completion: nil)
@@ -259,6 +262,8 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
                     let obj : HomeViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
                     self.addTransitionAtPresentingControllerRight()
                     self.present(obj, animated: false, completion: nil)

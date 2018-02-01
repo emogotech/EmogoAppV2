@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
 		2B117C942017727E00852A59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
-		2B3A40E9201A304A0076CE19 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
 		2B531A9B2018735A00D646DC /* shareExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B531A9A2018735A00D646DC /* shareExt.swift */; };
 		2B531A9D2018740800D646DC /* ShareViewHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B531A9C2018740800D646DC /* ShareViewHomeController.swift */; };
 		2B531A9E2018759D00D646DC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
@@ -2707,7 +2706,6 @@
 				C89578611FC71BE9001A7EA7 /* EmogoStreamListVCUITests.swift in Sources */,
 				335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */,
 				C86918A61FD7C7CD0072F302 /* EmogoLandingScreenUITests.swift in Sources */,
-				2B3A40E9201A304A0076CE19 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
