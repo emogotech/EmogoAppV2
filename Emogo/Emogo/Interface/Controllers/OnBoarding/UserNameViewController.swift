@@ -12,7 +12,8 @@ class UserNameViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var txtUserName                 : UITextField!
-    @IBOutlet weak var checkBox                    : Checkbox!
+    @IBOutlet weak var checkBox                    : UIButton!
+    var isAccepted:Bool! = false
 
     
     
@@ -43,17 +44,7 @@ class UserNameViewController: UIViewController {
         view.addGestureRecognizer(tap)
         self.txtUserName.delegate = self
         self.txtUserName.maxLength = 30
-        
-        checkBox.borderStyle = .circle
-        checkBox.checkmarkStyle = .circle
-        checkBox.uncheckedBorderColor = .white
-        checkBox.checkedBorderColor = .white
-        checkBox.checkboxBackgroundColor = .clear
-        checkBox.checkmarkSize = 0.8
-
-        checkBox.borderWidth = 3
-        checkBox.checkmarkColor = kaddStreamSwitchOnColor
-        checkBox.addTarget(self, action: #selector(circleBoxValueChanged(sender:)), for: .valueChanged)
+        isAccepted = false
         
     }
     
@@ -67,7 +58,7 @@ class UserNameViewController: UIViewController {
             self.showToast(type: .error, strMSG: kAlert_Invalid_User_Name_Msg)
         }else if (txtUserName.text?.trim().contains(kString_singleSpace))!{
             self.showToast(type: .error, strMSG: kAlert_Invalid_User_Space_Msg)
-        }else if  checkBox.isChecked == false{
+        }else if  isAccepted == false{
             self.showToast(type: .error, strMSG: kAlert_Terms_Condition_Msg)
         }else {
             self.verifyUserName()
@@ -85,6 +76,14 @@ class UserNameViewController: UIViewController {
         self.present(navController, animated: true, completion: nil)
     }
     
+    @IBAction func btnTermsAndConditionAction(_ sender: Any) {
+       isAccepted = !isAccepted
+        if isAccepted {
+            checkBox.setImage(#imageLiteral(resourceName: "active_checkbox"), for: .normal)
+        }else {
+            checkBox.setImage(#imageLiteral(resourceName: "unactive_checkbox"), for: .normal)
+        }
+    }
     
     // MARK: - Class Methods
     @objc func disMissKeyboard(){

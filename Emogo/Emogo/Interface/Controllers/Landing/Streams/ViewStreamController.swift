@@ -225,7 +225,12 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func btnPlayAction(sender:UIButton){
-        self.openFullView(index: sender.tag)
+        if (self.objStream?.canAddContent)! {
+            let index = sender.tag - 1
+            self.openFullView(index: index)
+        }else {
+            self.openFullView(index: sender.tag)
+        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
