@@ -255,9 +255,11 @@ class CustomCameraViewController: SwiftyCamViewController {
          if self.isDismiss != nil {
             configure.allowedVideo =  false
             configure.singleSelectedMode = true
+            configure.maxSelectedAssets = 1
          }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
             configure.allowedVideo =  true
             configure.singleSelectedMode = true
+            configure.maxSelectedAssets = 1
          }
           else {
              configure.maxSelectedAssets = 10
@@ -336,10 +338,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         print("Normal tap")
         
         if isRecording {
-            isRecording = false
             self.lblRecordTimer.isHidden = true
             self.recordButtonTapped(isShow: false)
             self.performCamera(action: .stop)
+            isRecording = false
             return
         }
         self.lblRecordTimer.isHidden = true
