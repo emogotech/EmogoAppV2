@@ -137,7 +137,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
-        self.cameraOption.selectedSegmentIndex = 0
+        self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
