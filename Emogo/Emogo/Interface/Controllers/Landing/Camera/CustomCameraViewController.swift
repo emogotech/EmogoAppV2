@@ -277,7 +277,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
          }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
-            configure.allowedVideo =  true
+            configure.allowedVideo =  false
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
          }
@@ -518,6 +518,9 @@ class CustomCameraViewController: SwiftyCamViewController {
            // self.btnShutter.isHidden = false
             self.addNextButton(isAddButton: true)
             self.previewCollection.reloadData()
+             if kDefault?.value(forKey: kRetakeIndex) != nil  {
+                self.previewScreenNavigated()
+            }
         })
       
     }
