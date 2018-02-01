@@ -272,8 +272,18 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         // set up collection view initial position taking into account top content inset
         collectionView.frame = view.bounds
         collectionView.frame.origin.y += contentHeight + (settings.cancelView.showCancel ? settings.cancelView.height : 0)
+        
+        //iPhone X check For ActionSheet
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            self.collectionView.translatesAutoresizingMaskIntoConstraints = false
+            let guide = view.safeAreaLayoutGuide
+            
+            self.collectionView.leftAnchor.constraint(equalTo: guide.leftAnchor).isActive = true
+            self.collectionView.rightAnchor.constraint(equalTo: guide.rightAnchor).isActive = true
+            self.collectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: -50.0 ).isActive = true
+            guide.bottomAnchor.constraintEqualToSystemSpacingBelow(collectionView.bottomAnchor, multiplier: 1.0).isActive = true
+        }
         collectionViewLayout.footerReferenceSize = CGSize(width: 320, height: 0)
-        // -
         
         if settings.cancelView.showCancel {
             if cancelView == nil {
