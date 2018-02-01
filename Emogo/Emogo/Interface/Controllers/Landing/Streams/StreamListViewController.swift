@@ -11,6 +11,8 @@ import XLActionController
 
 class StreamListViewController: UIViewController {
     
+    @IBOutlet weak var containerMenuView : UIStackView!
+    
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
     @IBOutlet weak var viewMenu: UIView!
@@ -115,6 +117,48 @@ class StreamListViewController: UIViewController {
         }
         if SharedData.sharedInstance.deepLinkType != "" {
             self.checkDeepLinkURL()
+        }
+        
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            let frame = self.menuView.frame
+            let viewFrame = self.viewMenu.frame
+//            self.menuView.backgroundColor = .red
+//            self.viewMenu.backgroundColor = .green
+            
+            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
+            let guide  =  self.view.safeAreaLayoutGuide
+
+            
+            self.menuView.removeConstraints(self.menuView.constraints)
+            self.menuView.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.menuView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            
+            self.menuView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace! - 10).isActive = false
+            self.menuView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+            self.menuView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+            self.menuView.heightAnchor.constraint(equalToConstant: frame.size.height).isActive = true
+            
+            
+            self.viewMenu.removeConstraints(self.viewMenu.constraints)
+            self.viewMenu.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.viewMenu.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            
+            self.viewMenu.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace!).isActive = false
+            self.viewMenu.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+            self.viewMenu.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+            self.viewMenu.heightAnchor.constraint(equalToConstant: viewFrame.size.height).isActive = true
+            
+            let containerFrame = self.containerMenuView.frame
+            
+            self.containerMenuView.topAnchor.constraint(equalTo: self.viewMenu.topAnchor).isActive = true
+            self.containerMenuView.bottomAnchor.constraint(equalTo: self.viewMenu.bottomAnchor).isActive = true
+            self.containerMenuView.widthAnchor.constraint(equalToConstant: containerFrame.size.width).isActive = true
+            self.containerMenuView.centerXAnchor.constraint(equalTo: self.viewMenu.centerXAnchor).isActive = true
+            self.containerMenuView.centerYAnchor.constraint(equalTo: self.viewMenu.centerYAnchor).isActive = true
+
+            
         }
      
     }

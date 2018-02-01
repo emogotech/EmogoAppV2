@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -1444,6 +1444,7 @@
                         <outlet property="btnPeopleSearch" destination="cN4-to-J64" id="5dR-F5-6CE"/>
                         <outlet property="btnSearch" destination="UEw-hb-nrj" id="qZS-T9-Jvn"/>
                         <outlet property="btnStreamSearch" destination="5qm-za-PXM" id="Xpw-UM-9EL"/>
+                        <outlet property="containerMenuView" destination="b4h-oq-PNU" id="iLU-2T-Kn1"/>
                         <outlet property="lblNoResult" destination="022-8w-9Tr" id="IkX-dZ-8JT"/>
                         <outlet property="lblPeopleSearch" destination="MBO-V9-Ok9" id="5UF-iP-zzn"/>
                         <outlet property="lblSearch" destination="AiD-m5-kW4" id="Cpa-Ar-h4W"/>
