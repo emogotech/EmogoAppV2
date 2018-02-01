@@ -50,6 +50,7 @@ class UserNameViewController: UIViewController {
         checkBox.checkedBorderColor = .white
         checkBox.checkboxBackgroundColor = .clear
         checkBox.checkmarkSize = 0.8
+
         checkBox.borderWidth = 3
         checkBox.checkmarkColor = kaddStreamSwitchOnColor
         checkBox.addTarget(self, action: #selector(circleBoxValueChanged(sender:)), for: .valueChanged)

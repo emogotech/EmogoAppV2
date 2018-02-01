@@ -369,7 +369,14 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
                 isRecording = false
-                return
+            }else {
+                self.lblRecordTimer.isHidden = true
+                if self.captureInSec != nil {
+                    self.performCamera(action: .timer)
+                    self.btnCamera.isUserInteractionEnabled = false
+                }else {
+                    self.performCamera(action: .capture)
+                }
             }
         }else {
             self.lblRecordTimer.isHidden = true
