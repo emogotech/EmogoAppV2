@@ -49,13 +49,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     var isDismiss:Bool?
     var cameraMode:CameraMode! = .normal
     
-    var cameraOption:RS3DSegmentedControl! = {
-        let view = RS3DSegmentedControl()
-        view.frame = .zero
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-     }()
+    var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
     
     // MARK: - Override Functions
     
@@ -135,16 +129,18 @@ class CustomCameraViewController: SwiftyCamViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
         swipeDown.direction = .down
         self.previewCollection.addGestureRecognizer(swipeDown)
-        self.prepareForCameraMode()
+        self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
     }
     
-    func prepareForCameraMode(){
-        self.cameraOption.frame = CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height)
+    @objc func prepareForCameraMode(){
+        self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
+        cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+        self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
+    
     func prepareNavBarButtons(){
-        
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -411,7 +407,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc  func btnBack() {
-      
+        kDefault?.removeObject(forKey: kRetakeIndex)
         if timer != nil {
             self.timer.invalidate()
         }

@@ -224,12 +224,14 @@
 {
     _backgroundColor = backgroundColor;
     
-    self.backgroundImage.image = [self colorImage:self.backgroundImage.image withColor:backgroundColor];
+    self.backgroundImage.image = [self colorImage:self.backgroundImage.image withColor:[UIColor clearColor]];
 }
 
 
 - (UIImage *)colorImage:(UIImage *)image withColor:(UIColor *)color
 {
+    
+    color = [UIColor clearColor];
     // Make a rectangle the size of your image
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
     // Create a new bitmap context based on the current image's size and scale, that has opacity
