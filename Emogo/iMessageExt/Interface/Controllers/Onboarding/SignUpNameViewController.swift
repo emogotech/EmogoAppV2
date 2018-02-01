@@ -64,6 +64,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         }
     }
     
+    //MARK: Keyboard Observer.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0{
@@ -71,7 +72,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                     SharedData.sharedInstance.keyboardHeightForSignin =  keyboardSize.height
                 }
                 if SharedData.sharedInstance.isMessageWindowExpand {
-                    UIView.animate(withDuration: 0.4, animations: {
+                    UIView.animate(withDuration: 0.3, animations: {
                         self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
                     })
                 }
@@ -79,7 +80,6 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         }
     }
     
- 
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0{
             UIView.animate(withDuration: 0.3, animations: {
@@ -109,14 +109,6 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
                 self.txtNameCollapse.text = self.txtName.text
-            })
-        }
-        if SharedData.sharedInstance.isPortrate {
-            
-        } else {
-            DispatchQueue.main.async(execute: {
-                //                self.supportedInterfaceOrientations = .po
-                self.view.transform  = CGAffineTransform(rotationAngle: -180)
             })
         }
     }
