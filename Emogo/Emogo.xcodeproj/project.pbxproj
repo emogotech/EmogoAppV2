@@ -22,6 +22,7 @@
 		2BBA5EEB201B82810077CE7B /* DemoPreprocessor.js in Resources */ = {isa = PBXBuildFile; fileRef = 2BBA5EEA201B82800077CE7B /* DemoPreprocessor.js */; };
 		2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
 		2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */; };
+		2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */; };
 		2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */; };
 		2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */; };
@@ -84,7 +85,6 @@
 		337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B8FB71FBEF48A00CFACE3 /* iMessageExt.swift */; };
 		339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339518551FBF1B0000DCC085 /* HomeViewController.swift */; };
 		33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
-		33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0391FBB353E004FF634 /* SharedData.swift */; };
 		33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0401FBB353E004FF634 /* PMButton.swift */; };
 		33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06B1FBB353E004FF634 /* SignInViewController.swift */; };
 		33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB06C1FBB353E004FF634 /* SignUpViewController.swift */; };
@@ -2484,6 +2484,7 @@
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */,
+				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
 				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
@@ -2655,7 +2656,6 @@
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
-				33BCB0731FBB353E004FF634 /* SharedData.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
 				F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */,
 				F44939E81FEA567800AE2FCA /* ESRefreshProtocol.swift in Sources */,

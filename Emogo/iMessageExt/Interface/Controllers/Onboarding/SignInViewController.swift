@@ -112,13 +112,6 @@ class SignInViewController: MSMessagesAppViewController {
                 self.txtMobileCollapse.text = self.txtMobileNumber.text
             })
         }
-        if SharedData.sharedInstance.isPortrate {
-        } else {
-            DispatchQueue.main.async(execute: {
-//                self.supportedInterfaceOrientations = .po
-                self.view.transform  = CGAffineTransform(rotationAngle: -180)
-            })
-        }
     }
     
     // MARK:- LoaderSetup
@@ -187,15 +180,7 @@ class SignInViewController: MSMessagesAppViewController {
                     obj.OTP = errorMsg
                     obj.isForLogin = "errorMsg"
                     obj.phone = self.txtMobileNumber.text?.trim()
-                    //                self.addTransitionAtPresentingControllerRight()
                     self.present(obj, animated: false, completion: nil)
-                    
-//                    let obj : HomeViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Home) as! HomeViewController
-//                    if kDefault?.bool(forKey: kUserLogggedIn) == true {
-//                        UserDAO.sharedInstance.parseUserInfo()
-//                    }
-//                    self.present(obj, animated: false, completion: nil)
-//                    self.addTransitionAtPresentingControllerRight()
                 }
                 else {
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)

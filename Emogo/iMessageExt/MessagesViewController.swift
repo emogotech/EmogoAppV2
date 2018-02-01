@@ -30,10 +30,34 @@ class MessagesViewController: MSMessagesAppViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenStyleExpand), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeStyleCompact), name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeOrentation), name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
     }
 
+    //MARK: Keyboard Observer.
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0{
+                if SharedData.sharedInstance.keyboardHeightForSignin == 0.0 {
+                    SharedData.sharedInstance.keyboardHeightForSignin =  keyboardSize.height
+                }
+                if SharedData.sharedInstance.isMessageWindowExpand {
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
+                    })
+                }
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0{
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.frame.origin.y = 0
+            })
+        }
+    }
     
     // MARK:- LoaderSetup
     func setupLoader() {

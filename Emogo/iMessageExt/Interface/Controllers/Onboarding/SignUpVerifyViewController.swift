@@ -92,13 +92,17 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
 
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
-            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
-            self.viewExpand.isHidden = false
-            self.viewCollapse.isHidden = true
-            self.viewExpand.center = self.view.center
-            self.viewCollapse.center = self.view.center
-            self.txtVeryficationCode.text = self.txtVeryficationCollapse.text
-            self.txtVeryficationCode.becomeFirstResponder()
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+                self.viewExpand.isHidden = false
+                self.viewCollapse.isHidden = true
+                self.viewExpand.center = self.view.center
+                self.viewCollapse.center = self.view.center
+                self.txtVeryficationCode.text = self.txtVeryficationCollapse.text
+            }, completion: { (finshed) in
+                self.txtVeryficationCode.becomeFirstResponder()
+            })
         }else{
             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             UIView.animate(withDuration: 0.1, animations: {
@@ -110,14 +114,6 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
                 self.txtVeryficationCollapse.text = self.txtVeryficationCode.text
-            })
-        }
-        if SharedData.sharedInstance.isPortrate {
-            
-        } else {
-            DispatchQueue.main.async(execute: {
-                //                self.supportedInterfaceOrientations = .po
-                self.view.transform  = CGAffineTransform(rotationAngle: -180)
             })
         }
     }
