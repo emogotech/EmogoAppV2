@@ -228,7 +228,7 @@ class UserLoginSerializer(UserSerializer):
     def authenticate_user(self):
         try:
             user = User.objects.get(username=self.validated_data.get('username'))
-            user_profile = UserProfile.objects.get(user=user)
+            user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
             body = "Emogo login OTP"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
             # print sent_otp
