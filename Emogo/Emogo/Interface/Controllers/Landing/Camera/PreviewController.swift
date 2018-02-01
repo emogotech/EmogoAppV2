@@ -280,16 +280,8 @@ class PreviewController: UIViewController {
     
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
-        if gesture.direction == .up {
-            print("up")
-            if self.isPreviewOpen == true {
-                self.animateView()
-            }
-        }else if gesture.direction == .down {
-            print("down")
-            if self.isPreviewOpen == false {
-                self.animateView()
-            }
+        if gesture.direction == .up ||  gesture.direction == .down {
+            self.animateView()
         }
     }
     
