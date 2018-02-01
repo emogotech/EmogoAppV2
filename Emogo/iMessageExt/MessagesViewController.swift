@@ -87,6 +87,9 @@ class MessagesViewController: MSMessagesAppViewController {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
             if SharedData.sharedInstance.tempViewController == nil {
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
                 let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                 self.addChildViewController(vc)
                 vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
@@ -124,12 +127,18 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Action methods
     @IBAction func btnTapSignIn(_ sender : UIButton) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         let obj:SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
     }
     
     @IBAction func btnTapSignUp(_ sender : UIButton) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -147,10 +156,6 @@ class MessagesViewController: MSMessagesAppViewController {
     }
     
     @objc func changeOrentationAfterBack() {
-        print(UIApplication.shared.statusBarFrame.height)
-         print(UIApplication.shared.statusBarFrame.width)
-        print("self.view.frame.size.width----->",self.view.frame.size.width)
-        print("self.view.frame.size.height----->",self.view.frame.size.height)
         if self.view.frame.size.width > self.view.frame.size.height {
             SharedData.sharedInstance.isPortrate = false
         }

@@ -151,7 +151,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     @IBAction func btnTapSignIn(_ sender : UIButton) {
         self.view.endEditing(true);
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
@@ -252,6 +254,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
                     self.hudView.stopLoaderWithAnimation()
                 }
                 if isSuccess == true {
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
                     let obj : SignUpVerifyViewController  = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_SignUpVerify) as! SignUpVerifyViewController
                     obj.OTP = errorMsg
                     obj.phone = self.txtMobileNumber.text?.trim()

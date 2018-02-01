@@ -63,7 +63,9 @@ class HomeViewController: MSMessagesAppViewController {
         setupAnchor()
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
             kDefault?.set(false, forKey: kUserLogggedIn)
             kDefault?.removeObject(forKey: kUserLogggedInData)
