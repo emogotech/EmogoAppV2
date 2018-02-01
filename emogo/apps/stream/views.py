@@ -320,7 +320,7 @@ class ExtremistReportAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(dataa=request.data, context=self.request)
+        serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=self.request.data)
