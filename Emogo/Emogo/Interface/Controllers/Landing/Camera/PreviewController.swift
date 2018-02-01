@@ -197,6 +197,8 @@ class PreviewController: UIViewController {
         swipeDown.direction = .down
         self.imgPreview.addGestureRecognizer(swipeDown)
         
+        self.previewCollection.addGestureRecognizer(swipeDown)
+        
         // Preview Footer
         self.previewCollection.reloadData()
         self.btnDone.isHidden = false
@@ -205,7 +207,6 @@ class PreviewController: UIViewController {
         }
         
         self.imgPreview.contentMode = .scaleAspectFit
-        
       
         self.btnShareAction.isHidden = true
         kWidth.constant = 0.0
