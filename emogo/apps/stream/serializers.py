@@ -210,6 +210,7 @@ class ViewStreamSerializer(StreamSerializer):
 
         # If logged-in user is owner of stream show all collaborator
         current_url = resolve(self.context.get('request').path_info).url_name
+        # If user as owner or want to get all collaborator list
         if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
             instances = obj.collaborator_list(manager='actives').all().order_by('-id')
         # else Show collaborator created by logged in user.
