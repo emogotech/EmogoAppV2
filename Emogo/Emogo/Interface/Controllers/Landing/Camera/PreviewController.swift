@@ -213,7 +213,9 @@ class PreviewController: UIViewController {
         swipeDown.direction = .down
         self.imgPreview.addGestureRecognizer(swipeDown)
         
-        self.previewCollection.addGestureRecognizer(swipeDown)
+        let swipeDown1 = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+        swipeDown1.direction = .down
+        self.previewCollection.addGestureRecognizer(swipeDown1)
         
         // Preview Footer
         self.previewCollection.reloadData()
