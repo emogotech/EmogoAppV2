@@ -30,6 +30,7 @@ import UIKit
     @IBOutlet weak var colorPickerView: UIView!
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var colorPickerButtonsWidth: NSLayoutConstraint!
+    @IBOutlet weak var filterCollectionView: UICollectionView!
 
     //Controls
     @IBOutlet weak var cropButton: UIButton!
@@ -98,6 +99,9 @@ import UIKit
         return PMPhotoEditingManager.create()
     } ()
     
+    var filter = FilterDAO()
+
+    
 
     //Register Custom font before we load XIB
     public override func loadView() {
@@ -109,7 +113,7 @@ import UIKit
         super.viewDidLoad()
     
         self.setImageView(image: image!)
-        
+        filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
         deleteView.layer.cornerRadius = deleteView.bounds.height / 2
         deleteView.layer.borderWidth = 2.0
         deleteView.layer.borderColor = UIColor.white.cgColor
