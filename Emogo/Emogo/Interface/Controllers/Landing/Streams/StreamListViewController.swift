@@ -327,6 +327,13 @@ class StreamListViewController: UIViewController {
         viewPeople.rightAnchor.constraint(equalTo: viewSearch.rightAnchor).isActive = true
     }
     
+    func setViewSearchHeightFor_iPhoneX(){
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
+            self.viewSearch.frame.size.height = self.viewSearch.frame.size.height - extraBottomSpace!
+        }
+    }
+    
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
@@ -339,6 +346,7 @@ class StreamListViewController: UIViewController {
             UIView.animate(withDuration: 0.1, animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
                 self.viewCollection.frame = self.viewSearch.frame
+                self.setViewSearchHeightFor_iPhoneX()
             })
             self.isLoadFirst = false
         }
@@ -493,6 +501,7 @@ class StreamListViewController: UIViewController {
             UIView.animate(withDuration: 0.1, delay: 0.1, options: [.curveEaseOut], animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
                 self.viewCollection.frame = self.viewSearch.frame
+                self.setViewSearchHeightFor_iPhoneX()
             }, completion: nil)
             self.viewMenu.isHidden = false
             isSearch = false
@@ -1157,6 +1166,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseOut], animations: {
                     self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y + self.viewSearchMain.frame.size.height, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y-self.viewSearchMain.frame.height)
                     self.viewCollection.frame = self.viewSearch.frame
+                    self.setViewSearchHeightFor_iPhoneX()
                 }, completion: nil)
             }
         }
@@ -1168,6 +1178,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseIn], animations: {
                     self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
                     self.viewCollection.frame = self.viewSearch.frame
+                    self.setViewSearchHeightFor_iPhoneX()
                 }, completion: nil)
             }
         }
