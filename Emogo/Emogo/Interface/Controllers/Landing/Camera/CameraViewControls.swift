@@ -44,6 +44,8 @@ extension CustomCameraViewController {
      self.lblRecordTimer.text = "00"
       self.disable(isOn:false)
         self.lblRecordTimer.isHidden = false
+    self.navigationItem.rightBarButtonItem  = nil
+    self.navigationItem.leftBarButtonItem  = nil
     timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CustomCameraViewController.countDown)), userInfo: nil, repeats: true)
     }
     
@@ -56,6 +58,7 @@ extension CustomCameraViewController {
             self.lblRecordTimer.isHidden = true
             self.disable(isOn:true)
             takePhoto()
+            self.setupButtonWhileRecording(isAddButton: true)
         } else {
             beepSound?.play { completed in
                 print("completed: \(completed)")
@@ -101,6 +104,7 @@ extension CustomCameraViewController {
         self.btnRecording.isHidden = isShow
         self.btnFlash.isHidden = isShow
         self.btnTimer.isHidden = isShow
+        prepareNavBarButtons()
         if isShow == true {
             self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
         }else {
