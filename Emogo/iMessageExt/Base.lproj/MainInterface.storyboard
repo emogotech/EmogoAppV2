@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ObA-dk-sSI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -166,7 +166,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ddr-ue-w6g">
-                                        <rect key="frame" x="156.5" y="285" width="62" height="36"/>
+                                        <rect key="frame" x="157.5" y="285" width="60" height="36"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -206,7 +206,7 @@
                                 <rect key="frame" x="0.0" y="204.5" width="375" height="259"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a User name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="XVx-CZ-Jd5">
-                                        <rect key="frame" x="85" y="2" width="207" height="28"/>
+                                        <rect key="frame" x="87.5" y="2" width="200.5" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="XVx-CZ-Jd5" secondAttribute="height" multiplier="67:9" id="6r2-MD-f69"/>
                                         </constraints>
@@ -215,7 +215,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" background="input_text_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="ImI-zS-OfH">
-                                        <rect key="frame" x="38" y="43" width="299" height="49"/>
+                                        <rect key="frame" x="38" y="42" width="299" height="49"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ImI-zS-OfH" secondAttribute="height" multiplier="299:49" id="8db-HI-OdZ"/>
@@ -233,7 +233,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2eF-YY-scX">
-                                        <rect key="frame" x="107.5" y="110" width="160" height="53"/>
+                                        <rect key="frame" x="107.5" y="109" width="160" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="2eF-YY-scX" secondAttribute="height" multiplier="160:53" id="xCG-7a-4bc"/>
                                         </constraints>
@@ -243,7 +243,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Him-lw-STs">
-                                        <rect key="frame" x="107" y="177" width="160.5" height="28"/>
+                                        <rect key="frame" x="107" y="176" width="160.5" height="29"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -351,7 +351,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naV-ZZ-OYN">
-                                        <rect key="frame" x="156.5" y="268.5" width="62" height="36"/>
+                                        <rect key="frame" x="157.5" y="268.5" width="60" height="36"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -382,7 +382,7 @@
                                 <rect key="frame" x="0.0" y="212" width="375" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-o8-5GM">
-                                        <rect key="frame" x="88.5" y="2" width="198.5" height="27.5"/>
+                                        <rect key="frame" x="91" y="2" width="194" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ujs-o8-5GM" secondAttribute="height" multiplier="194:27" id="uJW-Gt-HPB"/>
                                         </constraints>
@@ -391,7 +391,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" background="input_text_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="dnw-Zz-waE">
-                                        <rect key="frame" x="38" y="42.5" width="299" height="47"/>
+                                        <rect key="frame" x="38" y="42" width="299" height="47"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="dnw-Zz-waE" secondAttribute="height" multiplier="299:47" id="LTo-3T-pKc"/>
@@ -409,7 +409,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTw-ZY-752">
-                                        <rect key="frame" x="95.5" y="107.5" width="183" height="54"/>
+                                        <rect key="frame" x="95.5" y="107" width="183" height="54"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="oTw-ZY-752" secondAttribute="height" multiplier="61:18" id="f5l-07-0B4"/>
                                         </constraints>
@@ -419,7 +419,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYs-AF-4pe">
-                                        <rect key="frame" x="95.5" y="175.5" width="183" height="28.5"/>
+                                        <rect key="frame" x="95.5" y="175" width="183" height="29"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -496,7 +496,7 @@
                                         <rect key="frame" x="98.5" y="6.5" width="178" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="3Bj-tb-DKW">
-                                        <rect key="frame" x="57.5" y="72" width="261.5" height="25"/>
+                                        <rect key="frame" x="62" y="73.5" width="253" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="3Bj-tb-DKW" secondAttribute="height" multiplier="253:24" id="XXM-IZ-VXN"/>
                                         </constraints>
@@ -505,7 +505,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter it below" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="joX-Gv-YHX">
-                                        <rect key="frame" x="94.5" y="97" width="186.5" height="24.5"/>
+                                        <rect key="frame" x="96.5" y="97.5" width="182.5" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="joX-Gv-YHX" secondAttribute="height" multiplier="91:12" id="NLD-Tn-aZO"/>
                                         </constraints>
@@ -527,7 +527,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="swt-mM-Wmg">
-                                        <rect key="frame" x="81.5" y="200.5" width="213" height="71"/>
+                                        <rect key="frame" x="79.5" y="200.5" width="217" height="72"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="swt-mM-Wmg" secondAttribute="height" multiplier="160:53" id="L0Y-G4-t6H"/>
                                         </constraints>
@@ -537,7 +537,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDn-OM-QzU">
-                                        <rect key="frame" x="126" y="286.5" width="123" height="37"/>
+                                        <rect key="frame" x="127.5" y="287.5" width="120" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pDn-OM-QzU" secondAttribute="height" multiplier="119:36" id="ViP-Iu-f3e"/>
                                         </constraints>
@@ -575,7 +575,7 @@
                                 <rect key="frame" x="0.0" y="212" width="375" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="e2a-e9-LDy">
-                                        <rect key="frame" x="57" y="2" width="261.5" height="49.5"/>
+                                        <rect key="frame" x="61.5" y="2" width="253" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="e2a-e9-LDy" secondAttribute="height" multiplier="253:48" id="kd5-e0-g46"/>
                                         </constraints>
@@ -584,7 +584,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nsa-ow-knf">
-                                        <rect key="frame" x="108.5" y="118.5" width="157" height="52"/>
+                                        <rect key="frame" x="107" y="117" width="160" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Nsa-ow-knf" secondAttribute="height" multiplier="160:53" id="1tn-DG-zAR"/>
                                         </constraints>
@@ -594,7 +594,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8PK-hh-KpV">
-                                        <rect key="frame" x="73.5" y="182.5" width="227" height="27.5"/>
+                                        <rect key="frame" x="72" y="182" width="230" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8PK-hh-KpV" secondAttribute="height" multiplier="40:9" constant="105.55555555555554" id="Hsy-13-Yt8"/>
                                         </constraints>
@@ -607,7 +607,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" background="input_text_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="2rj-8b-aOm">
-                                        <rect key="frame" x="38" y="59.5" width="299" height="49"/>
+                                        <rect key="frame" x="38" y="58" width="299" height="49"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="2rj-8b-aOm" secondAttribute="height" multiplier="299:49" id="k02-6U-Tvt"/>
@@ -686,7 +686,7 @@
                                 <rect key="frame" x="0.0" y="155.5" width="375" height="356"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="Tly-AO-CpE">
-                                        <rect key="frame" x="98" y="86.5" width="180.5" height="24.5"/>
+                                        <rect key="frame" x="100" y="88" width="176.5" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Tly-AO-CpE" secondAttribute="height" multiplier="59:8" id="lGe-Ip-1Xc"/>
                                         </constraints>
@@ -695,7 +695,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What would you Like to Do Next?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="nJ8-wh-xyE">
-                                        <rect key="frame" x="37.5" y="111" width="300" height="25"/>
+                                        <rect key="frame" x="43" y="112" width="289" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="nJ8-wh-xyE" secondAttribute="height" multiplier="289:24" id="otw-Sx-ko1"/>
                                         </constraints>
@@ -787,7 +787,7 @@
                                         <rect key="frame" x="98.5" y="8" width="178" height="33"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="89" y="94" width="198.5" height="27.5"/>
+                                        <rect key="frame" x="91.5" y="94.5" width="194" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="vpE-3n-avs" secondAttribute="height" multiplier="194:27" id="Xcc-Y8-Obh"/>
                                         </constraints>
@@ -819,7 +819,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-7X-UYD">
-                                        <rect key="frame" x="151.5" y="269.5" width="72" height="37"/>
+                                        <rect key="frame" x="152.5" y="269.5" width="70" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iOs-7X-UYD" secondAttribute="height" multiplier="35:18" id="EbI-jj-Ohh"/>
                                         </constraints>
@@ -854,7 +854,7 @@
                                 <rect key="frame" x="0.0" y="212" width="375" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="XWe-0c-D84">
-                                        <rect key="frame" x="89" y="2" width="198.5" height="27.5"/>
+                                        <rect key="frame" x="91.5" y="2" width="194" height="27"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="XWe-0c-D84" secondAttribute="height" multiplier="97:13" constant="-7.4615384615384528" id="t5u-I6-ObN"/>
                                         </constraints>
@@ -863,7 +863,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="14" background="input_text_iphone" translatesAutoresizingMaskIntoConstraints="NO" id="fi1-rl-yhS">
-                                        <rect key="frame" x="38" y="42.5" width="299" height="49"/>
+                                        <rect key="frame" x="38" y="42" width="299" height="49"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fi1-rl-yhS" secondAttribute="height" multiplier="299:49" id="R9a-tX-uvw"/>
@@ -881,7 +881,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8KY-RN-ayI">
-                                        <rect key="frame" x="108" y="109.5" width="160" height="53"/>
+                                        <rect key="frame" x="108" y="109" width="160" height="53"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="8KY-RN-ayI" secondAttribute="height" multiplier="61:18" constant="-19.611111111111114" id="LEd-VG-72X"/>
                                         </constraints>
@@ -891,7 +891,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Cc-Mn-B5D">
-                                        <rect key="frame" x="108" y="176.5" width="160" height="28.5"/>
+                                        <rect key="frame" x="108" y="176" width="160" height="29"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="18"/>
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1239,7 +1239,7 @@
                                                                     <rect key="frame" x="0.0" y="50" width="100" height="50"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qOW-HV-33l">
-                                                                            <rect key="frame" x="11" y="13" width="79" height="23"/>
+                                                                            <rect key="frame" x="10" y="13" width="81.5" height="23"/>
                                                                             <subviews>
                                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="view-icon" translatesAutoresizingMaskIntoConstraints="NO" id="aPH-xC-ov1">
                                                                                     <rect key="frame" x="3" y="3" width="21" height="17"/>
@@ -1248,7 +1248,7 @@
                                                                                     </constraints>
                                                                                 </imageView>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="IyB-FQ-2Ql">
-                                                                                    <rect key="frame" x="36" y="1" width="36" height="21"/>
+                                                                                    <rect key="frame" x="36" y="1" width="38.5" height="21"/>
                                                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                                     <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
                                                                                     <color key="textColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1739,7 +1739,7 @@
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No content available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="jk0-D7-HXX">
-                                <rect key="frame" x="96.5" y="321.5" width="183" height="24"/>
+                                <rect key="frame" x="98.5" y="321.5" width="179.5" height="24"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                 <color key="textColor" red="0.27450980390000002" green="0.27450980390000002" blue="0.27450980390000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -2018,7 +2018,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Upf-8s-SC0">
-                                        <rect key="frame" x="142.5" y="4" width="91" height="32"/>
+                                        <rect key="frame" x="147" y="4" width="82" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="4Jw-8E-AOq"/>
                                         </constraints>
