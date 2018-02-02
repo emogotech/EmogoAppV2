@@ -127,7 +127,7 @@ class PreviewController: UIViewController {
             }
             if !conten.description.isEmpty {
                 if conten.description.trim().count > 250 {
-                    conten.description = seletedImage.description.trim(count: 250)
+                    conten.description = conten.description.trim(count: 250)
                 }
             }
             conten.isUploaded = false
