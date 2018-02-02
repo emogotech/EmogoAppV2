@@ -161,6 +161,20 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
       
     }
+    func setupButtonWhileRecording(isAddButton:Bool){
+        if isAddButton {
+            self.navigationItem.rightBarButtonItem  = nil
+            let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
+            self.navigationItem.leftBarButtonItem = btnBack
+            let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            self.navigationItem.rightBarButtonItem = btnNext
+        }else {
+            self.navigationItem.rightBarButtonItem  = nil
+            self.navigationItem.leftBarButtonItem  = nil
+        }
+        
+    }
+    
     
     func prepareContainerToPresent(){
         
@@ -402,6 +416,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
             self.recordButtonTapped(isShow: true)
+            setupButtonWhileRecording(isAddButton: false)
             break
         case .ended:
             if self.cameraMode == .normal {
@@ -675,6 +690,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileUrl = url
             print(camera.fileName)
             self.cameraOption.isUserInteractionEnabled = true
+            setupButtonWhileRecording(isAddButton: true)
             self.updateData(content: camera)
             self.previewCollection.reloadData()
         }
@@ -761,7 +777,7 @@ extension CustomCameraViewController:CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
         if self.delegate != nil {
             self.dismiss(animated: true, completion: {
-                self.delegate?.dismissWith(image: cropViewController.image)
+             //   self.delegate?.dismissWith(image: cropViewController.image)
             })
         }
     }

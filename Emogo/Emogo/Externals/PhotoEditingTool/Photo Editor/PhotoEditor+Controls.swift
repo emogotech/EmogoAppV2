@@ -110,6 +110,7 @@ extension PhotoEditorViewController {
         textView.keyboardAppearance = .dark
         textView.returnKeyType = .done
         textView.delegate = self
+        textView.tintColor = .clear
         self.canvasImageView.addSubview(textView)
         addGestures(view: textView)
         textView.becomeFirstResponder()
