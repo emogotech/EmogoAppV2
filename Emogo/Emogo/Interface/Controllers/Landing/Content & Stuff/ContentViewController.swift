@@ -136,10 +136,8 @@ class ContentViewController: UIViewController {
     
     func prepareNavBarButtons(){
         
-        
-        
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
