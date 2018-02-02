@@ -342,7 +342,8 @@ class AddStreamViewController: UITableViewController {
         let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         cameraViewController.isDismiss = true
         cameraViewController.delegate = self
-        self.present(cameraViewController, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: cameraViewController)
+        self.present(nav, animated: true, completion: nil)
         
         /*
         let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in

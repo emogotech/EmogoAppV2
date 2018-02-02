@@ -137,6 +137,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
+        self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
@@ -276,7 +277,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
          }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
-            configure.allowedVideo =  true
+            configure.allowedVideo =  false
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
          }
@@ -517,6 +518,9 @@ class CustomCameraViewController: SwiftyCamViewController {
            // self.btnShutter.isHidden = false
             self.addNextButton(isAddButton: true)
             self.previewCollection.reloadData()
+             if kDefault?.value(forKey: kRetakeIndex) != nil  {
+                self.previewScreenNavigated()
+            }
         })
       
     }

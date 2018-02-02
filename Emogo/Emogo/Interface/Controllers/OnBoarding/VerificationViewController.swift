@@ -12,7 +12,7 @@ class VerificationViewController: UIViewController {
     
     // MARK: - UI Elements
 
-    @IBOutlet weak var txtOtP                 : UITextField!
+    @IBOutlet weak var txtOtP                 : SHSPhoneTextField!
 
      var OTP:String!
      var phone:String!
@@ -40,6 +40,7 @@ class VerificationViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         addToolBar(textField: txtOtP)
+        txtOtP.formatter.setDefaultOutputPattern("#####")
     }
     
     func addToolBar(textField: UITextField){

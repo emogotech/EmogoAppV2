@@ -213,7 +213,9 @@ class PreviewController: UIViewController {
         swipeDown.direction = .down
         self.imgPreview.addGestureRecognizer(swipeDown)
         
-        self.previewCollection.addGestureRecognizer(swipeDown)
+        let swipeDown1 = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+        swipeDown1.direction = .down
+        self.previewCollection.addGestureRecognizer(swipeDown1)
         
         // Preview Footer
         self.previewCollection.reloadData()
@@ -243,7 +245,7 @@ class PreviewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
