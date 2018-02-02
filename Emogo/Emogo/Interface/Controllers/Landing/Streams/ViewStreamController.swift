@@ -161,7 +161,7 @@ class ViewStreamController: UIViewController {
     
     
     @objc func showReportList(){
-        let optionMenu = UIAlertController(title: kAlertSheet_Spam, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
             (alert: UIAlertAction!) -> Void in
             APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
