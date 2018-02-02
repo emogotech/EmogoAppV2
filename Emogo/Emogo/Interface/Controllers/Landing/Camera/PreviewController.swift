@@ -262,16 +262,15 @@ class PreviewController: UIViewController {
         let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
         
         if selected.isUploaded == false {
-            arrButtons.append(btnDelete)
 
             if selected.type == .image {
                 arrButtons.append(btnEdit)
-            }
-            if selected.type == .link {
+            }else if selected.type == .link {
                 imgEdit = #imageLiteral(resourceName: "change_link")
                 btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
                 arrButtons.append(btnEdit)
             }
+            arrButtons.append(btnDelete)
         }else{
             if selected.isEdit == true {
                 if selected.type == .image {
