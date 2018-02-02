@@ -140,8 +140,9 @@ class ContentViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationController?.navigationBar.tintColor = .white
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         self.navigationItem.leftBarButtonItem = btnBack
     }
     

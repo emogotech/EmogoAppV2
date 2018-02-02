@@ -448,9 +448,9 @@ class ViewStreamController: UIViewController {
     }
     
     func actionForCamera(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = self.objStream?.streamID
         self.navigationController?.pushNormal(viewController: obj)
     }
     
