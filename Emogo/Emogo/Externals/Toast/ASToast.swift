@@ -656,10 +656,19 @@ public extension UIView {
         // toastView frames
         let toastViewWidth = max(imageWidth + (Constants.ToastHorizontalPadding * 2), (longerLeft + longerWidth + Constants.ToastHorizontalPadding))
         let toastViewHeight = max(messageTop + messageHeight + Constants.ToastVerticalPadding, (imageHeight + (Constants.ToastVerticalPadding * 2)))
-        toastView.frame = CGRect(x: 0.0,
-                                 y: 0.0,
-                                 width: toastViewWidth,
-                                 height: toastViewHeight)
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            toastView.frame = CGRect(x: 0.0,
+                                     y: 20.0,
+                                     width: toastViewWidth,
+                                     height: toastViewHeight)
+        }else {
+            toastView.frame = CGRect(x: 0.0,
+                                     y: 0.0,
+                                     width: toastViewWidth,
+                                     height: toastViewHeight)
+        }
+        
+       
 
         if let titleLabel = titleLbl {
             titleLabel.frame = CGRect(x: titleLeft,
