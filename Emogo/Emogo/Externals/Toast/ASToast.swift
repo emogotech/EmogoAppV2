@@ -656,19 +656,10 @@ public extension UIView {
         // toastView frames
         let toastViewWidth = max(imageWidth + (Constants.ToastHorizontalPadding * 2), (longerLeft + longerWidth + Constants.ToastHorizontalPadding))
         let toastViewHeight = max(messageTop + messageHeight + Constants.ToastVerticalPadding, (imageHeight + (Constants.ToastVerticalPadding * 2)))
-        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-            toastView.frame = CGRect(x: 0.0,
-                                     y: 20.0,
-                                     width: toastViewWidth,
-                                     height: toastViewHeight)
-        }else {
-            toastView.frame = CGRect(x: 0.0,
-                                     y: 0.0,
-                                     width: toastViewWidth,
-                                     height: toastViewHeight)
-        }
-        
-       
+        toastView.frame = CGRect(x: 0.0,
+                                 y: 0.0,
+                                 width: toastViewWidth,
+                                 height: toastViewHeight)
 
         if let titleLabel = titleLbl {
             titleLabel.frame = CGRect(x: titleLeft,
@@ -770,7 +761,13 @@ public extension UIView {
     fileprivate func centerPointForPosition(position: ToastPosition, toastView: UIView!) -> CGPoint {
         switch position {
         case.top :
-            return CGPoint(x: self.bounds.size.width / 2, y: (toastView.frame.size.height / 2) + Constants.ToastVerticalPadding + 10.0)
+            if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+                return CGPoint(x: self.bounds.size.width / 2, y: (toastView.frame.size.height / 2) + Constants.ToastVerticalPadding + 30.0)
+
+            }else {
+                return CGPoint(x: self.bounds.size.width / 2, y: (toastView.frame.size.height / 2) + Constants.ToastVerticalPadding + 10.0)
+
+            }
         case .center:
             return CGPoint(x: self.bounds.size.width / 2, y: self.bounds.size.height / 2)
         default:
