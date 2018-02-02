@@ -137,7 +137,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
-        self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
+         self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
@@ -400,6 +400,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.timeSec = 0
             self.lblRecordTimer.isHidden = false
             self.performCamera(action: .recording)
+            self.cameraOption.isUserInteractionEnabled = false
             self.recordButtonTapped(isShow: true)
             break
         case .ended:
@@ -673,6 +674,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileName = url.absoluteString.getName()
             camera.fileUrl = url
             print(camera.fileName)
+            self.cameraOption.isUserInteractionEnabled = true
             self.updateData(content: camera)
             self.previewCollection.reloadData()
         }
