@@ -75,8 +75,10 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         
         let lineCount = lblDescription.lineCountForLabel()
         if lineCount < 2 {
+            
             self.btnDropDown.isHidden = true
         }else{
+            self.lblDescription.numberOfLines = 1
             self.btnDropDown.isHidden = false
         }
         
@@ -92,7 +94,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.lblDescription.numberOfLines = 0
             self.lblDescription.sizeToFit()
         }else {
-            self.lblDescription.numberOfLines = 2
+            self.lblDescription.numberOfLines = 1
             self.lblDescription.sizeToFit()
         }
     }
@@ -108,10 +110,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         
     }
     
-    
     func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
     }
-    
-    
     
 }
