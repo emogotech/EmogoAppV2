@@ -92,7 +92,7 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
             cell.imgCover.layer.cornerRadius = cell.imgCover.frame.size.width/2.0
             cell.imgCover.layer.masksToBounds = true
         }else {
-            cell.imgCover.setImage(string: collaborator.name, color: UIColor.colorHash(name: collaborator.name), circular: true)
+            cell.imgCover.setImage(string: collaborator.name, color: UIColor(r: 0, g: 173, b: 243), circular: true)
         }
         
         return cell
