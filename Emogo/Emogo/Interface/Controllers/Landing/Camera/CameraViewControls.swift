@@ -79,6 +79,7 @@ extension CustomCameraViewController {
             break
         case .stop:
             stopVideoRecording()
+            
             break
         case .recording:
             startVideoRecording()

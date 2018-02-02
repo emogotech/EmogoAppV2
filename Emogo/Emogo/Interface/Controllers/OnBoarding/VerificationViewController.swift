@@ -64,11 +64,13 @@ class VerificationViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
+        
         if (self.txtOtP.text?.trim().isEmpty)! {
             self.txtOtP.shake()
         }else if (txtOtP.text?.trim().count)! != 5 {
             self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
+            self.view.endEditing(true)
             if self.isForLogin == nil {
                 self.verifyOTP()
             }else {
