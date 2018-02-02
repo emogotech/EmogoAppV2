@@ -783,7 +783,7 @@ class HomeViewController: MSMessagesAppViewController {
         APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
             //            if error == nil {
             if !(error?.isEmpty)! {
-                self.showToastIMsg(type: .success, strMSG: error!)
+                self.showToastIMsg(type: .success, strMSG: kAlert_Content_Not_Found)
                 return
             }
             let objContent = ContentDAO.init(contentData: dict!)

@@ -655,7 +655,9 @@ class ContentViewController: UIViewController {
     func performEdit(){
         if seletedImage.type == .image {
             if self.seletedImage.imgPreview == nil {
+                HUDManager.sharedInstance.showHUD()
                 SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+                    HUDManager.sharedInstance.hideHUD()
                     if image != nil {
                         self.openEditor(image:image!)
                     }
