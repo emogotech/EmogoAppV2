@@ -260,6 +260,10 @@
 		F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */; };
 		F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */ = {isa = PBXBuildFile; fileRef = F445453A200374DC00ED59C3 /* UITextField+Max.m */; };
+		F447441520246CC2002964A0 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447441320246CC2002964A0 /* FilterCell.swift */; };
+		F447441620246CC2002964A0 /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F447441420246CC2002964A0 /* FilterCell.xib */; };
+		F447441820246CF5002964A0 /* PhotoEditor+FilterControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447441720246CF5002964A0 /* PhotoEditor+FilterControls.swift */; };
+		F447441A20246E94002964A0 /* FilterDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447441920246E94002964A0 /* FilterDAO.swift */; };
 		F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D11FEA566900AE2FCA /* ESRefreshAnimator.swift */; };
 		F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D21FEA566A00AE2FCA /* ESRefreshComponent.swift */; };
 		F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44939D31FEA566B00AE2FCA /* ESPullToRefresh.swift */; };
@@ -632,6 +636,10 @@
 		F4431AB21FC7044D00311C9A /* ASToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASToast.swift; sourceTree = "<group>"; };
 		F445453A200374DC00ED59C3 /* UITextField+Max.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Max.m"; sourceTree = "<group>"; };
 		F445453B200374DD00ED59C3 /* UITextField+Max.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Max.h"; sourceTree = "<group>"; };
+		F447441320246CC2002964A0 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
+		F447441420246CC2002964A0 /* FilterCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
+		F447441720246CF5002964A0 /* PhotoEditor+FilterControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+FilterControls.swift"; sourceTree = "<group>"; };
+		F447441920246E94002964A0 /* FilterDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDAO.swift; sourceTree = "<group>"; };
 		F44939D11FEA566900AE2FCA /* ESRefreshAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshAnimator.swift; sourceTree = "<group>"; };
 		F44939D21FEA566A00AE2FCA /* ESRefreshComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESRefreshComponent.swift; sourceTree = "<group>"; };
 		F44939D31FEA566B00AE2FCA /* ESPullToRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ESPullToRefresh.swift; sourceTree = "<group>"; };
@@ -1655,6 +1663,7 @@
 				F4431A771FC6DD2900311C9A /* PhotoCropEditorBorder@2x.png */,
 				F4431A781FC6DD2900311C9A /* PhotoCropEditorBorder@3x.png */,
 				F4431A791FC6DD2900311C9A /* PhotoEditor+Controls.swift */,
+				F447441720246CF5002964A0 /* PhotoEditor+FilterControls.swift */,
 				F4431A7A1FC6DD2900311C9A /* PhotoEditor+Crop.swift */,
 				F4431A7B1FC6DD2900311C9A /* PhotoEditor+Drawing.swift */,
 				F4431A7C1FC6DD2900311C9A /* PhotoEditor+Font.swift */,
@@ -1671,6 +1680,8 @@
 				F4431A871FC6DD2900311C9A /* StickersViewController.swift */,
 				F4431A881FC6DD2900311C9A /* StickersViewController.xib */,
 				F4431A891FC6DD2900311C9A /* UIImage+Crop.swift */,
+				F447441320246CC2002964A0 /* FilterCell.swift */,
+				F447441420246CC2002964A0 /* FilterCell.xib */,
 				F4431A8A1FC6DD2900311C9A /* UIImage+Size.swift */,
 				F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */,
 				F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */,
@@ -1756,6 +1767,7 @@
 				F497B3B31FD7EB43006614F2 /* PeopleDAO.swift */,
 				F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */,
 				F49B42982004D964006DD15D /* GiphyDAO.swift */,
+				F447441920246E94002964A0 /* FilterDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2113,6 +2125,7 @@
 				F4FFF913201A07CE00680571 /* TLPhotosPickerViewController.xib in Resources */,
 				F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */,
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
+				F447441620246CC2002964A0 /* FilterCell.xib in Resources */,
 				F4FFF909201A07CE00680571 /* .gitkeep in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
@@ -2515,6 +2528,7 @@
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
 				F43612E11FD69B0E00788FFE /* AGImagePipeline.swift in Sources */,
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
+				F447441A20246E94002964A0 /* FilterDAO.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
@@ -2602,6 +2616,7 @@
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
+				F447441820246CF5002964A0 /* PhotoEditor+FilterControls.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,
@@ -2638,6 +2653,7 @@
 				F4431A971FC6DD2C00311C9A /* GradientView.swift in Sources */,
 				F403765C1FDE9F830007C696 /* Durations.swift in Sources */,
 				F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */,
+				F447441520246CC2002964A0 /* FilterCell.swift in Sources */,
 				F4522CA41FCC1AA50021562D /* Animation.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,

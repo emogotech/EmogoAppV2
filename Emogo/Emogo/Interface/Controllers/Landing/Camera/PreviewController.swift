@@ -127,7 +127,7 @@ class PreviewController: UIViewController {
             }
             if !conten.description.isEmpty {
                 if conten.description.trim().count > 250 {
-                    conten.description = seletedImage.description.trim(count: 250)
+                    conten.description = conten.description.trim(count: 250)
                 }
             }
             conten.isUploaded = false
@@ -241,6 +241,7 @@ class PreviewController: UIViewController {
         btnDone.isUserInteractionEnabled = true
         btnAddStream.isUserInteractionEnabled = true
         self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true

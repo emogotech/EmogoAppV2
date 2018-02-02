@@ -41,6 +41,7 @@ extension CustomCameraViewController {
 
    func captreIn(time:Int) {
         timeSec = time
+     self.lblRecordTimer.text = "00"
       self.disable(isOn:false)
         self.lblRecordTimer.isHidden = false
     timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CustomCameraViewController.countDown)), userInfo: nil, repeats: true)

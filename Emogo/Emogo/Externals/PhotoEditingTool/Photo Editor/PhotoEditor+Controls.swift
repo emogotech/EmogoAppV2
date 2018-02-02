@@ -197,6 +197,7 @@ extension PhotoEditorViewController {
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
         self.isFilterSelected = !self.isFilterSelected
+        self.filterCollectionView.reloadData()
         Animation.viewSlideInFromTopToBottom(views:self.filterView)
         if self.isFilterSelected  {
             hideToolbar(hide: true)
@@ -269,7 +270,7 @@ extension PhotoEditorViewController {
         return img
     }
     
-    @IBAction func btnFilterOptionSelected(_ sender: UIButton) {
+    func btnFilterOptionSelected(index: Int) {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
@@ -278,44 +279,44 @@ extension PhotoEditorViewController {
         self.filterButtonContainer.isHidden = true
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
 
-        switch sender.tag {
-        case 11:
+        switch index {
+        case 0:
           self.selectedItem = self.editingService.adjustmentItems[0]
           self.selectedItem?.reset()
           self.updateSliderForItem(item: self.selectedItem!)
           self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
-        case 22:
+        case 1:
              self.selectedItem = self.editingService.adjustmentItems[1]
              self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem:self.selectedItem!)
             break
-        case 33:
+        case 2:
              self.selectedItem  = self.editingService.adjustmentItems[2]
              self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
             break
-        case 44:
+        case 3:
              self.selectedItem = self.editingService.adjustmentItems[3]
              self.selectedItem?.reset()
              self.updateSliderForItem(item: self.selectedItem!)
              self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
-        case 55:
+        case 4:
             self.selectedItem = self.editingService.adjustmentItems[4]
             self.selectedItem?.reset()
             self.updateSliderForItem(item: self.selectedItem!)
             self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
-        case 66:
+        case 5:
             self.selectedItem = self.editingService.adjustmentItems[5]
             self.selectedItem?.reset()
             self.updateSliderForItem(item: self.selectedItem!)
             self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
             break
-        case 77:
+        case 6:
             self.selectedItem = self.editingService.adjustmentItems[6]
             self.selectedItem?.reset()
             self.updateSliderForItem(item: self.selectedItem!)

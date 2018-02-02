@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.otf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="filterCell" id="gTV-IL-0wX" customClass="FilterCell" customModule="Emogo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yoa-EH-c9a">
+                        <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brigtness-effect-icon" translatesAutoresizingMaskIntoConstraints="NO" id="uWR-Xb-vBK">
+                                <rect key="frame" x="13" y="0.0" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="exU-7p-ovO"/>
+                                    <constraint firstAttribute="width" constant="35" id="fu2-MV-fWI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brightness" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8t-M6-yUG">
+                                <rect key="frame" x="0.0" y="36" width="60" height="13"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="13" id="hF7-Ph-Wak"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="O8t-M6-yUG" secondAttribute="trailing" id="GjO-ey-G8x"/>
+                            <constraint firstAttribute="bottom" secondItem="O8t-M6-yUG" secondAttribute="bottom" constant="1" id="eJo-vo-vg2"/>
+                            <constraint firstItem="uWR-Xb-vBK" firstAttribute="top" secondItem="yoa-EH-c9a" secondAttribute="top" id="mFa-bR-Xzk"/>
+                            <constraint firstItem="O8t-M6-yUG" firstAttribute="leading" secondItem="yoa-EH-c9a" secondAttribute="leading" id="rvS-xM-HhU"/>
+                            <constraint firstItem="uWR-Xb-vBK" firstAttribute="centerX" secondItem="yoa-EH-c9a" secondAttribute="centerX" id="wgW-Y8-XhS"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="yoa-EH-c9a" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="6dw-BF-07w"/>
+                <constraint firstAttribute="trailing" secondItem="yoa-EH-c9a" secondAttribute="trailing" id="E7N-jy-XHP"/>
+                <constraint firstAttribute="bottom" secondItem="yoa-EH-c9a" secondAttribute="bottom" id="HeE-Rm-mit"/>
+                <constraint firstItem="yoa-EH-c9a" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="aEp-lQ-okc"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <connections>
+                <outlet property="imgView" destination="uWR-Xb-vBK" id="f7S-3Q-FHg"/>
+                <outlet property="lblTitle" destination="O8t-M6-yUG" id="0tS-Zk-wiA"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="brigtness-effect-icon" width="41" height="41"/>
+    </resources>
+</document>

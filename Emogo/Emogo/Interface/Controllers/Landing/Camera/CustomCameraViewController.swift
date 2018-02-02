@@ -143,14 +143,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     func prepareNavBarButtons(){
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.clear
+
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
         let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
         navigationItem.hidesBackButton = true
-        
+        self.navigationController?.navigationBar.barTintColor = .clear
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
@@ -212,7 +212,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         if !kBackNav.isEmpty {
             kBackNav = ""
-            ContentList.sharedInstance.objStream = nil
             self.navigationController?.popNormal()
         }
         
