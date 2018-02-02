@@ -531,7 +531,18 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     @objc func btnPlayAction(sender:UIButton){
-        self.openFullView(index: sender.tag)
+        var index : Int = 0
+        if (self.objStream?.canAddContent)! {
+          index   = sender.tag - 1
+        }else {
+            index = sender.tag
+        }
+        
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        let seletedImage = array![index]
+        let videoUrl = URL(string: (seletedImage.coverImage)!)
+        LightboxConfig.handleVideo(self, videoUrl!)
+        
     }
     
     func openFullView(index:Int?){
