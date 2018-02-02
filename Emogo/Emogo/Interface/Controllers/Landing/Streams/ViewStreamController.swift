@@ -227,9 +227,9 @@ class ViewStreamController: UIViewController {
     @objc func btnPlayAction(sender:UIButton){
         if (self.objStream?.canAddContent)! {
             let index = sender.tag - 1
-            self.openFullView(index: index)
+            self.openFullViewForVideo(index: index)
         }else {
-            self.openFullView(index: sender.tag)
+            self.openFullViewForVideo(index: sender.tag)
         }
     }
     
@@ -336,6 +336,14 @@ class ViewStreamController: UIViewController {
         if arrayContents.count != 0 {
             present(controller, animated: true, completion: nil)
         }
+    }
+
+    func openFullViewForVideo(index:Int?){
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        ContentList.sharedInstance.arrayContent = array
+        let seletedImage = ContentList.sharedInstance.arrayContent[index!]
+        let videoUrl = URL(string: (seletedImage.coverImage)!)
+        LightboxConfig.handleVideo(self, videoUrl!)
     }
     
     // MARK: - API Methods

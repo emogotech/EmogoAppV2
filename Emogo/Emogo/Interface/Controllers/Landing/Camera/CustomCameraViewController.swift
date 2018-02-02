@@ -65,6 +65,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         super.viewWillAppear(animated)
         self.hideStatusBar()
         lblRecordTimer.isHidden = true
+        SharedData.sharedInstance.tempVC = self
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
+
         if self.isDismiss == nil {
             if ContentList.sharedInstance.arrayContent.count == 0 {
                 kPreviewHeight.constant = 24.0
@@ -83,6 +88,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        SharedData.sharedInstance.tempVC = nil
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+
         self.showStatusBar()
     }
     
@@ -130,6 +138,26 @@ class CustomCameraViewController: SwiftyCamViewController {
         swipeDown.direction = .down
         self.previewCollection.addGestureRecognizer(swipeDown)
         self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
+    }
+    
+    @objc func stopVideo(){
+          if isRecording {
+            if timer != nil {
+                self.timer.invalidate()
+                self.timeSec = 0
+            }
+            DispatchQueue.main.async {
+                self.lblRecordTimer.isHidden = true
+            }
+            if ContentList.sharedInstance.arrayContent.count > 0 {
+                self.setupButtonWhileRecording(isAddButton: true)
+            }else{
+                self.prepareNavBarButtons()
+            }
+            self.cameraOption.isUserInteractionEnabled = true
+            self.recordButtonTapped(isShow: false)
+            self.performCamera(action: .stop)
+        }
     }
     
     @objc func prepareForCameraMode(){
@@ -305,9 +333,7 @@ class CustomCameraViewController: SwiftyCamViewController {
               configure.usedPrefetch = false
             viewController.configure = configure
             self.present(viewController, animated: true, completion: nil)
-        
     }
-    
     
     
     @IBAction func btnActionShutter(_ sender: Any) {
@@ -454,7 +480,9 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.prepareContainerToPresent()
             }
         }
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        SharedData.sharedInstance.tempVC = nil
+
     }
     
     // MARK: - Class Methods

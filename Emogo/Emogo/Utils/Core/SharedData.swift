@@ -32,6 +32,7 @@ class SharedData: NSObject {
     var peopleInfo:PeopleDAO?
      var contentList:ContentList = ContentList.init()
     var tempViewController : MSMessagesAppViewController?
+    var tempVC  : UIViewController?
     var isPortrate : Bool = true
     
     var keyboardHeightForSignin : CGFloat = 0.0
