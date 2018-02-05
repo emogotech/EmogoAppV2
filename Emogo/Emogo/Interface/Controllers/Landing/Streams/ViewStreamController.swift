@@ -427,7 +427,7 @@ class ViewStreamController: UIViewController {
                         }
                     }
                 }
-                
+                self.showToast(strMSG: kAlert_Stream_Deleted_Success)
                 self.navigationController?.popNormal()
                 //self.prepareList()
             }else {
