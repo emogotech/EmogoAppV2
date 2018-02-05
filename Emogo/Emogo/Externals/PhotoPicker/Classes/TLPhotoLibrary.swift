@@ -198,18 +198,26 @@ extension TLPhotoLibrary {
                     self?.delegate?.loadCameraRollCollection(collection: cameraRoll)
                 }
             }
-            //Selfies
-            getSmartAlbum(subType: .smartAlbumSelfPortraits, result: &assetCollections)
-            //Panoramas
-            getSmartAlbum(subType: .smartAlbumPanoramas, result: &assetCollections)
-            //Favorites
-            getSmartAlbum(subType: .smartAlbumFavorites, result: &assetCollections)
-            //get all another albums
-            getAlbum(subType: .any, result: &assetCollections)
+//            //Selfies
+//            getSmartAlbum(subType: .smartAlbumSelfPortraits, result: &assetCollections)
+//            //Panoramas
+//            getSmartAlbum(subType: .smartAlbumPanoramas, result: &assetCollections)
+//            //Favorites
+//            getSmartAlbum(subType: .smartAlbumFavorites, result: &assetCollections)
+//            //get all another albums
+//            getAlbum(subType: .any, result: &assetCollections)
             if allowedVideo {
                 //Videos
                 getSmartAlbum(subType: .smartAlbumVideos, result: &assetCollections)
             }
+            
+            //Screenshots
+            getSmartAlbum(subType: .smartAlbumScreenshots, result: &assetCollections)
+            //Favorites
+            getSmartAlbum(subType: .smartAlbumFavorites, result: &assetCollections)
+            //get all another albums
+            getAlbum(subType: .any, result: &assetCollections)
+            
             //Album
             let albumsResult = PHCollectionList.fetchTopLevelUserCollections(with: nil)
             albumsResult.enumerateObjects({ (collection, index, stop) -> Void in

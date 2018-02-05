@@ -86,7 +86,10 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vA9-AJ-Ezw">
                                         <rect key="frame" x="146" y="0.0" width="82" height="82"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYL-T1-HWx" customClass="SwiftyCamButton" customModule="SwiftyCam">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RBb-Qr-dQg" customClass="SwiftyRecordButton" customModule="Emogo" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYL-T1-HWx" customClass="SwiftyCamButton" customModule="SwiftyCam">
                                                 <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
                                                 <state key="normal" image="capture-icon"/>
                                             </button>
@@ -94,10 +97,14 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="YYL-T1-HWx" secondAttribute="bottom" id="GaA-5S-xGX"/>
+                                            <constraint firstItem="RBb-Qr-dQg" firstAttribute="top" secondItem="vA9-AJ-Ezw" secondAttribute="top" id="Wtx-zR-6II"/>
+                                            <constraint firstAttribute="bottom" secondItem="RBb-Qr-dQg" secondAttribute="bottom" id="Xq3-98-awM"/>
+                                            <constraint firstItem="RBb-Qr-dQg" firstAttribute="leading" secondItem="vA9-AJ-Ezw" secondAttribute="leading" id="dly-hj-AtQ"/>
                                             <constraint firstAttribute="trailing" secondItem="YYL-T1-HWx" secondAttribute="trailing" id="sWP-sD-sPy"/>
                                             <constraint firstAttribute="width" constant="82" id="u6d-9g-Gav"/>
                                             <constraint firstItem="YYL-T1-HWx" firstAttribute="leading" secondItem="vA9-AJ-Ezw" secondAttribute="leading" id="uvA-ta-Q8M"/>
                                             <constraint firstItem="YYL-T1-HWx" firstAttribute="top" secondItem="vA9-AJ-Ezw" secondAttribute="top" id="vt2-am-pyQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="RBb-Qr-dQg" secondAttribute="trailing" id="z5z-hc-f9T"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="ZP4-FX-AB7">
@@ -280,15 +287,16 @@
                         <viewLayoutGuide key="safeArea" id="2jn-Ce-XYB"/>
                     </view>
                     <connections>
-                        <outlet property="btnCamera" destination="YYL-T1-HWx" id="xOy-mo-jh9"/>
+                        <outlet property="btnCamera" destination="RBb-Qr-dQg" id="BIK-Fj-29P"/>
+                        <outlet property="btnCameraSwitch" destination="dzE-wF-npS" id="9l7-gv-EM8"/>
                         <outlet property="btnFlash" destination="SeD-lR-VDE" id="xhL-Pz-AwL"/>
                         <outlet property="btnFlashAuto" destination="Uwj-jT-WKh" id="Mok-7G-7DN"/>
                         <outlet property="btnFlashOff" destination="OMC-XF-89e" id="6rv-re-gws"/>
                         <outlet property="btnFlashOn" destination="BJN-rX-A9K" id="QqZ-Cf-uJB"/>
                         <outlet property="btnGallery" destination="NaH-8y-x67" id="cFX-eH-GD2"/>
                         <outlet property="btnPreviewOpen" destination="K8V-sK-6fv" id="hNr-xL-USV"/>
-                        <outlet property="btnRecording" destination="dzE-wF-npS" id="0Qh-Up-afC"/>
                         <outlet property="btnTimer" destination="ktU-Wk-HJO" id="7no-gt-QOk"/>
+                        <outlet property="cameraButtonContainer" destination="vA9-AJ-Ezw" id="GnT-Zj-QY2"/>
                         <outlet property="cameraModeOptions" destination="d9x-mn-oya" id="gy4-SO-PRf"/>
                         <outlet property="kPreviewHeight" destination="7PC-vg-6WQ" id="gO8-Aj-GIb"/>
                         <outlet property="lblRecordTimer" destination="q1G-sv-mO2" id="daD-0a-G9l"/>

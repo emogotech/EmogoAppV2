@@ -97,28 +97,28 @@ extension CustomCameraViewController {
     
     // MARK: - Record Button Status
 
-    func recordButtonTapped(isShow:Bool){
-        isCaptureMode = false
-        self.isRecording = true
-        self.btnGallery.isHidden = isShow
-        self.btnRecording.isHidden = isShow
-        self.btnFlash.isHidden = isShow
-        self.btnTimer.isHidden = isShow
-        prepareNavBarButtons()
-        if isShow == true {
-            self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
-        }else {
-            self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
-            isCaptureMode = true
-        }
-    }
+//    func recordButtonTapped(isShow:Bool){
+//        isCaptureMode = false
+//        self.isRecording = true
+//        self.btnGallery.isHidden = isShow
+//        self.btnRecording.isHidden = isShow
+//        self.btnFlash.isHidden = isShow
+//        self.btnTimer.isHidden = isShow
+//        prepareNavBarButtons()
+//        if isShow == true {
+//            self.btnCamera.setImage(#imageLiteral(resourceName: "video_play"), for: .normal)
+//        }else {
+//            self.btnCamera.setImage(#imageLiteral(resourceName: "capture-icon"), for: .normal)
+//            isCaptureMode = true
+//        }
+//    }
     
     // MARK: -  Update Buttons
 
     func updateButtonStatus(isEnable:Bool) {
         self.btnCamera.isUserInteractionEnabled = isEnable
         self.btnGallery.isUserInteractionEnabled = isEnable
-        self.btnRecording.isUserInteractionEnabled = isEnable
+//        self.btnRecording.isUserInteractionEnabled = isEnable
         self.btnTimer.isUserInteractionEnabled = isEnable
     }
     
@@ -170,7 +170,7 @@ extension CustomCameraViewController {
     func disable(isOn:Bool) {
     self.btnFlash.isUserInteractionEnabled = isOn
     self.btnCamera.isUserInteractionEnabled = isOn
-    self.btnRecording.isUserInteractionEnabled = isOn
+//    self.btnRecording.isUserInteractionEnabled = isOn
     self.btnGallery.isUserInteractionEnabled = isOn
     self.btnTimer.isUserInteractionEnabled = isOn
     }

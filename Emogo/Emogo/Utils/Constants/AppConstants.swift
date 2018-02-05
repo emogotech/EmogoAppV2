@@ -42,7 +42,7 @@ var kShowRetake = ""
 // Selected Tag For Container
 var currentTag = 111
 
-var currentStreamType:StreamType! = .featured
+var currentStreamType:StreamType! =  .myStream  //.featured
 
 
 var arraySelectedContent:[ContentDAO]?

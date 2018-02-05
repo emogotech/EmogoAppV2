@@ -462,6 +462,7 @@ class ProfileViewController: UIViewController {
         cameraViewController.isDismiss = true
         cameraViewController.delegate = self
         cameraViewController.isFromProfie = true
+        ContentList.sharedInstance.arrayContent.removeAll()
         let nav = UINavigationController(rootViewController: cameraViewController)
         self.present(nav, animated: true, completion: nil)
         
