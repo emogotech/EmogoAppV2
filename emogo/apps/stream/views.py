@@ -137,7 +137,7 @@ class DeleteStreamContentAPI(DestroyAPIView):
         serializer = self.get_serializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.delete_content()
-        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+        return custom_render_response(status_code=status.HTTP_200_OK, data=None)
 
 
 class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
