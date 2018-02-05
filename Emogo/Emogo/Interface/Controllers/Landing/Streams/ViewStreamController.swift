@@ -141,6 +141,7 @@ class ViewStreamController: UIViewController {
         self.navigationItem.leftBarButtonItem = btnback
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
+            
             if ContentList.sharedInstance.objStream != nil {
                 self.isUpload  = true
                 for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
@@ -155,7 +156,20 @@ class ViewStreamController: UIViewController {
             }
         }
         if isRefresh {
-            self.updateLayOut()
+            if ContentList.sharedInstance.objStream != nil {
+                self.isUpload  = true
+                for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
+                    let streams = StreamList.sharedInstance.arrayViewStream[v]
+                    if streams.ID == ContentList.sharedInstance.objStream {
+                        self.currentIndex = v
+                        self.perform(#selector(self.updateLayOut), with: nil, afterDelay: 0.1)
+                        break
+                    }
+                }
+                ContentList.sharedInstance.objStream = nil
+            }else{
+                self.updateLayOut()
+        }
         }
     }
     
@@ -215,10 +229,8 @@ class ViewStreamController: UIViewController {
     
     @objc  func btnCancelAction(){
         if viewStream == nil {
-            self.navigationController?.pop()
-
-//            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
-//            self.navigationController?.popToViewController(vc: obj)
+            let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+            self.navigationController?.popToViewController(vc: obj)
         }else {
             self.navigationController?.pop()
         }
