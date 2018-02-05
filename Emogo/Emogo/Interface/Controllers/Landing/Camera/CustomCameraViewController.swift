@@ -49,6 +49,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     var isDismiss:Bool?
     var cameraMode:CameraMode! = .normal
     
+    var isFromProfie    :   Bool?
+    
     var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
     
     // MARK: - Override Functions
@@ -79,6 +81,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         prepareNavBarButtons()
         print(isSessionRunning)
+        
+        if self.isFromProfie == true {
+            self.cameraModeOptions.isHidden = true
+        }
+        
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -743,15 +750,24 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
     func swipeBackDelegate() {
+        if self.isFromProfie == true {
+            return
+        }
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.popNormal()
     }
     func swipeUpDelegate() {
+        if self.isFromProfie == true {
+            return
+        }
         if ContentList.sharedInstance.arrayContent.count > 0{
             self.animateView()
         }
     }
     func swipeDownDelegate() {
+        if self.isFromProfie == true {
+            return
+        }
         self.animateView()
     }
 }
