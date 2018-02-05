@@ -142,17 +142,23 @@ class ViewStreamController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
-            if ContentList.sharedInstance.objStream != nil {
+            print("prepareNavigation iin view controller")
+
+            if let data = notification.userInfo?["data"] as? [String] {
+                print(data)
                 self.isUpload  = true
                 for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
                     let streams = StreamList.sharedInstance.arrayViewStream[v]
-                    if streams.ID == ContentList.sharedInstance.objStream {
-                        self.currentIndex = v
-                        self.perform(#selector(self.updateLayOut), with: nil, afterDelay: 0.1)
-                        break
+                    for dataIDs in data {
+                        if streams.ID == dataIDs {
+                            self.currentIndex = v
+                               self.perform(#selector(self.updateLayOut), with: nil, afterDelay: 0.1)
+                            break
+                        }
                     }
+                    ContentList.sharedInstance.objStream = nil
                 }
-                ContentList.sharedInstance.objStream = nil
+                
             }
         }
         if isRefresh {
