@@ -208,11 +208,13 @@ class UserSteams(ListAPIView):
         if request.data.get('user_id') is not None:
             userProfile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
             kwargs['created_by'] = userProfile.user
+            current_user = userProfile.user
         else:
             kwargs['created_by'] = self.request.user
+            current_user = self.request.user
 
         stream_queryset = Stream.actives.filter(**kwargs).order_by('-id')
-        collaborator_qs = Collaborator.actives.all()
+        collaborator_qs = Collaborator.actives.filter(created_by=current_user)
         collaborator_permission = [x.stream for x in collaborator_qs if
                                    str(x.phone_number) in str(self.request.user) and x.stream.status == 'Active']
 
