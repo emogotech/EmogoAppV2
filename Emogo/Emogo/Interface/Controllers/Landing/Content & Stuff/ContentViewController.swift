@@ -137,11 +137,18 @@ class ContentViewController: UIViewController {
     func prepareNavBarButtons(){
         
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.barTintColor = .clear
+//        self.navigationController?.navigationBar.tintColor = .white
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = .clear
+        self.navigationController?.view.backgroundColor = UIColor.clear
         self.navigationController?.navigationBar.tintColor = .white
+        
         let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         self.navigationItem.leftBarButtonItem = btnBack
     }
