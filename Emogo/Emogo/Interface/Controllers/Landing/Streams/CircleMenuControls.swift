@@ -40,10 +40,20 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
+            let last = lastIndex
+          
             lastIndex = index
+            
             self.navigateToSelectedItem(index:index,isSelect:true)
             UIView.animate(withDuration: 0.7, animations: {
+                if last > index {
+                    Animation.addLeftTransitionCollection(imgV: self.streamCollectionView)
+                }
+                else{
+                    Animation.addRightTransitionCollection(imgV: self.streamCollectionView)
+                }
                 self.changeCellImageAnimationt(index, pagerView: pagerView,isSelect:true)
+                
             })
         }
         pagerView.scrollToItem(at: index, animated: true)
@@ -51,11 +61,20 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         if(lastIndex != pagerView.currentIndex) {
-            lastIndex = pagerView.currentIndex
-            self.navigateToSelectedItem(index:pagerView.currentIndex,isSelect:true)
+            let last = lastIndex
             UIView.animate(withDuration: 0.7, animations: {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView,isSelect: false)
+                print(last)
+                print(pagerView.currentIndex)
+                if last > pagerView.currentIndex {
+                    Animation.addLeftTransitionCollection(imgV: self.streamCollectionView)
+                }
+                else{
+                    Animation.addRightTransitionCollection(imgV: self.streamCollectionView)
+                }
             })
+            lastIndex = pagerView.currentIndex
+            self.navigateToSelectedItem(index:pagerView.currentIndex,isSelect:true)
         }
     }
     

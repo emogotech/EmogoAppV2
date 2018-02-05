@@ -382,9 +382,9 @@ class AWSRequestManager:NSObject {
             return
         }
         APIServiceManager.sharedInstance.apiForContentAddOnStream(contentID: IDs, streams: streamID) { (isSuccess, errorMsg) in
-
             if (errorMsg?.isEmpty)! {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil)
+            let dictData:[String: [String]] = ["data": streamID]
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, userInfo: dictData)
                 self.showToast(strMSG: kAlert_contenAddedToStream)
                 completion(true,"")
             }else {
