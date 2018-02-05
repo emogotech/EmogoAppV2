@@ -754,7 +754,7 @@ class ContentViewController: UIViewController {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
                 }else {
-                    let url = URL(string: obj.coverImage)
+                    let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
                     image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
