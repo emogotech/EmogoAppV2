@@ -146,6 +146,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
         // Configure record and capture Button
+        
+        if self.isFromProfie == true {
+            self.btnCamera.gestureRecognizers?.removeAll()
+        }
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(captureModeTap(_:)))
         tapGesture.numberOfTapsRequired = 1
         btnCamera.addGestureRecognizer(tapGesture)
@@ -156,11 +161,13 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
         // Camera Options
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
-        swipeDown.direction = .down
-        self.previewCollection.addGestureRecognizer(swipeDown)
-        self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
+        if self.isFromProfie != true {
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
+            swipeDown.direction = .down
+            self.previewCollection.addGestureRecognizer(swipeDown)
+            self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
+        }
+
     }
     
     @objc func stopVideo(){
