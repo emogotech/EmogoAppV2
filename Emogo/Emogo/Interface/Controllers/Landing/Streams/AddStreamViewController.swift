@@ -342,6 +342,7 @@ class AddStreamViewController: UITableViewController {
         let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         cameraViewController.isDismiss = true
         cameraViewController.delegate = self
+        cameraViewController.isForImageOnly = true
         let nav = UINavigationController(rootViewController: cameraViewController)
         self.present(nav, animated: true, completion: nil)
         

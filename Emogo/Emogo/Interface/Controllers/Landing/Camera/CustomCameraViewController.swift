@@ -55,7 +55,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     var isDismiss:Bool?
     var cameraMode:CameraMode! = .normal
     
-    var isFromProfie    :   Bool?
+    var isForImageOnly    :   Bool?
     
     var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
     
@@ -88,7 +88,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         prepareNavBarButtons()
         print(isSessionRunning)
         
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             self.cameraModeOptions.isHidden = true
         }
         
@@ -147,7 +147,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         // Configure record and capture Button
         
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             self.btnCamera.gestureRecognizers?.removeAll()
         }
         
@@ -161,7 +161,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
         // Camera Options
-        if self.isFromProfie != true {
+        if self.isForImageOnly != true {
             let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.swipeGestureAction(gesture:)))
             swipeDown.direction = .down
             self.previewCollection.addGestureRecognizer(swipeDown)
@@ -196,6 +196,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
          self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
+        self.cameraOption.textFont = UIFont(name: kFontRegular, size: 16.0)
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
@@ -339,7 +340,9 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
                 //     self?.selectedAssets = assets
+            if assets.count > 0 {
                 self?.preparePreview(assets: assets)
+            }
                 }, didCancel: nil)
             viewController.didExceedMaximumNumberOfSelection = { (picker) in
                 //exceed max selection
@@ -743,7 +746,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             return
         }
         
@@ -766,7 +769,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called
         // Called if a SwiftyCamButton ends a long press gesture
         
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             return
         }
         
@@ -786,7 +789,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
         
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             return
         }
         
@@ -821,14 +824,14 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
     func swipeBackDelegate() {
-        if self.isFromProfie == true || isRecording == true{
+        if self.isForImageOnly == true || isRecording == true{
             return
         }
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.popNormal()
     }
     func swipeUpDelegate() {
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             return
         }
         if ContentList.sharedInstance.arrayContent.count > 0{
@@ -836,10 +839,12 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         }
     }
     func swipeDownDelegate() {
-        if self.isFromProfie == true {
+        if self.isForImageOnly == true {
             return
         }
-        self.animateView()
+        if ContentList.sharedInstance.arrayContent.count > 0{
+            self.animateView()
+        }
     }
 }
 

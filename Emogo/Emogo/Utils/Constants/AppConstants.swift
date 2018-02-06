@@ -49,10 +49,10 @@ var arraySelectedContent:[ContentDAO]?
 var arrayAssests:[ImportDAO]?
 
 // MARK: -  FONT'S
-let kFontRegular = "SF Pro Display Regular"
-let kFontMedium = "SF Pro Display Medium"
-let kFontLight = "SF Pro Display Light"
-let kFontBold = "SF Pro Display Bold"
+let kFontRegular = "SFProDisplay-Regular"
+let kFontMedium = "SFProDisplay-Medium"
+let kFontLight = "SFProDisplay-Light"
+let kFontBold = "SFProDisplay-Bold"
 
 let kPlaceholderImage = "stream-card-placeholder"
 

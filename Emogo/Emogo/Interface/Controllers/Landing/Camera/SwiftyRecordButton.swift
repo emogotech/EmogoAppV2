@@ -55,7 +55,11 @@ class SwiftyRecordButton: SwiftyCamButton {
         
         UIView.animate(withDuration: 0.6, delay: 0.0, options: .curveEaseOut, animations: {
             self.innerCircle.transform = CGAffineTransform(scaleX: 62.4, y: 62.4)
-            self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.352, y: 1.352))
+            
+//            self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.352, y: 1.352))
+            
+            self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.2, y: 1.2))
+
             self.circleBorder.borderWidth = (6 / 1.352)
             
         }, completion: nil)
