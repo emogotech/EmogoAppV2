@@ -199,6 +199,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         self.cameraModeOptions.addSubview(self.cameraOption)
     }
     
+    
     func prepareNavBarButtons(){
         self.navigationController?.isNavigationBarHidden = false
 
@@ -428,7 +429,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
          if gesture.direction == .down {
-            self.animateView()
+            if ContentList.sharedInstance.arrayContent.count > 0{
+                self.animateView()
+            }
         }
     }
     
@@ -448,7 +451,17 @@ class CustomCameraViewController: SwiftyCamViewController {
                     self.performCamera(action: .timer)
                     self.btnCamera.isUserInteractionEnabled = false
                 }else {
-                    self.performCamera(action: .capture)
+                    
+                    isRecording = true
+                    self.lblRecordTimer.text = "00:00:00"
+                    self.timeSec = 0
+                    self.lblRecordTimer.isHidden = false
+                    self.performCamera(action: .recording)
+                    self.cameraOption.isUserInteractionEnabled = false
+                    //            self.recordButtonTapped(isShow: true)
+                    setupButtonWhileRecording(isAddButton: false)
+                    
+//                    self.performCamera(action: .capture)
                 }
             }
         }else {
@@ -808,7 +821,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
     func swipeBackDelegate() {
-        if self.isFromProfie == true {
+        if self.isFromProfie == true || isRecording == true{
             return
         }
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
@@ -886,4 +899,12 @@ extension CustomCameraViewController:CropViewControllerDelegate {
         }
     }
 }
+
+//extension CustomCameraViewController : RS3DSegmentedControlDelegate{
+//
+//    func didSelectSegment(at segmentIndex: UInt, segmentedControl: RS3DSegmentedControl!) {
+//        <#code#>
+//    }
+//
+//}
 

@@ -208,13 +208,39 @@ extension CustomCameraViewController:RS3DSegmentedControlDelegate {
         switch Int(segmentIndex) {
         case 0:
             self.cameraMode = .normal
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.btnGallery.alpha    =   1.0
+                self.btnTimer.alpha      =   1.0
+            }, completion: { (success) in
+                self.btnGallery.isHidden    =   false
+                self.btnTimer.isHidden      =   false
+            })
+            
             break
         case 1:
             self.cameraMode = .handFree
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.btnGallery.alpha    =   0.0
+                self.btnTimer.alpha      =   0.0
+            }, completion: { (success) in
+                self.btnGallery.isHidden    =   true
+                self.btnTimer.isHidden      =   true
+            })
+            
             break
         default:
             self.cameraMode = .normal
-
+            
+            UIView.animate(withDuration: 0.2, animations: {
+                self.btnGallery.alpha    =   1.0
+                self.btnTimer.alpha      =   1.0
+            }, completion: { (success) in
+                self.btnGallery.isHidden    =   false
+                self.btnTimer.isHidden      =   false
+            })
+            
         }
     }
     
