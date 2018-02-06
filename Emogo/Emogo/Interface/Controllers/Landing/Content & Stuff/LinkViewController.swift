@@ -201,8 +201,12 @@ class LinkViewController: UIViewController {
     // MARK: - API Methods
     
     func getMyLinks(type:RefreshType){
-        if type == .start || type == .up {
+        if type == .start  {
             HUDManager.sharedInstance.showHUD()
+            ContentList.sharedInstance.arrayLink.removeAll()
+            self.linkCollectionView.reloadData()
+        }
+        if type == .up  {
             ContentList.sharedInstance.arrayLink.removeAll()
             self.linkCollectionView.reloadData()
         }
