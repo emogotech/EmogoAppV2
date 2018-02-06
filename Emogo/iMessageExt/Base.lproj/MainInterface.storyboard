@@ -108,6 +108,7 @@
                     </view>
                     <connections>
                         <outlet property="container" destination="A4k-aW-adS" id="jHo-1p-vjy"/>
+                        <outlet property="imgBackground" destination="7ZX-9M-u3G" id="8Pg-An-owK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X47-rx-isc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2829,7 +2830,7 @@ Cg
         <image name="next-icon" width="8" height="14"/>
         <image name="play_button" width="30" height="30"/>
         <image name="search_icon_iphone" width="13" height="13"/>
-        <image name="send-icon" width="50" height="50"/>
+        <image name="send-icon" width="80" height="80"/>
         <image name="share-icon" width="21" height="19"/>
         <image name="sign-in-btn" width="160" height="53"/>
         <image name="sign-up-btn" width="160" height="53"/>

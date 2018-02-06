@@ -33,7 +33,6 @@ class LinkViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        ContentList.sharedInstance.arrayContent.removeAll()
         self.configureNavigationWithTitle()
     }
     
@@ -44,6 +43,8 @@ class LinkViewController: UIViewController {
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self
         linkCollectionView.alwaysBounceVertical = true
+        ContentList.sharedInstance.arrayContent.removeAll()
+
         self.getMyLinks(type:.start)
         
         // Load More
@@ -72,9 +73,13 @@ class LinkViewController: UIViewController {
     @IBAction func btnConfirmActiion(_ sender: Any) {
         self.view.endEditing(true)
         if  ContentList.sharedInstance.arrayContent.count != 0 {
-            let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-            objPreview.isShowRetake = true
-            self.navigationController?.push(viewController: objPreview)
+            if (txtLink.text?.trim().isEmpty)! {
+                let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                objPreview.isShowRetake = true
+                self.navigationController?.push(viewController: objPreview)
+            }else{
+                self.smartURLFetchData()
+            }
             return
         }
         if (txtLink.text?.trim().isEmpty)! {
@@ -84,7 +89,10 @@ class LinkViewController: UIViewController {
             self.showToast(strMSG: "Enter valid url.")
             return
         }
-            
+    }
+    
+    
+    func smartURLFetchData(){
         if let smartUrl = txtLink.text?.trim().smartURL() {
             if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
                 HUDManager.sharedInstance.showHUD()
@@ -122,8 +130,6 @@ class LinkViewController: UIViewController {
                                         imgUrl = imageUrl as! String
                                     }
                                 }
-
-                            
                                 if imgUrl.isEmpty {
                                     let imageUrl1 = result[SwiftLinkResponseKey.images]
                                     if let imageUrl = imageUrl1 {
@@ -133,14 +139,14 @@ class LinkViewController: UIViewController {
                                         }
                                     }
                                 }
-
+                                
                                 if imgUrl.isEmpty {
                                     let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
                                     let url:String = (imageUrl1 as! URL).absoluteString.trim().slice(from: "?imgurl=", to: "&imgrefurl")!
                                     print(url)
                                     imgUrl = url
-                                    }
-
+                                }
+                                
                                 if !imgUrl.trim().isEmpty {
                                     SharedData.sharedInstance.downloadFile(strURl:  imgUrl.trim(), handler: { (image,_) in
                                         if let img =  image {
@@ -150,22 +156,17 @@ class LinkViewController: UIViewController {
                                         content.coverImageVideo = imgUrl.trim()
                                         content.imgPreview = nil
                                         self.createContentForExtractedData(content: content)
-
                                     })
-                                    
                                 }
                                 if imgUrl.isEmpty {
                                     content.coverImageVideo = imgUrl.trim()
                                     self.createContentForExtractedData(content: content)
                                 }
-                                
-
                 },
                             onError: {
                                 error in print("\(error)")
                                 HUDManager.sharedInstance.hideHUD()
                                 self.showToast(strMSG: error.localizedDescription )
-
                 })
                 
             }else{
@@ -177,13 +178,18 @@ class LinkViewController: UIViewController {
         }
     }
     
-    
     // MARK: - Class Methods
 
     
     func createContentForExtractedData(content:ContentDAO){
         HUDManager.sharedInstance.hideHUD()
-        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+      if  ContentList.sharedInstance.arrayContent.count > 0 {
+            ContentList.sharedInstance.arrayContent.append(content)
+            
+        }else{
+            ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        }
+        
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             objPreview.isShowRetake = true

@@ -13,10 +13,9 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var container: UIView!
-    
+    @IBOutlet weak var imgBackground : UIImageView!
     // MARK: - Variables
     var hudView: LoadingView!
-    
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,9 +205,11 @@ class MessagesViewController: MSMessagesAppViewController {
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         if(presentationStyle == .expanded) {
             SharedData.sharedInstance.isMessageWindowExpand = true
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }
         else {
             SharedData.sharedInstance.isMessageWindowExpand = false
+             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
         }
         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Screen_Size), object: nil)
     }
