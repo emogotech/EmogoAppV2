@@ -280,14 +280,24 @@ extension UIViewController {
     
     func showToast(type:AlertType = .success,strMSG:String) {
         if strMSG != "request failed" {
-            self.view.makeToast(message: strMSG,
-                                duration: TimeInterval(3.0),
-                                position: .top,
-                                image: nil,
-                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                titleColor: UIColor.yellow,
-                                messageColor: UIColor.white,
-                                font: nil)
+            
+            AppDelegate.appDelegate.window?.makeToast(message: strMSG,
+                                                     duration: TimeInterval(3.0),
+                                                     position: .top,
+                                                     image: nil,
+                                                     backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                                                     titleColor: UIColor.yellow,
+                                                     messageColor: UIColor.white,
+                                                     font: nil)
+            
+//            self.view.makeToast(message: strMSG,
+//                                duration: TimeInterval(3.0),
+//                                position: .top,
+//                                image: nil,
+//                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
+//                                titleColor: UIColor.yellow,
+//                                messageColor: UIColor.white,
+//                                font: nil)
         }
        
     }

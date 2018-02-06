@@ -42,7 +42,7 @@ var kShowRetake = ""
 // Selected Tag For Container
 var currentTag = 111
 
-var currentStreamType:StreamType! = .featured
+var currentStreamType:StreamType! =  .myStream  //.featured
 
 
 var arraySelectedContent:[ContentDAO]?
@@ -262,6 +262,7 @@ let kAlert_User_Name_Alreay_Exists_Msg                                       = "
 let kAlert_Network_ErrorMsg                                               = "We are unable to connect. Please check your internet connection!"
 let kAlert_Stream_Added_Success                                            = "Stream added successfully."
 let kAlert_Stream_Cover_Empty                                              = "Please select an image to be your stream cover."
+let kAlert_Stream_Deleted_Success                           =           "Stream Deleted Successfully!"
 let kAlert_Stream_Colab_Empty                                              = "Please select at least one collaborator."
 let kAlert_Invalid_User_Space_Msg                                           = "Usernames can't contain spaces. Sorry!"
 let kAlert_Terms_Condition_Msg                                           = "Accept Terms And Condition."

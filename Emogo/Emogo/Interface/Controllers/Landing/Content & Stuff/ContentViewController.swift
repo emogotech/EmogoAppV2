@@ -137,11 +137,18 @@ class ContentViewController: UIViewController {
     func prepareNavBarButtons(){
         
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.barTintColor = .clear
+//        self.navigationController?.navigationBar.tintColor = .white
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = .clear
+        self.navigationController?.view.backgroundColor = UIColor.clear
         self.navigationController?.navigationBar.tintColor = .white
+        
         let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         self.navigationItem.leftBarButtonItem = btnBack
     }
@@ -754,7 +761,7 @@ class ContentViewController: UIViewController {
                 if obj.imgPreview != nil {
                     image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
                 }else {
-                    let url = URL(string: obj.coverImage)
+                    let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
                     image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
                 }
