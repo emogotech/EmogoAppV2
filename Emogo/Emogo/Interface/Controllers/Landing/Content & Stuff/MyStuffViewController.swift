@@ -43,7 +43,7 @@ class MyStuffViewController: UIViewController {
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         
-        btnNext.isUserInteractionEnabled = false
+//        btnNext.isUserInteractionEnabled = false
         ContentList.sharedInstance.arrayContent.removeAll()
         // Attach datasource and delegate
 
