@@ -75,6 +75,12 @@ class MessagesViewController: MSMessagesAppViewController {
         DispatchQueue.main.async {
             self.hudView.startLoaderWithAnimation()
         }
+        
+        if  SharedData.sharedInstance.isMessageWindowExpand {
+            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+        }else{
+            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,6 +118,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout()  {
+        imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         SharedData.sharedInstance.tempViewController = nil
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()

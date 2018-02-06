@@ -82,6 +82,7 @@ class LinkViewController: UIViewController {
             }
             return
         }
+        self.smartURLFetchData()
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
             return
