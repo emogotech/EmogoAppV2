@@ -169,6 +169,7 @@
 		F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F431185C202B7F71006139F7 /* filterMenuItem_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */; };
 		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
 		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
@@ -547,6 +548,7 @@
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
+		F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterMenuItem_icon@3x.png"; sourceTree = "<group>"; };
 		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F433EDA320174160004FEB93 /* StreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamViewHeader.xib; sourceTree = "<group>"; };
@@ -1665,6 +1667,7 @@
 				F44FFC9E1FD01FE800F14469 /* Montserrat-Regular.otf */,
 				F4431A771FC6DD2900311C9A /* PhotoCropEditorBorder@2x.png */,
 				F4431A781FC6DD2900311C9A /* PhotoCropEditorBorder@3x.png */,
+				F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */,
 				F4431A791FC6DD2900311C9A /* PhotoEditor+Controls.swift */,
 				F447441720246CF5002964A0 /* PhotoEditor+FilterControls.swift */,
 				F4431A7A1FC6DD2900311C9A /* PhotoEditor+Crop.swift */,
@@ -2123,6 +2126,7 @@
 				F4431AAC1FC6DD2C00311C9A /* StickersViewController.xib in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */,
+				F431185C202B7F71006139F7 /* filterMenuItem_icon@3x.png in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,

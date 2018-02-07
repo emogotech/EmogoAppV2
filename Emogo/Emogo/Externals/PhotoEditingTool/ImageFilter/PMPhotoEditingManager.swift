@@ -19,6 +19,9 @@ enum FilterType:String {
     case sharpen = "sharpen"
     case warmth = "warmth"
     case cancel  = "cancel"
+    case gradientMask  = "gradientMask"
+
+    
 }
 
 class PMPhotoEditingManager: NSObject {
@@ -31,6 +34,22 @@ class PMPhotoEditingManager: NSObject {
                     PMEditingModel.blurItem(),
                     PMEditingModel.saturationItem(),PMEditingModel.sharpenItem(),PMEditingModel.structureItem(),PMEditingModel.warmthItem()]
     }()
+    
+    var selectedGradientFilterItem : PMGradientFilterItemModel? = nil
+
+    
+    
+    lazy var gradientFilterItems : [PMGradientFilterItemModel] =
+        {
+            var items = [PMGradientFilterItemModel]()
+            
+            for i in 0...6
+            {
+                items.append(PMGradientFilterItemModel.createWithName(name: ("filter_gradient_\(i+1)")))
+            }
+            return items
+    }()
+    
 
     var defaultImage                             : UIImage? = nil
     var tempAdjustmentImage                      : UIImage? = nil
@@ -135,6 +154,24 @@ class PMPhotoEditingManager: NSObject {
         guard let mainImage = self.applyFilters() else {
             return UIImage()
         }
+        guard let gradientImage = self.selectedGradientFilterItem else {
+            guard let masksImage = editorImage else {
+                return mainImage
+            }
+            let finalMaskImage = UIImage.resizeImage(image: masksImage, targetSize: mainImage.size, alpha: 1.0)
+            return UIImage.combineImages(images: [mainImage, finalMaskImage ])
+        }
+        let finalGradientImage = UIImage.resizeImage(image: AGAppResourcesService.getImage(gradientImage.imageName),
+                                                     targetSize: mainImage.size,
+                                                     alpha: CGFloat(gradientImage.currentValue / 100.0))
+        
+        guard let masksImage = editorImage else {
+            return UIImage.combineImages(images: [mainImage, finalGradientImage])
+        }
+        let finalMaskImage = UIImage.resizeImage(image: masksImage, targetSize: mainImage.size, alpha: 1.0)
+        
+        let posterImage = UIImage.combineImages(images: [mainImage, finalGradientImage, finalMaskImage])
+        
         self.cleanService()
         return mainImage
     }
