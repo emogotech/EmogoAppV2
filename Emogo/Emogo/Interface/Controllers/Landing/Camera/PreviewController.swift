@@ -99,7 +99,7 @@ class PreviewController: UIViewController {
         if selectedIndex == nil {
             selectedIndex = 0
         }
-        
+        self.view.backgroundColor = .black
         self.txtTitleImage.maxLength = 50
         txtDescription.delegate = self
         self.txtDescription.placeholder = "Description"

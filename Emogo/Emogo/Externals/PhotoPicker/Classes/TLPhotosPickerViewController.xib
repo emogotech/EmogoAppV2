@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TLPhotosPickerViewController" customModule="TLPhotoPicker" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TLPhotosPickerViewController" customModule="Emogo" customModuleProvider="target">
             <connections>
                 <outlet property="albumPopView" destination="Jcn-hC-Umh" id="c3n-m9-wfd"/>
                 <outlet property="cancelButton" destination="sqJ-Z7-zxj" id="J6u-hz-ePK"/>
@@ -141,7 +141,7 @@
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="AEv-G6-dRI">
                     <rect key="frame" x="177" y="323" width="20" height="20"/>
                 </activityIndicatorView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jcn-hC-Umh" customClass="TLAlbumPopView" customModule="TLPhotoPicker" customModuleProvider="target">
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jcn-hC-Umh" customClass="TLAlbumPopView" customModule="Emogo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GKD-We-AdT">
@@ -210,7 +210,7 @@
                 <constraint firstItem="Jcn-hC-Umh" firstAttribute="leading" secondItem="Zyk-dI-msE" secondAttribute="leading" id="aY7-Ml-cd3"/>
                 <constraint firstItem="HPm-Vc-F86" firstAttribute="trailing" secondItem="HLR-WT-D3I" secondAttribute="trailing" id="aoA-8G-xDA"/>
                 <constraint firstItem="4gR-Bn-quP" firstAttribute="leading" secondItem="Zyk-dI-msE" secondAttribute="leading" id="kb7-vy-yTu"/>
-                <constraint firstItem="4gR-Bn-quP" firstAttribute="bottom" secondItem="HLR-WT-D3I" secondAttribute="bottom" id="qqE-w2-Tsc"/>
+                <constraint firstItem="4gR-Bn-quP" firstAttribute="bottom" secondItem="Zyk-dI-msE" secondAttribute="bottom" id="qqE-w2-Tsc"/>
                 <constraint firstAttribute="trailing" secondItem="X8O-Gg-slz" secondAttribute="trailing" id="yWV-L2-0f4"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="HLR-WT-D3I"/>
