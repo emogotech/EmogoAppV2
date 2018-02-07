@@ -66,6 +66,7 @@ class ContentViewController: UIViewController {
     // MARK: - PrepareLayout
     
     func prepareLayout() {
+        self.view.backgroundColor = .black
         
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             ContentList.sharedInstance.arrayContent.removeAll()
