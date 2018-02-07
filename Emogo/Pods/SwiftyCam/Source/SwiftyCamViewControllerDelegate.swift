@@ -90,7 +90,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
     func swipeUpDelegate()
     func swipeDownDelegate()
 
-    
+    func forceStopVideoRecordingDelegate()
 }
 
 public extension SwiftyCamViewControllerDelegate {

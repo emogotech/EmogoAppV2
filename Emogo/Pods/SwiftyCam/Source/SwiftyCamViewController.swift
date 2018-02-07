@@ -540,6 +540,18 @@ open class SwiftyCamViewController: UIViewController {
 			}
 		}
 	}
+    
+    public func forceStopRecording(){
+        if self.movieFileOutput?.isRecording == true {
+            self.isVideoRecording = false
+            movieFileOutput!.stopRecording()
+            disableFlash()
+            if currentCamera == .front && flashEnabled == true && flashView != nil {
+                    self.flashView?.removeFromSuperview()
+            }
+            self.cameraDelegate?.forceStopVideoRecordingDelegate()
+        }
+    }
 
 	/**
 
