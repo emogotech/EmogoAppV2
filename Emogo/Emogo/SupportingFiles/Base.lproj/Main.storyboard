@@ -630,7 +630,6 @@
                             <constraint firstItem="otu-8u-hua" firstAttribute="bottom" secondItem="2XJ-PN-EU6" secondAttribute="bottom" id="xkh-yq-wE9"/>
                             <constraint firstItem="OW2-MW-XJQ" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="yNx-fe-bdi"/>
                             <constraint firstItem="3uw-5u-fwC" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="zFZ-2k-lYp"/>
-                            <constraint firstItem="2XJ-PN-EU6" firstAttribute="top" secondItem="otu-8u-hua" secondAttribute="bottom" constant="-647" id="zy9-0M-Rno"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>
