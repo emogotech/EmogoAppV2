@@ -374,7 +374,7 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
             UIApplication.shared.beginIgnoringInteractionEvents()
-          
+             AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
             if self?.isSearch == false {
                 if currentStreamType == .People {
                     self?.getUsersList(type:.up)
@@ -408,7 +408,7 @@ class StreamListViewController: UIViewController {
         
         self.streamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
             
-            
+                 AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
             if self?.isSearch == false {
                 if currentStreamType == .People {
                     self?.getUsersList(type:.down)
@@ -494,6 +494,7 @@ class StreamListViewController: UIViewController {
     
     @IBAction func btnSearchAction(_ sender:UIButton) {
         if btnSearch.tag == 1 {
+            self.view.endEditing(true)
             txtSearch.text = ""
             btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
@@ -526,7 +527,6 @@ class StreamListViewController: UIViewController {
                 self.didTapActionSearch(searchString: (txtSearch.text?.trim())!)
                 self.viewMenu.isHidden = true
                 isSearch = true
-            
             }
         }
         
@@ -588,6 +588,7 @@ class StreamListViewController: UIViewController {
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
+               AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
@@ -616,6 +617,7 @@ class StreamListViewController: UIViewController {
             }
         }
         APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
+               AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
@@ -648,6 +650,7 @@ class StreamListViewController: UIViewController {
  
     func getStream(currentStreamID:String, currentConytentID:String){
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
+               AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
                 if ((allContents?.count)! > 0){
@@ -690,7 +693,7 @@ class StreamListViewController: UIViewController {
             }
         }
         APIServiceManager.sharedInstance.apiForGetPeopleList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
-            
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
             }
@@ -737,7 +740,7 @@ class StreamListViewController: UIViewController {
         }
         
         APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
-            
+               AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             
             if refreshType == .end {
                 self.streamCollectionView.es.noticeNoMoreData()
@@ -831,7 +834,7 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.iMessageNavigation == "" {
             
             APIServiceManager.sharedInstance.apiForSearchStream(strSearch: searchText, type: type, completionHandler: { (refreshType, errorMsg) in
-                
+                   AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
                 if refreshType == .end {
                     self.streamCollectionView.es.noticeNoMoreData()
                 }
