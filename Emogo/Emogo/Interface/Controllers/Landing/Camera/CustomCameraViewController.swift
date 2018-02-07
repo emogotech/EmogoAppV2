@@ -76,7 +76,9 @@ class CustomCameraViewController: SwiftyCamViewController {
         SharedData.sharedInstance.tempVC = self
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.forceStopVideoRecording), name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
+
 
         if self.isDismiss == nil {
             if ContentList.sharedInstance.arrayContent.count == 0 {
@@ -93,6 +95,9 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         
     }
+    
+
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
          btnCamera.delegate = self
@@ -104,6 +109,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         super.viewWillDisappear(animated)
         SharedData.sharedInstance.tempVC = nil
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
 
         self.showStatusBar()
     }
@@ -187,6 +194,23 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.cameraOption.isUserInteractionEnabled = true
 //            self.recordButtonTapped(isShow: false)
             self.performCamera(action: .stop)
+        }
+    }
+    
+    @objc func forceStopVideoRecording(){
+        if isRecording {
+            if timer != nil {
+                self.timer.invalidate()
+                self.timeSec = 0
+            }
+            self.lblRecordTimer.isHidden = true
+            if ContentList.sharedInstance.arrayContent.count > 0 {
+                self.setupButtonWhileRecording(isAddButton: true)
+            }else{
+                self.prepareNavBarButtons()
+            }
+            self.cameraOption.isUserInteractionEnabled = true
+            forceStopRecording()
         }
     }
     
@@ -845,6 +869,19 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         if ContentList.sharedInstance.arrayContent.count > 0{
             self.animateView()
         }
+    }
+    
+    func forceStopVideoRecordingDelegate() {
+        if self.isForImageOnly == true {
+            return
+        }
+        btnCamera.forceShrinkButton()
+        timer.invalidate()
+        self.lblRecordTimer.isHidden = true
+        self.btnFlash.alpha = 1.0
+        self.btnTimer.alpha = 1.0
+        self.btnGallery.alpha = 1.0
+        self.btnCameraSwitch.alpha = 1.0
     }
 }
 

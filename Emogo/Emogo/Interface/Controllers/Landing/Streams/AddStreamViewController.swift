@@ -343,6 +343,7 @@ class AddStreamViewController: UITableViewController {
         cameraViewController.isDismiss = true
         cameraViewController.delegate = self
         cameraViewController.isForImageOnly = true
+        ContentList.sharedInstance.arrayContent.removeAll()
         let nav = UINavigationController(rootViewController: cameraViewController)
         self.present(nav, animated: true, completion: nil)
         

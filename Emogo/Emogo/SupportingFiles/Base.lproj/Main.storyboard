@@ -438,7 +438,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ecZ-93-WDO">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="24"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="JI3-OO-IyN"/>
                                         </constraints>
@@ -451,7 +451,7 @@
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oZ5-WW-Ab8">
                                         <rect key="frame" x="0.0" y="24" width="312" height="105"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="EwW-vM-XQp">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -534,7 +534,7 @@
                                                 </constraints>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="b8e-tR-gJZ" firstAttribute="centerX" secondItem="V6W-xy-EXC" secondAttribute="centerX" id="3zN-XH-TEE"/>
                                             <constraint firstAttribute="width" constant="63" id="O19-CA-v7m"/>
@@ -542,7 +542,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="oZ5-WW-Ab8" firstAttribute="leading" secondItem="xL0-eK-8Ba" secondAttribute="leading" id="2sd-mf-fhy"/>
                                     <constraint firstAttribute="bottom" secondItem="oZ5-WW-Ab8" secondAttribute="bottom" id="8V1-9V-7dm"/>
@@ -561,7 +561,7 @@
                                 <rect key="frame" x="0.0" y="637" width="375" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKb-MD-C7d" userLabel="Add to Stream">
-                                        <rect key="frame" x="122.5" y="0.0" width="130" height="30"/>
+                                        <rect key="frame" x="122" y="0.0" width="131" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="0IZ-vm-pWW"/>
                                             <constraint firstAttribute="height" constant="30" id="Jjr-LF-ZKa"/>
@@ -630,7 +630,6 @@
                             <constraint firstItem="otu-8u-hua" firstAttribute="bottom" secondItem="2XJ-PN-EU6" secondAttribute="bottom" id="xkh-yq-wE9"/>
                             <constraint firstItem="OW2-MW-XJQ" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="yNx-fe-bdi"/>
                             <constraint firstItem="3uw-5u-fwC" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="zFZ-2k-lYp"/>
-                            <constraint firstItem="2XJ-PN-EU6" firstAttribute="top" secondItem="otu-8u-hua" secondAttribute="bottom" constant="-647" id="zy9-0M-Rno"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>

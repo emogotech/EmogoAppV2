@@ -75,4 +75,15 @@ class SwiftyRecordButton: SwiftyCamButton {
             self.innerCircle = nil
         })
     }
+    
+    public func forceShrinkButton(){
+        if self.innerCircle != nil {
+            self.innerCircle.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.0, y: 1.0))
+            self.circleBorder.borderWidth = 6.0
+            self.circleBorder.borderWidth = 6.0
+            self.innerCircle.removeFromSuperview()
+            self.innerCircle = nil
+        }
+    }
 }
