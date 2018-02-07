@@ -1583,7 +1583,7 @@
                                 </cells>
                             </collectionView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Content available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-xh-Pkz">
-                                <rect key="frame" x="107" y="462" width="161" height="21"/>
+                                <rect key="frame" x="101" y="462" width="173.5" height="21"/>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                 <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1592,7 +1592,7 @@
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Hoq-NP-WLS" firstAttribute="trailing" secondItem="9PJ-SQ-ZVY" secondAttribute="trailing" id="4sS-SV-dtW"/>
-                            <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="bottom" secondItem="Hoq-NP-WLS" secondAttribute="bottom" id="Ez2-Da-Y60"/>
+                            <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="bottom" secondItem="eeg-pY-xwP" secondAttribute="bottom" id="Ez2-Da-Y60"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="leading" secondItem="Hoq-NP-WLS" secondAttribute="leading" id="Kgs-fr-tRc"/>
                             <constraint firstItem="vqO-xh-Pkz" firstAttribute="centerX" secondItem="eeg-pY-xwP" secondAttribute="centerX" id="N59-yx-6Ff"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="top" secondItem="Hoq-NP-WLS" secondAttribute="top" id="iT8-5e-GXt"/>
@@ -1655,7 +1655,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="P5j-LL-CEW" firstAttribute="bottom" secondItem="VOu-lS-42J" secondAttribute="bottom" id="1lW-T0-gfc"/>
+                            <constraint firstItem="P5j-LL-CEW" firstAttribute="bottom" secondItem="PPE-VL-Y7Y" secondAttribute="bottom" id="1lW-T0-gfc"/>
                             <constraint firstItem="VOu-lS-42J" firstAttribute="trailing" secondItem="rWm-jY-FGl" secondAttribute="trailing" constant="5" id="7av-wf-Tga"/>
                             <constraint firstItem="rWm-jY-FGl" firstAttribute="centerY" secondItem="PPE-VL-Y7Y" secondAttribute="centerY" id="D78-D6-ZZC"/>
                             <constraint firstItem="P5j-LL-CEW" firstAttribute="top" secondItem="PPE-VL-Y7Y" secondAttribute="top" id="EjS-8V-tAp"/>
@@ -1819,7 +1819,7 @@
                             <constraint firstItem="xtX-4Y-mib" firstAttribute="trailing" secondItem="w8R-Nh-L2j" secondAttribute="trailing" constant="5" id="IKx-Yq-JNK"/>
                             <constraint firstItem="ztU-7O-hvb" firstAttribute="trailing" secondItem="xtX-4Y-mib" secondAttribute="trailing" id="M9d-Qe-Bod"/>
                             <constraint firstItem="w8R-Nh-L2j" firstAttribute="leading" secondItem="xtX-4Y-mib" secondAttribute="leading" constant="5" id="PYv-9i-ifk"/>
-                            <constraint firstItem="ztU-7O-hvb" firstAttribute="bottom" secondItem="xtX-4Y-mib" secondAttribute="bottom" id="mYx-Xs-jv8"/>
+                            <constraint firstItem="ztU-7O-hvb" firstAttribute="bottom" secondItem="uEt-r3-SnI" secondAttribute="bottom" id="mYx-Xs-jv8"/>
                             <constraint firstItem="w8R-Nh-L2j" firstAttribute="centerY" secondItem="uEt-r3-SnI" secondAttribute="centerY" id="rub-l9-hWh"/>
                             <constraint firstItem="ztU-7O-hvb" firstAttribute="leading" secondItem="xtX-4Y-mib" secondAttribute="leading" id="xQL-Jt-NhD"/>
                         </constraints>
@@ -1932,7 +1932,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Huc-Ms-8UN" firstAttribute="bottom" secondItem="v1v-r4-QAu" secondAttribute="bottom" id="2E1-0f-Xh2"/>
+                            <constraint firstItem="Huc-Ms-8UN" firstAttribute="bottom" secondItem="Ud2-OB-vX5" secondAttribute="bottom" id="2E1-0f-Xh2"/>
                             <constraint firstItem="Huc-Ms-8UN" firstAttribute="trailing" secondItem="v1v-r4-QAu" secondAttribute="trailing" id="8sk-Yx-bQ0"/>
                             <constraint firstItem="v1v-r4-QAu" firstAttribute="trailing" secondItem="SMn-dj-icE" secondAttribute="trailing" constant="5" id="AYD-UN-s27"/>
                             <constraint firstItem="SMn-dj-icE" firstAttribute="leading" secondItem="v1v-r4-QAu" secondAttribute="leading" constant="5" id="ITe-gW-J0H"/>
@@ -1966,7 +1966,7 @@
                                 <rect key="frame" x="5" y="173" width="365" height="336"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="56" y="76" width="253" height="48"/>
+                                        <rect key="frame" x="52" y="77" width="261.5" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2003,7 +2003,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DC-Lh-HM0">
-                                        <rect key="frame" x="123" y="296" width="119" height="29"/>
+                                        <rect key="frame" x="121" y="296" width="123" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="WLK-GW-PeV"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="g7l-Qx-35Z"/>
@@ -2042,7 +2042,7 @@
                         <constraints>
                             <constraint firstItem="vpK-AB-xzO" firstAttribute="centerY" secondItem="Yv9-Tc-32c" secondAttribute="centerY" constant="7.5" id="0xl-9q-PSW"/>
                             <constraint firstItem="vpK-AB-xzO" firstAttribute="centerX" secondItem="Yv9-Tc-32c" secondAttribute="centerX" id="6MA-Kh-H9T"/>
-                            <constraint firstItem="CVb-zC-ewD" firstAttribute="bottom" secondItem="cTS-xq-kFH" secondAttribute="bottom" id="8nq-Hi-3kB"/>
+                            <constraint firstItem="CVb-zC-ewD" firstAttribute="bottom" secondItem="Yv9-Tc-32c" secondAttribute="bottom" id="8nq-Hi-3kB"/>
                             <constraint firstItem="CVb-zC-ewD" firstAttribute="leading" secondItem="cTS-xq-kFH" secondAttribute="leading" id="LRk-i4-252"/>
                             <constraint firstItem="CVb-zC-ewD" firstAttribute="trailing" secondItem="cTS-xq-kFH" secondAttribute="trailing" id="Xjd-wZ-sIu"/>
                             <constraint firstItem="CVb-zC-ewD" firstAttribute="top" secondItem="Yv9-Tc-32c" secondAttribute="top" id="rBz-N3-pNd"/>
@@ -2107,14 +2107,14 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-BY-sC0">
-                                        <rect key="frame" x="102.5" y="226" width="160" height="53"/>
+                                        <rect key="frame" x="102.5" y="226" width="160" height="54"/>
                                         <state key="normal" image="done-btn"/>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="8aY-dE-SI1" eventType="touchUpInside" id="ZOe-QP-XJt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exw-Tc-RmJ">
-                                        <rect key="frame" x="108.5" y="296" width="148" height="34"/>
+                                        <rect key="frame" x="110.5" y="297" width="144" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Exw-Tc-RmJ" secondAttribute="height" multiplier="74:17" id="22N-g3-cKx"/>
                                         </constraints>
@@ -2154,7 +2154,7 @@
                             <constraint firstItem="yR2-bZ-IqW" firstAttribute="trailing" secondItem="bve-hk-VEF" secondAttribute="trailing" id="YTv-OY-XEs"/>
                             <constraint firstItem="yR2-bZ-IqW" firstAttribute="top" secondItem="XPm-uv-gAC" secondAttribute="top" id="Zud-gs-T6z"/>
                             <constraint firstItem="bxF-um-NtE" firstAttribute="centerY" secondItem="XPm-uv-gAC" secondAttribute="centerY" id="fQL-lK-kU0"/>
-                            <constraint firstItem="yR2-bZ-IqW" firstAttribute="bottom" secondItem="bve-hk-VEF" secondAttribute="bottom" id="iPx-Sy-O3v"/>
+                            <constraint firstItem="yR2-bZ-IqW" firstAttribute="bottom" secondItem="XPm-uv-gAC" secondAttribute="bottom" id="iPx-Sy-O3v"/>
                             <constraint firstItem="bve-hk-VEF" firstAttribute="trailing" secondItem="bxF-um-NtE" secondAttribute="trailing" constant="5" id="rnk-oK-02x"/>
                             <constraint firstItem="yR2-bZ-IqW" firstAttribute="leading" secondItem="bve-hk-VEF" secondAttribute="leading" id="spi-kt-DY4"/>
                         </constraints>
@@ -2207,7 +2207,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Emogo! What Would you Like to do Next?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="w4s-Dl-PFp">
-                                        <rect key="frame" x="38.5" y="74" width="289" height="48"/>
+                                        <rect key="frame" x="33" y="75" width="300" height="47"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2232,7 +2232,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="4j6-61-jnE" firstAttribute="leading" secondItem="uia-pc-iZx" secondAttribute="leading" id="8yo-Yh-Yum"/>
-                            <constraint firstItem="4j6-61-jnE" firstAttribute="bottom" secondItem="uia-pc-iZx" secondAttribute="bottom" id="Anx-wX-yxP"/>
+                            <constraint firstItem="4j6-61-jnE" firstAttribute="bottom" secondItem="0x2-Pm-ok2" secondAttribute="bottom" id="Anx-wX-yxP"/>
                             <constraint firstItem="4j6-61-jnE" firstAttribute="top" secondItem="0x2-Pm-ok2" secondAttribute="top" id="E3k-ed-j0a"/>
                             <constraint firstItem="vVh-r3-4i3" firstAttribute="centerY" secondItem="0x2-Pm-ok2" secondAttribute="centerY" constant="7.5" id="SRZ-ZO-2Q7"/>
                             <constraint firstItem="uia-pc-iZx" firstAttribute="trailing" secondItem="vVh-r3-4i3" secondAttribute="trailing" constant="5" id="Zlf-i4-bo5"/>
