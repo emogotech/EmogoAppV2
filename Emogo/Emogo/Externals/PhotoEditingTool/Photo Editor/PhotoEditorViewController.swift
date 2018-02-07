@@ -17,6 +17,7 @@ import UIKit
     @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     //To hold the drawings and stickers
     @IBOutlet weak var canvasImageView: UIImageView!
+    @IBOutlet weak var gradientImageView: UIImageView!
 
     @IBOutlet weak var topToolbar: UIView!
     @IBOutlet weak var bottomToolbar: UIView!
@@ -50,6 +51,8 @@ import UIKit
     @IBOutlet weak var filterSliderView: UIView!
     @IBOutlet weak var filterSlider: UISlider!
     @IBOutlet weak var filterButtonContainer: UIView!
+    @IBOutlet weak var gradientButton: UIButton!
+    
 
     public var image: UIImage?
     var imageToFilter:UIImage?
@@ -85,6 +88,7 @@ import UIKit
     var isColorSelected: Bool = false
     var isPencilSelected: Bool = false
     var isFilterSelected: Bool = false
+    var isGradientFilter:Bool! = false
 
     var drawWidth:CGFloat = 5.0
     var stickersViewController: StickersViewController!
@@ -114,6 +118,9 @@ import UIKit
     
         self.setImageView(image: image!)
         filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
+        
+        filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
+
         deleteView.layer.cornerRadius = deleteView.bounds.height / 2
         deleteView.layer.borderWidth = 2.0
         deleteView.layer.borderColor = UIColor.white.cgColor
@@ -138,6 +145,7 @@ import UIKit
         activeTextView?.keyboardAppearance = .dark
         
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+        gradientImageView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

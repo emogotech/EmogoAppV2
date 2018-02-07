@@ -170,6 +170,22 @@
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F431185C202B7F71006139F7 /* filterMenuItem_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */; };
+		F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185E202B8891006139F7 /* filter_gradient_4_icon@3x.png */; };
+		F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185F202B8894006139F7 /* filter_gradient_6_icon@3x.png */; };
+		F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311860202B8899006139F7 /* filter_gradient_6.png */; };
+		F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311861202B889D006139F7 /* filter_gradient_1_icon@3x.png */; };
+		F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311862202B88A2006139F7 /* filter_gradient_2_icon@3x.png */; };
+		F4311871202B88D2006139F7 /* filter_gradient_3_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311863202B88A7006139F7 /* filter_gradient_3_icon@3x.png */; };
+		F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311864202B88AC006139F7 /* filter_gradient_4.png */; };
+		F4311873202B88D2006139F7 /* filter_gradient_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311865202B88B1006139F7 /* filter_gradient_3.png */; };
+		F4311874202B88D2006139F7 /* filter_gradient_5_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311866202B88B7006139F7 /* filter_gradient_5_icon@3x.png */; };
+		F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311867202B88BA006139F7 /* filter_gradient_7.png */; };
+		F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311868202B88BF006139F7 /* filter_gradient_7_icon@3x.png */; };
+		F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311869202B88C2006139F7 /* filter_gradient_2.png */; };
+		F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186A202B88C7006139F7 /* filter_gradient_1.png */; };
+		F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186B202B88CD006139F7 /* filter_gradient_5.png */; };
+		F431187C202B8901006139F7 /* FilterGradientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431187A202B8901006139F7 /* FilterGradientCell.swift */; };
+		F431187D202B8901006139F7 /* FilterGradientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F431187B202B8901006139F7 /* FilterGradientCell.xib */; };
 		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
 		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
@@ -549,6 +565,22 @@
 		F42864311FC4A12500E3549D /* PreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewController.swift; sourceTree = "<group>"; };
 		F42864371FC4A8C900E3549D /* CameraDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraDAO.swift; sourceTree = "<group>"; };
 		F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterMenuItem_icon@3x.png"; sourceTree = "<group>"; };
+		F431185E202B8891006139F7 /* filter_gradient_4_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_4_icon@3x.png"; sourceTree = "<group>"; };
+		F431185F202B8894006139F7 /* filter_gradient_6_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_6_icon@3x.png"; sourceTree = "<group>"; };
+		F4311860202B8899006139F7 /* filter_gradient_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_6.png; sourceTree = "<group>"; };
+		F4311861202B889D006139F7 /* filter_gradient_1_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_1_icon@3x.png"; sourceTree = "<group>"; };
+		F4311862202B88A2006139F7 /* filter_gradient_2_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_2_icon@3x.png"; sourceTree = "<group>"; };
+		F4311863202B88A7006139F7 /* filter_gradient_3_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_3_icon@3x.png"; sourceTree = "<group>"; };
+		F4311864202B88AC006139F7 /* filter_gradient_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_4.png; sourceTree = "<group>"; };
+		F4311865202B88B1006139F7 /* filter_gradient_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_3.png; sourceTree = "<group>"; };
+		F4311866202B88B7006139F7 /* filter_gradient_5_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_5_icon@3x.png"; sourceTree = "<group>"; };
+		F4311867202B88BA006139F7 /* filter_gradient_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_7.png; sourceTree = "<group>"; };
+		F4311868202B88BF006139F7 /* filter_gradient_7_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filter_gradient_7_icon@3x.png"; sourceTree = "<group>"; };
+		F4311869202B88C2006139F7 /* filter_gradient_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_2.png; sourceTree = "<group>"; };
+		F431186A202B88C7006139F7 /* filter_gradient_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_1.png; sourceTree = "<group>"; };
+		F431186B202B88CD006139F7 /* filter_gradient_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_5.png; sourceTree = "<group>"; };
+		F431187A202B8901006139F7 /* FilterGradientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGradientCell.swift; sourceTree = "<group>"; };
+		F431187B202B8901006139F7 /* FilterGradientCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterGradientCell.xib; sourceTree = "<group>"; };
 		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F433EDA320174160004FEB93 /* StreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamViewHeader.xib; sourceTree = "<group>"; };
@@ -1534,6 +1566,27 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		F431185D202B8885006139F7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F4311861202B889D006139F7 /* filter_gradient_1_icon@3x.png */,
+				F431186A202B88C7006139F7 /* filter_gradient_1.png */,
+				F4311862202B88A2006139F7 /* filter_gradient_2_icon@3x.png */,
+				F4311869202B88C2006139F7 /* filter_gradient_2.png */,
+				F4311863202B88A7006139F7 /* filter_gradient_3_icon@3x.png */,
+				F4311865202B88B1006139F7 /* filter_gradient_3.png */,
+				F431185E202B8891006139F7 /* filter_gradient_4_icon@3x.png */,
+				F4311864202B88AC006139F7 /* filter_gradient_4.png */,
+				F4311866202B88B7006139F7 /* filter_gradient_5_icon@3x.png */,
+				F431186B202B88CD006139F7 /* filter_gradient_5.png */,
+				F431185F202B8894006139F7 /* filter_gradient_6_icon@3x.png */,
+				F4311860202B8899006139F7 /* filter_gradient_6.png */,
+				F4311868202B88BF006139F7 /* filter_gradient_7_icon@3x.png */,
+				F4311867202B88BA006139F7 /* filter_gradient_7.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		F43612D91FD69AC700788FFE /* ImageFilter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1644,6 +1697,7 @@
 		F4431A661FC6DD1A00311C9A /* PhotoEditingTool */ = {
 			isa = PBXGroup;
 			children = (
+				F431185D202B8885006139F7 /* Images */,
 				F43612D91FD69AC700788FFE /* ImageFilter */,
 				F4431A671FC6DD2900311C9A /* Photo Editor */,
 			);
@@ -1687,6 +1741,8 @@
 				F4431A881FC6DD2900311C9A /* StickersViewController.xib */,
 				F4431A891FC6DD2900311C9A /* UIImage+Crop.swift */,
 				F447441320246CC2002964A0 /* FilterCell.swift */,
+				F431187A202B8901006139F7 /* FilterGradientCell.swift */,
+				F431187B202B8901006139F7 /* FilterGradientCell.xib */,
 				F447441420246CC2002964A0 /* FilterCell.xib */,
 				F4431A8A1FC6DD2900311C9A /* UIImage+Size.swift */,
 				F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */,
@@ -2108,11 +2164,18 @@
 				F4431A951FC6DD2C00311C9A /* EmojiCollectionViewCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
+				F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */,
+				F4311871202B88D2006139F7 /* filter_gradient_3_icon@3x.png in Resources */,
+				F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */,
 				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
 				F4431A981FC6DD2C00311C9A /* icomoon.ttf in Resources */,
 				F4FFF910201A07CE00680571 /* TLPhotoCollectionViewCell.xib in Resources */,
+				F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */,
+				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
+				F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */,
+				F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */,
 				F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */,
@@ -2122,8 +2185,11 @@
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				F4431A9A1FC6DD2C00311C9A /* PhotoCropEditorBorder.png in Resources */,
+				F4311874202B88D2006139F7 /* filter_gradient_5_icon@3x.png in Resources */,
 				F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */,
 				F4431AAC1FC6DD2C00311C9A /* StickersViewController.xib in Resources */,
+				F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */,
+				F4311873202B88D2006139F7 /* filter_gradient_3.png in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */,
 				F431185C202B7F71006139F7 /* filterMenuItem_icon@3x.png in Resources */,
@@ -2136,11 +2202,16 @@
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				F447441620246CC2002964A0 /* FilterCell.xib in Resources */,
 				F4FFF909201A07CE00680571 /* .gitkeep in Resources */,
+				F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */,
+				F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */,
+				F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4FFF914201A07CE00680571 /* TLPhotoPickerController.bundle in Resources */,
+				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
 				F4431A9C1FC6DD2C00311C9A /* PhotoCropEditorBorder@3x.png in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
+				F431187D202B8901006139F7 /* FilterGradientCell.xib in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F4FFF90E201A07CE00680571 /* TLCollectionTableViewCell.xib in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
@@ -2586,6 +2657,7 @@
 				F4FFF912201A07CE00680571 /* TLPhotosPickerViewController.swift in Sources */,
 				F4FFF90B201A07CE00680571 /* TLAssetsCollection.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
+				F431187C202B8901006139F7 /* FilterGradientCell.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
 				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,

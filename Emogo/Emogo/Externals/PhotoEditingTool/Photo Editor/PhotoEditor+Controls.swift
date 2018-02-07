@@ -196,26 +196,77 @@ extension PhotoEditorViewController {
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
-        self.isFilterSelected = !self.isFilterSelected
+         self.isFilterSelected = !self.isFilterSelected
+        switch sender.tag {
+        case 111:
+            isGradientFilter = false
+            filterOptionUpdated()
+            break
+        case 222:
+            isGradientFilter = true
+            filterOptionUpdated()
+            break
+        default:
+            break
+        }
+       
+    }
+    
+    
+    func filterOptionUpdated(){
+        self.filterCollectionView.reloadData()
+        Animation.viewSlideInFromTopToBottom(views:self.filterView)
+        if isGradientFilter{
+            gradientOptionUpdated()
+        }else {
+            if self.isFilterSelected  {
+                self.gradientButton.isHidden = true
+                hideToolbar(hide: true)
+                let img = self.imageOrientation(self.canvasImageView.image!)
+                editingService.setImage (image: img)
+                self.filterView.isHidden = false
+                self.filterViewButton.isHidden = false
+                self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon_selected"), for: .normal)
+                self.filterButtonContainer.backgroundColor = UIColor.clear
+            }else {
+                self.filterViewButton.isHidden = true
+                self.gradientButton.isHidden = false
+                hideToolbar(hide: false)
+                self.filterView.isHidden = true
+                self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
+                self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+            }
+        }
+      
+    }
+    
+    func gradientOptionUpdated(){
         self.filterCollectionView.reloadData()
         Animation.viewSlideInFromTopToBottom(views:self.filterView)
         if self.isFilterSelected  {
+            self.filterButton.isHidden = false
+            self.gradientButton.isHidden = true
             hideToolbar(hide: true)
             let img = self.imageOrientation(self.canvasImageView.image!)
             editingService.setImage (image: img)
             self.filterView.isHidden = false
             self.filterViewButton.isHidden = false
-            self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon_selected"), for: .normal)
+            let imgIcon = UIImage(named: "filterMenuItem_icon.png")
+            self.filterButton.setImage(imgIcon, for: .normal)
             self.filterButtonContainer.backgroundColor = UIColor.clear
         }else {
+            self.filterButton.isHidden = false
+            self.gradientButton.isHidden = false
             self.filterViewButton.isHidden = true
+            self.gradientImageView.isHidden = true
             hideToolbar(hide: false)
             self.filterView.isHidden = true
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
             self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-
         }
     }
+    
+    
     
     func imageOrientation(_ src:UIImage)->UIImage {
         if src.imageOrientation == UIImageOrientation.up {
@@ -279,55 +330,67 @@ extension PhotoEditorViewController {
         self.filterButtonContainer.isHidden = true
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
 
-        switch index {
-        case 0:
-          self.selectedItem = self.editingService.adjustmentItems[0]
-          self.selectedItem?.reset()
-          self.updateSliderForItem(item: self.selectedItem!)
-          self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
-            break
-        case 1:
-             self.selectedItem = self.editingService.adjustmentItems[1]
-             self.selectedItem?.reset()
-             self.updateSliderForItem(item: self.selectedItem!)
-             self.editingService.applyFilterImage(adjustmentItem:self.selectedItem!)
-            break
-        case 2:
-             self.selectedItem  = self.editingService.adjustmentItems[2]
-             self.selectedItem?.reset()
-             self.updateSliderForItem(item: self.selectedItem!)
-             self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
-            break
-        case 3:
-             self.selectedItem = self.editingService.adjustmentItems[3]
-             self.selectedItem?.reset()
-             self.updateSliderForItem(item: self.selectedItem!)
-             self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
-            break
-        case 4:
-            self.selectedItem = self.editingService.adjustmentItems[4]
+        if self.isGradientFilter {
+            self.selectedItem = self.editingService.adjustmentItems[index]
             self.selectedItem?.reset()
+             self.selectedItem?.minValue = 0
             self.updateSliderForItem(item: self.selectedItem!)
-            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
-            break
-        case 5:
-            self.selectedItem = self.editingService.adjustmentItems[5]
-            self.selectedItem?.reset()
-            self.updateSliderForItem(item: self.selectedItem!)
-            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
-            break
-        case 6:
-            self.selectedItem = self.editingService.adjustmentItems[6]
-            self.selectedItem?.reset()
-            self.updateSliderForItem(item: self.selectedItem!)
-            self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
-            break
-        default:
-            break
+            self.gradientImageView.isHidden = false
+            self.gradientImageView.alpha = 0.0
+        }else {
+            switch index {
+            case 0:
+                self.selectedItem = self.editingService.adjustmentItems[0]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
+                break
+            case 1:
+                self.selectedItem = self.editingService.adjustmentItems[1]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem:self.selectedItem!)
+                break
+            case 2:
+                self.selectedItem  = self.editingService.adjustmentItems[2]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem:  self.selectedItem!)
+                break
+            case 3:
+                self.selectedItem = self.editingService.adjustmentItems[3]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+                break
+            case 4:
+                self.selectedItem = self.editingService.adjustmentItems[4]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+                break
+            case 5:
+                self.selectedItem = self.editingService.adjustmentItems[5]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+                break
+            case 6:
+                self.selectedItem = self.editingService.adjustmentItems[6]
+                self.selectedItem?.reset()
+                self.updateSliderForItem(item: self.selectedItem!)
+                self.editingService.applyFilterImage(adjustmentItem: self.selectedItem!)
+                break
+                
+            default:
+                break
+            }
         }
+       
     }
     @IBAction func btnFilterOkPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
+        self.gradientButton.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = true
@@ -342,10 +405,12 @@ extension PhotoEditorViewController {
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
+        self.gradientButton.isHidden = false
         self.filterButtonContainer.isHidden = false
         Animation.viewSlideInFromTopToBottom(views:self.filterSliderView)
         self.filterViewButton.isHidden = true
         self.filterSliderView.isHidden = true
+        self.gradientImageView.isHidden = true
         hideToolbar(hide: false)
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
@@ -434,12 +499,17 @@ extension PhotoEditorViewController {
     }
     
   @objc func sliderValueChanged (_ slider : UISlider) {
+   
         guard let item = self.selectedItem else { return }
 
         if (item.currentValue != slider.value)
         {
             item.currentValue = slider.value
-            self.canvasImageView.image = self.editingService.applyFilterFor(adjustmentItem: item)
+            if self.isGradientFilter {
+                self.gradientImageView.alpha = CGFloat(item.currentValue / 100.0)
+            }else {
+                self.canvasImageView.image = self.editingService.applyFilterFor(adjustmentItem: item)
+            }
         }
     }
 
