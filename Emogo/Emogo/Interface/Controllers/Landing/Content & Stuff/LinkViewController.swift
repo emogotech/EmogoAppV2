@@ -124,8 +124,15 @@ class LinkViewController: UIViewController {
                                 content.imgPreview = #imageLiteral(resourceName: "stream-card-placeholder")
                                 content.isUploaded = false
                                 var imgUrl:String! = ""
+                            
                                 if let imageUrl = imageUrl {
-                                    imgUrl = imageUrl as! String
+//                                    imgUrl = imageUrl as! String
+                                    if let arrStr = imageUrl as? [String] {
+                                        imgUrl = arrStr.first
+                                    }else if let str = imageUrl as? String {
+                                        imgUrl = str
+                                    }
+                                    
                                 }
                                 if imgUrl.isEmpty {
                                     let imageUrl1 = result[SwiftLinkResponseKey.icon]
