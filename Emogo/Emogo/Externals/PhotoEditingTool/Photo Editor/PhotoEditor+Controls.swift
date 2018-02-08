@@ -196,14 +196,16 @@ extension PhotoEditorViewController {
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
-         self.isFilterSelected = !self.isFilterSelected
+        self.isFilterSelected = !self.isFilterSelected
         switch sender.tag {
         case 111:
             isGradientFilter = false
+            self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
             filterOptionUpdated()
             break
         case 222:
             isGradientFilter = true
+            self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
             filterOptionUpdated()
             break
         default:
@@ -251,7 +253,7 @@ extension PhotoEditorViewController {
             editingService.setImage (image: img)
             self.filterView.isHidden = false
             self.filterViewButton.isHidden = false
-            let imgIcon = UIImage(named: "filterMenuItem_icon.png")
+            let imgIcon = #imageLiteral(resourceName: "color_icon_active") //UIImage(named: "filterMenuItem_icon.png")
             self.filterButton.setImage(imgIcon, for: .normal)
             self.filterButtonContainer.backgroundColor = UIColor.clear
         }else {
