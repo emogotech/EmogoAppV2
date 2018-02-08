@@ -240,25 +240,51 @@ class PreviewController: UIViewController {
     func prepareNavBarButtons(){
         btnDone.isUserInteractionEnabled = true
         btnAddStream.isUserInteractionEnabled = true
+
 //        self.navigationController?.isNavigationBarHidden = false
 //        self.navigationController?.navigationBar.barTintColor = .clear
-//        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+//        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.1)
 //        self.navigationController?.navigationBar.shadowImage = UIImage()
-//        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.navigationBar.isTranslucent = true
 //        self.navigationController?.navigationBar.tintColor = .white
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clear
-        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        self.navigationController?.navigationBar.tintColor = .white //.clear
         
+//        UIButton *useButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        useButton.frame = CGRectMake(100, 430, 100, 40);
+//        useButton.layer.masksToBounds = NO;
+//        useButton.layer.cornerRadius = 10;
+//        useButton.layer.shadowOffset = CGSizeMake(1.5, 1.5);
+//        useButton.layer.shadowRadius = 0.5;
+//        useButton.layer.shadowOpacity = 1.0;
+//        useButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//        useButton.backgroundColor = [UIColor redColor];
         
-        
-        
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
 
+
+//        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
+        let button = self.getShadowButton()
+        button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
+        button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+        let btnBack = UIBarButtonItem.init(customView: button)
         self.navigationItem.leftBarButtonItem = btnBack
+    }
+    
+    func getShadowButton() -> UIButton {
+        let button = UIButton(type: .custom)
+        
+        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        button.layer.masksToBounds = false
+        button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)//CGSize(width: 1.5, height: 1.5)
+        button.layer.shadowRadius = 0.5
+        button.layer.shadowOpacity = 1.0
+        button.layer.shadowColor = UIColor.black.cgColor
+        return button
     }
     
     func changeButtonAccordingSwipe(selected:ContentDAO){
@@ -267,19 +293,39 @@ class PreviewController: UIViewController {
 
         self.navigationItem.setRightBarButtonItems([], animated: true)
         
-        var imgEdit = #imageLiteral(resourceName: "edit_icon")
-        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+//        var imgEdit = #imageLiteral(resourceName: "edit_icon")
+//        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
-        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+        let buttonEdit = self.getShadowButton()
+        buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
+        buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
+        let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
+        
+        
+        
+//        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
+//        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
+
+        let buttonDel = self.getShadowButton()
+        buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_icon-cover_image"), for: .normal)
+        buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
+        let btnDelete = UIBarButtonItem.init(customView: buttonDel)
+        
+        
         
         if selected.isUploaded == false {
 
             if selected.type == .image {
                 arrButtons.append(btnEdit)
             }else if selected.type == .link {
-                imgEdit = #imageLiteral(resourceName: "change_link")
-                btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+//                imgEdit = #imageLiteral(resourceName: "change_link")
+//                btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+
+                let buttonDel = self.getShadowButton()
+                buttonDel.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
+                let btnEdit = UIBarButtonItem.init(customView: buttonDel)
+                
                 arrButtons.append(btnEdit)
             }
             arrButtons.append(btnDelete)
@@ -289,8 +335,11 @@ class PreviewController: UIViewController {
                     arrButtons.append(btnEdit)
                 }
                 if selected.type == .link {
-                    imgEdit = #imageLiteral(resourceName: "change_link")
-                    btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
+
+                    let buttonDel = self.getShadowButton()
+                    buttonDel.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                    buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
+                    let btnEdit = UIBarButtonItem.init(customView: buttonDel)
                     arrButtons.append(btnEdit)
                 }
                 
