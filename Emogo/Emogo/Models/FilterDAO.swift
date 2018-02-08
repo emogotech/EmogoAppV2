@@ -11,9 +11,11 @@ import UIKit
 
 class FilterDAO {
     var arrayMenu = [Filter]()
+    var arrayGradient = [Filter]()
     
     init() {
         self.prepareData()
+        prepareGradientData()
     }
     
     private func prepareData(){
@@ -33,6 +35,18 @@ class FilterDAO {
         let menu8 = Filter(icon: #imageLiteral(resourceName: "warmth_icon"), name: "Warmth")
         arrayMenu.append(menu8)
     }
+    
+    private func prepareGradientData(){
+        arrayGradient.removeAll()
+        for i in 0...6
+        {
+            let img = UIImage(named: "filter_gradient_\(i+1)_icon.png")
+            let menu1 = Filter(icon: img!, name: "")
+            arrayGradient.append(menu1)
+        }
+
+    }
+    
 }
 
 class Filter {

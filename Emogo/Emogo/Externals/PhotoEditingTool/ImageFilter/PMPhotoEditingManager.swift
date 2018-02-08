@@ -19,6 +19,9 @@ enum FilterType:String {
     case sharpen = "sharpen"
     case warmth = "warmth"
     case cancel  = "cancel"
+    case gradientMask  = "gradientMask"
+
+    
 }
 
 class PMPhotoEditingManager: NSObject {
@@ -29,9 +32,10 @@ class PMPhotoEditingManager: NSObject {
             return [PMEditingModel.brightnessItem(),
                     PMEditingModel.contrastItem(),
                     PMEditingModel.blurItem(),
-                    PMEditingModel.saturationItem(),PMEditingModel.sharpenItem(),PMEditingModel.structureItem(),PMEditingModel.warmthItem()]
+                    PMEditingModel.saturationItem(),PMEditingModel.sharpenItem(),PMEditingModel.structureItem(),PMEditingModel.warmthItem(),PMEditingModel.gradientItem()]
     }()
-
+    
+    
     var defaultImage                             : UIImage? = nil
     var tempAdjustmentImage                      : UIImage? = nil
     var modifiedImage                            : UIImage? = nil
@@ -135,6 +139,7 @@ class PMPhotoEditingManager: NSObject {
         guard let mainImage = self.applyFilters() else {
             return UIImage()
         }
+        
         self.cleanService()
         return mainImage
     }

@@ -58,7 +58,11 @@ class PMEditingModel {
         let newItem = PMEditingModel(type: .warmth)
         return newItem
     }
-    
+    class func gradientItem () -> PMEditingModel  {
+        let newItem = PMEditingModel(type: .gradientMask)
+        newItem.minValue = 0
+        return newItem
+    }
     
     func reset ()
     {
