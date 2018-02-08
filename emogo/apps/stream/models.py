@@ -70,11 +70,11 @@ class Stream(DefaultStatusModel):
         instance.status = status
         instance.save(update_fields=['status'])
 
-    def update_view_count(self):
-        # Update view count increment by 1
-        self.view_count += 1
-        self.save()
-        return self.view_count
+    # def update_view_count(self):
+    #     # Update view count increment by 1
+    #     self.view_count += 1
+    #     self.save()
+    #     return self.view_count
 
 
 class Content(DefaultStatusModel):

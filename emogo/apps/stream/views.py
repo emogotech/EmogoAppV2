@@ -56,7 +56,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         else:
             serializer = self.get_serializer(instance, context=self.request)
             # Update stream view count
-            instance.update_view_count()
+            # We had to update single model by Filter because if i use .save() method model upd column value
+            # automatically changed that was not correct as per our requirement
+            Stream.objects.filter(id=instance.id).update(view_count=(instance.view_count+1))
 
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
