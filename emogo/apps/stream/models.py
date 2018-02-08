@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
 import itertools
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from datetime import datetime
 
 STREAM_TYPE = (
     ('Private', 'Private'),
@@ -98,6 +101,13 @@ class StreamContent(models.Model):
 
     class Meta:
         db_table = 'stream_content'
+
+
+@receiver(post_save, sender=StreamContent)
+def save_profile(sender, instance, **kwargs):
+    instance.stream.upd = datetime.now()
+    instance.stream.save()
+
 
 class Tags(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
