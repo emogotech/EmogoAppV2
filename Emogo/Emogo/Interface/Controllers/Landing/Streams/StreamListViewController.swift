@@ -650,11 +650,11 @@ class StreamListViewController: UIViewController {
  
     func getStream(currentStreamID:String, currentConytentID:String){
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
-               AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
                 if ((allContents?.count)! > 0){
-                  if    SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
+                    if    SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
                         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                         
                         for i in 0...(stream?.arrayContent.count)!-1 {
@@ -671,14 +671,20 @@ class StreamListViewController: UIViewController {
                     }
                     else {
                         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                        let tempDict : NSDictionary = NSDictionary()
+                        let streamDads = StreamDAO.init(streamData: tempDict as! [String : Any])
+                        streamDads.ID = stream?.streamID
+                        print(streamDads.ID)
+                        StreamList.sharedInstance.arrayViewStream = [streamDads]
+                        obj.currentIndex = 0
                         ContentList.sharedInstance.arrayContent = stream?.arrayContent
-                      ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
+                        ContentList.sharedInstance.objStream = SharedData.sharedInstance.streamID
                         self.navigationController?.push(viewController: obj)
                     }
-               }
+                }
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
-                     SharedData.sharedInstance.deepLinkType = ""
+                SharedData.sharedInstance.deepLinkType = ""
             }
         }
     }

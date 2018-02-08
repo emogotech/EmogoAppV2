@@ -541,9 +541,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pDn-OM-QzU">
-                                        <rect key="frame" x="128" y="287.5" width="119" height="36"/>
+                                        <rect key="frame" x="81" y="272" width="213" height="53"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" secondItem="pDn-OM-QzU" secondAttribute="height" multiplier="119:36" id="ViP-Iu-f3e"/>
+                                            <constraint firstAttribute="width" secondItem="pDn-OM-QzU" secondAttribute="height" multiplier="119:36" constant="37.805555555555571" id="ViP-Iu-f3e"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Resend Code">
@@ -562,9 +562,9 @@
                                     <constraint firstItem="TzN-l4-ayw" firstAttribute="top" secondItem="joX-Gv-YHX" secondAttribute="bottom" constant="15" id="LIO-uO-kXk"/>
                                     <constraint firstItem="TzN-l4-ayw" firstAttribute="centerX" secondItem="s4g-1O-hxs" secondAttribute="centerX" id="O4K-93-WZJ"/>
                                     <constraint firstItem="joX-Gv-YHX" firstAttribute="top" secondItem="3Bj-tb-DKW" secondAttribute="bottom" id="PMU-gz-np5"/>
-                                    <constraint firstItem="pDn-OM-QzU" firstAttribute="top" secondItem="swt-mM-Wmg" secondAttribute="bottom" constant="24" id="Rrc-uw-bjw"/>
+                                    <constraint firstItem="pDn-OM-QzU" firstAttribute="top" secondItem="swt-mM-Wmg" secondAttribute="bottom" constant="8.5" id="Rrc-uw-bjw"/>
                                     <constraint firstItem="TzN-l4-ayw" firstAttribute="centerY" secondItem="s4g-1O-hxs" secondAttribute="centerY" constant="-1.5" id="Tqk-82-9ti"/>
-                                    <constraint firstAttribute="bottom" secondItem="pDn-OM-QzU" secondAttribute="bottom" constant="1" id="euX-Yp-2Xc"/>
+                                    <constraint firstAttribute="bottom" secondItem="pDn-OM-QzU" secondAttribute="bottom" id="euX-Yp-2Xc"/>
                                     <constraint firstItem="Tby-lL-GhZ" firstAttribute="centerX" secondItem="s4g-1O-hxs" secondAttribute="centerX" id="hgJ-2e-TCv"/>
                                     <constraint firstItem="swt-mM-Wmg" firstAttribute="centerX" secondItem="s4g-1O-hxs" secondAttribute="centerX" constant="1" id="o9a-Kk-yHE"/>
                                     <constraint firstItem="TzN-l4-ayw" firstAttribute="leading" secondItem="s4g-1O-hxs" secondAttribute="leading" constant="38" id="pjL-YU-EPn"/>
@@ -617,9 +617,9 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8PK-hh-KpV">
-                                        <rect key="frame" x="107" y="178" width="160" height="36"/>
+                                        <rect key="frame" x="76" y="178" width="223" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="160" id="N3X-Nd-uzp"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="223" id="N3X-Nd-uzp"/>
                                             <constraint firstAttribute="height" constant="36" id="feP-29-OOZ"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
@@ -635,7 +635,6 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="2rj-8b-aOm" secondAttribute="trailing" constant="38" id="0NY-Mc-H7b"/>
                                     <constraint firstItem="2rj-8b-aOm" firstAttribute="leading" secondItem="Njs-i8-I1c" secondAttribute="leading" constant="38" id="1dX-OH-koV"/>
-                                    <constraint firstItem="8PK-hh-KpV" firstAttribute="trailing" secondItem="Nsa-ow-knf" secondAttribute="trailing" id="DjI-ER-CbX"/>
                                     <constraint firstItem="e2a-e9-LDy" firstAttribute="centerX" secondItem="Njs-i8-I1c" secondAttribute="centerX" id="M5Z-pU-UrB"/>
                                     <constraint firstAttribute="width" secondItem="Njs-i8-I1c" secondAttribute="height" multiplier="75:44" constant="-40.909090909090935" id="Pyt-D4-tsU"/>
                                     <constraint firstItem="2rj-8b-aOm" firstAttribute="top" secondItem="e2a-e9-LDy" secondAttribute="bottom" constant="8" id="VMt-s3-JPT"/>
@@ -644,7 +643,7 @@
                                     <constraint firstItem="e2a-e9-LDy" firstAttribute="top" secondItem="Njs-i8-I1c" secondAttribute="top" constant="2" id="gsk-MQ-fvL"/>
                                     <constraint firstItem="Nsa-ow-knf" firstAttribute="centerX" secondItem="Njs-i8-I1c" secondAttribute="centerX" id="nmo-Jt-Bhz"/>
                                     <constraint firstAttribute="bottom" secondItem="8PK-hh-KpV" secondAttribute="bottom" constant="30" id="oVX-30-IQe"/>
-                                    <constraint firstItem="8PK-hh-KpV" firstAttribute="leading" secondItem="Nsa-ow-knf" secondAttribute="leading" id="rdK-VI-KZ2"/>
+                                    <constraint firstItem="8PK-hh-KpV" firstAttribute="centerX" secondItem="Njs-i8-I1c" secondAttribute="centerX" id="s3t-07-Un6"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -675,7 +674,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Pa-3B-jte" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1150" y="77"/>
+            <point key="canvasLocation" x="1149.5999999999999" y="76.911544227886068"/>
         </scene>
         <!--Sign Up Selected View Controller-->
         <scene sceneID="crR-Na-XJL">

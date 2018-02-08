@@ -365,16 +365,20 @@ class HomeViewController: MSMessagesAppViewController {
         
         if self.isSearch == false {
             if currentStreamType == .People {
+                self.view.isUserInteractionEnabled = false
                 self.getUsersList(type: .up)
             }else {
+                 self.view.isUserInteractionEnabled = false
                 self.getStreamList(type: .up, filter: currentStreamType)
             }
         }
         else {
             if isSearch && !isStreamEnable {
+                 self.view.isUserInteractionEnabled = false
                 self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
             }
             else {
+                 self.view.isUserInteractionEnabled = false
                 self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
             }
         }
@@ -634,6 +638,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.hudView.startLoaderWithAnimation()
         APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
             self.hudView.stopLoaderWithAnimation()
+             self.view.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
@@ -674,7 +679,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
             
             APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
-                
+                self.view.isUserInteractionEnabled = true
                 self.streaminputDataType(type: type)
                 self.lblNoResult.isHidden = true
                 
@@ -717,6 +722,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         else {
+            self.view.isUserInteractionEnabled = true
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
@@ -725,6 +731,7 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func getStream(streamID:String) {
         if Reachability.isNetworkAvailable() {
             APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
+                self.view.isUserInteractionEnabled = true
                 if (errorMsg?.isEmpty)! {
                     let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
                     if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
@@ -775,6 +782,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         else {
+            self.view.isUserInteractionEnabled = true
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
@@ -782,6 +790,7 @@ class HomeViewController: MSMessagesAppViewController {
     func getContenData(){
         APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
             //            if error == nil {
+            self.view.isUserInteractionEnabled = true
             if !(error?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: kAlert_Content_Not_Found)
                 return
@@ -811,6 +820,7 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 self.collectionStream.reloadData()
                 APIServiceManager.sharedInstance.apiForGetPeopleList(type:type, deviceType: .iPhone) { (refreshType, errorMsg) in
+                    self.view.isUserInteractionEnabled = true
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
                     self.collectionStream.isHidden = false
@@ -849,6 +859,8 @@ class HomeViewController: MSMessagesAppViewController {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
+            }else{
+                self.view.isUserInteractionEnabled = true
             }
         }
     }
@@ -861,6 +873,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.collectionStream.reloadData()
         
         APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
+            self.view.isUserInteractionEnabled = true
             if self.hudView != nil {
                 self.hudView.stopLoaderWithAnimation()
             }
@@ -914,6 +927,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.collectionStream.reloadData()
         if SharedData.sharedInstance.iMessageNavigation == "" {
             APIServiceManager.sharedInstance.apiForSearchStream(strSearch: searchText, type: type, completionHandler: { (refreshType, errorMsg) in
+                self.view.isUserInteractionEnabled = true
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
                 }
@@ -1128,7 +1142,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             if currentStreamType == .People {
                 for subV in pagerContent.subviews {
                     if subV.isKind(of: FSPagerView.self){
-                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: indexPath.row)
+                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
                         return
                     }
                 }
@@ -1143,8 +1157,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             if isSearch && !isStreamEnable {
                 for subV in pagerContent.subviews {
                     if subV.isKind(of: FSPagerView.self){
-                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: indexPath.row)
-                        
+                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
                         return
                     }
                 }
@@ -1294,6 +1307,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
             
+            let last = lastIndex
+            
+            lastIndex = index
+            
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
@@ -1303,6 +1320,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 0:
                 lastIndex = index
                 currentStreamType  =  StreamType.populer
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
                 break
@@ -1310,6 +1333,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 1:
                 lastIndex = index
                 currentStreamType =  StreamType.myStream
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
                 break
@@ -1318,6 +1347,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType =  StreamType.featured
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1325,6 +1360,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType = StreamType.emogoStreams
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1336,6 +1377,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType = StreamType.People
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1354,6 +1401,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         
         if(lastIndex != pagerView.currentIndex) {
+             let last = lastIndex
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
@@ -1363,6 +1411,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType  =  StreamType.populer
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1370,6 +1424,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType =  StreamType.myStream
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1377,6 +1437,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType =  StreamType.featured
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1384,6 +1450,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.emogoStreams
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1395,6 +1467,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.People
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1406,6 +1484,22 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
         }
+    }
+    
+    func addRightTransitionCollection(imgV:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
+    func addLeftTransitionCollection(imgV:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft      
+        imgV.layer.add(transition, forKey: kCATransition)
     }
     
     func changePager() {
@@ -1547,16 +1641,20 @@ extension HomeViewController : UIScrollViewDelegate {
                 self.collectionStream.reloadData()
                 if self.isSearch == false {
                     if currentStreamType == .People {
+                         self.view.isUserInteractionEnabled = false
                         self.getUsersList(type: .down)
                     }else {
+                         self.view.isUserInteractionEnabled = false
                         self.getStreamList(type: .down, filter: currentStreamType)
                     }
                 }
                 else {
                     if isSearch && !isStreamEnable {
+                         self.view.isUserInteractionEnabled = false
                         self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
                     }
                     else {
+                         self.view.isUserInteractionEnabled = false
                         self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
                         
                     }

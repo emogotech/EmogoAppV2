@@ -74,9 +74,13 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Title_Confirmation , preferredStyle: .alert)
+        let userInfo = self.arrCollaborator[indexPath.row]
+        if userInfo.userID.isEmpty {
+            self.showToastIMsg(type: AlertType.error, strMSG: "User not found.")
+            return
+        }
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_People , preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            let userInfo = self.arrCollaborator[indexPath.row]
             let str = self.createURLWithComponents(userInfo: userInfo, urlString: "")
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
         }
@@ -97,7 +101,7 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
         // add params
         let fullName = URLQueryItem(name: "fullName", value: userInfo.name!)
         let phoneNumber = URLQueryItem(name: "phoneNumber", value: userInfo.phone!)
-        let userId = URLQueryItem(name: "userId", value: userInfo.colabID!)
+        let userId = URLQueryItem(name: "userId", value: userInfo.userID!)
         let userImage = URLQueryItem(name: "userImage", value: userInfo.imgUser!)
         urlComponents.queryItems = [fullName, phoneNumber, userId, userImage]
         let strURl = "\(urlComponents.url!)/\(kDeepLinkTypePeople)"

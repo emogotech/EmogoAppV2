@@ -278,6 +278,11 @@ let kAlert_Upload_Wait_Msg                                                 = "We
 let kAlert_Error_NameMsg                                                   = "Please enter a minimum of three characters."
 let kAlert_CamPermission                                                = "We need permission to access your camera! Please change your privacy settings"
 let kAlert_Confirmation_Description_For_Profile                         = "We need to redirect you to the Emogo App to access your User Profile. Are you ready?"
+
+
+let kAlert_Confirmation_Description_For_People                         = "We need to redirect you to the Emogo App to access User Profile. Are you ready?"
+
+
 let kAlert_Confirmation_Description_For_Edit_Stream                      = "We need to redirect you to the Emogo App so you can edit your stream. Are you ready?"
 
 let kAlert_Confirmation_For_Edit_Stream_Content                      = "Please first done edit contents"

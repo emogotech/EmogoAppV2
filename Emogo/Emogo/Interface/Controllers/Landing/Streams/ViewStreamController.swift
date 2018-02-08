@@ -40,6 +40,7 @@ class ViewStreamController: UIViewController {
     @objc func updateLayOut(){
         
         if ContentList.sharedInstance.objStream != nil {
+           
             if self.isUpload {
                 self.isUpload = false
                 let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
@@ -58,6 +59,7 @@ class ViewStreamController: UIViewController {
                 self.btnActionForAddContent()
                 SharedData.sharedInstance.deepLinkType = ""
             }
+     
         }
         else {
             if StreamList.sharedInstance.arrayViewStream.count != 0 {
@@ -67,6 +69,11 @@ class ViewStreamController: UIViewController {
                 }
                 if StreamList.sharedInstance.selectedStream != nil {
                     self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+                }
+                
+                if SharedData.sharedInstance.deepLinkType != "" {
+                    self.btnActionForAddContent()
+                    SharedData.sharedInstance.deepLinkType = ""
                 }
             }
         }
