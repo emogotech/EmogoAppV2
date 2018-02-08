@@ -10,7 +10,7 @@ class DefaultDateModel(models.Model):
     """ Abstract model class to created_at and updated_at fields """
 
     crd = models.DateTimeField(auto_now_add=True)
-    upd = models.DateTimeField(auto_now_add=True)
+    upd = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
