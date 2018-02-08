@@ -144,6 +144,8 @@ class PMPhotoEditingManager: NSObject {
         return mainImage
     }
     
+    
+    
     @discardableResult
     func applyCoreImageFilter() -> UIImage? {
         

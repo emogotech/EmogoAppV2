@@ -398,7 +398,12 @@ extension PhotoEditorViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
-        self.canvasImageView.image = self.editingService.posterImage()
+        if self.isGradientFilter {
+            self.canvasImageView.image = self.canvasView.toImage()
+        }else {
+            self.canvasImageView.image = self.editingService.posterImage()
+        }
+        self.gradientImageView.isHidden = true
         self.editingService.setImage(image: self.canvasImageView.image!)
         self.filterButtonContainer.isHidden = false
 
@@ -437,7 +442,12 @@ extension PhotoEditorViewController {
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
         let img = self.canvasView.toImage()
-        self.canvasImageView.image = img
+        self.gradientImageView.isHidden = true
+//        if self.isGradientFilter{
+//           self.canvasImageView.image =  self.posterImageGradient(image: self.gradientImageView.image, mainImage: self.canvasImageView.image, item: self.selectedItem!)
+//        }else {
+            self.canvasImageView.image = img
+      //  }
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
         if  isText {
             isText = false
@@ -522,6 +532,14 @@ extension PhotoEditorViewController {
         self.filterSlider.maximumValue = item.maxValue
         self.filterSlider.minimumValue = item.minValue
         self.filterSlider.value = item.currentValue
+    }
+    
+    func posterImageGradient(image:UIImage?,mainImage:UIImage?,item:PMEditingModel) -> UIImage {
+        
+        let finalGradientImage = UIImage.resizeImage(image: image!,
+                                                     targetSize: (mainImage?.size)!,
+                                                     alpha: CGFloat(item.currentValue / 100.0))
+        return finalGradientImage
     }
     
     func hideControls() {
