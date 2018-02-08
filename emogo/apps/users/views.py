@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from autofixtures import UserAutoFixture
 from django.http import HttpResponse
+from django.http import Http404
 
 
 class Signup(APIView):
@@ -205,7 +206,9 @@ class UserSteams(ListAPIView):
     def post(self, request):
         kwargs = dict()
         kwargs['type'] = 'Public'
-        if request.data.get('user_id') is not None:
+        if request.data.get('user_id') =="":
+            raise Http404("User profile does not exist")
+        elif request.data.get('user_id') is not None:
             user_profile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
             kwargs['created_by'] = user_profile.user
             current_user = user_profile.user
