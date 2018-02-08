@@ -66,6 +66,9 @@ class SwiftyRecordButton: SwiftyCamButton {
     }
     
     public func shrinkButton() {
+        if innerCircle == nil {
+            return
+        }
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut, animations: {
             self.innerCircle.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             self.circleBorder.setAffineTransform(CGAffineTransform(scaleX: 1.0, y: 1.0))

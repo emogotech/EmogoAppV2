@@ -507,6 +507,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         print("Long tap")
         switch sender.state {
         case .began:
+            print("begin recording")
             isRecording = true
             self.lblRecordTimer.text = "00:00:00"
             self.timeSec = 0
@@ -518,9 +519,12 @@ class CustomCameraViewController: SwiftyCamViewController {
             break
         case .ended:
             if self.cameraMode == .normal {
+                print("end Recording")
                 self.lblRecordTimer.isHidden = true
 //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
+            }else{
+                print(">>>>>>>>>>>>>>>>>else")
             }
             break
        
@@ -882,6 +886,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         self.btnTimer.alpha = 1.0
         self.btnGallery.alpha = 1.0
         self.btnCameraSwitch.alpha = 1.0
+        self.setupButtonWhileRecording(isAddButton: false)
     }
 }
 
