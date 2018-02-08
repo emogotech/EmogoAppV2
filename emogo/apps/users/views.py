@@ -206,9 +206,9 @@ class UserSteams(ListAPIView):
         kwargs = dict()
         kwargs['type'] = 'Public'
         if request.data.get('user_id') is not None:
-            userProfile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
-            kwargs['created_by'] = userProfile.user
-            current_user = userProfile.user
+            user_profile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
+            kwargs['created_by'] = user_profile.user
+            current_user = user_profile.user
         else:
             kwargs['created_by'] = self.request.user
             current_user = self.request.user
