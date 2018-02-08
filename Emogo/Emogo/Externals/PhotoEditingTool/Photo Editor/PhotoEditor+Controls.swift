@@ -196,14 +196,16 @@ extension PhotoEditorViewController {
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
-         self.isFilterSelected = !self.isFilterSelected
+        self.isFilterSelected = !self.isFilterSelected
         switch sender.tag {
         case 111:
             isGradientFilter = false
+            self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
             filterOptionUpdated()
             break
         case 222:
             isGradientFilter = true
+            self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
             filterOptionUpdated()
             break
         default:
@@ -251,7 +253,7 @@ extension PhotoEditorViewController {
             editingService.setImage (image: img)
             self.filterView.isHidden = false
             self.filterViewButton.isHidden = false
-            let imgIcon = UIImage(named: "filterMenuItem_icon.png")
+            let imgIcon = #imageLiteral(resourceName: "color_icon_active") //UIImage(named: "filterMenuItem_icon.png")
             self.filterButton.setImage(imgIcon, for: .normal)
             self.filterButtonContainer.backgroundColor = UIColor.clear
         }else {
@@ -398,7 +400,12 @@ extension PhotoEditorViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.isFilterSelected = false
-        self.canvasImageView.image = self.editingService.posterImage()
+        if self.isGradientFilter {
+            self.canvasImageView.image = self.canvasView.toImage()
+        }else {
+            self.canvasImageView.image = self.editingService.posterImage()
+        }
+        self.gradientImageView.isHidden = true
         self.editingService.setImage(image: self.canvasImageView.image!)
         self.filterButtonContainer.isHidden = false
 
@@ -437,7 +444,12 @@ extension PhotoEditorViewController {
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
         let img = self.canvasView.toImage()
-        self.canvasImageView.image = img
+        self.gradientImageView.isHidden = true
+//        if self.isGradientFilter{
+//           self.canvasImageView.image =  self.posterImageGradient(image: self.gradientImageView.image, mainImage: self.canvasImageView.image, item: self.selectedItem!)
+//        }else {
+            self.canvasImageView.image = img
+      //  }
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
         if  isText {
             isText = false
@@ -522,6 +534,14 @@ extension PhotoEditorViewController {
         self.filterSlider.maximumValue = item.maxValue
         self.filterSlider.minimumValue = item.minValue
         self.filterSlider.value = item.currentValue
+    }
+    
+    func posterImageGradient(image:UIImage?,mainImage:UIImage?,item:PMEditingModel) -> UIImage {
+        
+        let finalGradientImage = UIImage.resizeImage(image: image!,
+                                                     targetSize: (mainImage?.size)!,
+                                                     alpha: CGFloat(item.currentValue / 100.0))
+        return finalGradientImage
     }
     
     func hideControls() {

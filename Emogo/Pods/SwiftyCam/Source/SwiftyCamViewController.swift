@@ -538,7 +538,10 @@ open class SwiftyCamViewController: UIViewController {
 			DispatchQueue.main.async {
 				self.cameraDelegate?.swiftyCam(self, didFinishRecordingVideo: self.currentCamera)
 			}
-		}
+        }else{
+            self.cameraDelegate?.forceStopVideoRecordingDelegate()
+//            print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        }
 	}
     
     public func forceStopRecording(){

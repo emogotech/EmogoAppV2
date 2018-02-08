@@ -97,9 +97,6 @@ class ContentViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
         
-        touch
-        
-        
         let tapLbl = UITapGestureRecognizer.init(target: self, action: #selector(self.lblTapAction(recognizer:)))
         tapLbl.numberOfTapsRequired = 1
         self.lblTitleImage.isUserInteractionEnabled = true
@@ -182,7 +179,7 @@ class ContentViewController: UIViewController {
         self.navigationController?.view.backgroundColor = UIColor.clear
         self.navigationController?.navigationBar.tintColor = .white
         
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
