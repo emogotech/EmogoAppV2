@@ -365,16 +365,20 @@ class HomeViewController: MSMessagesAppViewController {
         
         if self.isSearch == false {
             if currentStreamType == .People {
+                self.view.isUserInteractionEnabled = false
                 self.getUsersList(type: .up)
             }else {
+                 self.view.isUserInteractionEnabled = false
                 self.getStreamList(type: .up, filter: currentStreamType)
             }
         }
         else {
             if isSearch && !isStreamEnable {
+                 self.view.isUserInteractionEnabled = false
                 self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
             }
             else {
+                 self.view.isUserInteractionEnabled = false
                 self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .up)
             }
         }
@@ -634,6 +638,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.hudView.startLoaderWithAnimation()
         APIServiceManager.sharedInstance.apiForGetTopStreamList { (streams, errorMsg) in
             self.hudView.stopLoaderWithAnimation()
+             self.view.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 StreamList.sharedInstance.arrayStream.removeAll()
                 StreamList.sharedInstance.arrayStream = streams
@@ -674,7 +679,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
             
             APIServiceManager.sharedInstance.apiForiPhoneGetStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
-                
+                self.view.isUserInteractionEnabled = true
                 self.streaminputDataType(type: type)
                 self.lblNoResult.isHidden = true
                 
@@ -717,6 +722,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         else {
+            self.view.isUserInteractionEnabled = true
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
@@ -725,6 +731,7 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func getStream(streamID:String) {
         if Reachability.isNetworkAvailable() {
             APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
+                self.view.isUserInteractionEnabled = true
                 if (errorMsg?.isEmpty)! {
                     let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
                     if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
@@ -775,6 +782,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         else {
+            self.view.isUserInteractionEnabled = true
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
@@ -782,6 +790,7 @@ class HomeViewController: MSMessagesAppViewController {
     func getContenData(){
         APIServiceManager.sharedInstance.apiForGetContent(contenID: SharedData.sharedInstance.iMessageNavigationCurrentContentID) { (dict, error) in
             //            if error == nil {
+            self.view.isUserInteractionEnabled = true
             if !(error?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: kAlert_Content_Not_Found)
                 return
@@ -811,6 +820,7 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 self.collectionStream.reloadData()
                 APIServiceManager.sharedInstance.apiForGetPeopleList(type:type, deviceType: .iPhone) { (refreshType, errorMsg) in
+                    self.view.isUserInteractionEnabled = true
                     self.streaminputDataType(type: type)
                     self.lblNoResult.isHidden = true
                     self.collectionStream.isHidden = false
@@ -849,6 +859,8 @@ class HomeViewController: MSMessagesAppViewController {
                         self.showToastIMsg(type: .success, strMSG: errorMsg!)
                     }
                 }
+            }else{
+                self.view.isUserInteractionEnabled = true
             }
         }
     }
@@ -861,6 +873,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.collectionStream.reloadData()
         
         APIServiceManager.sharedInstance.apiForSearchPeople(strSearch: searchText, type: type) { (refreshType, errorMsg) in
+            self.view.isUserInteractionEnabled = true
             if self.hudView != nil {
                 self.hudView.stopLoaderWithAnimation()
             }
@@ -914,6 +927,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.collectionStream.reloadData()
         if SharedData.sharedInstance.iMessageNavigation == "" {
             APIServiceManager.sharedInstance.apiForSearchStream(strSearch: searchText, type: type, completionHandler: { (refreshType, errorMsg) in
+                self.view.isUserInteractionEnabled = true
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
                 }
@@ -1627,16 +1641,20 @@ extension HomeViewController : UIScrollViewDelegate {
                 self.collectionStream.reloadData()
                 if self.isSearch == false {
                     if currentStreamType == .People {
+                         self.view.isUserInteractionEnabled = false
                         self.getUsersList(type: .down)
                     }else {
+                         self.view.isUserInteractionEnabled = false
                         self.getStreamList(type: .down, filter: currentStreamType)
                     }
                 }
                 else {
                     if isSearch && !isStreamEnable {
+                         self.view.isUserInteractionEnabled = false
                         self.getPeopleGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
                     }
                     else {
+                         self.view.isUserInteractionEnabled = false
                         self.getStreamGlobleSearch(searchText: (self.searchText.text?.trim())!, type: .down)
                         
                     }
