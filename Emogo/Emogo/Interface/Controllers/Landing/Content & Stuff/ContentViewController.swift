@@ -10,6 +10,7 @@ import UIKit
 import MessageUI
 import Messages
 import Lightbox
+import IQKeyboardManagerSwift
 
 class ContentViewController: UIViewController {
 
@@ -18,6 +19,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var imgCover: FLAnimatedImageView!
     
     @IBOutlet weak var txtTitleImage: UITextField!
+    @IBOutlet weak var lblTitleImage: UILabel!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPlayIcon: UIButton!
@@ -95,6 +97,20 @@ class ContentViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
         
+        touch
+        
+        
+        let tapLbl = UITapGestureRecognizer.init(target: self, action: #selector(self.lblTapAction(recognizer:)))
+        tapLbl.numberOfTapsRequired = 1
+        self.lblTitleImage.isUserInteractionEnabled = true
+        self.lblTitleImage.addGestureRecognizer(tapLbl)
+        
+        let imgTap = UITapGestureRecognizer.init(target: self, action: #selector(self.imgTap(recognizer:)))
+        imgTap.numberOfTapsRequired = 1
+        self.imgCover.isUserInteractionEnabled = true
+        self.imgCover.addGestureRecognizer(imgTap)
+        
+        
          if self.isEdit == nil {
             imgCover.isUserInteractionEnabled = true
             let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -135,6 +151,22 @@ class ContentViewController: UIViewController {
         
     }
     
+    @objc func lblTapAction(recognizer: UITapGestureRecognizer) {
+        if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.lblTitleImage.isHidden = true
+            self.txtTitleImage.isHidden = false
+            self.txtTitleImage.becomeFirstResponder()
+        }
+    }
+    
+    @objc func   imgTap(recognizer: UITapGestureRecognizer){
+           self.lblTitleImage.text = self.txtTitleImage.text?.trim()
+        self.lblTitleImage.isHidden = false
+        self.txtTitleImage.isHidden = true
+        self.view.endEditing(true)
+    }
+    
+    
     func prepareNavBarButtons(){
         
         self.navigationController?.isNavigationBarHidden = false
@@ -162,21 +194,27 @@ class ContentViewController: UIViewController {
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
+        self.txtTitleImage.isHidden = true
+        self.lblTitleImage.isHidden = true
         self.txtTitleImage.text = ""
         self.txtDescription.text = ""
+        self.lblTitleImage.text = ""
         self.txtDescription.placeholder = "Description"
         self.txtDescription.placeholderColor = .white
         
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }
-        
-        self.txtTitleImage.isHidden = true
+    
         self.txtDescription.isHidden = true
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
+            self.lblTitleImage.text = seletedImage.name.trim()
+            self.lblTitleImage.isHidden = false
+        }else{
             self.txtTitleImage.isHidden = false
         }
+        
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()
             if seletedImage.description.count > 250 {
@@ -202,6 +240,7 @@ class ContentViewController: UIViewController {
             seletedImage.imgPreview?.getColors({ (colors) in
                 self.imgCover.backgroundColor = colors.primary
                 self.txtTitleImage.textColor = .white//colors.secondary
+                self.lblTitleImage.textColor = .white
                 self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
             })
@@ -214,6 +253,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        self.lblTitleImage.textColor = .white
 
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
@@ -227,6 +267,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -239,6 +280,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -250,6 +292,7 @@ class ContentViewController: UIViewController {
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
                         self.txtTitleImage.textColor = .white//colors.secondary
+                        self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
@@ -277,15 +320,12 @@ class ContentViewController: UIViewController {
             else{
                 self.btnDone.isHidden = true
             }
-            self.txtTitleImage.isHidden = false
             self.txtDescription.isHidden = false
-
             
             self.txtTitleImage.isUserInteractionEnabled = true
             self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
         }
-        
         if self.seletedImage.type == .image {
             self.btnEdit.isHidden = false
             self.btnEdit.isUserInteractionEnabled = true
@@ -969,6 +1009,10 @@ extension ContentViewController:UITextFieldDelegate {
         }else {
             textField.resignFirstResponder()
         }
+        
+        self.txtTitleImage.isHidden = true
+        self.lblTitleImage.text = self.txtTitleImage.text?.trim()
+        self.lblTitleImage.isHidden = false
         return true
     }
     

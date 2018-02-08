@@ -82,14 +82,16 @@ class LinkViewController: UIViewController {
             }
             return
         }
-        self.smartURLFetchData()
         if (txtLink.text?.trim().isEmpty)! {
             txtLink.shake()
             return
         }else if  (txtLink.text?.trim().checkUrlExists())! {
             self.showToast(strMSG: "Enter valid url.")
             return
+        }else{
+            self.smartURLFetchData()
         }
+        
     }
     
     

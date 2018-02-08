@@ -256,7 +256,9 @@ class PreviewController: UIViewController {
         
         
         
-        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
+        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
+//        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
+
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
