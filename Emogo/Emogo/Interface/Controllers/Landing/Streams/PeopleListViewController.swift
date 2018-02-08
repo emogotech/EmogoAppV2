@@ -105,6 +105,11 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayColab[indexPath.row]
         let people = PeopleDAO(peopleData:[:])
+        
+        if people.userId.isEmpty{
+            self.showToast(strMSG: "User not found.")
+            return
+        }
         people.fullName = collaborator.name
         people.userId = collaborator.userID
         let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController

@@ -1128,7 +1128,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             if currentStreamType == .People {
                 for subV in pagerContent.subviews {
                     if subV.isKind(of: FSPagerView.self){
-                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: indexPath.row)
+                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
                         return
                     }
                 }
@@ -1143,8 +1143,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             if isSearch && !isStreamEnable {
                 for subV in pagerContent.subviews {
                     if subV.isKind(of: FSPagerView.self){
-                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: indexPath.row)
-                        
+                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
                         return
                     }
                 }
@@ -1294,6 +1293,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
             
+            let last = lastIndex
+            
+            lastIndex = index
+            
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
@@ -1303,6 +1306,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 0:
                 lastIndex = index
                 currentStreamType  =  StreamType.populer
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
                 break
@@ -1310,6 +1319,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 1:
                 lastIndex = index
                 currentStreamType =  StreamType.myStream
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 self.changePager()
                 break
@@ -1318,6 +1333,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType =  StreamType.featured
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1325,6 +1346,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType = StreamType.emogoStreams
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1336,6 +1363,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = index
                 currentStreamType = StreamType.People
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1354,6 +1387,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         
         if(lastIndex != pagerView.currentIndex) {
+             let last = lastIndex
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
             self.viewCollections.isHidden = true
@@ -1363,6 +1397,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType  =  StreamType.populer
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1370,6 +1410,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType =  StreamType.myStream
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1377,6 +1423,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType =  StreamType.featured
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1384,6 +1436,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.emogoStreams
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1395,6 +1453,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.People
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
                 self.changePager()
                 break
                 
@@ -1406,6 +1470,22 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 self.changeCellImageAnimationt(pagerView.currentIndex, pagerView: pagerView)
             })
         }
+    }
+    
+    func addRightTransitionCollection(imgV:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        imgV.layer.add(transition, forKey: kCATransition)
+    }
+    
+    func addLeftTransitionCollection(imgV:UICollectionView){
+        let transition = CATransition()
+        transition.duration = 0.3
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft      
+        imgV.layer.add(transition, forKey: kCATransition)
     }
     
     func changePager() {
