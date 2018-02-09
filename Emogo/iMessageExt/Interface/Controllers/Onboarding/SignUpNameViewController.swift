@@ -73,7 +73,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                 }
                 if SharedData.sharedInstance.isMessageWindowExpand {
                     UIView.animate(withDuration: 0.3, animations: {
-                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2
+                        self.view.frame.origin.y -= SharedData.sharedInstance.keyboardHeightForSignin/2 - 60
                     })
                 }
             }
