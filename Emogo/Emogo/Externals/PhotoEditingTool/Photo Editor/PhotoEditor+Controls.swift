@@ -117,11 +117,12 @@ extension PhotoEditorViewController {
         }
         viewTxt = UIView(frame:  CGRect(x: 0, y: canvasImageView.center.y,
                                           width: UIScreen.main.bounds.width, height: 30))
-        viewTxt?.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 0)
+        viewTxt?.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 0)
         viewTxt?.tag = 2001
         viewTxt?.addSubview(textView)
         self.canvasImageView.addSubview(viewTxt!)
         addGestures(view: viewTxt!)
+        addGestures(view: textView)
         textView.becomeFirstResponder()
     }    
     
