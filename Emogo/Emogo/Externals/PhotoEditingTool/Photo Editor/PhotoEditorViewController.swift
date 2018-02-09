@@ -98,6 +98,7 @@ import UIKit
     
     var isText : Bool = false
     var isStriker : Bool = false
+    var viewTxt : UIView?
 
     lazy var editingService : PMPhotoEditingManager = { [unowned self] in
         return PMPhotoEditingManager.create()

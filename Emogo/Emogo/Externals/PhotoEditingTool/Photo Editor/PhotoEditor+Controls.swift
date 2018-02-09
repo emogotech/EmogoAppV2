@@ -94,7 +94,7 @@ extension PhotoEditorViewController {
         self.colorsCollectionView.isHidden = false
         drawViewButton.isHidden = true
         colorPickerButtonsWidth.constant = 0.0
-        let textView = UITextView(frame: CGRect(x: 0, y: canvasImageView.center.y,
+        let textView = UITextView(frame: CGRect(x: 0, y:0,
                                                 width: UIScreen.main.bounds.width, height: 30))
         textView.tag = 101
         textView.textAlignment = .center
@@ -111,8 +111,17 @@ extension PhotoEditorViewController {
         textView.returnKeyType = .done
         textView.delegate = self
         textView.tintColor = .clear
-        self.canvasImageView.addSubview(textView)
-        addGestures(view: textView)
+        
+        if viewTxt != nil {
+            viewTxt = nil
+        }
+        viewTxt = UIView(frame:  CGRect(x: 0, y: canvasImageView.center.y,
+                                          width: UIScreen.main.bounds.width, height: 30))
+        viewTxt?.backgroundColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 0)
+        viewTxt?.tag = 2001
+        viewTxt?.addSubview(textView)
+        self.canvasImageView.addSubview(viewTxt!)
+        addGestures(view: viewTxt!)
         textView.becomeFirstResponder()
     }    
     
@@ -445,21 +454,16 @@ extension PhotoEditorViewController {
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
         let img = self.canvasView.toImage()
         self.gradientImageView.isHidden = true
-//        if self.isGradientFilter{
-//           self.canvasImageView.image =  self.posterImageGradient(image: self.gradientImageView.image, mainImage: self.canvasImageView.image, item: self.selectedItem!)
-//        }else {
-            self.canvasImageView.image = img
-      //  }
+        self.canvasImageView.image = img
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
         if  isText {
             isText = false
             for beforeTextViewHide in self.canvasImageView.subviews {
-                if beforeTextViewHide.isKind(of: UITextView.self){
-                    if beforeTextViewHide.tag == 101{
+                if beforeTextViewHide.isKind(of: UIView.self) {
+                   if beforeTextViewHide.tag == 2001 {
                         DispatchQueue.main.async {
                             beforeTextViewHide.removeFromSuperview()
-                        }
-                    }
+                        }                    }
                 }
             }
         }
