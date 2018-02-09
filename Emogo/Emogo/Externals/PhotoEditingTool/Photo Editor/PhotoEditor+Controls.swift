@@ -421,6 +421,7 @@ extension PhotoEditorViewController {
 
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
+        self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.filterView.isHidden = true
         self.gradientButton.isHidden = false
         self.filterButtonContainer.isHidden = false
