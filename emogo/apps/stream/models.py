@@ -80,7 +80,7 @@ class Stream(DefaultStatusModel):
 class Content(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    url = models.CharField(max_length=255, null=True, blank=True)
+    url = models.TextField(max_length=1000, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     video_image = models.CharField(max_length=255, null=True, blank=True)
     streams = models.ManyToManyField(Stream, through='StreamContent')
