@@ -301,7 +301,7 @@ class DeleteContentInBulk(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def delete(self, request):
+    def post(self, request):
         """
         Return a list of all users.
         """
