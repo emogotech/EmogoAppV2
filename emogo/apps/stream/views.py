@@ -289,6 +289,30 @@ class LinkTypeContentAPI(ListAPIView):
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
+class DeleteContentInBulk(APIView):
+    """
+    View to list all users in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    serializer_class = ContentBulkDeleteSerializer
+    queryset = Content.actives.all().order_by('-upd')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        self.queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
+        # Delete stream and content relation.
+        StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
 class MoveContentToStream(APIView):
     """
     View to list all users in the system.
