@@ -23,7 +23,7 @@
                                 <viewLayoutGuide key="safeArea" id="0GW-OO-wwe"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="ZVo-AQ-bk8">
-                                <rect key="frame" x="98" y="317" width="178" height="33"/>
+                                <rect key="frame" x="97.5" y="317" width="179" height="33"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -39,6 +39,7 @@
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="mnz-zf-yFq"/>
                             <constraint firstItem="q3C-1X-lbE" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="wZq-XM-XrF"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="pcF-Mh-crh"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -48,6 +49,6 @@
     </scenes>
     <resources>
         <image name="background-iPhone" width="375" height="665"/>
-        <image name="logo-iPhone" width="178" height="33"/>
+        <image name="logo-iPhone" width="179" height="33"/>
     </resources>
 </document>
