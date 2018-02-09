@@ -874,8 +874,8 @@ class APIServiceManager: NSObject {
     // MARK: - Delete  Content API
     
     func apiForDeleteContent(contents:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let param = ["content_list":contents]
-        APIManager.sharedInstance.delete(strURL: kContentAPI, Param: param) { (result) in
+        let param = ["content_list":contents]//kContentAPI
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: "delete_content/", Param: param) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
@@ -1408,7 +1408,8 @@ class APIServiceManager: NSObject {
         let params:[String:Any] = ["content":[contentID]]
         print(url)
         print(params)
-        APIManager.sharedInstance.delete(strURL: url, Param: params) { (result) in
+        
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 print(value)
