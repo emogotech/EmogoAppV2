@@ -42,13 +42,14 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.viewDidLoad()
         SharedData.sharedInstance.tempViewController = self
         setupLoader()
+        
         let content = arrContentData.first
         if (content?.isAdd)! {
             arrContentData.remove(at: 0)
             currentContentIndex = currentContentIndex - 1
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
-//        ContentList.sharedInstance.arrayContent = arrContentData
+        ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
         
     }
@@ -159,7 +160,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         if content.type != nil {
-            
+       self.btnEdit.setImage(#imageLiteral(resourceName: "delete_icon-cover_image"), for: UIControlState.normal)
             if content.type == .image {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImage)
                 SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
@@ -178,6 +179,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
             else if content.type == .link {
                 self.btnPlay.isHidden = true
+                self.btnEdit.setImage(#imageLiteral(resourceName: "change_link"), for: UIControlState.normal)
                 self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
@@ -300,6 +302,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnDeleteAction(_ sender:UIButton){
+       
+
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Content_Msg , preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             self.hudView.startLoaderWithAnimation()
@@ -309,7 +313,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 APIServiceManager.sharedInstance.apiForDeleteContent(contents: contentIds) { (isSuccess, errorMsg) in
                     self.hudView.stopLoaderWithAnimation()
                     if isSuccess == true {
-//                        ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+                        ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
                         self.arrContentData.remove(at: self.currentContentIndex)
                         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
                         if(self.arrContentData.count == 0){
@@ -341,10 +345,16 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnEditAction(_ sender:UIButton){
-        
+        let content = arrContentData[self.currentContentIndex]
+        if content.type == PreviewType.link {
+            guard let url = URL(string: content.coverImage) else {
+                return
+            }
+            self.openURL(url: url)
+            return
+        }
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
-            let content = self.arrContentData[self.currentContentIndex]
             let strUrl = "\(kDeepLinkURL)\(self.currentStreamID!)/\(content.contentID!)/\(kDeepLinkTypeEditContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
