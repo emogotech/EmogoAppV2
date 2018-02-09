@@ -17,9 +17,9 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      UIPanGestureRecognizer - Moving Objects
      Selecting transparent parts of the imageview won't move the object
      */
- @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
-    print("panGesture")
-
+    @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
+        print("panGesture")
+        
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
@@ -37,7 +37,13 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                     moveView(view: imageViewToPan!, recognizer: recognizer)
                 }
             } else {
-                moveView(view: view, recognizer: recognizer)
+                
+                if view is UITextView {
+                    let viewSub = recognizer.view?.superview
+                    if viewSub?.tag  == 2001{
+                        moveView(view: viewSub!, recognizer: recognizer)
+                    }
+                }
             }
         }
     }
@@ -46,10 +52,17 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      UIPinchGestureRecognizer - Pinching Objects
      If it's a UITextView will make the font bigger so it doen't look pixlated
      */
-  @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
-    print("pinch")
+    @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
+        print("pinch")
         if let view = recognizer.view {
-                view.transform = view.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
+            if view is UITextView {
+                let viewSub = recognizer.view?.superview
+                if viewSub?.tag  == 2001{
+                    viewSub?.transform = (viewSub?.transform.scaledBy(x: recognizer.scale, y: recognizer.scale))!
+                    recognizer.scale = 1
+                }
+            }
+            view.transform = view.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
             recognizer.scale = 1
         }
     }
@@ -57,10 +70,20 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     /**
      UIRotationGestureRecognizer - Rotating Objects
      */
-   @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
+    @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
         if let view = recognizer.view {
-            view.transform = view.transform.rotated(by: recognizer.rotation)
-            recognizer.rotation = 0
+            
+            if view is UITextView {
+                let viewSub = recognizer.view?.superview
+                if viewSub?.tag  == 2001{
+                    viewSub?.transform = (viewSub?.transform.rotated(by: recognizer.rotation))!
+                    recognizer.rotation = 0
+                }
+            }else{
+                view.transform = view.transform.rotated(by: recognizer.rotation)
+                recognizer.rotation = 0
+            }
+            
         }
     }
     
@@ -69,7 +92,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      Will make scale scale Effect
      Selecting transparent parts of the imageview won't move the object
      */
-   @objc func tapGesture(_ recognizer: UITapGestureRecognizer) {
+    @objc func tapGesture(_ recognizer: UITapGestureRecognizer) {
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
@@ -102,7 +125,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         return false
     }
     
-   @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
             if !stickersVCIsVisible {
                 addStickersViewController()
@@ -138,21 +161,21 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     }
     
     /**
-     Moving Objects 
+     Moving Objects
      delete the view if it's inside the delete view
      Snap the view back if it's out of the canvas
      */
-
+    
     func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
-      
+        
         hideToolbar(hide: true)
         deleteView.isHidden = false
         doneButton.isHidden = true
         self.filterButtonContainer.isHidden = true
-
+        
         view.superview?.bringSubview(toFront: view)
         let pointToSuperView = recognizer.location(in: self.view)
-
+        
         view.center = CGPoint(x: view.center.x + recognizer.translation(in: canvasImageView).x,
                               y: view.center.y + recognizer.translation(in: canvasImageView).y)
         
@@ -160,7 +183,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         
         if let previousPoint = lastPanPoint {
             
-         
+            
             //View is going into deleteView
             if deleteView.frame.contains(pointToSuperView) && !deleteView.frame.contains(previousPoint) {
                 if #available(iOS 10.0, *) {
@@ -238,3 +261,4 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         return imageviews
     }
 }
+
