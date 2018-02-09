@@ -796,7 +796,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sZb-DF-8rP" firstAttribute="bottom" secondItem="Ibd-UN-F4f" secondAttribute="bottom" id="9su-og-qqe"/>
                             <constraint firstItem="sZb-DF-8rP" firstAttribute="leading" secondItem="Ibd-UN-F4f" secondAttribute="leading" id="HZE-Na-MJM"/>
