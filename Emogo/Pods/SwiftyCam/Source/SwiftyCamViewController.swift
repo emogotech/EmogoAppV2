@@ -540,6 +540,7 @@ open class SwiftyCamViewController: UIViewController {
 			}
         }else{
             self.cameraDelegate?.forceStopVideoRecordingDelegate()
+//            print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         }
 	}
     
@@ -1001,13 +1002,9 @@ open class SwiftyCamViewController: UIViewController {
         }
 
 		do{
-//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-//                                                            with: [.duckOthers, .defaultToSpeaker])
+			try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+			                                                with: [.mixWithOthers, .defaultToSpeaker])
 
-    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                        with: [])
-
-            
 			session.automaticallyConfiguresApplicationAudioSession = false
 		}
 		catch {

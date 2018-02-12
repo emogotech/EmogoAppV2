@@ -2,17 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SF-Pro-Display-Black.otf</string>
-		<string>SF-Pro-Display-Bold.otf</string>
-		<string>SF-Pro-Display-Heavy.otf</string>
-		<string>SF-Pro-Display-Light.otf</string>
-		<string>SF-Pro-Display-Medium.otf</string>
-		<string>SF-Pro-Display-Regular.otf</string>
-		<string>SF-Pro-Display-Semibold.otf</string>
-		<string>SF-Pro-Display-Thin.otf</string>
-	</array>
 	<key>AWS</key>
 	<dict>
 		<key>CredentialsProvider</key>
@@ -101,6 +90,21 @@
 	<string>photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>gallery</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SF-Pro-Display-Black.otf</string>
+		<string>SF-Pro-Display-Bold.otf</string>
+		<string>SF-Pro-Display-Heavy.otf</string>
+		<string>SF-Pro-Display-Light.otf</string>
+		<string>SF-Pro-Display-Medium.otf</string>
+		<string>SF-Pro-Display-Regular.otf</string>
+		<string>SF-Pro-Display-Semibold.otf</string>
+		<string>SF-Pro-Display-Thin.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
