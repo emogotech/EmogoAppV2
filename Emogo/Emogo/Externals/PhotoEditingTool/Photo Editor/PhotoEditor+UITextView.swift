@@ -18,16 +18,15 @@ extension PhotoEditorViewController: UITextViewDelegate {
             let sizeToFit = textView.sizeThatFits(CGSize(width: oldFrame.width, height:CGFloat.greatestFiniteMagnitude))
             textView.frame.size = CGSize(width: oldFrame.width, height: sizeToFit.height)
             textView.textContainer.size = textView.frame.size
-            DispatchQueue.main.async {
-                self.viewTxt?.frame.size = textView.frame.size
-            }
+            self.viewTxt?.frame.size = textView.frame.size
+            self.viewTxt?.transform = textView.transform
+            self.lastTextViewTransform = self.viewTxt?.transform
         }
         print("did change")
     }
      func textViewDidBeginEditing(_ textView: UITextView) {
         isTyping = true
         isText = true
-        lastTextViewTransform =  self.viewTxt?.transform
         lastTextViewTransCenter = self.viewTxt?.center
         lastTextViewFont = textView.font!
         activeTextView = textView

@@ -19,7 +19,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      */
     @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
         print("panGesture")
-        
+        self.view.endEditing(true)
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
@@ -54,6 +54,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      */
     @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
         print("pinch")
+        self.view.endEditing(true)
         if let view = recognizer.view {
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
@@ -71,6 +72,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      UIRotationGestureRecognizer - Rotating Objects
      */
     @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
+        self.view.endEditing(true)
         if let view = recognizer.view {
             
             if view is UITextView {

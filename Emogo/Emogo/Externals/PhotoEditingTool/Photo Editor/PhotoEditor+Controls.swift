@@ -22,24 +22,24 @@ public enum control {
 }
 
 extension PhotoEditorViewController {
-
-     //MARK: Top Toolbar
+    
+    //MARK: Top Toolbar
     @IBAction func cancelButtonTapped(_ sender: Any) {
         photoEditorDelegate?.canceledEditing()
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     @IBAction func cropButtonTapped(_ sender: UIButton) {
-         let croppingStyle = CropViewCroppingStyle.default
+        let croppingStyle = CropViewCroppingStyle.default
         let cropController = CropViewController(croppingStyle: croppingStyle, image: canvasImageView.image!)
         cropController.delegate = self
         present(cropController, animated: true, completion: nil)
     }
-
+    
     @IBAction func stickersButtonTapped(_ sender: Any) {
         addStickersViewController()
     }
-
+    
     @IBAction func drawButtonTapped(_ sender: Any) {
         colorPickerButtonsWidth.constant = 105.0
         drawViewButton.isHidden = false
@@ -50,7 +50,7 @@ extension PhotoEditorViewController {
         self.filterButtonContainer.isHidden = true
         hideToolbar(hide: true)
     }
-
+    
     func endDoneTextField(strTxt : String){
         if strTxt.trim() == ""{
             doneButton.isHidden = true
@@ -73,11 +73,11 @@ extension PhotoEditorViewController {
             }
             
         }else{
-        self.filterView.isHidden = true
-        self.filterButtonContainer.isHidden = true
-        self.colorsCollectionView.isHidden = true
-        doneButton.isHidden = false
-        hideToolbar(hide: true)
+            self.filterView.isHidden = true
+            self.filterButtonContainer.isHidden = true
+            self.colorsCollectionView.isHidden = true
+            doneButton.isHidden = false
+            hideToolbar(hide: true)
         }
     }
     
@@ -116,7 +116,7 @@ extension PhotoEditorViewController {
             viewTxt = nil
         }
         viewTxt = UIView(frame:  CGRect(x: 0, y: canvasImageView.center.y,
-                                          width: UIScreen.main.bounds.width, height: 30))
+                                        width: UIScreen.main.bounds.width, height: 30))
         viewTxt?.backgroundColor = #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 0)
         viewTxt?.tag = 2001
         viewTxt?.addSubview(textView)
@@ -128,9 +128,9 @@ extension PhotoEditorViewController {
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         self.filterButtonContainer.isHidden = false
-       self.doneButtonAction()
+        self.doneButtonAction()
     }
-
+    
     //MARK: Bottom Toolbar
     
     @IBAction func saveButtonTapped(_ sender: AnyObject) {
@@ -221,7 +221,7 @@ extension PhotoEditorViewController {
         default:
             break
         }
-       
+        
     }
     
     
@@ -249,7 +249,7 @@ extension PhotoEditorViewController {
                 self.filterButtonContainer.backgroundColor = UIColor.black.withAlphaComponent(0.8)
             }
         }
-      
+        
     }
     
     func gradientOptionUpdated(){
@@ -341,11 +341,11 @@ extension PhotoEditorViewController {
         self.filterSliderView.isHidden = false
         self.filterButtonContainer.isHidden = true
         Animation.viewSlideInFromBottomToTop(views:self.filterSliderView)
-
+        
         if self.isGradientFilter {
             self.selectedItem = self.editingService.adjustmentItems[index]
             self.selectedItem?.reset()
-             self.selectedItem?.minValue = 0
+            self.selectedItem?.minValue = 0
             self.updateSliderForItem(item: self.selectedItem!)
             self.gradientImageView.isHidden = false
             self.gradientImageView.alpha = 0.0
@@ -398,7 +398,7 @@ extension PhotoEditorViewController {
                 break
             }
         }
-       
+        
     }
     @IBAction func btnFilterOkPressed(_ sender: UIButton) {
         self.filterView.isHidden = true
@@ -419,7 +419,7 @@ extension PhotoEditorViewController {
         self.gradientImageView.isHidden = true
         self.editingService.setImage(image: self.canvasImageView.image!)
         self.filterButtonContainer.isHidden = false
-
+        
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
@@ -438,7 +438,7 @@ extension PhotoEditorViewController {
             self.editingService.removeAllFilters()
             self.canvasImageView.image = self.editingService.modifiedImage
         }
-
+        
     }
     
     
@@ -455,18 +455,20 @@ extension PhotoEditorViewController {
         self.pencilView.isHidden = true
         self.isPencilSelected = false
         self.pencilButton.setImage(#imageLiteral(resourceName: "pen_icon_unactive"), for: .normal)
-        let img = self.canvasView.toImage()
         self.gradientImageView.isHidden = true
-        self.canvasImageView.image = img
         Animation.viewSlideInFromTopToBottom(views:self.pencilView)
+        let img = self.canvasView.toImage()
+        self.canvasImageView.image = img
+
         if  isText {
             isText = false
             for beforeTextViewHide in self.canvasImageView.subviews {
                 if beforeTextViewHide.isKind(of: UIView.self) {
-                   if beforeTextViewHide.tag == 2001 {
+                    if beforeTextViewHide.tag == 2001 {
                         DispatchQueue.main.async {
                             beforeTextViewHide.removeFromSuperview()
-                        }                    }
+                        }
+                    }
                 }
             }
         }
@@ -498,7 +500,6 @@ extension PhotoEditorViewController {
                     DispatchQueue.main.async {
                         beforeTextViewHide.isHidden = true
                     }
-                    self.perform(#selector(self.capturScreenShot), with: nil, afterDelay: 0.2)
                 }
             }
         }
@@ -517,10 +518,10 @@ extension PhotoEditorViewController {
         }
     }
     
-  @objc func sliderValueChanged (_ slider : UISlider) {
-   
+    @objc func sliderValueChanged (_ slider : UISlider) {
+        
         guard let item = self.selectedItem else { return }
-
+        
         if (item.currentValue != slider.value)
         {
             item.currentValue = slider.value
@@ -531,7 +532,7 @@ extension PhotoEditorViewController {
             }
         }
     }
-
+    
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
         self.showToast(type: .error, strMSG: kAlert_Save_Image)
     }

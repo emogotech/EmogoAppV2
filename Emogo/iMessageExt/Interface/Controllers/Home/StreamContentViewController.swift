@@ -160,7 +160,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         if content.type != nil {
-       self.btnEdit.setImage(#imageLiteral(resourceName: "delete_icon-cover_image"), for: UIControlState.normal)
+            self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: UIControlState.normal)
             if content.type == .image {
                 self.imgStream.setForAnimatedImage(strImage:content.coverImage)
                 SharedData.sharedInstance.downloadImage(url: content.coverImage, handler: { (image) in
