@@ -484,7 +484,6 @@ class CustomCameraViewController: SwiftyCamViewController {
                     self.performCamera(action: .timer)
                     self.btnCamera.isUserInteractionEnabled = false
                 }else {
-                    
                     isRecording = true
                     self.lblRecordTimer.text = "00:00:00"
                     self.timeSec = 0
@@ -514,14 +513,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         switch sender.state {
         case .began:
             print("begin recording")
-            isRecording = true
-            self.lblRecordTimer.text = "00:00:00"
-            self.timeSec = 0
-            self.lblRecordTimer.isHidden = false
+            self.lblRecordTimer.isHidden = true
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
 //            self.recordButtonTapped(isShow: true)
-            setupButtonWhileRecording(isAddButton: false)
             break
         case .ended:
             if self.cameraMode == .normal {
@@ -788,7 +783,13 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         
         // Called when startVideoRecording() is called
         // Called if a SwiftyCamButton begins a long press gesture
+        isRecording = true
+        self.lblRecordTimer.text = "00:00:00"
+        self.timeSec = 0
         self.lblRecordTimer.isHidden = false
+        self.cameraOption.isUserInteractionEnabled = false
+        //            self.recordButtonTapped(isShow: true)
+        setupButtonWhileRecording(isAddButton: false)
         btnCamera.growButton()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(CustomCameraViewController.updateRecordingTime)), userInfo: nil, repeats: true)
         UIView.animate(withDuration: 0.25, animations: {

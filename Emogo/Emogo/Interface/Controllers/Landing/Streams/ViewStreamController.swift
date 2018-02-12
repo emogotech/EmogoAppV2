@@ -307,6 +307,7 @@ class ViewStreamController: UIViewController {
         let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
         obj.streamID = self.objStream?.streamID
         obj.currentIndex = self.currentIndex
+        obj.streamNavigate = self.viewStream
         self.navigationController?.push(viewController: obj)
     }
     

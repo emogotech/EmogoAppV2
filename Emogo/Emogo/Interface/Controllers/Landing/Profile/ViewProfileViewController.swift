@@ -53,8 +53,19 @@ class ViewProfileViewController: UIViewController {
     
     override func btnBackAction() {
         
-        let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-        StreamList.sharedInstance.arrayViewStream = array
+        if  ContentList.sharedInstance.mainStreamNavigate == nil {
+            let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            StreamList.sharedInstance.arrayViewStream = array
+        }else {
+            if ContentList.sharedInstance.mainStreamNavigate == "fromProfile" {
+                let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
+                StreamList.sharedInstance.arrayViewStream = array
+            }else {
+                let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                StreamList.sharedInstance.arrayViewStream = array
+            }
+        }
+        
         self.navigationController?.pop()
         
     }

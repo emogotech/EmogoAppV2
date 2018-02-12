@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Camera/CustomCameraViewController.swift"
-            timestampString = "540130456.48401"
+            timestampString = "540134402.276454"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "388"
@@ -97,38 +97,6 @@
             endingLineNumber = "513"
             landmarkName = "capturScreenShot()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.PhotoEditorViewController.capturScreenShot() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Externals/PhotoEditingTool/Photo%20Editor/PhotoEditor+Controls.swift"
-                  timestampString = "540127965.828846"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "513"
-                  endingLineNumber = "513"
-                  offsetFromSymbolStart = "1808">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in Emogo.PhotoEditorViewController.capturScreenShot() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/pushpendra/Documents/Source_Git/Northout/Emogo_Ios/Emogo/Emogo/Externals/PhotoEditingTool/Photo%20Editor/PhotoEditor+Controls.swift"
-                  timestampString = "540127965.83188"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "514"
-                  endingLineNumber = "514"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -154,12 +122,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pods/SwiftyCam/Source/SwiftyCamViewController.swift"
-            timestampString = "540130456.484291"
+            timestampString = "540134402.277123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "996"
             endingLineNumber = "996"
             landmarkName = "setBackgroundAudioPreference()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
+            timestampString = "540134402.277198"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "btnBackAction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

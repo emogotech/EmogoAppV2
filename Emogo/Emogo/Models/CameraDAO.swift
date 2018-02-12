@@ -65,6 +65,7 @@ class ContentList{
 
     var objStream:String?
     var mainStreamIndex:Int?
+    var mainStreamNavigate:String?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
         struct Static {
