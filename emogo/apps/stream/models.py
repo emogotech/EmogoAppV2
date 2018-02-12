@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.db import models
 from emogo.lib.default_models.models import DefaultStatusModel, DefaultDateModel
 import itertools
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from datetime import datetime
 
 STREAM_TYPE = (
     ('Private', 'Private'),
@@ -67,17 +70,17 @@ class Stream(DefaultStatusModel):
         instance.status = status
         instance.save(update_fields=['status'])
 
-    def update_view_count(self):
-        # Update view count increment by 1
-        self.view_count += 1
-        self.save()
-        return self.view_count
+    # def update_view_count(self):
+    #     # Update view count increment by 1
+    #     self.view_count += 1
+    #     self.save()
+    #     return self.view_count
 
 
 class Content(DefaultStatusModel):
     name = models.CharField(max_length=75, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
-    url = models.CharField(max_length=255, null=True, blank=True)
+    url = models.TextField(max_length=1000, null=True, blank=True)
     type = models.CharField(max_length=10, choices=CONTENT_TYPE, default=CONTENT_TYPE[0][0])
     video_image = models.CharField(max_length=255, null=True, blank=True)
     streams = models.ManyToManyField(Stream, through='StreamContent')
@@ -98,6 +101,13 @@ class StreamContent(models.Model):
 
     class Meta:
         db_table = 'stream_content'
+
+
+@receiver(post_save, sender=StreamContent)
+def save_profile(sender, instance, **kwargs):
+    instance.stream.upd = datetime.now()
+    instance.stream.save()
+
 
 class Tags(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)

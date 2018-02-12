@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from autofixtures import UserAutoFixture
 from django.http import HttpResponse
+from django.http import Http404
 
 
 class Signup(APIView):
@@ -203,24 +204,29 @@ class UserSteams(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def post(self, request):
-        try:
-            kwargs = dict()
-            logged_in_user = self.request.user.id
-            logged_user = get_object_or_404(User, id=logged_in_user)
-            if 'user_id' in request.data:
-                user = get_object_or_404(User, id=request.data['user_id'])
-                kwargs['created_by'] = user
-            kwargs['type'] = 'Public'
-            stream_queryset = Stream.objects.filter(**kwargs).order_by('-id')
-            collab_stream_queryset = Stream.objects.filter(id__in=(Collaborator.objects.filter(phone_number=logged_user.username).values('stream_id')), type='Private')
-            result_list = list(chain(stream_queryset, collab_stream_queryset))
-            page = self.paginate_queryset(result_list)
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        except Exception as err:
-            message, status_code, response_status = messages.MSG_ERROR_LIST, "400", status.HTTP_400_BAD_REQUEST
-            return custom_render_response(status_code, message, response_status)
+        kwargs = dict()
+        kwargs['type'] = 'Public'
+        if request.data.get('user_id') =="":
+            raise Http404("User profile does not exist")
+        elif request.data.get('user_id') is not None:
+            user_profile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
+            kwargs['created_by'] = user_profile.user
+            current_user = user_profile.user
+        else:
+            kwargs['created_by'] = self.request.user
+            current_user = self.request.user
+
+        stream_queryset = Stream.actives.filter(**kwargs).order_by('-id')
+        collaborator_qs = Collaborator.actives.filter(created_by=current_user)
+        collaborator_permission = [x.stream for x in collaborator_qs if
+                                   str(x.phone_number) in str(self.request.user) and x.stream.status == 'Active']
+
+        # merge result
+        result_list = list(chain(stream_queryset, collaborator_permission))
+        page = self.paginate_queryset(result_list)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class UserCollaborators(ListAPIView):

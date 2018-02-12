@@ -29,11 +29,11 @@ class StreamFilter(django_filters.FilterSet):
         # # Merge result
         # result_list = list(chain(owner_qs, collaborator_permission))
         # return result_list
-        return qs.filter(created_by=self.request.user)
+        return qs.filter(created_by=self.request.user).order_by('-upd')
 
     def filter_self_created(self, qs, name, value):
         # Get self created streams
-        return qs.filter(created_by=self.request.user)
+        return qs.filter(created_by=self.request.user).order_by('-upd')
 
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')

@@ -366,7 +366,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     def get_my_stream(self, obj):
 
         # Get self created streams
-        result_list = self.qs.filter(created_by=self.context.user)
+        result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
         total = result_list.count()
         result_list = result_list[0:10]
 

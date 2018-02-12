@@ -8,15 +8,26 @@ from emogo.apps.stream.models import Stream, Content
 class StreamAdmin(admin.ModelAdmin):
     model = Stream
     search_fields = ('name',)
-    list_display = ['name', 'type',  'featured', 'emogo', 'created_by']
+    list_display = ['name', 'type', 'featured', 'emogo', 'phone_number', 'username']
+
+    def phone_number(self, obj):
+        return obj.created_by.username
+
+    def username(self, obj):
+        return obj.created_by.user_data.full_name
 
 
 class ContentAdmin(admin.ModelAdmin):
     model = Content
-    list_display = ['get_name', 'type','url' ,'created_by']
 
-    def get_name(self, obj):
-        return obj.name
+    list_display = ('name', 'type', 'url', 'phone_number', 'username')
+
+    def phone_number(self, obj):
+        return obj.created_by.username
+
+    def username(self, obj):
+        return obj.created_by.user_data.full_name
+
 
 admin.site.register(Stream, StreamAdmin)
 admin.site.register(Content, ContentAdmin)

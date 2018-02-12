@@ -12,7 +12,7 @@ from serializers import StreamSerializer, ViewStreamSerializer, ContentSerialize
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
-
+from django.shortcuts import get_object_or_404
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
@@ -56,7 +56,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         else:
             serializer = self.get_serializer(instance, context=self.request)
             # Update stream view count
-            instance.update_view_count()
+            # We had to update single model by Filter because if i use .save() method model upd column value
+            # automatically changed that was not correct as per our requirement
+            Stream.objects.filter(id=instance.id).update(view_count=(instance.view_count+1))
 
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -118,6 +120,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
+
+# Todo the DeleteStreamContentAPI is not used but it was keeped because it is using in last build.
 class DeleteStreamContentAPI(DestroyAPIView):
 
     serializer_class = DeleteStreamContentSerializer
@@ -135,6 +139,31 @@ class DeleteStreamContentAPI(DestroyAPIView):
 
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.delete_content()
+        return custom_render_response(status_code=status.HTTP_200_OK, data=None)
+
+
+class DeleteStreamContentInBulkAPI(APIView):
+
+    serializer_class = DeleteStreamContentSerializer
+    queryset = Stream.actives.all().order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return get_object_or_404(Stream, pk=self.kwargs.get('pk'))
+
+    def post(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: Contents as list data
+        :param kwargs: dict param
+        :return: Delete Stream Content.
+        """
+
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.delete_content()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
@@ -285,6 +314,30 @@ class LinkTypeContentAPI(ListAPIView):
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class DeleteContentInBulk(APIView):
+    """
+    View to list all users in the system.
+
+    * Requires token authentication.
+    * Only admin users are able to access this view.
+    """
+    serializer_class = ContentBulkDeleteSerializer
+    queryset = Content.actives.all().order_by('-upd')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        self.queryset.filter(id__in=self.request.data['content_list']).update(status='Inactive')
+        # Delete stream and content relation.
+        StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
+        return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
 class MoveContentToStream(APIView):
