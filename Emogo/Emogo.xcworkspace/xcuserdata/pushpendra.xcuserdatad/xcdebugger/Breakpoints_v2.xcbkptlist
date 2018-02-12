@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Camera/CustomCameraViewController.swift"
-            timestampString = "539261914.7188441"
+            timestampString = "540123805.699419"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "382"
-            endingLineNumber = "382"
-            landmarkName = "captureModeTap(_:)"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
+            landmarkName = "btnActionGallery(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

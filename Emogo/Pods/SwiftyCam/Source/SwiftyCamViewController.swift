@@ -540,7 +540,6 @@ open class SwiftyCamViewController: UIViewController {
 			}
         }else{
             self.cameraDelegate?.forceStopVideoRecordingDelegate()
-//            print("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
         }
 	}
     

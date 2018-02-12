@@ -87,12 +87,12 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.addNextButton(isAddButton: false)
             }
         }
-        prepareNavBarButtons()
         print(isSessionRunning)
         
         if self.isForImageOnly == true {
             self.cameraModeOptions.isHidden = true
         }
+        prepareNavBarButtons()
         
     }
     
@@ -138,7 +138,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         doubleTapCameraSwitch = false
         allowAutoRotate = true
         shouldUseDeviceOrientation = true
-        allowBackgroundAudio = true
+        allowBackgroundAudio = false
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+             videoGravity   = .resizeAspectFill
+            print("Iphone x")
+        }
         self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true
         // Set ContDownLabel
@@ -251,6 +255,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     func setupButtonWhileRecording(isAddButton:Bool){
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
+            self.navigationItem.leftBarButtonItem  = nil
             let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
             self.navigationItem.leftBarButtonItem = btnBack
             let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
@@ -767,6 +772,8 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
             self.previewCollection.reloadData()
+            setupButtonWhileRecording(isAddButton: true)
+
         }else {
             self.presentCropperWithImage(image: photo)
         }

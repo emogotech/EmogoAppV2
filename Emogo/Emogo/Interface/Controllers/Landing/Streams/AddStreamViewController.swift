@@ -167,10 +167,13 @@ class AddStreamViewController: UITableViewController {
                     self.switchAddContent.isOn      = false
                 }else {
                     
+                    
                     self.switchAddCollaborators.isUserInteractionEnabled = true
                     self.switchAnyOneCanEdit.isUserInteractionEnabled = false
                     self.switchAnyOneCanEdit.isOn = false
-
+                    if !self.switchMakePrivate.isOn {
+                        self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+                    }
                     self.selectedCollaborators = (self.objStream?.arrayColab)!
                     if self.selectedCollaborators.count != 0 {
                         self.rowHieght.constant = 325.0
