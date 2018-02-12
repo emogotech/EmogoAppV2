@@ -462,6 +462,7 @@ extension PhotoEditorViewController {
 
         if  isText {
             isText = false
+            self.lastTextViewTransform = nil
             for beforeTextViewHide in self.canvasImageView.subviews {
                 if beforeTextViewHide.isKind(of: UIView.self) {
                     if beforeTextViewHide.tag == 2001 {

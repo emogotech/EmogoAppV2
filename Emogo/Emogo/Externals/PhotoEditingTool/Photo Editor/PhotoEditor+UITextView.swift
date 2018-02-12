@@ -18,30 +18,36 @@ extension PhotoEditorViewController: UITextViewDelegate {
             let sizeToFit = textView.sizeThatFits(CGSize(width: oldFrame.width, height:CGFloat.greatestFiniteMagnitude))
             textView.frame.size = CGSize(width: oldFrame.width, height: sizeToFit.height)
             textView.textContainer.size = textView.frame.size
-            self.viewTxt?.frame.size = textView.frame.size
-            self.viewTxt?.transform = textView.transform
-            self.lastTextViewTransform = self.viewTxt?.transform
+            DispatchQueue.main.async {
+                self.viewTxt?.frame.size = textView.frame.size
+            }
         }
         print("did change")
     }
      func textViewDidBeginEditing(_ textView: UITextView) {
         isTyping = true
         isText = true
-        lastTextViewTransCenter = self.viewTxt?.center
+        lastTextViewTransform =  textView.superview?.transform
+        lastTextViewTransCenter = textView.superview?.center
         lastTextViewFont = textView.font!
         activeTextView = textView
-
         textView.superview?.bringSubview(toFront: textView)
         textView.font = UIFont(name: "Helvetica", size: 30)
-        self.viewTxt?.frame.size = textView.frame.size
+        textView.superview?.frame.size = textView.frame.size
         UIView.animate(withDuration: 0.3,
                        animations: {
-                        self.viewTxt?.transform = CGAffineTransform.identity
-                        self.viewTxt?.center = CGPoint(x: self.canvasView.bounds.width / 2,
-                                                  y:  self.canvasView.bounds.height / 5)
-        }, completion: nil)
+                        if textView.text.trim() != ""{
+                            textView.superview?.transform = CGAffineTransform.identity
+                            textView.superview?.frame = textView.frame
+                            textView.superview?.frame.origin = CGPoint(x:   0, y:  0)
+                            textView.frame.origin = CGPoint(x:   0,  y:  0)
+                        }
+                        else{
+                            textView.superview?.center = CGPoint(x: self.view.bounds.width / 2, y:  self.canvasView.bounds.height / 5)
+                            textView.superview?.transform = CGAffineTransform.identity
+                        }
 
-        
+        }, completion: nil)
     }
     
      func textViewDidEndEditing(_ textView: UITextView) {
@@ -52,6 +58,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
         activeTextView = nil
         self.viewTxt?.frame.size = textView.frame.size
         textView.font = self.lastTextViewFont!
+        textView.superview?.backgroundColor = UIColor.clear
         UIView.animate(withDuration: 0.3,
                        animations: {
                         self.viewTxt?.transform = self.lastTextViewTransform!

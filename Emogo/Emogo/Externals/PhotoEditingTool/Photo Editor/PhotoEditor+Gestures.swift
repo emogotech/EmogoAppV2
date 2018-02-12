@@ -36,14 +36,13 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 if imageViewToPan != nil {
                     moveView(view: imageViewToPan!, recognizer: recognizer)
                 }
-            } else {
-                
-                if view is UITextView {
+            } else  if view is UITextView  {
                     let viewSub = recognizer.view?.superview
                     if viewSub?.tag  == 2001{
                         moveView(view: viewSub!, recognizer: recognizer)
                     }
-                }
+            } else {
+                self.moveView(view: view, recognizer: recognizer)
             }
         }
     }
@@ -58,6 +57,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         if let view = recognizer.view {
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
+                self.colorsCollectionView.isHidden = true
                 if viewSub?.tag  == 2001{
                     viewSub?.transform = (viewSub?.transform.scaledBy(x: recognizer.scale, y: recognizer.scale))!
                     recognizer.scale = 1
@@ -73,8 +73,9 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      */
     @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
         self.view.endEditing(true)
+        
         if let view = recognizer.view {
-            
+             self.colorsCollectionView.isHidden = true
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
                 if viewSub?.tag  == 2001{
@@ -82,6 +83,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                     recognizer.rotation = 0
                 }
             }else{
+        
                 view.transform = view.transform.rotated(by: recognizer.rotation)
                 recognizer.rotation = 0
             }
