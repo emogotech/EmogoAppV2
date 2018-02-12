@@ -16,6 +16,7 @@ class PeopleListViewController: UIViewController {
     
     var arrayColab = [CollaboratorDAO]()
     var streamID:String!
+    var currentIndex:Int!
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -40,6 +41,9 @@ class PeopleListViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Collaborator List"
         self.configureNavigationWithTitle()
+        if self.currentIndex != nil {
+            ContentList.sharedInstance.mainStreamIndex = currentIndex
+        }
         getColabListForStream()
     }
 

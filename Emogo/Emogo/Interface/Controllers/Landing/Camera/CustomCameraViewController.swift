@@ -110,6 +110,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         SharedData.sharedInstance.tempVC = nil
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
+
 //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
 
         self.showStatusBar()
@@ -138,7 +139,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         doubleTapCameraSwitch = false
         allowAutoRotate = true
         shouldUseDeviceOrientation = true
-        allowBackgroundAudio = false
+        allowBackgroundAudio = true
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
              videoGravity   = .resizeAspectFill
             print("Iphone x")

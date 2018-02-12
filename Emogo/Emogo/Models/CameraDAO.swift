@@ -64,6 +64,7 @@ class ContentList{
     var arrayToCreate:[ContentDAO]!
 
     var objStream:String?
+    var mainStreamIndex:Int?
     var requestURl:String! = ""
     class var sharedInstance: ContentList {
         struct Static {

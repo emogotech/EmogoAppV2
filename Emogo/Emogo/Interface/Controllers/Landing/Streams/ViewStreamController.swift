@@ -142,6 +142,11 @@ class ViewStreamController: UIViewController {
     }
     
     func prepareNavigation(){
+        
+        if ContentList.sharedInstance.mainStreamIndex != nil {
+            self.currentIndex = ContentList.sharedInstance.mainStreamIndex
+            ContentList.sharedInstance.mainStreamIndex = nil
+        }
         self.configureNavigationTite()
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
@@ -301,6 +306,7 @@ class ViewStreamController: UIViewController {
     @objc func btnColabAction(){
         let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
         obj.streamID = self.objStream?.streamID
+        obj.currentIndex = self.currentIndex
         self.navigationController?.push(viewController: obj)
     }
     

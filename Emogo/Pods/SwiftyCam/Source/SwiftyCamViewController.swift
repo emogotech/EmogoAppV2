@@ -1001,9 +1001,13 @@ open class SwiftyCamViewController: UIViewController {
         }
 
 		do{
-			try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-			                                                with: [.duckOthers, .defaultToSpeaker])
+//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+//                                                            with: [.duckOthers, .defaultToSpeaker])
 
+    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
+                                                        with: [])
+
+            
 			session.automaticallyConfiguresApplicationAudioSession = false
 		}
 		catch {

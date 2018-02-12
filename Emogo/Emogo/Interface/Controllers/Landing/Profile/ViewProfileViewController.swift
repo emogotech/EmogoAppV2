@@ -51,7 +51,13 @@ class ViewProfileViewController: UIViewController {
         self.getStreamList(type:.start)
     }
     
-    
+    override func btnBackAction() {
+        
+        let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+        StreamList.sharedInstance.arrayViewStream = array
+        self.navigationController?.pop()
+        
+    }
 
     @objc func showReportList(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
