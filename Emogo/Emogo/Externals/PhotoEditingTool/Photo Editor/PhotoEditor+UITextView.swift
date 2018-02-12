@@ -24,7 +24,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
         }
         print("did change")
     }
-     func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         isTyping = true
         isText = true
         lastTextViewTransform =  textView.superview?.transform
@@ -34,6 +34,7 @@ extension PhotoEditorViewController: UITextViewDelegate {
         textView.superview?.bringSubview(toFront: textView)
         textView.font = UIFont(name: "Helvetica", size: 30)
         textView.superview?.frame.size = textView.frame.size
+        self.colorsCollectionView.isHidden = false
         UIView.animate(withDuration: 0.3,
                        animations: {
                         if textView.text.trim() != ""{
@@ -46,11 +47,11 @@ extension PhotoEditorViewController: UITextViewDelegate {
                             textView.superview?.center = CGPoint(x: self.view.bounds.width / 2, y:  self.canvasView.bounds.height / 5)
                             textView.superview?.transform = CGAffineTransform.identity
                         }
-
+                        
         }, completion: nil)
     }
     
-     func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         guard lastTextViewTransform != nil && lastTextViewTransCenter != nil && lastTextViewFont != nil
             else {
                 return
@@ -59,14 +60,14 @@ extension PhotoEditorViewController: UITextViewDelegate {
         self.viewTxt?.frame.size = textView.frame.size
         textView.font = self.lastTextViewFont!
         textView.superview?.backgroundColor = UIColor.clear
+        self.colorsCollectionView.isHidden = true
         UIView.animate(withDuration: 0.3,
                        animations: {
                         self.viewTxt?.transform = self.lastTextViewTransform!
                         self.viewTxt?.center = self.lastTextViewTransCenter!
         }, completion: nil)
-
+        
     }
-    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
 //            self.doneButtonAction()
