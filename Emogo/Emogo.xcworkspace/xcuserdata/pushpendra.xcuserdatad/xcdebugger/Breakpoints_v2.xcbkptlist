@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "634"
             endingLineNumber = "634"
-            landmarkName = "animateView()"
+            landmarkName = "playIconTapped(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +79,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "302"
             endingLineNumber = "302"
-            landmarkName = "swipeGestureAction(gesture:)"
+            landmarkName = "changeButtonAccordingSwipe(selected:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/PhotoEditingTool/Photo Editor/PhotoEditor+Controls.swift"
-            timestampString = "539775342.6445839"
+            timestampString = "540112646.09726"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "332"
             endingLineNumber = "332"
-            landmarkName = "btnFilterOptionSelected(index:)"
+            landmarkName = "imageOrientation(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/PhotoEditingTool/Photo Editor/PhotoEditor+Controls.swift"
-            timestampString = "539775342.645201"
+            timestampString = "540112646.097337"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "513"
             endingLineNumber = "513"
-            landmarkName = "sliderValueChanged(_:)"
+            landmarkName = "capturScreenShot()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/PhotoEditingTool/Photo Editor/PhotoEditor+Controls.swift"
-            timestampString = "539775342.645757"
+            timestampString = "540112646.097399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "532"
             endingLineNumber = "532"
-            landmarkName = "updateSliderForItem(item:)"
+            landmarkName = "sliderValueChanged(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

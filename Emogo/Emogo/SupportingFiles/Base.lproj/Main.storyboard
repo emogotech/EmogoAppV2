@@ -2804,7 +2804,7 @@
         <image name="input_text_iphone" width="329" height="58"/>
         <image name="lapse-icon" width="25" height="25"/>
         <image name="link_unactive_icon" width="26" height="45"/>
-        <image name="logo-iPhone" width="179" height="33"/>
+        <image name="logo-iPhone" width="156" height="40"/>
         <image name="menu_down_arrow" width="17" height="10"/>
         <image name="my_stuff_active_icon" width="46" height="45"/>
         <image name="next-btn" width="160" height="53"/>

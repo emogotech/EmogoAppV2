@@ -111,6 +111,9 @@ class LinkViewController: UIViewController {
                                 let imageUrl = result[SwiftLinkResponseKey.image]
                                 if let title = title {
                                     content.name = (title as! String).trim().findUrl()
+                                    if content.name.trim().count > 75 {
+                                        content.name = content.name.trim(count: 75)
+                                    }
                                 }
                                 if let description = description {
                                     var str  = (description as! String).trim()
