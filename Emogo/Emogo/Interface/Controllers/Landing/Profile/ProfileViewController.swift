@@ -282,7 +282,9 @@ class ProfileViewController: UIViewController {
     override func btnLogoutAction() {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+            HUDManager.sharedInstance.showHUD()
             APIServiceManager.sharedInstance.apiForLogoutUser { (isSuccess, errorMsg) in
+                HUDManager.sharedInstance.hideHUD()
                 if (errorMsg?.isEmpty)! {
                     self.logout()
                 }else {
