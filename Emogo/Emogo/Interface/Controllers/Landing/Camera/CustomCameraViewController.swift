@@ -89,7 +89,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         print(isSessionRunning)
         
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             self.cameraModeOptions.isHidden = true
         }
         prepareNavBarButtons()
@@ -155,7 +155,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         
         // Configure record and capture Button
         
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             self.btnCamera.gestureRecognizers?.removeAll()
         }
         
@@ -773,7 +773,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         
@@ -802,7 +802,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called
         // Called if a SwiftyCamButton ends a long press gesture
         
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         
@@ -822,7 +822,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Called when stopVideoRecording() is called and the video is finished processing
         // Returns a URL in the temporary directory where video is stored
         
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         
@@ -857,14 +857,14 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         // Returns current camera selection
     }
     func swipeBackDelegate() {
-        if self.isForImageOnly == true || isRecording == true{
+        if self.isForImageOnly != nil || isRecording == true{
             return
         }
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.popNormal()
     }
     func swipeUpDelegate() {
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         if ContentList.sharedInstance.arrayContent.count > 0{
@@ -872,7 +872,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         }
     }
     func swipeDownDelegate() {
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         if ContentList.sharedInstance.arrayContent.count > 0{
@@ -881,7 +881,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     }
     
     func forceStopVideoRecordingDelegate() {
-        if self.isForImageOnly == true {
+        if self.isForImageOnly != nil {
             return
         }
         btnCamera.forceShrinkButton()
