@@ -27,7 +27,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kUserNameVerifyAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -52,7 +52,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kSignUpAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -83,7 +83,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kVerifyOTPAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -112,7 +112,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kVerifyLoginAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -144,7 +144,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kResendAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -175,7 +175,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kLoginAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -183,7 +183,7 @@ class APIServiceManager: NSObject {
                             let dictUserData:NSDictionary = data as! NSDictionary
                             //kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                           //  UserDAO.sharedInstance.parseUserInfo()
-                            print(dictUserData)
+                            //print(dictUserData)
                           //  kDefault?.set(true, forKey: kUserLogggedIn)
                         }
                         completionHandler(true,"")
@@ -249,7 +249,7 @@ class APIServiceManager: NSObject {
             
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -315,7 +315,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -367,7 +367,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            print(data)
+                            //print(data)
                             let result:[String:Any] = data as! [String:Any]
                             if let value = result["emogo"] {
                                 let dict:[String:Any] = value as! [String : Any]
@@ -504,7 +504,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -579,7 +579,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -630,12 +630,12 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            print(data)
+                            //print(data)
                             if data is NSDictionary {
                                 let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 completionHandler(stream,"")
@@ -668,7 +668,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -708,7 +708,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -760,7 +760,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.delete(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.NoContent.rawValue{
@@ -793,7 +793,7 @@ class APIServiceManager: NSObject {
             
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -878,7 +878,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: "delete_content/", Param: param) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.NoContent.rawValue{
@@ -906,7 +906,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.patch(strURL: url, Param: param) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -939,7 +939,7 @@ class APIServiceManager: NSObject {
             
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1011,7 +1011,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1147,7 +1147,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1228,7 +1228,7 @@ class APIServiceManager: NSObject {
             switch(result){
                 
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1357,7 +1357,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReportAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 completionHandler(true,"success")
                 break
             case .error(let error):
@@ -1377,7 +1377,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1412,7 +1412,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+                //print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.NoContent.rawValue{
@@ -1439,9 +1439,9 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            print(data)
+                            //print(data)
                             let result:[String:Any] = data as! [String:Any]
-                            print(result)
+                            //print(result)
                             completionHandler(result,"")
                         }
                         

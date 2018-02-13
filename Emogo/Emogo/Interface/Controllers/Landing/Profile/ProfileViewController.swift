@@ -111,7 +111,7 @@ class ProfileViewController: UIViewController {
     func prepareLayout() {
         lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
         lblUserName.minimumScaleFactor = 1.0
-        print(UserDAO.sharedInstance.user.userImage.trim())
+        //print(UserDAO.sharedInstance.user.userImage.trim())
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
         self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
@@ -592,7 +592,7 @@ class ProfileViewController: UIViewController {
             } else if obj.type == .video {
                 camera.type = .video
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
-                    print(progress)
+                    //print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in

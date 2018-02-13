@@ -317,6 +317,9 @@ class ViewStreamController: UIViewController {
     func openFullView(index:Int?){
         var arrayContents = [LightboxImage]()
         var startIndex = 0
+        if self.objStream == nil {
+            return
+        }
         if (self.objStream?.canAddContent)! {
             if index != nil {
                 startIndex = index!
@@ -371,6 +374,9 @@ class ViewStreamController: UIViewController {
     }
 
     func openFullViewForVideo(index:Int?){
+        if self.objStream == nil {
+            return
+        }
         let array = objStream?.arrayContent.filter { $0.isAdd == false }
         ContentList.sharedInstance.arrayContent = array
         let seletedImage = ContentList.sharedInstance.arrayContent[index!]

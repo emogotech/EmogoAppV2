@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func executeDeepLink(with url: URL) -> Bool {
         let splitStr = "\(url)"
         let splitArr = splitStr.components(separatedBy: "/") as [String]
-        print(splitArr)
+        //print(splitArr)
         if (splitArr.last) != nil {
             if splitArr.last == kDeepLinkTypeProfile as String{
                 return setTypeOfViewController(objType: kDeepLinkTypeProfile)
@@ -158,10 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         content.type = .link
         content.isUploaded = false
         
-        print(SharedData.sharedInstance.contentList.arrayContent)
+        //print(SharedData.sharedInstance.contentList.arrayContent)
         SharedData.sharedInstance.contentList.arrayContent.removeAll()
         SharedData.sharedInstance.contentList.arrayContent.append(content)
-        print(SharedData.sharedInstance.contentList.arrayContent)
+        //print(SharedData.sharedInstance.contentList.arrayContent)
     }
     
     private func prepareViewController() {

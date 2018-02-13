@@ -156,7 +156,7 @@ class LinkViewController: UIViewController {
                                 if imgUrl.isEmpty {
                                     let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
                                     let url:String = (imageUrl1 as! URL).absoluteString.trim().slice(from: "?imgurl=", to: "&imgrefurl")!
-                                    print(url)
+                                    //print(url)
                                     imgUrl = url
                                 }
                                 

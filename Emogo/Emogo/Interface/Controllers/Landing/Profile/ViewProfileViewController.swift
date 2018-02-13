@@ -46,8 +46,11 @@ class ViewProfileViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
         
+       
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         HUDManager.sharedInstance.showHUD()
-        
         self.getStreamList(type:.start)
     }
     
