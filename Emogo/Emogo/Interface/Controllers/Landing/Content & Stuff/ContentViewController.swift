@@ -226,23 +226,24 @@ class ContentViewController: UIViewController {
             self.txtTitleImage.text = seletedImage.name.trim()
             self.lblTitleImage.text = seletedImage.name.trim()
             self.lblTitleImage.isHidden = false
-        }else{
-            self.txtTitleImage.isHidden = false
+        } else {
+            if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                self.txtTitleImage.isHidden = false
+            }
+            else {
+                self.lblTitleImage.isHidden = false
+            }
         }
-        
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()
             if seletedImage.description.count > 250 {
                 description = seletedImage.description.trim(count: 250)
             }
             self.txtDescription.text = description
-            print(description)
-
         }else{
             self.txtDescription.text = ""
         }
-        
-        
+
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
             self.btnEdit.isHidden     = false
