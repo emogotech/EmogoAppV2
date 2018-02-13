@@ -58,7 +58,8 @@ class PMPhotoEditingManager: NSObject {
     func setImage (image : UIImage) {
         self.modifiedImage = image
         self.defaultImage = image
-         self.configureCIContext()
+        ciContext = nil
+        self.configureCIContext()
     }
     
     

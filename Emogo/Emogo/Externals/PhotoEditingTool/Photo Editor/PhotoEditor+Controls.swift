@@ -234,7 +234,8 @@ extension PhotoEditorViewController {
             if self.isFilterSelected  {
                 self.gradientButton.isHidden = true
                 hideToolbar(hide: true)
-                let img = self.imageOrientation(self.canvasImageView.image!)
+                
+                let img = self.imageOrientation(self.canvasView.toImage())
                 editingService.setImage (image: img)
                 self.filterView.isHidden = false
                 self.filterViewButton.isHidden = false
