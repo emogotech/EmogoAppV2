@@ -140,10 +140,6 @@ class CustomCameraViewController: SwiftyCamViewController {
         allowAutoRotate = true
         shouldUseDeviceOrientation = true
         allowBackgroundAudio = true
-        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-             videoGravity   = .resizeAspectFill
-            print("Iphone x")
-        }
         self.btnPreviewOpen.isHidden = true
         self.viewFlashOptions.isHidden = true
         // Set ContDownLabel
