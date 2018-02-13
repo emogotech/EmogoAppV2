@@ -173,7 +173,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       
+        ContentList.sharedInstance.mainStreamIndex = nil
         StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.currentIndex = indexPath.row

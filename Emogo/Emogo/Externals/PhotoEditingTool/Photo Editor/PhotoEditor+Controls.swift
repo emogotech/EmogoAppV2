@@ -412,9 +412,12 @@ extension PhotoEditorViewController {
         self.isFilterSelected = false
         if self.isGradientFilter {
             self.canvasImageView.image = self.canvasView.toImage()
+            self.editingService.ciContext = nil
             self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         }else {
-            self.canvasImageView.image = self.editingService.posterImage()
+           self.canvasImageView.image = self.editingService.posterImage()
+          //  self.canvasImageView.image = self.canvasView.toImage()
+
         }
         self.gradientImageView.isHidden = true
         self.editingService.setImage(image: self.canvasImageView.image!)
