@@ -3,52 +3,52 @@
     {
       "size" : "60x45",
       "idiom" : "iphone",
-      "filename" : "app_icon_120x90.png",
+      "filename" : "app-icon-120-by-90.png",
       "scale" : "2x"
     },
     {
       "size" : "60x45",
       "idiom" : "iphone",
-      "filename" : "app_icon_180x135.png",
+      "filename" : "app-icon-180-by-135.png",
       "scale" : "3x"
     },
     {
       "size" : "67x50",
       "idiom" : "ipad",
-      "filename" : "app_icon_134x100.png",
+      "filename" : "app-icon-134-by-100.png",
       "scale" : "2x"
     },
     {
       "size" : "74x55",
       "idiom" : "ipad",
-      "filename" : "app_icon_148x110.png",
+      "filename" : "app-icon-148-by-110.png",
       "scale" : "2x"
     },
     {
       "size" : "27x20",
       "idiom" : "universal",
-      "filename" : "app_icon_54x40.png",
+      "filename" : "app-icon-54-by-40.png",
       "scale" : "2x",
       "platform" : "ios"
     },
     {
       "size" : "27x20",
       "idiom" : "universal",
-      "filename" : "app_icon_81x60.png",
+      "filename" : "app-icon-81-by-60.png",
       "scale" : "3x",
       "platform" : "ios"
     },
     {
       "size" : "32x24",
       "idiom" : "universal",
-      "filename" : "app_icon_64x48.png",
+      "filename" : "app-icon-64-by-48.png",
       "scale" : "2x",
       "platform" : "ios"
     },
     {
       "size" : "32x24",
       "idiom" : "universal",
-      "filename" : "app_icon_96x72.png",
+      "filename" : "app-icon-96-by-72.png",
       "scale" : "3x",
       "platform" : "ios"
     },
