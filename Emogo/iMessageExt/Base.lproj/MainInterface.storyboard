@@ -40,10 +40,10 @@
                                 <rect key="frame" x="0.0" y="204" width="375" height="259"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="DpN-yg-abb">
-                                        <rect key="frame" x="98" y="8" width="178" height="33"/>
+                                        <rect key="frame" x="109" y="8" width="156" height="40"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="csu-rn-Owu">
-                                        <rect key="frame" x="107" y="55" width="160" height="53"/>
+                                        <rect key="frame" x="107" y="62" width="160" height="53"/>
                                         <state key="normal" image="sign-up-btn"/>
                                         <connections>
                                             <action selector="btnTapSignUp:" destination="ObA-dk-sSI" eventType="touchUpInside" id="CRL-Yx-cZ4"/>
@@ -51,7 +51,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pe0-dU-REi">
-                                        <rect key="frame" x="107" y="119" width="160" height="53"/>
+                                        <rect key="frame" x="107" y="126" width="160" height="53"/>
                                         <state key="normal" image="sign-in-btn"/>
                                         <connections>
                                             <action selector="btnTapSignIn:" destination="ObA-dk-sSI" eventType="touchUpInside" id="rhU-n5-Cq6"/>
@@ -179,7 +179,7 @@
                                         </connections>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="OM6-Kf-ugw">
-                                        <rect key="frame" x="98.5" y="8" width="178" height="33"/>
+                                        <rect key="frame" x="85" y="8" width="205" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="OM6-Kf-ugw" secondAttribute="height" multiplier="74:19" constant="49.473684210526301" id="NcI-jD-64K"/>
                                         </constraints>
@@ -320,7 +320,7 @@
                                 <rect key="frame" x="0.0" y="172.5" width="375" height="322"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="2HY-Sy-x5H">
-                                        <rect key="frame" x="98.5" y="8" width="178" height="33"/>
+                                        <rect key="frame" x="109.5" y="8" width="156" height="40"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-Np-IyY">
                                         <rect key="frame" x="88.5" y="93.5" width="198.5" height="27"/>
@@ -496,7 +496,7 @@
                                 <rect key="frame" x="0.0" y="171" width="375" height="325"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="Tby-lL-GhZ">
-                                        <rect key="frame" x="98.5" y="8" width="178" height="33"/>
+                                        <rect key="frame" x="109.5" y="8" width="156" height="40"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="3Bj-tb-DKW">
                                         <rect key="frame" x="61" y="73.5" width="253" height="24"/>
@@ -730,7 +730,7 @@
                                         <state key="normal" image="check-emogo-stream-btn"/>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="Ule-Bt-6ft">
-                                        <rect key="frame" x="98.5" y="20.5" width="178" height="33"/>
+                                        <rect key="frame" x="85" y="20.5" width="205" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ule-Bt-6ft" secondAttribute="height" multiplier="74:19" constant="49.473684210526301" id="Co7-4T-6mc"/>
                                         </constraints>
@@ -789,7 +789,7 @@
                                 <rect key="frame" x="0.0" y="172.5" width="375" height="322"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-iPhone" translatesAutoresizingMaskIntoConstraints="NO" id="C0L-Lu-rZ8">
-                                        <rect key="frame" x="98.5" y="8" width="178" height="33"/>
+                                        <rect key="frame" x="109.5" y="8" width="156" height="40"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Phone Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
                                         <rect key="frame" x="90.5" y="94.5" width="194" height="27"/>
@@ -2841,7 +2841,7 @@ Cg
         <image name="go-back-to-where-i-was-btn" width="155" height="45"/>
         <image name="gradient" width="169" height="19"/>
         <image name="input_text_iphone" width="329" height="58"/>
-        <image name="logo-iPhone" width="178" height="33"/>
+        <image name="logo-iPhone" width="156" height="40"/>
         <image name="next-btn" width="160" height="53"/>
         <image name="next-icon" width="8" height="14"/>
         <image name="play_button" width="30" height="30"/>
@@ -2857,7 +2857,7 @@ Cg
         <image name="white_up_arrow" width="12" height="7"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="rWE-0e-NjR"/>
-        <segue reference="EwF-BA-GLV"/>
+        <segue reference="0JJ-eD-H3B"/>
+        <segue reference="7X6-Js-wGB"/>
     </inferredMetricsTieBreakers>
 </document>

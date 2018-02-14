@@ -14,14 +14,15 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Outlets
     @IBOutlet weak var container: UIView!
     @IBOutlet weak var imgBackground : UIImageView!
+
     // MARK: - Variables
     var hudView: LoadingView!
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         // SharedData.sharedInstance.resetAllData()
-        prepareLayout()
         setupLoader()
+        prepareLayout()
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Expand), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Request_Style_Compact), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIApplicationWillChangeStatusBarOrientation, object: nil)
@@ -90,6 +91,10 @@ class MessagesViewController: MSMessagesAppViewController {
     
     @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
+            self.hudView.removeFromSuperview()
             UserDAO.sharedInstance.parseUserInfo()
             if SharedData.sharedInstance.tempViewController == nil {
                 NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -100,23 +105,21 @@ class MessagesViewController: MSMessagesAppViewController {
                 vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
                 self.container.addSubview(vc.view)
                 vc.didMove(toParentViewController: self)
-                if hudView != nil {
-                    hudView.stopLoaderWithAnimation()
-                }
-                self.hudView.removeFromSuperview()
                 self.container.isHidden = false
             }
         }
         else {
-            if hudView != nil {
-                hudView.stopLoaderWithAnimation()
-            }
-            self.hudView.removeFromSuperview()
+            
+//                if self.hudView != nil {
+//                    self.hudView.stopLoaderWithAnimation()
+//                }
+//                self.hudView.removeFromSuperview()
             self.container.isHidden = true
         }
     }
     
     // MARK: - PrepareLayout
+    
     func prepareLayout()  {
         imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         SharedData.sharedInstance.tempViewController = nil
@@ -127,6 +130,10 @@ class MessagesViewController: MSMessagesAppViewController {
             if !(code?.isEmpty)! {
                 let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"
                 SharedData.sharedInstance.countryCode = code
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
+                }
+                self.hudView.removeFromSuperview()
             }
         }
     }
