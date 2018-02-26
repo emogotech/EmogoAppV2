@@ -94,6 +94,7 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     
     var itemRenderDirection : CHTCollectionViewWaterfallLayoutItemRenderDirection{
         didSet{
+            print("is Rendering")
             invalidateLayout()
         }}
     
@@ -229,8 +230,8 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
             // Item will be put into shortest column.
             for idx in 0 ..< itemCount {
                 let indexPath = IndexPath(item: idx, section: section)
-                
                 let columnIndex = self.nextColumnIndexForItem(idx)
+               
                 let xOffset = sectionInset.left + (itemWidth + self.minimumColumnSpacing) * CGFloat(columnIndex)
                 let yOffset = (self.columnHeights.object(at: columnIndex) as AnyObject).doubleValue!
                 let itemSize = self.delegate?.collectionView(self.collectionView!, layout: self, sizeForItemAtIndexPath: indexPath)

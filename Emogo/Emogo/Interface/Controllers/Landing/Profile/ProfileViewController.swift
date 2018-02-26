@@ -773,6 +773,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if currentMenu == .stuff {
+            if destinationIndexPath.row == 0 {
+                return
+            }
             let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
             ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
             ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)

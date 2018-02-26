@@ -689,7 +689,9 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+        if destinationIndexPath.row == 0 {
+            return
+        }
         let contentDest = objStream?.arrayContent[sourceIndexPath.row]
         objStream?.arrayContent.remove(at: sourceIndexPath.row)
         objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)

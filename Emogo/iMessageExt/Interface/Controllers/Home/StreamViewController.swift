@@ -94,6 +94,9 @@ class StreamViewController: MSMessagesAppViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         imgGuesture.addGestureRecognizer(tapRecognizer)
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+        self.collectionStreams.addGestureRecognizer(longPressGesture)
+        
         if currentStreamIndex == 0 {
             btnPreviousStream.isEnabled = false
         }
@@ -407,6 +410,33 @@ class StreamViewController: MSMessagesAppViewController {
             present(controller, animated: true, completion: nil)
         }
     }
+    
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        if self.objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+            return
+        }
+        
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.collectionStreams.indexPathForItem(at: gesture.location(in: self.collectionStreams)) else {
+                break
+            }
+            collectionStreams.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            collectionStreams.updateInteractiveMovementTargetPosition(gesture.location(in: self.collectionStreams))
+            
+        case UIGestureRecognizerState.ended:
+            collectionStreams.endInteractiveMovement()
+        default:
+            collectionStreams.cancelInteractiveMovement()
+        }
+    }
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -530,6 +560,24 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         self.present(obj, animated: false, completion: nil)
     }
     
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let contentDest = objStream?.arrayContent[sourceIndexPath.row]
+        objStream?.arrayContent.remove(at: sourceIndexPath.row)
+        objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
+        DispatchQueue.main.async {
+            self.collectionStreams.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == 0 {
+            return false
+        }else {
+            return true
+        }
+    }
     @objc func btnPlayAction(sender:UIButton){
         var index : Int = 0
         if (self.objStream?.canAddContent)! {
