@@ -121,6 +121,9 @@ class ViewStreamController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
+        
+       let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+        self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
     }
     
@@ -279,6 +282,24 @@ class ViewStreamController: UIViewController {
             default:
                 break
             }
+        }
+    }
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
+                break
+            }
+            viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case UIGestureRecognizerState.ended:
+            viewStreamCollectionView.endInteractiveMovement()
+        default:
+            viewStreamCollectionView.cancelInteractiveMovement()
         }
     }
     
@@ -617,7 +638,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let content = objStream?.arrayContent[indexPath.row]
+        let content = objStream?.arrayContent[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
@@ -628,13 +649,15 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let content = objStream?.arrayContent[indexPath.row]
+    func collectionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                         sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        let content = objStream?.arrayContent[indexPath.item]
         if content?.isAdd == true {
             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
         }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
+    
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let content = objStream?.arrayContent[indexPath.row]
@@ -655,6 +678,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             self.navigationController?.push(viewController: objPreview)
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let content = objStream?.arrayContent[sourceIndexPath.item]
+        objStream?.arrayContent.insert(content!, at: destinationIndexPath.item)
+    }
+    
 }
 
 extension ViewStreamController:StreamViewHeaderDelegate {
@@ -663,3 +692,15 @@ extension ViewStreamController:StreamViewHeaderDelegate {
     }
 }
 
+
+extension CHTCollectionViewWaterfallLayout {
+    
+    internal override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
+        
+        let context = super.invalidationContext(forInteractivelyMovingItems: targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition)
+        
+        self.delegate?.collectionView!(self.collectionView!, moveItemAt: previousIndexPaths[0], to: targetIndexPaths[0])
+        
+        return context
+    }
+}

@@ -240,8 +240,8 @@ class PreviewController: UIViewController {
     func prepareNavBarButtons(){
         btnDone.isUserInteractionEnabled = true
         btnAddStream.isUserInteractionEnabled = true
-
         self.navigationController?.isNavigationBarHidden = false
+
 //        self.navigationController?.navigationBar.barTintColor = .clear
 //        self.navigationController?.navigationBar.backgroundColor = UIColor.black.withAlphaComponent(0.1)
 //        self.navigationController?.navigationBar.shadowImage = UIImage()

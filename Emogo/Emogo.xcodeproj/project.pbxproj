@@ -310,6 +310,16 @@
 		F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463DAD0200DE69C0039A58A /* CustomCameraViewController.swift */; };
 		F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */; };
 		F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */; };
+		F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D02043E92500B71102 /* TLPhotosPickerViewController.swift */; };
+		F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F46AC6D12043E92600B71102 /* TLPhotosPickerViewController.xib */; };
+		F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D22043E92600B71102 /* TLPhotoLibrary.swift */; };
+		F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D32043E92700B71102 /* TLCollectionTableViewCell.swift */; };
+		F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D42043E92800B71102 /* TLBundle.swift */; };
+		F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D52043E92900B71102 /* TLAlbumPopView.swift */; };
+		F46AC6E32043E92E00B71102 /* TLCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F46AC6D62043E92A00B71102 /* TLCollectionTableViewCell.xib */; };
+		F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D72043E92B00B71102 /* TLPhotoCollectionViewCell.swift */; };
+		F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6DB2043E92D00B71102 /* TLAssetsCollection.swift */; };
+		F46AC6E62043E92E00B71102 /* TLPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F46AC6DC2043E92D00B71102 /* TLPhotoCollectionViewCell.xib */; };
 		F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */; };
 		F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */; };
 		F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */; };
@@ -350,18 +360,6 @@
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
-		F4FFF909201A07CE00680571 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF8FD201A07CD00680571 /* .gitkeep */; };
-		F4FFF90A201A07CE00680571 /* TLAlbumPopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF8FE201A07CD00680571 /* TLAlbumPopView.swift */; };
-		F4FFF90B201A07CE00680571 /* TLAssetsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF8FF201A07CD00680571 /* TLAssetsCollection.swift */; };
-		F4FFF90C201A07CE00680571 /* TLBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF900201A07CD00680571 /* TLBundle.swift */; };
-		F4FFF90D201A07CE00680571 /* TLCollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF901201A07CD00680571 /* TLCollectionTableViewCell.swift */; };
-		F4FFF90E201A07CE00680571 /* TLCollectionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF902201A07CD00680571 /* TLCollectionTableViewCell.xib */; };
-		F4FFF90F201A07CE00680571 /* TLPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF903201A07CD00680571 /* TLPhotoCollectionViewCell.swift */; };
-		F4FFF910201A07CE00680571 /* TLPhotoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF904201A07CD00680571 /* TLPhotoCollectionViewCell.xib */; };
-		F4FFF911201A07CE00680571 /* TLPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF905201A07CD00680571 /* TLPhotoLibrary.swift */; };
-		F4FFF912201A07CE00680571 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FFF906201A07CD00680571 /* TLPhotosPickerViewController.swift */; };
-		F4FFF913201A07CE00680571 /* TLPhotosPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF907201A07CD00680571 /* TLPhotosPickerViewController.xib */; };
-		F4FFF914201A07CE00680571 /* TLPhotoPickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4FFF908201A07CE00680571 /* TLPhotoPickerController.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -718,6 +716,16 @@
 		F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFloatLabelTextView.m; sourceTree = "<group>"; };
 		F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFloatLabelTextView.h; sourceTree = "<group>"; };
 		F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+FaceAware.swift"; sourceTree = "<group>"; };
+		F46AC6D02043E92500B71102 /* TLPhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotosPickerViewController.swift; sourceTree = "<group>"; };
+		F46AC6D12043E92600B71102 /* TLPhotosPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotosPickerViewController.xib; sourceTree = "<group>"; };
+		F46AC6D22043E92600B71102 /* TLPhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoLibrary.swift; sourceTree = "<group>"; };
+		F46AC6D32043E92700B71102 /* TLCollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLCollectionTableViewCell.swift; sourceTree = "<group>"; };
+		F46AC6D42043E92800B71102 /* TLBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLBundle.swift; sourceTree = "<group>"; };
+		F46AC6D52043E92900B71102 /* TLAlbumPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAlbumPopView.swift; sourceTree = "<group>"; };
+		F46AC6D62043E92A00B71102 /* TLCollectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLCollectionTableViewCell.xib; sourceTree = "<group>"; };
+		F46AC6D72043E92B00B71102 /* TLPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		F46AC6DB2043E92D00B71102 /* TLAssetsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAssetsCollection.swift; sourceTree = "<group>"; };
+		F46AC6DC2043E92D00B71102 /* TLPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
 		F4731FB81FC2B83200AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayoutAttributes.swift; sourceTree = "<group>"; };
 		F4731FB91FC2B83200AA68D8 /* IOStickyHeaderFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOStickyHeaderFlowLayout.swift; sourceTree = "<group>"; };
 		F4731FC01FC2C9F500AA68D8 /* StreamSearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamSearchCell.swift; sourceTree = "<group>"; };
@@ -761,18 +769,6 @@
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
-		F4FFF8FD201A07CD00680571 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		F4FFF8FE201A07CD00680571 /* TLAlbumPopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAlbumPopView.swift; sourceTree = "<group>"; };
-		F4FFF8FF201A07CD00680571 /* TLAssetsCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLAssetsCollection.swift; sourceTree = "<group>"; };
-		F4FFF900201A07CD00680571 /* TLBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLBundle.swift; sourceTree = "<group>"; };
-		F4FFF901201A07CD00680571 /* TLCollectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLCollectionTableViewCell.swift; sourceTree = "<group>"; };
-		F4FFF902201A07CD00680571 /* TLCollectionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLCollectionTableViewCell.xib; sourceTree = "<group>"; };
-		F4FFF903201A07CD00680571 /* TLPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
-		F4FFF904201A07CD00680571 /* TLPhotoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotoCollectionViewCell.xib; sourceTree = "<group>"; };
-		F4FFF905201A07CD00680571 /* TLPhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoLibrary.swift; sourceTree = "<group>"; };
-		F4FFF906201A07CD00680571 /* TLPhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotosPickerViewController.swift; sourceTree = "<group>"; };
-		F4FFF907201A07CD00680571 /* TLPhotosPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotosPickerViewController.xib; sourceTree = "<group>"; };
-		F4FFF908201A07CE00680571 /* TLPhotoPickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TLPhotoPickerController.bundle; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1542,8 +1538,16 @@
 		F423AEFD2008EF1600648A3E /* PhotoPicker */ = {
 			isa = PBXGroup;
 			children = (
-				F4FFF8FC201A07CD00680571 /* Classes */,
-				F4FFF908201A07CE00680571 /* TLPhotoPickerController.bundle */,
+				F46AC6D52043E92900B71102 /* TLAlbumPopView.swift */,
+				F46AC6DB2043E92D00B71102 /* TLAssetsCollection.swift */,
+				F46AC6D42043E92800B71102 /* TLBundle.swift */,
+				F46AC6D32043E92700B71102 /* TLCollectionTableViewCell.swift */,
+				F46AC6D62043E92A00B71102 /* TLCollectionTableViewCell.xib */,
+				F46AC6D72043E92B00B71102 /* TLPhotoCollectionViewCell.swift */,
+				F46AC6DC2043E92D00B71102 /* TLPhotoCollectionViewCell.xib */,
+				F46AC6D22043E92600B71102 /* TLPhotoLibrary.swift */,
+				F46AC6D02043E92500B71102 /* TLPhotosPickerViewController.swift */,
+				F46AC6D12043E92600B71102 /* TLPhotosPickerViewController.xib */,
 			);
 			path = PhotoPicker;
 			sourceTree = "<group>";
@@ -1955,24 +1959,6 @@
 			path = ImageResizer;
 			sourceTree = "<group>";
 		};
-		F4FFF8FC201A07CD00680571 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				F4FFF8FD201A07CD00680571 /* .gitkeep */,
-				F4FFF8FE201A07CD00680571 /* TLAlbumPopView.swift */,
-				F4FFF8FF201A07CD00680571 /* TLAssetsCollection.swift */,
-				F4FFF900201A07CD00680571 /* TLBundle.swift */,
-				F4FFF901201A07CD00680571 /* TLCollectionTableViewCell.swift */,
-				F4FFF902201A07CD00680571 /* TLCollectionTableViewCell.xib */,
-				F4FFF903201A07CD00680571 /* TLPhotoCollectionViewCell.swift */,
-				F4FFF904201A07CD00680571 /* TLPhotoCollectionViewCell.xib */,
-				F4FFF905201A07CD00680571 /* TLPhotoLibrary.swift */,
-				F4FFF906201A07CD00680571 /* TLPhotosPickerViewController.swift */,
-				F4FFF907201A07CD00680571 /* TLPhotosPickerViewController.xib */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2165,6 +2151,7 @@
 			files = (
 				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
 				F4431A951FC6DD2C00311C9A /* EmojiCollectionViewCell.xib in Resources */,
+				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */,
@@ -2172,7 +2159,6 @@
 				F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */,
 				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
 				F4431A981FC6DD2C00311C9A /* icomoon.ttf in Resources */,
-				F4FFF910201A07CE00680571 /* TLPhotoCollectionViewCell.xib in Resources */,
 				F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */,
 				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
@@ -2185,6 +2171,8 @@
 				F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
+				F46AC6E32043E92E00B71102 /* TLCollectionTableViewCell.xib in Resources */,
+				F46AC6E62043E92E00B71102 /* TLPhotoCollectionViewCell.xib in Resources */,
 				F4431AAA1FC6DD2C00311C9A /* StickerCollectionViewCell.xib in Resources */,
 				335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */,
 				F4431A9A1FC6DD2C00311C9A /* PhotoCropEditorBorder.png in Resources */,
@@ -2200,23 +2188,19 @@
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
 				F4431A9B1FC6DD2C00311C9A /* PhotoCropEditorBorder@2x.png in Resources */,
-				F4FFF913201A07CE00680571 /* TLPhotosPickerViewController.xib in Resources */,
 				F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */,
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				F447441620246CC2002964A0 /* FilterCell.xib in Resources */,
-				F4FFF909201A07CE00680571 /* .gitkeep in Resources */,
 				F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */,
 				F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */,
 				F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */,
 				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
-				F4FFF914201A07CE00680571 /* TLPhotoPickerController.bundle in Resources */,
 				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
 				F4431A9C1FC6DD2C00311C9A /* PhotoCropEditorBorder@3x.png in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				F431187D202B8901006139F7 /* FilterGradientCell.xib in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
-				F4FFF90E201A07CE00680571 /* TLCollectionTableViewCell.xib in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
 				F4431AA61FC6DD2C00311C9A /* PhotoEditorViewController.xib in Resources */,
 			);
@@ -2573,7 +2557,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4FFF90C201A07CE00680571 /* TLBundle.swift in Sources */,
 				F43612E21FD69B0E00788FFE /* AGImageMetalDevice.swift in Sources */,
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
@@ -2615,6 +2598,7 @@
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
+				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4431A9E1FC6DD2C00311C9A /* PhotoEditor+Crop.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
@@ -2636,6 +2620,7 @@
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
+				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F4431A9F1FC6DD2C00311C9A /* PhotoEditor+Drawing.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4431AA21FC6DD2C00311C9A /* PhotoEditor+Keyboard.swift in Sources */,
@@ -2649,6 +2634,7 @@
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
+				F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F4431AAB1FC6DD2C00311C9A /* StickersViewController.swift in Sources */,
 				F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */,
@@ -2657,8 +2643,6 @@
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
 				F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */,
-				F4FFF912201A07CE00680571 /* TLPhotosPickerViewController.swift in Sources */,
-				F4FFF90B201A07CE00680571 /* TLAssetsCollection.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F431187C202B8901006139F7 /* FilterGradientCell.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
@@ -2671,6 +2655,7 @@
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
+				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
@@ -2712,7 +2697,7 @@
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
-				F4FFF90D201A07CE00680571 /* TLCollectionTableViewCell.swift in Sources */,
+				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
@@ -2727,6 +2712,7 @@
 				F43649C62015CEA5004FBEE2 /* Utilities.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
+				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
@@ -2744,7 +2730,6 @@
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
-				F4FFF90A201A07CE00680571 /* TLAlbumPopView.swift in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
 				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
@@ -2763,6 +2748,7 @@
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
+				F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,
@@ -2775,10 +2761,8 @@
 				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
-				F4FFF911201A07CE00680571 /* TLPhotoLibrary.swift in Sources */,
 				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
-				F4FFF90F201A07CE00680571 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
 				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
