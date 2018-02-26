@@ -106,6 +106,10 @@ class ProfileViewController: UIViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollectionView.addGestureRecognizer(swipeRight)
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+        self.profileCollectionView.addGestureRecognizer(longPressGesture)
+        
+        
     }
     
     func prepareLayout() {
@@ -201,6 +205,28 @@ class ProfileViewController: UIViewController {
             default:
                 break
             }
+        }
+    }
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        if self.currentMenu != .stuff {
+            return
+        }
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
+                break
+            }
+            profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
+            
+        case UIGestureRecognizerState.ended:
+            profileCollectionView.endInteractiveMovement()
+        default:
+            profileCollectionView.cancelInteractiveMovement()
         }
     }
     
@@ -744,6 +770,28 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if currentMenu == .stuff {
+            let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
+            ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
+            ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
+            DispatchQueue.main.async {
+                self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+            }
+        }
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if currentMenu == .stuff {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    
     
 }
 

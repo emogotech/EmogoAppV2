@@ -287,6 +287,10 @@ class ViewStreamController: UIViewController {
     
     @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         
+        if self.objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
+            return
+        }
+        
         switch(gesture.state) {
             
         case UIGestureRecognizerState.began:
@@ -295,7 +299,8 @@ class ViewStreamController: UIViewController {
             }
             viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case UIGestureRecognizerState.changed:
-            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.viewStreamCollectionView))
+
         case UIGestureRecognizerState.ended:
             viewStreamCollectionView.endInteractiveMovement()
         default:
@@ -628,6 +633,9 @@ class ViewStreamController: UIViewController {
 
 extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if objStream != nil {
             return objStream!.arrayContent.count
@@ -638,7 +646,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let content = objStream?.arrayContent[indexPath.item]
+        let content = objStream?.arrayContent[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
@@ -651,7 +659,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     
     func collectionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                          sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let content = objStream?.arrayContent[indexPath.item]
+
+        let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
         }
@@ -680,10 +689,17 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let content = objStream?.arrayContent[sourceIndexPath.item]
-        objStream?.arrayContent.insert(content!, at: destinationIndexPath.item)
+        
+        let contentDest = objStream?.arrayContent[sourceIndexPath.row]
+        objStream?.arrayContent.remove(at: sourceIndexPath.row)
+        objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
+        DispatchQueue.main.async {
+    self.viewStreamCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+        }
+
     }
     
+   
 }
 
 extension ViewStreamController:StreamViewHeaderDelegate {
@@ -693,14 +709,18 @@ extension ViewStreamController:StreamViewHeaderDelegate {
 }
 
 
-extension CHTCollectionViewWaterfallLayout {
-    
-    internal override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
-        
-        let context = super.invalidationContext(forInteractivelyMovingItems: targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition)
-        
-        self.delegate?.collectionView!(self.collectionView!, moveItemAt: previousIndexPaths[0], to: targetIndexPaths[0])
-        
-        return context
-    }
-}
+//extension CHTCollectionViewWaterfallLayout {
+//
+//
+//    override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
+//
+//        let context = super.invalidationContext(forInteractivelyMovingItems: targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition)
+//
+//        self.delegate?.collectionView!(self.collectionView!, moveItemAt: previousIndexPaths[0], to: targetIndexPaths[0])
+//
+//        return context
+//    }
+//
+//
+//}
+
