@@ -88,6 +88,7 @@ class Content(DefaultStatusModel):
     height = models.CharField(max_length=10, null=True, blank=True, default=300)
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
     color = models.CharField(max_length=10, null=True, blank=True, default=None)
+    order = models.IntegerField(default=1, blank=True, null=True)
 
     class Meta:
         db_table = 'content'
@@ -97,6 +98,7 @@ class StreamContent(models.Model):
     stream = models.ForeignKey(Stream, related_name='stream_contents')
     content = models.ForeignKey(Content, related_name='content_streams')
     attached_date = models.DateTimeField(auto_now_add=True)
+    order = models.IntegerField(default=1, blank=True, null=True)
     objects = models.Manager()  # The default manager.
 
     class Meta:

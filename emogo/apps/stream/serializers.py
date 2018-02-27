@@ -222,7 +222,7 @@ class ViewStreamSerializer(StreamSerializer):
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
-        instances = [x.content for x in obj.stream_contents.all().order_by('-attached_date')]
+        instances = [x.content for x in obj.stream_contents.all().order_by('order')]
         return ViewContentSerializer(instances, many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
@@ -410,3 +410,36 @@ class DeleteStreamContentSerializer(DynamicFieldsModelSerializer):
         return True
 
 
+class ReorderStreamContentSerializer(DynamicFieldsModelSerializer):
+    """
+    Reorder Stream Content API model Serializer
+    """
+
+    class Meta:
+        model = StreamContent
+        fields = '__all__'
+        extra_kwargs = {'content': {'required': True, 'allow_null': False},
+                        'stream': {'required': True, 'allow_null': False},
+                        'order': {'required': True},
+                        }
+
+    def reorder_content(self):
+        if int(self.instance.order) == int(self.validated_data.get('order')):
+            # Nothing to do.
+            pass
+        else:
+            # 1. Get all record other then self instance
+            qs = StreamContent.objects.filter(stream=self.validated_data.get('stream'),
+                                              order__gte=self.validated_data.get('order')) \
+                .exclude(pk=self.instance.id).order_by('order')
+            if qs.exists():
+                # 2. Update requested object order.
+                self.instance.order = self.validated_data.get('order')
+                self.instance.save()
+                # 3. Update remaining stream content order
+                temp_order = self.validated_data.get('order') + 1
+                for x in qs:
+                    x.order = temp_order
+                    x.save()
+                    temp_order += 1
+        return True
