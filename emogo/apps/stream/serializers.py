@@ -258,11 +258,15 @@ class ContentListSerializer(serializers.ListSerializer):
     """
     Content list Serializer
     """
+
     def create(self, validated_data):
         contents = []
+        order = 1
         for item in validated_data:
             item.update({'created_by': self.context.get('request').user})
+            item.update({'order': order})
             contents.append(Content(**item))
+            order += 1
         return Content.objects.bulk_create(contents)
 
 
@@ -414,32 +418,33 @@ class ReorderStreamContentSerializer(DynamicFieldsModelSerializer):
     """
     Reorder Stream Content API model Serializer
     """
+    content = CustomListField(child=CustomDictField(child=serializers.IntegerField(), has_key=('order', 'id' )))
 
     class Meta:
         model = StreamContent
         fields = '__all__'
         extra_kwargs = {'content': {'required': True, 'allow_null': False},
-                        'stream': {'required': True, 'allow_null': False},
-                        'order': {'required': True},
+                        'stream': {'required': True, 'allow_null': False}
                         }
 
     def reorder_content(self):
-        if int(self.instance.order) == int(self.validated_data.get('order')):
-            # Nothing to do.
-            pass
-        else:
-            # 1. Get all record other then self instance
-            qs = StreamContent.objects.filter(stream=self.validated_data.get('stream'),
-                                              order__gte=self.validated_data.get('order')) \
-                .exclude(pk=self.instance.id).order_by('order')
-            if qs.exists():
-                # 2. Update requested object order.
-                self.instance.order = self.validated_data.get('order')
-                self.instance.save()
-                # 3. Update remaining stream content order
-                temp_order = self.validated_data.get('order') + 1
-                for x in qs:
-                    x.order = temp_order
-                    x.save()
-                    temp_order += 1
+        for instance in self.validated_data.get('content'):
+            StreamContent.objects.filter(content=instance.get('id'), stream=self.validated_data.get('stream')).update(order=instance.get('order'))
+        return True
+
+
+class ReorderContentSerializer(DynamicFieldsModelSerializer):
+    """
+    Reorder Stream Content API model Serializer
+    """
+    my_order = CustomListField(child=CustomDictField(child=serializers.IntegerField(), has_key=('order', 'id' )))
+
+    class Meta:
+        model = Content
+        fields = ['my_order','order','id']
+        extra_kwargs = {'content': {'required': True, 'allow_null': False}}
+
+    def reorder_content(self):
+        for instance in self.validated_data.get('my_order'):
+            Content.objects.filter(pk=instance.get('id')).update(order=instance.get('order'))
         return True

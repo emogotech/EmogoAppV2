@@ -8,7 +8,8 @@ from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport, StreamContent
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
-    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer, ReorderStreamContentSerializer
+    ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
+    ReorderStreamContentSerializer, ReorderContentSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -174,7 +175,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().order_by('-upd')
+    queryset = Content.actives.all().order_by('order')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -229,7 +230,6 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
@@ -374,14 +374,34 @@ class ReorderStreamContent(APIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    def get_objects(self):
-        return get_object_or_404(StreamContent, stream=self.request.data.get('stream'), content=self.request.data.get('content'))
+    def post(self, request):
+        """
+        Return a list of all users.
+        """
+        serializer = self.serializer_class(data=request.data, context=self.request)
+        if serializer.is_valid():
+            serializer.reorder_content()
+            return custom_render_response(status_code=status.HTTP_200_OK, data={})
+        else:
+            return custom_render_response(status_code=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+class ReorderContent(APIView):
+    """
+    Reorder stream content API
+
+    * Requires token authentication.
+    * Only stream owner can access REORDER STREAM CONTENT.
+    """
+    serializer_class = ReorderContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         """
         Return a list of all users.
         """
-        serializer = self.serializer_class(instance=self.get_objects(), data=request.data, context=self.request)
+        serializer = self.serializer_class(data=request.data, context=self.request)
         if serializer.is_valid():
             serializer.reorder_content()
             return custom_render_response(status_code=status.HTTP_200_OK, data={})
