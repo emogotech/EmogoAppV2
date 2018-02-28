@@ -109,7 +109,6 @@ class ProfileViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
         
-        
     }
     
     func prepareLayout() {
@@ -786,6 +785,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         if currentMenu == .stuff {
             return true
@@ -794,8 +794,16 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }
     }
     
-    
-    
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+        
+        if proposedIndexPath.row == 0 {
+            return originalIndexPath
+        }else {
+            return proposedIndexPath
+        }
+    }
+
+        
 }
 
 extension ProfileViewController:CustomCameraViewControllerDelegate {

@@ -43,7 +43,8 @@ class StreamViewController: MSMessagesAppViewController {
     
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
-    
+    var selectedIndex:IndexPath?
+
     
     // MARK: - Life-cycle methods
     override func viewDidLoad() {
@@ -424,12 +425,14 @@ class StreamViewController: MSMessagesAppViewController {
             guard let selectedIndexPath = self.collectionStreams.indexPathForItem(at: gesture.location(in: self.collectionStreams)) else {
                 break
             }
+            selectedIndex = nil
             collectionStreams.beginInteractiveMovementForItem(at: selectedIndexPath)
         case UIGestureRecognizerState.changed:
             collectionStreams.updateInteractiveMovementTargetPosition(gesture.location(in: self.collectionStreams))
             
         case UIGestureRecognizerState.ended:
             collectionStreams.endInteractiveMovement()
+            selectedIndex = nil
         default:
             collectionStreams.cancelInteractiveMovement()
         }
@@ -505,6 +508,23 @@ class StreamViewController: MSMessagesAppViewController {
             self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
         }
     }
+    
+    func reorderContent(orderArray:[ContentDAO]) {
+        
+        APIServiceManager.sharedInstance.apiForReorderStreamContent(orderArray: orderArray, streamID: (self.objStream?.streamID)!) { (isSuccess,errorMSG)  in
+
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+            }
+            
+            if (errorMSG?.isEmpty)! {
+                self.selectedIndex = nil
+                self.collectionStreams.reloadData()
+            }
+        }
+    }
+    
+    
 }
 
 // MARK: -  Extension CollcetionView Delegates
@@ -518,6 +538,10 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let content = objStream?.arrayContent[indexPath.row]
         if content?.isAdd == true {
             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+        }
+        if selectedIndex != nil {
+            let tempContent = objStream?.arrayContent[selectedIndex!.row]
+            return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
         }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
@@ -561,12 +585,16 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+        if destinationIndexPath.row == 0 {
+            return
+        }
         let contentDest = objStream?.arrayContent[sourceIndexPath.row]
         objStream?.arrayContent.remove(at: sourceIndexPath.row)
         objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
         DispatchQueue.main.async {
             self.collectionStreams.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+                self.hudView.startLoaderWithAnimation()
+            self.reorderContent(orderArray: (self.objStream?.arrayContent)!)
         }
         
     }
@@ -578,6 +606,17 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
             return true
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+        
+        if proposedIndexPath.row == 0 {
+            return originalIndexPath
+        }else {
+            return proposedIndexPath
+        }
+    }
+
+    
     @objc func btnPlayAction(sender:UIButton){
         var index : Int = 0
         if (self.objStream?.canAddContent)! {

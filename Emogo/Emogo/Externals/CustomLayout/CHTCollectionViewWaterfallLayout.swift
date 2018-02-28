@@ -94,7 +94,6 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     
     var itemRenderDirection : CHTCollectionViewWaterfallLayoutItemRenderDirection{
         didSet{
-            print("is Rendering")
             invalidateLayout()
         }}
     
@@ -112,6 +111,16 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     var footersAttributes : NSMutableDictionary
     var unionRects : NSMutableArray
     let unionSize = 20
+    
+    // For Reordering
+    var longPress: UILongPressGestureRecognizer!
+    var originalIndexPath: IndexPath?
+    var draggingIndexPath: IndexPath?
+    var draggingView: UIView?
+    var dragOffset = CGPoint.zero
+    var isEnableReorder:Bool! = false
+    var offset = 1
+    var lastContentOffset:CGFloat = 0.0
     
     override init(){
         self.headerHeight = 0.0
@@ -153,6 +162,22 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
         super.init(coder: aDecoder)
     }
     
+    
+    
+    func installGestureRecognizer() {
+       if isEnableReorder {
+            if longPress == nil {
+                
+                longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+             
+                longPress.minimumPressDuration = 0.2
+                collectionView?.addGestureRecognizer(longPress)
+            }
+        }
+    }
+    
+  
+    
     func itemWidthInSectionAtIndex (_ section : NSInteger) -> CGFloat {
         let width:CGFloat = self.collectionView!.bounds.size.width - sectionInset.left-sectionInset.right
         let spaceColumCount:CGFloat = CGFloat(self.columnCount-1)
@@ -161,7 +186,7 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     
     override func prepare(){
         super.prepare()
-        
+        self.installGestureRecognizer()
         let numberOfSections = self.collectionView!.numberOfSections
         if numberOfSections == 0 {
             return
@@ -351,6 +376,8 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
         }
         return false
     }
+    
+   
     
     
     /**

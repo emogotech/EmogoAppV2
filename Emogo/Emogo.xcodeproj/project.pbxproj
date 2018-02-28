@@ -359,6 +359,8 @@
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
+		F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
+		F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -769,6 +771,7 @@
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
+		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1383,6 +1386,7 @@
 			isa = PBXGroup;
 			children = (
 				F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */,
+				F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */,
 			);
 			path = CustomLayout;
 			sourceTree = "<group>";
@@ -2714,6 +2718,7 @@
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
+				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				F4431AA41FC6DD2C00311C9A /* PhotoEditor+UITextView.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
@@ -2818,6 +2823,7 @@
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
 				33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */,
+				F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,

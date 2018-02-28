@@ -26,6 +26,8 @@ class ViewStreamController: UIViewController {
     
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
+    var longPressGesture:UILongPressGestureRecognizer!
+    var selectedIndex:IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,6 +105,7 @@ class ViewStreamController: UIViewController {
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
         layout.sectionInset = UIEdgeInsetsMake(20, 8, 8, 8)
+       // layout.isEnableReorder = true
         layout.columnCount = 2
         // Collection view attributes
         self.viewStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -122,7 +125,7 @@ class ViewStreamController: UIViewController {
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
         }
         
-       let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+    longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
     }
@@ -297,12 +300,15 @@ class ViewStreamController: UIViewController {
             guard let selectedIndexPath = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
                 break
             }
+            selectedIndex = selectedIndexPath
             viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case UIGestureRecognizerState.changed:
-            viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.viewStreamCollectionView))
+            
+    viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.viewStreamCollectionView))
 
         case UIGestureRecognizerState.ended:
             viewStreamCollectionView.endInteractiveMovement()
+            selectedIndex = nil
         default:
             viewStreamCollectionView.cancelInteractiveMovement()
         }
@@ -488,6 +494,16 @@ class ViewStreamController: UIViewController {
         }
     }
     
+    func reorderContent(orderArray:[ContentDAO]) {
+        
+        APIServiceManager.sharedInstance.apiForReorderStreamContent(orderArray: orderArray, streamID: (self.objStream?.streamID)!) { (isSuccess,errorMSG)  in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                self.selectedIndex = nil
+                self.viewStreamCollectionView.reloadData()
+            }
+        }
+    }
     
     func btnActionForAddContent() {
         
@@ -664,6 +680,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         if content?.isAdd == true {
             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
         }
+        if selectedIndex != nil {
+            let tempContent = objStream?.arrayContent[selectedIndex!.row]
+            return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
+        }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
@@ -688,6 +708,10 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
+        
+    }
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         if destinationIndexPath.row == 0 {
             return
@@ -695,13 +719,24 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         let contentDest = objStream?.arrayContent[sourceIndexPath.row]
         objStream?.arrayContent.remove(at: sourceIndexPath.row)
         objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
-        DispatchQueue.main.async {
-    self.viewStreamCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
-        }
-
+            print("moving ended")
+            DispatchQueue.main.async {
+            self.viewStreamCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+                HUDManager.sharedInstance.showHUD()
+                self.reorderContent(orderArray: (self.objStream?.arrayContent)!)
+            }
     }
     
-   
+    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
+        print(proposedIndexPath.row)
+        print(originalIndexPath.row)
+        if proposedIndexPath.row == 0 {
+            return originalIndexPath
+        }else {
+            return proposedIndexPath
+        }
+    }
+
 }
 
 extension ViewStreamController:StreamViewHeaderDelegate {
@@ -710,9 +745,35 @@ extension ViewStreamController:StreamViewHeaderDelegate {
     }
 }
 
-
 //extension CHTCollectionViewWaterfallLayout {
 //
+//    override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
+//
+//        let context = super.invalidationContext(forInteractivelyMovingItems: targetIndexPaths, withTargetPosition: targetPosition, previousIndexPaths: previousIndexPaths, previousPosition: previousPosition)
+//
+//        //Check that the movement has actually happeneds
+//        if previousIndexPaths.first!.item != targetIndexPaths.first!.item {
+//            self.delegate?.collectionView!(self.collectionView!, moveItemAt: previousIndexPaths.first!, to: targetIndexPaths.first!)
+//        }
+//
+//        return context
+//
+//    }
+//
+//
+//    override func invalidationContextForEndingInteractiveMovementOfItems(toFinalIndexPaths indexPaths: [IndexPath], previousIndexPaths: [IndexPath], movementCancelled: Bool) -> UICollectionViewLayoutInvalidationContext {
+//
+//        return super.invalidationContextForEndingInteractiveMovementOfItems(toFinalIndexPaths: indexPaths, previousIndexPaths: previousIndexPaths, movementCancelled: movementCancelled)
+//    }
+//
+//    override func layoutAttributesForInteractivelyMovingItem(at indexPath: IndexPath, withTargetPosition position: CGPoint) -> UICollectionViewLayoutAttributes {
+//        let attributes = super.layoutAttributesForInteractivelyMovingItem(at: indexPath, withTargetPosition: position)
+//        attributes.alpha = 0.8
+//        return attributes
+//    }
+//}
+
+//extension CHTCollectionViewWaterfallLayout {
 //
 //    override func invalidationContext(forInteractivelyMovingItems targetIndexPaths: [IndexPath], withTargetPosition targetPosition: CGPoint, previousIndexPaths: [IndexPath], previousPosition: CGPoint) -> UICollectionViewLayoutInvalidationContext {
 //
@@ -725,4 +786,3 @@ extension ViewStreamController:StreamViewHeaderDelegate {
 //
 //
 //}
-

@@ -630,7 +630,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1456,5 +1456,41 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    func apiForReorderStreamContent(orderArray:[ContentDAO],streamID:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+     
+        var arrayOrder = [[String:Any]]()
+        for i in 1..<orderArray.count {
+            let obj = orderArray[i]
+            let value = ["id":obj.contentID!,"order":"\(i-1)"]
+            arrayOrder.append(value)
+        }
+        
+        let param = ["content":arrayOrder,"stream":streamID] as [String : Any]
+         print(param)
+
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamReorderContentAPI, Param: param) { (result) in
+            
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+            
+        }
+     
+    }
+    
 }
 
