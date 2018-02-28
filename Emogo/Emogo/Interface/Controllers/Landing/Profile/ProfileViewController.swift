@@ -468,6 +468,16 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func reorderContent(orderArray:[ContentDAO]) {
+        
+        APIServiceManager.sharedInstance.apiForReorderMyContent(orderArray: orderArray) { (isSuccess,errorMSG)  in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                self.profileCollectionView.reloadData()
+            }
+        }
+    }
+    
     
     private func profileUpdate(strURL:String){
         
@@ -780,6 +790,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
             DispatchQueue.main.async {
                 self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+                HUDManager.sharedInstance.showHUD()
+                self.reorderContent(orderArray:ContentList.sharedInstance.arrayStuff)
             }
         }
         

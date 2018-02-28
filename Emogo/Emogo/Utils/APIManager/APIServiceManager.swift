@@ -1492,5 +1492,41 @@ class APIServiceManager: NSObject {
      
     }
     
+    
+    func apiForReorderMyContent(orderArray:[ContentDAO],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
+        var arrayOrder = [[String:Any]]()
+        for i in 1..<orderArray.count {
+            let obj = orderArray[i]
+            let value = ["id":obj.contentID!,"order":"\(i-1)"]
+            arrayOrder.append(value)
+        }
+        
+        let param = ["my_order":arrayOrder] as [String : Any]
+        print(param)
+        
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReorderContentAPI, Param: param) { (result) in
+            
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+            
+        }
+        
+    }
+    
 }
 
