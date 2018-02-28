@@ -741,9 +741,11 @@ class CustomCameraViewController: SwiftyCamViewController {
         let croppingStyle = CropViewCroppingStyle.default
         let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
         cropController.delegate = self
-        self.present(cropController, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // your code here
+            self.present(cropController, animated: true, completion: nil)
+        }
     }
-    
     
 }
 
