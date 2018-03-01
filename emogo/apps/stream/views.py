@@ -175,7 +175,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().order_by('order')
+    queryset = Content.actives.all().order_by('order','-crd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
