@@ -225,7 +225,9 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'color')
+        fields = (
+        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
+        'color')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -235,7 +237,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
-        serializer = ViewContentSerializer(instances, many=True ,fields=('id', 'type', 'name', 'url', 'description', 'video_image', 'height', 'width'))
+        serializer = ViewContentSerializer(instances, many=True, fields=(
+        'id', 'type', 'name', 'url', 'description', 'video_image', 'height', 'width'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
