@@ -261,12 +261,9 @@ class ContentListSerializer(serializers.ListSerializer):
 
     def create(self, validated_data):
         contents = []
-        order = 1
         for item in validated_data:
             item.update({'created_by': self.context.get('request').user})
-            item.update({'order': order})
             contents.append(Content(**item))
-            order += 1
         return Content.objects.bulk_create(contents)
 
 

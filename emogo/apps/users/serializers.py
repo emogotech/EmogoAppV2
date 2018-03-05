@@ -100,7 +100,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username']
+            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -122,13 +122,24 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         try:
             # Save user table data.
-            self.instance.user.username = self.initial_data.get('phone_number')
-            self.instance.user.save()
+            if self.initial_data.get('phone_number') is not None:
+                self.instance.user.username = self.initial_data.get('phone_number')
+                self.instance.user.save()
             if self.validated_data.get('user_image') is not None:
                 # Then user profile table data
                 self.instance.user_image = self.validated_data.get('user_image')
+            if self.validated_data.get('location') is not None:
+                # Then user profile table data
+                self.instance.location = self.validated_data.get('location')
+            if self.validated_data.get('website') is not None:
+                # Then user profile table data
+                self.instance.website = self.validated_data.get('website')
+            if self.validated_data.get('biography') is not None:
+                # Then user profile table data
+                self.instance.biography = self.validated_data.get('biography')
+            if self.validated_data.__len__() > 0:
                 self.instance.save()
-        except IntegrityError as e :
+        except IntegrityError as e:
             raise serializers.ValidationError({"phone_number":messages.MSG_PHONE_NUMBER_EXISTS})
         return self.instance
 
