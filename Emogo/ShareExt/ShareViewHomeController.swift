@@ -94,6 +94,7 @@ class ShareViewHomeController: UIViewController {
         let extensionItem = extensionContext?.inputItems.first as! NSExtensionItem
         let itemProvider = extensionItem.attachments?.first as! NSItemProvider
         let propertyList = String(kUTTypePropertyList)
+        let strPublicURL = String(kUTTypeURL)
         if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
@@ -104,6 +105,13 @@ class ShareViewHomeController: UIViewController {
                         print("URL retrieved: \(urlString)")
                         self.getData(mainURL: url as URL!)
                     }
+                }
+            })
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicURL){
+            itemProvider.loadItem(forTypeIdentifier: strPublicURL, options: nil, completionHandler: { (item, error) -> Void in
+                guard let url = item as? URL else { return }
+                OperationQueue.main.addOperation {
+                        self.getData(mainURL: url as URL!)
                 }
             })
         } else {
