@@ -28,6 +28,10 @@ class ViewStreamController: UIViewController {
     var stretchyHeader: StreamViewHeader!
     var longPressGesture:UILongPressGestureRecognizer!
     var selectedIndex:IndexPath?
+    var nextIndexPath:IndexPath?
+
+    var indexForMinimum = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -303,14 +307,21 @@ class ViewStreamController: UIViewController {
             selectedIndex = selectedIndexPath
             viewStreamCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case UIGestureRecognizerState.changed:
-            
-    viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.viewStreamCollectionView))
+   
+            guard let nextIndex = self.viewStreamCollectionView.indexPathForItem(at: gesture.location(in: self.viewStreamCollectionView)) else {
+                break
+            }
+            nextIndexPath = nextIndex
+            print("location---->\(gesture.location(in: self.viewStreamCollectionView))")
+    viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
 
+ 
         case UIGestureRecognizerState.ended:
             viewStreamCollectionView.endInteractiveMovement()
             selectedIndex = nil
         default:
             viewStreamCollectionView.cancelInteractiveMovement()
+            selectedIndex = nil
         }
     }
     
@@ -440,6 +451,17 @@ class ViewStreamController: UIViewController {
                         self.lblNoContent.isHidden = false
                     }
                 }
+                // Get All Heights
+                var arrayHeights = [Int]()
+                
+                for obj in (self.objStream?.arrayContent)! {
+                    arrayHeights.append(obj.height)
+                }
+                let minimum = arrayHeights.min()
+                if let index =  self.objStream?.arrayContent.index(where: {$0.height ==  minimum}) {
+                    self.indexForMinimum = index
+                }
+                    
                 DispatchQueue.main.async {
                     self.viewStreamCollectionView.reloadData()
                 }
@@ -681,7 +703,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
         }
         if selectedIndex != nil {
-            let tempContent = objStream?.arrayContent[selectedIndex!.row]
+            let tempContent = objStream?.arrayContent[self.selectedIndex!.row]
             return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
         }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
@@ -728,11 +750,13 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
-        print(proposedIndexPath.row)
-        print(originalIndexPath.row)
-        if proposedIndexPath.row == 0 {
-            return originalIndexPath
-        }else {
+     //   print("next---->\(proposedIndexPath.row)")
+       // print("cuurent---->\(originalIndexPath.row)")
+
+        
+        if proposedIndexPath.item == 0 {
+            return IndexPath(item: 1, section: 0)
+        }else  {
             return proposedIndexPath
         }
     }

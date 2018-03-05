@@ -10,7 +10,7 @@ import Foundation
 extension CHTCollectionViewWaterfallLayout {
     
     
-   
+   /*
     @objc func handleLongPress(_ longPress: UILongPressGestureRecognizer) {
         let location = longPress.location(in: collectionView!)
         switch longPress.state {
@@ -169,6 +169,7 @@ extension CHTCollectionViewWaterfallLayout {
         }
         
     }
+ */
 }
 
 extension UICollectionView {

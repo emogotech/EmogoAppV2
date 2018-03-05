@@ -232,6 +232,7 @@
 		F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F43649B92015CEA0004FBEE2 /* ConfirmViewController.xib */; };
 		F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649BA2015CEA0004FBEE2 /* PhotoLibraryViewController.swift */; };
 		F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F43649BB2015CEA4004FBEE2 /* CameraViewAssets.xcassets */; };
+		F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F436C996204D434500EE4254 /* PMReorderCollectionView.swift */; };
 		F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */; };
 		F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
 		F43E92D41FCEC60000AF3FAC /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43E92D21FCEB43100AF3FAC /* Document.swift */; };
@@ -628,6 +629,7 @@
 		F43649B92015CEA0004FBEE2 /* ConfirmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmViewController.xib; sourceTree = "<group>"; };
 		F43649BA2015CEA0004FBEE2 /* PhotoLibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewController.swift; sourceTree = "<group>"; };
 		F43649BB2015CEA4004FBEE2 /* CameraViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CameraViewAssets.xcassets; sourceTree = "<group>"; };
+		F436C996204D434500EE4254 /* PMReorderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMReorderCollectionView.swift; sourceTree = "<group>"; };
 		F439CE461FE8F51E00CC0E14 /* PreviewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewControls.swift; sourceTree = "<group>"; };
 		F43E92D21FCEB43100AF3FAC /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F4402F671FCD403400152D01 /* AddCollaboratorsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollaboratorsViewController.swift; sourceTree = "<group>"; };
@@ -1387,6 +1389,7 @@
 			children = (
 				F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */,
 				F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */,
+				F436C996204D434500EE4254 /* PMReorderCollectionView.swift */,
 			);
 			path = CustomLayout;
 			sourceTree = "<group>";
@@ -2606,6 +2609,7 @@
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4431A9E1FC6DD2C00311C9A /* PhotoEditor+Crop.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
+				F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */,
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F433EDA62017421D004FEB93 /* StreamViewHeader.swift in Sources */,

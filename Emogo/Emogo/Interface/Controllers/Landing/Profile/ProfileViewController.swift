@@ -42,6 +42,8 @@ class ProfileViewController: UIViewController {
     var isUpdateList:Bool! = false
     var imageToUpload:UIImage!
     var fileName:String! = ""
+    var selectedIndex:IndexPath?
+
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
     }
@@ -218,14 +220,17 @@ class ProfileViewController: UIViewController {
             guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
                 break
             }
+            selectedIndex = selectedIndexPath
             profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case UIGestureRecognizerState.changed:
             profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
             
         case UIGestureRecognizerState.ended:
             profileCollectionView.endInteractiveMovement()
+            selectedIndex = nil
         default:
             profileCollectionView.cancelInteractiveMovement()
+            selectedIndex = nil
         }
     }
     
@@ -409,7 +414,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                  self.lblNOResult.isHidden = false
             }
-            
+            self.selectedIndex = nil
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -729,6 +734,10 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if content.isAdd == true {
                 return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
             }
+            if selectedIndex != nil {
+                let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
+                return CGSize(width: tempContent.width, height: tempContent.height)
+            }
             return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0
@@ -807,9 +816,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
-        
-        if proposedIndexPath.row == 0 {
-            return originalIndexPath
+
+        if proposedIndexPath.item == 0 {
+            return IndexPath(item: 1, section: 0)
         }else {
             return proposedIndexPath
         }

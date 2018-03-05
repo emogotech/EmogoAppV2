@@ -367,7 +367,7 @@ class PreviewController: UIViewController {
         self.txtTitleImage.text = ""
         txtDescription.text = ""
         self.selectedIndex = index
-        
+        self.imgPreview.contentMode = .scaleAspectFit
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if !seletedImage.name.isEmpty {
             var title  = seletedImage.name.trim()
@@ -453,7 +453,6 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
-        self.imgPreview.contentMode = .scaleAspectFit
         
         self.btnEdit.isHidden = true
         self.btnDelete.isHidden = true

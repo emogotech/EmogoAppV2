@@ -167,11 +167,11 @@ class CHTCollectionViewWaterfallLayout : UICollectionViewLayout{
     func installGestureRecognizer() {
        if isEnableReorder {
             if longPress == nil {
-                
-                longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
-             
-                longPress.minimumPressDuration = 0.2
-                collectionView?.addGestureRecognizer(longPress)
+//                
+//                longPress = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongPress(_:)))
+//             
+//                longPress.minimumPressDuration = 0.2
+//                collectionView?.addGestureRecognizer(longPress)
             }
         }
     }
