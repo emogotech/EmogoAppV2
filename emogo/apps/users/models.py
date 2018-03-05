@@ -26,6 +26,9 @@ class UserProfile(UsersStatusModel):
     is_admin = models.BooleanField(default=False)
     user = models.OneToOneField(User, null=True, blank=True, related_name="user_data")
     otp = models.CharField(max_length=10, null=True, blank=True)
+    location = models.CharField(max_length=50, null=True, blank=True)
+    website = models.CharField(max_length=250, null=True, blank=True)
+    biography = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         db_table = 'user_profile'
