@@ -32,7 +32,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnColab: UIButton!
     @IBOutlet weak var btnStuff: UIButton!
     @IBOutlet weak var lblNOResult: UILabel!
-    
+    @IBOutlet weak var imgLocation: UIImageView!
+    @IBOutlet weak var imgLink: UIImageView!
+
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -117,8 +119,23 @@ class ProfileViewController: UIViewController {
     }
     
     func prepareLayout() {
-        lblUserName.text = UserDAO.sharedInstance.user.fullName.trim().capitalized
+        lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
         lblUserName.minimumScaleFactor = 1.0
+        lblFullName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
+        lblFullName.minimumScaleFactor = 1.0
+        lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
+        lblWebsite.minimumScaleFactor = 1.0
+        lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+        lblLocation.minimumScaleFactor = 1.0
+        imgLink.isHidden = false
+        imgLocation.isHidden = false
+
+        if UserDAO.sharedInstance.user.location.trim().isEmpty {
+            imgLocation.isHidden = true
+        }
+        if UserDAO.sharedInstance.user.website.trim().isEmpty {
+            imgLink.isHidden = true
+        }
         //print(UserDAO.sharedInstance.user.userImage.trim())
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
@@ -243,30 +260,12 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
-        self.updateProfileImage()
+        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
+        let nav = UINavigationController(rootViewController: obj)
+        self.present(nav, animated: true, completion: nil)
     }
     
-    func updateProfileImage(){
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let actionRemove = UIAlertAction(title: kAlert_RemoveProfile, style: .destructive) { (action) in
-            HUDManager.sharedInstance.showHUD()
-        
-            self.profileUpdate(strURL: "")
-        }
-        let actionUpdate = UIAlertAction(title: kAlert_UpateProfile, style: .default) { (action) in
-            self.profilepicUpload()
-        }
-        let actionCancel = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive) { (action) in
-        }
-        
-        alert.addAction(actionUpdate)
-        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-            alert.addAction(actionRemove)
-        }
-        alert.addAction(actionCancel)
-
-        present(alert, animated: true, completion: nil)
-    }
+   
     
     private func updateSegment(selected:Int){
         switch selected {
@@ -458,24 +457,6 @@ class ProfileViewController: UIViewController {
     
     // MARK: - API
     
-    private func uploadProfileImage(){
-        HUDManager.sharedInstance.showHUD()
-        let image = self.imageToUpload.reduceSize()
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
-        let url = Document.saveFile(data: imageData!, name: self.fileName)
-        let fileUrl = URL(fileURLWithPath: url)
-        AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.profileUpdate(strURL: imageUrl!)
-                }
-            }else {
-                self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
-    }
-    
     func reorderContent(orderArray:[ContentDAO]) {
         
         APIServiceManager.sharedInstance.apiForReorderMyContent(orderArray: orderArray) { (isSuccess,errorMSG)  in
@@ -486,48 +467,6 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    
-    private func profileUpdate(strURL:String){
-        
-        APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: UserDAO.sharedInstance.user.fullName, profilePic: strURL) { (isSuccess, errorMsg) in
-            
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                self.prepareLayout()
-            }else {
-                self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
-                self.showToast(strMSG: errorMsg!)
-            }
-        }
-    }
-    
-    func profilepicUpload() {
-        
-        let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        cameraViewController.isDismiss = true
-        cameraViewController.delegate = self
-        cameraViewController.isForImageOnly = true
-        ContentList.sharedInstance.arrayContent.removeAll()
-        let nav = UINavigationController(rootViewController: cameraViewController)
-        self.present(nav, animated: true, completion: nil)
-        
-//        let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
-//            if let img = image{
-//                self?.setCoverImage(image: img)
-//            }
-//            self?.dismiss(animated: true, completion: nil)
-//        }
-//
-//        present(cameraViewController, animated: true, completion: nil)
-        
-    }
-    
-    func setCoverImage(image:UIImage) {
-        self.imageToUpload = image
-         self.imgUser.image = image
-        self.fileName =  NSUUID().uuidString + ".png"
-        self.uploadProfileImage()
-    }
     
     func btnActionForAddContent(){
         let actionController = ActionSheetController()
@@ -827,17 +766,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }
     }
 
-        
 }
 
-extension ProfileViewController:CustomCameraViewControllerDelegate {
-    func dismissWith(image: UIImage?) {
-        if let img = image {
-            self.setCoverImage(image: img)
-        }
-    }
-    
-}
 
 
 

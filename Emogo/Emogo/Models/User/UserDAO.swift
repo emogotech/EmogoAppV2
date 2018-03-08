@@ -40,11 +40,28 @@ class User {
     var user                       :String! = ""
     var userId                     :String! = ""
     var userImage                  :String! = ""
+    var location                  :String! = ""
+    var website                  :String! = ""
+    var biography                  :String! = ""
+    var username                  :String! = ""
+    var birthday                  :String! = ""
 
     init(userData:[String:Any]) {
         
         if let obj = userData["full_name"] {
             self.fullName = obj as! String
+        }
+        if let obj = userData["username"] {
+            self.username = obj as! String
+        }
+        if let obj = userData["location"] {
+            self.location = obj as! String
+        }
+        if let obj = userData["website"] {
+            self.website = obj as! String
+        }
+        if let obj = userData["biography"] {
+            self.biography = obj as! String
         }
         if let obj = userData["otp"] {
             self.OTP = "\(obj)"

@@ -111,12 +111,32 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
+        self.updateText(tag: tag)
     }
     func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
+        self.updateText(tag: tag)
     }
     
+    func updateText(tag:Int) {
+        switch tag {
+        case 0:
+            lblWelcome.text = "Welcome to Emogo!"
+            break
+        case 1:
+            lblWelcome.text = "Emogo are collections of photos,\nvideos,links & gifs"
+            break
+        case 2:
+            lblWelcome.text = "Collaborate with friends on public or private emogos"
+            break
+        case 3:
+            lblWelcome.text = "Share everything right from iMessage"
+            break
+        default:
+            lblWelcome.text = "Welcome to Emogo!"
+        }
+    }
 
 }
 

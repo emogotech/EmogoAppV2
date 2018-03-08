@@ -1370,10 +1370,12 @@ class APIServiceManager: NSObject {
     
     
     // MARK: - User Profile Update
-    func apiForUserProfileUpdate(name:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForUserProfileUpdate(name:String,location:String,website:String,biography:String,birthday:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userId!)/"
         let phone : String = UserDAO.sharedInstance.user.phoneNumber
-        let params:[String:Any] = ["user_image":profilePic , "phone_number" : phone]
+        let params:[String:Any] = ["full_name":name,"user_image":profilePic , "phone_number" : phone,"location":location,"website":website,"biography":biography,"birthday":birthday]
+        print(params)
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):

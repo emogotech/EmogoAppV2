@@ -352,6 +352,7 @@
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
+		F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
 		F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */; };
 		F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F52011DD6E005436A1 /* ActionData.swift */; };
@@ -774,6 +775,7 @@
 		F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPreviewViewController.swift; sourceTree = "<group>"; };
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
+		F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
 		F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAutoGrowingTextView.h; sourceTree = "<group>"; };
 		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
@@ -1179,6 +1181,7 @@
 				F403764A1FDE9F6B0007C696 /* Progress Bar */,
 				F4402F6F1FCD917900152D01 /* TextField */,
 				33BCB0401FBB353E004FF634 /* PMButton.swift */,
+				F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */,
 				F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */,
 				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
 				F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */,
@@ -2688,6 +2691,7 @@
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
+				F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
 				F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */,
@@ -3096,7 +3100,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3123,7 +3127,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
