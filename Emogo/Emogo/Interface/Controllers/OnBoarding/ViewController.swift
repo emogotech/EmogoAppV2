@@ -11,11 +11,18 @@ import UIKit
 class ViewController: UIViewController {
 
     // MARK: - UI Elements
+    @IBOutlet weak var viewTutorial                 : KASlideShow!
+    @IBOutlet weak var pageController                : HHPageView!
+    @IBOutlet weak var lblWelcome                    : UILabel!
 
+
+   var images = [UIImage]()
+    
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        pageController.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +42,25 @@ class ViewController: UIViewController {
    
    // MARK: - Prepare Layouts
     func prepareLayouts(){
+        images.removeAll()
+        images.append(UIImage(named: "image one")!)
+        images.append(UIImage(named: "image two")!)
+        images.append(UIImage(named: "image three")!)
+        images.append(UIImage(named: "image four")!)
+        pageController.setCurrentPage(0)
+        pageController.setNumberOfPages(images.count)
+        pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+        viewTutorial.datasource = self
+        viewTutorial.delegate = self
+        viewTutorial.delay = 1 // Delay between transitions
+        viewTutorial.transitionDuration = 0.5 // Transition duration
+        viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+        viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
+        viewTutorial.add(KASlideShowGestureType.all)
+        viewTutorial.isExclusiveTouch = true
+        viewTutorial.reloadData()
+        pageController.load()
+        pageController.updateState(forPageNumber: 1)
         if SharedData.sharedInstance.countryCode.trim().isEmpty {
             self.getCountryCode()
         }
@@ -51,6 +77,7 @@ class ViewController: UIViewController {
         self.navigationController?.push(viewController: obj)
     }
     
+    
     // MARK: - Class Methods
     
     func getCountryCode(){
@@ -63,6 +90,34 @@ class ViewController: UIViewController {
             }
         }
     }
+}
+
+
+extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDelegate {
+    
+    func hhPageView(_ pageView: HHPageView!, currentIndex: Int) {
+        
+    }
+    
+    func slideShow(_ slideShow: KASlideShow!, objectAt index: Int) -> NSObject! {
+        return images[index]
+    }
+    
+    func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
+        return images.count
+    }
+    
+    // MARK: - KASlideShow delegate
+    func slideShowDidShowNext(_ slideShow: KASlideShow!) {
+        let tag = Int(slideShow.currentIndex)
+        pageController.updateState(forPageNumber: tag + 1)
+    }
+    func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
+        let tag = Int(slideShow.currentIndex)
+        pageController.updateState(forPageNumber: tag + 1)
+    }
+    
+
 }
 
 

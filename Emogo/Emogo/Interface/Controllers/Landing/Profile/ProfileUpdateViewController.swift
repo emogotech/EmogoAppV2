@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileUpdateViewController: UIViewController {
+class ProfileUpdateViewController: UITableViewController {
     
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var txtName: SkyFloatingLabelTextField!

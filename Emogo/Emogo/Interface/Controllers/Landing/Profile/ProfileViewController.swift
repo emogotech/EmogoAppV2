@@ -24,6 +24,9 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
     @IBOutlet weak var lblUserName: UILabel!
+    @IBOutlet weak var lblFullName: UILabel!
+    @IBOutlet weak var lblWebsite: UILabel!
+    @IBOutlet weak var lblLocation: UILabel!
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!

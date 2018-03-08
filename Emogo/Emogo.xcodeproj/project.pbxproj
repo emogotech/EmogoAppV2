@@ -113,6 +113,7 @@
 		C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8AC34202895E70023ECD3 /* SwiftyRecordButton.swift */; };
 		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
+		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
 		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
 		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
 		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
@@ -500,6 +501,13 @@
 		C8FBD7302015FE7C007C7C1B /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
+		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
+		F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		F040CC852050034900224035 /* HHPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPageView.m; sourceTree = "<group>"; };
+		F040CC862050034A00224035 /* HHPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPageView.h; sourceTree = "<group>"; };
+		F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
+		F040CC892050231600224035 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
+		F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
 		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
 		F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffViewController.swift; sourceTree = "<group>"; };
@@ -1131,6 +1139,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F02C6199204FEDB10041CEE4 /* PageController */,
 				C8FBD72F2015FE7C007C7C1B /* Text View PlaceHolder */,
 				F43649A22015CDBB004FBEE2 /* CameraView */,
 				F4539376200CDF3B00F7D029 /* VisualView */,
@@ -1189,6 +1198,11 @@
 		33BCB0431FBB353E004FF634 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F040CC892050231600224035 /* SF-Pro-Text-Light.otf */,
+				F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */,
+				F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */,
+				F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */,
+				F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */,
 				F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */,
 				F45430901FBD6E8700DE80E6 /* SF-Pro-Display-Bold.otf */,
 				F45430911FBD6E8800DE80E6 /* SF-Pro-Display-Heavy.otf */,
@@ -1281,6 +1295,15 @@
 				C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */,
 			);
 			path = "Text View PlaceHolder";
+			sourceTree = "<group>";
+		};
+		F02C6199204FEDB10041CEE4 /* PageController */ = {
+			isa = PBXGroup;
+			children = (
+				F040CC862050034A00224035 /* HHPageView.h */,
+				F040CC852050034900224035 /* HHPageView.m */,
+			);
+			path = PageController;
 			sourceTree = "<group>";
 		};
 		F401DFAA1FE2890F00BD7DDA /* Content & Stuff */ = {
@@ -2714,6 +2737,7 @@
 				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
+				F040CC872050034B00224035 /* HHPageView.m in Sources */,
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
@@ -3072,7 +3096,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = M35DBRABN7;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3099,7 +3123,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = M35DBRABN7;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Emogo/SupportingFiles/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
