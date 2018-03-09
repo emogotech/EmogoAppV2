@@ -5,8 +5,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from emogo.apps.stream.models import Stream, Content
 from emogo.apps.collaborator.models import Collaborator
-
+import requests
+import json
 from emogo.lib.default_models.models import DefaultDateModel, DefaultStatusModel, UsersStatusModel
+import branchio
+from emogo import settings
 
 DEVICE_TYPE = (
     ('Android', 'Android'),
@@ -30,6 +33,7 @@ class UserProfile(UsersStatusModel):
     website = models.CharField(max_length=250, null=True, blank=True)
     biography = models.CharField(max_length=255, null=True, blank=True)
     birthday = models.CharField(max_length=15, null=True, blank=True)
+    branchio_url = models.CharField(max_length=75, null=True, blank=True)
 
     class Meta:
         db_table = 'user_profile'
@@ -69,3 +73,49 @@ class UserNotification(DefaultDateModel):
 
     class Meta:
         db_table = 'user_notification'
+
+
+# Create branch deep link
+def create_user_deep_link(user):
+    client = branchio.Client(settings.branch_key)
+    response = client.create_deep_link_url(
+        channel="Emogo", data={
+                               "user_full_name": user.user_data.full_name,
+                               "user_image": user.user_data.user_image,
+                               "$ios_url": settings.DATA_BRANCH_IOS_URL,
+                               "location": user.user_data.location,
+                               "website": user.user_data.website,
+                               "birthday": user.user_data.birthday,
+                               "biography": user.user_data.biography,
+                               "phone" : user.username
+                               }
+
+    )
+    user.user_data.branchio_url = response.get('url')
+    user.user_data.save()
+    return response.get('url')
+
+
+def update_user_deep_link_url(user):
+    data = {
+        "branch_key": settings.branch_key,
+        "branch_secret": settings.branch_secret,
+        "channel": "Emogo",
+        "data": {
+            "user_full_name": user.user_data.full_name,
+            "user_image": user.user_data.user_image,
+            "$ios_url": settings.DATA_BRANCH_IOS_URL,
+            "location": user.user_data.location,
+            "website": user.user_data.website,
+            "birthday": user.user_data.birthday,
+            "biography": user.user_data.biography,
+            "phone": user.username
+        }
+    }
+    url = 'https://api.branch.io/v1/url?url={0}'.format(user.user_data.branchio_url)
+    headers = {'Content-Type': 'application/json'}
+    response = requests.put(url, data=json.dumps(data), headers=headers)
+    if json.loads(response.text).get('data') is not None:
+        user.user_data.branchio_url = json.loads(response.text).get('data').get('url')
+        user.user_data.save()
+    return json.loads(response.text).get('data').get('url')

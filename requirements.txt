@@ -23,3 +23,4 @@ six==1.11.0
 twilio==6.9.0
 urllib3==1.22
 django-autofixture==0.12.1
+branchio==0.1.1

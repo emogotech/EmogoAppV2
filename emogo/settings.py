@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_filters',
     # 'twilio-python',
     'autofixture',
+    'branchio',
 ]
 
 MIDDLEWARE = [
@@ -203,6 +204,9 @@ LOGGING['loggers']['django'] = {
   'level': 'INFO',
 }
 
+branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
+branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
+DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
 
 # Get Local Settings
 try:
