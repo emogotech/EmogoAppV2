@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from emogo import settings
-from emogo.apps.users.models import UserProfile
+from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
@@ -70,7 +70,8 @@ class UserSerializer(DynamicFieldsModelSerializer):
             user.user_data.full_name = validated_data.get('user_name')
             user.user_data.otp = self.user_pin
             user.user_data.save()
-
+        # Create user deep link url
+        create_user_deep_link(user)
         return user
 
     def validate_user_name(self, value):
@@ -100,7 +101,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday']
+            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -142,6 +143,8 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
                 self.instance.birthday = self.validated_data.get('birthday')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
+                # Update user deep link.
+                update_user_deep_link_url(self.instance.user)
         except IntegrityError as e:
             raise serializers.ValidationError({"phone_number":messages.MSG_PHONE_NUMBER_EXISTS})
         return self.instance
