@@ -122,6 +122,10 @@ let kCell_MyStuffCell = "myStuffCell"
 let kCell_ImportCell = "importCell"
 let kCell_GiphyCell = "giphyCell"
 let kCell_LinkListCell = "linkListCell"
+let kHeader_ProfileHeaderView = "profileHeaderView"
+let kCell_MyStuffCollectionCell = "myStuffCollectionCell"
+
+
 
 
 let kCell_ProfileStreamCell = "profileStreamCell"

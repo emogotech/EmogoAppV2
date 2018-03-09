@@ -23,6 +23,8 @@ class ProfileViewController: UIViewController {
     // MARK: - UI Elements
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
+    @IBOutlet weak var tblMyStuff: UITableView!
+
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var lblFullName: UILabel!
     @IBOutlet weak var lblWebsite: UILabel!
@@ -34,6 +36,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblNOResult: UILabel!
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
+    @IBOutlet weak var btnContainer: UIView!
 
     
     var currentMenu: ProfileMenu = .stream {
@@ -48,6 +51,11 @@ class ProfileViewController: UIViewController {
     var imageToUpload:UIImage!
     var fileName:String! = ""
     var selectedIndex:IndexPath?
+    
+    let color = UIColor(r: 155, g: 155, b: 155)
+    let colorSelected = UIColor.black
+    let font = UIFont(name: "SFProText-Light", size: 14.0)
+    let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
 
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
@@ -84,7 +92,6 @@ class ProfileViewController: UIViewController {
         
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
-        profileCollectionView.alwaysBounceVertical = true
         HUDManager.sharedInstance.showHUD()
         kShowOnlyMyStream = "1"
         self.getStreamList(type:.start,filter: .myStream)
@@ -99,7 +106,6 @@ class ProfileViewController: UIViewController {
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.profileCollectionView.alwaysBounceVertical = true
-        
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
         self.prepareLayout()
@@ -113,9 +119,15 @@ class ProfileViewController: UIViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollectionView.addGestureRecognizer(swipeRight)
         
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
-        self.profileCollectionView.addGestureRecognizer(longPressGesture)
-        
+//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+//        self.profileCollectionView.addGestureRecognizer(longPressGesture)
+       
+        self.btnStream.setTitleColor(colorSelected, for: .normal)
+        self.btnStream.titleLabel?.font = fontSelected
+        self.btnColab.setTitleColor(color, for: .normal)
+        self.btnColab.titleLabel?.font = font
+        self.btnStuff.setTitleColor(color, for: .normal)
+        self.btnStuff.titleLabel?.font = font
     }
     
     func prepareLayout() {
@@ -141,6 +153,7 @@ class ProfileViewController: UIViewController {
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
         self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
+        btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
     }
     
     func updateList(){
@@ -200,7 +213,8 @@ class ProfileViewController: UIViewController {
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.profileBackAction))
         self.navigationItem.rightBarButtonItem = btnback
         let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
-        self.navigationItem.leftBarButtonItem = btnLogout
+           let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
+        self.navigationItem.leftBarButtonItems = [btnLogout,btnShare]
         
     }
     
@@ -211,6 +225,14 @@ class ProfileViewController: UIViewController {
         
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
         self.navigationController?.popNormal()
+    }
+    
+    @objc func profileShareAction(){
+        
+        let textToShare = [ "hey check out this app https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8" ]
+
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -268,23 +290,38 @@ class ProfileViewController: UIViewController {
    
     
     private func updateSegment(selected:Int){
+       
         switch selected {
         case 101:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
+            self.btnStream.setTitleColor(colorSelected, for: .normal)
+            self.btnStream.titleLabel?.font = fontSelected
+            self.btnColab.setTitleColor(color, for: .normal)
+            self.btnColab.titleLabel?.font = font
+            self.btnStuff.setTitleColor(color, for: .normal)
+            self.btnStuff.titleLabel?.font = font
+
+//            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
+//            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
+//            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .stream
             break
         case 102:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
+        
+            self.btnStream.setTitleColor(color, for: .normal)
+            self.btnColab.setTitleColor(colorSelected, for: .normal)
+            self.btnStuff.setTitleColor(color, for: .normal)
+            self.btnStream.titleLabel?.font = font
+            self.btnColab.titleLabel?.font = fontSelected
+            self.btnStuff.titleLabel?.font = font
             self.currentMenu = .colabs
             break
         case 103:
-            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
-            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
+            self.btnStream.setTitleColor(color, for: .normal)
+            self.btnColab.setTitleColor(color, for: .normal)
+            self.btnStuff.setTitleColor(colorSelected, for: .normal)
+            self.btnStream.titleLabel?.font = font
+            self.btnColab.titleLabel?.font = font
+            self.btnStuff.titleLabel?.font = fontSelected
             self.currentMenu = .stuff
             break
         default:
@@ -296,15 +333,20 @@ class ProfileViewController: UIViewController {
         
         switch currentMenu {
         case .stuff:
+            self.profileCollectionView.isHidden = false
+            self.tblMyStuff.isHidden = true
             HUDManager.sharedInstance.showHUD()
             self.getMyStuff(type: .start)
             break
         case .stream:
+            self.profileCollectionView.isHidden = false
+            self.tblMyStuff.isHidden = true
             HUDManager.sharedInstance.showHUD()
             self.getStreamList(type:.start,filter: .myStream)
             break
         case .colabs:
-            
+            self.profileCollectionView.isHidden = true
+            self.tblMyStuff.isHidden = false
             HUDManager.sharedInstance.showHUD()
             self.getColabs(type: .start)
             break
@@ -354,9 +396,9 @@ class ProfileViewController: UIViewController {
     func getStreamList(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayProfileStream.removeAll()
-            let stream = StreamDAO(streamData: [:])
-            stream.isAdd = true
-            StreamList.sharedInstance.arrayProfileStream.insert(stream, at: 0)
+//            let stream = StreamDAO(streamData: [:])
+//            stream.isAdd = true
+//            StreamList.sharedInstance.arrayProfileStream.insert(stream, at: 0)
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetMyProfileStreamList(type: type,filter: filter) { (refreshType, errorMsg) in
@@ -389,10 +431,10 @@ class ProfileViewController: UIViewController {
     
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
-            ContentList.sharedInstance.arrayStuff.removeAll()
-            let content = ContentDAO(contentData: [:])
-            content.isAdd = true
-            ContentList.sharedInstance.arrayStuff.insert(content, at: 0)
+              ContentList.sharedInstance.arrayStuff.removeAll()
+//            let content = ContentDAO(contentData: [:])
+//            content.isAdd = true
+//            ContentList.sharedInstance.arrayStuff.insert(content, at: 0)
             self.profileCollectionView.reloadData()
         }
         
@@ -417,7 +459,9 @@ class ProfileViewController: UIViewController {
                  self.lblNOResult.isHidden = false
             }
             self.selectedIndex = nil
-            self.profileCollectionView.reloadData()
+            self.profileCollectionView.isHidden = true
+            self.tblMyStuff.isHidden = false
+            self.tblMyStuff.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -448,6 +492,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
+            
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -629,28 +674,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if currentMenu == .stuff {
-            return ContentList.sharedInstance.arrayStuff.count
-        }else {
             return StreamList.sharedInstance.arrayProfileStream.count
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        if currentMenu == .stuff {
-            
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
-            // for Add Content
-            cell.layer.cornerRadius = 5.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-            cell.prepareLayout(content:content)
-            return cell
-            
-        }else{
+       
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
@@ -664,46 +693,16 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 cell.lblName.isHidden = true
             }
             return cell
-            
-        }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        
-        if currentMenu == .stuff {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            if content.isAdd == true {
-                return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
-            }
-            if selectedIndex != nil {
-                let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
-                return CGSize(width: tempContent.width, height: tempContent.height)
-            }
-            return CGSize(width: content.width, height: content.height)
-        }else {
-            let itemWidth = collectionView.bounds.size.width/2.0
-            return CGSize(width: itemWidth, height: itemWidth - 40)
-        }
-        
+       
+        let itemWidth = collectionView.bounds.size.width/2.0
+        return CGSize(width: itemWidth, height: itemWidth - 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if currentMenu == .stuff {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            if content.isAdd {
-                btnActionForAddContent()
-            }else {
-                isEdited = true
-                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
-                ContentList.sharedInstance.arrayContent = array
-                if ContentList.sharedInstance.arrayContent.count != 0 {
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.currentIndex = indexPath.row - 1
-                    self.navigationController?.push(viewController: objPreview)
-                }
-            }
-        }else {
+      
             let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
             if stream.isAdd {
                   isEdited = true
@@ -728,46 +727,56 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 self.navigationController?.push(viewController: obj)
             }
             
-        }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if currentMenu == .stuff {
-            if destinationIndexPath.row == 0 {
-                return
-            }
-            let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
-            ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
-            ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
-            DispatchQueue.main.async {
-                self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
-                HUDManager.sharedInstance.showHUD()
-                self.reorderContent(orderArray:ContentList.sharedInstance.arrayStuff)
-            }
-        }
-        
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        if currentMenu == .stuff {
-            return true
-        }else {
-            return false
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
-
-        if proposedIndexPath.item == 0 {
-            return IndexPath(item: 1, section: 0)
-        }else {
-            return proposedIndexPath
-        }
-    }
-
+   
 }
 
+extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
+   
+    func numberOfSections(in tableView: UITableView) -> Int
+    {
+        return 4
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        }else {
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell:MyStuffCollectionCell = tableView.dequeueReusableCell(withIdentifier: kCell_MyStuffCollectionCell, for: indexPath) as! MyStuffCollectionCell
+        cell.selectionStyle = .none
+        cell.prepareCellWithData()
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return self.tblMyStuff.frame.size.height - 100
+    }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        return nil
+//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "All"
+        }else  if section == 1  {
+            return "Photos"
+        }else  if section == 2  {
+            return "Videos"
+        }else  if section == 3  {
+            return "Links"
+        }else  {
+            return "Gifs"
+        }
+    }
+    
+    
+}
 
 
 
