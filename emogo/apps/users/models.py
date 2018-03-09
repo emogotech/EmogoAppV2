@@ -29,6 +29,7 @@ class UserProfile(UsersStatusModel):
     location = models.CharField(max_length=50, null=True, blank=True)
     website = models.CharField(max_length=250, null=True, blank=True)
     biography = models.CharField(max_length=255, null=True, blank=True)
+    birthday = models.CharField(max_length=15, null=True, blank=True)
 
     class Meta:
         db_table = 'user_profile'

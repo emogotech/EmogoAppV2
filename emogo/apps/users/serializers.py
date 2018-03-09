@@ -100,7 +100,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography']
+            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -137,6 +137,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             if self.validated_data.get('biography') is not None:
                 # Then user profile table data
                 self.instance.biography = self.validated_data.get('biography')
+            if self.validated_data.get('birthday') is not None:
+                # Then user profile table data
+                self.instance.birthday = self.validated_data.get('birthday')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
         except IntegrityError as e:
