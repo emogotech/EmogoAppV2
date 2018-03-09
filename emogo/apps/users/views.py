@@ -145,7 +145,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'location', 'website', 'biography')
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'location', 'website', 'biography', 'birthday')
         instance = self.get_object()
         if self.request.user.id == instance.user.id:
             fields = list(fields)
@@ -159,7 +159,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.exclude(user=self.request.user)
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'location', 'website', 'biography', 'birthday')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -330,6 +330,6 @@ class VerifyLoginOTP(APIView):
         serializer = VerifyOtpLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
-            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image")
+            fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image", 'location', 'website', 'biography', 'birthday')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
