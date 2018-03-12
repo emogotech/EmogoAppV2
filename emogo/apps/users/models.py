@@ -112,10 +112,13 @@ def update_user_deep_link_url(user):
             "phone": user.username
         }
     }
-    url = 'https://api.branch.io/v1/url?url={0}'.format(user.user_data.branchio_url)
-    headers = {'Content-Type': 'application/json'}
-    response = requests.put(url, data=json.dumps(data), headers=headers)
-    if json.loads(response.text).get('data') is not None:
-        user.user_data.branchio_url = json.loads(response.text).get('data').get('url')
-        user.user_data.save()
+    if user.user_data.branchio_url is not None:
+        url = 'https://api.branch.io/v1/url?url={0}'.format(user.user_data.branchio_url)
+        headers = {'Content-Type': 'application/json'}
+        response = requests.put(url, data=json.dumps(data), headers=headers)
+        if json.loads(response.text).get('data') is not None:
+            user.user_data.branchio_url = json.loads(response.text).get('data').get('url')
+            user.user_data.save()
+    else:
+        create_user_deep_link(user)
     return True
