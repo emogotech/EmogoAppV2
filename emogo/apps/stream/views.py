@@ -283,8 +283,8 @@ class GetTopContentAPI(ContentAPI):
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id','type',
-            'order' )
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order','color')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -300,8 +300,8 @@ class GetTopTwentyContentAPI(ContentAPI):
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewContentSerializer
         fields = (
-            'id','type',
-            'order')
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order', 'color')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
