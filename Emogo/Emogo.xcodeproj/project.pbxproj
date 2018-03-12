@@ -164,6 +164,10 @@
 		F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BB20075215002D4E4E /* TPKeyboardAvoidingTableView.m */; };
 		F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BC20075215002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */; };
+		F425C6392056646F002536E1 /* ASCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F425C6362056646A002536E1 /* ASCollectionView.swift */; };
+		F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F425C6372056646B002536E1 /* ASCollectionViewLayout.swift */; };
+		F425C63B2056646F002536E1 /* ASCollectionViewParallaxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F425C6382056646C002536E1 /* ASCollectionViewParallaxCell.swift */; };
+		F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F425C63C20567E88002536E1 /* ProfileHeaderView.xib */; };
 		F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */; };
 		F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */; };
 		F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
@@ -571,6 +575,10 @@
 		F42217BD20075216002D4E4E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
 		F42217BE20075217002D4E4E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
 		F42217BF20075218002D4E4E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		F425C6362056646A002536E1 /* ASCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASCollectionView.swift; sourceTree = "<group>"; };
+		F425C6372056646B002536E1 /* ASCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASCollectionViewLayout.swift; sourceTree = "<group>"; };
+		F425C6382056646C002536E1 /* ASCollectionViewParallaxCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASCollectionViewParallaxCell.swift; sourceTree = "<group>"; };
+		F425C63C20567E88002536E1 /* ProfileHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileHeaderView.xib; sourceTree = "<group>"; };
 		F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamCell.swift; sourceTree = "<group>"; };
 		F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDAO.swift; sourceTree = "<group>"; };
@@ -1145,6 +1153,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F425C62F205660A8002536E1 /* CollectionView */,
 				F02C6199204FEDB10041CEE4 /* PageController */,
 				C8FBD72F2015FE7C007C7C1B /* Text View PlaceHolder */,
 				F43649A22015CDBB004FBEE2 /* CameraView */,
@@ -1589,11 +1598,22 @@
 			path = PhotoPicker;
 			sourceTree = "<group>";
 		};
+		F425C62F205660A8002536E1 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				F425C6372056646B002536E1 /* ASCollectionViewLayout.swift */,
+				F425C6382056646C002536E1 /* ASCollectionViewParallaxCell.swift */,
+				F425C6362056646A002536E1 /* ASCollectionView.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
 		F4266EF51FF66F680075BFD7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */,
 				F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */,
+				F425C63C20567E88002536E1 /* ProfileHeaderView.xib */,
 				F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */,
 			);
 			path = Profile;
@@ -2126,6 +2146,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 					335B1A211FBB238A006DA9D9 = {
@@ -2202,6 +2225,7 @@
 				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F4431A8F1FC6DD2C00311C9A /* ColorCollectionViewCell.xib in Resources */,
+				F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */,
 				F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */,
 				F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */,
 				F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */,
@@ -2501,6 +2525,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
@@ -2522,6 +2547,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
@@ -2690,6 +2716,7 @@
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
 				F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
+				F425C63B2056646F002536E1 /* ASCollectionViewParallaxCell.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
@@ -2740,6 +2767,7 @@
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
+				F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
@@ -2788,6 +2816,7 @@
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
 				F4431AA31FC6DD2C00311C9A /* PhotoEditor+StickersViewController.swift in Sources */,
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
+				F425C6392056646F002536E1 /* ASCollectionView.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,

@@ -89,7 +89,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
-        
+        tblMyStuff.register(UINib(nibName: "ProfileHeaderView", bundle: nil), forHeaderFooterViewReuseIdentifier: kHeader_ProfileHeaderView)
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         HUDManager.sharedInstance.showHUD()
@@ -333,8 +333,8 @@ class ProfileViewController: UIViewController {
         
         switch currentMenu {
         case .stuff:
-            self.profileCollectionView.isHidden = false
-            self.tblMyStuff.isHidden = true
+            self.profileCollectionView.isHidden = true
+            self.tblMyStuff.isHidden = false
             HUDManager.sharedInstance.showHUD()
             self.getMyStuff(type: .start)
             break
@@ -345,8 +345,8 @@ class ProfileViewController: UIViewController {
             self.getStreamList(type:.start,filter: .myStream)
             break
         case .colabs:
-            self.profileCollectionView.isHidden = true
-            self.tblMyStuff.isHidden = false
+            self.profileCollectionView.isHidden = false
+            self.tblMyStuff.isHidden = true
             HUDManager.sharedInstance.showHUD()
             self.getColabs(type: .start)
             break
@@ -391,6 +391,10 @@ class ProfileViewController: UIViewController {
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
         obj.streamID = stream.ID
         self.navigationController?.push(viewController: obj)
+    }
+    
+    @objc func btnShowMoreAction(sender:UIButton){
+    
     }
     
     func getStreamList(type:RefreshType,filter:StreamType){
@@ -670,7 +674,7 @@ class ProfileViewController: UIViewController {
 
 
 
-extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
+extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,MyStuffCollectionCellDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -728,7 +732,23 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
             
     }
-   
+    
+    func selectedItem(index:Int,content:ContentDAO){
+        let content = ContentList.sharedInstance.arrayStuff[index]
+        if content.isAdd {
+            btnActionForAddContent()
+        }else {
+            isEdited = true
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = index
+                self.navigationController?.push(viewController: objPreview)
+            }
+        }
+    }
+    
 }
 
 extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
@@ -748,6 +768,7 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
         let cell:MyStuffCollectionCell = tableView.dequeueReusableCell(withIdentifier: kCell_MyStuffCollectionCell, for: indexPath) as! MyStuffCollectionCell
         cell.selectionStyle = .none
         cell.prepareCellWithData()
+        cell.delegate = self
         return cell
     }
     
@@ -755,26 +776,48 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
     return self.tblMyStuff.frame.size.height - 100
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        return nil
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView:ProfileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: kHeader_ProfileHeaderView) as! ProfileHeaderView
+        headerView.btnShowMore.addTarget(self, action: #selector(self.btnShowMoreAction(sender:)), for: .touchUpInside)
+                if section == 0 {
+                    headerView.lblTitle.text = "All"
+                    headerView.iconWidth.constant = 0
+                    headerView.btnShowMore.tag = section
+                    headerView.imgIcon.isHidden = true
+                }else  if section == 1  {
+                    headerView.lblTitle.text = "Photos"
+                    headerView.iconWidth.constant = 18
+                    headerView.btnShowMore.tag = section
+                    headerView.imgIcon.image = #imageLiteral(resourceName: "photos icon")
+                    headerView.imgIcon.isHidden = false
+                }else  if section == 2  {
+                    headerView.lblTitle.text = "Videos"
+                    headerView.iconWidth.constant = 20
+                    headerView.btnShowMore.tag = section
+                    headerView.imgIcon.isHidden = false
+                    headerView.imgIcon.image = #imageLiteral(resourceName: "videos icon")
+                }else  if section == 3  {
+                    headerView.lblTitle.text = "Links"
+                    headerView.iconWidth.constant = 18
+                    headerView.btnShowMore.tag = section
+                    headerView.imgIcon.isHidden = false
+                    headerView.imgIcon.image = #imageLiteral(resourceName: "links icon")
+
+                }else  {
+                    headerView.lblTitle.text = "Gifs"
+                    headerView.iconWidth.constant = 18
+                    headerView.btnShowMore.tag = section
+                    headerView.imgIcon.isHidden = false
+                    headerView.imgIcon.image = #imageLiteral(resourceName: "gifs icon")
+                }
+        
+        return headerView
+    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "All"
-        }else  if section == 1  {
-            return "Photos"
-        }else  if section == 2  {
-            return "Videos"
-        }else  if section == 3  {
-            return "Links"
-        }else  {
-            return "Gifs"
-        }
-    }
     
+
     
 }
 

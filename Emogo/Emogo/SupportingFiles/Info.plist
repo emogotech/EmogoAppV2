@@ -2,6 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>branch_key</key>
+    <dict>
+        <key>live</key>
+        <string>key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ</string>
+        <key>test</key>
+        <string>key_test_ibuT46nKy5BtlYCK9VQ0MklptDfS2nly</string>
+    </dict>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>emogo</string>
+            </array>
+        </dict>
+    </array>
 	<key>AWS</key>
 	<dict>
 		<key>CredentialsProvider</key>

@@ -10,6 +10,7 @@ import UIKit
 import IQKeyboardManagerSwift
 import Fabric
 import Crashlytics
+import Branch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Crashlytics
 
         self.initializeApplication()
-        Fabric.with([Crashlytics.self])
+        Fabric.with([Crashlytics.self,Branch.self])
+        self.configureBranchSDK(launchOptions: launchOptions)
         return true
     }
 
@@ -63,7 +65,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(_: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("open url Called")
+        let branchHandled = Branch.getInstance().application(app,
+                                                             open: url,
+                                                             sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
+                                                             annotation: options[UIApplicationOpenURLOptionsKey.annotation]
+        )
+        if (!branchHandled) {
+            // If not handled by Branch, do other deep link routing for the Facebook SDK, Pinterest SDK, etc
+        }else {
+            return true
+        }
+        
         return url.scheme == "Emogo" && executeDeepLink(with: url)
     }
     
@@ -176,6 +191,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Initialize
     fileprivate func initializeApplication(){
+        
         // Keyboard Manager
         IQKeyboardManager.sharedManager().enable = true
         AppDelegate.appDelegate = self
@@ -187,6 +203,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Logout User if Token Is Expired
        
     }
+    
+    // MARK: - Branch SDK Configuration
+    func configureBranchSDK(launchOptions: [UIApplicationLaunchOptionsKey: Any]?){
+     
+        let  branch = Branch.getInstance()
+        // Branch -- uncomment line below for testing
+        //        branch = Branch.getTestInstance()
+        branch?.initSession(launchOptions: launchOptions, andRegisterDeepLinkHandler: { params, error in
+            if (error == nil) {
+                if let dictData = params {
+                    let dict:[String:Any]  = dictData as! [String:Any]
+                    print(dict)
+                }
+            }
+        })
+    }
+    
     @objc private func performLogin(){
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
@@ -222,6 +255,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func addOberserver(){
     NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
+    
+    
+   
+    // Respond to Universal Links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        // pass the url to the handle deep link call
+        Branch.getInstance().continue(userActivity)
+        
+        return true
+    }
+    
 }
 
 

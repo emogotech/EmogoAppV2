@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Text-Medium.otf">
+            <string>SFProText-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProfileHeaderView" customModule="Emogo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Ra-EZ-2oJ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videos icon" translatesAutoresizingMaskIntoConstraints="NO" id="swd-br-05e">
+                    <rect key="frame" x="10" y="15" width="18" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="18" id="TIy-pV-7M6"/>
+                        <constraint firstAttribute="height" constant="20" id="oPK-s2-jMc"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovx-UU-Uce">
+                    <rect key="frame" x="38" y="14" width="161" height="21"/>
+                    <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-uv-s8Z">
+                    <rect key="frame" x="249" y="1" width="71" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="8PN-gK-Fyp"/>
+                        <constraint firstAttribute="width" constant="71" id="g55-YC-sjm"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" image="show more icon"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="1" id="5CA-Jf-kgm"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="leading" secondItem="ovx-UU-Uce" secondAttribute="trailing" constant="50" id="5Q2-Ni-23f"/>
+                <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="9eY-cs-hdf"/>
+                <constraint firstItem="ovx-UU-Uce" firstAttribute="leading" secondItem="swd-br-05e" secondAttribute="trailing" constant="10" id="C9W-Mi-GQO"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hWh-uv-s8Z" secondAttribute="bottom" constant="1" id="SAS-it-mY6"/>
+                <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="VR5-un-X2w"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ZYP-1J-kZh"/>
+                <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="aJ1-hq-Zyz"/>
+                <constraint firstItem="swd-br-05e" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="aST-Xx-66x"/>
+                <constraint firstItem="swd-br-05e" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="b55-hE-vFG"/>
+                <constraint firstItem="ovx-UU-Uce" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="czf-ne-Vfy"/>
+                <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ePo-Vd-Cgg"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ovx-UU-Uce" secondAttribute="bottom" constant="15" id="rnp-XW-ZmP"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="btnShowMore" destination="hWh-uv-s8Z" id="g54-2X-paF"/>
+                <outlet property="iconWidth" destination="TIy-pV-7M6" id="aLy-qt-mOG"/>
+                <outlet property="imgIcon" destination="swd-br-05e" id="hIC-vi-rJG"/>
+                <outlet property="lblTitle" destination="ovx-UU-Uce" id="Rgw-nK-jLo"/>
+            </connections>
+            <point key="canvasLocation" x="-153" y="-330"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="show more icon" width="7" height="13"/>
+        <image name="videos icon" width="25" height="16"/>
+    </resources>
+</document>

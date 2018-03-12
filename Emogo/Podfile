@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-xcodeproj 'Emogo.xcodeproj'
+xcodeproj 'Emogo.project'
 
 platform :ios, '9.0'
 inhibit_all_warnings!
@@ -30,6 +30,8 @@ target 'Emogo' do
     pod "GSKStretchyHeaderView"
     pod 'SwiftLinkPreview'
     pod ‘RS3DSegmentedControl’
+    pod 'Branch'
+
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target

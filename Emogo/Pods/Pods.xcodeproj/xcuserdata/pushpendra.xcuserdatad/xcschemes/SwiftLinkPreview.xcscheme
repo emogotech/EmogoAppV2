@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '2F00A732DD8224786FEB0C5CEA4110A6'
-               BlueprintName = 'SwiftLinkPreview'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftLinkPreview.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A92026C78AA36934F2DACB466C41BCEA"
+               BlueprintName = "SwiftLinkPreview"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "SwiftLinkPreview.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

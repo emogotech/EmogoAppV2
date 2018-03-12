@@ -19,14 +19,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Externals/CustomLayout/Reorder+CHTCollectionLayout.swift"
-            timestampString = "541520472.88025"
+            filePath = "Emogo/Externals/CollectionView/ASCollectionView.swift"
+            timestampString = "542542387.103634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "CHTCollectionViewWaterfallLayout"
-            landmarkType = "21">
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "ASCollectionView"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -35,30 +35,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Externals/CustomLayout/Reorder+CHTCollectionLayout.swift"
-            timestampString = "541520472.880324"
+            filePath = "Emogo/Interface/Views/Cells And Nib&apos;s/Profile/MyStuffCollectionCell.swift"
+            timestampString = "542542387.104067"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "CHTCollectionViewWaterfallLayout"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "MyStuffCollectionCell"
             landmarkType = "21">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "542299909.004024"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "getStreamList(type:filter:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

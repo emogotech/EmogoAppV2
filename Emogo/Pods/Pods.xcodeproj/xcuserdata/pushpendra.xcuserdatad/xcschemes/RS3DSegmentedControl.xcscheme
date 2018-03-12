@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '14C314C40D878C9EAA8FD669C7EAB728'
-               BlueprintName = 'RS3DSegmentedControl'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'RS3DSegmentedControl.framework'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "32A1AD5999878488B04A7C1AED337159"
+               BlueprintName = "RS3DSegmentedControl"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "RS3DSegmentedControl.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
