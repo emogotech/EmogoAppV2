@@ -61,6 +61,7 @@ let kVerifyLoginAPI                                 = "verify_login_otp/"
 let kStreamColabListAPI                             = "stream/collaborator/"
 let kStreamReorderContentAPI                        = "reorder_stream_content/"
 let kReorderContentAPI                              = "reorder_content/"
+let kGetTopContentAPI                               = "get_top_content/"
 
 
 

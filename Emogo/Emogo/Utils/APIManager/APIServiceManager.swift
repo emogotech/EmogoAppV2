@@ -179,13 +179,13 @@ class APIServiceManager: NSObject {
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        if let data = (value as! [String:Any])["data"] {
-                            let dictUserData:NSDictionary = data as! NSDictionary
+                   //     if let data = (value as! [String:Any])["data"] {
+                          //  let dictUserData:NSDictionary = data as! NSDictionary
                             //kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                           //  UserDAO.sharedInstance.parseUserInfo()
                             //print(dictUserData)
                           //  kDefault?.set(true, forKey: kUserLogggedIn)
-                        }
+                      //  }
                         completionHandler(true,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
@@ -1379,7 +1379,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1528,6 +1528,130 @@ class APIServiceManager: NSObject {
             
         }
         
+    }
+    
+    
+    func apiForGetTopContent(completionHandler:@escaping (_ isSuccess:[TopContent]?, _ strError:String?)->Void){
+        var arrayTopContents = [TopContent]()
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetTopContentAPI) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                            
+                        var allContents = [ContentDAO]()
+                         if  let picture = (data as! [String:Any])["picture"] {
+                               
+                                let array:[Any] = picture as! [Any]
+                                
+                               var contents = [ContentDAO]()
+                                for obj in array {
+                             let content = ContentDAO(contentData: obj as! [String : Any])
+                                   contents.append(content)
+                                }
+                                if contents.count != 0 {
+                                    let top = TopContent(name: "Photos", contents: contents)
+                                    top.image = #imageLiteral(resourceName: "photos icon")
+                                    arrayTopContents.append(top)
+                                    if contents.count > 5 {
+                                        let firstFive = contents[0..<5]
+                                        allContents.append(contentsOf: firstFive)
+                                    }else {
+                                        let firstFive = contents[0..<contents.count]
+                                        allContents.append(contentsOf: firstFive)
+                                    }
+                                }
+                            
+                            }
+                           if let video = (data as! [String:Any])["video"] {
+                              
+                               let array:[Any] = video as! [Any]
+                                var contents = [ContentDAO]()
+                                for obj in array {
+                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    contents.append(content)
+                                }
+                                if contents.count != 0 {
+                                    let top = TopContent(name: "Videos", contents: contents)
+                                    top.image = #imageLiteral(resourceName: "videos icon")
+                                    arrayTopContents.append(top)
+                                    if contents.count > 5 {
+                                        let firstFive = contents[0..<5]
+                                        allContents.append(contentsOf: firstFive)
+                                    }else {
+                                        let firstFive = contents[0..<contents.count]
+                                        allContents.append(contentsOf: firstFive)
+                                    }
+                                }
+                           
+                            }
+                           if let link = (data as! [String:Any])["link"] {
+                             
+                                let array:[Any] = link as! [Any]
+                            
+                                var contents = [ContentDAO]()
+                                for obj in array {
+                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    contents.append(content)
+                                }
+                                if contents.count != 0 {
+                                    let top = TopContent(name: "Links", contents: contents)
+                                    top.image = #imageLiteral(resourceName: "links icon")
+
+                                    arrayTopContents.append(top)
+                                    
+                                    if contents.count > 5 {
+                                        let firstFive = contents[0..<5]
+                                        allContents.append(contentsOf: firstFive)
+                                    }else {
+                                        let firstFive = contents[0..<contents.count]
+                                        allContents.append(contentsOf: firstFive)
+                                    }
+                                }
+                            
+                                
+                            }
+                         if  let giphy = (data as! [String:Any])["giphy"] {
+                               
+                                let array:[Any] = giphy as! [Any]
+                                var contents = [ContentDAO]()
+                                for obj in array {
+                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    contents.append(content)
+                                }
+                                if contents.count != 0 {
+                                    let top = TopContent(name: "Gifs", contents: contents)
+                                    top.image = #imageLiteral(resourceName: "gifs icon")
+                                    arrayTopContents.append(top)
+                                    if contents.count > 5 {
+                                        let firstFive = contents[0..<5]
+                                        allContents.append(contentsOf: firstFive)
+                                    }else {
+                                        let firstFive = contents[0..<contents.count]
+                                        allContents.append(contentsOf: firstFive)
+                                    }
+                                }
+                            }
+                            let top = TopContent(name: "All", contents: allContents)
+                            top.image = nil
+                            arrayTopContents.insert(top, at: 0)
+                            //print(result)
+                            completionHandler(arrayTopContents,"")
+                        }
+                        
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
     }
     
 }

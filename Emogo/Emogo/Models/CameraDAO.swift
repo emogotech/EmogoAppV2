@@ -57,6 +57,16 @@ class GalleryDAO{
 
 */
 
+class TopContent{
+    var name:String! = ""
+    var Contents = [ContentDAO]()
+    var image:UIImage?
+    init(name:String,contents:[ContentDAO]) {
+        self.name = name
+        self.Contents = contents
+    }
+}
+
 class ContentList{
     var arrayContent:[ContentDAO]!
     var arrayStuff:[ContentDAO]!
@@ -67,6 +77,7 @@ class ContentList{
     var mainStreamIndex:Int?
     var mainStreamNavigate:String?
     var requestURl:String! = ""
+    
     class var sharedInstance: ContentList {
         struct Static {
             static let instance: ContentList = ContentList()
@@ -80,7 +91,6 @@ class ContentList{
         arrayStuff = [ContentDAO]()
         arrayToCreate = [ContentDAO]()
     }
-    
 }
 
 class ContentDAO{

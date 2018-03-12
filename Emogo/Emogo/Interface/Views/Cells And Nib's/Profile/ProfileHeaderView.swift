@@ -10,7 +10,7 @@ import UIKit
 
 class ProfileHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var lblTitle: UILabel!
-    @IBOutlet weak var imgIcon: UIImageView!
+    @IBOutlet weak var btnIcon: UIButton!
     @IBOutlet weak var btnShowMore: UIButton!
     @IBOutlet weak var iconWidth: NSLayoutConstraint!
 

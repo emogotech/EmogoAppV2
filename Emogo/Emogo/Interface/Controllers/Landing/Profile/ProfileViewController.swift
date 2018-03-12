@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
-
+    var arrayTopContent = [TopContent]()
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -161,7 +161,7 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.showHUD()
             isEdited = false
             if  self.currentMenu == .stuff {
-                self.getMyStuff(type: .start)
+                self.getMyStuff()
             }else if self.currentMenu == .stream{
                 self.getStreamList(type:.start,filter: .myStream)
             }else {
@@ -179,7 +179,7 @@ class ProfileViewController: UIViewController {
             if self?.currentMenu == .stream {
                 self?.getStreamList(type:.up,filter:.myStream)
             }else if self?.currentMenu == .stuff {
-                self?.getMyStuff(type: .up)
+                //self?.getMyStuff(type: .up)
             }else {
                 self?.getColabs(type: .up)
             }
@@ -188,7 +188,7 @@ class ProfileViewController: UIViewController {
             if self?.currentMenu == .stream {
                 self?.getStreamList(type:.down,filter: .myStream)
             }else if self?.currentMenu == .stuff {
-                self?.getMyStuff(type: .down)
+               // self?.getMyStuff(type: .down)
             }else {
                 self?.getColabs(type: .down)
             }
@@ -336,7 +336,7 @@ class ProfileViewController: UIViewController {
             self.profileCollectionView.isHidden = true
             self.tblMyStuff.isHidden = false
             HUDManager.sharedInstance.showHUD()
-            self.getMyStuff(type: .start)
+            self.getMyStuff()
             break
         case .stream:
             self.profileCollectionView.isHidden = false
@@ -433,43 +433,21 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    func getMyStuff(type:RefreshType){
-        if type == .start || type == .up {
-              ContentList.sharedInstance.arrayStuff.removeAll()
-//            let content = ContentDAO(contentData: [:])
-//            content.isAdd = true
-//            ContentList.sharedInstance.arrayStuff.insert(content, at: 0)
-            self.profileCollectionView.reloadData()
-        }
-        
-        APIServiceManager.sharedInstance.apiForGetStuffList(type: type) { (refreshType, errorMsg) in
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
-            if refreshType == .end {
-                self.profileCollectionView.es.noticeNoMoreData()
-            }
-            if type == .up {
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.profileCollectionView.es.stopPullToRefresh()
-            }else if type == .down {
-                self.profileCollectionView.es.stopLoadingMore()
-            }
+    func getMyStuff(){
+        APIServiceManager.sharedInstance.apiForGetTopContent { (results, errorMsg) in
             
-            self.lblNOResult.isHidden = true
-            if ContentList.sharedInstance.arrayStuff.count == 0 {
-                self.lblNOResult.text  = "No Stuff Found"
-                self.lblNOResult.minimumScaleFactor = 1.0
-                 self.lblNOResult.isHidden = false
+            HUDManager.sharedInstance.hideHUD()
+            
+            if (errorMsg?.isEmpty)! {
+                self.arrayTopContent = results!
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
             }
-            self.selectedIndex = nil
             self.profileCollectionView.isHidden = true
             self.tblMyStuff.isHidden = false
             self.tblMyStuff.reloadData()
-            if !(errorMsg?.isEmpty)! {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
         }
+    
     }
     
     func getColabs(type:RefreshType){
@@ -755,19 +733,16 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
    
     func numberOfSections(in tableView: UITableView) -> Int
     {
-        return 4
+        return self.arrayTopContent.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
             return 1
-        }else {
-            return 0
-        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:MyStuffCollectionCell = tableView.dequeueReusableCell(withIdentifier: kCell_MyStuffCollectionCell, for: indexPath) as! MyStuffCollectionCell
         cell.selectionStyle = .none
-        cell.prepareCellWithData()
+        let array = self.arrayTopContent[indexPath.section].Contents
+        cell.prepareCellWithData(contents:array)
         cell.delegate = self
         return cell
     }
@@ -778,47 +753,28 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView:ProfileHeaderView = tableView.dequeueReusableHeaderFooterView(withIdentifier: kHeader_ProfileHeaderView) as! ProfileHeaderView
-        headerView.btnShowMore.addTarget(self, action: #selector(self.btnShowMoreAction(sender:)), for: .touchUpInside)
-                if section == 0 {
-                    headerView.lblTitle.text = "All"
-                    headerView.iconWidth.constant = 0
-                    headerView.btnShowMore.tag = section
-                    headerView.imgIcon.isHidden = true
-                }else  if section == 1  {
-                    headerView.lblTitle.text = "Photos"
-                    headerView.iconWidth.constant = 18
-                    headerView.btnShowMore.tag = section
-                    headerView.imgIcon.image = #imageLiteral(resourceName: "photos icon")
-                    headerView.imgIcon.isHidden = false
-                }else  if section == 2  {
-                    headerView.lblTitle.text = "Videos"
-                    headerView.iconWidth.constant = 20
-                    headerView.btnShowMore.tag = section
-                    headerView.imgIcon.isHidden = false
-                    headerView.imgIcon.image = #imageLiteral(resourceName: "videos icon")
-                }else  if section == 3  {
-                    headerView.lblTitle.text = "Links"
-                    headerView.iconWidth.constant = 18
-                    headerView.btnShowMore.tag = section
-                    headerView.imgIcon.isHidden = false
-                    headerView.imgIcon.image = #imageLiteral(resourceName: "links icon")
+         headerView.btnShowMore.addTarget(self, action: #selector(self.btnShowMoreAction(sender:)), for: .touchUpInside)
+          let top = self.arrayTopContent[section]
 
-                }else  {
-                    headerView.lblTitle.text = "Gifs"
-                    headerView.iconWidth.constant = 18
-                    headerView.btnShowMore.tag = section
-                    headerView.imgIcon.isHidden = false
-                    headerView.imgIcon.image = #imageLiteral(resourceName: "gifs icon")
-                }
+        if top.image == nil {
+            headerView.lblTitle.text = top.name
+            headerView.iconWidth.constant = 0
+            headerView.btnShowMore.tag = section
+            headerView.btnIcon.isHidden = true
+        }else {
+            headerView.lblTitle.text = top.name
+            headerView.iconWidth.constant = 50
+            headerView.btnShowMore.tag = section
+            headerView.btnIcon.setImage(top.image, for: .normal)
+            headerView.btnIcon.isHidden = false
+        }
         
         return headerView
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
 
-    
 }
 
 

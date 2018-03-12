@@ -72,6 +72,9 @@ class User {
         if let obj = userData["phone_number"] {
             self.phoneNumber = "\(obj)"
         }
+        if let obj = userData["birthday"] {
+            self.birthday = "\(obj)"
+        }
         if let obj = userData["user"] {
             self.user = "\(obj)"
         }

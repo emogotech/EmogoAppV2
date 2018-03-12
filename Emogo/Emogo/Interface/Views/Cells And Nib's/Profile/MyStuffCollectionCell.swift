@@ -15,6 +15,7 @@ class MyStuffCollectionCell: UITableViewCell {
     
     @IBOutlet weak var profileCollectionView: ASCollectionView!
     var delegate:MyStuffCollectionCellDelegate?
+    var contents = [ContentDAO]()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +29,8 @@ class MyStuffCollectionCell: UITableViewCell {
         profileCollectionView.enableLoadMore = false
     }
     
-    func prepareCellWithData() {
+    func prepareCellWithData(contents:[ContentDAO]) {
+        self.contents = contents
         self.profileCollectionView.reloadData()
     }
     
@@ -44,11 +46,11 @@ class MyStuffCollectionCell: UITableViewCell {
 extension MyStuffCollectionCell:ASCollectionViewDataSource,ASCollectionViewDelegate {
    
     func numberOfItemsInASCollectionView(_ asCollectionView: ASCollectionView) -> Int {
-        return ContentList.sharedInstance.arrayStuff.count
+        return contents.count
     }
     
     func collectionView(_ asCollectionView: ASCollectionView, cellForItemAtIndexPath indexPath: IndexPath) -> UICollectionViewCell {
-        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        let content = contents[indexPath.row]
         let cell = profileCollectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         // for Add Content
         cell.layer.cornerRadius = 5.0
@@ -64,7 +66,7 @@ extension MyStuffCollectionCell:ASCollectionViewDataSource,ASCollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.delegate != nil {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let content = contents[indexPath.row]
             self.delegate?.selectedItem(index: indexPath.row, content: content)
         }
        /*

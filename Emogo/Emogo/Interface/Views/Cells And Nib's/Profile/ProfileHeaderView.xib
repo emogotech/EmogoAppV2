@@ -25,15 +25,16 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="videos icon" translatesAutoresizingMaskIntoConstraints="NO" id="swd-br-05e">
-                    <rect key="frame" x="10" y="15" width="18" height="20"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UqT-Pa-Ypp">
+                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="18" id="TIy-pV-7M6"/>
-                        <constraint firstAttribute="height" constant="20" id="oPK-s2-jMc"/>
+                        <constraint firstAttribute="width" constant="50" id="Ld6-Ne-Nf8"/>
+                        <constraint firstAttribute="height" constant="50" id="dQU-5r-ijF"/>
                     </constraints>
-                </imageView>
+                    <state key="normal" image="links icon"/>
+                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovx-UU-Uce">
-                    <rect key="frame" x="38" y="14" width="161" height="21"/>
+                    <rect key="frame" x="58" y="14" width="161" height="21"/>
                     <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -41,8 +42,8 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-uv-s8Z">
                     <rect key="frame" x="249" y="1" width="71" height="48"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="48" id="8PN-gK-Fyp"/>
-                        <constraint firstAttribute="width" constant="71" id="g55-YC-sjm"/>
+                        <constraint firstAttribute="width" constant="71" id="fxM-pO-hLw"/>
+                        <constraint firstAttribute="height" constant="48" id="n5L-5u-blW"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <state key="normal" image="show more icon"/>
@@ -50,33 +51,34 @@
             </subviews>
             <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="hWh-uv-s8Z" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="1" id="5CA-Jf-kgm"/>
-                <constraint firstItem="hWh-uv-s8Z" firstAttribute="leading" secondItem="ovx-UU-Uce" secondAttribute="trailing" constant="50" id="5Q2-Ni-23f"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="leading" secondItem="ovx-UU-Uce" secondAttribute="trailing" constant="30" id="12z-W1-e1e"/>
+                <constraint firstItem="ovx-UU-Uce" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="56a-q1-dTm"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ovx-UU-Uce" secondAttribute="bottom" constant="15" id="80F-vH-hq7"/>
                 <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="9eY-cs-hdf"/>
-                <constraint firstItem="ovx-UU-Uce" firstAttribute="leading" secondItem="swd-br-05e" secondAttribute="trailing" constant="10" id="C9W-Mi-GQO"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hWh-uv-s8Z" secondAttribute="bottom" constant="1" id="SAS-it-mY6"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="hWh-uv-s8Z" secondAttribute="bottom" constant="1" id="SYM-zt-ao5"/>
+                <constraint firstItem="UqT-Pa-Ypp" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Si5-Ab-mtW"/>
+                <constraint firstItem="UqT-Pa-Ypp" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="UMe-5v-cFF"/>
                 <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="VR5-un-X2w"/>
-                <constraint firstItem="hWh-uv-s8Z" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ZYP-1J-kZh"/>
                 <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="aJ1-hq-Zyz"/>
-                <constraint firstItem="swd-br-05e" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="aST-Xx-66x"/>
-                <constraint firstItem="swd-br-05e" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="b55-hE-vFG"/>
-                <constraint firstItem="ovx-UU-Uce" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="czf-ne-Vfy"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="1" id="bZT-ea-neL"/>
                 <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ePo-Vd-Cgg"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ovx-UU-Uce" secondAttribute="bottom" constant="15" id="rnp-XW-ZmP"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="nGB-vR-aJe"/>
+                <constraint firstItem="UqT-Pa-Ypp" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="pqm-dx-pGK"/>
+                <constraint firstItem="ovx-UU-Uce" firstAttribute="leading" secondItem="UqT-Pa-Ypp" secondAttribute="trailing" constant="8" id="ugY-3P-zS9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="btnIcon" destination="UqT-Pa-Ypp" id="GAt-Et-CPz"/>
                 <outlet property="btnShowMore" destination="hWh-uv-s8Z" id="g54-2X-paF"/>
-                <outlet property="iconWidth" destination="TIy-pV-7M6" id="aLy-qt-mOG"/>
-                <outlet property="imgIcon" destination="swd-br-05e" id="hIC-vi-rJG"/>
+                <outlet property="iconWidth" destination="Ld6-Ne-Nf8" id="nmx-GS-Lir"/>
                 <outlet property="lblTitle" destination="ovx-UU-Uce" id="Rgw-nK-jLo"/>
             </connections>
             <point key="canvasLocation" x="-153" y="-330"/>
         </view>
     </objects>
     <resources>
+        <image name="links icon" width="21" height="21"/>
         <image name="show more icon" width="7" height="13"/>
-        <image name="videos icon" width="25" height="16"/>
     </resources>
 </document>

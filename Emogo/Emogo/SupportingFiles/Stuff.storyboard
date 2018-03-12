@@ -1510,7 +1510,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HJb-IJ-OJJ" customClass="ASCollectionView" customModule="Emogo" customModuleProvider="target">
+                                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HJb-IJ-OJJ" customClass="ASCollectionView" customModule="Emogo" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="150"/>
                                                             <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <collectionViewLayout key="collectionViewLayout" id="D34-oS-Dfq" customClass="ASCollectionViewLayout" customModule="Emogo" customModuleProvider="target"/>
