@@ -80,15 +80,15 @@ def create_user_deep_link(user):
     client = branchio.Client(settings.branch_key)
     response = client.create_deep_link_url(
         channel="Emogo", data={
-                               "user_full_name": user.user_data.full_name,
-                               "user_image": user.user_data.user_image,
-                               "$ios_url": settings.DATA_BRANCH_IOS_URL,
-                               "location": user.user_data.location,
-                               "website": user.user_data.website,
-                               "birthday": user.user_data.birthday,
-                               "biography": user.user_data.biography,
-                               "phone" : user.username
-                               }
+            "user_full_name": user.user_data.full_name,
+            "user_image": user.user_data.user_image,
+            "$ios_url": settings.DATA_BRANCH_IOS_URL,
+            "location": user.user_data.location,
+            "website": user.user_data.website,
+            "birthday": user.user_data.birthday,
+            "biography": user.user_data.biography,
+            "phone": user.username
+        }
 
     )
     user.user_data.branchio_url = response.get('url')
@@ -118,4 +118,4 @@ def update_user_deep_link_url(user):
     if json.loads(response.text).get('data') is not None:
         user.user_data.branchio_url = json.loads(response.text).get('data').get('url')
         user.user_data.save()
-    return json.loads(response.text).get('data').get('url')
+    return True

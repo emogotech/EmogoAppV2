@@ -14,6 +14,8 @@ from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
+import itertools
+
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
@@ -275,6 +277,37 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         # Delete stream and content relation.
         StreamContent.objects.filter(content__in=self.request.data.get('content_list')).delete()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
+class GetTopContentAPI(ContentAPI):
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewContentSerializer
+        fields = (
+            'id','type',
+            'order' )
+        self.serializer_class = ViewContentSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
+        video_type = self.get_serializer(queryset.filter(type='Video')[0:10], many=True, fields=fields)
+        link_type = self.get_serializer(queryset.filter(type='Link')[0:10], many=True, fields=fields)
+        giphy_type = self.get_serializer(queryset.filter(type='Giphy')[0:10], many=True, fields=fields)
+        data = {'picture': picture_type.data, 'video': video_type.data, 'link': link_type.data,
+                'giphy': giphy_type.data}
+        return custom_render_response(data=data, status_code=status.HTTP_200_OK)
+
+
+class GetTopTwentyContentAPI(ContentAPI):
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewContentSerializer
+        fields = (
+            'id','type',
+            'order')
+        self.serializer_class = ViewContentSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
+                                   queryset.filter(type='Video')[0:5], queryset.filter(type='Giphy')[0:5])
+        serializer = self.get_serializer(final_qs, many=True, fields=fields)
+        return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
 class LinkTypeContentAPI(ListAPIView):
