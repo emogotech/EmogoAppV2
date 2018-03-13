@@ -82,6 +82,7 @@ def create_user_deep_link(user):
         channel="Emogo", data={
             "user_full_name": user.user_data.full_name,
             "user_image": user.user_data.user_image,
+            "user_id": user.user_data.id,
             "$ios_url": settings.DATA_BRANCH_IOS_URL,
             "location": user.user_data.location,
             "website": user.user_data.website,
@@ -104,6 +105,7 @@ def update_user_deep_link_url(user):
         "data": {
             "user_full_name": user.user_data.full_name,
             "user_image": user.user_data.user_image,
+            "user_id": user.user_data.id,
             "$ios_url": settings.DATA_BRANCH_IOS_URL,
             "location": user.user_data.location,
             "website": user.user_data.website,
