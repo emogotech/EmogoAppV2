@@ -34,8 +34,8 @@ class SharedData: NSObject {
     var tempViewController : MSMessagesAppViewController?
     var tempVC  : UIViewController?
     var isPortrate : Bool = true
-    
     var keyboardHeightForSignin : CGFloat = 0.0
+    var objDeepLink:DeeplinkDAO?
     
     // MARK: - INIT Singleton Method
     class var sharedInstance: SharedData {

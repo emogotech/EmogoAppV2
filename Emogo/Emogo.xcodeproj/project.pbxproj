@@ -371,6 +371,9 @@
 		F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
+		F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */; };
+		F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */; };
+		F4F2A0DF2057D37000ED76D7 /* DeeplinkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -796,6 +799,8 @@
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
+		F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffPreViewController.swift; sourceTree = "<group>"; };
+		F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkDAO.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1625,6 +1630,7 @@
 				F4266EFB1FF670830075BFD7 /* ProfileViewController.swift */,
 				F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */,
 				F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */,
+				F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1895,6 +1901,7 @@
 				F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */,
 				F49B42982004D964006DD15D /* GiphyDAO.swift */,
 				F447441920246E94002964A0 /* FilterDAO.swift */,
+				F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2647,6 +2654,7 @@
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
+				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
 				F43649C42015CEA5004FBEE2 /* UIButtonExtensions.swift in Sources */,
 				F43649C92015CEA5004FBEE2 /* CropOverlay.swift in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
@@ -2661,6 +2669,7 @@
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F447441A20246E94002964A0 /* FilterDAO.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
+				F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
@@ -2897,6 +2906,7 @@
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
 				332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */,
 				335B1A5C1FBB2413006DA9D9 /* MessagesViewController.swift in Sources */,
+				F4F2A0DF2057D37000ED76D7 /* DeeplinkDAO.swift in Sources */,
 				F49B429A2004DBD5006DD15D /* GiphyDAO.swift in Sources */,
 				2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F45A78791FBC6A09003FD6AB /* UserDAO.swift in Sources */,

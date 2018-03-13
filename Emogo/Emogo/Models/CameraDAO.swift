@@ -19,6 +19,14 @@ enum PreviewType:String{
     case gif = "Giphy"
 }
 
+enum StuffType:String {
+    case All = "All"
+    case Picture = "Picture"
+    case Video = "Video"
+    case Links = "Link"
+    case Giphy = "Giphy"
+}
+
 
 /*
 class ImageDAO {
@@ -61,6 +69,7 @@ class TopContent{
     var name:String! = ""
     var Contents = [ContentDAO]()
     var image:UIImage?
+    var type:StuffType!
     init(name:String,contents:[ContentDAO]) {
         self.name = name
         self.Contents = contents

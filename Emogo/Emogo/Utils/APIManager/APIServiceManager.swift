@@ -823,10 +823,16 @@ class APIServiceManager: NSObject {
     
     // MARK: - Content List API
     
-    func apiForGetStuffList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+    func apiForGetStuffList(type:RefreshType,contentType:StuffType? = .All, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
+            if contentType == .All {
             ContentList.sharedInstance.requestURl = kContentAPI
+            }else{
+                let type:String = (contentType?.rawValue)!
+                ContentList.sharedInstance.requestURl = kContentAPI + "?type=\(type)"
+            }
         }
+        
         if ContentList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")
             return
@@ -1555,6 +1561,7 @@ class APIServiceManager: NSObject {
                                 if contents.count != 0 {
                                     let top = TopContent(name: "Photos", contents: contents)
                                     top.image = #imageLiteral(resourceName: "photos icon")
+                                    top.type = .Picture
                                     arrayTopContents.append(top)
                                     if contents.count > 5 {
                                         let firstFive = contents[0..<5]
@@ -1577,6 +1584,7 @@ class APIServiceManager: NSObject {
                                 if contents.count != 0 {
                                     let top = TopContent(name: "Videos", contents: contents)
                                     top.image = #imageLiteral(resourceName: "videos icon")
+                                    top.type = .Video
                                     arrayTopContents.append(top)
                                     if contents.count > 5 {
                                         let firstFive = contents[0..<5]
@@ -1600,7 +1608,7 @@ class APIServiceManager: NSObject {
                                 if contents.count != 0 {
                                     let top = TopContent(name: "Links", contents: contents)
                                     top.image = #imageLiteral(resourceName: "links icon")
-
+                                    top.type = .Links
                                     arrayTopContents.append(top)
                                     
                                     if contents.count > 5 {
@@ -1625,6 +1633,7 @@ class APIServiceManager: NSObject {
                                 if contents.count != 0 {
                                     let top = TopContent(name: "Gifs", contents: contents)
                                     top.image = #imageLiteral(resourceName: "gifs icon")
+                                    top.type = .Giphy
                                     arrayTopContents.append(top)
                                     if contents.count > 5 {
                                         let firstFive = contents[0..<5]
@@ -1637,6 +1646,7 @@ class APIServiceManager: NSObject {
                             }
                             let top = TopContent(name: "All", contents: allContents)
                             top.image = nil
+                            top.type = .All
                             arrayTopContents.insert(top, at: 0)
                             //print(result)
                             completionHandler(arrayTopContents,"")

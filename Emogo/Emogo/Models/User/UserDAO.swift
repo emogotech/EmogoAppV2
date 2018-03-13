@@ -45,11 +45,17 @@ class User {
     var biography                  :String! = ""
     var username                  :String! = ""
     var birthday                  :String! = ""
+    var shareURL                  :String! = ""
+
+    
 
     init(userData:[String:Any]) {
         
         if let obj = userData["full_name"] {
             self.fullName = obj as! String
+        }
+        if let obj = userData["branchio_url"] {
+            self.shareURL = obj as! String
         }
         if let obj = userData["username"] {
             self.username = obj as! String

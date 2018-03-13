@@ -83,6 +83,7 @@ let kStoryboardID_UserProfileView = "userProfileView"
 let kStoryboardID_ProfileUpdateView = "profileUpdateView"
 let kStoryboardID_ShowPreviewView = "showPreviewView"
 let kStoryboardID_TermsAndPrivacyView = "termsAndPrivacyView"
+let kStoryboardID_MyStuffPreView = "myStuffPreView"
 
 
 
@@ -157,6 +158,7 @@ let kDeepLinkTypeShareMessage = "shareWithMessage"
 let kUserDefaltForContentData = "editContentData"
 let kSearchType = "PEOPLE"
 let kCollaobatorList = "Collaborator List"
+let kDeeplinkOpenUserProfile = "DeeplinkUserProfile"
 
 // MARK: -  Enums Alert
 enum AlertType: String {

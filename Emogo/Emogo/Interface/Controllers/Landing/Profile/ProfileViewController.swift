@@ -119,9 +119,6 @@ class ProfileViewController: UIViewController {
         swipeRight.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollectionView.addGestureRecognizer(swipeRight)
         
-//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
-//        self.profileCollectionView.addGestureRecognizer(longPressGesture)
-       
         self.btnStream.setTitleColor(colorSelected, for: .normal)
         self.btnStream.titleLabel?.font = fontSelected
         self.btnColab.setTitleColor(color, for: .normal)
@@ -228,10 +225,9 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func profileShareAction(){
-        
-        let textToShare = [ "hey check out this app https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8" ]
-
-        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: [])
+       
+        let textToShare = [ "Hey checkout the \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile, \n \(UserDAO.sharedInstance.user.shareURL)via Emogo" ]
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
         self.present(activityViewController, animated: true, completion: nil)
     }
     
@@ -250,32 +246,7 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
-        
-        if self.currentMenu != .stuff {
-            return
-        }
-        switch(gesture.state) {
-            
-        case UIGestureRecognizerState.began:
-            guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
-                break
-            }
-            selectedIndex = selectedIndexPath
-            profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case UIGestureRecognizerState.changed:
-            profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
-            
-        case UIGestureRecognizerState.ended:
-            profileCollectionView.endInteractiveMovement()
-            selectedIndex = nil
-        default:
-            profileCollectionView.cancelInteractiveMovement()
-            selectedIndex = nil
-        }
-    }
-    
+   
     
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
         self.updateSegment(selected: sender.tag)
@@ -394,7 +365,13 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func btnShowMoreAction(sender:UIButton){
-    
+        let top = self.arrayTopContent[sender.tag]
+        if top.type == StuffType.All {
+            isEdited = true
+        }
+        let obj:MyStuffPreViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffPreView) as! MyStuffPreViewController
+        obj.selectedType = top.type
+        self.navigationController?.push(viewController: obj)
     }
     
     func getStreamList(type:RefreshType,filter:StreamType){
@@ -483,16 +460,6 @@ class ProfileViewController: UIViewController {
     }
     
     // MARK: - API
-    
-    func reorderContent(orderArray:[ContentDAO]) {
-        
-        APIServiceManager.sharedInstance.apiForReorderMyContent(orderArray: orderArray) { (isSuccess,errorMSG)  in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMSG?.isEmpty)! {
-                self.profileCollectionView.reloadData()
-            }
-        }
-    }
     
     
     func btnActionForAddContent(){
