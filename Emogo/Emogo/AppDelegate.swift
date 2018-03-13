@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // If not handled by Branch, do other deep link routing for the Facebook SDK, Pinterest SDK, etc
         }else {
            
-            return true && self.setTypeOfViewController(objType: kDeeplinkOpenUserProfile)
+            return true
         }
         
         return url.scheme == "Emogo" && executeDeepLink(with: url)
@@ -218,8 +218,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let dictData = params {
                     let dict:NSDictionary  = dictData as NSDictionary
                     print(dict)
-                    let deepLink = DeeplinkDAO(dictDeeplink: dict.replacingNullsWithEmptyStrings() as! [String : Any])
-                    SharedData.sharedInstance.objDeepLink = deepLink
+                    if dict["user_id"] != nil {
+                        let deepLink = DeeplinkDAO(dictDeeplink: dict.replacingNullsWithEmptyStrings() as! [String : Any])
+                        SharedData.sharedInstance.objDeepLink = deepLink
+                        _ =  self.setTypeOfViewController(objType: kDeeplinkOpenUserProfile)
+                    }
                 }
             }
         })

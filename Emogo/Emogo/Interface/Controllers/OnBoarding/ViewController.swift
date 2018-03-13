@@ -132,10 +132,18 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
             break
         case 3:
             lblWelcome.text = "Share everything right from iMessage"
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.signup()
+            }
             break
         default:
             lblWelcome.text = "Welcome to Emogo!"
         }
+    }
+    
+    func signup(){
+        let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
+        self.navigationController?.push(viewController: obj)
     }
 
 }
