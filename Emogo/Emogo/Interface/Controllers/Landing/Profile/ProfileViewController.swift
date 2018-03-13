@@ -420,6 +420,12 @@ class ProfileViewController: UIViewController {
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
+            self.lblNOResult.isHidden = true
+            if results?.count == 0 {
+                self.lblNOResult.text  = "No Stuff Found"
+                self.lblNOResult.minimumScaleFactor = 1.0
+                self.lblNOResult.isHidden = false
+            }
             self.profileCollectionView.isHidden = true
             self.tblMyStuff.isHidden = false
             self.tblMyStuff.reloadData()
@@ -678,13 +684,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             
     }
     
-    func selectedItem(index:Int,content:ContentDAO){
-        let content = ContentList.sharedInstance.arrayStuff[index]
+    func selectedItem(section:Int,index:Int,content:ContentDAO){
+        
+        let content = arrayTopContent[section].Contents[index]
         if content.isAdd {
             btnActionForAddContent()
         }else {
             isEdited = true
-            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
+            let array =  arrayTopContent[section].Contents.filter { $0.isAdd == false }
             ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
@@ -709,6 +716,7 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
         let cell:MyStuffCollectionCell = tableView.dequeueReusableCell(withIdentifier: kCell_MyStuffCollectionCell, for: indexPath) as! MyStuffCollectionCell
         cell.selectionStyle = .none
         let array = self.arrayTopContent[indexPath.section].Contents
+        cell.profileCollectionView.tag = indexPath.section
         cell.prepareCellWithData(contents:array)
         cell.delegate = self
         return cell

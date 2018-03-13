@@ -212,14 +212,18 @@ class StreamListViewController: UIViewController {
         if SharedData.sharedInstance.deepLinkType == kDeeplinkOpenUserProfile {
            // Naviagte to user Profile
             if SharedData.sharedInstance.objDeepLink != nil {
-                let objPeople = PeopleDAO(peopleData: [:])
-                objPeople.fullName = SharedData.sharedInstance.objDeepLink?.fullName
-                objPeople.userId = SharedData.sharedInstance.objDeepLink?.userId
-                objPeople.userImage = SharedData.sharedInstance.objDeepLink?.userImage
-                objPeople.phoneNumber = SharedData.sharedInstance.objDeepLink?.phone
-                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-                obj.objPeople = objPeople
-                self.navigationController?.push(viewController: obj)
+                if SharedData.sharedInstance.objDeepLink?.userId.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    self.btnMyProfileAction()
+                }else {
+                    let objPeople = PeopleDAO(peopleData: [:])
+                    objPeople.fullName = SharedData.sharedInstance.objDeepLink?.fullName
+                    objPeople.userId = SharedData.sharedInstance.objDeepLink?.userId
+                    objPeople.userImage = SharedData.sharedInstance.objDeepLink?.userImage
+                    objPeople.phoneNumber = SharedData.sharedInstance.objDeepLink?.phone
+                    let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                    obj.objPeople = objPeople
+                    self.navigationController?.push(viewController: obj)
+                }
                 SharedData.sharedInstance.deepLinkType = ""
                 SharedData.sharedInstance.objDeepLink = nil
             }

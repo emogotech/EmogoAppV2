@@ -1556,6 +1556,9 @@ class APIServiceManager: NSObject {
                                var contents = [ContentDAO]()
                                 for obj in array {
                              let content = ContentDAO(contentData: obj as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
                                    contents.append(content)
                                 }
                                 if contents.count != 0 {
@@ -1579,6 +1582,9 @@ class APIServiceManager: NSObject {
                                 var contents = [ContentDAO]()
                                 for obj in array {
                                     let content = ContentDAO(contentData: obj as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
                                     contents.append(content)
                                 }
                                 if contents.count != 0 {
@@ -1603,6 +1609,9 @@ class APIServiceManager: NSObject {
                                 var contents = [ContentDAO]()
                                 for obj in array {
                                     let content = ContentDAO(contentData: obj as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
                                     contents.append(content)
                                 }
                                 if contents.count != 0 {
@@ -1628,6 +1637,9 @@ class APIServiceManager: NSObject {
                                 var contents = [ContentDAO]()
                                 for obj in array {
                                     let content = ContentDAO(contentData: obj as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
                                     contents.append(content)
                                 }
                                 if contents.count != 0 {

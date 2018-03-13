@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MyStuffCollectionCellDelegate {
-    func selectedItem(index:Int,content:ContentDAO)
+    func selectedItem(section:Int,index:Int,content:ContentDAO)
 }
 class MyStuffCollectionCell: UITableViewCell {
     
@@ -67,7 +67,7 @@ extension MyStuffCollectionCell:ASCollectionViewDataSource,ASCollectionViewDeleg
         
         if self.delegate != nil {
             let content = contents[indexPath.row]
-            self.delegate?.selectedItem(index: indexPath.row, content: content)
+            self.delegate?.selectedItem(section: self.profileCollectionView.tag, index: indexPath.row, content: content)
         }
        /*
          let content = ContentList.sharedInstance.arrayStuff[indexPath.row]

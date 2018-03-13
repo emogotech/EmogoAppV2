@@ -190,7 +190,7 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
                 ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.currentIndex = indexPath.row - 1
+                    objPreview.currentIndex = indexPath.row
                     self.navigationController?.push(viewController: objPreview)
             }
     }
