@@ -144,7 +144,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kResendAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -172,6 +172,7 @@ class APIServiceManager: NSObject {
     
     func apiForUserLogin( phone:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let params:[String:Any] = ["phone_number":phone]
+        print(params)
         APIManager.sharedInstance.POSTRequest(strURL: kLoginAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):

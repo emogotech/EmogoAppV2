@@ -36,6 +36,8 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 - (void) slideShowDidSwipeLeft:(KASlideShow *) slideShow;
 - (void) slideShowDidSwipeRight:(KASlideShow *) slideShow;
 - (void) slideShowDidSelect:(KASlideShow *) slideShow;
+- (void) slideShowDidEnded:(KASlideShow *) slideShow;
+
 
 @end
 
@@ -57,6 +59,8 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 
 @property  (readonly, nonatomic) NSUInteger currentIndex;
 @property  (readonly, nonatomic) KASlideShowState state;
+@property  (assign, nonatomic) BOOL isRepeatAll;
+
 
 - (void) addGesture:(KASlideShowGestureType)gestureType;
 - (void) removeGestures;

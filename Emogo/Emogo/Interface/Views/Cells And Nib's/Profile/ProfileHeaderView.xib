@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="SF-Pro-Text-Light.otf">
+            <string>SFProText-Light</string>
+        </array>
         <array key="SF-Pro-Text-Medium.otf">
             <string>SFProText-Medium</string>
         </array>
@@ -40,18 +43,22 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWh-uv-s8Z">
-                    <rect key="frame" x="249" y="1" width="71" height="48"/>
+                    <rect key="frame" x="227" y="1" width="93" height="48"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="71" id="fxM-pO-hLw"/>
+                        <constraint firstAttribute="width" constant="93" id="fxM-pO-hLw"/>
                         <constraint firstAttribute="height" constant="48" id="n5L-5u-blW"/>
                     </constraints>
-                    <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" image="show more icon"/>
+                    <fontDescription key="fontDescription" name="SFProText-Light" family="SF Pro Text" pointSize="10"/>
+                    <inset key="titleEdgeInsets" minX="-20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <inset key="imageEdgeInsets" minX="74" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="Show More" image="show more icon">
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
                 </button>
             </subviews>
             <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="hWh-uv-s8Z" firstAttribute="leading" secondItem="ovx-UU-Uce" secondAttribute="trailing" constant="30" id="12z-W1-e1e"/>
+                <constraint firstItem="hWh-uv-s8Z" firstAttribute="leading" secondItem="ovx-UU-Uce" secondAttribute="trailing" constant="8" id="12z-W1-e1e"/>
                 <constraint firstItem="ovx-UU-Uce" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="14" id="56a-q1-dTm"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="ovx-UU-Uce" secondAttribute="bottom" constant="15" id="80F-vH-hq7"/>
                 <constraint firstItem="7Ra-EZ-2oJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="9eY-cs-hdf"/>

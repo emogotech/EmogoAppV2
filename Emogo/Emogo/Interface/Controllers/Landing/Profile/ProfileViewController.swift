@@ -8,6 +8,7 @@
 
 import UIKit
 import XLActionController
+import Social
 
 
 enum ProfileMenu:String{
@@ -26,6 +27,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tblMyStuff: UITableView!
 
     @IBOutlet weak var lblUserName: UILabel!
+    @IBOutlet weak var lblBio: UILabel!
     @IBOutlet weak var lblFullName: UILabel!
     @IBOutlet weak var lblWebsite: UILabel!
     @IBOutlet weak var lblLocation: UILabel!
@@ -128,14 +130,16 @@ class ProfileViewController: UIViewController {
     }
     
     func prepareLayout() {
-        lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
-        lblUserName.minimumScaleFactor = 1.0
+       // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
+       // lblUserName.minimumScaleFactor = 1.0
         lblFullName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
         lblFullName.minimumScaleFactor = 1.0
         lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
         lblWebsite.minimumScaleFactor = 1.0
         lblLocation.text = UserDAO.sharedInstance.user.location.trim()
         lblLocation.minimumScaleFactor = 1.0
+        lblBio.text = UserDAO.sharedInstance.user.biography.trim()
+        lblBio.minimumScaleFactor = 1.0
         imgLink.isHidden = false
         imgLocation.isHidden = false
 
@@ -225,11 +229,20 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func profileShareAction(){
-       
-        let textToShare = [ "Hey checkout the \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile, \n \(UserDAO.sharedInstance.user.shareURL)via Emogo" ]
-        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
-        self.present(activityViewController, animated: true, completion: nil)
+        let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
+      let shareItem =  "Hey checkout the \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
+        let text = "\n via Emogo"
+
+       // let shareItem = "Hey checkout the s profile,emogo"
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
+      //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
+        
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true, completion: nil);
+        }
     }
+    
+    
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -259,6 +272,7 @@ class ProfileViewController: UIViewController {
     }
     
    
+    
     
     private func updateSegment(selected:Int){
        
@@ -669,7 +683,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 if currentMenu == .stream {
                     let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
                     StreamList.sharedInstance.arrayViewStream = array
-                    index = indexPath.row - 1
+                    index = indexPath.row
                 }else {
                     index = indexPath.row
                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream

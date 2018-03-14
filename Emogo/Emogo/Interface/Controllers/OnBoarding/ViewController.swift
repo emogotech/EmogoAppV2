@@ -55,6 +55,7 @@ class ViewController: UIViewController {
         viewTutorial.delay = 1 // Delay between transitions
         viewTutorial.transitionDuration = 0.5 // Transition duration
         viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+        viewTutorial.isRepeatAll = true
         viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
         viewTutorial.add(KASlideShowGestureType.all)
         viewTutorial.isExclusiveTouch = true
@@ -118,6 +119,12 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
         pageController.updateState(forPageNumber: tag + 1)
         self.updateText(tag: tag)
     }
+
+    func slideShowDidEnded(_ slideShow: KASlideShow!) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.signup()
+        }
+    }
     
     func updateText(tag:Int) {
         switch tag {
@@ -132,9 +139,7 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
             break
         case 3:
             lblWelcome.text = "Share everything right from iMessage"
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                self.signup()
-            }
+           
             break
         default:
             lblWelcome.text = "Welcome to Emogo!"
@@ -143,7 +148,8 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
     
     func signup(){
         let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
-        self.navigationController?.push(viewController: obj)
+        self.addLeftTransitionView(subtype: kCATransitionFromRight)
+        self.navigationController?.pushNormal(viewController: obj)
     }
 
 }

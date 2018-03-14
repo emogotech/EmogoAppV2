@@ -213,7 +213,11 @@ class StreamListViewController: UIViewController {
            // Naviagte to user Profile
             if SharedData.sharedInstance.objDeepLink != nil {
                 if SharedData.sharedInstance.objDeepLink?.userId.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                    self.btnMyProfileAction()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.isUpdateList = true
+                        let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                        self.navigationController?.pushViewController(obj, animated: false)
+                    }
                 }else {
                     let objPeople = PeopleDAO(peopleData: [:])
                     objPeople.fullName = SharedData.sharedInstance.objDeepLink?.fullName

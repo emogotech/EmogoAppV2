@@ -173,6 +173,12 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
 
         // Next Image
         NSUInteger nextIndex = (_currentIndex+1)%[self.datasource slideShowImagesNumber:self];
+        NSLog(@"SlideShowNextIndex----->%lu",(unsigned long)nextIndex);
+        if (self.isRepeatAll == YES && nextIndex == 0) {
+            [delegate slideShowDidEnded:self];
+
+            return;
+        }
         [self populateImageView:_topImageView andIndex:_currentIndex];
         [self populateImageView:_bottomImageView andIndex:nextIndex];
         _currentIndex = nextIndex;
@@ -219,6 +225,11 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
             prevIndex = [self.datasource slideShowImagesNumber:self] - 1;
         }else{
             prevIndex = (_currentIndex-1)%[self.datasource slideShowImagesNumber:self];
+        }
+        
+        NSLog(@"SlideShowPrevIndex----->%lu",(unsigned long)prevIndex);
+        if (self.isRepeatAll == YES && prevIndex == 3) {
+            return;
         }
         [self populateImageView:_topImageView andIndex:_currentIndex];
         [self populateImageView:_bottomImageView andIndex:prevIndex];

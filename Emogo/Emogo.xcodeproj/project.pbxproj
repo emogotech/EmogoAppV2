@@ -3288,7 +3288,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;
@@ -3310,7 +3310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M35DBRABN7;
 				INFOPLIST_FILE = ShareExt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.emogo.app.shareext;
 				PRODUCT_NAME = EmogoShare;

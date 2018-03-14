@@ -56,7 +56,11 @@ class MyStuffPreViewController: UIViewController {
             self.profileCollectionView.addGestureRecognizer(longPressGesture)
             self.title = selectedType.rawValue
         }else {
-            self.title = selectedType.rawValue + "s"
+            if selectedType.rawValue == "Giphy" {
+                self.title = "Gifs"
+            }else {
+                self.title = selectedType.rawValue + "s"
+            }
         }
         
     }
