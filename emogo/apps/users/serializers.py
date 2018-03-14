@@ -245,6 +245,11 @@ class UserLoginSerializer(UserSerializer):
     def authenticate_user(self):
         try:
             user = User.objects.get(username=self.validated_data.get('username'))
+            # If user is already login then logout requested user and try to new log-in.
+            if user.is_authenticated():
+                user.auth_token.delete()
+                user.user_data.otp = None
+                user.user_data.save()
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
             body = "Emogo login OTP"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
