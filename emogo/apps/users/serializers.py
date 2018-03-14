@@ -247,7 +247,8 @@ class UserLoginSerializer(UserSerializer):
             user = User.objects.get(username=self.validated_data.get('username'))
             # If user is already login then logout requested user and try to new log-in.
             if user.is_authenticated():
-                user.auth_token.delete()
+                if hasattr(user, 'auth_token'):
+                    user.auth_token.delete()
                 user.user_data.otp = None
                 user.user_data.save()
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
