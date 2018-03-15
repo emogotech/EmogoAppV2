@@ -1364,7 +1364,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kReportAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 completionHandler(true,"success")
                 break
             case .error(let error):
@@ -1505,9 +1505,9 @@ class APIServiceManager: NSObject {
     func apiForReorderMyContent(orderArray:[ContentDAO],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
         var arrayOrder = [[String:Any]]()
-        for i in 1..<orderArray.count {
+        for i in 0..<orderArray.count {
             let obj = orderArray[i]
-            let value = ["id":obj.contentID!,"order":"\(i-1)"]
+            let value = ["id":obj.contentID!,"order":"\(i)"]
             arrayOrder.append(value)
         }
         
@@ -1549,7 +1549,27 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             print(data)
                             
-                        var allContents = [ContentDAO]()
+                            
+                            if  let all = (data as! [String:Any])["all"] {
+                                
+                                let array:[Any] = all as! [Any]
+                                
+                                var contents = [ContentDAO]()
+                                for obj in array {
+                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
+                                    contents.append(content)
+                                }
+                                if contents.count != 0 {
+                                    let top = TopContent(name: "All", contents: contents)
+                                    top.image = nil
+                                    top.type = .All
+                                    arrayTopContents.append(top)
+                                }
+                                
+                            }
                          if  let picture = (data as! [String:Any])["picture"] {
                                
                                 let array:[Any] = picture as! [Any]
@@ -1567,13 +1587,6 @@ class APIServiceManager: NSObject {
                                     top.image = #imageLiteral(resourceName: "photos icon")
                                     top.type = .Picture
                                     arrayTopContents.append(top)
-                                    if contents.count > 5 {
-                                        let firstFive = contents[0..<5]
-                                        allContents.append(contentsOf: firstFive)
-                                    }else {
-                                        let firstFive = contents[0..<contents.count]
-                                        allContents.append(contentsOf: firstFive)
-                                    }
                                 }
                             
                             }
@@ -1593,13 +1606,6 @@ class APIServiceManager: NSObject {
                                     top.image = #imageLiteral(resourceName: "videos icon")
                                     top.type = .Video
                                     arrayTopContents.append(top)
-                                    if contents.count > 5 {
-                                        let firstFive = contents[0..<5]
-                                        allContents.append(contentsOf: firstFive)
-                                    }else {
-                                        let firstFive = contents[0..<contents.count]
-                                        allContents.append(contentsOf: firstFive)
-                                    }
                                 }
                            
                             }
@@ -1621,13 +1627,6 @@ class APIServiceManager: NSObject {
                                     top.type = .Links
                                     arrayTopContents.append(top)
                                     
-                                    if contents.count > 5 {
-                                        let firstFive = contents[0..<5]
-                                        allContents.append(contentsOf: firstFive)
-                                    }else {
-                                        let firstFive = contents[0..<contents.count]
-                                        allContents.append(contentsOf: firstFive)
-                                    }
                                 }
                             
                                 
@@ -1648,19 +1647,8 @@ class APIServiceManager: NSObject {
                                     top.image = #imageLiteral(resourceName: "gifs icon")
                                     top.type = .Giphy
                                     arrayTopContents.append(top)
-                                    if contents.count > 5 {
-                                        let firstFive = contents[0..<5]
-                                        allContents.append(contentsOf: firstFive)
-                                    }else {
-                                        let firstFive = contents[0..<contents.count]
-                                        allContents.append(contentsOf: firstFive)
-                                    }
                                 }
                             }
-                            let top = TopContent(name: "All", contents: allContents)
-                            top.image = nil
-                            top.type = .All
-                            arrayTopContents.insert(top, at: 0)
                             //print(result)
                             completionHandler(arrayTopContents,"")
                         }
