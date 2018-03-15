@@ -40,12 +40,13 @@ class User {
     var user                       :String! = ""
     var userId                     :String! = ""
     var userImage                  :String! = ""
-    var location                  :String! = ""
-    var website                  :String! = ""
+    var location                   :String! = ""
+    var website                    :String! = ""
     var biography                  :String! = ""
     var username                  :String! = ""
     var birthday                  :String! = ""
     var shareURL                  :String! = ""
+    var userProfileID             :String! = ""
 
     
 
@@ -86,6 +87,9 @@ class User {
         }
         if let obj = userData["user_id"] {
             self.userId = "\(obj)"
+        }
+        if let obj = userData["user_profile_id"] {
+            self.userProfileID = "\(obj)"
         }
         if let obj = userData["user_image"] {
             self.userImage = obj as! String

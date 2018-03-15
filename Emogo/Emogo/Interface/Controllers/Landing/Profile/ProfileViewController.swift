@@ -100,7 +100,8 @@ class ProfileViewController: UIViewController {
         kShowOnlyMyStream = "1"
         self.getStreamList(type:.start,filter: .myStream)
         configureLoadMoreAndRefresh()
-        
+        self.tblMyStuff.tableFooterView = UIView(frame: .zero)
+
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
