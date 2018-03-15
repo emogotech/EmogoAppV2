@@ -291,7 +291,7 @@ class GetTopContentAPI(ContentAPI):
         video_type = self.get_serializer(queryset.filter(type='Video')[0:10], many=True, fields=fields)
         link_type = self.get_serializer(queryset.filter(type='Link')[0:10], many=True, fields=fields)
         giphy_type = self.get_serializer(queryset.filter(type='Giphy')[0:10], many=True, fields=fields)
-        all = self.get_serializer(queryset[0:10], many=True, fields=fields)
+        all = self.get_serializer(queryset[0:20], many=True, fields=fields)
         data = {'picture': picture_type.data, 'video': video_type.data, 'link': link_type.data,
                 'giphy': giphy_type.data, 'all':all.data}
         return custom_render_response(data=data, status_code=status.HTTP_200_OK)
