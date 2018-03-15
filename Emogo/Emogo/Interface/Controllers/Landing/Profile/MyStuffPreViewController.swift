@@ -15,6 +15,7 @@ class MyStuffPreViewController: UIViewController {
     var selectedType:StuffType!
     var selectedIndex:IndexPath?
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,7 +25,7 @@ class MyStuffPreViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+       self.profileCollectionView.reloadData()
     }
     
 
@@ -58,10 +59,14 @@ class MyStuffPreViewController: UIViewController {
         }else {
             if selectedType.rawValue == "Giphy" {
                 self.title = "Gifs"
+            }else  if selectedType.rawValue == "Picture"{
+                self.title = "Photos"
             }else {
                 self.title = selectedType.rawValue + "s"
             }
         }
+        
+        
         
     }
     
@@ -180,6 +185,7 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
             if selectedIndex != nil {
                 let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
@@ -195,6 +201,7 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
             if ContentList.sharedInstance.arrayContent.count != 0 {
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                     objPreview.currentIndex = indexPath.row
+                    objPreview.isFromAll = "YES"
                     self.navigationController?.push(viewController: objPreview)
             }
     }

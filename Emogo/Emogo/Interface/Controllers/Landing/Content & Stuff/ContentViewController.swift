@@ -41,6 +41,7 @@ class ContentViewController: UIViewController {
     var isAddStream:Bool! = false
     var isEditngContent:Bool! = false
     var isForEditOnly:Bool!
+    var isFromAll:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -886,6 +887,9 @@ class ContentViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 self.deleteFileFromAWS(content: self.seletedImage)
+                if self.isFromAll != nil {
+                    ContentList.sharedInstance.arrayStuff.remove(at: self.currentIndex)
+                }
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
                     if  ContentList.sharedInstance.arrayContent.count == 0 {
@@ -906,7 +910,6 @@ class ContentViewController: UIViewController {
                     if self.isForEditOnly != nil {
                         self.navigationController?.pop()
                     }
-                    
                 }
                
             }else {

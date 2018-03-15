@@ -58,6 +58,8 @@ class ProfileViewController: UIViewController {
     let colorSelected = UIColor.black
     let font = UIFont(name: "SFProText-Light", size: 14.0)
     let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
+    var lastOffset:CGPoint! = CGPoint.zero
+    var didScrollInLast:Bool! = false
 
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
@@ -162,6 +164,7 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.showHUD()
             isEdited = false
             if  self.currentMenu == .stuff {
+                didScrollInLast = true
                 self.getMyStuff()
             }else if self.currentMenu == .stream{
                 self.getStreamList(type:.start,filter: .myStream)
@@ -425,6 +428,8 @@ class ProfileViewController: UIViewController {
     }
     
     func getMyStuff(){
+        self.arrayTopContent.removeAll()
+        self.tblMyStuff.reloadData()
         APIServiceManager.sharedInstance.apiForGetTopContent { (results, errorMsg) in
             
             HUDManager.sharedInstance.hideHUD()
@@ -443,6 +448,12 @@ class ProfileViewController: UIViewController {
             self.profileCollectionView.isHidden = true
             self.tblMyStuff.isHidden = false
             self.tblMyStuff.reloadData()
+            if self.didScrollInLast {
+                self.didScrollInLast = false
+                DispatchQueue.main.async {
+                    self.tblMyStuff.setContentOffset(self.lastOffset, animated: true)
+                }
+            }
         }
     
     }
@@ -639,7 +650,7 @@ class ProfileViewController: UIViewController {
 
 
 
-extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,MyStuffCollectionCellDelegate {
+extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,MyStuffCollectionCellDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -717,7 +728,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
 }
 
-extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
+extension ProfileViewController:UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate {
    
     func numberOfSections(in tableView: UITableView) -> Int
     {
@@ -763,7 +774,11 @@ extension ProfileViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-
+   
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        lastOffset = CGPoint(x: self.tblMyStuff.contentOffset.x, y: self.tblMyStuff.contentOffset.y)
+        print("last path--->\(lastOffset)")
+    }
 }
 
 
