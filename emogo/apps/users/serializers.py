@@ -125,7 +125,8 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             # Save user table data.
             if self.initial_data.get('phone_number') is not None:
                 self.instance.user.username = self.initial_data.get('phone_number')
-                self.instance.user.save()
+                if self.instance.user.username != self.initial_data.get('phone_number'):
+                    self.instance.user.save(update_fields=['username'])
             if self.validated_data.get('user_image') is not None:
                 # Then user profile table data
                 self.instance.user_image = self.validated_data.get('user_image')
@@ -146,7 +147,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
                 # Update user deep link.
                 update_user_deep_link_url(self.instance.user)
         except IntegrityError as e:
-            raise serializers.ValidationError({"phone_number":messages.MSG_PHONE_NUMBER_EXISTS})
+            raise serializers.ValidationError({"phone_number": messages.MSG_PHONE_NUMBER_EXISTS})
         return self.instance
 
 
