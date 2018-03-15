@@ -123,10 +123,8 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         try:
             # Save user table data.
-            if self.initial_data.get('phone_number') is not None:
-                self.instance.user.username = self.initial_data.get('phone_number')
-                if self.instance.user.username != self.initial_data.get('phone_number'):
-                    self.instance.user.save(update_fields=['username'])
+            if self.initial_data.get('full_name') is not None:
+                self.instance.full_name = self.initial_data.get('full_name')
             if self.validated_data.get('user_image') is not None:
                 # Then user profile table data
                 self.instance.user_image = self.validated_data.get('user_image')
