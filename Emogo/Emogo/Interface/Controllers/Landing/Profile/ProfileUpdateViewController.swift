@@ -49,7 +49,10 @@ class ProfileUpdateViewController: UITableViewController {
         txtWebsite.text = UserDAO.sharedInstance.user.website.trim()
         txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
-        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+        self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
+        if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+            self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+        }
         prepreNavigation()
     }
     
