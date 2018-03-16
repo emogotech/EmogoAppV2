@@ -79,9 +79,9 @@ class UserNameViewController: UIViewController {
     @IBAction func btnTermsAndConditionAction(_ sender: Any) {
        isAccepted = !isAccepted
         if isAccepted {
-            checkBox.setImage(#imageLiteral(resourceName: "active_checkbox"), for: .normal)
+            checkBox.setImage(#imageLiteral(resourceName: "check-box-filled"), for: .normal)
         }else {
-            checkBox.setImage(#imageLiteral(resourceName: "unactive_checkbox"), for: .normal)
+            checkBox.setImage(#imageLiteral(resourceName: "check-box-empty"), for: .normal)
         }
     }
     

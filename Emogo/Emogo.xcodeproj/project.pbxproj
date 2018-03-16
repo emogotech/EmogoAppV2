@@ -796,6 +796,9 @@
 		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
 		F4CDD4F52011DD6E005436A1 /* ActionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
+		F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		F4DAE8F4205BC59500B5A892 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Semibold.otf"; path = "../../../../../../../../../../../../Users/pushpendra/Downloads/fonts/SF UI Display/SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
@@ -1219,6 +1222,9 @@
 		33BCB0431FBB353E004FF634 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */,
+				F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */,
+				F4DAE8F4205BC59500B5A892 /* SF-UI-Display-Semibold.otf */,
 				F040CC892050231600224035 /* SF-Pro-Text-Light.otf */,
 				F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */,
 				F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */,
