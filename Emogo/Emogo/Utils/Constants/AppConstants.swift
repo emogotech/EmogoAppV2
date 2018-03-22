@@ -329,5 +329,6 @@ let kAlert_No_User_Record_Found                                          = "No U
 
 let kAlert_RemoveProfile                                         = "Remove"
 let kAlert_UpateProfile                                         = "Update"
+let kAlert_ValidWebsite                                         = "Please Enter Valid URL."
 
 

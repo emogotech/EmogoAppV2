@@ -130,6 +130,9 @@ class ProfileViewController: UIViewController {
         self.btnColab.titleLabel?.font = font
         self.btnStuff.setTitleColor(color, for: .normal)
         self.btnStuff.titleLabel?.font = font
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+        self.lblWebsite.addGestureRecognizer(tap)
+        self.lblWebsite.isUserInteractionEnabled = true
     }
     
     func prepareLayout() {
@@ -234,7 +237,7 @@ class ProfileViewController: UIViewController {
     
     @objc func profileShareAction(){
         let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
-      let shareItem =  "Hey checkout the \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
+      let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
 
        // let shareItem = "Hey checkout the s profile,emogo"
@@ -261,6 +264,17 @@ class ProfileViewController: UIViewController {
             default:
                 break
             }
+        }
+    }
+    
+    @objc func actionForWebsite(){
+        if self.canOpenURL(string:UserDAO.sharedInstance.user.website.trim()) {
+            guard let url = URL(string: UserDAO.sharedInstance.user.website.trim()) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+        }else {
+            self.showToast(strMSG: kAlert_ValidWebsite)
         }
     }
    

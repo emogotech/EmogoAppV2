@@ -466,6 +466,18 @@ extension UIViewController {
 
 
 extension UIViewController:SFSafariViewControllerDelegate {
+    
+    func canOpenURL(string: String?) -> Bool {
+        guard let urlString = string else {return false}
+        guard let url = NSURL(string: urlString) else {return false}
+        if !UIApplication.shared.canOpenURL(url as URL) {return false}
+        
+        //
+        let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[regEx])
+        return predicate.evaluate(with: string)
+    }
+    
     func openURL(url:URL) {
         
             if #available(iOS 9.0, *) {
