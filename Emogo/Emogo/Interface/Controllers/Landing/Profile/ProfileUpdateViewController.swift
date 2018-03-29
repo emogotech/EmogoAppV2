@@ -70,6 +70,13 @@ class ProfileUpdateViewController: UITableViewController {
     }
     
     @IBAction func btnDoneAction(_ sender: UIButton) {
+//        let url = NSURL(string: txtWebsite.text.trim())
+//        print(url)
+//        if !txtWebsite.text.trim().isEmpty && NSURL(string: txtWebsite.text.trim()) == nil  {
+//
+//            self.showToast(strMSG: kAlert_ValidWebsite)
+//            return
+//        }
         if self.imageToUpload != nil {
             self.uploadProfileImage()
         }else {

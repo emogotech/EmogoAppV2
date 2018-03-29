@@ -207,7 +207,7 @@ extension String {
     func smartURL() -> URL {
         let str = self
       
-        var result : URL!
+        var result : URL?
         var trimmedStr : NSString
         var schemeMarkerRange : NSRange
         var scheme  :   NSString
@@ -229,7 +229,7 @@ extension String {
                 }
             }
         }
-        return result
+        return result!
     }
     
     func findUrl() -> String {

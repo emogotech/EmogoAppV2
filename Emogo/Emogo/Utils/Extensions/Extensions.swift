@@ -201,6 +201,8 @@ extension String {
         }
         return false
     }
+    
+   
 }
 
     
@@ -480,20 +482,21 @@ extension UIViewController:SFSafariViewControllerDelegate {
     
     func openURL(url:URL) {
         
-            if #available(iOS 9.0, *) {
-                let safariController = SFSafariViewController(url: url as URL)
-                safariController.delegate = self
-                
-                let navigationController = UINavigationController(rootViewController: safariController)
-                navigationController.setNavigationBarHidden(true, animated: false)
-                self.present(navigationController, animated: true, completion: nil)
-            } else {
-                if UIApplication.shared.canOpenURL(url){
-                    UIApplication.shared.openURL(url)
-                }
+        if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+            
+            // Can open with SFSafariViewController
+            let safariController = SFSafariViewController(url: url as URL)
+            safariController.delegate = self
+            
+            let navigationController = UINavigationController(rootViewController: safariController)
+            navigationController.setNavigationBarHidden(true, animated: false)
+            self.present(navigationController, animated: true, completion: nil)
+            
+        } else {
+            // Scheme is not supported or no scheme is given, use openURL
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-        
-    }
+}
     @available(iOS 9.0, *)
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)

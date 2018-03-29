@@ -268,13 +268,17 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func actionForWebsite(){
-        if self.canOpenURL(string:UserDAO.sharedInstance.user.website.trim()) {
-            guard let url = URL(string: UserDAO.sharedInstance.user.website.trim()) else {
-                return //be safe
-            }
-            self.openURL(url: url)
-        }else {
+
+    guard let url = URL(string: UserDAO.sharedInstance.user.website.stringByAddingPercentEncodingForURLQueryParameter()!) else {
             self.showToast(strMSG: kAlert_ValidWebsite)
+            return
+        }
+        if !["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+            let appendedLink = "https://" + UserDAO.sharedInstance.user.website
+            let modiURL = URL(string: appendedLink.stringByAddingPercentEncodingForURLQueryParameter()!)
+            self.openURL(url: modiURL!)
+        }else {
+            self.openURL(url: url)
         }
     }
    
