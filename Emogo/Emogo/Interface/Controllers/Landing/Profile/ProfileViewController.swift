@@ -538,6 +538,7 @@ class ProfileViewController: UIViewController {
         
         
         actionController.headerData = "ADD ITEM"
+        actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
     }
     

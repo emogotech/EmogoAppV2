@@ -18,6 +18,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var viewMenu: UIView!
     @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var btnMenu: UIButton!
+    @IBOutlet weak var btnAdd   :   UIButton!
     @IBOutlet weak var txtSearch : UITextField!
     
     var lastIndex             : Int = 2
@@ -290,6 +291,7 @@ class StreamListViewController: UIViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
         
+        
     }
     
     
@@ -385,7 +387,9 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-      
+        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
+        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
+        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
     }
     
 //
@@ -472,6 +476,7 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
+        self.btnAdd.stopPulse()
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         let actionController = ActionSheetController()
@@ -479,7 +484,7 @@ class StreamListViewController: UIViewController {
             self.btnImportAction()
         }))
         actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
-           
+            
             self.actionForCamera()
             
         }))
@@ -490,21 +495,20 @@ class StreamListViewController: UIViewController {
         
         actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
             
-           self.btnActionForGiphy()
+            self.btnActionForGiphy()
         }))
         
         actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            
             self.btnActionForMyStuff()
-
         }))
         
         
-        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
-             self.actionForAddStream()
-        }))
-        
+        //        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
+        //             self.actionForAddStream()
+        //        }))
+        actionController.shouldShowAddButton    =   true
         actionController.headerData = "ADD FROM"
+        actionController.delegate   =   self
         present(actionController, animated: true, completion: nil)
         
     }
@@ -1261,4 +1265,8 @@ extension StreamListViewController : UITextFieldDelegate {
     }
 }
 
-
+extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
+    func actionSheetControllerHeaderButtonAction() {
+        self.actionForAddStream()
+    }
+}

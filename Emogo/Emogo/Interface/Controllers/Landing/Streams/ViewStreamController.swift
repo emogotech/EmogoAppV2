@@ -554,6 +554,7 @@ class ViewStreamController: UIViewController {
         }))
         
         actionController.headerData = "ADD ITEM"
+        actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
     }
     

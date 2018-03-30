@@ -1463,6 +1463,7 @@
                         <viewLayoutGuide key="safeArea" id="8Wz-MT-tB1"/>
                     </view>
                     <connections>
+                        <outlet property="btnAdd" destination="NFq-DP-EcG" id="fRs-5C-GmQ"/>
                         <outlet property="btnMenu" destination="KqN-2E-stA" id="OjZ-yC-Rez"/>
                         <outlet property="btnPeopleSearch" destination="cN4-to-J64" id="5dR-F5-6CE"/>
                         <outlet property="btnSearch" destination="UEw-hb-nrj" id="qZS-T9-Jvn"/>
