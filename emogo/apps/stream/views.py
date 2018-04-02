@@ -6,10 +6,10 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -61,7 +61,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             # Update stream view count
             # We had to update single model by Filter because if i use .save() method model upd column value
             # automatically changed that was not correct as per our requirement
-            Stream.objects.filter(id=instance.id).update(view_count=(instance.view_count+1))
+            # Stream.objects.filter(id=instance.id).update(view_count=(instance.view_count+1))
 
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -460,3 +460,41 @@ class ExtremistReportAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=self.request.data)
+
+
+class StreamLikeDislikeAPI(CreateAPIView):
+    """
+    Stream CRUD API
+    """
+    serializer_class = StreamLikeDislikeSerializer
+    queryset = LikeDislikeStream.objects.all().order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    # def get_paginated_response(self, data, status_code=None):
+    #     """
+    #     Return a paginated style `Response` object for the given output data.
+    #     """
+    #     assert self.paginator is not None
+    #     return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    # def get(self, request, *args, **kwargs):
+    #     if kwargs.get('pk') is not None:
+    #         return self.retrieve(request, *args, **kwargs)
+    #     # else:
+    #     #     return self.list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)

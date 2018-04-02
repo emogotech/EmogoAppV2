@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -192,6 +192,7 @@ class ViewStreamSerializer(StreamSerializer):
     stream_permission = serializers.SerializerMethodField()
     collaborator_permission = serializers.SerializerMethodField()
     total_collaborator = serializers.SerializerMethodField()
+    view_count = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -204,6 +205,9 @@ class ViewStreamSerializer(StreamSerializer):
             return obj.created_by.user_data.full_name
         except AttributeError:
             return None
+
+    def get_view_count(self, obj):
+        return obj.stream_user_view_status.filter(user_id=self.context.get('request').user).count()
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
@@ -445,3 +449,22 @@ class ReorderContentSerializer(DynamicFieldsModelSerializer):
         for instance in self.validated_data.get('my_order'):
             Content.objects.filter(pk=instance.get('id')).update(order=instance.get('order'))
         return True
+
+
+class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream like dislike serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = LikeDislikeStream
+        fields = ['user', 'stream', 'status']
+        extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def create(self, validated_data):
+        obj, created = LikeDislikeStream.objects.update_or_create(
+            stream=self.validated_data.get('stream'), user=self.context.get('request').user,
+            defaults={'status': self.validated_data.get('status')},
+        )
+        return obj

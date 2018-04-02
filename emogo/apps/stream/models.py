@@ -26,6 +26,11 @@ EVENT_TYPE = (
     ('Content', 'Content'),
 )
 
+CHOICE_TYPE = (
+    (0, 'Like'),
+    (1, 'Dislike')
+)
+
 EXTREMIST_TYPE = (
     ('Inappropriate', 'Inappropriate'),
     ('Spam', 'Spam'),
@@ -103,6 +108,27 @@ class StreamContent(models.Model):
 
     class Meta:
         db_table = 'stream_content'
+
+
+class StreamUserViewStatus(models.Model):
+    stream = models.ForeignKey(Stream, related_name='stream_user_view_status')
+    action_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User)
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'stream_user_view_status'
+
+
+class LikeDislikeStream(models.Model):
+    stream = models.ForeignKey(Stream, related_name='stream_like_dislike_status')
+    view_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    status = models.CharField(max_length=5, choices=CHOICE_TYPE, default=0)
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'like_dislike_stream'
 
 
 @receiver(post_save, sender=StreamContent)

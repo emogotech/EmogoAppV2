@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'emogo.lib.common_middleware.logging_middleware.LoggingMiddleware',
+    'emogo.lib.common_middleware.stream_view_middleware.UpdateStreamViewCount',
 ]
 
 ROOT_URLCONF = 'emogo.urls'
@@ -144,66 +144,65 @@ TWILIO_FROM_NUMBER = '+13392090249'
 
 
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'standard': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-        },
-    },
-    'handlers': {
-        'api.request.logger': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR + '/logs/api_log.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'standard',
-        },
-        'request_handler': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR + '/logs/django_request.log',
-            'maxBytes': 1024 * 1024 * 5,  # 5 MB
-            'backupCount': 5,
-            'formatter': 'standard',
-        },
-    },
-    # filters will define when a logger should run
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['api.request.logger'],
-            'level': 'DEBUG',
-            'propagate': True
-        },
-        'django.request': {
-            'handlers': ['request_handler'],
-            'level': 'DEBUG',
-            'propagate': False
-        },
-    }
-}
-
-LOGGING['handlers']['slack_admins'] = {
-  'level': 'ERROR',
-  'filters': ['require_debug_false'],
-  'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
-}
-
-LOGGING['loggers']['django'] = {
-  'handlers': ['slack_admins'],
-  'level': 'INFO',
-}
-
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'standard': {
+#             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'api.request.logger': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': BASE_DIR + '/logs/api_log.log',
+#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
+#             'backupCount': 5,
+#             'formatter': 'standard',
+#         },
+#         'request_handler': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'filename': BASE_DIR + '/logs/django_request.log',
+#             'maxBytes': 1024 * 1024 * 5,  # 5 MB
+#             'backupCount': 5,
+#             'formatter': 'standard',
+#         },
+#     },
+#     # filters will define when a logger should run
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse',
+#         },
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         },
+#     },
+#     'loggers': {
+#         '': {
+#             'handlers': ['api.request.logger'],
+#             'level': 'DEBUG',
+#             'propagate': True
+#         },
+#         'django.request': {
+#             'handlers': ['request_handler'],
+#             'level': 'DEBUG',
+#             'propagate': False
+#         },
+#     }
+# }
+#
+# LOGGING['handlers']['slack_admins'] = {
+#   'level': 'ERROR',
+#   'filters': ['require_debug_false'],
+#   'class': 'emogo.lib.helpers.slack_logger.SlackExceptionHandler',
+# }
+#
+# LOGGING['loggers']['django'] = {
+#   'handlers': ['slack_admins'],
+#   'level': 'INFO',
+# }
 branch_key = 'key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ'
 branch_secret = 'secret_live_hZTVlPYzyHR5OZ2fHEoQkPsWnJvuDx4u'
 DATA_BRANCH_IOS_URL = 'https://itunes.apple.com/us/app/emogo/id1341315142?ls=1&mt=8'
