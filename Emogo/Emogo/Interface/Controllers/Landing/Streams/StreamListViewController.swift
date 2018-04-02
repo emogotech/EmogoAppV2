@@ -11,6 +11,9 @@ import XLActionController
 
 class StreamListViewController: UIViewController {
     
+    
+    
+    
     @IBOutlet weak var containerMenuView : UIStackView!
     
     // MARK: - UI Elements
@@ -25,6 +28,9 @@ class StreamListViewController: UIViewController {
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
     
+    var btnAddFrame   : CGRect!
+
+    
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewSearch: UIView!
@@ -37,6 +43,8 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     @IBOutlet weak var lblSearch          : UILabel!
     @IBOutlet weak var btnSearch          : UIButton!
+    
+    var isAddButtonTapped   =   false
     
     var isSearch : Bool = false
     var isTapPeople : Bool = false
@@ -161,6 +169,8 @@ class StreamListViewController: UIViewController {
 
             
         }
+        
+        self.btnAddFrame    =   self.btnAdd.frame
      
     }
     
@@ -411,10 +421,18 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
-        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
         
-        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
+//        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
+//        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
+//        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
+        
+        
+        if isAddButtonTapped == false {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
+                self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
+            }, completion: nil)
+        }
+
     }
     
 //
@@ -502,6 +520,10 @@ class StreamListViewController: UIViewController {
     
     @IBAction func btnActionAdd(_ sender: Any) {
         self.btnAdd.stopPulse()
+        self.btnAdd.layer.removeAllAnimations()
+        self.btnAdd.frame   =   self.btnAddFrame
+        isAddButtonTapped   =   true
+        
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         let actionController = ActionSheetController()
