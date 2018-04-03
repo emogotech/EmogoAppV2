@@ -18,7 +18,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter
 from emogo.apps.users.models import UserProfile
-from emogo.apps.stream.models import Stream, Content
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
 from itertools import chain
@@ -229,6 +229,38 @@ class UserSteams(ListAPIView):
         page = self.paginate_queryset(result_list)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class UserLikedSteams(ListAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = StreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get_queryset(self):
+        qs = LikeDislikeStream.objects.filter(user=self.request.user).select_related('stream')
+        return qs.stream
+
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewStreamSerializer
+        self.serializer_class = ViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.prefetch_related('stream_contents', 'collaborator_list')
+        #  Customized field list
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
