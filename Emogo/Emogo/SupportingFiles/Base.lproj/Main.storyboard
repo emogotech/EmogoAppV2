@@ -1486,7 +1486,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Esd-he-s1p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="335" y="574"/>
+            <point key="canvasLocation" x="333.60000000000002" y="573.46326836581716"/>
         </scene>
         <!--View Stream Controller-->
         <scene sceneID="yNm-cK-ADc">
@@ -2889,7 +2889,7 @@
         <image name="delete_icon-cover_image" width="28" height="29"/>
         <image name="done_button" width="160" height="53"/>
         <image name="done_icon" width="16" height="16"/>
-        <image name="edit_icon" width="28" height="28"/>
+        <image name="edit_icon" width="34" height="34"/>
         <image name="emogo_stream" width="182" height="53"/>
         <image name="flash-icon" width="27" height="28"/>
         <image name="get started btn" width="215" height="51"/>

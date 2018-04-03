@@ -1665,5 +1665,11 @@ class APIServiceManager: NSObject {
         }
     }
     
+    // MARK: - VERSION 2 API'S
+
+    func apiForLikeStreamContent(completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
+    }
+    
 }
 

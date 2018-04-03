@@ -34,12 +34,12 @@ class MenuDAO {
 //        menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
 //        arrayMenu.append(menu6)
         
-        let menuLiked   =   Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "Liked")
-        menuLiked.iconSelected  =   #imageLiteral(resourceName: "Peoples")
+        let menuLiked   =   Menu(icon: #imageLiteral(resourceName: "liked-icon"), name: "Liked Streams")
+        menuLiked.iconSelected  =   #imageLiteral(resourceName: "liked-selected-icon")
         arrayMenu.append(menuLiked)
         
-        let menuFollwed   =   Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "Following")
-        menuFollwed.iconSelected  =   #imageLiteral(resourceName: "Peoples")
+        let menuFollwed   =   Menu(icon: #imageLiteral(resourceName: "following-icon"), name: "Following Streams")
+        menuFollwed.iconSelected  =   #imageLiteral(resourceName: "following-selected-icon")
         arrayMenu.append(menuFollwed)
     }
 }

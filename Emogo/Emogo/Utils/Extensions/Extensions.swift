@@ -728,6 +728,7 @@ extension UILabel {
         self.layer.masksToBounds = false
         self.layer.shouldRasterize = true
     }
+   
 }
 
 
