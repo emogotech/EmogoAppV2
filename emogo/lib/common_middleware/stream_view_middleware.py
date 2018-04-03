@@ -6,7 +6,7 @@ from django.utils.deprecation import MiddlewareMixin
 from emogo import settings
 request_logger = logging.getLogger('api.request.logger')
 from emogo.apps.stream.models import StreamUserViewStatus
-
+from django.db import connection
 
 class UpdateStreamViewCount(MiddlewareMixin):
     """
@@ -29,11 +29,25 @@ class UpdateStreamViewCount(MiddlewareMixin):
         :return: The function will loges response content.
         """
         if request.resolver_match is not None:
-            if request.resolver_match.view_name == 'view_stream' and request.method =='GET':
-                data = response.data.get('data')
-                if data is not None:
-                    stream_id = data.get('id')
+            if request.resolver_match.view_name == 'view_stream' and request.method =='GET' and request.resolver_match.kwargs.__len__() > 0:
+                if response.data.get('data') is not None:
+                    stream_id = response.data.get('data').get('id')
                     suvs = StreamUserViewStatus.objects.create(user=request.user, stream_id=stream_id)
                     suvs.save()
-                    print('Counter Done')
+                    # print('Counter Done')
+        # if response.status_code == 200:
+        #     total_time = 0
+        #     for query in connection.queries:
+        #         print(query)
+        #         query_time = query.get('time')
+        #         if query_time is None:
+        #             # django-debug-toolbar monkeypatches the connection
+        #             # cursor wrapper and adds extra information in each
+        #             # item in connection.queries. The query time is stored
+        #             # under the key "duration" rather than "time" and is
+        #             # in milliseconds, not seconds.
+        #             query_time = query.get('duration', 0) / 1000
+        #         total_time += float(query_time)
+        #
+        #     print('%s queries run, total %s seconds' % (len(connection.queries), total_time))
         return response

@@ -196,7 +196,7 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_total_collaborator(self, obj):
         try:
-            return obj.collaborator_list(manager='actives').all().order_by('-id').count()
+            return obj._prefetched_objects_cache.get('collaborator_list').order_by('-id').count()
         except Exception:
             return '0'
 
@@ -216,25 +216,25 @@ class ViewStreamSerializer(StreamSerializer):
         current_url = resolve(self.context.get('request').path_info).url_name
         # If user as owner or want to get all collaborator list
         if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-            instances = obj.collaborator_list(manager='actives').all().order_by('-id')
+            instances = obj._prefetched_objects_cache.get('collaborator_list').order_by('-id')
         # else Show collaborator created by logged in user.
         else:
-            instances = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user).order_by('-id')
+            instances = obj._prefetched_objects_cache.get('collaborator_list').filter(created_by=self.context.get('request').user).order_by('-id')
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
-        instances = [x.content for x in obj.stream_contents.all().order_by('order')]
-        return ViewContentSerializer(instances, many=True, fields=fields).data
+        instances = obj._prefetched_objects_cache.get('stream_contents').select_related('content').order_by('order')
+        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
         qs = obj.collaborator_list.filter(status='Active')
         # If current user as collaborator
         user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
-        # qs = [x ]
+        # qs = [x ]&t
         if qs.__len__() > 0:
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data

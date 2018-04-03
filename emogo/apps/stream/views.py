@@ -15,7 +15,7 @@ from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
-
+from django.db.models import QuerySet
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
@@ -35,6 +35,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
+    def get_qs_objects(self):
+        qs = self.get_queryset().filter(id=self.get_object().id).select_related('created_by').prefetch_related('stream_contents', 'collaborator_list')
+        if qs.exists():
+            return qs[0]
+        return qs
+
     def get(self, request, *args, **kwargs):
         if kwargs.get('pk') is not None:
             return self.retrieve(request, *args, **kwargs)
@@ -49,7 +55,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :return: Create Stream API.
         """
 
-        instance = self.get_object()
+        instance = self.get_qs_objects()
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
@@ -69,6 +75,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
+        queryset = queryset.prefetch_related('stream_contents', 'collaborator_list')
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
         page = self.paginate_queryset(queryset)
@@ -88,6 +95,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
         self.serializer_class = ViewStreamSerializer
+        stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
         serializer = self.get_serializer(stream, context=self.request)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
