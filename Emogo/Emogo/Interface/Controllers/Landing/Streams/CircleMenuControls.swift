@@ -129,10 +129,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             currentStreamType = StreamType.emogoStreams
             break
         case 4:
-            currentStreamType = StreamType.People
-            collectionLayout.columnCount = 3
-            self.lblNoResult.text = kAlert_No_User_Record_Found
+            currentStreamType   =   StreamType.Liked
+            
+//            currentStreamType = StreamType.People
+//            collectionLayout.columnCount = 3
+//            self.lblNoResult.text = kAlert_No_User_Record_Found
          //   self.actionForPeopleList()
+            break
+            
+        case 5:
+            currentStreamType   =   StreamType.Following
             break
         default:
             break

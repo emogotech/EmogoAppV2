@@ -11,6 +11,9 @@ import XLActionController
 
 class StreamListViewController: UIViewController {
     
+    
+    
+    
     @IBOutlet weak var containerMenuView : UIStackView!
     
     // MARK: - UI Elements
@@ -25,6 +28,9 @@ class StreamListViewController: UIViewController {
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
     
+    var btnAddFrame   : CGRect!
+
+    
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewSearch: UIView!
@@ -37,6 +43,8 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     @IBOutlet weak var lblSearch          : UILabel!
     @IBOutlet weak var btnSearch          : UIButton!
+    
+    var isAddButtonTapped   =   false
     
     var isSearch : Bool = false
     var isTapPeople : Bool = false
@@ -161,6 +169,8 @@ class StreamListViewController: UIViewController {
 
             
         }
+        
+        self.btnAddFrame    =   self.btnAdd.frame
      
     }
     
@@ -364,11 +374,35 @@ class StreamListViewController: UIViewController {
     // MARK: - Prepare Layouts When View Appear
     
     func prepareLayoutForApper(){
-        self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
+      //  self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
-        self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
+       // self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
+        let blurEffect = UIBlurEffect(style: .light)
+        // 3
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        // 4
+        
+        var blurFrame = menuView.bounds
+        let blurHeight = (blurFrame.size.height / 2)
+        blurFrame.size.height    =  blurHeight
+        blurFrame.origin.y      =   blurHeight + 10
+        blurView.frame = blurFrame
+        menuView.insertSubview(blurView, at: 0)
+        print(blurView)
+        blurView.setTopCurve()
+//        let path = UIBezierPath(roundedRect:blurView.bounds, byRoundingCorners:[.topRight, .topLeft ], cornerRadii: CGSize(width: blurHeight, height:  blurHeight))
+        
+//        let path = UIBezierPath(ovalIn: CGRect(x: -75, y: -50, width: blurView.bounds.width, height: 100))
+//        path.apply(CGAffineTransform(translationX: blurView.bounds.width / 2, y: blurView.bounds.height / 2))
+//
+//
+//        let maskLayer = CAShapeLayer()
+//
+//        maskLayer.path = path.cgPath
+//        blurView.layer.mask = maskLayer
+        
         if isLoadFirst {
             UIView.animate(withDuration: 0.1, animations: {
                 self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
@@ -387,9 +421,18 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
-        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
-        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
+        
+//        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
+//        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
+//        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
+        
+        
+        if isAddButtonTapped == false {
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
+                self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
+            }, completion: nil)
+        }
+
     }
     
 //
@@ -477,6 +520,10 @@ class StreamListViewController: UIViewController {
     
     @IBAction func btnActionAdd(_ sender: Any) {
         self.btnAdd.stopPulse()
+        self.btnAdd.layer.removeAllAnimations()
+        self.btnAdd.frame   =   self.btnAddFrame
+        isAddButtonTapped   =   true
+        
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         let actionController = ActionSheetController()
@@ -1270,3 +1317,4 @@ extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
         self.actionForAddStream()
     }
 }
+
