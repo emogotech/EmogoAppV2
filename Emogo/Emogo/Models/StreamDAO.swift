@@ -15,6 +15,8 @@ enum StreamType:String {
     case featured = "Featured Stream"
     case emogoStreams = "Emogo Stream"
     case People = "People"
+    case Liked  =   "Liked"
+    case Following  =   "Following"
 }
 
 enum DeviceType:String {
@@ -131,6 +133,10 @@ class StreamList{
             break
         case .People:
             PeopleList.sharedInstance.requestURl = kPeopleAPI
+            break
+        case .Liked:
+            break
+        case .Following:
             break
         }
     }

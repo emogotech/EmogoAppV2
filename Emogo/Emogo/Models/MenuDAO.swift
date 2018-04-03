@@ -30,9 +30,17 @@ class MenuDAO {
         let menu4 = Menu(icon:#imageLiteral(resourceName: "emogoDeselected"), name: "Emogo Streams")
         menu4.iconSelected = #imageLiteral(resourceName: "Emogo Streams")
         arrayMenu.append(menu4)
-        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "People")
-        menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
-        arrayMenu.append(menu6)
+//        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "People")
+//        menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
+//        arrayMenu.append(menu6)
+        
+        let menuLiked   =   Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "Liked")
+        menuLiked.iconSelected  =   #imageLiteral(resourceName: "Peoples")
+        arrayMenu.append(menuLiked)
+        
+        let menuFollwed   =   Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "Following")
+        menuFollwed.iconSelected  =   #imageLiteral(resourceName: "Peoples")
+        arrayMenu.append(menuFollwed)
     }
 }
 
