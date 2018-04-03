@@ -36,7 +36,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get_qs_objects(self):
-        qs = self.get_queryset().filter(id=self.get_object().id).select_related('created_by').prefetch_related('stream_contents', 'collaborator_list')
+        qs = self.get_queryset().filter(id=self.get_object().id).prefetch_related('stream_contents', 'collaborator_list')
         if qs.exists():
             return qs[0]
         return qs
