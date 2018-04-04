@@ -1667,8 +1667,51 @@ class APIServiceManager: NSObject {
     
     // MARK: - VERSION 2 API'S
 
-    func apiForLikeStreamContent(completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForLikedStreamList(completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetUserLikedStreamsAPI) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+    func apiForLikeUnlikeStream(stream:String,isLike:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let param = ["stream":stream,"status":isLike] as [String : Any]
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamLikeDislikeAPI, Param: param) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                        }
+                        
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
     }
     
 }

@@ -62,6 +62,8 @@ let kStreamColabListAPI                             = "stream/collaborator/"
 let kStreamReorderContentAPI                        = "reorder_stream_content/"
 let kReorderContentAPI                              = "reorder_content/"
 let kGetTopContentAPI                               = "get_top_content/"
+let kGetUserLikedStreamsAPI                         = "user_liked_streams/"
+let kStreamLikeDislikeAPI                         = "like_dislike_stream/"
 
 
 
