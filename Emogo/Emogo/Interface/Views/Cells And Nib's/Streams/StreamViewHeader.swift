@@ -24,6 +24,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var btnLike: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var btnContainer: UIView!
+    @IBOutlet weak var heightConstant: NSLayoutConstraint!
 
     var streamDelegate:StreamViewHeaderDelegate?
     
@@ -73,7 +74,15 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             btnEdit.isHidden = false
         }
         
+        if objStream.description.trim().isEmpty {
+            self.heightConstant.constant = 0
+        }else {
+            let height = objStream.description.trim().height(withConstrainedWidth: self.lblDescription.bounds.size.width, font: self.lblDescription.font)
+            self.heightConstant.constant = height + 10
+        }
     }
+    
+    
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected

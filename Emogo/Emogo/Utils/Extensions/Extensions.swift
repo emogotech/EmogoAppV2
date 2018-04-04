@@ -170,6 +170,21 @@ extension UIView {
 // MARK: - String
 extension String {
     
+    func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        
+        return ceil(boundingBox.height)
+    }
+    /*
+    
+    func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
+    */
     func stringByAddingPercentEncodingForURLQueryParameter() -> String? {
         let allowedCharacters = NSCharacterSet.urlQueryAllowed
         return addingPercentEncoding(withAllowedCharacters: allowedCharacters)
@@ -217,10 +232,10 @@ extension String {
         return false
     }
     
-   
+    
 }
 
-    
+
 
 
 // MARK: - UIView
@@ -316,7 +331,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-         self.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "stream-card-placeholder"))
+        self.sd_setImage(with: imgURL, placeholderImage: #imageLiteral(resourceName: "stream-card-placeholder"))
     }
     
     
@@ -332,9 +347,9 @@ extension UIImageView {
                 handler(img,img.size)
             }
         }
-       
-    //    self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
-       
+        
+        //    self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        
     }
     
     func setOriginalImage(strImage:String, placeholder:String){
@@ -344,7 +359,7 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
         let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
-         self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
     }
     
 }
@@ -378,24 +393,24 @@ extension UIViewController {
         if strMSG != "request failed" {
             
             AppDelegate.appDelegate.window?.makeToast(message: strMSG,
-                                                     duration: TimeInterval(3.0),
-                                                     position: .top,
-                                                     image: nil,
-                                                     backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                                     titleColor: UIColor.yellow,
-                                                     messageColor: UIColor.white,
-                                                     font: nil)
+                                                      duration: TimeInterval(3.0),
+                                                      position: .top,
+                                                      image: nil,
+                                                      backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                                                      titleColor: UIColor.yellow,
+                                                      messageColor: UIColor.white,
+                                                      font: nil)
             
-//            self.view.makeToast(message: strMSG,
-//                                duration: TimeInterval(3.0),
-//                                position: .top,
-//                                image: nil,
-//                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
-//                                titleColor: UIColor.yellow,
-//                                messageColor: UIColor.white,
-//                                font: nil)
+            //            self.view.makeToast(message: strMSG,
+            //                                duration: TimeInterval(3.0),
+            //                                position: .top,
+            //                                image: nil,
+            //                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
+            //                                titleColor: UIColor.yellow,
+            //                                messageColor: UIColor.white,
+            //                                font: nil)
         }
-       
+        
     }
     
     func configureLandingNavigation(){
@@ -416,17 +431,17 @@ extension UIViewController {
     }
     
     func configureNavigationWithTitle(){
-//        var fontFamilies = UIFont.familyNames
-//        for i in 0..<fontFamilies.count {
-//            let fontFamily: String = fontFamilies[i]
-    //            let fontNames = UIFont.fontNames(forFamilyName: fontFamilies[i])
-    //            print("\(fontFamily): \(fontNames)")
-    //        }
+        //        var fontFamilies = UIFont.familyNames
+        //        for i in 0..<fontFamilies.count {
+        //            let fontFamily: String = fontFamilies[i]
+        //            let fontNames = UIFont.fontNames(forFamilyName: fontFamilies[i])
+        //            print("\(fontFamily): \(fontNames)")
+        //        }
         var myAttribute2:[NSAttributedStringKey:Any]!
         if let font = UIFont(name: kFontBold, size: 20.0) {
-             myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
         }else {
-              myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
         }
         
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
@@ -452,7 +467,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = kNavigationColor
     }
     
-   
+    
     
     @objc func btnMyProfileAction(){
         
@@ -511,7 +526,7 @@ extension UIViewController:SFSafariViewControllerDelegate {
             // Scheme is not supported or no scheme is given, use openURL
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-}
+    }
     @available(iOS 9.0, *)
     public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
         controller.dismiss(animated: true, completion: nil)
@@ -569,7 +584,7 @@ extension UINavigationController {
         }
     }
     private func addTransition(transitionType type: String = "rippleEffect", duration: CFTimeInterval = 0.8) {
-    
+        
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -578,7 +593,7 @@ extension UINavigationController {
     }
     
     private func addFlipTransition(transitionType type: String = "cube", duration: CFTimeInterval = 1.0) {
-       
+        
         let transition = CATransition()
         transition.duration = duration
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -628,18 +643,18 @@ extension UINavigationController {
             self.pushViewController(vc, animated: true)
         }
         
-
-//        for obj in self.viewControllers {
-//            if "\(obj)" ==  "\(vc)"  {
-//                isPop = true
-//                print("pop called")
-//                self.popToViewController(vc, animated: true)
-//                break
-//            }
-//        }
-//        if isPop == false {
-//            self.pushViewController(vc, animated: true)
-//        }
+        
+        //        for obj in self.viewControllers {
+        //            if "\(obj)" ==  "\(vc)"  {
+        //                isPop = true
+        //                print("pop called")
+        //                self.popToViewController(vc, animated: true)
+        //                break
+        //            }
+        //        }
+        //        if isPop == false {
+        //            self.pushViewController(vc, animated: true)
+        //        }
     }
 }
 
@@ -728,7 +743,7 @@ extension UILabel {
         self.layer.masksToBounds = false
         self.layer.shouldRasterize = true
     }
-   
+    
 }
 
 
@@ -756,7 +771,7 @@ extension UIImage {
     }
     
     func reduceSize() -> UIImage {
-    
+        
         guard let data = UIImageJPEGRepresentation(self, 1.0)  else {
             return self
         }
@@ -767,13 +782,13 @@ extension UIImage {
         }else {
             return self
         }
-//        let bcf = ByteCountFormatter()
-//        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-//        bcf.countStyle = .file
-//        let str = bcf.string(fromByteCount: Int64(data.count))
-//        print("formatted result: \(str)")
+        //        let bcf = ByteCountFormatter()
+        //        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+        //        bcf.countStyle = .file
+        //        let str = bcf.string(fromByteCount: Int64(data.count))
+        //        print("formatted result: \(str)")
     }
-   
+    
     func resizeImage(targetSize: CGSize) -> UIImage {
         let size = self.size
         
@@ -786,7 +801,7 @@ extension UIImage {
             
             newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
         } else {
-           
+            
             newSize =  CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
         }
         
@@ -801,7 +816,7 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage!
     }
-     func resizeImage(targetSize: CGSize, alpha : CGFloat = 1.0) -> UIImage {
+    func resizeImage(targetSize: CGSize, alpha : CGFloat = 1.0) -> UIImage {
         let size = self.size
         
         let widthRatio  = targetSize.width  / self.size.width
@@ -858,7 +873,7 @@ extension UIImage {
     }
     
     
- 
+    
 }
 
 extension UITableViewController {

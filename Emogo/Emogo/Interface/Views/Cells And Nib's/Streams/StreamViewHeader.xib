@@ -197,6 +197,7 @@
                 <outlet property="btnDelete" destination="6gJ-DM-QZF" id="Jcf-Aj-RUG"/>
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
                 <outlet property="btnLike" destination="OoM-EK-BMI" id="6fQ-2k-5qs"/>
+                <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
                 <outlet property="lblName" destination="zdk-6b-txq" id="ExY-of-h9I"/>
