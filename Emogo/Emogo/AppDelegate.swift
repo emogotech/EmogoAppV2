@@ -173,7 +173,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dictData["width"] = width?[0]
         
         let content = ContentDAO(contentData: dictData)
-        content.type = .link
+        content.type =  url.valueOf("type") == "Picture" ? PreviewType.image : .link   //.link
         content.isUploaded = false
         
         //print(SharedData.sharedInstance.contentList.arrayContent)

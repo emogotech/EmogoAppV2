@@ -78,9 +78,9 @@ class MessagesViewController: MSMessagesAppViewController {
         }
         
         if  SharedData.sharedInstance.isMessageWindowExpand {
-            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
-            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
         }
     }
     
@@ -121,7 +121,7 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - PrepareLayout
     
     func prepareLayout()  {
-        imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+//        imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         SharedData.sharedInstance.tempViewController = nil
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             UserDAO.sharedInstance.parseUserInfo()
@@ -219,11 +219,11 @@ class MessagesViewController: MSMessagesAppViewController {
     override func willTransition(to presentationStyle: MSMessagesAppPresentationStyle) {
         if(presentationStyle == .expanded) {
             SharedData.sharedInstance.isMessageWindowExpand = true
-            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }
         else {
             SharedData.sharedInstance.isMessageWindowExpand = false
-             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+//             imgBackground.image = #imageLiteral(resourceName: "background_collapse")
         }
         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Screen_Size), object: nil)
     }

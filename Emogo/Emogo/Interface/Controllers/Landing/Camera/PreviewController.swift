@@ -131,7 +131,9 @@ class PreviewController: UIViewController {
                 }
             }
             conten.isUploaded = false
-            conten.type = .link
+            
+            conten.type = conten.type == .image ? .image : .link
+            
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent.append(conten)
             if selectedIndex == nil {
@@ -411,7 +413,26 @@ class PreviewController: UIViewController {
                         self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+                
+                if seletedImage.coverImage.first == "/" {
+                    let imagePath =  NSURL(fileURLWithPath: seletedImage.coverImage) //NSURL(string: seletedImage.coverImage) // item as! NSURL
+                    
+                    let fileName : String = imagePath.lastPathComponent!
+                    let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
+                    let image = UIImage(contentsOfFile: path)
+                    if FileManager.default.fileExists(atPath: (imagePath.path!)){
+                        print("Exists")
+                        let data = NSData.init(contentsOf: imagePath as URL)
+                        let imageObj = UIImage(data: data! as Data)
+                        self.imgPreview.image  =   imageObj
+
+                    }else{
+                        print("No Image")
+                    }
+                }else{
+                    self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
+                }
+                
             }else {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in

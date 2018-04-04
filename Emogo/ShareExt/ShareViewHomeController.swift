@@ -21,6 +21,11 @@ class ShareViewHomeController: UIViewController {
     @IBOutlet weak var imgLink : UIImageView!
     @IBOutlet weak var viewContainer : UIView!
     @IBOutlet weak var viewLogin : UIView!
+    
+    @IBOutlet weak var btnAddToStream : UIButton!
+    @IBOutlet weak var btnShareStream : UIButton!
+    @IBOutlet weak var imgChoosedImage : UIImageView!
+    
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     
@@ -95,6 +100,7 @@ class ShareViewHomeController: UIViewController {
         let itemProvider = extensionItem.attachments?.first as! NSItemProvider
         let propertyList = String(kUTTypePropertyList)
         let strPublicURL = String(kUTTypeURL)
+        let strPublicPng  =   String(kUTTypePNG)
         if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
@@ -114,8 +120,50 @@ class ShareViewHomeController: UIViewController {
                         self.getData(mainURL: url as URL!)
                 }
             })
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng){
+            
+            self.imgLink.isHidden   =   true
+            self.lblDesc.isHidden   =   true
+            self.lblTitle.isHidden  =   true
+            self.lblLink.isHidden   =   true
+            
+            
+            itemProvider.loadItem(forTypeIdentifier: strPublicPng, options: nil, completionHandler: { (item, error) -> Void in
+                
+                let imagePath = item as! NSURL
+                if FileManager.default.fileExists(atPath: imagePath.path!){
+                    print("Exists")
+                    let data = NSData.init(contentsOf: imagePath as URL)
+                    let imageObj = UIImage(data: data! as Data)
+                    self.imgChoosedImage.image  =   imageObj
+                    self.imgLink.image  =   imageObj
+                    
+                    
+                    self.dictData["coverImageVideo"] = imagePath.path //url?.absoluteString
+
+                    self.dictData["name"] = "name - 101"
+                    self.dictData["description"] = "description - 101"
+                    self.dictData["coverImage"] = imagePath.path //url.absoluteString
+                    self.dictData["type"] = "Picture"
+                    
+                    self.hudView.stopLoaderWithAnimation()
+                }else{
+                    print("No Image")
+                }
+                
+                
+                
+                
+//                guard let image = item as? UIImage else {
+//                    print("error in extracting image")
+//                    return }
+//                OperationQueue.main.addOperation {
+//                    print(image)
+////                    self.getData(mainURL: url as URL!)
+//                }
+            })
         } else {
-            print("error")
+            print("Error - check itemProvider object!")
         }
     }
     

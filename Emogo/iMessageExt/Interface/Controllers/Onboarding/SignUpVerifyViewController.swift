@@ -51,9 +51,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
-            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+//            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
-            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
@@ -94,7 +94,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         if SharedData.sharedInstance.isMessageWindowExpand {
             
             UIView.animate(withDuration: 0.2, animations: {
-                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
+//                self.imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
                 self.viewExpand.isHidden = false
                 self.viewCollapse.isHidden = true
                 self.viewExpand.center = self.view.center
@@ -104,7 +104,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
                 self.txtVeryficationCode.becomeFirstResponder()
             })
         }else{
-            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
+//            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             UIView.animate(withDuration: 0.1, animations: {
                 self.view.endEditing(true)
                 self.txtVeryficationCollapse.resignFirstResponder()

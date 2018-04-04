@@ -136,6 +136,10 @@
                                             <constraint firstItem="4sy-KC-KcW" firstAttribute="centerX" secondItem="nSD-wb-kOS" secondAttribute="centerX" id="kWJ-Hu-ixN"/>
                                         </constraints>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3cb-U0-SHf">
+                                        <rect key="frame" x="0.0" y="73" width="343" height="177"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -143,15 +147,19 @@
                                     <constraint firstItem="DRj-54-mHd" firstAttribute="leading" secondItem="3iV-co-fGu" secondAttribute="leading" constant="10" id="6XL-tS-fpZ"/>
                                     <constraint firstItem="0HS-EH-85N" firstAttribute="top" secondItem="3iV-co-fGu" secondAttribute="top" id="7sz-z9-Ic0"/>
                                     <constraint firstAttribute="bottom" secondItem="nSD-wb-kOS" secondAttribute="bottom" id="8NU-Og-yX2"/>
+                                    <constraint firstItem="3cb-U0-SHf" firstAttribute="leading" secondItem="3iV-co-fGu" secondAttribute="leading" id="AKS-xu-itU"/>
                                     <constraint firstItem="UxC-Dm-dTw" firstAttribute="centerX" secondItem="3iV-co-fGu" secondAttribute="centerX" id="CAD-qj-HVF"/>
                                     <constraint firstAttribute="trailing" secondItem="0HS-EH-85N" secondAttribute="trailing" id="Cd8-1i-gh8"/>
                                     <constraint firstItem="DRj-54-mHd" firstAttribute="top" secondItem="0HS-EH-85N" secondAttribute="bottom" constant="20" id="Cmz-1S-HoB"/>
                                     <constraint firstItem="rhl-z6-ChU" firstAttribute="leading" secondItem="DRj-54-mHd" secondAttribute="trailing" constant="10" id="Ibs-8t-hFk"/>
                                     <constraint firstAttribute="bottom" secondItem="E5F-Dg-HXj" secondAttribute="bottom" constant="2" id="NCW-8J-QN8"/>
+                                    <constraint firstItem="UxC-Dm-dTw" firstAttribute="top" secondItem="3cb-U0-SHf" secondAttribute="bottom" constant="8" id="P09-hG-nbE"/>
                                     <constraint firstItem="E5F-Dg-HXj" firstAttribute="top" secondItem="UxC-Dm-dTw" secondAttribute="bottom" constant="8" id="S3U-5d-Jtp"/>
                                     <constraint firstAttribute="trailing" secondItem="MOE-C3-5A9" secondAttribute="trailing" constant="10" id="Zdi-Qj-Hbb"/>
+                                    <constraint firstItem="3cb-U0-SHf" firstAttribute="top" secondItem="0HS-EH-85N" secondAttribute="bottom" constant="0.5" id="foo-pf-DmP"/>
                                     <constraint firstItem="84F-h6-wop" firstAttribute="leading" secondItem="DRj-54-mHd" secondAttribute="trailing" constant="10" id="fzJ-51-Osc"/>
                                     <constraint firstAttribute="trailing" secondItem="nSD-wb-kOS" secondAttribute="trailing" id="gDQ-i6-DJT"/>
+                                    <constraint firstAttribute="trailing" secondItem="3cb-U0-SHf" secondAttribute="trailing" id="gaY-v8-RF2"/>
                                     <constraint firstItem="nSD-wb-kOS" firstAttribute="top" secondItem="3iV-co-fGu" secondAttribute="top" id="hOp-Rf-aSg"/>
                                     <constraint firstItem="nSD-wb-kOS" firstAttribute="leading" secondItem="3iV-co-fGu" secondAttribute="leading" id="kYE-1e-LcT"/>
                                     <constraint firstItem="84F-h6-wop" firstAttribute="top" secondItem="MOE-C3-5A9" secondAttribute="bottom" constant="1" id="mCf-81-6DV"/>
@@ -175,6 +183,9 @@
                         <viewLayoutGuide key="safeArea" id="1Xd-am-t49"/>
                     </view>
                     <connections>
+                        <outlet property="btnAddToStream" destination="E5F-Dg-HXj" id="pcv-oe-ILO"/>
+                        <outlet property="btnShareStream" destination="UxC-Dm-dTw" id="um9-Gd-8mv"/>
+                        <outlet property="imgChoosedImage" destination="3cb-U0-SHf" id="QVD-m7-fug"/>
                         <outlet property="imgLink" destination="DRj-54-mHd" id="9hg-Qe-wWl"/>
                         <outlet property="lblDesc" destination="84F-h6-wop" id="4mJ-qw-1pL"/>
                         <outlet property="lblLink" destination="rhl-z6-ChU" id="ePI-gK-lst"/>
