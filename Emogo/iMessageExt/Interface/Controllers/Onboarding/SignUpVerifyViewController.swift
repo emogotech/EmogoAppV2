@@ -39,7 +39,9 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: UIColor.white)
+        let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Verify, colorName: color)
         txtVeryficationCode.attributedPlaceholder = placeholder;
         self.addToolBar(textField: txtVeryficationCode)
         txtVeryficationCollapse.attributedPlaceholder = placeholder
