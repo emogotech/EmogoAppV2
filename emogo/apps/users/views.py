@@ -248,14 +248,13 @@ class UserLikedSteams(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def get_queryset(self):
-        qs = LikeDislikeStream.objects.filter(user=self.request.user).select_related('stream')
-        return qs.stream
+        qs = LikeDislikeStream.objects.filter(user=self.request.user).select_related('stream').prefetch_related('stream__stream_contents')
+        return [x.stream for x in qs]
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.get_queryset())
-        queryset = queryset.prefetch_related('stream_contents', 'collaborator_list')
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
         page = self.paginate_queryset(queryset)

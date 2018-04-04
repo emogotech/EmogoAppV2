@@ -17,6 +17,7 @@ from django.shortcuts import get_object_or_404
 import itertools
 from django.db.models import QuerySet
 
+
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
     Stream CRUD API
