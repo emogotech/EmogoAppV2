@@ -23,12 +23,16 @@ class CollaboratorSerializer(DynamicFieldsModelSerializer):
             return None
 
 
-class ViewCollaboratorSerializer(CollaboratorSerializer):
+class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     """
     This serializer is used to show Collaborator view section
     """
     stream = serializers.SerializerMethodField()
     added_by_me = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Collaborator
+        fields = '__all__'
 
     def get_added_by_me(self, obj):
         if self.context['request'].user == obj.created_by:

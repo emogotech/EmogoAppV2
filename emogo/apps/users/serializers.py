@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from emogo import settings
-from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url
+from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
@@ -15,6 +15,7 @@ from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
 from emogo.lib.helpers.utils import generate_pin, send_otp
+from emogo.apps.stream.views import get_stream_qs_objects
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -173,6 +174,7 @@ class UserDetailSerializer(UserProfileSerializer):
                     collaborators_streams = [x.stream for x in collaborators_streams]
                     self_created = [x for x in instances]
                     instances = collaborators_streams + self_created
+        instances = get_stream_qs_objects(instances)
         return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
 
     def get_collaborators(self, obj):
@@ -180,6 +182,7 @@ class UserDetailSerializer(UserProfileSerializer):
             collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
             if collaborators_streams.exists():
                 collaborators_streams = [x.stream for x in collaborators_streams]
+                collaborators_streams = get_stream_qs_objects(collaborators_streams)
             return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
         return list()
 
@@ -362,11 +365,11 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data":ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
-        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
 
     def get_popular(self, obj):
         # Get self created streams
@@ -384,7 +387,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         else:
             total = owner_qs.count()
             result_list = owner_qs[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_my_stream(self, obj):
 
@@ -407,10 +410,19 @@ class GetTopStreamSerializer(serializers.Serializer):
         # else:
         #     total = owner_qs.count()
         #     result_list = owner_qs[0:5]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
+
+
+class UserFollowSerializer(DynamicFieldsModelSerializer):
+    """
+    User Follow model Serializer
+    """
+    class Meta:
+        model = UserFollow
+        fields = '__all__'

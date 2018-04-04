@@ -193,10 +193,12 @@ class ViewStreamSerializer(StreamSerializer):
     collaborator_permission = serializers.SerializerMethodField()
     total_collaborator = serializers.SerializerMethodField()
     view_count = serializers.SerializerMethodField()
+    total_likes = serializers.SerializerMethodField()
+    user_liked = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
-            return obj._prefetched_objects_cache.get('collaborator_list').order_by('-id').count()
+            return obj.stream_collaborator.__len__()
         except Exception:
             return '0'
 
@@ -206,8 +208,20 @@ class ViewStreamSerializer(StreamSerializer):
         except AttributeError:
             return None
 
+    def get_total_likes(self, obj):
+        try:
+            return obj.total_like_dislike_data.__len__()
+        except AttributeError:
+            return None
+
+    def get_user_liked(self, obj):
+        try:
+            return [ { 'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
+        except AttributeError:
+            return None
+
     def get_view_count(self, obj):
-        return obj.stream_user_view_status.filter(user_id=self.context.get('request').user).count()
+        return obj.total_view_count.__len__()
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
@@ -216,21 +230,22 @@ class ViewStreamSerializer(StreamSerializer):
         current_url = resolve(self.context.get('request').path_info).url_name
         # If user as owner or want to get all collaborator list
         if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-            instances = obj._prefetched_objects_cache.get('collaborator_list').order_by('-id')
+            instances = obj.stream_collaborator
         # else Show collaborator created by logged in user.
         else:
-            instances = obj._prefetched_objects_cache.get('collaborator_list').filter(created_by=self.context.get('request').user).order_by('-id')
+            instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
+
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
-        instances = obj._prefetched_objects_cache.get('stream_contents').select_related('content').order_by('order')
+        instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
-        qs = obj.collaborator_list.filter(status='Active')
+        qs = obj.stream_collaborator
         # If current user as collaborator
         user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
@@ -252,9 +267,9 @@ class ViewStreamSerializer(StreamSerializer):
                     return {'can_add_content': False, 'can_add_people': False}
 
     def get_collaborator_permission(self, obj):
-        qs = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user)
-        if qs.exists():
-            return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
+        list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
+        if list_of_obj.__len__():
+            return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
         return {'can_add_content': False , 'can_add_people': False}
 
 

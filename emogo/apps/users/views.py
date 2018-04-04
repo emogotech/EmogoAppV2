@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -17,7 +17,7 @@ from emogo.constants import messages
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter
-from emogo.apps.users.models import UserProfile
+from emogo.apps.users.models import UserProfile, UserFollow
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
@@ -368,3 +368,33 @@ class VerifyLoginOTP(APIView):
                       'location', 'website', 'biography', 'birthday', 'branchio_url')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+
+class UserFollowAPI(CreateAPIView, DestroyAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = UserFollowSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        # To return created stream data
+        self.perform_create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    def perform_destroy(self, instance):
+        UserFollow.objects.filter(following=instance, follower=self.request.user).delete()
+
+    def perform_create(self, serializer):
+        obj , created = UserFollow.objects.get_or_create(follower_id=self.request.data.get('follower'),
+                                         following_id=self.request.data.get('following'))
+        return obj

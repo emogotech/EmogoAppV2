@@ -124,3 +124,16 @@ def update_user_deep_link_url(user):
     else:
         create_user_deep_link(user)
     return True
+
+
+class UserFollow(models.Model):
+    following = models.ForeignKey(User, related_name="who_follows")
+    follower = models.ForeignKey(User, related_name="who_is_followed")
+    follow_time = models.DateTimeField(auto_now=True)
+    objects = models.Manager()  # The default manager.
+
+    def __unicode__(self):
+        return str(self.follow_time)
+
+    class Meta:
+        db_table = 'user_follow'

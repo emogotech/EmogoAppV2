@@ -29,12 +29,13 @@ class UpdateStreamViewCount(MiddlewareMixin):
         :return: The function will loges response content.
         """
         if request.resolver_match is not None:
-            if request.resolver_match.view_name == 'view_stream' and request.method =='GET' and request.resolver_match.kwargs.__len__() > 0:
+            # pass
+            if request.resolver_match.view_name == 'view_stream' and request.method =='GET' and request.resolver_match.kwargs.__len__() > 0 and response.status_code==200:
                 if response.data.get('data') is not None:
                     stream_id = response.data.get('data').get('id')
                     suvs = StreamUserViewStatus.objects.create(user=request.user, stream_id=stream_id)
                     suvs.save()
-                    # print('Counter Done')
+                    print('Counter Done')
         if response.status_code == 200:
             total_time = 0
             for query in connection.queries:
