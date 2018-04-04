@@ -39,51 +39,6 @@ class ViewStreamController: UIViewController {
         self.prepareLayouts()
     }
     
-    @objc func updateImageAfterEdit(){
-        self.perform(#selector(updateLayOut), with: nil, afterDelay: 0.3)
-    }
-    
-    @objc func updateLayOut(){
-        
-        if ContentList.sharedInstance.objStream != nil {
-           
-            if self.isUpload {
-                self.isUpload = false
-                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
-                let streamID = stream.ID
-                if streamID != "" {
-                    self.getStream(currentStream:nil,streamID:streamID)
-                }
-            }else{
-                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
-                let streamID = stream.ID
-                if streamID != "" {
-                    self.getStream(currentStream:nil,streamID:streamID)
-                }
-            }
-            if SharedData.sharedInstance.deepLinkType != "" {
-                self.btnActionForAddContent()
-                SharedData.sharedInstance.deepLinkType = ""
-            }
-     
-        }
-        else {
-            if StreamList.sharedInstance.arrayViewStream.count != 0 {
-                if currentIndex != nil {
-                    let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
-                    StreamList.sharedInstance.selectedStream = stream
-                }
-                if StreamList.sharedInstance.selectedStream != nil {
-                    self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
-                }
-                
-                if SharedData.sharedInstance.deepLinkType != "" {
-                    self.btnActionForAddContent()
-                    SharedData.sharedInstance.deepLinkType = ""
-                }
-            }
-        }
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -142,7 +97,7 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
-        stretchyHeader.btnDropDown.addTarget(self, action: #selector(self.btnViewDropActionWith(button:)), for: .touchUpInside)
+        stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
     }
     
     func prepareHeaderData(){
@@ -201,6 +156,72 @@ class ViewStreamController: UIViewController {
         }
     }
     
+    @objc func updateImageAfterEdit(){
+        self.perform(#selector(updateLayOut), with: nil, afterDelay: 0.3)
+    }
+    
+    @objc func updateLayOut(){
+        
+        if ContentList.sharedInstance.objStream != nil {
+            
+            if self.isUpload {
+                self.isUpload = false
+                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                let streamID = stream.ID
+                if streamID != "" {
+                    self.getStream(currentStream:nil,streamID:streamID)
+                }
+            }else{
+                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                let streamID = stream.ID
+                if streamID != "" {
+                    self.getStream(currentStream:nil,streamID:streamID)
+                }
+            }
+            if SharedData.sharedInstance.deepLinkType != "" {
+                self.btnActionForAddContent()
+                SharedData.sharedInstance.deepLinkType = ""
+            }
+            
+        }
+        else {
+            if StreamList.sharedInstance.arrayViewStream.count != 0 {
+                if currentIndex != nil {
+                    let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                    StreamList.sharedInstance.selectedStream = stream
+                }
+                if StreamList.sharedInstance.selectedStream != nil {
+                    self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+                }
+                
+                if SharedData.sharedInstance.deepLinkType != "" {
+                    self.btnActionForAddContent()
+                    SharedData.sharedInstance.deepLinkType = ""
+                }
+            }
+        }
+    }
+    
+    func prepareActions(isCreator:Bool) {
+        if isCreator {
+            stretchyHeader.btnDelete.isHidden = false
+            stretchyHeader.btnLike.isHidden = false
+            stretchyHeader.btnEdit.isHidden = false
+            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon_stream"), for: .normal)
+            stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
+            stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
+            stretchyHeader.btnContainer.isHidden = false
+
+        }else {
+            stretchyHeader.btnDelete.isHidden = true
+            stretchyHeader.btnLike.isHidden = true
+            stretchyHeader.btnEdit.isHidden = false
+            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
+            stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
+            stretchyHeader.btnContainer.isHidden = true
+        }
+    }
     
     @objc func showReportList(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
@@ -254,6 +275,11 @@ class ViewStreamController: UIViewController {
             self.navigationController?.push(viewController: obj)
         }
     }
+    
+    @objc func likeStreamAction(sender:UIButton){
+       print("Like Action")
+    }
+    
     
     @objc  func btnCancelAction(){
         if viewStream == nil {
@@ -443,6 +469,7 @@ class ViewStreamController: UIViewController {
                 self.prepareHeaderData()
                 if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     self.navigationItem.rightBarButtonItem = nil
+                    self.prepareActions(isCreator: true)
                 }
                 else {
                     let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
@@ -450,6 +477,7 @@ class ViewStreamController: UIViewController {
                     if self.objStream?.arrayContent.count == 0 {
                         self.lblNoContent.isHidden = false
                     }
+                    self.prepareActions(isCreator: false)
                 }
                 // Get All Heights
                 var arrayHeights = [Int]()

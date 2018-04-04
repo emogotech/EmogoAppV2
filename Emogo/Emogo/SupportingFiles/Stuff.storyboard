@@ -1627,7 +1627,7 @@
                                         </connections>
                                     </tableView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="120.5" y="214.5" width="134" height="21"/>
+                                        <rect key="frame" x="121" y="214.5" width="134" height="21"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                         <color key="textColor" red="0.54444624352331605" green="0.52743229841321237" blue="0.52743229841321237" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -2805,7 +2805,7 @@ Cg
         <image name="done_icon" width="16" height="16"/>
         <image name="edit avtar icon" width="29" height="27"/>
         <image name="edit profile icon" width="24" height="24"/>
-        <image name="edit_icon" width="28" height="28"/>
+        <image name="edit_icon" width="34" height="34"/>
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="link icon" width="18" height="20"/>
         <image name="location icon" width="15" height="23"/>

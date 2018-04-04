@@ -575,6 +575,7 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         lblCurrentType.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         lblCurrentType.textAlignment = .center
         lblCurrentType.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        lblCurrentType.addShadow()
         
     }
     
@@ -645,4 +646,15 @@ open class FSPagerView: UIView,UICollectionViewDataSource,UICollectionViewDelega
         }
     }
     
+}
+
+
+extension UILabel {
+    func addShadow(){
+        self.layer.masksToBounds = false
+        self.layer.shadowRadius = 3.0
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        self.layer.shadowOpacity = 1.0
+    }
 }

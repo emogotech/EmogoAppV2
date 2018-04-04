@@ -39,6 +39,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
+
     var arrayTopContent = [TopContent]()
     
     var currentMenu: ProfileMenu = .stream {

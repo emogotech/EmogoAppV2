@@ -17,7 +17,6 @@
 		2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */; };
 		2BA272701FD6A82100543957 /* CollaboratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */; };
 		2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */; };
-		2BA8182E206E17FC00AE5840 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA8182D206E17FA00AE5840 /* UIView+YGPulseView.m */; };
 		2BBA5EE9201B7E220077CE7B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA5EE8201B7E220077CE7B /* HomeViewController.swift */; };
 		2BBA5EEB201B82810077CE7B /* DemoPreprocessor.js in Resources */ = {isa = PBXBuildFile; fileRef = 2BBA5EEA201B82800077CE7B /* DemoPreprocessor.js */; };
 		2BBBDD5B2009042400914546 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
@@ -131,6 +130,7 @@
 		F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0701FDA997500E8ACC2 /* AddContentCell.swift */; };
 		F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */; };
 		F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */; };
+		F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4086D8C206E2F08005C7318 /* UIView+YGPulseView.m */; };
 		F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC671FE3B1220093E0E7 /* ImportCell.swift */; };
 		F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */; };
 		F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
@@ -432,8 +432,6 @@
 		2B677A391FF28E3A00709663 /* PeopleSearchCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeopleSearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorViewController.swift; sourceTree = "<group>"; };
 		2BA272721FD6ABA700543957 /* CollaboratorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollaboratorCollectionViewCell.swift; sourceTree = "<group>"; };
-		2BA8182C206E17FA00AE5840 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YGPulseView.h"; sourceTree = "<group>"; };
-		2BA8182D206E17FA00AE5840 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YGPulseView.m"; sourceTree = "<group>"; };
 		2BBA5EE8201B7E220077CE7B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2BBA5EEA201B82800077CE7B /* DemoPreprocessor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DemoPreprocessor.js; sourceTree = "<group>"; };
 		2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -537,6 +535,8 @@
 		F404C0701FDA997500E8ACC2 /* AddContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentCell.swift; sourceTree = "<group>"; };
 		F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
 		F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
+		F4086D8C206E2F08005C7318 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YGPulseView.m"; sourceTree = "<group>"; };
+		F4086D8D206E2F0C005C7318 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YGPulseView.h"; sourceTree = "<group>"; };
 		F409FC671FE3B1220093E0E7 /* ImportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportCell.swift; sourceTree = "<group>"; };
 		F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMTextField.swift; sourceTree = "<group>"; };
 		F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
@@ -878,16 +878,6 @@
 			name = "New Group";
 			sourceTree = "<group>";
 		};
-		2BA8182B206E17FA00AE5840 /* YGPulseView */ = {
-			isa = PBXGroup;
-			children = (
-				2BA8182C206E17FA00AE5840 /* UIView+YGPulseView.h */,
-				2BA8182D206E17FA00AE5840 /* UIView+YGPulseView.m */,
-			);
-			name = YGPulseView;
-			path = "../../../../../Desktop/Emogo Changes/YGPulseView";
-			sourceTree = "<group>";
-		};
 		2BDC4A9C1FD117350018FC6E /* Cells And Nibs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1174,7 +1164,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
-				2BA8182B206E17FA00AE5840 /* YGPulseView */,
+				F4086D8B206E2378005C7318 /* PulseView */,
 				F425C62F205660A8002536E1 /* CollectionView */,
 				F02C6199204FEDB10041CEE4 /* PageController */,
 				C8FBD72F2015FE7C007C7C1B /* Text View PlaceHolder */,
@@ -1446,6 +1436,15 @@
 				F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		F4086D8B206E2378005C7318 /* PulseView */ = {
+			isa = PBXGroup;
+			children = (
+				F4086D8D206E2F0C005C7318 /* UIView+YGPulseView.h */,
+				F4086D8C206E2F08005C7318 /* UIView+YGPulseView.m */,
+			);
+			path = PulseView;
 			sourceTree = "<group>";
 		};
 		F409FC6D1FE3D8B90093E0E7 /* CustomLayout */ = {
@@ -2832,7 +2831,7 @@
 				F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */,
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
-				2BA8182E206E17FC00AE5840 /* UIView+YGPulseView.m in Sources */,
+				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
 				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,

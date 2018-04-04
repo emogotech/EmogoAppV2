@@ -15,14 +15,16 @@ protocol StreamViewHeaderDelegate {
 
 class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelegate {
 
-    @IBOutlet weak var btnDropDown: UIButton!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var btnLike: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
+    @IBOutlet weak var btnContainer: UIView!
+
     var streamDelegate:StreamViewHeaderDelegate?
     
     override func awakeFromNib() {
@@ -36,13 +38,12 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
-        
+        self.maximumContentHeight = 306
     }
     
     func prepareLayout(stream:StreamViewDAO?){
         btnEdit.isHidden = true
         btnDelete.isHidden = true
-        self.lblDescription.numberOfLines = 2
         guard let objStream = stream  else {
             return
         }
@@ -61,7 +62,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.lblDescription.text = objStream.description.trim()
         self.lblDescription.minimumScaleFactor = 1.0
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
-        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false
             btnDelete.isHidden = false
@@ -71,19 +71,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         if  objStream.canAddPeople == true {
             btnEdit.isHidden = false
-        }
-        
-        let lineCount = lblDescription.lineCountForLabel()
-        if lineCount < 2 {
-            
-            self.btnDropDown.isHidden = true
-        }else{
-            self.lblDescription.numberOfLines = 1
-            self.btnDropDown.isHidden = false
-        }
-        
-        if objStream.description.trim().isEmpty {
-            self.btnDropDown.isHidden = true
         }
         
     }
