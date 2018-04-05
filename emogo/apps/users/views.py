@@ -18,7 +18,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter
 from emogo.apps.users.models import UserProfile, UserFollow
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
 from itertools import chain
@@ -28,6 +28,8 @@ from django.db.models.query import QuerySet
 from autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
+from django.db.models import Prefetch
+from django.db.models import QuerySet
 
 
 class Signup(APIView):
@@ -121,7 +123,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     """
 
     serializer_class = UserDetailSerializer
-    queryset = UserProfile.actives.all().order_by('-id')
+    queryset = UserProfile.actives.all().select_related('user').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = UsersFilter
@@ -139,6 +141,31 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         else:
             return self.list(request, *args, **kwargs)
 
+    def get_qs_object(self):
+        qs = UserProfile.actives.filter(id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
+            Prefetch(
+                "user__who_follows",
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr="followers"
+            ),
+            Prefetch(
+                'user__who_is_followed',
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr='following'
+            ),
+            Prefetch(
+                'profile_stream__stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'profile_stream__stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                to_attr='total_like_dislike_data'
+            ),
+        )
+        return qs[0]
+
     def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -146,14 +173,14 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url')
-        instance = self.get_object()
-        if self.request.user.id == instance.user.id:
-            fields = list(fields)
-            fields.append('contents')
-            fields.append('collaborators')
-            fields = tuple(fields)
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+        instance = self.get_qs_object()
+        # if self.request.user.id == instance.user.id:
+        #     fields = list(fields)
+        #     fields.append('contents')
+        #     fields.append('collaborators')
+        #     fields = tuple(fields)
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 

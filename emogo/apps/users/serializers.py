@@ -159,35 +159,53 @@ class UserDetailSerializer(UserProfileSerializer):
     UserDetail Serializer to show user detail.
     """
     user_image = serializers.URLField(read_only=True)
+    profile_stream = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
-    def get_streams(self, obj):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
-        # By default user can see only public stream
-        instances = obj.user_streams().filter(type='Public')
+    # Todo: Need to remove this code but not confirm from Mobile site.
+    # def get_streams(self, obj):
+    #
+    #     # By default user can see only public stream
+    #     instances = obj.user_streams().filter(type='Public')
+    #
+    #     if self.context.get('request') is not None:
+    #         if obj.user.id == self.context.get('request').user.id:
+    #             instances = obj.user_streams()
+    #
+    #         # While logged-in user visits another user profile then will club user created streams and
+    #         # streams in which user as collaborators.
+    #         if obj.user.id != self.context.get('request').user.id:
+    #             collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
+    #             if collaborators_streams.exists():
+    #                 collaborators_streams = [x.stream for x in collaborators_streams]
+    #                 self_created = [x for x in instances]
+    #                 instances = collaborators_streams + self_created
+    #     instances = get_stream_qs_objects(instances)
+    #     return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+    #
+    # def get_collaborators(self, obj):
+    #     if self.context.get('request') is not None:
+    #         collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
+    #         if collaborators_streams.exists():
+    #             collaborators_streams = [x.stream for x in collaborators_streams]
+    #             collaborators_streams = get_stream_qs_objects(collaborators_streams)
+    #         return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
+    #     return list()
 
-        if self.context.get('request') is not None:
-            if obj.user.id == self.context.get('request').user.id:
-                instances = obj.user_streams()
+    def get_profile_stream(self, obj):
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
+        return ViewStreamSerializer(obj.profile_stream, fields=fields).data
 
-            # While logged-in user visits another user profile then will club user created streams and
-            # streams in which user as collaborators.
-            if obj.user.id != self.context.get('request').user.id:
-                collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-                if collaborators_streams.exists():
-                    collaborators_streams = [x.stream for x in collaborators_streams]
-                    self_created = [x for x in instances]
-                    instances = collaborators_streams + self_created
-        instances = get_stream_qs_objects(instances)
-        return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+    def get_followers(self, obj):
+        return obj.user.followers.__len__()
 
-    def get_collaborators(self, obj):
-        if self.context.get('request') is not None:
-            collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-            if collaborators_streams.exists():
-                collaborators_streams = [x.stream for x in collaborators_streams]
-                collaborators_streams = get_stream_qs_objects(collaborators_streams)
-            return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
-        return list()
+    def get_following(self, obj):
+        return obj.user.following.__len__()
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data

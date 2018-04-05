@@ -25,7 +25,29 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    queryset = Stream.actives.all().order_by('-id')
+    queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                to_attr='total_like_dislike_data'
+            ),
+
+        ).order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -52,7 +74,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         :return: Create Stream API.
         """
 
-        instance = get_stream_qs_objects(self.get_object())
+        instance = self.get_object()
         self.serializer_class = ViewStreamSerializer
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
@@ -66,7 +88,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
-        queryset = get_stream_qs_objects(self.get_queryset())
+        queryset = self.filter_queryset(self.queryset)
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
         page = self.paginate_queryset(queryset)
