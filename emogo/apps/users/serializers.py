@@ -102,7 +102,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url']
+            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -124,9 +124,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         try:
             # Save user table data.
-            if self.initial_data.get('phone_number') is not None:
-                self.instance.user.username = self.initial_data.get('phone_number')
-                self.instance.user.save()
+            # if self.initial_data.get('phone_number') is not None:
+            #     self.instance.user.username = self.initial_data.get('phone_number')
+            #     self.instance.user.save()
             if self.validated_data.get('user_image') is not None:
                 # Then user profile table data
                 self.instance.user_image = self.validated_data.get('user_image')
@@ -142,6 +142,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             if self.validated_data.get('birthday') is not None:
                 # Then user profile table data
                 self.instance.birthday = self.validated_data.get('birthday')
+            if self.validated_data.get('profile_stream') is not None:
+                # Then user profile table data
+                self.instance.profile_stream = self.validated_data.get('profile_stream')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
                 # Update user deep link.

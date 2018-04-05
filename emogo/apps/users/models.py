@@ -34,6 +34,7 @@ class UserProfile(UsersStatusModel):
     biography = models.CharField(max_length=255, null=True, blank=True)
     birthday = models.CharField(max_length=15, null=True, blank=True)
     branchio_url = models.CharField(max_length=75, null=True, blank=True)
+    profile_stream = models.ForeignKey(Stream, null=True, blank=True)
 
     class Meta:
         db_table = 'user_profile'
