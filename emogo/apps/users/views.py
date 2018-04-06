@@ -259,6 +259,33 @@ class UserSteams(ListAPIView):
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
+class UserFollowersAPI(ListAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = UserFollowSerializer
+    authentication_classes = (TokenAuthentication,)
+    queryset = UserFollow.objects.all().select_related('follower__user_data')
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset()).filter(following=self.request.user).only('follower')
+        #  Customized field list
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image')
+        self.serializer_class = UserDetailSerializer
+        page = self.paginate_queryset([x.follower.user_data for x in  queryset])
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
 class UserLikedSteams(ListAPIView):
     """
     User Streams API
