@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -192,10 +192,13 @@ class ViewStreamSerializer(StreamSerializer):
     stream_permission = serializers.SerializerMethodField()
     collaborator_permission = serializers.SerializerMethodField()
     total_collaborator = serializers.SerializerMethodField()
+    view_count = serializers.SerializerMethodField()
+    total_likes = serializers.SerializerMethodField()
+    user_liked = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
-            return obj.collaborator_list(manager='actives').all().order_by('-id').count()
+            return obj.stream_collaborator.__len__()
         except Exception:
             return '0'
 
@@ -205,6 +208,21 @@ class ViewStreamSerializer(StreamSerializer):
         except AttributeError:
             return None
 
+    def get_total_likes(self, obj):
+        try:
+            return obj.total_like_dislike_data.__len__()
+        except AttributeError:
+            return None
+
+    def get_user_liked(self, obj):
+        try:
+            return [ { 'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
+        except AttributeError:
+            return None
+
+    def get_view_count(self, obj):
+        return obj.total_view_count.__len__()
+
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
 
@@ -212,25 +230,26 @@ class ViewStreamSerializer(StreamSerializer):
         current_url = resolve(self.context.get('request').path_info).url_name
         # If user as owner or want to get all collaborator list
         if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-            instances = obj.collaborator_list(manager='actives').all().order_by('-id')
+            instances = obj.stream_collaborator
         # else Show collaborator created by logged in user.
         else:
-            instances = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user).order_by('-id')
+            instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
+
         return ViewCollaboratorSerializer(instances,
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
         fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
-        instances = [x.content for x in obj.stream_contents.all().order_by('order')]
-        return ViewContentSerializer(instances, many=True, fields=fields).data
+        instances = obj.content_list
+        return ViewContentSerializer([x.content for x in instances], many=True, fields=fields).data
 
     def get_stream_permission(self, obj):
-        qs = obj.collaborator_list.filter(status='Active')
+        qs = obj.stream_collaborator
         # If current user as collaborator
         user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
-        # qs = [x ]
+        # qs = [x ]&t
         if qs.__len__() > 0:
             fields = ('can_add_content', 'can_add_people')
             return ViewCollaboratorSerializer(qs[0], fields=fields).data
@@ -248,9 +267,9 @@ class ViewStreamSerializer(StreamSerializer):
                     return {'can_add_content': False, 'can_add_people': False}
 
     def get_collaborator_permission(self, obj):
-        qs = obj.collaborator_list(manager='actives').filter(created_by=self.context.get('request').user)
-        if qs.exists():
-            return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
+        list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
+        if list_of_obj.__len__():
+            return {'can_add_content': list_of_obj[0].can_add_content, 'can_add_people': list_of_obj[0].can_add_people}
         return {'can_add_content': False , 'can_add_people': False}
 
 
@@ -445,3 +464,22 @@ class ReorderContentSerializer(DynamicFieldsModelSerializer):
         for instance in self.validated_data.get('my_order'):
             Content.objects.filter(pk=instance.get('id')).update(order=instance.get('order'))
         return True
+
+
+class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream like dislike serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = LikeDislikeStream
+        fields = ['user', 'stream', 'status']
+        extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def create(self, validated_data):
+        obj, created = LikeDislikeStream.objects.update_or_create(
+            stream=self.validated_data.get('stream'), user=self.context.get('request').user,
+            defaults={'status': self.validated_data.get('status')},
+        )
+        return obj

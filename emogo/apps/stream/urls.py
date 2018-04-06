@@ -4,9 +4,10 @@ from emogo.apps.stream import views
 urlpatterns = [
     # url(r'^/stream/collaborators/(?P<pk>[0-9]+)/', views.StreamAPI.as_view(fields=), name='user-list')
     url(r'^stream/collaborator/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='stream_collaborator'),
-    url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view()),
+    url(r'^stream/(?P<pk>[0-9]+)/$', views.StreamAPI.as_view(), name='view_stream'),
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
+    url('^like_dislike_stream', views.StreamLikeDislikeAPI.as_view()),
     # The API is created because developer unable to get link type content
     url(r'^delete_content/$', views.DeleteContentInBulk.as_view()),
     url(r'^content/link_type/$', views.LinkTypeContentAPI.as_view()),

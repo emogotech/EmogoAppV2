@@ -34,6 +34,7 @@ class UserProfile(UsersStatusModel):
     biography = models.CharField(max_length=255, null=True, blank=True)
     birthday = models.CharField(max_length=15, null=True, blank=True)
     branchio_url = models.CharField(max_length=75, null=True, blank=True)
+    profile_stream = models.ForeignKey(Stream, null=True, blank=True)
 
     class Meta:
         db_table = 'user_profile'
@@ -124,3 +125,16 @@ def update_user_deep_link_url(user):
     else:
         create_user_deep_link(user)
     return True
+
+
+class UserFollow(models.Model):
+    following = models.ForeignKey(User, related_name="who_follows")
+    follower = models.ForeignKey(User, related_name="who_is_followed")
+    follow_time = models.DateTimeField(auto_now=True)
+    objects = models.Manager()  # The default manager.
+
+    def __unicode__(self):
+        return str(self.follow_time)
+
+    class Meta:
+        db_table = 'user_follow'

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from emogo import settings
-from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url
+from emogo.apps.users.models import UserProfile, create_user_deep_link, update_user_deep_link_url, UserFollow
 from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
@@ -15,6 +15,7 @@ from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
 from emogo.lib.helpers.utils import generate_pin, send_otp
+from emogo.apps.stream.views import get_stream_qs_objects
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -101,7 +102,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url']
+            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -123,8 +124,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         try:
             # Save user table data.
-            if self.initial_data.get('full_name') is not None:
-                self.instance.full_name = self.initial_data.get('full_name')
+            # if self.initial_data.get('phone_number') is not None:
+            #     self.instance.user.username = self.initial_data.get('phone_number')
+            #     self.instance.user.save()
             if self.validated_data.get('user_image') is not None:
                 # Then user profile table data
                 self.instance.user_image = self.validated_data.get('user_image')
@@ -140,12 +142,15 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             if self.validated_data.get('birthday') is not None:
                 # Then user profile table data
                 self.instance.birthday = self.validated_data.get('birthday')
+            if self.validated_data.get('profile_stream') is not None:
+                # Then user profile table data
+                self.instance.profile_stream = self.validated_data.get('profile_stream')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
                 # Update user deep link.
                 update_user_deep_link_url(self.instance.user)
         except IntegrityError as e:
-            raise serializers.ValidationError({"phone_number": messages.MSG_PHONE_NUMBER_EXISTS})
+            raise serializers.ValidationError({"phone_number":messages.MSG_PHONE_NUMBER_EXISTS})
         return self.instance
 
 
@@ -154,33 +159,53 @@ class UserDetailSerializer(UserProfileSerializer):
     UserDetail Serializer to show user detail.
     """
     user_image = serializers.URLField(read_only=True)
+    profile_stream = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
 
-    def get_streams(self, obj):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
-        # By default user can see only public stream
-        instances = obj.user_streams().filter(type='Public')
+    # Todo: Need to remove this code but not confirm from Mobile site.
+    # def get_streams(self, obj):
+    #
+    #     # By default user can see only public stream
+    #     instances = obj.user_streams().filter(type='Public')
+    #
+    #     if self.context.get('request') is not None:
+    #         if obj.user.id == self.context.get('request').user.id:
+    #             instances = obj.user_streams()
+    #
+    #         # While logged-in user visits another user profile then will club user created streams and
+    #         # streams in which user as collaborators.
+    #         if obj.user.id != self.context.get('request').user.id:
+    #             collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
+    #             if collaborators_streams.exists():
+    #                 collaborators_streams = [x.stream for x in collaborators_streams]
+    #                 self_created = [x for x in instances]
+    #                 instances = collaborators_streams + self_created
+    #     instances = get_stream_qs_objects(instances)
+    #     return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+    #
+    # def get_collaborators(self, obj):
+    #     if self.context.get('request') is not None:
+    #         collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
+    #         if collaborators_streams.exists():
+    #             collaborators_streams = [x.stream for x in collaborators_streams]
+    #             collaborators_streams = get_stream_qs_objects(collaborators_streams)
+    #         return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
+    #     return list()
 
-        if self.context.get('request') is not None:
-            if obj.user.id == self.context.get('request').user.id:
-                instances = obj.user_streams()
+    def get_profile_stream(self, obj):
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
+        return ViewStreamSerializer(obj.profile_stream, fields=fields).data
 
-            # While logged-in user visits another user profile then will club user created streams and
-            # streams in which user as collaborators.
-            if obj.user.id != self.context.get('request').user.id:
-                collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-                if collaborators_streams.exists():
-                    collaborators_streams = [x.stream for x in collaborators_streams]
-                    self_created = [x for x in instances]
-                    instances = collaborators_streams + self_created
-        return ViewStreamSerializer(instances, many=True, fields=('id', 'name', 'author', 'image')).data
+    def get_followers(self, obj):
+        return obj.user.followers.__len__()
 
-    def get_collaborators(self, obj):
-        if self.context.get('request') is not None:
-            collaborators_streams = self.context.get('request').user.user_data.user_as_collaborators()
-            if collaborators_streams.exists():
-                collaborators_streams = [x.stream for x in collaborators_streams]
-            return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
-        return list()
+    def get_following(self, obj):
+        return obj.user.following.__len__()
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
@@ -361,11 +386,11 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data":ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
-        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
 
     def get_popular(self, obj):
         # Get self created streams
@@ -383,7 +408,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         else:
             total = owner_qs.count()
             result_list = owner_qs[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_my_stream(self, obj):
 
@@ -406,10 +431,20 @@ class GetTopStreamSerializer(serializers.Serializer):
         # else:
         #     total = owner_qs.count()
         #     result_list = owner_qs[0:5]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
+
+
+class UserFollowSerializer(DynamicFieldsModelSerializer):
+    """
+    User Follow model Serializer
+    """
+    class Meta:
+        model = UserFollow
+        fields = '__all__'
+

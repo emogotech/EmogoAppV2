@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -17,8 +17,8 @@ from emogo.constants import messages
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter
-from emogo.apps.users.models import UserProfile
-from emogo.apps.stream.models import Stream, Content
+from emogo.apps.users.models import UserProfile, UserFollow
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
 from itertools import chain
@@ -28,6 +28,8 @@ from django.db.models.query import QuerySet
 from autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
+from django.db.models import Prefetch
+from django.db.models import QuerySet
 
 
 class Signup(APIView):
@@ -121,7 +123,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
     """
 
     serializer_class = UserDetailSerializer
-    queryset = UserProfile.actives.all().order_by('-id')
+    queryset = UserProfile.actives.all().select_related('user').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = UsersFilter
@@ -139,6 +141,31 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         else:
             return self.list(request, *args, **kwargs)
 
+    def get_qs_object(self):
+        qs = UserProfile.actives.filter(id=self.kwargs.get('pk')).select_related('user').select_related('profile_stream').prefetch_related(
+            Prefetch(
+                "user__who_follows",
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr="followers"
+            ),
+            Prefetch(
+                'user__who_is_followed',
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr='following'
+            ),
+            Prefetch(
+                'profile_stream__stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'profile_stream__stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                to_attr='total_like_dislike_data'
+            ),
+        )
+        return qs[0]
+
     def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -146,14 +173,14 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'streams', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url')
-        instance = self.get_object()
-        if self.request.user.id == instance.user.id:
-            fields = list(fields)
-            fields.append('contents')
-            fields.append('collaborators')
-            fields = tuple(fields)
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+        instance = self.get_qs_object()
+        # if self.request.user.id == instance.user.id:
+        #     fields = list(fields)
+        #     fields.append('contents')
+        #     fields.append('collaborators')
+        #     fields = tuple(fields)
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -229,6 +256,91 @@ class UserSteams(ListAPIView):
         page = self.paginate_queryset(result_list)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class UserFollowersAPI(ListAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = UserFollowSerializer
+    authentication_classes = (TokenAuthentication,)
+    queryset = UserFollow.objects.all().select_related('follower__user_data')
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset()).filter(following=self.request.user).only('follower')
+        #  Customized field list
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image')
+        self.serializer_class = UserDetailSerializer
+        page = self.paginate_queryset([x.follower.user_data for x in  queryset])
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class UserFollowingAPI(ListAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = UserFollowSerializer
+    authentication_classes = (TokenAuthentication,)
+    queryset = UserFollow.objects.all().select_related('following__user_data')
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).only('following')
+        #  Customized field list
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image')
+        self.serializer_class = UserDetailSerializer
+        page = self.paginate_queryset([x.following.user_data for x in queryset])
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
+            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
+
+class UserLikedSteams(ListAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = StreamSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_paginated_response(self, data, status_code=None):
+        """
+        Return a paginated style `Response` object for the given output data.
+        """
+        assert self.paginator is not None
+        return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    def get_queryset(self):
+        qs = LikeDislikeStream.objects.filter(user=self.request.user).select_related('stream').prefetch_related('stream__stream_contents')
+        return [x.stream for x in qs]
+
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewStreamSerializer
+        self.serializer_class = ViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        #  Customized field list
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
@@ -337,3 +449,33 @@ class VerifyLoginOTP(APIView):
                       'location', 'website', 'biography', 'birthday', 'branchio_url')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
+
+
+class UserFollowAPI(CreateAPIView, DestroyAPIView):
+    """
+    User Streams API
+    """
+    serializer_class = UserFollowSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        # To return created stream data
+        self.perform_create(serializer)
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+    def perform_destroy(self, instance):
+        UserFollow.objects.filter(following=instance, follower=self.request.user).delete()
+
+    def perform_create(self, serializer):
+        obj , created = UserFollow.objects.get_or_create(follower_id=self.request.data.get('follower'),
+                                         following_id=self.request.data.get('following'))
+        return obj

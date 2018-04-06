@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
+from emogo.apps.collaborator.models import Collaborator
+from django.db.models import Prefetch
+from django.db.models import QuerySet
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -22,7 +25,29 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    queryset = Stream.actives.all().order_by('-id')
+    queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                to_attr='total_like_dislike_data'
+            ),
+
+        ).order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -58,17 +83,12 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # Return all data
         else:
             serializer = self.get_serializer(instance, context=self.request)
-            # Update stream view count
-            # We had to update single model by Filter because if i use .save() method model upd column value
-            # automatically changed that was not correct as per our requirement
-            Stream.objects.filter(id=instance.id).update(view_count=(instance.view_count+1))
-
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
         self.serializer_class = ViewStreamSerializer
-        queryset = self.filter_queryset(self.get_queryset())
+        queryset = self.filter_queryset(self.queryset)
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
         page = self.paginate_queryset(queryset)
@@ -88,6 +108,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         stream = serializer.create(serializer.validated_data)
         # To return created stream data
         self.serializer_class = ViewStreamSerializer
+        stream = self.queryset.filter(id=stream.id).prefetch_related('stream_contents', 'collaborator_list')[0]
         serializer = self.get_serializer(stream, context=self.request)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
@@ -121,7 +142,6 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         # Perform delete operation
         self.perform_destroy(instance)
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
-
 
 
 # Todo the DeleteStreamContentAPI is not used but it was keeped because it is using in last build.
@@ -460,3 +480,85 @@ class ExtremistReportAPI(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=self.request.data)
+
+
+class StreamLikeDislikeAPI(CreateAPIView):
+    """
+    Stream CRUD API
+    """
+    serializer_class = StreamLikeDislikeSerializer
+    queryset = LikeDislikeStream.objects.all().order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    # def get_paginated_response(self, data, status_code=None):
+    #     """
+    #     Return a paginated style `Response` object for the given output data.
+    #     """
+    #     assert self.paginator is not None
+    #     return self.paginator.get_paginated_response(data, status_code=status_code)
+
+    # def get(self, request, *args, **kwargs):
+    #     if kwargs.get('pk') is not None:
+    #         return self.retrieve(request, *args, **kwargs)
+    #     # else:
+    #     #     return self.list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+
+def get_stream_qs_objects(instances=None):
+    """
+    :param instances:
+    :return: This functio will return all stream collaborators, contents and stream view status in single query
+    """
+    qs = QuerySet()
+    # if type Queryset or list of Objects
+    if isinstance(instances, QuerySet) or isinstance(instances, list):
+        if isinstance(instances, list) :
+            instances = Stream.actives.filter(id__in=[_.id for _ in instances])
+        qs = instances.select_related('created_by__user_data__user')
+
+    # if type Stream object
+    elif isinstance(instances, Stream):
+        qs = Stream.actives.filter(id=getattr(instances, 'id'))
+    qs = qs.prefetch_related(
+            Prefetch(
+                "stream_contents",
+                queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+                to_attr="content_list"
+            ),
+            Prefetch(
+                'collaborator_list',
+                queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+                to_attr='stream_collaborator'
+            ),
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+            Prefetch(
+                'stream_like_dislike_status',
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                to_attr='total_like_dislike_data'
+            ),
+
+        )
+    if isinstance(instances, Stream):
+        if qs.exists():
+            return qs[0]
+    return qs

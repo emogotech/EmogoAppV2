@@ -5,6 +5,10 @@ import logging
 from django.utils.deprecation import MiddlewareMixin
 from emogo import settings
 
+
+
+
+
 request_logger = logging.getLogger('api.request.logger')
 
 
@@ -45,4 +49,5 @@ class LoggingMiddleware(MiddlewareMixin):
                             'url': request.build_absolute_uri()
                         }
                     })
+
         return response
