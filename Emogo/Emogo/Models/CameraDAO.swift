@@ -189,6 +189,11 @@ class ContentDAO{
             self.isEdit = true
             self.isDelete = true
         }
+        
+        if let obj = contentData["imageObj"] {
+            let img = obj as! UIImage
+            self.imgPreview =   img
+        }
     }
 }
 

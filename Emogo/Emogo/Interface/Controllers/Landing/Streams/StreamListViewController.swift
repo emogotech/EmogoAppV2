@@ -11,9 +11,6 @@ import XLActionController
 
 class StreamListViewController: UIViewController {
     
-    
-    
-    
     @IBOutlet weak var containerMenuView : UIStackView!
     
     // MARK: - UI Elements
@@ -30,7 +27,6 @@ class StreamListViewController: UIViewController {
     
     var btnAddFrame   : CGRect!
 
-    
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewSearch: UIView!
@@ -45,6 +41,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var btnSearch          : UIButton!
     
     var isAddButtonTapped   =   false
+    var isDidLoadCalled : Bool  =   false
     
     var isSearch : Bool = false
     var isTapPeople : Bool = false
@@ -166,12 +163,13 @@ class StreamListViewController: UIViewController {
             self.containerMenuView.widthAnchor.constraint(equalToConstant: containerFrame.size.width).isActive = true
             self.containerMenuView.centerXAnchor.constraint(equalTo: self.viewMenu.centerXAnchor).isActive = true
             self.containerMenuView.centerYAnchor.constraint(equalTo: self.viewMenu.centerYAnchor).isActive = true
-
             
         }
-        
-        self.btnAddFrame    =   self.btnAdd.frame
-     
+
+        if isDidLoadCalled == false {
+            self.btnAddFrame    =   self.btnAdd.frame
+        }
+        isDidLoadCalled     =       true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -418,11 +416,14 @@ class StreamListViewController: UIViewController {
         
         
         if isAddButtonTapped == false {
+            
             UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
                 self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
-            }, completion: nil)
+            }, completion: { (success) in
+                print("completion.......")
+            })
+            
         }
-
     }
     
 //

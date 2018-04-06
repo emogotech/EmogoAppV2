@@ -414,21 +414,17 @@ class PreviewController: UIViewController {
                     })
                 })
                 
-                if seletedImage.coverImage.first == "/" {
-                    let imagePath =  NSURL(fileURLWithPath: seletedImage.coverImage) //NSURL(string: seletedImage.coverImage) // item as! NSURL
+                if seletedImage.name == "SharedImage_group.com.emogotechnologiesinc.thoughtstream" {
+                    print("image from Share - Extension")
+                    let img = UIImage(data: (UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.value(forKey: "imageObj") as! Data))
+                    self.imgPreview.image   =   img
+                    seletedImage.imgPreview =   img
+                    seletedImage.name       =   ""
+                    self.txtTitleImage.text = ""
+                    self.txtDescription.text    =   ""
                     
-                    let fileName : String = imagePath.lastPathComponent!
-                    let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + fileName
-                    let image = UIImage(contentsOfFile: path)
-                    if FileManager.default.fileExists(atPath: (imagePath.path!)){
-                        print("Exists")
-                        let data = NSData.init(contentsOf: imagePath as URL)
-                        let imageObj = UIImage(data: data! as Data)
-                        self.imgPreview.image  =   imageObj
-
-                    }else{
-                        print("No Image")
-                    }
+                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.set(nil, forKey: "imageObj")
+                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.synchronize()
                 }else{
                     self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
                 }

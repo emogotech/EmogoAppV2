@@ -101,6 +101,7 @@ class ShareViewHomeController: UIViewController {
         let propertyList = String(kUTTypePropertyList)
         let strPublicURL = String(kUTTypeURL)
         let strPublicPng  =   String(kUTTypePNG)
+        let strPublicJpeg    =   String(kUTTypeJPEG)
         if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
@@ -120,13 +121,12 @@ class ShareViewHomeController: UIViewController {
                         self.getData(mainURL: url as URL!)
                 }
             })
-        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng){
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) || itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
             
             self.imgLink.isHidden   =   true
             self.lblDesc.isHidden   =   true
             self.lblTitle.isHidden  =   true
             self.lblLink.isHidden   =   true
-            
             
             itemProvider.loadItem(forTypeIdentifier: strPublicPng, options: nil, completionHandler: { (item, error) -> Void in
                 
@@ -138,29 +138,20 @@ class ShareViewHomeController: UIViewController {
                     self.imgChoosedImage.image  =   imageObj
                     self.imgLink.image  =   imageObj
                     
+                    let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+                    defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj")
+                    defaultUser?.synchronize()
                     
-                    self.dictData["coverImageVideo"] = imagePath.path //url?.absoluteString
-
-                    self.dictData["name"] = "name - 101"
-                    self.dictData["description"] = "description - 101"
-                    self.dictData["coverImage"] = imagePath.path //url.absoluteString
+                    self.dictData["coverImageVideo"] = imagePath.path
+                    self.dictData["name"] = "SharedImage_group.com.emogotechnologiesinc.thoughtstream"
+                    self.dictData["description"] = ""
+                    self.dictData["coverImage"] = imagePath.path
                     self.dictData["type"] = "Picture"
                     
                     self.hudView.stopLoaderWithAnimation()
                 }else{
                     print("No Image")
                 }
-                
-                
-                
-                
-//                guard let image = item as? UIImage else {
-//                    print("error in extracting image")
-//                    return }
-//                OperationQueue.main.addOperation {
-//                    print(image)
-////                    self.getData(mainURL: url as URL!)
-//                }
             })
         } else {
             print("Error - check itemProvider object!")
@@ -258,6 +249,7 @@ class ShareViewHomeController: UIViewController {
     
     @IBAction func btnCancleAction(_ sender:UIButton) {
         self.view.isUserInteractionEnabled = false
+        UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.setValue(nil, forKey: "imageObj")
         self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
             self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
         })
