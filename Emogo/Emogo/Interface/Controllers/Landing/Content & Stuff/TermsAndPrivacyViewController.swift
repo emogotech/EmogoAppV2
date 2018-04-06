@@ -26,7 +26,7 @@ class TermsAndPrivacyViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         //editing_cross_icon
-        let img1 = UIImage(named: "editing_cross_icon")
+        let img1 = UIImage(named: "cross_close_icon")
         let btnDone = UIBarButtonItem(image: img1, style: .plain, target: self, action: #selector(self.dismissAction))
         
         self.navigationItem.rightBarButtonItem = btnDone

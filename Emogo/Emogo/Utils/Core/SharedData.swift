@@ -177,7 +177,7 @@ class SharedData: NSObject {
     }
     
     func placeHolderText(text : String, colorName : UIColor) -> NSAttributedString {
-        return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        return NSAttributedString(string: text, attributes: [NSAttributedStringKey.foregroundColor : colorName])
     }
     
     func showPager(controller : MSMessagesAppViewController)  {

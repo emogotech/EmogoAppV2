@@ -37,8 +37,9 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: UIColor.white)
+        let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolderText_Sign_Up_Name, colorName: color)
         txtName.attributedPlaceholder = placeholder
         
         txtNameCollapse.attributedPlaceholder = placeholder

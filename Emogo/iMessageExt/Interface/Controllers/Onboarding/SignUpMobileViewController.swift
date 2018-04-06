@@ -37,7 +37,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     
     // MARK:- PrepareLayout
     func prepareLayout()  {
-        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: UIColor.white)
+        let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+
+        let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: color)
         txtMobileNumber.attributedPlaceholder = placeholder
         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
         self.addToolBar(textField: txtMobileNumber)
