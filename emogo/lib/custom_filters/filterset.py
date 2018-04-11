@@ -4,6 +4,8 @@ from emogo.apps.users.models import UserProfile
 from django.db.models import Q
 from itertools import chain
 from emogo.apps.collaborator.models import Collaborator
+from django.db.models import Prefetch
+from emogo.apps.stream.models import StreamUserViewStatus
 
 
 class StreamFilter(django_filters.FilterSet):
@@ -76,3 +78,29 @@ class ContentsFilter(django_filters.FilterSet):
         model = Content
         fields = ['type']
 
+
+class UserStreamFilter(django_filters.FilterSet):
+    created_by = django_filters.filters.NumberFilter(method='filter_created_by')
+
+    class Meta:
+        model = Stream
+        fields = ['created_by']
+
+    def filter_created_by(self, qs, name, value):
+        #1. Get user as collaborator in streams created by requested user.
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active', created_by__user_data__id=value).values_list('stream', flat=True)
+
+        #2. Fetch stream Queryset objects.
+        stream_as_collabs = qs.filter(id__in=stream_ids)
+
+        #3. Get main stream created by requested user and stream type is Public.
+        main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = main_qs | stream_as_collabs
+        main_qs = qs.select_related('created_by__user_data').prefetch_related(
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+        )
+        return main_qs

@@ -16,7 +16,7 @@ from emogo.constants import messages
 # util method
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from emogo.lib.custom_filters.filterset import UsersFilter
+from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter
 from emogo.apps.users.models import UserProfile, UserFollow
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus
 from emogo.apps.collaborator.models import Collaborator
@@ -225,6 +225,8 @@ class UserSteams(ListAPIView):
     serializer_class = StreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    queryset = Stream.actives.all()
+    filter_class = UserStreamFilter
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -233,29 +235,15 @@ class UserSteams(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def post(self, request):
-        kwargs = dict()
-        kwargs['type'] = 'Public'
-        if request.data.get('user_id') =="":
-            raise Http404("User profile does not exist")
-        elif request.data.get('user_id') is not None:
-            user_profile = get_object_or_404(UserProfile, id=request.data.get('user_id'), status='Active')
-            kwargs['created_by'] = user_profile.user
-            current_user = user_profile.user
-        else:
-            kwargs['created_by'] = self.request.user
-            current_user = self.request.user
-
-        stream_queryset = Stream.actives.filter(**kwargs).order_by('-id')
-        collaborator_qs = Collaborator.actives.filter(created_by=current_user)
-        collaborator_permission = [x.stream for x in collaborator_qs if
-                                   str(x.phone_number) in str(self.request.user) and x.stream.status == 'Active']
-
-        # merge result
-        result_list = list(chain(stream_queryset, collaborator_permission))
-        page = self.paginate_queryset(result_list)
+    def list(self, request, *args, **kwargs):
+        #  Override serializer class : ViewStreamSerializer
+        self.serializer_class = ViewStreamSerializer
+        queryset = self.filter_queryset(self.get_queryset())
+        #  Customized field list
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+        page = self.paginate_queryset(queryset)
         if page is not None:
-            serializer = self.get_serializer(page, many=True)
+            serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
@@ -320,6 +308,7 @@ class UserLikedSteams(ListAPIView):
     serializer_class = StreamSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+    queryset = Stream.actives.all()
 
     def get_paginated_response(self, data, status_code=None):
         """
@@ -328,9 +317,23 @@ class UserLikedSteams(ListAPIView):
         assert self.paginator is not None
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
-    def get_queryset(self):
-        qs = LikeDislikeStream.objects.filter(user=self.request.user).select_related('stream').prefetch_related('stream__stream_contents')
-        return [x.stream for x in qs]
+    def filter_queryset(self, queryset):
+        """
+        Given a queryset, filter it with whichever filter backend is in use.
+
+        You are unlikely to want to override this method, although you may need
+        to call it either from a list view, or from a custom `get_object`
+        method if you want to apply the configured filtering backend to the
+        default queryset.
+        """
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True)
+        queryset = queryset.filter(id__in=stream_ids_list).select_related('created_by__user_data').prefetch_related(
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ))
+        return queryset
 
     def list(self, request, *args, **kwargs):
         #  Override serializer class : ViewStreamSerializer
