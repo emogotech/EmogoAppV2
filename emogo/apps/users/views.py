@@ -476,7 +476,7 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def get_object(self):
-        return get_object_or_404(UserFollow, follower=self.request.user, following=self.kwargs.get('pk'))
+        return get_object_or_404(UserFollow, follower=self.request.user, following__user_data__id=self.kwargs.get('pk'))
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -485,5 +485,5 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
 
     def perform_create(self, serializer):
         obj , created = UserFollow.objects.get_or_create(follower=self.request.user,
-                                         following_id=self.request.data.get('following'))
+                                         following_id__user_data__id=self.request.data.get('following'))
         return obj
