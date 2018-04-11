@@ -444,6 +444,7 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer
     """
+    follower = serializers.IntegerField(read_only=True)
     class Meta:
         model = UserFollow
         fields = '__all__'
