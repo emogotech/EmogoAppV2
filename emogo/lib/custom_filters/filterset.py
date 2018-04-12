@@ -1,6 +1,6 @@
 import django_filters
 from emogo.apps.stream.models import Stream, Content
-from emogo.apps.users.models import UserProfile
+from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from itertools import chain
 from emogo.apps.collaborator.models import Collaborator
@@ -93,6 +93,7 @@ class UserStreamFilter(django_filters.FilterSet):
         fields = ['created_by']
 
     def filter_created_by(self, qs, name, value):
+        get_object_or_404(UserFollow, follower=self.request.user, following_id=value)
         #1. Get user as collaborator in streams created by requested user.
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active', stream__type='Private', created_by__user_data__id=value).values_list('stream', flat=True)
 
