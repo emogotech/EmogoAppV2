@@ -484,6 +484,6 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=dict())
 
     def perform_create(self, serializer):
-        obj , created = UserFollow.objects.get_or_create(follower=self.request.user,
-                                         following_id__user_data__id=self.request.data.get('following'))
+        obj, created = UserFollow.objects.get_or_create(follower=self.request.user,
+                                                        following_id=self.request.data.get('following'))
         return obj
