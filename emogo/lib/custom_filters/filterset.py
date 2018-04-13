@@ -64,6 +64,8 @@ class StreamFilter(django_filters.FilterSet):
 
 class UsersFilter(django_filters.FilterSet):
     people = django_filters.filters.CharFilter(method='filter_people')
+    phone = django_filters.filters.CharFilter(method='filter_phone')
+    name = django_filters.filters.CharFilter(method='filter_name')
 
     class Meta:
         model = UserProfile
@@ -71,6 +73,12 @@ class UsersFilter(django_filters.FilterSet):
 
     def filter_people(self, qs, name, value):
         return qs.filter(Q(full_name__icontains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
+
+    def filter_phone(self, qs, name, value):
+        return qs.filter(user__username__contains=value).exclude(user=self.request.user)
+
+    def filter_name(self, qs, name, value):
+        return qs.filter(full_name__icontains=value).exclude(user=self.request.user)
 
 
 class ContentsFilter(django_filters.FilterSet):

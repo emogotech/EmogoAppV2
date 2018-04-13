@@ -190,12 +190,18 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'location', 'website',
                   'biography', 'birthday', 'branchio_url')
-        page = self.paginate_queryset(queryset)
-        if page is not None:
+
+        # This IF condition is added because if try to search by name or phone disable pagination class.
+        if (self.request.query_params.get('name') or self.request.query_params.get('phone')) is not None:
+            serializer = self.get_serializer(queryset, many=True, fields=fields)
+            return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
+        else:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True, fields=fields)
+                return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
             serializer = self.get_serializer(page, many=True, fields=fields)
-            return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
-        serializer = self.get_serializer(page, many=True, fields=fields)
-        return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
+            return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         """
