@@ -1,6 +1,7 @@
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from rest_framework import serializers
 from models import Collaborator
+from emogo.apps.users.models import UserProfile
 from django.contrib.auth.models import User
 
 
@@ -29,6 +30,7 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     """
     stream = serializers.SerializerMethodField()
     added_by_me = serializers.SerializerMethodField()
+    user_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Collaborator
@@ -39,3 +41,9 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
             return True
         else:
             return False
+
+    def get_user_image(self, obj):
+        for x in self.context.get('request').data.get('collab_user_image'):
+            if x.get('username') == obj.phone_number:
+                return x.get('user_data__user_image')
+        return None

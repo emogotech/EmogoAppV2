@@ -224,7 +224,7 @@ class ViewStreamSerializer(StreamSerializer):
         return obj.total_view_count.__len__()
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id')
 
         # If logged-in user is owner of stream show all collaborator
         current_url = resolve(self.context.get('request').path_info).url_name

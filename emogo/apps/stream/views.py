@@ -18,6 +18,8 @@ import itertools
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch
 from django.db.models import QuerySet
+from django.contrib.auth.models import User
+
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -79,6 +81,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
         if current_url == 'stream_collaborator':
+            user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
+            self.request.data.update({'collab_user_image': user_data})
             serializer = self.get_serializer(instance, fields=('collaborators',), context=self.request)
         # Return all data
         else:
