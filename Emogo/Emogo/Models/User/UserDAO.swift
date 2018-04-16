@@ -31,6 +31,8 @@ class UserDAO {
    
 }
 
+
+
 class User {
     
     var fullName                   :String! = ""
@@ -47,13 +49,21 @@ class User {
     var birthday                  :String! = ""
     var shareURL                  :String! = ""
     var userProfileID             :String! = ""
+    var followers                 :String! = ""
+    var following                 :String! = ""
+    var stream                    :StreamDAO?
 
-    
-
+   
     init(userData:[String:Any]) {
         
         if let obj = userData["full_name"] {
             self.fullName = obj as! String
+        }
+        if let obj = userData["followers"] {
+            self.followers = "\(obj)\nfollowers"
+        }
+        if let obj = userData["following"] {
+            self.following = "\(obj)\nfollowing"
         }
         if let obj = userData["branchio_url"] {
             self.shareURL = obj as! String
@@ -93,6 +103,11 @@ class User {
         }
         if let obj = userData["user_image"] {
             self.userImage = obj as! String
+        }
+        if let obj = userData["profile_stream"] {
+            if obj is [String:Any] {
+                self.stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+            }
         }
     }
 

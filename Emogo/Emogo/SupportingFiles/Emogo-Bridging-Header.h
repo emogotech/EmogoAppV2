@@ -19,5 +19,6 @@
 #import "UITextView+Placeholder.h"
 #import "HHPageView.h"
 #import "UIView+YGPulseView.h"
+#import "HMSegmentedControl.h"
 
 

@@ -112,7 +112,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.POSTRequest(strURL: kVerifyLoginAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1410,6 +1410,40 @@ class APIServiceManager: NSObject {
         }
     }
     
+    func apiForGetUserInfo(userID:String,isCurrentUser:Bool,completionHandler:@escaping (_ isSuccess:PeopleDAO?, _ strError:String?)->Void) {
+        let url = kProfileUpdateAPI + "\(userID)/"
+        var pepole:PeopleDAO!
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        
+                        if let data = (value as! [String:Any])["data"] {
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                           
+                            if isCurrentUser {
+                                kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                                UserDAO.sharedInstance.parseUserInfo()
+                                kDefault?.set(true, forKey: kUserLogggedIn)
+                            }else {
+                                pepole = PeopleDAO(peopleData: dictUserData.replacingNullsWithEmptyStrings() as! [String : Any])
+                            }
+                        }
+                        completionHandler(pepole,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(pepole,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(pepole,error.localizedDescription)
+            }
+        }
+    }
     
     
     func apiForDeleteContentFromStream(streamID:String,contentID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){

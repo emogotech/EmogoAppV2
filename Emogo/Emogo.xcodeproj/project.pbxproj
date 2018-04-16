@@ -337,6 +337,9 @@
 		F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */; };
 		F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */; };
 		F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */; };
+		F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
+		F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */; };
+		F4838ADB2084CE840034F2B4 /* ProfileStreamView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */; };
 		F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		F49023C91FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
 		F49023CA1FC42667004F3C90 /* NSDictionary+NullRemover.m in Sources */ = {isa = PBXBuildFile; fileRef = F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */; };
@@ -746,6 +749,7 @@
 		F45A78711FBC4FF4003FD6AB /* RequestDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDAO.swift; sourceTree = "<group>"; };
 		F45A78731FBC64DB003FD6AB /* APIServiceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceManager.swift; sourceTree = "<group>"; };
 		F45A78771FBC68EF003FD6AB /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
+		F45AAE7320849A0A00C452DE /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		F463DAD0200DE69C0039A58A /* CustomCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraViewController.swift; sourceTree = "<group>"; };
 		F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFloatLabelTextView.m; sourceTree = "<group>"; };
 		F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFloatLabelTextView.h; sourceTree = "<group>"; };
@@ -766,6 +770,10 @@
 		F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamSearchCell.xib; sourceTree = "<group>"; };
 		F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKExpandableButton.swift; sourceTree = "<group>"; };
 		F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCell.swift; sourceTree = "<group>"; };
+		F4838AD52084B7BA0034F2B4 /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
+		F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
+		F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamView.swift; sourceTree = "<group>"; };
+		F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileStreamView.xib; sourceTree = "<group>"; };
 		F49023C41FC4010A004F3C90 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iMessageExt-Bridging-Header.h"; sourceTree = "<group>"; };
 		F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NullRemover.m"; sourceTree = "<group>"; };
@@ -806,7 +814,6 @@
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
 		F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
-		F4DAE8F4205BC59500B5A892 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Semibold.otf"; path = "../../../../../../../../../../../../Users/pushpendra/Downloads/fonts/SF UI Display/SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
@@ -1203,6 +1210,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F4838AD42084B7AF0034F2B4 /* Segment Control */,
 				F4B38D3B2022FDA1005E07CF /* Segment */,
 				F41752E6201CB684005AFE4A /* CheckBox */,
 				F4CDD4F22011DBC0005436A1 /* ActionSheet */,
@@ -1232,9 +1240,9 @@
 		33BCB0431FBB353E004FF634 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F45AAE7320849A0A00C452DE /* SF-UI-Display-Medium.otf */,
 				F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */,
 				F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */,
-				F4DAE8F4205BC59500B5A892 /* SF-UI-Display-Semibold.otf */,
 				F040CC892050231600224035 /* SF-Pro-Text-Light.otf */,
 				F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */,
 				F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */,
@@ -1642,6 +1650,8 @@
 			isa = PBXGroup;
 			children = (
 				F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */,
+				F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */,
+				F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */,
 				F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */,
 				F425C63C20567E88002536E1 /* ProfileHeaderView.xib */,
 				F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */,
@@ -1968,6 +1978,15 @@
 			path = Camera;
 			sourceTree = "<group>";
 		};
+		F4838AD42084B7AF0034F2B4 /* Segment Control */ = {
+			isa = PBXGroup;
+			children = (
+				F4838AD52084B7BA0034F2B4 /* HMSegmentedControl.h */,
+				F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */,
+			);
+			path = "Segment Control";
+			sourceTree = "<group>";
+		};
 		F49023C31FC40102004F3C90 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -2273,6 +2292,7 @@
 				F4431A9A1FC6DD2C00311C9A /* PhotoCropEditorBorder.png in Resources */,
 				F4311874202B88D2006139F7 /* filter_gradient_5_icon@3x.png in Resources */,
 				F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */,
+				F4838ADB2084CE840034F2B4 /* ProfileStreamView.xib in Resources */,
 				F4431AAC1FC6DD2C00311C9A /* StickersViewController.xib in Resources */,
 				F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */,
 				F4311873202B88D2006139F7 /* filter_gradient_3.png in Resources */,
@@ -2658,6 +2678,7 @@
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
 				F4431A9D1FC6DD2C00311C9A /* PhotoEditor+Controls.swift in Sources */,
+				F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */,
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
 				F4431A901FC6DD2C00311C9A /* ColorsCollectionViewDelegate.swift in Sources */,
 				F43612F31FD69B3200788FFE /* AGBrightnessFilter.swift in Sources */,
@@ -2858,6 +2879,7 @@
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */,
+				F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F4148A171FBD7C0800081900 /* View.swift in Sources */,

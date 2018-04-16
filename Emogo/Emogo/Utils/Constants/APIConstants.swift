@@ -28,8 +28,12 @@ let kRegion = AWSRegionType.USEast1
 
 // MARK: -  API
 // base URL
-//let kBaseURL                                      = "http://54.196.89.61/api/"
-let kBaseURL                                        = "http://prodapi.emogo.co/api/"
+//DEV
+let kBaseURL                                          = "http://54.196.89.61/api/"
+
+//Production
+
+//let kBaseURL                                        = "http://prodapi.emogo.co/api/"
 
 let kGetCountryCode                                 = "http://freegeoip.net/json/"
 

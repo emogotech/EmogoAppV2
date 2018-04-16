@@ -122,7 +122,7 @@ class ProfileUpdateViewController: UITableViewController {
         DatePickerDialog().show("Birthday", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: maxDate, minimumDate: minDate, maximumDate: maxDate, datePickerMode: .date) { (date) in
             if let dt = date {
                 let formatter = DateFormatter()
-                formatter.dateFormat = "MMM dd yyyy"
+                formatter.dateFormat = "MMMM,dd yyyy"
                  self.txtBirthday.text = formatter.string(from: dt)
             }
         }

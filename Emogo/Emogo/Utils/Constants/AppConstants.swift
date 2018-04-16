@@ -125,6 +125,7 @@ let kCell_GiphyCell = "giphyCell"
 let kCell_LinkListCell = "linkListCell"
 let kHeader_ProfileHeaderView = "profileHeaderView"
 let kCell_MyStuffCollectionCell = "myStuffCollectionCell"
+let kHeader_ProfileStreamView = "profileStreamView"
 
 
 
