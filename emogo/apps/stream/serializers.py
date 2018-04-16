@@ -239,7 +239,8 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields).data
@@ -320,14 +321,19 @@ class ViewContentSerializer(ContentSerializer):
     """
     This serializer is used to show Content view section
     """
-    pass
-    # streams = serializers.SerializerMethodField()
-    #
-    # def get_stream(self, obj):
-    #     try:
-    #         return obj.stream.name
-    #     except AttributeError:
-    #         return None
+    user_image = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+
+    def get_user_image(self, obj):
+        return obj.created_by.user_data.user_image
+
+    def get_full_name(self, obj):
+        return obj.created_by.user_data.full_name
+
+    def get_created_by(self, obj):
+        return obj.created_by.user_data.id
+
 
 
 class MoveContentToStreamSerializer(ContentSerializer):
