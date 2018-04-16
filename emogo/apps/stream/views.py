@@ -201,7 +201,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().order_by('order')
+    queryset = Content.actives.all().select_related('created_by__user_data__user').order_by('order')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -253,7 +253,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         #  Customized field list
         fields = (
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color')
+        'color', 'user_image', 'full_name')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -308,7 +308,7 @@ class GetTopContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order','color')
+            'order', 'color', 'full_name', 'user_image')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -317,7 +317,7 @@ class GetTopContentAPI(ContentAPI):
         giphy_type = self.get_serializer(queryset.filter(type='Giphy')[0:10], many=True, fields=fields)
         all = self.get_serializer(queryset[0:20], many=True, fields=fields)
         data = {'picture': picture_type.data, 'video': video_type.data, 'link': link_type.data,
-                'giphy': giphy_type.data, 'all':all.data}
+                'giphy': giphy_type.data, 'all': all.data}
         return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
 
@@ -326,7 +326,7 @@ class GetTopTwentyContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color')
+            'order', 'color', 'full_name', 'user_image')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
@@ -370,7 +370,8 @@ class LinkTypeContentAPI(ListAPIView):
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width')
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
+                  'full_name', 'user_image')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
