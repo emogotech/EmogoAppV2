@@ -199,7 +199,9 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
-        return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+        if obj.profile_stream is not None:
+            return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+        return dict()
 
     def get_followers(self, obj):
         return obj.user.followers.__len__()
