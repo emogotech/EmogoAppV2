@@ -9,7 +9,7 @@ from emogo.lib.helpers.utils import custom_render_response
 from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -194,6 +194,31 @@ class DeleteStreamContentInBulkAPI(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.delete_content()
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
+
+
+class CopyContentAPI(APIView):
+
+    serializer_class = CopyContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
+
+    def post(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: None
+        :param kwargs: Content_id
+        :return: Copy content with new owner
+        """
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data, context=self.request)
+        serializer.copy_content()
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=None)
 
 
 class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):

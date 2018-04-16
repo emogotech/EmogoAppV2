@@ -9,6 +9,7 @@ from django.db import transaction
 from emogo.constants import messages
 import datetime
 from django.core.urlresolvers import resolve
+from copy import deepcopy
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -303,6 +304,23 @@ class ContentSerializer(DynamicFieldsModelSerializer):
                         'type': {'required': True, 'allow_blank': False, 'allow_null': False},
                         'streams': {'required': False, 'allow_null': False}
                         }
+
+
+class CopyContentSerializer(ContentSerializer):
+    """
+    Copy content Serializer to copy content instance.
+    """
+    content_id = serializers.IntegerField(required=True)
+
+    class Meta(ContentSerializer.Meta):
+        ContentSerializer.Meta.extra_kwargs['type'].update({'required': False, 'allow_blank': False, 'allow_null': False})
+
+    def copy_content(self):
+        old_instance = deepcopy(self.instance)
+        old_instance.pk = None
+        old_instance.created_by = self.context.user
+        new_instance = old_instance.save()
+        return new_instance
 
 
 class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
