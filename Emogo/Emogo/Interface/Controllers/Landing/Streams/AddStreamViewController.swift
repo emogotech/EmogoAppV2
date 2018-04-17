@@ -481,16 +481,21 @@ class AddStreamViewController: UITableViewController {
                     currentStreamType = StreamType.myStream
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
-                    if self.isAddContent != nil {
-                        self.associateContentToStream(id: (stream?.ID)!)
+                    if isAssignProfile != nil {
+                        self.assignProfileStream(streamID: (stream?.ID)!)
                     }else {
-                         let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                        StreamList.sharedInstance.arrayViewStream = array
-                        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                        obj.currentIndex = 0
-                        obj.streamType = currentStreamType.rawValue
-                        ContentList.sharedInstance.objStream = nil
-                    self.navigationController?.popToViewController(vc: obj)
+                        if self.isAddContent != nil {
+                            self.associateContentToStream(id: (stream?.ID)!)
+                        }else {
+                            let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                            StreamList.sharedInstance.arrayViewStream = array
+                            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                            obj.currentIndex = 0
+                            obj.streamType = currentStreamType.rawValue
+                            ContentList.sharedInstance.objStream = nil
+                            self.navigationController?.popToViewController(vc: obj)
+                    }
+                   
 
                         
                    // self.navigationController?.popNormal()
@@ -505,6 +510,20 @@ class AddStreamViewController: UITableViewController {
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func assignProfileStream(streamID:String){
+       
+        APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: streamID) { (isUpdated, errorMSG) in
+            if (errorMSG?.isEmpty)! {
+                self.showToast(strMSG: kAlert_ProfileStreamAdded)
+                isAssignProfile = nil
+                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.popToViewController(vc: obj)
+            }else {
+                self.showToast(strMSG: errorMSG!)
             }
         }
     }

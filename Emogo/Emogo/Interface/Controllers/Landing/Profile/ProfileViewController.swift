@@ -46,7 +46,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFollowing: UILabel!
 
     var arrayTopContent = [TopContent]()
-    
+    var arrayMyStreams = [StreamDAO]()
     
     var currentMenu: ProfileMenu = .stream {
         
@@ -70,14 +70,15 @@ class ProfileViewController: UIViewController {
     var lastOffset:CGPoint! = CGPoint.zero
     var didScrollInLast:Bool! = false
     var selectedType:StuffType! = StuffType.All
-    
+    var profileStreamIndex = 0
 
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
     }
     
     var oldContentOffset = CGPoint.zero
-    let topConstraintRange = (CGFloat(0)..<CGFloat(220))
+    var topConstraintRange = (CGFloat(0)..<CGFloat(220))
+   // 178
     let layout = CHTCollectionViewWaterfallLayout()
 
     
@@ -91,6 +92,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
+        self.profileStreamShow()
         updateList()
     }
     
@@ -118,7 +120,7 @@ class ProfileViewController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
         layout.columnCount = 2
 
         // Collection view attributes
@@ -134,8 +136,16 @@ class ProfileViewController: UIViewController {
         }
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.left
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
         self.profileCollectionView.addGestureRecognizer(swipeRight)
+      
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.profileCollectionView.addGestureRecognizer(swipeLeft)
+        
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+        self.profileCollectionView.addGestureRecognizer(longPressGesture)
+        
         
         self.btnStream.setTitleColor(colorSelected, for: .normal)
         self.btnStream.titleLabel?.font = fontSelected
@@ -162,7 +172,15 @@ class ProfileViewController: UIViewController {
             self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
             self.lblLocation.minimumScaleFactor = 1.0
             self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
-            self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
+            if UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                self.kHeaderHeight.constant = 178
+                self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+
+            }else {
+                self.kHeaderHeight.constant = 220
+                 self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+            }
+            //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
             self.title = UserDAO.sharedInstance.user.fullName.trim()
             self.lblBio.minimumScaleFactor = 1.0
             self.imgLink.isHidden = false
@@ -190,31 +208,7 @@ class ProfileViewController: UIViewController {
         segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
-            switch index {
-            case 0:
-                self.selectedType = .All
-                break
-            case 1:
-                self.selectedType = StuffType.Picture
-                break
-            case 2:
-                self.selectedType = StuffType.Video
-                break
-            case 3:
-                self.selectedType = StuffType.Links
-                break
-            case 4:
-                self.selectedType = StuffType.Notes
-                break
-            case 5:
-                self.selectedType = StuffType.Giphy
-                break
-            default:
-                self.selectedType = .All
-            }
-            HUDManager.sharedInstance.showHUD()
-            self.getMyStuff(type: .start)
-
+            self.updateStuffList(index: index)
         }
 
         segmentControl.selectionIndicatorHeight = 1.0
@@ -241,6 +235,33 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    func updateStuffList(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = .All
+            break
+        case 1:
+            self.selectedType = StuffType.Picture
+            break
+        case 2:
+            self.selectedType = StuffType.Video
+            break
+        case 3:
+            self.selectedType = StuffType.Links
+            break
+        case 4:
+            self.selectedType = StuffType.Notes
+            break
+        case 5:
+            self.selectedType = StuffType.Giphy
+            break
+        default:
+            self.selectedType = .All
+        }
+        HUDManager.sharedInstance.showHUD()
+        self.profileCollectionView.es.resetNoMoreData()
+        self.getMyStuff(type: .start)
+    }
     
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
@@ -299,6 +320,9 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func profileShareAction(){
+        if UserDAO.sharedInstance.user.shareURL.isEmpty {
+            return
+        }
         let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
       let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
@@ -317,16 +341,70 @@ class ProfileViewController: UIViewController {
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
-           
             case UISwipeGestureRecognizerDirection.left:
-               
-                self.addLeftTransitionView(subtype: kCATransitionFromRight)
-                self.navigationController?.popNormal()
+                print("Swie Left")
+                if currentMenu == .stream {
+                    Animation.addRightTransition(collection: self.profileCollectionView)
+                    self.updateSegment(selected: 102)
+                }else if currentMenu == .colabs {
+                    Animation.addRightTransition(collection: self.profileCollectionView)
+                    self.updateSegment(selected: 103)
+                }else {
+                    if self.selectedType != StuffType.Giphy {
+                        Animation.addRightTransition(collection: self.profileCollectionView)
+                        let index = self.selectedType.hashValue + 1
+                        self.segmentControl.selectedSegmentIndex = index
+                        self.updateStuffList(index: index)
+                    }
+                    }
                 break
                 
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swie Right")
+                if currentMenu == .colabs {
+                    Animation.addLeftTransition(collection: self.profileCollectionView)
+                    self.updateSegment(selected: 101)
+                }else if currentMenu == .stuff {
+                    if  self.selectedType == StuffType.All {
+                        Animation.addLeftTransition(collection: self.profileCollectionView)
+                        self.updateSegment(selected: 102)
+                    }else {
+                        Animation.addLeftTransition(collection: self.profileCollectionView)
+                        let index = self.selectedType.hashValue - 1
+                        self.segmentControl.selectedSegmentIndex = index
+                        self.updateStuffList(index: index)
+                    }
+                }
+                break
             default:
                 break
             }
+        }
+    }
+    
+    
+    @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
+        
+        if self.selectedType != .All {
+            return
+        }
+        switch(gesture.state) {
+            
+        case UIGestureRecognizerState.began:
+            guard let selectedIndexPath = self.profileCollectionView.indexPathForItem(at: gesture.location(in: self.profileCollectionView)) else {
+                break
+            }
+            selectedIndex = selectedIndexPath
+            profileCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case UIGestureRecognizerState.changed:
+            profileCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: self.profileCollectionView))
+            
+        case UIGestureRecognizerState.ended:
+            profileCollectionView.endInteractiveMovement()
+            selectedIndex = nil
+        default:
+            profileCollectionView.cancelInteractiveMovement()
+            selectedIndex = nil
         }
     }
     
@@ -383,7 +461,7 @@ class ProfileViewController: UIViewController {
     }
     
     private func updateConatiner(){
-        
+        self.profileCollectionView.es.resetNoMoreData()
         switch currentMenu {
         case .stuff:
             kStuffOptionsHeight.constant = 28.0
@@ -452,6 +530,28 @@ class ProfileViewController: UIViewController {
         self.navigationController?.push(viewController: obj)
     }
     
+    func profileStreamShow(){
+        if self.currentMenu == .stream {
+            if UserDAO.sharedInstance.user.stream != nil {
+                if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
+                    self.layout.headerHeight = 0
+                }else {
+                    let index = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == UserDAO.sharedInstance.user.stream?.ID.trim()})
+                    if index != nil {
+                        arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
+                        profileStreamIndex = index!
+                        arrayMyStreams.remove(at: index!)
+                    }
+                    
+                    self.layout.headerHeight = 200
+                }
+            }else {
+                self.layout.headerHeight = 0
+            }
+            self.profileCollectionView.reloadData()
+        }
+    }
+    
     // MARK: - API
 
     func getStreamList(type:RefreshType,filter:StreamType){
@@ -479,12 +579,8 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
-            if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
-                  self.layout.headerHeight = 0
-            }else {
-                  self.layout.headerHeight = CGFloat(StreamList.sharedInstance.arrayProfileStream[0].hieght)
-            }
-          
+           
+            self.profileStreamShow()
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -557,6 +653,20 @@ class ProfileViewController: UIViewController {
             }
         }
     }
+    
+    
+    func reorderContent(orderArray:[ContentDAO]) {
+        
+        APIServiceManager.sharedInstance.apiForReorderMyContent(orderArray: orderArray) { (isSuccess,errorMSG)  in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                self.profileCollectionView.reloadData()
+                self.selectedIndex = nil
+            }
+        }
+    }
+    
+    
     
     
     func btnActionForAddContent(){
@@ -715,15 +825,17 @@ class ProfileViewController: UIViewController {
 }
 
 
-extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
+extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if currentMenu == .stuff {
             return ContentList.sharedInstance.arrayStuff.count
-        }else {
+        }else if currentMenu == .colabs {
             return StreamList.sharedInstance.arrayProfileStream.count
+        }else {
+            return self.arrayMyStreams.count
         }
     }
     
@@ -740,7 +852,22 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.prepareLayout(content:content)
             return cell
             
-        }else{
+        }else if currentMenu == .stream{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
+            cell.layer.cornerRadius = 5.0
+            cell.layer.masksToBounds = true
+            cell.isExclusiveTouch = true
+            cell.btnEdit.tag = indexPath.row
+            cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
+            let stream = self.arrayMyStreams[indexPath.row]
+            cell.prepareLayouts(stream: stream)
+            if currentMenu == .stream {
+                cell.lblName.text = ""
+                cell.lblName.isHidden = true
+            }
+            return cell
+            
+        }else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
@@ -749,12 +876,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
-            if currentMenu == .stream {
-                cell.lblName.text = ""
-                cell.lblName.isHidden = true
-            }
             return cell
-            
         }
     }
     
@@ -767,7 +889,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let headerView:ProfileStreamView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ProfileStreamView, for: indexPath) as! ProfileStreamView
            
             if UserDAO.sharedInstance.user.stream != nil {
-                headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
+               
+            headerView.delegate = self
+        headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
             }
             
             return headerView
@@ -778,22 +902,22 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         if currentMenu == .stuff {
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            if content.isAdd == true {
-                return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
+            if selectedIndex != nil {
+                let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
+                return CGSize(width: tempContent.width, height: tempContent.height)
             }
-          
             return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0
             return CGSize(width: itemWidth, height: itemWidth - 40)
         }
-        
+       
     }
+        
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if currentMenu == .stuff {
@@ -811,18 +935,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 }
             }
         }else {
-            let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
-            if stream.isAdd {
-                isEdited = true
-                let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-                self.navigationController?.push(viewController: controller)
-            }else {
+          //  let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
                 isEdited = true
                 var index = 0
                 if currentMenu == .stream {
-                    let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
-                    StreamList.sharedInstance.arrayViewStream = array
-                    index = indexPath.row
+                    let tempStream = self.arrayMyStreams[indexPath.row]
+                    let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
+                    index = tempIndex!
+                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }else {
                     index = indexPath.row
                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
@@ -834,7 +954,26 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }
-            
+        }
+    
+      func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        
+        let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
+        ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
+        ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
+        DispatchQueue.main.async {
+            self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+            HUDManager.sharedInstance.showHUD()
+            self.reorderContent(orderArray:ContentList.sharedInstance.arrayStuff)
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        if selectedType == .All {
+            return true
+        }else {
+            return false
         }
     }
     
@@ -856,6 +995,17 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         oldContentOffset = scrollView.contentOffset
     }
     
+    func actionForCover(){
+        isEdited = true
+        let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
+            StreamList.sharedInstance.arrayViewStream = array
+        
+        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        obj.currentIndex = profileStreamIndex
+        obj.viewStream = "fromProfile"
+        ContentList.sharedInstance.objStream = nil
+        self.navigationController?.push(viewController: obj)
+    }
 }
 
 

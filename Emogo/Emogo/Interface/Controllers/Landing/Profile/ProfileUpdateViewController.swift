@@ -17,6 +17,7 @@ class ProfileUpdateViewController: UITableViewController {
     @IBOutlet weak var txtWebsite: UITextView!
     @IBOutlet weak var txtLocation: UITextView!
     @IBOutlet weak var txtBirthday: UITextView!
+    @IBOutlet weak var txtDisplayName: UITextView!
 
 
     var imageToUpload:UIImage!
@@ -35,7 +36,11 @@ class ProfileUpdateViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        prepreNavigation()
+
+    }
     func prepareLayouts(){
        self.prepareData()
         self.tableView.tableFooterView = UIView(frame: .zero)
@@ -47,13 +52,12 @@ class ProfileUpdateViewController: UITableViewController {
         txtName.isUserInteractionEnabled = false
         txtBio.text = UserDAO.sharedInstance.user.biography.trim()
         txtWebsite.text = UserDAO.sharedInstance.user.website.trim()
-        txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
+        //txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
         }
-        prepreNavigation()
     }
     
     func prepreNavigation(){
@@ -91,6 +95,12 @@ class ProfileUpdateViewController: UITableViewController {
     
     @IBAction func btnBirthdayAction(_ sender: UIButton) {
         datePickerTapped()
+    }
+    
+    @IBAction func btnAssignProfileStream(_ sender: UIButton) {
+        let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+           isAssignProfile = "YES"
+        self.navigationController?.push(viewController: obj)
     }
     
     @objc func profilepicUpload() {
@@ -159,7 +169,7 @@ class ProfileUpdateViewController: UITableViewController {
     
     private func profileUpdate(strURL:String){
         
-        APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: (txtName.text?.trim())!, location: (txtLocation.text?.trim())!, website: (txtWebsite.text?.trim())!, biography: (txtBio.text?.trim())!,birthday: (txtBirthday.text?.trim())!, profilePic: strURL) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForUserProfileUpdate(name: (txtName.text?.trim())!, location: (txtLocation.text?.trim())!, website: (txtWebsite.text?.trim())!, biography: (txtBio.text?.trim())!,birthday: "", profilePic: strURL, displayName: txtDisplayName.text.trim()) { (isSuccess, errorMsg) in
             
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
@@ -206,7 +216,9 @@ extension ProfileUpdateViewController:UITextViewDelegate {
             textView.resignFirstResponder()
             return false
         }
-        if textView == txtBio {
+         if textView == txtDisplayName {
+            return textView.text.length + (text.length - range.length) <= 40
+        }else if textView == txtBio {
         return textView.text.length + (text.length - range.length) <= 160
         }else if textView == txtLocation {
             return textView.text.length + (text.length - range.length) <= 25

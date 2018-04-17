@@ -10,6 +10,8 @@ import UIKit
 import Lightbox
 import GSKStretchyHeaderView
 
+var isAssignProfile:String? = nil
+
 class MyStreamViewController: UIViewController {
     
     // MARK: - UI Elements
@@ -23,6 +25,8 @@ class MyStreamViewController: UIViewController {
     var streamID:String?
     
     var stretchyHeader: MyStreamHeaderView!
+    var lastSelectedIndex:IndexPath?
+    
     
     // MARK: - Override Functions
 
@@ -71,14 +75,16 @@ class MyStreamViewController: UIViewController {
           self.getMyStreams(type:.start,filter: .myStream)
         // Load More
         configureLoadMoreAndRefresh()
-        ContentList.sharedInstance.arrayToCreate.removeAll()
-        if objContent == nil {
-            ContentList.sharedInstance.arrayToCreate = ContentList.sharedInstance.arrayContent
-        }else{
-            ContentList.sharedInstance.arrayToCreate.insert(objContent, at: 0)
+        if isAssignProfile == nil {
+            ContentList.sharedInstance.arrayToCreate.removeAll()
+            if objContent == nil {
+                ContentList.sharedInstance.arrayToCreate = ContentList.sharedInstance.arrayContent
+            }else{
+                ContentList.sharedInstance.arrayToCreate.insert(objContent, at: 0)
+            }
+            self.configureStrechyHeader()
         }
-        self.configureStrechyHeader()
-
+      
     }
     
     func configureStrechyHeader(){
@@ -110,20 +116,26 @@ class MyStreamViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     @IBAction func btnActionDone(_ sender: Any) {
-        var streamID  = [String]()
-        for stream in StreamList.sharedInstance.arrayMyStream {
-            if stream.isSelected == true {
-                streamID.append(stream.ID.trim())
+        if isAssignProfile != nil  {
+            assignProfileStream()
+        }else {
+            var streamID  = [String]()
+            for stream in StreamList.sharedInstance.arrayMyStream {
+                if stream.isSelected == true {
+                    streamID.append(stream.ID.trim())
+                }
+            }
+            if streamID.count == 0 {
+                self.showToast(strMSG: kAlert_Select_Stream)
+                return
+            }else {
+                self.associateContentToStream(id: streamID)
             }
         }
-        if streamID.count == 0 {
-            self.showToast(strMSG: kAlert_Select_Stream)
-            return
-        }else {
-            self.associateContentToStream(id: streamID)
-        }
+      
     }
     @objc func backButtonAction(sender:UIButton){
+         isAssignProfile = nil
         self.navigationController?.pop()
     }
 
@@ -240,6 +252,25 @@ class MyStreamViewController: UIViewController {
         }
     }
     
+    func assignProfileStream(){
+        
+        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.isSelected == true})
+        if index == nil {
+            self.showToast(strMSG: kAlert_Select_Stream_For_Assign)
+            return
+        }
+        let stream = StreamList.sharedInstance.arrayMyStream[index!]
+        APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: stream.ID) { (isUpdated, errorMSG) in
+            if (errorMSG?.isEmpty)! {
+                self.showToast(strMSG: kAlert_ProfileStreamAdded)
+                isAssignProfile = nil
+                self.navigationController?.pop()
+            }else {
+                self.showToast(strMSG: errorMSG!)
+            }
+        }
+    }
+    
     func actionForAddStream(){
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
          obj.isAddContent = true
@@ -289,19 +320,41 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         if stream.isAdd {
             actionForAddStream()
         }else {
-            if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
-                let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
-                stream.isSelected = !stream.isSelected
-                StreamList.sharedInstance.arrayMyStream[indexPath.row] = stream
-                if stream.isSelected {
-                    (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
-                }else {
-                    (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            if isAssignProfile == nil {
+                if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
+                    let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+                    stream.isSelected = !stream.isSelected
+                    StreamList.sharedInstance.arrayMyStream[indexPath.row] = stream
+                    if stream.isSelected {
+                        (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                    }else {
+                        (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                    }
+                }
+            }else {
+                if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
+                    
+                    let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+                    stream.isSelected = !stream.isSelected
+                    StreamList.sharedInstance.arrayMyStream[indexPath.row] = stream
+                    if stream.isSelected {
+                        (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+                    }else {
+                        (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+                    }
+                    if lastSelectedIndex != nil {
+                        if lastSelectedIndex?.row != indexPath.row {
+                            let lastStream = StreamList.sharedInstance.arrayMyStream[(lastSelectedIndex?.row)!]
+                            lastStream.isSelected = false
+                            self.myStreamCollectionView.reloadItems(at: [lastSelectedIndex!])
+                        }
+                    }
+                    lastSelectedIndex = indexPath
                 }
             }
+           
         }
     }
-    
 }
 
 

@@ -62,6 +62,7 @@ class ProfileHeaderView: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDeleg
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
         }
+
        // btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
     }
     

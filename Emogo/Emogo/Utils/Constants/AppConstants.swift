@@ -139,7 +139,7 @@ let kUserLogggedIn                      = "userloggedin"
 let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
 let kRetakeIndex = "indexRetake"
-
+let kBounceAnimation = "ActiveBounceAnimation"
 
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
@@ -331,5 +331,10 @@ let kAlert_No_User_Record_Found                                          = "No U
 let kAlert_RemoveProfile                                         = "Remove"
 let kAlert_UpateProfile                                         = "Update"
 let kAlert_ValidWebsite                                         = "Please Enter Valid URL."
+
+let kAlert_ProfileStreamAdded                                  = "Your Profile Stream is Updated."
+let kAlert_Select_Stream_For_Assign                                                  = "Please select a stream to assign as Profile Stream."
+
+
 
 

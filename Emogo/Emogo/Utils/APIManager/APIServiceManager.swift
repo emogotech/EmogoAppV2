@@ -1305,17 +1305,21 @@ class APIServiceManager: NSObject {
         
     }
     
-    func apiForGetUserStream(userID:String,type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+    func apiForGetUserStream(userID:String,type:RefreshType,streamType:String,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         if type == .start || type == .up{
-            StreamList.sharedInstance.requestURl = kUserStreamAPI
+            if streamType == "1" {
+                StreamList.sharedInstance.requestURl = kUserStreamEmogoAPI + userID
+            }else {
+                StreamList.sharedInstance.requestURl = kUserStreamColabAPI + userID
+            }
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")
             return
         }
         print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
-        let param = ["user_id":userID]
-        APIManager.sharedInstance.POSTRequestWithHeader(strURL:  StreamList.sharedInstance.requestURl, Param: param) { (result) in
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
                 if let code = (value as! [String:Any])["status_code"] {
@@ -1353,7 +1357,6 @@ class APIServiceManager: NSObject {
                 print(error.localizedDescription)
                 completionHandler(nil,error.localizedDescription)
             }
-            
         }
         
     }
@@ -1377,7 +1380,7 @@ class APIServiceManager: NSObject {
     
     
     // MARK: - User Profile Update
-    func apiForUserProfileUpdate(name:String,location:String,website:String,biography:String,birthday:String,profilePic:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForUserProfileUpdate(name:String,location:String,website:String,biography:String,birthday:String,profilePic:String,displayName:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
 
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userProfileID!)/"
         let phone : String = UserDAO.sharedInstance.user.phoneNumber
@@ -1409,6 +1412,40 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    
+    func apiForAssignProfileStream(streamID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
+        let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userProfileID!)/"
+        let params:[String:Any] = ["profile_stream":streamID]
+        print(params)
+        APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        
+                        if let data = (value as! [String:Any])["data"] {
+                            let dictUserData:NSDictionary = data as! NSDictionary
+                            kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
+                            UserDAO.sharedInstance.parseUserInfo()
+                            kDefault?.set(true, forKey: kUserLogggedIn)
+                        }
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+    
     
     func apiForGetUserInfo(userID:String,isCurrentUser:Bool,completionHandler:@escaping (_ isSuccess:PeopleDAO?, _ strError:String?)->Void) {
         let url = kProfileUpdateAPI + "\(userID)/"

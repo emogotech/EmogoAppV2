@@ -153,7 +153,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
           //  HUDManager.sharedInstance.showHUD()
           //  self.getStreamList(type:.start,filter: currentStreamType)
         }
-        
+        self.streamCollectionView.es.resetNoMoreData()
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
             if self.arrayToShow.count == 0 {

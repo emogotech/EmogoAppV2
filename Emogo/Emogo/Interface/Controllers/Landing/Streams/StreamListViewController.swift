@@ -302,6 +302,16 @@ class StreamListViewController: UIViewController {
         
     }
     
+    @objc func startAnimation(){
+        if kDefault?.bool(forKey: kBounceAnimation) == false {
+            
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
+                self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
+            }, completion: { (success) in
+                print("completion.......")
+            })
+        }
+    }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -409,21 +419,13 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-        
+        self.startAnimation()
 //        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
 //        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
 //        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
         
         
-        if isAddButtonTapped == false {
-            
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
-                self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
-            }, completion: { (success) in
-                print("completion.......")
-            })
-            
-        }
+       
     }
     
 //
@@ -510,11 +512,8 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-        self.btnAdd.stopPulse()
         self.btnAdd.layer.removeAllAnimations()
-        self.btnAdd.frame   =   self.btnAddFrame
-        isAddButtonTapped   =   true
-        
+        kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         let actionController = ActionSheetController()

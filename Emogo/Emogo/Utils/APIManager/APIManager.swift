@@ -175,7 +175,6 @@ class APIManager: NSObject {
         if strURL.contains(kBaseURL) {
             url = strURL.stringByAddingPercentEncodingForURLQueryParameter()!
         }
-        print(url)
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
         Alamofire.request(url, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {

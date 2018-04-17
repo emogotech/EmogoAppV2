@@ -12,6 +12,19 @@ class ViewProfileViewController: UIViewController {
     
     @IBOutlet weak var profileCollectionView: UICollectionView!
     
+    @IBOutlet weak var lblBio: UILabel!
+    @IBOutlet weak var lblFullName: UILabel!
+    @IBOutlet weak var lblWebsite: UILabel!
+    @IBOutlet weak var lblLocation: UILabel!
+    @IBOutlet weak var imgUser: NZCircularImageView!
+    @IBOutlet weak var btnStream: UIButton!
+    @IBOutlet weak var btnColab: UIButton!
+    @IBOutlet weak var lblNOResult: UILabel!
+    @IBOutlet weak var imgLocation: UIImageView!
+    @IBOutlet weak var imgLink: UIImageView!
+    @IBOutlet weak var btnContainer: UIView!
+    @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
+    
     var objPeople:PeopleDAO!
 
     override func viewDidLoad() {
@@ -42,17 +55,78 @@ class ViewProfileViewController: UIViewController {
         layout.columnCount = 2
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
-        
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
-        
-       
+        self.prepareData()
     }
+    
+    func prepareData(){
+        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: objPeople.userId, isCurrentUser: false) { (people, errorMSG) in
+            if (errorMSG?.isEmpty)! {
+                if let people = people {
+                    self.lblFullName.text =  people.fullName.trim().capitalized
+                    self.lblFullName.minimumScaleFactor = 1.0
+                    self.lblWebsite.text = people.website.trim()
+                    self.lblWebsite.minimumScaleFactor = 1.0
+                    self.lblLocation.text = people.location.trim()
+                    self.lblLocation.minimumScaleFactor = 1.0
+                    self.lblBio.text = people.biography.trim()
+                    //self.lblBirthday.text = people.birthday.trim()
+                    self.title = people.fullName.trim()
+                    self.lblBio.minimumScaleFactor = 1.0
+                    self.imgLink.isHidden = false
+                    self.imgLocation.isHidden = false
+                    
+                    if people.location.trim().isEmpty {
+                        self.imgLocation.isHidden = true
+                    }
+                    if people.website.trim().isEmpty {
+                        self.imgLink.isHidden = true
+                    }
+                    
+                    //print(people.userImage.trim())
+                    if !people.userImage.trim().isEmpty {
+                        self.imgUser.setImageWithResizeURL(people.userImage.trim())
+                    }
+                }
+            }
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         HUDManager.sharedInstance.showHUD()
-        self.getStreamList(type:.start)
+        self.getStreamList(type:.start,streamType: "1")
     }
+    
+    
+    @IBAction func btnActionMenuSelected(_ sender: UIButton) {
+        self.updateSegment(selected: sender.tag)
+    }
+    
+    
+    private func updateSegment(selected:Int){
+        switch selected {
+        case 101:
+            self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
+            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
+            self.getStream(type: "1")
+            break
+        case 102:
+            self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
+            self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
+            self.getStream(type: "2")
+            break
+        default:
+            break
+        }
+    }
+    
+    func getStream(type:String){
+         HUDManager.sharedInstance.showHUD()
+         self.getStreamList(type:.start,streamType: type)
+    }
+    
     
     override func btnBackAction() {
         
@@ -105,12 +179,12 @@ class ViewProfileViewController: UIViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
-    func getStreamList(type:RefreshType){
+    func getStreamList(type:RefreshType,streamType:String){
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
         }
-        APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userId,type: type) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userId,type: type,streamType: streamType) { (refreshType, errorMsg) in
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
