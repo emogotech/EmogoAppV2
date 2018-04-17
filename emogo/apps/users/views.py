@@ -212,6 +212,10 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         self.serializer_class = UserProfileSerializer
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+
+        # If requested user is logged in user
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -220,6 +224,10 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
+            # If requested user is logged in user
+        if instance.user == self.request.user:
+            fields = fields + ('token',)
+        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
