@@ -175,12 +175,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         """
         fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
                   'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+
         instance = self.get_qs_object()
-        # if self.request.user.id == instance.user.id:
-        #     fields = list(fields)
-        #     fields.append('contents')
-        #     fields.append('collaborators')
-        #     fields = tuple(fields)
+        # If requested user is logged in user
+        if instance.user == self.request.user:
+            fields = fields + ( 'token', )
         serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
