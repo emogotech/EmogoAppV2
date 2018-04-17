@@ -18,7 +18,7 @@ from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
 from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter
 from emogo.apps.users.models import UserProfile, UserFollow
-from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus
+from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent
 from emogo.apps.collaborator.models import Collaborator
 from django.shortcuts import get_object_or_404
 from itertools import chain
@@ -396,12 +396,29 @@ class UserCollaborators(ListAPIView):
             "or override the `get_queryset()` method."
             % self.__class__.__name__
         )
-        collaborator_qs = Collaborator.actives.filter(stream__status='Active')
-        streams = [x.stream.id for x in collaborator_qs if str(x.phone_number) in str(self.request.user.username) ]
-        queryset = self.queryset
-        if isinstance(queryset, QuerySet):
-            # Ensure queryset is re-evaluated on each request.
-            queryset = queryset.filter(id__in=streams)
+
+        # Ensure queryset is re-evaluated on each request.
+        queryset = self.queryset.filter(id__in=Collaborator.actives.filter(phone_number= self.request.user.username).values_list('stream_id', flat=True)).select_related('created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "stream_contents",
+            queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+            to_attr="content_list"
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator'
+        ),
+        Prefetch(
+            'stream_user_view_status',
+            queryset=StreamUserViewStatus.objects.all(),
+            to_attr='total_view_count'
+        ),
+        Prefetch(
+            'stream_like_dislike_status',
+            queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+            to_attr='total_like_dislike_data'
+        )).order_by('-id')
         return queryset
 
     def list(self, request, *args, **kwargs):
