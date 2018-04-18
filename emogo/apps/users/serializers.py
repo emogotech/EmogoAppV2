@@ -98,10 +98,11 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     contents = serializers.SerializerMethodField()
     collaborators = serializers.SerializerMethodField()
     username = serializers.CharField(read_only=True, source='user.username')
+    user_id = serializers.CharField(read_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
+        fields = ['user_profile_id', 'full_name', 'user_id', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
             , 'streams', 'contents', 'collaborators', 'username', 'display_name', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
@@ -165,6 +166,8 @@ class UserDetailSerializer(UserProfileSerializer):
     profile_stream = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+    is_follower = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -211,6 +214,16 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_following(self, obj):
         return obj.user.following.__len__()
+
+    def get_is_following(self, obj):
+        if self.context.get('request').user.id in [x.follower_id for x in obj.user.followers]:
+            return True
+        return False
+
+    def get_is_follower(self, obj):
+        if self.context.get('request').user.id in [x.following_id for x in obj.user.following]:
+            return True
+        return False
 
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
@@ -439,7 +452,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}

@@ -164,7 +164,9 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
                 to_attr='total_like_dislike_data'
             ),
         )
-        return qs[0]
+        if qs.__len__() > 0:
+            return qs[0]
+        raise Http404
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -173,21 +175,21 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :param kwargs: dict param
         :return: Get User profile API.
         """
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
+        fields = ('user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number', 'location', 'website',
                   'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
         if instance.user == self.request.user:
             fields = fields + ( 'token', )
-        serializer = self.get_serializer(instance, fields=fields)
+        serializer = self.get_serializer(instance, fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         queryset = queryset.exclude(user=self.request.user)
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'location', 'website',
+        fields = ('user_profile_id', 'full_name', 'user_id', 'phone_number', 'people', 'user_image', 'location', 'website',
                   'biography', 'birthday', 'branchio_url', 'display_name')
 
         # This IF condition is added because if try to search by name or phone disable pagination class.
@@ -212,7 +214,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         self.serializer_class = UserProfileSerializer
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
+        fields = ('user_profile_id', 'user_id' ,'full_name', 'user_image', 'phone_number', 'location', 'website',
                   'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         # If requested user is logged in user
@@ -279,7 +281,7 @@ class UserFollowersAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset()).filter(following=self.request.user).only('follower')
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id')
         self.serializer_class = UserDetailSerializer
         page = self.paginate_queryset([x.follower.user_data for x in  queryset])
         if page is not None:
@@ -306,7 +308,7 @@ class UserFollowingAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).only('following')
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id')
         self.serializer_class = UserDetailSerializer
         page = self.paginate_queryset([x.following.user_data for x in queryset])
         if page is not None:
