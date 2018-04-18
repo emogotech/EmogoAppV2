@@ -214,8 +214,10 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         self.serializer_class = UserProfileSerializer
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        fields = ('user_profile_id', 'user_id' ,'full_name', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
+        fields = (
+        'user_profile_id', 'full_name', 'user_id', 'is_following', 'is_follower', 'user_image', 'phone_number',
+        'location', 'website',
+        'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         # If requested user is logged in user
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -229,7 +231,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             # If requested user is logged in user
         if instance.user == self.request.user:
             fields = fields + ('token',)
-        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields)
+        serializer = UserDetailSerializer(self.get_qs_object(), fields=fields, context=self.request)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
