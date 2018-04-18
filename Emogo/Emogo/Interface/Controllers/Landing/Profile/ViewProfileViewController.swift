@@ -24,8 +24,15 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
+    @IBOutlet weak var btnFollow: UIButton!
     
+    let layout = CHTCollectionViewWaterfallLayout()
     var objPeople:PeopleDAO!
+    var oldContentOffset = CGPoint.zero
+    var topConstraintRange = (CGFloat(0)..<CGFloat(220))
+    var streamType:String! = "1"
+    var arrayMyStreams = [StreamDAO]()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,24 +54,27 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
         
-        let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(0, 8, 0, 8)
+        layout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
         layout.columnCount = 2
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
+       
         self.prepareData()
     }
     
     func prepareData(){
+        let nibViews = UINib(nibName: "ProfileStreamView", bundle: nil)
+        self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: objPeople.userId, isCurrentUser: false) { (people, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 if let people = people {
-                    self.lblFullName.text =  people.fullName.trim().capitalized
+                    self.objPeople = people
+                    self.lblFullName.text =  people.displayName.trim().capitalized
                     self.lblFullName.minimumScaleFactor = 1.0
                     self.lblWebsite.text = people.website.trim()
                     self.lblWebsite.minimumScaleFactor = 1.0
@@ -76,18 +86,30 @@ class ViewProfileViewController: UIViewController {
                     self.lblBio.minimumScaleFactor = 1.0
                     self.imgLink.isHidden = false
                     self.imgLocation.isHidden = false
-                    
+                    if self.objPeople.isFollowing {
+                        self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
+                    }else {
+                        self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
+                    }
                     if people.location.trim().isEmpty {
                         self.imgLocation.isHidden = true
                     }
                     if people.website.trim().isEmpty {
                         self.imgLink.isHidden = true
                     }
-                    
                     //print(people.userImage.trim())
                     if !people.userImage.trim().isEmpty {
                         self.imgUser.setImageWithResizeURL(people.userImage.trim())
                     }
+                    if people.biography.trim().isEmpty {
+                        self.kHeaderHeight.constant = 178
+                        self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+                        
+                    }else {
+                        self.kHeaderHeight.constant = 220
+                        self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+                    }
+                    self.profileStreamShow()
                 }
             }
         }
@@ -96,12 +118,44 @@ class ViewProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         HUDManager.sharedInstance.showHUD()
-        self.getStreamList(type:.start,streamType: "1")
+        self.streamType = "1"
+        self.getStreamList(type:.start,streamType: streamType)
     }
+    
+    
+    func profileStreamShow(){
+        if self.streamType == "1" {
+            if UserDAO.sharedInstance.user.stream != nil {
+                if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
+                    self.layout.headerHeight = 0
+                }else {
+                    let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+                    if index != nil {
+                    arrayMyStreams = StreamList.sharedInstance.arrayMyStream
+                        arrayMyStreams.remove(at: index!)
+                    }
+                    lblNOResult.isHidden = true
+                    self.layout.headerHeight = 200
+                }
+            }else {
+                self.layout.headerHeight = 0
+            }
+            self.profileCollectionView.reloadData()
+        }
+    }
+    
     
     
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
         self.updateSegment(selected: sender.tag)
+    }
+    
+    @IBAction func btnActionFollowUser(_ sender: UIButton) {
+        if self.objPeople.isFollowing {
+            self.unFollowUser()
+        }else {
+            self.followUser()
+        }
     }
     
     
@@ -123,6 +177,7 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStream(type:String){
+        self.streamType = type
          HUDManager.sharedInstance.showHUD()
          self.getStreamList(type:.start,streamType: type)
     }
@@ -180,6 +235,7 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStreamList(type:RefreshType,streamType:String){
+        self.lblNOResult.isHidden = true
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
@@ -198,15 +254,41 @@ class ViewProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
-                label.text = "No Streams Found!"
-                label.sizeToFit()
-                label.center = self.profileCollectionView.center
-                self.view.addSubview(label)
+                self.lblNOResult.isHidden = false
+            }
+            if streamType == "1" {
+                self.profileStreamShow()
+            }else {
+                self.layout.headerHeight = 0
             }
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func followUser(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForFollowUser(userID: self.objPeople.userId) { (isSuccess, errorMSG) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                self.objPeople.isFollowing = true
+                self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
+            }else {
+                self.showToast(strMSG: errorMSG!)
+            }
+        }
+    }
+    func unFollowUser(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForUnFollowUser(userID: self.objPeople.userId) { (isSuccess, errorMSG) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                self.objPeople.isFollowing = false
+                self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
+            }else {
+                self.showToast(strMSG: errorMSG!)
             }
         }
     }
@@ -225,10 +307,14 @@ class ViewProfileViewController: UIViewController {
 
 
 
-extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
+extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if  self.streamType == "1" {
+            return self.arrayMyStreams.count
+        }else {
             return StreamList.sharedInstance.arrayMyStream.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -237,10 +323,19 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-            let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
-            cell.prepareLayouts(stream: stream)
+          var stream:StreamDAO?
+         if self.streamType == "1" {
+            stream = self.arrayMyStreams[indexPath.row]
+            cell.prepareLayouts(stream: stream!)
             cell.lblName.text = ""
             cell.lblName.isHidden = true
+        }else
+        {
+             stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+            cell.prepareLayouts(stream: stream!)
+            cell.lblName.isHidden = false
+        }
+        
             return cell
     }
     
@@ -258,7 +353,51 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         obj.viewStream = "View"
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
-        
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        print(kind)
+        
+        switch kind {
+            
+        case CHTCollectionElementKindSectionHeader:
+            let headerView:ProfileStreamView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ProfileStreamView, for: indexPath) as! ProfileStreamView
+            
+            if self.objPeople.stream != nil {
+                headerView.prepareLayout(stream: self.objPeople.stream! , isCurrentUser: false, image: self.objPeople.userImage)
+                headerView.delegate = self
+            }
+            headerView.imgUser.isHidden = true
+
+            return headerView
+            
+        default:
+            
+            fatalError("Unexpected element kind")
+        }
+    }
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let delta =  scrollView.contentOffset.y - oldContentOffset.y
+        
+        //we compress the top view
+        if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
+            kHeaderHeight.constant -= delta
+            scrollView.contentOffset.y -= delta
+        }
+        
+        //we expand the top view
+        if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
+            kHeaderHeight.constant -= delta
+            scrollView.contentOffset.y -= delta
+        }
+        oldContentOffset = scrollView.contentOffset
+    }
+    
+    func actionForCover(){
+    }
+    
 }
 

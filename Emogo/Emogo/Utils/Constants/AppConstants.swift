@@ -84,6 +84,8 @@ let kStoryboardID_ProfileUpdateView = "profileUpdateView"
 let kStoryboardID_ShowPreviewView = "showPreviewView"
 let kStoryboardID_TermsAndPrivacyView = "termsAndPrivacyView"
 let kStoryboardID_MyStuffPreView = "myStuffPreView"
+let kStoryboardID_FollowersView = "followersView"
+
 
 
 
@@ -126,6 +128,7 @@ let kCell_LinkListCell = "linkListCell"
 let kHeader_ProfileHeaderView = "profileHeaderView"
 let kCell_MyStuffCollectionCell = "myStuffCollectionCell"
 let kHeader_ProfileStreamView = "profileStreamView"
+let kCell_FollowerCell = "followerCell"
 
 
 

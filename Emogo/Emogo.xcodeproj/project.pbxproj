@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1888607E4F2BE6542BE576EC /* Pods_EmogoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8FA972E64AA1C2F5D43AC68 /* Pods_EmogoTests.framework */; };
-		2B117C942017727E00852A59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		2B531A9B2018735A00D646DC /* shareExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B531A9A2018735A00D646DC /* shareExt.swift */; };
 		2B531A9D2018740800D646DC /* ShareViewHomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B531A9C2018740800D646DC /* ShareViewHomeController.swift */; };
 		2B531A9E2018759D00D646DC /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
@@ -57,7 +56,6 @@
 		332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
 		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
-		335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */; };
 		335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A261FBB238A006DA9D9 /* EmogoTests.swift */; };
 		335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */; };
@@ -105,7 +103,6 @@
 		33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F01FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift */; };
 		33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F11FC6B9020053AC23 /* FSPageViewLayout.swift */; };
 		33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33DAB2F21FC6B9020053AC23 /* FSPageViewTransformer.swift */; };
-		33F928EA1FC54F3B008A104B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A181FBB238A006DA9D9 /* Assets.xcassets */; };
 		79B855EDB8E9D75B6D9DBBBE /* Pods_iMessageExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68A23C5C260534D973245260 /* Pods_iMessageExt.framework */; };
 		7A4A69DED7A9E44818EE5AD4 /* Pods_EmogoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23521288AEC0D7BA54D1AC8F /* Pods_EmogoUITests.framework */; };
 		80F50F190DF0D0A635C56634 /* Pods_Emogo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35DBAB71FF54154FA7A271E2 /* Pods_Emogo.framework */; };
@@ -134,6 +131,13 @@
 		F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0701FDA997500E8ACC2 /* AddContentCell.swift */; };
 		F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */; };
 		F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */; };
+		F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCF5208771AB006192B4 /* FollowersViewController.swift */; };
+		F406FCF8208773BF006192B4 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCF7208773BF006192B4 /* FollowerCell.swift */; };
+		F406FCFA208779FA006192B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F406FCF9208779F9006192B4 /* Assets.xcassets */; };
+		F406FCFC20877B67006192B4 /* FollowHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCFB20877B67006192B4 /* FollowHeader.swift */; };
+		F406FCFE20877B79006192B4 /* FollowHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F406FCFD20877B79006192B4 /* FollowHeader.xib */; };
+		F406FD002087854B006192B4 /* FollowerDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCFF2087854B006192B4 /* FollowerDAO.swift */; };
+		F406FD0120878D25006192B4 /* FollowerDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCFF2087854B006192B4 /* FollowerDAO.swift */; };
 		F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4086D8C206E2F08005C7318 /* UIView+YGPulseView.m */; };
 		F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC671FE3B1220093E0E7 /* ImportCell.swift */; };
 		F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6B1FE3D7AB0093E0E7 /* PMTextField.swift */; };
@@ -145,7 +149,6 @@
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
 		F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */; };
 		F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A131FBD78A600081900 /* StreamListViewController.swift */; };
-		F4148A171FBD7C0800081900 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A161FBD7C0700081900 /* View.swift */; };
 		F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A201FBD7C7C00081900 /* StreamCell.swift */; };
 		F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A221FBD7DAA00081900 /* StreamDAO.swift */; };
 		F4148A241FBD7DB100081900 /* StreamDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A221FBD7DAA00081900 /* StreamDAO.swift */; };
@@ -453,7 +456,6 @@
 		335B1A0E1FBB238A006DA9D9 /* Emogo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Emogo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		335B1A111FBB238A006DA9D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		335B1A161FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		335B1A181FBB238A006DA9D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		335B1A1B1FBB238A006DA9D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		335B1A1D1FBB238A006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		335B1A221FBB238A006DA9D9 /* EmogoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmogoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -543,6 +545,12 @@
 		F404C0701FDA997500E8ACC2 /* AddContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentCell.swift; sourceTree = "<group>"; };
 		F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
 		F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
+		F406FCF5208771AB006192B4 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
+		F406FCF7208773BF006192B4 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
+		F406FCF9208779F9006192B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F406FCFB20877B67006192B4 /* FollowHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowHeader.swift; sourceTree = "<group>"; };
+		F406FCFD20877B79006192B4 /* FollowHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowHeader.xib; sourceTree = "<group>"; };
+		F406FCFF2087854B006192B4 /* FollowerDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerDAO.swift; sourceTree = "<group>"; };
 		F4086D8C206E2F08005C7318 /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YGPulseView.m"; sourceTree = "<group>"; };
 		F4086D8D206E2F0C005C7318 /* UIView+YGPulseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YGPulseView.h"; sourceTree = "<group>"; };
 		F409FC671FE3B1220093E0E7 /* ImportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportCell.swift; sourceTree = "<group>"; };
@@ -552,7 +560,6 @@
 		F409FC751FE3E4450093E0E7 /* PMInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMInteractor.swift; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
-		F4148A161FBD7C0700081900 /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		F4148A201FBD7C7C00081900 /* StreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCell.swift; sourceTree = "<group>"; };
 		F4148A221FBD7DAA00081900 /* StreamDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamDAO.swift; sourceTree = "<group>"; };
 		F4148A261FBD946F00081900 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -956,7 +963,6 @@
 				33BCB0411FBB353E004FF634 /* Resources */,
 				33BCB0A01FBB3555004FF634 /* SupportingFiles */,
 				F45A78751FBC67A0003FD6AB /* Models */,
-				335B1A181FBB238A006DA9D9 /* Assets.xcassets */,
 			);
 			path = Emogo;
 			sourceTree = "<group>";
@@ -1294,6 +1300,7 @@
 		33BCB0A01FBB3555004FF634 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				F406FCF9208779F9006192B4 /* Assets.xcassets */,
 				F4148A2A1FBDB5C900081900 /* Emogo-Bridging-Header.h */,
 				335B1A151FBB238A006DA9D9 /* Main.storyboard */,
 				335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */,
@@ -1503,7 +1510,6 @@
 		F4148A151FBD7C0700081900 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F4148A161FBD7C0700081900 /* View.swift */,
 				F4148A181FBD7C2100081900 /* Cells And Nib's */,
 			);
 			path = Views;
@@ -1655,6 +1661,9 @@
 				F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */,
 				F425C63C20567E88002536E1 /* ProfileHeaderView.xib */,
 				F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */,
+				F406FCF7208773BF006192B4 /* FollowerCell.swift */,
+				F406FCFB20877B67006192B4 /* FollowHeader.swift */,
+				F406FCFD20877B79006192B4 /* FollowHeader.xib */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1666,6 +1675,7 @@
 				F4961E1A1FFE8CE700A406FF /* ViewProfileViewController.swift */,
 				F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */,
 				F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */,
+				F406FCF5208771AB006192B4 /* FollowersViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1937,6 +1947,7 @@
 				F49B42982004D964006DD15D /* GiphyDAO.swift */,
 				F447441920246E94002964A0 /* FilterDAO.swift */,
 				F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */,
+				F406FCFF2087854B006192B4 /* FollowerDAO.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2268,6 +2279,7 @@
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */,
+				F406FCFE20877B79006192B4 /* FollowHeader.xib in Resources */,
 				F4311871202B88D2006139F7 /* filter_gradient_3_icon@3x.png in Resources */,
 				F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */,
 				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
@@ -2308,8 +2320,8 @@
 				F447441620246CC2002964A0 /* FilterCell.xib in Resources */,
 				F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */,
 				F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */,
+				F406FCFA208779FA006192B4 /* Assets.xcassets in Resources */,
 				F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */,
-				335B1A191FBB238A006DA9D9 /* Assets.xcassets in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
 				F4431A9C1FC6DD2C00311C9A /* PhotoCropEditorBorder@3x.png in Resources */,
@@ -2340,7 +2352,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBA5EEB201B82810077CE7B /* DemoPreprocessor.js in Resources */,
-				2B117C942017727E00852A59 /* Assets.xcassets in Resources */,
 				335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2352,7 +2363,6 @@
 				2BDC4AAF1FD1188D0018FC6E /* HomeCollectionReusableView.xib in Resources */,
 				330FEB801FC3F68C00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */,
-				33F928EA1FC54F3B008A104B /* Assets.xcassets in Resources */,
 				330FEB7B1FC3F68C00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				330FEB7E1FC3F68C00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
@@ -2679,6 +2689,7 @@
 				F43612E21FD69B0E00788FFE /* AGImageMetalDevice.swift in Sources */,
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
+				F406FD002087854B006192B4 /* FollowerDAO.swift in Sources */,
 				F4431A9D1FC6DD2C00311C9A /* PhotoEditor+Controls.swift in Sources */,
 				F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */,
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
@@ -2690,6 +2701,7 @@
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
 				F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */,
+				F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */,
 				F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
@@ -2768,6 +2780,7 @@
 				F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F431187C202B8901006139F7 /* FilterGradientCell.swift in Sources */,
+				F406FCFC20877B67006192B4 /* FollowHeader.swift in Sources */,
 				F4431AA01FC6DD2C00311C9A /* PhotoEditor+Font.swift in Sources */,
 				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
@@ -2830,6 +2843,7 @@
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
+				F406FCF8208773BF006192B4 /* FollowerCell.swift in Sources */,
 				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
@@ -2884,7 +2898,6 @@
 				F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
-				F4148A171FBD7C0800081900 /* View.swift in Sources */,
 				F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
@@ -2979,6 +2992,7 @@
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,
+				F406FD0120878D25006192B4 /* FollowerDAO.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,

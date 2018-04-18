@@ -23,14 +23,19 @@ class ProfileStreamView: UICollectionReusableView {
         imgCover.isUserInteractionEnabled = true
     }
     
-    func prepareLayout(stream:StreamDAO,isCurrentUser:Bool,immage:String? = nil){
+    func prepareLayout(stream:StreamDAO,isCurrentUser:Bool,image:String? = nil){
         
         if isCurrentUser {
             if  !UserDAO.sharedInstance.user.userImage.isEmpty {
         self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
             }
         }else {
-            imgUser.isHidden = false
+            if image != nil {
+                if  !(image?.isEmpty)! {
+                    self.imgUser.setImageWithResizeURL(image!)
+                }
+            }
+           
         }
      self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.imgCover.contentMode = .scaleAspectFill

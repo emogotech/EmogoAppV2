@@ -42,6 +42,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var btnSearch          : UIButton!
     
     var isAddButtonTapped   =   false
+    var isDidLoadCalled : Bool  =   false
     
     var isSearch : Bool = false
     var isTapPeople : Bool = false
@@ -163,7 +164,13 @@ class StreamListViewController: UIViewController {
             self.containerMenuView.widthAnchor.constraint(equalToConstant: containerFrame.size.width).isActive = true
             self.containerMenuView.centerXAnchor.constraint(equalTo: self.viewMenu.centerXAnchor).isActive = true
             self.containerMenuView.centerYAnchor.constraint(equalTo: self.viewMenu.centerYAnchor).isActive = true
+            
         }
+
+        if isDidLoadCalled == false {
+            self.btnAddFrame    =   self.btnAdd.frame
+        }
+        isDidLoadCalled     =       true
     }
     
     override func viewDidAppear(_ animated: Bool) {

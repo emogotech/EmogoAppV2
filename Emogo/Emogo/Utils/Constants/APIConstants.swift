@@ -69,7 +69,13 @@ let kStreamReorderContentAPI                        = "reorder_stream_content/"
 let kReorderContentAPI                              = "reorder_content/"
 let kGetTopContentAPI                               = "get_top_content/"
 let kGetUserLikedStreamsAPI                         = "user_liked_streams/"
-let kStreamLikeDislikeAPI                         = "like_dislike_stream/"
+let kStreamLikeDislikeAPI                           = "like_dislike_stream/"
+let kUserFollowAPI                                  = "follow_user/"
+let kUserUnFollowAPI                                = "unfollow_user/"
+let kUserFollowersAPI                                = "get_user_followers/"
+let kUserFollowingAPI                                = "get_user_following/"
+
+
 
 
 

@@ -146,6 +146,13 @@ class ProfileViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
         
+        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+        self.lblFollowers.isUserInteractionEnabled = true
+        self.lblFollowers.addGestureRecognizer(tapFollow)
+        
+        let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+        self.lblFollowing.isUserInteractionEnabled = true
+        self.lblFollowing.addGestureRecognizer(tapFollowing)
         
         self.btnStream.setTitleColor(colorSelected, for: .normal)
         self.btnStream.titleLabel?.font = fontSelected
@@ -165,7 +172,7 @@ class ProfileViewController: UIViewController {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
-            self.lblFullName.text =  UserDAO.sharedInstance.user.fullName.trim().capitalized
+            self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
             self.lblFullName.minimumScaleFactor = 1.0
             self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
             self.lblWebsite.minimumScaleFactor = 1.0
@@ -191,6 +198,12 @@ class ProfileViewController: UIViewController {
             }
             if UserDAO.sharedInstance.user.website.trim().isEmpty {
                 self.imgLink.isHidden = true
+            }
+            if UserDAO.sharedInstance.user.followers.trim().isEmpty {
+                self.lblFollowers.isHidden = true
+            }
+            if UserDAO.sharedInstance.user.following.trim().isEmpty {
+                self.lblFollowing.isHidden = true
             }
             self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
             self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
@@ -407,6 +420,15 @@ class ProfileViewController: UIViewController {
             selectedIndex = nil
         }
     }
+    @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+        let obj:FollowersViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_FollowersView) as! FollowersViewController
+        if gesture.view?.tag == 111 {
+            obj.listType = FollowerType.Follower
+        }else {
+            obj.listType = FollowerType.Following
+        }
+        self.navigationController?.push(viewController: obj)
+    }
     
     @objc func actionForWebsite(){
 
@@ -430,8 +452,7 @@ class ProfileViewController: UIViewController {
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
-        let nav = UINavigationController(rootViewController: obj)
-        self.present(nav, animated: true, completion: nil)
+        self.navigationController?.pushAsPresent(viewController: obj)
     }
     
    
@@ -542,7 +563,7 @@ class ProfileViewController: UIViewController {
                         profileStreamIndex = index!
                         arrayMyStreams.remove(at: index!)
                     }
-                    
+                    lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
@@ -893,7 +914,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             headerView.delegate = self
         headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
             }
-            
+            headerView.imgUser.isHidden = true
             return headerView
             
         default:

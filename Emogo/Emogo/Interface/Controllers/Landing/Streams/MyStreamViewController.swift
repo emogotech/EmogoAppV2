@@ -264,7 +264,8 @@ class MyStreamViewController: UIViewController {
             if (errorMSG?.isEmpty)! {
                 self.showToast(strMSG: kAlert_ProfileStreamAdded)
                 isAssignProfile = nil
-                self.navigationController?.pop()
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.popToViewController(vc: obj)
             }else {
                 self.showToast(strMSG: errorMSG!)
             }

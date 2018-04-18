@@ -52,6 +52,8 @@ class User {
     var followers                 :String! = ""
     var following                 :String! = ""
     var stream                    :StreamDAO?
+    var displayName             :String! = ""
+
 
    
     init(userData:[String:Any]) {
@@ -59,11 +61,18 @@ class User {
         if let obj = userData["full_name"] {
             self.fullName = obj as! String
         }
+        if let obj = userData["display_name"] {
+            self.displayName = obj as! String
+        }
         if let obj = userData["followers"] {
-            self.followers = "\(obj)\nfollowers"
+            if "\(obj)" != "0" {
+                self.followers = "\(obj)\nfollowers"
+            }
         }
         if let obj = userData["following"] {
-            self.following = "\(obj)\nfollowing"
+            if "\(obj)" != "0" {
+                self.following = "\(obj)\nfollowing"
+            }
         }
         if let obj = userData["branchio_url"] {
             self.shareURL = obj as! String

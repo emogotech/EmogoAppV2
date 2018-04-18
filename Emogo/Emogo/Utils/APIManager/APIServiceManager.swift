@@ -1384,7 +1384,7 @@ class APIServiceManager: NSObject {
 
         let url = kProfileUpdateAPI + "\(UserDAO.sharedInstance.user.userProfileID!)/"
         let phone : String = UserDAO.sharedInstance.user.phoneNumber
-        let params:[String:Any] = ["full_name":name,"user_image":profilePic , "phone_number" : phone,"location":location,"website":website,"biography":biography,"birthday":birthday]
+        let params:[String:Any] = ["full_name":name,"user_image":profilePic , "phone_number" : phone,"location":location,"website":website,"biography":biography,"birthday":birthday,"display_name":displayName]
         print(params)
         APIManager.sharedInstance.PUTRequestWithHeader(strURL: url, Param: params) { (result) in
             switch(result){
@@ -1772,7 +1772,8 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             print(data)
                         }
-                        
+                        completionHandler(true,"")
+
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
                         completionHandler(nil,errorMessage)
@@ -1784,6 +1785,141 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    func apiForFollowUser(userID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let param = ["following":userID]
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kUserFollowAPI, Param: param) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            print(data)
+                        }
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+    
+    
+    func apiForUnFollowUser(userID:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kUserUnFollowAPI+userID+"/"
+        APIManager.sharedInstance.delete(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.NoContent.rawValue{
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+            
+        }
+    }
+    
+
+    
+    func apiForUserFollowerList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
+        
+        if type == .start || type == .up{
+            FollowList.sharedInstance.requestURl = kUserFollowersAPI
+        }
+        if FollowList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: FollowList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            print(result)
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                FollowList.sharedInstance.requestURl = ""
+                                completionHandler(.end,"")
+                            }else {
+                                FollowList.sharedInstance.requestURl = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
+    func apiForUserFollowingList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
+        
+        if type == .start || type == .up{
+            FollowList.sharedInstance.requestURl = kUserFollowingAPI
+        }
+        if FollowList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: FollowList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            print(result)
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                FollowList.sharedInstance.requestURl = ""
+                                completionHandler(.end,"")
+                            }else {
+                                FollowList.sharedInstance.requestURl = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
+    
     
 }
 

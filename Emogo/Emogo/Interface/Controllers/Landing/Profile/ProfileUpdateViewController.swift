@@ -52,6 +52,7 @@ class ProfileUpdateViewController: UITableViewController {
         txtName.isUserInteractionEnabled = false
         txtBio.text = UserDAO.sharedInstance.user.biography.trim()
         txtWebsite.text = UserDAO.sharedInstance.user.website.trim()
+        txtDisplayName.text = UserDAO.sharedInstance.user.displayName.trim()
         //txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
@@ -115,7 +116,7 @@ class ProfileUpdateViewController: UITableViewController {
         
     }
     @objc func btnCloseAction(){
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewAsDismiss()
     }
 
     func datePickerTapped() {
@@ -174,7 +175,7 @@ class ProfileUpdateViewController: UITableViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
-                self.dismiss(animated: true, completion: nil)
+                self.navigationController?.popViewAsDismiss()
             }else {
                 self.showToast(strMSG: errorMsg!)
             }

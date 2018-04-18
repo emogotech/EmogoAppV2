@@ -656,6 +656,25 @@ extension UINavigationController {
         //            self.pushViewController(vc, animated: true)
         //        }
     }
+    
+    func pushAsPresent(viewController:UIViewController) {
+        let animation = CATransition()
+        animation.type = kCATransitionPush
+        animation.subtype = kCATransitionFromTop
+        animation.duration = 0.65
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.layer.add(animation, forKey: "AnimationFromBottomToTop")
+        self.pushViewController(viewController, animated: false)
+    }
+    func popViewAsDismiss(){
+        let animation = CATransition()
+        animation.type = kCATransitionPush
+        animation.subtype = kCATransitionFromBottom
+        animation.duration = 0.65
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.layer.add(animation, forKey: "AnimationFromBottomToTop")
+        self.popViewController(animated: false)
+    }
 }
 
 

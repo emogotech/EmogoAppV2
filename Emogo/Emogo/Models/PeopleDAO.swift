@@ -37,8 +37,23 @@ class PeopleDAO {
     var stream                        :StreamDAO?
     var followers                     :String! = ""
     var following                     :String! = ""
+    var displayName                     :String! = ""
+    var isFollowing                     :Bool! = false
+    var isFollower                     :Bool! = false
 
     init(peopleData:[String:Any]) {
+        
+        if let obj = peopleData["is_follower"] {
+            self.isFollower = "\(obj)".toBool()
+        }
+        
+        if let obj = peopleData["is_following"] {
+            self.isFollowing = "\(obj)".toBool()
+        }
+        
+        if let obj = peopleData["display_name"] {
+            self.displayName = obj as! String
+        }
         
         if let obj = peopleData["location"] {
             self.location = obj as! String
