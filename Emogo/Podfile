@@ -31,6 +31,8 @@ target 'Emogo' do
     pod 'SwiftLinkPreview'
     pod ‘RS3DSegmentedControl’
     pod 'Branch'
+    pod 'DKChainableAnimationKit'
+
 
     target 'EmogoTests' do
         inherit! :search_paths

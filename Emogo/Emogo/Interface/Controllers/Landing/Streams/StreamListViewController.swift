@@ -8,6 +8,7 @@
 
 import UIKit
 import XLActionController
+import DKChainableAnimationKit
 
 class StreamListViewController: UIViewController {
     
@@ -41,7 +42,6 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var btnSearch          : UIButton!
     
     var isAddButtonTapped   =   false
-    var isDidLoadCalled : Bool  =   false
     
     var isSearch : Bool = false
     var isTapPeople : Bool = false
@@ -74,7 +74,7 @@ class StreamListViewController: UIViewController {
     var isLoadFirst:Bool! = true
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var arrayToShow = [StreamDAO]()
-
+    var timer:Timer?
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -163,20 +163,20 @@ class StreamListViewController: UIViewController {
             self.containerMenuView.widthAnchor.constraint(equalToConstant: containerFrame.size.width).isActive = true
             self.containerMenuView.centerXAnchor.constraint(equalTo: self.viewMenu.centerXAnchor).isActive = true
             self.containerMenuView.centerYAnchor.constraint(equalTo: self.viewMenu.centerYAnchor).isActive = true
-            
         }
-
-        if isDidLoadCalled == false {
-            self.btnAddFrame    =   self.btnAdd.frame
-        }
-        isDidLoadCalled     =       true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.timer != nil {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+    }
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
@@ -303,14 +303,13 @@ class StreamListViewController: UIViewController {
     }
     
     @objc func startAnimation(){
-        if kDefault?.bool(forKey: kBounceAnimation) == false {
+        print("Called")
+        
+        self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).thenAfter(0.5).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.8) { (_) in
             
-            UIView.animate(withDuration: 0.5, delay: 0.0, options: [ .repeat , .autoreverse , .allowUserInteraction], animations: {
-                self.btnAdd.frame.origin.y  =   self.btnAddFrame.origin.y - 10
-            }, completion: { (success) in
-                print("completion.......")
-            })
         }
+//            self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.5, { (_) in
+//            })
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -419,20 +418,14 @@ class StreamListViewController: UIViewController {
         if isSearch {
             self.viewMenu.isHidden = true
         }
-        self.startAnimation()
-//        self.btnAdd.layer.cornerRadius  =   self.btnAdd.frame.size.height / 2
-//        let pulseColor =  UIColor.init(red: 64/255.0, green: 196/255.0, blue: 255/255.0, alpha: 0.7)
-//        self.btnAdd.startPulse(with: pulseColor, animation: .regularPulsing)
-        
-        
-       
+        if kDefault?.bool(forKey: kBounceAnimation) == false {
+            if timer == nil {
+                timer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.startAnimation), userInfo: nil, repeats: true)
+            }
+        }
     }
     
-//
-//    @objc func callingAfterOneSec(){
-//
-//    }
-    
+
     func configureLoadMoreAndRefresh(){
         let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
@@ -512,7 +505,10 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-        self.btnAdd.layer.removeAllAnimations()
+        if self.timer != nil {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
         kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
