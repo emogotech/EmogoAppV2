@@ -58,7 +58,7 @@ class VerifyRegistration(APIView):
             with transaction.atomic():
                 instance = serializer.save()
                 fields = ("user_profile_id", "full_name", "user_image", "token", "user_id", "phone_number",
-                          'location', 'website', 'birthday', 'biography', 'branchio_url')
+                          'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name')
                 serializer = UserDetailSerializer(instance=instance, fields=fields)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -72,7 +72,7 @@ class Login(APIView):
         serializer = UserLoginSerializer(data=request.data, fields=('phone_number',))
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
-            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image")
+            fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
@@ -174,7 +174,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         :return: Get User profile API.
         """
         fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         instance = self.get_qs_object()
         # If requested user is logged in user
@@ -188,7 +188,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         queryset = queryset.exclude(user=self.request.user)
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url')
+                  'biography', 'birthday', 'branchio_url', 'display_name')
 
         # This IF condition is added because if try to search by name or phone disable pagination class.
         if (self.request.query_params.get('name') or self.request.query_params.get('phone')) is not None:
@@ -213,7 +213,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
         fields = ('user_profile_id', 'full_name', 'user_image', 'phone_number', 'location', 'website',
-                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following')
+                  'biography', 'birthday', 'branchio_url', 'profile_stream', 'followers', 'following', 'display_name')
 
         # If requested user is logged in user
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
@@ -279,7 +279,7 @@ class UserFollowersAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset()).filter(following=self.request.user).only('follower')
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name')
         self.serializer_class = UserDetailSerializer
         page = self.paginate_queryset([x.follower.user_data for x in  queryset])
         if page is not None:
@@ -306,7 +306,7 @@ class UserFollowingAPI(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).only('following')
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name')
         self.serializer_class = UserDetailSerializer
         page = self.paginate_queryset([x.following.user_data for x in queryset])
         if page is not None:
@@ -479,7 +479,7 @@ class VerifyLoginOTP(APIView):
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image",
-                      'location', 'website', 'biography', 'birthday', 'branchio_url')
+                      'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name')
             serializer = UserDetailSerializer(instance=user_profile, fields=fields)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 

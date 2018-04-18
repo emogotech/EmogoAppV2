@@ -102,7 +102,7 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
+            , 'streams', 'contents', 'collaborators', 'username', 'display_name', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -145,6 +145,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             if self.validated_data.get('profile_stream') is not None:
                 # Then user profile table data
                 self.instance.profile_stream = self.validated_data.get('profile_stream')
+            if self.validated_data.get('display_name') is not None:
+                # Then user profile table data
+                self.instance.display_name = self.validated_data.get('display_name')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
                 # Update user deep link.
@@ -436,7 +439,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
