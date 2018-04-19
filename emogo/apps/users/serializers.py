@@ -216,12 +216,20 @@ class UserDetailSerializer(UserProfileSerializer):
         return obj.user.following.__len__()
 
     def get_is_following(self, obj):
-        if self.context.user.id in [x.follower_id for x in obj.user.followers]:
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.follower_id for x in obj.user.followers]:
             return True
         return False
 
     def get_is_follower(self, obj):
-        if self.context.user.id in [x.following_id for x in obj.user.following]:
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.following_id for x in obj.user.following]:
             return True
         return False
 

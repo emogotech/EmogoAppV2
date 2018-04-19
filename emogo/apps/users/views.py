@@ -59,7 +59,7 @@ class VerifyRegistration(APIView):
                 instance = serializer.save()
                 fields = ("user_profile_id", "full_name", "user_image", "token", "user_id", "phone_number",
                           'location', 'website', 'birthday', 'biography', 'branchio_url', 'display_name')
-                serializer = UserDetailSerializer(instance=instance, fields=fields)
+                serializer = UserDetailSerializer(instance=instance, fields=fields, context=self.request)
                 return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -73,7 +73,7 @@ class Login(APIView):
         if serializer.is_valid(raise_exception=True):
             user_profile = serializer.authenticate_user()
             fields = ("user_profile_id", "full_name", "useruser_image", "user_id", "phone_number", "user_image", 'display_name')
-            serializer = UserDetailSerializer(instance=user_profile, fields=fields)
+            serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
@@ -484,7 +484,7 @@ class VerifyLoginOTP(APIView):
             user_profile = serializer.authenticate_login_OTP(request.data["otp"])
             fields = ("user_profile_id", "full_name", "useruser_image", "token", "user_id", "phone_number", "user_image",
                       'location', 'website', 'biography', 'birthday', 'branchio_url', 'display_name')
-            serializer = UserDetailSerializer(instance=user_profile, fields=fields)
+            serializer = UserDetailSerializer(instance=user_profile, fields=fields, context=self.request)
             return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
