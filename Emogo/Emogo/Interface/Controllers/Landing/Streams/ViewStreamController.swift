@@ -435,7 +435,11 @@ class ViewStreamController: UIViewController {
                 }else {
                     let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
+                    if url == nil {
+                        image = LightboxImage(image: #imageLiteral(resourceName: "stream-card-placeholder"), text: text.trim(), videoURL: videoUrl)
+                    }else{
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
+                    }
                 }
             }
             if image != nil {

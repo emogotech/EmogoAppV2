@@ -562,12 +562,15 @@ class ProfileViewController: UIViewController {
                         arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                         profileStreamIndex = index!
                         arrayMyStreams.remove(at: index!)
+                    }else {
+                        arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                     }
                     lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
-                self.layout.headerHeight = 0
+                arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
+               self.layout.headerHeight = 0
             }
             self.profileCollectionView.reloadData()
         }

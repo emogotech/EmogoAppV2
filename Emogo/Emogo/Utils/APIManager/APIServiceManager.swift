@@ -1840,6 +1840,7 @@ class APIServiceManager: NSObject {
     func apiForUserFollowerList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
         
         if type == .start || type == .up{
+            FollowList.sharedInstance.arrayFollowers.removeAll()
             FollowList.sharedInstance.requestURl = kUserFollowersAPI
         }
         if FollowList.sharedInstance.requestURl.trim().isEmpty {
@@ -1857,6 +1858,10 @@ class APIServiceManager: NSObject {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
                             print(result)
+                            for obj in result {
+                                let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                FollowList.sharedInstance.arrayFollowers.append(follow)
+                            }
                         }
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {
@@ -1882,6 +1887,7 @@ class APIServiceManager: NSObject {
     func apiForUserFollowingList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
         
         if type == .start || type == .up{
+            FollowList.sharedInstance.arrayFollowers.removeAll()
             FollowList.sharedInstance.requestURl = kUserFollowingAPI
         }
         if FollowList.sharedInstance.requestURl.trim().isEmpty {
@@ -1891,13 +1897,17 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: FollowList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
                             print(result)
+                            for obj in result {
+                                let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                FollowList.sharedInstance.arrayFollowers.append(follow)
+                            }
                         }
                         if let obj = (value as! [String:Any])["next"]{
                             if obj is NSNull {

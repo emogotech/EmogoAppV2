@@ -21,6 +21,11 @@ class FollowerCell: UITableViewCell {
         // Initialization code
     }
 
+    func prepareData(follow:FollowerDAO) {
+        self.lblName.text = follow.displayName
+        self.lblUserName.text = follow.fullName
+        self.imgUser.setImageWithResizeURL(follow.userImage.trim())
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

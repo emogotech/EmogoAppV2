@@ -27,11 +27,12 @@ class FollowersViewController: UIViewController {
     }
     
     func prepareLayout(){
+        self.configureNavigationWithTitle()
         self.configureLoadMoreAndRefresh()
         if listType == FollowerType.Follower {
             self.getFollowers(type: .start)
         }else {
-            self.getFollowing(type: .end)
+            self.getFollowing(type: .start)
         }
     }
 
@@ -42,14 +43,19 @@ class FollowersViewController: UIViewController {
         
         self.tblFollowers.es.addPullToRefresh(animator: header) { [weak self] in
             if self?.listType == FollowerType.Follower {
-                
+                self?.getFollowers(type: .start)
             }else {
-                
+                self?.getFollowing(type: .start)
             }
         }
         
         self.tblFollowers.es.addInfiniteScrolling(animator: footer) { [weak self] in
             
+            if self?.listType == FollowerType.Follower {
+                self?.getFollowers(type: .down)
+            }else {
+                self?.getFollowing(type: .down)
+            }
         }
     }
     
@@ -62,7 +68,6 @@ class FollowersViewController: UIViewController {
             if refreshType == .end {
                 self.tblFollowers.es.noticeNoMoreData()
             }
-            
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
@@ -73,9 +78,9 @@ class FollowersViewController: UIViewController {
                 self.tblFollowers.es.stopLoadingMore()
             }
             DispatchQueue.main.async {
-              
+                self.tblFollowers.reloadData()
             }
-            
+
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -83,8 +88,26 @@ class FollowersViewController: UIViewController {
         }
     }
     func getFollowing(type:RefreshType){
-        APIServiceManager.sharedInstance.apiForUserFollowingList(type: type) { (refreshType, errorMSG) in
-            HUDManager.sharedInstance.hideHUD()
+        APIServiceManager.sharedInstance.apiForUserFollowingList(type: type) { (refreshType, errorMsg) in
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+            if refreshType == .end {
+                self.tblFollowers.es.noticeNoMoreData()
+            }
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.tblFollowers.es.stopPullToRefresh()
+            }else if type == .down {
+                self.tblFollowers.es.stopLoadingMore()
+            }
+            DispatchQueue.main.async {
+                self.tblFollowers.reloadData()
+            }
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
         }
     }
     /*
@@ -111,7 +134,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource {
         if section == 0 {
             return 1
         }else {
-            return 10
+            return FollowList.sharedInstance.arrayFollowers.count
         }
     }
     
@@ -121,9 +144,12 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource {
             cell.viewMessage.isHidden = false
             cell.ViewUser.isHidden = true
         }else {
+            let follow = FollowList.sharedInstance.arrayFollowers[indexPath.row]
+            cell.prepareData(follow:follow)
             cell.viewMessage.isHidden = true
             cell.ViewUser.isHidden = false
         }
+        
         cell.selectionStyle = .none
         return cell
     }

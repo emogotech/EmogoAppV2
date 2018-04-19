@@ -1617,10 +1617,6 @@
                                             <constraint firstAttribute="height" constant="88" id="5tV-Lf-6vp"/>
                                             <constraint firstAttribute="width" constant="90" id="Cq5-Z0-CBp"/>
                                         </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PKr-Ir-g25">
                                         <rect key="frame" x="108" y="29" width="256" height="45"/>
