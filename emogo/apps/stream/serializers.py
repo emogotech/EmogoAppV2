@@ -217,12 +217,15 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_user_liked(self, obj):
         try:
-            return [ { 'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
     def get_view_count(self, obj):
-        return obj.total_view_count.__len__()
+        try:
+            return obj.total_view_count.__len__()
+        except AttributeError :
+            return 0
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id')
