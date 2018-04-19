@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^stream/$', views.StreamAPI.as_view()),
     url('^stream', views.StreamAPI.as_view()),
     url('^like_dislike_stream', views.StreamLikeDislikeAPI.as_view()),
+    url('^like_dislike_content', views.ContentLikeDislikeAPI.as_view()),
     # The API is created because developer unable to get link type content
     url(r'^delete_content/$', views.DeleteContentInBulk.as_view()),
     url(r'^content/link_type/$', views.LinkTypeContentAPI.as_view()),

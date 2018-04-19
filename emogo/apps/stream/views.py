@@ -6,10 +6,11 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
+    ContentLikeDislikeSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -514,7 +515,7 @@ class ExtremistReportAPI(CreateAPIView):
 
 class StreamLikeDislikeAPI(CreateAPIView):
     """
-    Stream CRUD API
+    Like Dislike CRUD API
     """
     serializer_class = StreamLikeDislikeSerializer
     queryset = LikeDislikeStream.objects.all().order_by('-id')
@@ -522,18 +523,30 @@ class StreamLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    # def get_paginated_response(self, data, status_code=None):
-    #     """
-    #     Return a paginated style `Response` object for the given output data.
-    #     """
-    #     assert self.paginator is not None
-    #     return self.paginator.get_paginated_response(data, status_code=status_code)
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    # def get(self, request, *args, **kwargs):
-    #     if kwargs.get('pk') is not None:
-    #         return self.retrieve(request, *args, **kwargs)
-    #     # else:
-    #     #     return self.list(request, *args, **kwargs)
+
+class ContentLikeDislikeAPI(CreateAPIView):
+    """
+    Like dislike CRUD API
+    """
+    serializer_class = ContentLikeDislikeSerializer
+    queryset = LikeDislikeContent.objects.order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
 
     def create(self, request, *args, **kwargs):
         """

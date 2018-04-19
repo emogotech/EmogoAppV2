@@ -131,6 +131,16 @@ class LikeDislikeStream(models.Model):
         db_table = 'like_dislike_stream'
 
 
+class LikeDislikeContent(models.Model):
+    content = models.ForeignKey(Content, related_name='content_like_dislike_status')
+    view_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, blank=True, null=True)
+    status = models.CharField(max_length=5, choices=CHOICE_TYPE, default=0)
+    objects = models.Manager()  # The default manager.
+
+    class Meta:
+        db_table = 'like_dislike_content'
+
 @receiver(post_save, sender=StreamContent)
 def save_profile(sender, instance, **kwargs):
     instance.stream.upd = datetime.now()

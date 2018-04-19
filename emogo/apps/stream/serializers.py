@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -507,6 +507,25 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
             stream=self.validated_data.get('stream'), user=self.context.get('request').user,
+            defaults={'status': self.validated_data.get('status')},
+        )
+        return obj
+
+
+class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream like dislike serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = LikeDislikeContent
+        fields = ['user', 'content', 'status']
+        extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def create(self, validated_data):
+        obj, created = LikeDislikeContent.objects.update_or_create(
+            content=self.validated_data.get('content'), user=self.context.get('request').user,
             defaults={'status': self.validated_data.get('status')},
         )
         return obj
