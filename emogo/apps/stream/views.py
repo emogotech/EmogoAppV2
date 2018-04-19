@@ -31,7 +31,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+                queryset=StreamContent.objects.all().select_related('content').order_by('order', '-attached_date'),
                 to_attr="content_list"
             ),
             Prefetch(
