@@ -892,6 +892,7 @@ open class SwiftyCamViewController: UIViewController {
 						UIApplication.shared.openURL(appSettings)
 					}
 				}
+                self.cameraDelegate?.unableToOpenCamera()
 			}))
 			self.present(alertController, animated: true, completion: nil)
 		})
