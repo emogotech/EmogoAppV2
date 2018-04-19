@@ -227,7 +227,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().select_related('created_by__user_data__user').order_by('order')
+    queryset = Content.actives.all().select_related('created_by__user_data__user').order_by('order', '-crd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -279,7 +279,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         #  Customized field list
         fields = (
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name')
+        'color', 'user_image', 'full_name', 'order')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
