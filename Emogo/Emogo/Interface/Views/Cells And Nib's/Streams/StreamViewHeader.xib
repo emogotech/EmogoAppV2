@@ -69,21 +69,21 @@
                             </constraints>
                             <state key="normal" image="edit_icon"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OoM-EK-BMI">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OoM-EK-BMI">
                             <rect key="frame" x="271" y="55" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="Aag-Jb-bG6"/>
                                 <constraint firstAttribute="height" constant="40" id="JMY-EI-NhT"/>
                             </constraints>
-                            <state key="normal" image="like_icon"/>
+                            <state key="normal" image="delete-stream"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
                             <rect key="frame" x="272" y="102" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="XY0-h7-Xt2"/>
                                 <constraint firstAttribute="height" constant="40" id="fcF-Lo-eDA"/>
                             </constraints>
-                            <state key="normal" image="delete-stream"/>
+                            <state key="normal" image="like_icon"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4V-5K-llI" customClass="MIBadgeButton" customModule="Emogo" customModuleProvider="target">
                             <rect key="frame" x="8" y="7" width="56" height="56"/>
@@ -95,7 +95,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-np-uiY">
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-np-uiY">
                             <rect key="frame" x="12" y="170" width="296" height="36"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number_of_views_icon" translatesAutoresizingMaskIntoConstraints="NO" id="cQc-ew-sdY">
@@ -194,9 +194,9 @@
             <connections>
                 <outlet property="btnCollab" destination="g4V-5K-llI" id="VNl-SV-7sB"/>
                 <outlet property="btnContainer" destination="u8r-np-uiY" id="qEI-iF-azS"/>
-                <outlet property="btnDelete" destination="6gJ-DM-QZF" id="Jcf-Aj-RUG"/>
+                <outlet property="btnDelete" destination="OoM-EK-BMI" id="2It-tu-54q"/>
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
-                <outlet property="btnLike" destination="OoM-EK-BMI" id="6fQ-2k-5qs"/>
+                <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>

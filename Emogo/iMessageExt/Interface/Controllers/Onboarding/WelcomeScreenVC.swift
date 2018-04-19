@@ -441,10 +441,15 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
     // MARK: - KASlideShow delegate
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
-        pageController.updateState(forPageNumber: tag + 1)
-        pageControllerClosed.updateState(forPageNumber: tag + 1)
-        self.updateText(tag: tag)
-    }
+        print(tag)
+        print(pageController)
+        if pageController != nil {
+            pageController.updateState(forPageNumber: tag + 1)
+            pageControllerClosed.updateState(forPageNumber: tag + 1)
+            self.updateText(tag: tag)
+        }
+        }
+        
     func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)

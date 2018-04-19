@@ -203,9 +203,9 @@ class ViewStreamController: UIViewController {
     }
     
     func prepareActions(isCreator:Bool) {
+
         if isCreator {
             stretchyHeader.btnDelete.isHidden = false
-            stretchyHeader.btnLike.isHidden = false
             stretchyHeader.btnEdit.isHidden = false
             stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon_stream"), for: .normal)
             stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
@@ -220,7 +220,14 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnContainer.isHidden = true
+            // removed for now
+            stretchyHeader.btnEdit.isHidden = true
+
         }
+        // removed for now
+        stretchyHeader.btnLike.isHidden = true
+        stretchyHeader.btnContainer.isHidden = true
+
     }
     
     @objc func showReportList(){

@@ -80,6 +80,10 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             let height = objStream.description.trim().height(withConstrainedWidth: self.lblDescription.bounds.size.width, font: self.lblDescription.font)
             self.heightConstant.constant = height + 10
         }
+        
+        // For  Now
+        btnEdit.isHidden = true
+btnContainer.isHidden = true
     }
     
     

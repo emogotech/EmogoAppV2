@@ -376,13 +376,14 @@ open class SwiftyCamViewController: UIViewController {
 				// Prompt to App Settings
 				self.promptToAppSettings()
 			case .configurationFailed:
+                self.promptToAppSettings()
 				// Unknown Error
-				DispatchQueue.main.async(execute: { [unowned self] in
-					let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
-					let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
-					alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
-					self.present(alertController, animated: true, completion: nil)
-				})
+//                DispatchQueue.main.async(execute: { [unowned self] in
+//                    let message = NSLocalizedString("Unable to capture media", comment: "Alert message when something goes wrong during capture session configuration")
+//                    let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
+//                    alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+//                    self.present(alertController, animated: true, completion: nil)
+//                })
 			}
 		}
 	}
@@ -878,7 +879,11 @@ open class SwiftyCamViewController: UIViewController {
 		DispatchQueue.main.async(execute: { [unowned self] in
 			let message = NSLocalizedString("Emogo doesn't have permission to use the camera, please change privacy settings", comment: "Alert message when the user has denied access to the camera")
 			let alertController = UIAlertController(title: "Emogo", message: message, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Alert OK button"), style: .cancel, handler: { action in
+                if self.cameraDelegate != nil {
+                    self.cameraDelegate?.unableToOpenCamera()
+                }
+            }))
 			alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"), style: .default, handler: { action in
 				if #available(iOS 10.0, *) {
 					UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)

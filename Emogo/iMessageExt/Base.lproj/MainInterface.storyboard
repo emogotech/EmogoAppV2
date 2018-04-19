@@ -1009,8 +1009,8 @@
                         <viewLayoutGuide key="safeArea" id="tbC-QE-bBR"/>
                     </view>
                     <connections>
-                        <outlet property="pageController" destination="HRr-yl-DUw" id="ACz-lG-4xP"/>
-                        <outlet property="pageControllerClosed" destination="dkI-Ie-Azt" id="X3X-cL-PUn"/>
+                        <outlet property="pageController" destination="HRr-yl-DUw" id="vWX-E1-0UM"/>
+                        <outlet property="pageControllerClosed" destination="dkI-Ie-Azt" id="MWK-r2-bQT"/>
                         <outlet property="viewCollapse" destination="NfC-Qy-Xeq" id="K3C-iJ-Zom"/>
                         <outlet property="viewExpand" destination="r1l-pd-jdl" id="Xwf-rD-GWN"/>
                         <outlet property="viewTutorial" destination="o3V-kN-78J" id="ism-vt-tJd"/>
@@ -3128,7 +3128,7 @@ Cg
         <image name="white_up_arrow" width="12" height="7"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0JJ-eD-H3B"/>
-        <segue reference="7X6-Js-wGB"/>
+        <segue reference="rWE-0e-NjR"/>
+        <segue reference="YwA-XJ-Cbk"/>
     </inferredMetricsTieBreakers>
 </document>

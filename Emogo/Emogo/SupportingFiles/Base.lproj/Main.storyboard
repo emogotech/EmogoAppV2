@@ -1596,7 +1596,11 @@
                                 </cells>
                             </collectionView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Content available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-xh-Pkz">
-                                <rect key="frame" x="107.5" y="462" width="161" height="21"/>
+                                <rect key="frame" x="107.5" y="497" width="161" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="IX5-3u-73f"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="x3t-o9-8wg"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                 <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1604,12 +1608,12 @@
                         </subviews>
                         <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="vqO-xh-Pkz" firstAttribute="centerX" secondItem="Hoq-NP-WLS" secondAttribute="centerX" id="0mj-UW-1wp"/>
                             <constraint firstItem="Hoq-NP-WLS" firstAttribute="trailing" secondItem="9PJ-SQ-ZVY" secondAttribute="trailing" id="4sS-SV-dtW"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="bottom" secondItem="eeg-pY-xwP" secondAttribute="bottom" id="Ez2-Da-Y60"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="leading" secondItem="Hoq-NP-WLS" secondAttribute="leading" id="Kgs-fr-tRc"/>
-                            <constraint firstItem="vqO-xh-Pkz" firstAttribute="centerX" secondItem="eeg-pY-xwP" secondAttribute="centerX" id="N59-yx-6Ff"/>
                             <constraint firstItem="9PJ-SQ-ZVY" firstAttribute="top" secondItem="Hoq-NP-WLS" secondAttribute="top" id="iT8-5e-GXt"/>
-                            <constraint firstItem="Hoq-NP-WLS" firstAttribute="bottom" secondItem="vqO-xh-Pkz" secondAttribute="bottom" constant="184" id="mY5-nL-V28"/>
+                            <constraint firstItem="Hoq-NP-WLS" firstAttribute="bottom" secondItem="vqO-xh-Pkz" secondAttribute="bottom" constant="149" id="sP4-tf-wiO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Hoq-NP-WLS"/>
                     </view>

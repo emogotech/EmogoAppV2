@@ -64,7 +64,7 @@ class ViewProfileViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
        
-        self.prepareData()
+      //  self.prepareData()
     }
     
     func prepareData(){
@@ -256,11 +256,11 @@ class ViewProfileViewController: UIViewController {
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 self.lblNOResult.isHidden = false
             }
-            if streamType == "1" {
-                self.profileStreamShow()
-            }else {
+//            if streamType == "1" {
+//                self.profileStreamShow()
+//            }else {
                 self.layout.headerHeight = 0
-            }
+            //}
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -310,11 +310,12 @@ class ViewProfileViewController: UIViewController {
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if  self.streamType == "1" {
-            return self.arrayMyStreams.count
-        }else {
-            return StreamList.sharedInstance.arrayMyStream.count
-        }
+//        if  self.streamType == "1" {
+//            return self.arrayMyStreams.count
+//        }else {
+//            return StreamList.sharedInstance.arrayMyStream.count
+//        }
+        return StreamList.sharedInstance.arrayMyStream.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -324,18 +325,20 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
           var stream:StreamDAO?
-         if self.streamType == "1" {
-            stream = self.arrayMyStreams[indexPath.row]
-            cell.prepareLayouts(stream: stream!)
-            cell.lblName.text = ""
-            cell.lblName.isHidden = true
-        }else
-        {
+//         if self.streamType == "1" {
+//            stream = self.arrayMyStreams[indexPath.row]
+//            cell.prepareLayouts(stream: stream!)
+//            cell.lblName.text = ""
+//            cell.lblName.isHidden = true
+//        }else
+//        {
              stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream!)
             cell.lblName.isHidden = false
-        }
+       // }
         
+        cell.lblName.text = ""
+        cell.lblName.isHidden = true
             return cell
     }
     
@@ -354,7 +357,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
     }
-    
+    /*
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         print(kind)
         
@@ -377,7 +380,6 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
     }
     
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let delta =  scrollView.contentOffset.y - oldContentOffset.y
@@ -395,7 +397,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
         oldContentOffset = scrollView.contentOffset
     }
-    
+    */
     func actionForCover(){
     }
     

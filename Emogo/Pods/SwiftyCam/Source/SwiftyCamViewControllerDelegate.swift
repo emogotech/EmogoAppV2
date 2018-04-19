@@ -89,7 +89,7 @@ public protocol SwiftyCamViewControllerDelegate: class {
     func swipeBackDelegate()
     func swipeUpDelegate()
     func swipeDownDelegate()
-
+    func unableToOpenCamera()
     func forceStopVideoRecordingDelegate()
 }
 
@@ -127,6 +127,9 @@ public extension SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
         // Optional
+    }
+    func unableToOpenCamera(){
+        
     }
 }
 

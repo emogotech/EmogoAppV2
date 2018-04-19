@@ -43,7 +43,11 @@ class MyStreamViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        if isAssignProfile == nil {
+            self.navigationController?.isNavigationBarHidden = true
+        }else {
+            self.configureNavigationWithTitle()
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -112,7 +116,7 @@ class MyStreamViewController: UIViewController {
     }
     
     
-
+    
     // MARK: -  Action Methods And Selector
     
     @IBAction func btnActionDone(_ sender: Any) {

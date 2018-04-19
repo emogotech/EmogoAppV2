@@ -1418,7 +1418,7 @@
         <!--View Profile View Controller-->
         <scene sceneID="hOx-rr-YY9">
             <objects>
-                <viewController id="kqb-rV-W2X" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="userProfileView" id="kqb-rV-W2X" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cnj-fz-JhZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1565,14 +1565,26 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Streams Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fok-zi-ulg">
+                                <rect key="frame" x="120" y="363" width="134" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="134" id="1H0-nV-WS3"/>
+                                    <constraint firstAttribute="height" constant="21" id="trS-wa-lyf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
+                                <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wXb-eB-nm8" firstAttribute="trailing" secondItem="KK4-Gu-U56" secondAttribute="trailing" id="3l4-Qt-BQd"/>
                             <constraint firstItem="wXb-eB-nm8" firstAttribute="leading" secondItem="KK4-Gu-U56" secondAttribute="leading" id="8DA-wm-7gI"/>
                             <constraint firstItem="wXb-eB-nm8" firstAttribute="top" secondItem="KK4-Gu-U56" secondAttribute="top" id="8zJ-1U-WKY"/>
+                            <constraint firstItem="Fok-zi-ulg" firstAttribute="centerY" secondItem="D8p-L4-H5H" secondAttribute="centerY" id="OlI-3k-H67"/>
                             <constraint firstItem="D8p-L4-H5H" firstAttribute="trailing" secondItem="KK4-Gu-U56" secondAttribute="trailing" id="Ozq-oR-BFn"/>
                             <constraint firstItem="D8p-L4-H5H" firstAttribute="bottom" secondItem="Cnj-fz-JhZ" secondAttribute="bottom" id="UeS-Hp-ppM"/>
+                            <constraint firstItem="Fok-zi-ulg" firstAttribute="centerX" secondItem="D8p-L4-H5H" secondAttribute="centerX" id="gx1-10-dgC"/>
                             <constraint firstItem="D8p-L4-H5H" firstAttribute="leading" secondItem="KK4-Gu-U56" secondAttribute="leading" id="nQ3-0r-edJ"/>
                             <constraint firstItem="D8p-L4-H5H" firstAttribute="top" secondItem="wXb-eB-nm8" secondAttribute="bottom" id="xpe-C5-ksg"/>
                         </constraints>
@@ -1580,6 +1592,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="cam-GM-TIh"/>
                     <connections>
+                        <outlet property="lblNOResult" destination="Fok-zi-ulg" id="8GQ-Od-q5d"/>
                         <outlet property="profileCollectionView" destination="D8p-L4-H5H" id="f5q-IW-oEC"/>
                     </connections>
                 </viewController>
@@ -2113,7 +2126,7 @@
                                             <constraint firstAttribute="width" constant="50" id="gPw-bX-cgo"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="6" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="delete_icon-cover_image"/>
+                                        <state key="normal" image="delete-stream"/>
                                         <connections>
                                             <action selector="btnDeleteAction:" destination="evI-UO-yab" eventType="touchUpInside" id="SIC-RR-zyb"/>
                                         </connections>
@@ -3133,7 +3146,7 @@ Cg
         <!--View Profile View Controller-->
         <scene sceneID="zQ4-gW-cza">
             <objects>
-                <viewController storyboardIdentifier="userProfileView" id="gJ1-6j-tUb" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="gJ1-6j-tUb" customClass="ViewProfileViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kZH-BJ-OhR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3488,7 +3501,7 @@ Cg
         <image name="collabs_icon" width="41" height="35"/>
         <image name="content_flag" width="30" height="30"/>
         <image name="content_next_btn" width="160" height="53"/>
-        <image name="delete_icon-cover_image" width="28" height="29"/>
+        <image name="delete-stream" width="31" height="34"/>
         <image name="demo_images" width="47" height="47"/>
         <image name="done_icon" width="16" height="16"/>
         <image name="edit avtar icon" width="29" height="27"/>
