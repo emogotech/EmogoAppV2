@@ -211,6 +211,8 @@ class ProfileViewController: UIViewController {
             if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                 self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
             }
+            self.profileStreamShow()
+
         }
       
         btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)

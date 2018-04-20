@@ -17,7 +17,8 @@ class SignInViewController: MSMessagesAppViewController {
     @IBOutlet weak var viewExpand       : UIView!
     @IBOutlet weak var viewCollapse     : UIView!
     @IBOutlet weak var imgBackground    : UIImageView!
-    
+    @IBOutlet weak var btnBack: UIButton!
+
     // MARK: - Variables
     var hudView                         : LoadingView!
     
@@ -51,6 +52,7 @@ class SignInViewController: MSMessagesAppViewController {
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
+            btnBack.isHidden = false
 //            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
 //            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
@@ -58,6 +60,7 @@ class SignInViewController: MSMessagesAppViewController {
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
+            btnBack.isHidden = true
         }
         
 
@@ -98,6 +101,7 @@ class SignInViewController: MSMessagesAppViewController {
                 self.viewCollapse.isHidden = true
                 self.viewCollapse.center = self.view.center
                 self.txtMobileNumber.text = self.txtMobileCollapse.text
+                self.btnBack.isHidden = false
             }, completion: { (finshed) in
                 self.txtMobileNumber.becomeFirstResponder()
             })
@@ -111,6 +115,7 @@ class SignInViewController: MSMessagesAppViewController {
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
                 self.txtMobileCollapse.text = self.txtMobileNumber.text
+                self.btnBack.isHidden = true
             })
         }
     }
@@ -130,6 +135,9 @@ class SignInViewController: MSMessagesAppViewController {
     @IBAction func btnSignIn(_ sender : UIButton) {
         view.endEditing(true)
       self.checkValidation()
+    }
+    @IBAction func btnTapBackAction(_ sender : UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func checkValidation() {

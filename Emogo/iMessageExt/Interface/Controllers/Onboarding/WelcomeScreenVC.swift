@@ -50,6 +50,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         
     }
     
+    
     //MARK: Keyboard Observer.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -94,7 +95,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
             }, completion: { (finshed) in
-
+                print("request For Full View")
+             //   self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
             })
         }
     }
@@ -127,6 +129,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+       
+        
         images.removeAll()
         
         if  SharedData.sharedInstance.isMessageWindowExpand {
@@ -146,7 +150,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
         viewTutorial.datasource = self
         viewTutorial.delegate = self
-        viewTutorial.delay = 1 // Delay between transitions
+        viewTutorial.delay = 2.5 // Delay between transitions
         viewTutorial.transitionDuration = 1.0 //0.5 // Transition duration
         viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorial.isRepeatAll = true
@@ -163,7 +167,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         pageControllerClosed.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
         viewTutorialClosed.datasource = self
         viewTutorialClosed.delegate = self
-        viewTutorialClosed.delay = 1 // Delay between transitions
+        viewTutorialClosed.delay = 2.5 // Delay between transitions
         viewTutorialClosed.transitionDuration =  1.0 // 0.5 // Transition duration
         viewTutorialClosed.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorialClosed.isRepeatAll = true
@@ -174,8 +178,14 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         viewTutorialClosed.start()
         pageControllerClosed.load()
         pageControllerClosed.updateState(forPageNumber: 1)
+       // self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
     }
     
+    @objc func showFullView(){
+        if self.presentationStyle == MSMessagesAppPresentationStyle.compact {
+            self.requestPresentationStyle(MSMessagesAppPresentationStyle.expanded)
+        }
+    }
     @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             if self.hudView != nil {
@@ -342,6 +352,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     override func didSelect(_ message: MSMessage, conversation: MSConversation) {
         self.selectedMsgTap(conversation: conversation)
     }
+    
     
     func selectedMsgTap(conversation: MSConversation) {
         

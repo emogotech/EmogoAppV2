@@ -18,7 +18,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
     
     @IBOutlet weak var viewExpand  : UIView!
     @IBOutlet weak var viewCollapse  : UIView!
-    
+    @IBOutlet weak var btnBack: UIButton!
+
     // MARK s: - Variables
     var hudView                 : LoadingView!
     
@@ -55,6 +56,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
+            btnBack.isHidden = false
+
 //            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
 //            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
@@ -62,7 +65,8 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
             viewCollapse.isHidden = false
-        }
+            btnBack.isHidden = true
+}
     }
     
     //MARK: Keyboard Observer.
@@ -99,6 +103,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
             self.viewCollapse.center = self.view.center
             self.txtName.text = self.txtNameCollapse.text
             self.txtName.becomeFirstResponder()
+            self.btnBack.isHidden = false
         }else{
 //            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             UIView.animate(withDuration: 0.1, animations: {
@@ -110,6 +115,7 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
                 self.viewExpand.center = self.view.center
                 self.viewCollapse.center = self.view.center
                 self.txtNameCollapse.text = self.txtName.text
+                self.btnBack.isHidden = true
             })
         }
     }
@@ -145,6 +151,9 @@ class SignUpNameViewController: MSMessagesAppViewController,UITextFieldDelegate 
         let obj : SignInViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignIn) as! SignInViewController
         self.addRippleTransition()
         self.present(obj, animated: false, completion: nil)
+    }
+    @IBAction func btnTapBackAction(_ sender : UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

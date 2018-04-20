@@ -2068,8 +2068,8 @@
                         <outlet property="btnContainer" destination="FNa-yo-fkQ" id="yFx-rQ-exb"/>
                         <outlet property="btnStream" destination="K1b-Yk-lQB" id="hXR-Yi-dDv"/>
                         <outlet property="btnStuff" destination="0fy-un-mby" id="PPd-Eq-Clo"/>
-                        <outlet property="imgLink" destination="Gha-eP-gcI" id="Grr-Xs-Moq"/>
-                        <outlet property="imgLocation" destination="YK4-Sj-Jyy" id="87Q-2H-TNe"/>
+                        <outlet property="imgLink" destination="YK4-Sj-Jyy" id="ibE-JG-1v3"/>
+                        <outlet property="imgLocation" destination="Gha-eP-gcI" id="928-4g-Els"/>
                         <outlet property="imgUser" destination="cFx-qm-YQr" id="OgX-tD-ez3"/>
                         <outlet property="kHeaderHeight" destination="HeA-UB-tQ8" id="ubL-aH-3wB"/>
                         <outlet property="kStuffOptionsHeight" destination="f8h-FD-ann" id="NTI-Qo-QRg"/>

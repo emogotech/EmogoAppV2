@@ -312,9 +312,31 @@ class StreamListViewController: UIViewController {
     @objc func startAnimation(){
         print("Called")
         
-        self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).thenAfter(0.5).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.8) { (_) in
+        UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
             
-        }
+            self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+        }, completion: {(_ finished: Bool) -> Void in
+            UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                    self.btnAdd.transform = .identity
+                })
+            })
+        })
+
+        
+        
+//        UIView.animate(withDuration: 1, delay: 1, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .curveEaseInOut, animations: {
+//             self.btnAdd.alpha = 0
+//        }) { _ in
+//          //  self.viewToAnimate.removeFromSuperview()
+//            self.btnAdd.alpha = 1.0
+//        }
+        
+//        self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).thenAfter(0.5).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.8) { (_) in
+//
+//        }
 //            self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.5, { (_) in
 //            })
     }
@@ -427,7 +449,7 @@ class StreamListViewController: UIViewController {
         }
         if kDefault?.bool(forKey: kBounceAnimation) == false {
             if timer == nil {
-                timer = Timer.scheduledTimer(timeInterval: 1.1, target: self, selector: #selector(self.startAnimation), userInfo: nil, repeats: true)
+                timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.startAnimation), userInfo: nil, repeats: true)
             }
         }
     }

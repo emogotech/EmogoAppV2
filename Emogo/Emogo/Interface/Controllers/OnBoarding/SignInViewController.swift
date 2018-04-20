@@ -45,7 +45,6 @@ class SignInViewController: UIViewController {
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
         }
-        
     }
     
     // MARK: -  Action Methods And Selector
@@ -64,6 +63,9 @@ class SignInViewController: UIViewController {
         self.disMissKeyboard()
         let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
         self.navigationController?.push(viewController: obj)
+    }
+    @IBAction func btnActionBack(_ sender: Any) {
+        self.navigationController?.pop()
     }
     
     // MARK: - Class Methods

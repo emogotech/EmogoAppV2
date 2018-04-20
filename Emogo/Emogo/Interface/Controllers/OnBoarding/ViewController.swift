@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         images.append(UIImage(named: "image four")!)
         pageController.setCurrentPage(0)
         pageController.setNumberOfPages(images.count)
-        pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+        pageController.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
         viewTutorial.datasource = self
         viewTutorial.delegate = self
         viewTutorial.delay = 1 // Delay between transitions

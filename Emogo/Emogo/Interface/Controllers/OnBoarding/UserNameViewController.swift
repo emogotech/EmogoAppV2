@@ -84,7 +84,9 @@ class UserNameViewController: UIViewController {
             checkBox.setImage(#imageLiteral(resourceName: "check-box-empty"), for: .normal)
         }
     }
-    
+    @IBAction func btnActionBack(_ sender: Any) {
+        self.navigationController?.pop()
+    }
     // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)

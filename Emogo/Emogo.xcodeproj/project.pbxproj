@@ -291,6 +291,7 @@
 		F4431AAF1FC6DD2C00311C9A /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */; };
 		F4431AB01FC6DD2C00311C9A /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */; };
 		F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
+		F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F44509AB2088D37700B48706 /* ContactsViewController.swift */; };
 		F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */ = {isa = PBXBuildFile; fileRef = F445453A200374DC00ED59C3 /* UITextField+Max.m */; };
 		F447441520246CC2002964A0 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F447441320246CC2002964A0 /* FilterCell.swift */; };
 		F447441620246CC2002964A0 /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F447441420246CC2002964A0 /* FilterCell.xib */; };
@@ -713,6 +714,7 @@
 		F4431A8B1FC6DD2900311C9A /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		F4431A8C1FC6DD2900311C9A /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
 		F4431AB21FC7044D00311C9A /* ASToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASToast.swift; sourceTree = "<group>"; };
+		F44509AB2088D37700B48706 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		F445453A200374DC00ED59C3 /* UITextField+Max.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Max.m"; sourceTree = "<group>"; };
 		F445453B200374DD00ED59C3 /* UITextField+Max.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Max.h"; sourceTree = "<group>"; };
 		F447441320246CC2002964A0 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
@@ -1676,6 +1678,7 @@
 				F42217B620075045002D4E4E /* ProfileUpdateViewController.swift */,
 				F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */,
 				F406FCF5208771AB006192B4 /* FollowersViewController.swift */,
+				F44509AB2088D37700B48706 /* ContactsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2825,6 +2828,7 @@
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
 				F447441820246CF5002964A0 /* PhotoEditor+FilterControls.swift in Sources */,
+				F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,
