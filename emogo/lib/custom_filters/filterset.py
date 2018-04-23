@@ -121,7 +121,7 @@ class UserStreamFilter(django_filters.FilterSet):
 
     class Meta:
         model = Stream
-        fields = ['created_by']
+        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream']
 
     def filter_created_by(self, qs, name, value):
         get_object_or_404(UserFollow, follower=self.request.user, following_id=value)
