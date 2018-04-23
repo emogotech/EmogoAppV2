@@ -17,7 +17,7 @@ from emogo.constants import messages
 # util method
 from emogo.lib.helpers.utils import custom_render_response, send_otp
 from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView
-from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter
+from emogo.lib.custom_filters.filterset import UsersFilter, UserStreamFilter, FollowerFollowingUserFilter
 from emogo.apps.users.models import UserProfile, UserFollow
 from emogo.apps.stream.models import Stream, Content, LikeDislikeStream, StreamUserViewStatus, StreamContent
 from emogo.apps.collaborator.models import Collaborator
@@ -272,6 +272,7 @@ class UserFollowersAPI(ListAPIView):
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
     queryset = UserFollow.objects.all()
+    filter_class = FollowerFollowingUserFilter
     permission_classes = (IsAuthenticated,)
 
     def get_paginated_response(self, data, status_code=None):
@@ -293,6 +294,13 @@ class UserFollowersAPI(ListAPIView):
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following')
         self.serializer_class = UserListFollowerFollowingSerializer
+        # self.queryset = qs
+
+        # This IF condition is added because if try to search by name or phone disable pagination class.
+        if (self.request.query_params.get('follower_phone') or self.request.query_params.get('follower_name')) is not None:
+            serializer = self.get_serializer(qs, many=True, fields=fields)
+            return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
         page = self.paginate_queryset(qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields, context=self.request)

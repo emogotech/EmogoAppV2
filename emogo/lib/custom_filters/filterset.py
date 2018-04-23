@@ -69,7 +69,7 @@ class UsersFilter(django_filters.FilterSet):
 
     class Meta:
         model = UserProfile
-        fields = ['people']
+        fields = ['people', 'phone', 'name']
 
     def filter_people(self, qs, name, value):
         return qs.filter(Q(full_name__icontains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
@@ -79,6 +79,21 @@ class UsersFilter(django_filters.FilterSet):
 
     def filter_name(self, qs, name, value):
         return qs.filter(full_name__icontains=value).exclude(user=self.request.user)
+
+
+class FollowerFollowingUserFilter(django_filters.FilterSet):
+    follower_phone = django_filters.filters.CharFilter(method='filter_follower_phone')
+    follower_name = django_filters.filters.CharFilter(method='filter_follower_name')
+
+    class Meta:
+        model = UserFollow
+        fields = ['follower_phone', 'follower_name']
+
+    def filter_follower_phone(self, qs, name, value):
+        return qs.filter(follower__username__icontains=value)
+
+    def filter_follower_name(self, qs, name, value):
+        return qs.filter(follower__user_data__full_name__icontains=value)
 
 
 class ContentsFilter(django_filters.FilterSet):
