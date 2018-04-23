@@ -205,7 +205,7 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
-        if obj.profile_stream is not None:
+        if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             return ViewStreamSerializer(obj.profile_stream, fields=fields).data
         return dict()
 
