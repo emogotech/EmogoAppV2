@@ -40,6 +40,7 @@ class PeopleDAO {
     var displayName                     :String! = ""
     var isFollowing                     :Bool! = false
     var isFollower                     :Bool! = false
+    var shareURL                       :String! = ""
 
     init(peopleData:[String:Any]) {
         
@@ -88,6 +89,9 @@ class PeopleDAO {
         }
         if let obj = peopleData["user_image"] {
             self.userImage = obj as! String
+        }
+        if let obj = peopleData["branchio_url"] {
+            self.shareURL = obj as! String
         }
         if let obj = peopleData["profile_stream"] {
             if obj is [String:Any] {

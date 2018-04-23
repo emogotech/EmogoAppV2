@@ -150,7 +150,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
         viewTutorial.datasource = self
         viewTutorial.delegate = self
-        viewTutorial.delay = 2.5 // Delay between transitions
+        viewTutorial.delay = 5 // Delay between transitions
         viewTutorial.transitionDuration = 1.0 //0.5 // Transition duration
         viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorial.isRepeatAll = true
@@ -167,7 +167,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         pageControllerClosed.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
         viewTutorialClosed.datasource = self
         viewTutorialClosed.delegate = self
-        viewTutorialClosed.delay = 2.5 // Delay between transitions
+        viewTutorialClosed.delay = 5 // Delay between transitions
         viewTutorialClosed.transitionDuration =  1.0 // 0.5 // Transition duration
         viewTutorialClosed.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorialClosed.isRepeatAll = true
@@ -198,10 +198,13 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                 NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
                 let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-                self.addChildViewController(vc)
+                self.present(vc, animated: true, completion: nil)
+                // edit by Pushpendra
+               // self.addChildViewController(vc)
 //                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
 //                self.container.addSubview(vc.view)
-                vc.didMove(toParentViewController: self)
+                // edit by Pushpendra
+               // vc.didMove(toParentViewController: self)
 //                self.container.isHidden = false
             }
         }

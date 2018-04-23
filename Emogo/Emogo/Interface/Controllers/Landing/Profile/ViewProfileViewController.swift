@@ -49,7 +49,9 @@ class ViewProfileViewController: UIViewController {
         self.title = objPeople.fullName
         self.configureNavigationWithTitle()
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItem = btnFlag
+        self.navigationItem.leftBarButtonItem = btnShare
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
@@ -63,8 +65,24 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
-       
-      //  self.prepareData()
+       configureLoadMoreAndRefresh()
+       self.prepareData()
+    }
+    
+    func configureLoadMoreAndRefresh(){
+        let header:ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshHeaderAnimator(frame: .zero)
+        let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
+        
+        self.profileCollectionView.es.addPullToRefresh(animator: header) { [weak self] in
+            UIApplication.shared.beginIgnoringInteractionEvents()
+            
+            self?.getStreamList(type:.up,streamType: (self?.streamType)!)
+            
+        }
+        self.profileCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
+            self?.getStreamList(type:.down,streamType: (self?.streamType)!)
+        }
+        self.profileCollectionView.expiredTimeInterval = 20.0
     }
     
     func prepareData(){
@@ -127,6 +145,7 @@ class ViewProfileViewController: UIViewController {
         if self.streamType == "1" {
             if UserDAO.sharedInstance.user.stream != nil {
                 if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
+                    arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                     self.layout.headerHeight = 0
                 }else {
                     let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
@@ -138,6 +157,7 @@ class ViewProfileViewController: UIViewController {
                     self.layout.headerHeight = 200
                 }
             }else {
+                arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                 self.layout.headerHeight = 0
             }
             self.profileCollectionView.reloadData()
@@ -234,6 +254,23 @@ class ViewProfileViewController: UIViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
+    @objc func profileShareAction(){
+        if objPeople.shareURL.isEmpty {
+            return
+        }
+        let url:URL = URL(string: objPeople.shareURL!)!
+        let shareItem =  "Hey checkout \(objPeople.fullName.capitalized)'s profile!"
+        let text = "\n via Emogo"
+        
+        // let shareItem = "Hey checkout the s profile,emogo"
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
+        //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
+        
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true, completion: nil);
+        }
+    }
+    
     func getStreamList(type:RefreshType,streamType:String){
         self.lblNOResult.isHidden = true
         if type == .start || type == .up {
@@ -256,11 +293,11 @@ class ViewProfileViewController: UIViewController {
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 self.lblNOResult.isHidden = false
             }
-//            if streamType == "1" {
-//                self.profileStreamShow()
-//            }else {
+            if streamType == "1" {
+                self.profileStreamShow()
+            }else {
                 self.layout.headerHeight = 0
-            //}
+            }
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -310,12 +347,11 @@ class ViewProfileViewController: UIViewController {
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        if  self.streamType == "1" {
-//            return self.arrayMyStreams.count
-//        }else {
-//            return StreamList.sharedInstance.arrayMyStream.count
-//        }
-        return StreamList.sharedInstance.arrayMyStream.count
+        if  self.streamType == "1" {
+            return self.arrayMyStreams.count
+        }else {
+            return StreamList.sharedInstance.arrayMyStream.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -325,17 +361,17 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
           var stream:StreamDAO?
-//         if self.streamType == "1" {
-//            stream = self.arrayMyStreams[indexPath.row]
-//            cell.prepareLayouts(stream: stream!)
-//            cell.lblName.text = ""
-//            cell.lblName.isHidden = true
-//        }else
-//        {
+         if self.streamType == "1" {
+            stream = self.arrayMyStreams[indexPath.row]
+            cell.prepareLayouts(stream: stream!)
+            cell.lblName.text = ""
+            cell.lblName.isHidden = true
+        }else
+        {
              stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream!)
             cell.lblName.isHidden = false
-       // }
+        }
         
         cell.lblName.text = ""
         cell.lblName.isHidden = true
@@ -357,7 +393,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
     }
-    /*
+    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         print(kind)
         
@@ -397,7 +433,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
         oldContentOffset = scrollView.contentOffset
     }
-    */
+    
     func actionForCover(){
     }
     

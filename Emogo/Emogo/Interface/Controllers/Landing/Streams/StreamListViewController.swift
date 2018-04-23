@@ -8,7 +8,6 @@
 
 import UIKit
 import XLActionController
-import DKChainableAnimationKit
 
 class StreamListViewController: UIViewController {
     
