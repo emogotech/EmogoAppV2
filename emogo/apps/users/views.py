@@ -339,8 +339,8 @@ class UserFollowingAPI(ListAPIView):
         self.serializer_class = UserListFollowerFollowingSerializer
 
         # This IF condition is added because if try to search by name or phone disable pagination class.
-        if (self.request.query_params.get('follower_phone') or self.request.query_params.get(
-                'follower_name')) is not None:
+        if (self.request.query_params.get('following_phone') or self.request.query_params.get(
+                'following_name')) is not None:
             serializer = self.get_serializer(qs, many=True, fields=fields)
             return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
