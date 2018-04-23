@@ -118,21 +118,58 @@ class UserStreamFilter(django_filters.FilterSet):
     collab_stream = django_filters.filters.NumberFilter(method='filter_collab_stream')
     private_stream = django_filters.filters.NumberFilter(method='filter_private_stream')
     public_stream = django_filters.filters.NumberFilter(method='filter_public_stream')
+    following_stream = django_filters.filters.BooleanFilter(method='filter_following_stream')
+    follower_stream = django_filters.filters.BooleanFilter(method='filter_follower_stream')
 
     class Meta:
         model = Stream
-        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream']
+        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream', 'following_stream',
+                  'follower_stream']
 
     def filter_created_by(self, qs, name, value):
         get_object_or_404(UserFollow, follower=self.request.user, following_id=value)
-        #1. Get user as collaborator in streams created by requested user.
-        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active', stream__type='Private', created_by__user_data__id=value).values_list('stream', flat=True)
+        # 1. Get user as collaborator in streams created by requested user.
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by__user_data__id=value).values_list(
+            'stream', flat=True)
 
-        #2. Fetch stream Queryset objects.
+        # 2. Fetch stream Queryset objects.
         stream_as_collabs = qs.filter(id__in=stream_ids)
 
-        #3. Get main stream created by requested user and stream type is Public.
+        # 3. Get main stream created by requested user and stream type is Public.
         main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = main_qs | stream_as_collabs
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_following_stream(self, qs, name, value):
+        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
+        # 1. Get user as collaborator in streams created by following's
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by_id__in=following_ids).values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        stream_as_collabs = qs.filter(id__in=stream_ids)
+
+        # 3. Get main stream created by requested user and stream type is Public.
+        main_qs = qs.filter(created_by__in=following_ids, type='Public').order_by('-upd')
+        qs = main_qs | stream_as_collabs
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_follower_stream(self, qs, name, value):
+        follower_ids = UserFollow.objects.filter(following=self.request.user).values_list('follower_id', flat=True)
+        # 1. Get user as collaborator in streams created by follower's.
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by_id__in=follower_ids).values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        stream_as_collabs = qs.filter(id__in=stream_ids)
+
+        # 3. Get main stream created by requested user and stream type is Public.
+        main_qs = qs.filter(created_by__in=follower_ids, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
         qs = self.get_prefetch_records(qs)
         return qs
@@ -144,8 +181,8 @@ class UserStreamFilter(django_filters.FilterSet):
 
     def filter_collab_stream(self, qs, name, value):
         stream_ids = Collaborator.actives.filter(phone_number=get_object_or_404(User, user_data__id=value),
-                                         stream__status='Active',
-                                         created_by=self.request.user).values_list('stream', flat=True)
+                                                 stream__status='Active',
+                                                 created_by=self.request.user).values_list('stream', flat=True)
         qs = qs.filter(id__in=stream_ids)
         qs = self.get_prefetch_records(qs)
         return qs
