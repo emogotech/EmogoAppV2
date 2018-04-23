@@ -50,8 +50,7 @@ class ViewProfileViewController: UIViewController {
         self.configureNavigationWithTitle()
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
-        self.navigationItem.rightBarButtonItem = btnFlag
-        self.navigationItem.leftBarButtonItem = btnShare
+        self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         profileCollectionView.alwaysBounceVertical = true
@@ -115,11 +114,25 @@ class ViewProfileViewController: UIViewController {
                     if people.website.trim().isEmpty {
                         self.imgLink.isHidden = true
                     }
+                    if people.location.isEmpty && !people.website.trim().isEmpty {
+                        self.lblLocation.text = people.website.trim()
+                        self.lblWebsite.isHidden = true
+                        self.imgLink.isHidden = true
+                        self.imgLocation.isHidden = false
+                        self.imgLocation.image = self.imgLink.image
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                        self.lblLocation.addGestureRecognizer(tap)
+                        self.lblLocation.isUserInteractionEnabled = true
+                    }else {
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                        self.lblWebsite.addGestureRecognizer(tap)
+                        self.lblWebsite.isUserInteractionEnabled = true
+                    }
                     //print(people.userImage.trim())
                     if !people.userImage.trim().isEmpty {
                         self.imgUser.setImageWithResizeURL(people.userImage.trim())
                     }
-                    if people.biography.trim().isEmpty {
+                    if people.biography.trim().isEmpty  {
                         self.kHeaderHeight.constant = 178
                         self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
                         
@@ -268,6 +281,21 @@ class ViewProfileViewController: UIViewController {
         
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil);
+        }
+    }
+    
+    @objc func actionForWebsite(){
+        
+        guard let url = URL(string: objPeople.website.stringByAddingPercentEncodingForURLQueryParameter()!) else {
+            self.showToast(strMSG: kAlert_ValidWebsite)
+            return
+        }
+        if !["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+            let appendedLink = "https://" + objPeople.website
+            let modiURL = URL(string: appendedLink.stringByAddingPercentEncodingForURLQueryParameter()!)
+            self.openURL(url: modiURL!)
+        }else {
+            self.openURL(url: url)
         }
     }
     

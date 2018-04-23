@@ -211,6 +211,16 @@ class ProfileViewController: UIViewController {
             if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                 self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
             }
+            if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
+                self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                self.lblWebsite.isHidden = true
+                self.imgLink.isHidden = true
+                self.imgLocation.isHidden = false
+                self.imgLocation.image = self.imgLink.image
+                let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                self.lblLocation.addGestureRecognizer(tap)
+                self.lblLocation.isUserInteractionEnabled = true
+            }
             self.profileStreamShow()
 
         }
