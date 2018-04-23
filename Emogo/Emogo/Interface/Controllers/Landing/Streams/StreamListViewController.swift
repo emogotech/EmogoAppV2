@@ -698,6 +698,7 @@ class StreamListViewController: UIViewController {
     }
     
     func getStreamList(type:RefreshType,filter:StreamType){
+        
         if type == .start || type == .up {
             for _ in StreamList.sharedInstance.arrayStream {
                 if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {

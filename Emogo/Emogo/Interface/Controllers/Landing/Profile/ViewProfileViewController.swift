@@ -46,6 +46,7 @@ class ViewProfileViewController: UIViewController {
     }
     
     func prepareLayouts(){
+        StreamList.sharedInstance.arrayMyStream.removeAll()
         self.title = objPeople.fullName
         self.configureNavigationWithTitle()
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
@@ -66,6 +67,15 @@ class ViewProfileViewController: UIViewController {
         self.profileCollectionView.collectionViewLayout = layout
        configureLoadMoreAndRefresh()
        self.prepareData()
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.profileCollectionView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.profileCollectionView.addGestureRecognizer(swipeLeft)
+        
     }
     
     func configureLoadMoreAndRefresh(){
@@ -196,11 +206,11 @@ class ViewProfileViewController: UIViewController {
             if !objPeople.displayName.trim().isEmpty {
                 name = objPeople.displayName.trim()
             }
-            let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .alert)
-            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+            let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .actionSheet)
+            let yes = UIAlertAction(title: kAlertTitle_Unfollow, style: .default) { (action) in
                 self.unFollowUser()
             }
-            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+            let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             }
             alert.addAction(yes)
             alert.addAction(no)
@@ -210,6 +220,27 @@ class ViewProfileViewController: UIViewController {
         }
     }
     
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swie Left")
+                if self.streamType == "1" {
+                    self.updateSegment(selected: 102)
+                }
+                break
+                
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swie Right")
+                if self.streamType == "2" {
+                    self.updateSegment(selected: 101)
+                }
+                break
+            default:
+                break
+            }
+        }
+    }
     
     private func updateSegment(selected:Int){
         switch selected {

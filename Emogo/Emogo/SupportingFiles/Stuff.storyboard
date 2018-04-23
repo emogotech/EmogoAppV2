@@ -1323,7 +1323,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wv-DE-6Sv">
-                                                            <rect key="frame" x="72" y="10" width="180" height="21"/>
+                                                            <rect key="frame" x="72" y="16" width="180" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="5ga-EI-2k2"/>
                                                             </constraints>
@@ -1332,9 +1332,9 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVs-rR-mTd">
-                                                            <rect key="frame" x="72" y="39" width="180" height="21"/>
+                                                            <rect key="frame" x="72" y="37" width="180" height="18"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="21" id="KYu-pr-Kff"/>
+                                                                <constraint firstAttribute="height" constant="18" id="KYu-pr-Kff"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="13"/>
                                                             <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
@@ -1356,11 +1356,11 @@
                                                         <constraint firstItem="bVs-rR-mTd" firstAttribute="leading" secondItem="IZq-ZI-Oju" secondAttribute="trailing" constant="13" id="BB7-gq-ZzE"/>
                                                         <constraint firstItem="9wv-DE-6Sv" firstAttribute="leading" secondItem="IZq-ZI-Oju" secondAttribute="trailing" constant="13" id="JbU-Xs-NGL"/>
                                                         <constraint firstItem="IZq-ZI-Oju" firstAttribute="centerY" secondItem="y5H-oF-5r3" secondAttribute="centerY" id="O8Q-UM-e0e"/>
-                                                        <constraint firstItem="9wv-DE-6Sv" firstAttribute="top" secondItem="y5H-oF-5r3" secondAttribute="top" constant="10" id="PNr-LQ-elR"/>
+                                                        <constraint firstItem="9wv-DE-6Sv" firstAttribute="top" secondItem="y5H-oF-5r3" secondAttribute="top" constant="16" id="PNr-LQ-elR"/>
                                                         <constraint firstItem="hT6-Xz-xsa" firstAttribute="centerY" secondItem="y5H-oF-5r3" secondAttribute="centerY" id="czD-ge-CJm"/>
                                                         <constraint firstItem="hT6-Xz-xsa" firstAttribute="leading" secondItem="bVs-rR-mTd" secondAttribute="trailing" constant="15" id="iwd-RJ-iOj"/>
                                                         <constraint firstItem="IZq-ZI-Oju" firstAttribute="leading" secondItem="y5H-oF-5r3" secondAttribute="leading" constant="12" id="k6Q-2j-TRy"/>
-                                                        <constraint firstItem="bVs-rR-mTd" firstAttribute="top" secondItem="9wv-DE-6Sv" secondAttribute="bottom" constant="8" id="pqF-a1-j8D"/>
+                                                        <constraint firstItem="bVs-rR-mTd" firstAttribute="top" secondItem="9wv-DE-6Sv" secondAttribute="bottom" id="pqF-a1-j8D"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>

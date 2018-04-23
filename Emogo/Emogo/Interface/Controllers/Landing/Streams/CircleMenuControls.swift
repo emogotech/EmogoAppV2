@@ -143,7 +143,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         default:
             break
         }
-        
         print("currrent index--->\(index)")
         if  index != 4 {
             StreamList.sharedInstance.updateRequestType(filter: currentStreamType)

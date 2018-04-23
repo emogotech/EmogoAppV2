@@ -135,8 +135,10 @@ class StreamList{
             PeopleList.sharedInstance.requestURl = kPeopleAPI
             break
         case .Liked:
+            self.requestURl = "user_liked_streams/"
             break
         case .Following:
+            self.requestURl = "user_streams/?created_by=\(UserDAO.sharedInstance.user.userId!)"
             break
         }
     }

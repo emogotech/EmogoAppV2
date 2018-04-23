@@ -68,9 +68,9 @@ class FollowersViewController: UIViewController {
         
         self.tblFollowers.es.addPullToRefresh(animator: header) { [weak self] in
             if self?.listType == FollowerType.Follower {
-                self?.getFollowers(type: .start)
+                self?.getFollowers(type: .up)
             }else {
-                self?.getFollowing(type: .start)
+                self?.getFollowing(type: .up)
             }
         }
         
@@ -172,9 +172,7 @@ class FollowersViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForUnFollowUser(userID: userID) { (isSuccess, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
-                let follow = FollowList.sharedInstance.arrayFollowers[index]
-                follow.isFollowing = false
-                FollowList.sharedInstance.arrayFollowers[index] = follow
+                FollowList.sharedInstance.arrayFollowers.remove(at: index)
                 self.tblFollowers.reloadData()
             }else {
                 self.showToast(strMSG: errorMSG!)
@@ -188,11 +186,11 @@ class FollowersViewController: UIViewController {
         if !follow.displayName.trim().isEmpty {
             name = follow.displayName.trim()
         }
-        let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .alert)
-        let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .actionSheet)
+        let yes = UIAlertAction(title: kAlertTitle_Unfollow, style: .default) { (action) in
             self.unFollowUser(userID: follow.userId, index: index)
         }
-        let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
         }
         alert.addAction(yes)
         alert.addAction(no)

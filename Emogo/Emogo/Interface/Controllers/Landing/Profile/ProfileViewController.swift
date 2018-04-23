@@ -92,7 +92,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
-        self.profileStreamShow()
+        self.prepareLayout()
         updateList()
     }
     
@@ -128,7 +128,6 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.alwaysBounceVertical = true
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
-        self.prepareLayout()
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kProfileUpdateIdentifier)), object: nil)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kProfileUpdateIdentifier), object: nil, queue: nil) { (notification) in

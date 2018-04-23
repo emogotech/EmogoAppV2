@@ -22,6 +22,7 @@ class FollowerCell: UITableViewCell {
     }
 
     func prepareData(follow:FollowerDAO,type:FollowerType) {
+        self.lblUserName.isHidden = false
         self.lblName.text = follow.displayName
         self.lblUserName.text = follow.fullName
         self.imgUser.setImageWithResizeURL(follow.userImage.trim())
@@ -33,6 +34,10 @@ class FollowerCell: UITableViewCell {
             }
         }else {
             self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+        }
+        if follow.displayName.trim().isEmpty {
+            self.lblName.text = follow.fullName
+            self.lblUserName.isHidden = true
         }
       
     }
