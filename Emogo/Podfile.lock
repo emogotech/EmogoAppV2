@@ -21,6 +21,7 @@ PODS:
   - Lightbox (2.1.1):
     - Hue (~> 3.0)
     - Imaginary (~> 3.0)
+  - Presentr (1.3.2)
   - RS3DSegmentedControl (0.2.7):
     - iCarousel
   - SDWebImage (4.2.3):
@@ -44,6 +45,7 @@ DEPENDENCIES:
   - GSKStretchyHeaderView
   - IQKeyboardManagerSwift
   - Lightbox
+  - Presentr
   - RS3DSegmentedControl
   - SDWebImage
   - SwiftLinkPreview
@@ -67,6 +69,7 @@ SPEC CHECKSUMS:
   Imaginary: d675200546110e305d6a26db6267c0622ffe5e6b
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
   Lightbox: 30dc3540527e03194a10ee51be8ad5e039a1893f
+  Presentr: 797ae6ec8904eaba4ec58a4c2065bd66e31569ea
   RS3DSegmentedControl: 686b5bc9e3080a6b7b902ba4e04735a90c52dc6d
   SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
   SwiftLinkPreview: 2366319a604683d14292c0b59d70a619c1e3d461
@@ -74,6 +77,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 8f5e86bce787b7d14213d5d6abf14b6f140135aa
+PODFILE CHECKSUM: 92ad70eff461a9cfacc731fa90005dacef4b0247
 
 COCOAPODS: 1.4.0

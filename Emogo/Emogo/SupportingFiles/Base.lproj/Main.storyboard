@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pIR-sH-nhU">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue-Medium</string>
-        </array>
         <array key="SF-Pro-Display-Bold.otf">
             <string>SFProDisplay-Bold</string>
         </array>
@@ -158,7 +155,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rB4-zD-lus">
                                 <rect key="frame" x="0.0" y="538" width="375" height="129"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8V-sK-6fv">
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K8V-sK-6fv">
                                         <rect key="frame" x="0.0" y="3" width="375" height="22"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.31" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -170,7 +167,7 @@
                                             <action selector="btnAnimateViewAction:" destination="taN-Fu-ihg" eventType="touchUpInside" id="2wS-Je-znE"/>
                                         </connections>
                                     </button>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yDV-Ix-T4g">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yDV-Ix-T4g">
                                         <rect key="frame" x="0.0" y="25" width="375" height="104"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.31490796232876711" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="svf-Cd-ZVB">
@@ -924,6 +921,7 @@
                         <viewLayoutGuide key="safeArea" id="AW0-j5-GuK"/>
                     </view>
                     <connections>
+                        <outlet property="btnDone" destination="jfz-6l-SyY" id="7mo-CM-Z2v"/>
                         <outlet property="lblNoResult" destination="zC5-BK-aQJ" id="u2t-uy-o0h"/>
                         <outlet property="myStreamCollectionView" destination="sAF-19-Jhz" id="4Bk-MZ-992"/>
                     </connections>
@@ -2057,7 +2055,7 @@
                                 <rect key="frame" x="5" y="99" width="365" height="410"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="52" y="113" width="261" height="48"/>
+                                        <rect key="frame" x="52" y="114" width="261.5" height="47"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2106,7 +2104,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DC-Lh-HM0">
-                                        <rect key="frame" x="127.5" y="372" width="110" height="29"/>
+                                        <rect key="frame" x="127" y="372" width="111" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="WLK-GW-PeV"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="g7l-Qx-35Z"/>
@@ -2238,14 +2236,14 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-BY-sC0">
-                                        <rect key="frame" x="75" y="277" width="215" height="53"/>
+                                        <rect key="frame" x="75" y="277" width="215" height="54"/>
                                         <state key="normal" image="new-done-btn"/>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="8aY-dE-SI1" eventType="touchUpInside" id="ZOe-QP-XJt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exw-Tc-RmJ">
-                                        <rect key="frame" x="108.5" y="369" width="148" height="34"/>
+                                        <rect key="frame" x="110.5" y="370" width="144" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Exw-Tc-RmJ" secondAttribute="height" multiplier="74:17" id="22N-g3-cKx"/>
                                         </constraints>
@@ -2520,7 +2518,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Stream Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="mtn-KJ-vkC">
-                                                    <rect key="frame" x="10" y="22" width="138" height="17"/>
+                                                    <rect key="frame" x="10" y="22" width="140" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="HOT-8b-ddN"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="ZzM-Mw-sfb"/>
@@ -2666,7 +2664,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="L89-Gg-6A2">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="Dag-XE-f0V"/>
                                                     </constraints>

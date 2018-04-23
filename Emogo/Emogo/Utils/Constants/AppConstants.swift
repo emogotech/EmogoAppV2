@@ -337,6 +337,7 @@ let kAlert_ValidWebsite                                         = "Please Enter 
 
 let kAlert_ProfileStreamAdded                                  = "Your Profile Stream is Updated."
 let kAlert_Select_Stream_For_Assign                                                  = "Please select a stream to assign as Profile Stream."
+let kAlert_UnFollow_a_User            = "Do you really want to unfollow '%@'?"
 
 
 

@@ -130,47 +130,54 @@
 			<key>orderHint</key>
 			<integer>17</integer>
 		</dict>
-		<key>RS3DSegmentedControl.xcscheme</key>
+		<key>Presentr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>19</integer>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>RS3DSegmentedControl.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>20</integer>
 		</dict>
-		<key>SwiftLinkPreview.xcscheme</key>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>21</integer>
 		</dict>
-		<key>SwiftyCam.xcscheme</key>
+		<key>SwiftLinkPreview.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>22</integer>
 		</dict>
-		<key>SwiftyJSON.xcscheme</key>
+		<key>SwiftyCam.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>23</integer>
 		</dict>
-		<key>XLActionController.xcscheme</key>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>24</integer>
+		</dict>
+		<key>XLActionController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>25</integer>
 		</dict>
 		<key>iCarousel.xcscheme</key>
 		<dict>

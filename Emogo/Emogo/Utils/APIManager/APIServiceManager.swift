@@ -1326,8 +1326,8 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            let result:[Any] = data as! [Any]
-                            for obj in result {
+                            let array:[Any] = data as! [Any]
+                            for obj in array {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
                                     // it exists, do something

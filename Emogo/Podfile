@@ -31,8 +31,9 @@ target 'Emogo' do
     pod 'SwiftLinkPreview'
     pod ‘RS3DSegmentedControl’
     pod 'Branch'
-
-
+    pod 'Presentr'
+    
+    
     target 'EmogoTests' do
         inherit! :search_paths
         common_pods_for_target
@@ -63,7 +64,7 @@ target 'ShareExt' do
     use_frameworks!
     pod 'SDWebImage'
     pod 'SwiftLinkPreview'
-
+    
     # Pods for ShareExt
     
 end

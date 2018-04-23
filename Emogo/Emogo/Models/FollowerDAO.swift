@@ -10,7 +10,7 @@ import Foundation
 
 enum FollowerType:String {
     case Follower = "Followers"
-    case Following = "Followings"
+    case Following = "Following"
 }
 
 class FollowerDAO {
@@ -20,6 +20,10 @@ class FollowerDAO {
     var userId:String! = ""
     var userProfileID:String! = ""
     var displayName:String! = ""
+    var isFollowing:Bool! = false
+    var isFollower:Bool! = false
+
+    
   
     init(dictFollow:[String:Any]) {
         if let data = dictFollow["phone_number"]{
@@ -40,6 +44,14 @@ class FollowerDAO {
         if let data = dictFollow["display_name"]{
             self.displayName = data as! String
         }
+        if let data = dictFollow["is_following"]{
+            self.isFollowing = "\(data)".toBool()
+        }
+        if let data = dictFollow["is_follower"]{
+            self.isFollower = "\(data)".toBool()
+        }
+        
+        
     }
 }
 

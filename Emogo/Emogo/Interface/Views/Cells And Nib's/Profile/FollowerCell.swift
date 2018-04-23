@@ -21,10 +21,20 @@ class FollowerCell: UITableViewCell {
         // Initialization code
     }
 
-    func prepareData(follow:FollowerDAO) {
+    func prepareData(follow:FollowerDAO,type:FollowerType) {
         self.lblName.text = follow.displayName
         self.lblUserName.text = follow.fullName
         self.imgUser.setImageWithResizeURL(follow.userImage.trim())
+        if type == .Follower {
+            if follow.isFollowing {
+                self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+            }else {
+                self.btnFollow.setImage(#imageLiteral(resourceName: "follow_button"), for: .normal)
+            }
+        }else {
+            self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+        }
+      
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

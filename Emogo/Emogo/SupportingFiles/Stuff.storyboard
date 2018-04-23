@@ -1295,22 +1295,21 @@
                                                                 <constraint firstAttribute="width" constant="43" id="FuV-5B-ShH"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x3m-aR-Ugz">
-                                                            <rect key="frame" x="80" y="7" width="273" height="54"/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
-                                                            <state key="normal" title="Message Contacts">
-                                                                <color key="titleColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </state>
-                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message Contacts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z55-YX-VhJ">
+                                                            <rect key="frame" x="80" y="23" width="274" height="22"/>
+                                                            <fontDescription key="fontDescription" name="SFProText-Medium" family="SF Pro Text" pointSize="18"/>
+                                                            <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstItem="2gG-NA-wwK" firstAttribute="leading" secondItem="rXO-WQ-pD3" secondAttribute="leading" constant="20" id="3t1-vl-Nm8"/>
-                                                        <constraint firstItem="x3m-aR-Ugz" firstAttribute="leading" secondItem="2gG-NA-wwK" secondAttribute="trailing" constant="17" id="7ZK-fO-3ZG"/>
-                                                        <constraint firstItem="x3m-aR-Ugz" firstAttribute="top" secondItem="rXO-WQ-pD3" secondAttribute="top" constant="7" id="Kc4-WT-vH6"/>
-                                                        <constraint firstAttribute="bottom" secondItem="x3m-aR-Ugz" secondAttribute="bottom" constant="8.5" id="Xjn-fc-F7F"/>
                                                         <constraint firstItem="2gG-NA-wwK" firstAttribute="centerY" secondItem="rXO-WQ-pD3" secondAttribute="centerY" id="aoM-Ih-i9t"/>
-                                                        <constraint firstAttribute="trailing" secondItem="x3m-aR-Ugz" secondAttribute="trailing" constant="22" id="hof-f5-dfK"/>
+                                                        <constraint firstAttribute="bottom" secondItem="z55-YX-VhJ" secondAttribute="bottom" constant="24.5" id="gd3-mz-7ah"/>
+                                                        <constraint firstItem="z55-YX-VhJ" firstAttribute="top" secondItem="rXO-WQ-pD3" secondAttribute="top" constant="23" id="rbh-Ry-th6"/>
+                                                        <constraint firstItem="z55-YX-VhJ" firstAttribute="leading" secondItem="2gG-NA-wwK" secondAttribute="trailing" constant="17" id="wd8-s6-Tko"/>
+                                                        <constraint firstAttribute="trailing" secondItem="z55-YX-VhJ" secondAttribute="trailing" constant="21" id="weV-f0-232"/>
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y5H-oF-5r3">

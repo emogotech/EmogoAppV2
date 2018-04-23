@@ -41,6 +41,7 @@ class PeopleDAO {
     var isFollowing                     :Bool! = false
     var isFollower                     :Bool! = false
     var shareURL                       :String! = ""
+    var userProfileID                  :String! = ""
 
     init(peopleData:[String:Any]) {
         
@@ -79,6 +80,9 @@ class PeopleDAO {
         }
         
         if let obj = peopleData["user_profile_id"] {
+            self.userProfileID = "\(obj)"
+        }
+        if let obj = peopleData["user_id"] {
             self.userId = "\(obj)"
         }
         if let obj = peopleData["full_name"] {

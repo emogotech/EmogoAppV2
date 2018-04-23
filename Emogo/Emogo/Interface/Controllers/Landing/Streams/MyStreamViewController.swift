@@ -18,6 +18,8 @@ class MyStreamViewController: UIViewController {
     
     @IBOutlet weak var myStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoResult: UILabel!
+    @IBOutlet weak var btnDone: UIButton!
+
 
     // MARK: - Variables
     var currentType:RefreshType! = .start
@@ -208,9 +210,11 @@ class MyStreamViewController: UIViewController {
             }
             
           //  self.lblNoResult.isHidden = true
+            self.btnDone.isUserInteractionEnabled = true
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
              //   self.lblNoResult.isHidden = false
-            }
+                self.btnDone.isUserInteractionEnabled = false
+                }
             self.currentType = refreshType
             if self.streamID != nil {
                 if let index =   StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.streamID?.trim()}) {

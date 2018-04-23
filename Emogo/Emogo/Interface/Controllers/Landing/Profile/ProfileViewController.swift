@@ -579,10 +579,16 @@ class ProfileViewController: UIViewController {
                     }
                     lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
+                   
                 }
             }else {
                 arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                self.layout.headerHeight = 0
+            }
+            if arrayMyStreams.count == 0 {
+                self.layout.headerHeight = 0
+                lblNOResult.text = "No Streams Found."
+                lblNOResult.isHidden = false
             }
             self.profileCollectionView.reloadData()
         }

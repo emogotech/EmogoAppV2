@@ -149,7 +149,6 @@ class ViewProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         HUDManager.sharedInstance.showHUD()
-        self.streamType = "1"
         self.getStreamList(type:.start,streamType: streamType)
     }
     
@@ -163,20 +162,28 @@ class ViewProfileViewController: UIViewController {
                 }else {
                     let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
                     if index != nil {
+                        lblNOResult.isHidden = true
                     arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                         arrayMyStreams.remove(at: index!)
+                    }else {
+                        if arrayMyStreams.count == 0 {
+                            self.lblNOResult.text = "No Streams Found."
+                            self.lblNOResult.isHidden = false
+                        }
                     }
-                    lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
                 arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                 self.layout.headerHeight = 0
+                if arrayMyStreams.count == 0 {
+                    self.lblNOResult.text = "No Streams Found."
+                    self.lblNOResult.isHidden = false
+                }
             }
             self.profileCollectionView.reloadData()
         }
     }
-    
     
     
     @IBAction func btnActionMenuSelected(_ sender: UIButton) {
@@ -185,7 +192,19 @@ class ViewProfileViewController: UIViewController {
     
     @IBAction func btnActionFollowUser(_ sender: UIButton) {
         if self.objPeople.isFollowing {
-            self.unFollowUser()
+            var name = objPeople.fullName
+            if !objPeople.displayName.trim().isEmpty {
+                name = objPeople.displayName.trim()
+            }
+            let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .alert)
+            let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+                self.unFollowUser()
+            }
+            let no = UIAlertAction(title: kAlertTitle_No, style: .default) { (action) in
+            }
+            alert.addAction(yes)
+            alert.addAction(no)
+            self.present(alert, animated: true, completion: nil)
         }else {
             self.followUser()
         }
@@ -305,7 +324,7 @@ class ViewProfileViewController: UIViewController {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
         }
-        APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userId,type: type,streamType: streamType) { (refreshType, errorMsg) in
+        APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userProfileID,type: type,streamType: streamType) { (refreshType, errorMsg) in
             if type == .start {
                 HUDManager.sharedInstance.hideHUD()
             }
@@ -319,11 +338,15 @@ class ViewProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                if streamType == "2" {
+                    self.lblNOResult.text = "No colabs found!"
+                }
                 self.lblNOResult.isHidden = false
             }
             if streamType == "1" {
                 self.profileStreamShow()
             }else {
+                
                 self.layout.headerHeight = 0
             }
             self.profileCollectionView.reloadData()
@@ -412,14 +435,29 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        ContentList.sharedInstance.mainStreamIndex = nil
-        StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
-        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-        obj.currentIndex = indexPath.row
-        obj.streamType = currentStreamType.rawValue
-        obj.viewStream = "View"
-        ContentList.sharedInstance.objStream = nil
-        self.navigationController?.push(viewController: obj)
+        if self.streamType == "" {
+            let tempStream = self.arrayMyStreams[indexPath.row]
+            let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
+           let index = tempIndex!
+            StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            obj.currentIndex = index
+            obj.streamType = currentStreamType.rawValue
+            obj.viewStream = "View"
+            ContentList.sharedInstance.objStream = nil
+            self.navigationController?.push(viewController: obj)
+            
+        }else {
+            ContentList.sharedInstance.mainStreamIndex = nil
+            StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
+            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+            obj.currentIndex = indexPath.row
+            obj.streamType = currentStreamType.rawValue
+            obj.viewStream = "View"
+            ContentList.sharedInstance.objStream = nil
+            self.navigationController?.push(viewController: obj)
+        }
+       
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -463,6 +501,21 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func actionForCover(){
+        
+        let array = StreamList.sharedInstance.arrayStream.filter { $0.isAdd == false }
+        StreamList.sharedInstance.arrayViewStream = array
+        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        obj.streamType = currentStreamType.rawValue
+        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+        if index != nil {
+            obj.currentIndex = index
+        }else {
+            obj.currentIndex = 0
+        }
+        obj.viewStream = "View"
+        ContentList.sharedInstance.objStream = nil
+        self.navigationController?.push(viewController: obj)
+        
     }
     
 }
