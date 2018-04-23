@@ -84,16 +84,24 @@ class UsersFilter(django_filters.FilterSet):
 class FollowerFollowingUserFilter(django_filters.FilterSet):
     follower_phone = django_filters.filters.CharFilter(method='filter_follower_phone')
     follower_name = django_filters.filters.CharFilter(method='filter_follower_name')
+    following_phone = django_filters.filters.CharFilter(method='filter_following_phone')
+    following_name = django_filters.filters.CharFilter(method='filter_following_name')
 
     class Meta:
         model = UserFollow
-        fields = ['follower_phone', 'follower_name']
+        fields = ['follower_phone', 'follower_name', 'following_phone', 'following_name']
 
     def filter_follower_phone(self, qs, name, value):
         return qs.filter(follower__username__icontains=value)
 
+    def filter_following_phone(self, qs, name, value):
+        return qs.filter(following__username__icontains=value)
+
     def filter_follower_name(self, qs, name, value):
         return qs.filter(follower__user_data__full_name__icontains=value)
+
+    def filter_following_name(self, qs, name, value):
+        return qs.filter(following__user_data__full_name__icontains=value)
 
 
 class ContentsFilter(django_filters.FilterSet):

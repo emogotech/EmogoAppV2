@@ -314,6 +314,7 @@ class UserFollowingAPI(ListAPIView):
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
     queryset = UserFollow.objects.all().select_related('following__user_data')
+    filter_class = FollowerFollowingUserFilter
     permission_classes = (IsAuthenticated,)
 
     def get_paginated_response(self, data, status_code=None):
@@ -336,6 +337,13 @@ class UserFollowingAPI(ListAPIView):
         #  Customized field list
         fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower')
         self.serializer_class = UserListFollowerFollowingSerializer
+
+        # This IF condition is added because if try to search by name or phone disable pagination class.
+        if (self.request.query_params.get('follower_phone') or self.request.query_params.get(
+                'follower_name')) is not None:
+            serializer = self.get_serializer(qs, many=True, fields=fields)
+            return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
+
         page = self.paginate_queryset(qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
