@@ -9,7 +9,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
-    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer
+    UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
+    UserListFollowerFollowingSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -270,7 +271,7 @@ class UserFollowersAPI(ListAPIView):
     """
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
-    queryset = UserFollow.objects.all().select_related('follower__user_data')
+    queryset = UserFollow.objects.all()
     permission_classes = (IsAuthenticated,)
 
     def get_paginated_response(self, data, status_code=None):
@@ -281,13 +282,20 @@ class UserFollowersAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset()).filter(following=self.request.user).only('follower')
+        qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(following=self.request.user).values_list('follower', flat=True))
+        qs = qs.select_related('user').prefetch_related(
+                 Prefetch(
+                    "user__who_follows",
+                    queryset=UserFollow.objects.all().order_by('-follow_time'),
+                    to_attr="follower_list"
+            )
+        )
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id')
-        self.serializer_class = UserDetailSerializer
-        page = self.paginate_queryset([x.follower.user_data for x in  queryset])
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_following')
+        self.serializer_class = UserListFollowerFollowingSerializer
+        page = self.paginate_queryset(qs)
         if page is not None:
-            serializer = self.get_serializer(page, many=True, fields=fields)
+            serializer = self.get_serializer(page, many=True, fields=fields, context=self.request)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
 
@@ -308,11 +316,19 @@ class UserFollowingAPI(ListAPIView):
         return self.paginator.get_paginated_response(data, status_code=status_code)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).only('following')
+        qs = UserProfile.actives.filter(user__in=self.filter_queryset(self.get_queryset()).filter(follower=self.request.user).values_list('following', flat=True))
+        qs = qs.select_related('user').prefetch_related(
+            Prefetch(
+                "user__who_is_followed",
+                queryset=UserFollow.objects.all().order_by('-follow_time'),
+                to_attr="following_list"
+            )
+        )
+
         #  Customized field list
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id')
-        self.serializer_class = UserDetailSerializer
-        page = self.paginate_queryset([x.following.user_data for x in queryset])
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'user_image', 'display_name', 'user_id', 'is_follower')
+        self.serializer_class = UserListFollowerFollowingSerializer
+        page = self.paginate_queryset(qs)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
             return self.get_paginated_response(data=serializer.data, status_code=status.HTTP_200_OK)

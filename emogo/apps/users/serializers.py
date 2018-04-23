@@ -237,6 +237,28 @@ class UserDetailSerializer(UserProfileSerializer):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
 
 
+class UserListFollowerFollowingSerializer(UserDetailSerializer):
+    pass
+
+    def get_is_following(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else:
+            user_id = self.context.user.id
+        if user_id in [x.follower_id for x in obj.user.follower_list]:
+            return True
+        return False
+
+    def get_is_follower(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.following_id for x in obj.user.following_list]:
+            return True
+        return False
+
+
 class UserOtpSerializer(UserProfileSerializer):
     """
     User OTP serializer inherits : UserProfileSerializer
@@ -471,6 +493,15 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
     User Follow model Serializer
     """
     follower = serializers.IntegerField(read_only=True)
+    is_follower = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+
     class Meta:
         model = UserFollow
         fields = '__all__'
+
+    def get_is_follower(self, ob):
+        return False
+
+    def get_is_following(self, ob):
+        return False
