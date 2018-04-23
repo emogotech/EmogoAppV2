@@ -6,10 +6,11 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView, D
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from emogo.lib.helpers.utils import custom_render_response
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, StreamUserViewStatus, LikeDislikeContent
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
-    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer
+    ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
+    ContentLikeDislikeSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -18,6 +19,8 @@ import itertools
 from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch
 from django.db.models import QuerySet
+from django.contrib.auth.models import User
+
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -28,7 +31,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content').order_by('order'),
+                queryset=StreamContent.objects.all().select_related('content').order_by('order', '-attached_date'),
                 to_attr="content_list"
             ),
             Prefetch(
@@ -79,6 +82,8 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         current_url = resolve(request.path_info).url_name
         # This condition response only stream collaborators.
         if current_url == 'stream_collaborator':
+            user_data = User.objects.filter(username__in=[x.phone_number for x in instance.stream_collaborator]).values('username','user_data__user_image')
+            self.request.data.update({'collab_user_image': user_data})
             serializer = self.get_serializer(instance, fields=('collaborators',), context=self.request)
         # Return all data
         else:
@@ -192,12 +197,37 @@ class DeleteStreamContentInBulkAPI(APIView):
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
+class CopyContentAPI(APIView):
+
+    serializer_class = CopyContentSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return get_object_or_404(Content.actives, pk=self.request.data.get('content_id'))
+
+    def post(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: None
+        :param kwargs: Content_id
+        :return: Copy content with new owner
+        """
+
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        instance = self.get_object()
+        serializer = self.serializer_class(instance, data=request.data, context=self.request)
+        serializer.copy_content()
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=None)
+
+
 class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
     """
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().order_by('order')
+    queryset = Content.actives.all().select_related('created_by__user_data__user').order_by('order', '-crd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -249,7 +279,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         #  Customized field list
         fields = (
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color')
+        'color', 'user_image', 'full_name', 'order')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -304,7 +334,7 @@ class GetTopContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order','color')
+            'order', 'color', 'full_name', 'user_image')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
@@ -313,7 +343,7 @@ class GetTopContentAPI(ContentAPI):
         giphy_type = self.get_serializer(queryset.filter(type='Giphy')[0:10], many=True, fields=fields)
         all = self.get_serializer(queryset[0:20], many=True, fields=fields)
         data = {'picture': picture_type.data, 'video': video_type.data, 'link': link_type.data,
-                'giphy': giphy_type.data, 'all':all.data}
+                'giphy': giphy_type.data, 'all': all.data}
         return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
 
@@ -322,7 +352,7 @@ class GetTopTwentyContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color')
+            'order', 'color', 'full_name', 'user_image')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
@@ -366,7 +396,8 @@ class LinkTypeContentAPI(ListAPIView):
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
-        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width')
+        fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
+                  'full_name', 'user_image')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -484,7 +515,7 @@ class ExtremistReportAPI(CreateAPIView):
 
 class StreamLikeDislikeAPI(CreateAPIView):
     """
-    Stream CRUD API
+    Like Dislike CRUD API
     """
     serializer_class = StreamLikeDislikeSerializer
     queryset = LikeDislikeStream.objects.all().order_by('-id')
@@ -492,18 +523,30 @@ class StreamLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
-    # def get_paginated_response(self, data, status_code=None):
-    #     """
-    #     Return a paginated style `Response` object for the given output data.
-    #     """
-    #     assert self.paginator is not None
-    #     return self.paginator.get_paginated_response(data, status_code=status_code)
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
-    # def get(self, request, *args, **kwargs):
-    #     if kwargs.get('pk') is not None:
-    #         return self.retrieve(request, *args, **kwargs)
-    #     # else:
-    #     #     return self.list(request, *args, **kwargs)
+
+class ContentLikeDislikeAPI(CreateAPIView):
+    """
+    Like dislike CRUD API
+    """
+    serializer_class = ContentLikeDislikeSerializer
+    queryset = LikeDislikeContent.objects.order_by('-id')
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
 
     def create(self, request, *args, **kwargs):
         """

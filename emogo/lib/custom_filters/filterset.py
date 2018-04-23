@@ -1,9 +1,13 @@
 import django_filters
 from emogo.apps.stream.models import Stream, Content
-from emogo.apps.users.models import UserProfile
+from emogo.apps.users.models import UserProfile, UserFollow
 from django.db.models import Q
 from itertools import chain
 from emogo.apps.collaborator.models import Collaborator
+from django.db.models import Prefetch
+from emogo.apps.stream.models import StreamUserViewStatus
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 
 
 class StreamFilter(django_filters.FilterSet):
@@ -60,13 +64,44 @@ class StreamFilter(django_filters.FilterSet):
 
 class UsersFilter(django_filters.FilterSet):
     people = django_filters.filters.CharFilter(method='filter_people')
+    phone = django_filters.filters.CharFilter(method='filter_phone')
+    name = django_filters.filters.CharFilter(method='filter_name')
 
     class Meta:
         model = UserProfile
-        fields = ['people']
+        fields = ['people', 'phone', 'name']
 
     def filter_people(self, qs, name, value):
         return qs.filter(Q(full_name__icontains=value) | Q(user__username__contains=value)).exclude(user=self.request.user)
+
+    def filter_phone(self, qs, name, value):
+        return qs.filter(user__username__contains=value).exclude(user=self.request.user)
+
+    def filter_name(self, qs, name, value):
+        return qs.filter(full_name__icontains=value).exclude(user=self.request.user)
+
+
+class FollowerFollowingUserFilter(django_filters.FilterSet):
+    follower_phone = django_filters.filters.CharFilter(method='filter_follower_phone')
+    follower_name = django_filters.filters.CharFilter(method='filter_follower_name')
+    following_phone = django_filters.filters.CharFilter(method='filter_following_phone')
+    following_name = django_filters.filters.CharFilter(method='filter_following_name')
+
+    class Meta:
+        model = UserFollow
+        fields = ['follower_phone', 'follower_name', 'following_phone', 'following_name']
+
+    def filter_follower_phone(self, qs, name, value):
+        return qs.filter(follower__username__icontains=value)
+
+    def filter_following_phone(self, qs, name, value):
+        return qs.filter(following__username__icontains=value)
+
+    def filter_follower_name(self, qs, name, value):
+        return qs.filter(follower__user_data__full_name__icontains=value)
+
+    def filter_following_name(self, qs, name, value):
+        return qs.filter(following__user_data__full_name__icontains=value)
 
 
 class ContentsFilter(django_filters.FilterSet):
@@ -76,3 +111,60 @@ class ContentsFilter(django_filters.FilterSet):
         model = Content
         fields = ['type']
 
+
+class UserStreamFilter(django_filters.FilterSet):
+    created_by = django_filters.filters.NumberFilter(method='filter_created_by')
+    emogo_stream = django_filters.filters.NumberFilter(method='filter_emogo_stream')
+    collab_stream = django_filters.filters.NumberFilter(method='filter_collab_stream')
+    private_stream = django_filters.filters.NumberFilter(method='filter_private_stream')
+    public_stream = django_filters.filters.NumberFilter(method='filter_public_stream')
+
+    class Meta:
+        model = Stream
+        fields = ['created_by', 'emogo_stream', 'collab_stream', 'private_stream', 'public_stream']
+
+    def filter_created_by(self, qs, name, value):
+        get_object_or_404(UserFollow, follower=self.request.user, following_id=value)
+        #1. Get user as collaborator in streams created by requested user.
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active', stream__type='Private', created_by__user_data__id=value).values_list('stream', flat=True)
+
+        #2. Fetch stream Queryset objects.
+        stream_as_collabs = qs.filter(id__in=stream_ids)
+
+        #3. Get main stream created by requested user and stream type is Public.
+        main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = main_qs | stream_as_collabs
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_emogo_stream(self, qs, name, value):
+        qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_collab_stream(self, qs, name, value):
+        stream_ids = Collaborator.actives.filter(phone_number=get_object_or_404(User, user_data__id=value),
+                                         stream__status='Active',
+                                         created_by=self.request.user).values_list('stream', flat=True)
+        qs = qs.filter(id__in=stream_ids)
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_private_stream(self, qs, name, value):
+        qs = qs.filter(created_by__user_data__id=value, type='Private').order_by('-upd')
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def filter_public_stream(self, qs, name, value):
+        qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = self.get_prefetch_records(qs)
+        return qs
+
+    def get_prefetch_records(self, qs):
+        return qs.select_related('created_by__user_data').prefetch_related(
+            Prefetch(
+                'stream_user_view_status',
+                queryset=StreamUserViewStatus.objects.all(),
+                to_attr='total_view_count'
+            ),
+        )

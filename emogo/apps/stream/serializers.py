@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -9,6 +9,7 @@ from django.db import transaction
 from emogo.constants import messages
 import datetime
 from django.core.urlresolvers import resolve
+from copy import deepcopy
 
 
 class StreamSerializer(DynamicFieldsModelSerializer):
@@ -216,15 +217,18 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_user_liked(self, obj):
         try:
-            return [ { 'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
     def get_view_count(self, obj):
-        return obj.total_view_count.__len__()
+        try:
+            return obj.total_view_count.__len__()
+        except AttributeError :
+            return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'added_by_me', 'user_profile_id')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id')
 
         # If logged-in user is owner of stream show all collaborator
         current_url = resolve(self.context.get('request').path_info).url_name
@@ -239,7 +243,8 @@ class ViewStreamSerializer(StreamSerializer):
                                           many=True, fields=fields, context=self.context).data
 
     def get_contents(self, obj):
-        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color')
+        fields = ('id', 'name', 'url', 'type', 'description', 'created_by', 'video_image', 'height', 'width', 'color',
+                  'full_name', 'user_image')
         # instances = Content.actives.filter(streams=obj).distinct().order_by('-id')
         instances = obj.content_list
         return ViewContentSerializer([x.content for x in instances], many=True, fields=fields).data
@@ -304,6 +309,23 @@ class ContentSerializer(DynamicFieldsModelSerializer):
                         }
 
 
+class CopyContentSerializer(ContentSerializer):
+    """
+    Copy content Serializer to copy content instance.
+    """
+    content_id = serializers.IntegerField(required=True)
+
+    class Meta(ContentSerializer.Meta):
+        ContentSerializer.Meta.extra_kwargs['type'].update({'required': False, 'allow_blank': False, 'allow_null': False})
+
+    def copy_content(self):
+        old_instance = deepcopy(self.instance)
+        old_instance.pk = None
+        old_instance.created_by = self.context.user
+        new_instance = old_instance.save()
+        return new_instance
+
+
 class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
     """
     Collaborator model Serializer
@@ -320,14 +342,19 @@ class ViewContentSerializer(ContentSerializer):
     """
     This serializer is used to show Content view section
     """
-    pass
-    # streams = serializers.SerializerMethodField()
-    #
-    # def get_stream(self, obj):
-    #     try:
-    #         return obj.stream.name
-    #     except AttributeError:
-    #         return None
+    user_image = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
+    created_by = serializers.SerializerMethodField()
+
+    def get_user_image(self, obj):
+        return obj.created_by.user_data.user_image
+
+    def get_full_name(self, obj):
+        return obj.created_by.user_data.full_name
+
+    def get_created_by(self, obj):
+        return obj.created_by.user_data.id
+
 
 
 class MoveContentToStreamSerializer(ContentSerializer):
@@ -480,6 +507,25 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
             stream=self.validated_data.get('stream'), user=self.context.get('request').user,
+            defaults={'status': self.validated_data.get('status')},
+        )
+        return obj
+
+
+class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream like dislike serializer class
+    """
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = LikeDislikeContent
+        fields = ['user', 'content', 'status']
+        extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def create(self, validated_data):
+        obj, created = LikeDislikeContent.objects.update_or_create(
+            content=self.validated_data.get('content'), user=self.context.get('request').user,
             defaults={'status': self.validated_data.get('status')},
         )
         return obj

@@ -98,11 +98,12 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
     contents = serializers.SerializerMethodField()
     collaborators = serializers.SerializerMethodField()
     username = serializers.CharField(read_only=True, source='user.username')
+    user_id = serializers.CharField(read_only=True)
 
     class Meta:
         model = UserProfile
-        fields = ['user_profile_id', 'full_name', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
-            , 'streams', 'contents', 'collaborators', 'username', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
+        fields = ['user_profile_id', 'full_name', 'user_id', 'user', 'user_image', 'token', 'user_image', 'user_id', 'phone_number'
+            , 'streams', 'contents', 'collaborators', 'username', 'display_name', 'location', 'website', 'biography', 'birthday', 'branchio_url', 'profile_stream']
 
     def get_token(self, obj):
         if hasattr(obj.user, 'auth_token'):
@@ -145,6 +146,9 @@ class UserProfileSerializer(DynamicFieldsModelSerializer):
             if self.validated_data.get('profile_stream') is not None:
                 # Then user profile table data
                 self.instance.profile_stream = self.validated_data.get('profile_stream')
+            if self.validated_data.get('display_name') is not None:
+                # Then user profile table data
+                self.instance.display_name = self.validated_data.get('display_name')
             if self.validated_data.__len__() > 0:
                 self.instance.save()
                 # Update user deep link.
@@ -162,6 +166,8 @@ class UserDetailSerializer(UserProfileSerializer):
     profile_stream = serializers.SerializerMethodField()
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+    is_follower = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
@@ -199,7 +205,9 @@ class UserDetailSerializer(UserProfileSerializer):
 
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
-        return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+        if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
+            return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+        return dict()
 
     def get_followers(self, obj):
         return obj.user.followers.__len__()
@@ -207,8 +215,48 @@ class UserDetailSerializer(UserProfileSerializer):
     def get_following(self, obj):
         return obj.user.following.__len__()
 
+    def get_is_following(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.follower_id for x in obj.user.followers]:
+            return True
+        return False
+
+    def get_is_follower(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.following_id for x in obj.user.following]:
+            return True
+        return False
+
     def get_contents(self, obj):
         return ViewContentSerializer(obj.user_contents(), many=True, fields=('id', 'name', 'url', 'type', 'video_image')).data
+
+
+class UserListFollowerFollowingSerializer(UserDetailSerializer):
+    pass
+
+    def get_is_following(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else:
+            user_id = self.context.user.id
+        if user_id in [x.follower_id for x in obj.user.follower_list]:
+            return True
+        return False
+
+    def get_is_follower(self, obj):
+        if isinstance(self.context, dict):
+            user_id = self.context.get('request').user.id
+        else :
+            user_id = self.context.user.id
+        if user_id in [x.following_id for x in obj.user.following_list]:
+            return True
+        return False
 
 
 class UserOtpSerializer(UserProfileSerializer):
@@ -434,7 +482,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
-        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image')
+        fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
@@ -444,7 +492,17 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer
     """
+    follower = serializers.IntegerField(read_only=True)
+    is_follower = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+
     class Meta:
         model = UserFollow
         fields = '__all__'
+
+    def get_is_follower(self, ob):
+        return False
+
+    def get_is_following(self, ob):
+        return False
 
