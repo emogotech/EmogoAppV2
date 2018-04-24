@@ -381,7 +381,7 @@ class UserLikedSteams(ListAPIView):
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            ))
+            )).order_by('-upd')
         return queryset
 
     def list(self, request, *args, **kwargs):

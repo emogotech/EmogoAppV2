@@ -213,4 +213,4 @@ class UserStreamFilter(django_filters.FilterSet):
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
             ),
-        )
+        ).order_by('-upd')
