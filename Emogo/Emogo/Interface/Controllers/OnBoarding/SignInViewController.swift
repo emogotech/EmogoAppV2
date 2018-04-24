@@ -12,7 +12,6 @@ class SignInViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
-
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -41,6 +40,7 @@ class SignInViewController: UIViewController {
         // Set Rule for Phone Format
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
         txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode!
+      //  txtPhoneNumber.formatter.prefix = "+1"
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")

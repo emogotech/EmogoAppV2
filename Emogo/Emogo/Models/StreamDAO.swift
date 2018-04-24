@@ -46,7 +46,9 @@ class StreamDAO {
     var phoneNumber                :String! = ""
     var userId                     :String! = ""
     var userImage                  :String! = ""
-    
+    var userProfileId                     :String! = ""
+    var displayName                     :String! = ""
+
     
     init(streamData:[String:Any]) {
         if let obj  = streamData["name"] {
@@ -77,8 +79,16 @@ class StreamDAO {
     
     
     init(peopleData:[String:Any]) {
-        if let obj = peopleData["user_profile_id"] {
+    
+
+        if let obj = peopleData["user_id"] {
             self.userId = "\(obj)"
+        }
+        if let obj = peopleData["user_profile_id"] {
+            self.userProfileId = "\(obj)"
+        }
+        if let obj = peopleData["display_name"] {
+            self.displayName = obj as! String
         }
         if let obj = peopleData["full_name"] {
             self.fullName = obj as! String
@@ -138,7 +148,7 @@ class StreamList{
             self.requestURl = "user_liked_streams/"
             break
         case .Following:
-            self.requestURl = "user_streams/?created_by=\(UserDAO.sharedInstance.user.userId!)"
+            self.requestURl = "user_streams?following_stream=True"
             break
         }
     }

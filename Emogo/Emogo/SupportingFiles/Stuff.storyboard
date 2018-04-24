@@ -1260,7 +1260,10 @@
                                         <rect key="frame" x="45" y="5" width="322" height="40"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="alphabet" keyboardAppearance="alert" returnKeyType="done"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="myy-hA-vNi" id="jcf-xQ-p61"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1405,6 +1408,7 @@
                     </view>
                     <connections>
                         <outlet property="tblFollowers" destination="lMe-Vd-Vuk" id="Hbj-jj-H91"/>
+                        <outlet property="txtSearch" destination="xy8-pQ-Fiu" id="CrA-lD-pQK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c0U-dC-mHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3152,10 +3156,6 @@ Cg
                                             <constraint firstAttribute="height" constant="88" id="0Ky-js-TGa"/>
                                             <constraint firstAttribute="width" constant="90" id="P7n-Jz-gsi"/>
                                         </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="focusOnFaces" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="debugFaceAware" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="fMa-M7-w8E">
                                         <rect key="frame" x="8" y="99" width="213" height="30"/>
@@ -3500,7 +3500,7 @@ Cg
         <image name="edit profile icon" width="166" height="25"/>
         <image name="edit_icon" width="34" height="34"/>
         <image name="edit_icon_card" width="21" height="21"/>
-        <image name="follow_btn" width="100" height="25"/>
+        <image name="follow_btn" width="100" height="30"/>
         <image name="following_button" width="100" height="28"/>
         <image name="link icon" width="15" height="15"/>
         <image name="location icon" width="15" height="15"/>

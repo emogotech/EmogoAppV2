@@ -171,57 +171,61 @@ class ProfileViewController: UIViewController {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
-            self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
-            self.lblFullName.minimumScaleFactor = 1.0
-            self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
-            self.lblWebsite.minimumScaleFactor = 1.0
-            self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-            self.lblLocation.minimumScaleFactor = 1.0
-            self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
-            if UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                self.kHeaderHeight.constant = 178
-                self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
-
-            }else {
-                self.kHeaderHeight.constant = 220
-                 self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
-            }
-            //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
-            self.title = UserDAO.sharedInstance.user.fullName.trim()
-            self.lblBio.minimumScaleFactor = 1.0
-            self.imgLink.isHidden = false
-            self.imgLocation.isHidden = false
             
-            if UserDAO.sharedInstance.user.location.trim().isEmpty {
-                self.imgLocation.isHidden = true
-            }
-            if UserDAO.sharedInstance.user.website.trim().isEmpty {
-                self.imgLink.isHidden = true
-            }
-            if UserDAO.sharedInstance.user.followers.trim().isEmpty {
-                self.lblFollowers.isHidden = true
-            }
-            if UserDAO.sharedInstance.user.following.trim().isEmpty {
-                self.lblFollowing.isHidden = true
-            }
-            self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
-            self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
-            //print(UserDAO.sharedInstance.user.userImage.trim())
-            if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
-                self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
-            }
-            if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
-                self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
-                self.lblWebsite.isHidden = true
-                self.imgLink.isHidden = true
+            DispatchQueue.main.async {
+                self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
+                self.lblFullName.minimumScaleFactor = 1.0
+                self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
+                self.lblWebsite.minimumScaleFactor = 1.0
+                self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                self.lblLocation.minimumScaleFactor = 1.0
+                self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
+                if UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                    self.kHeaderHeight.constant = 178
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+                }else {
+                    self.kHeaderHeight.constant = 220
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+                }
+                //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
+                self.title = UserDAO.sharedInstance.user.fullName.trim()
+                self.lblBio.minimumScaleFactor = 1.0
+                self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
-                self.imgLocation.image = self.imgLink.image
-                let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                self.lblLocation.addGestureRecognizer(tap)
-                self.lblLocation.isUserInteractionEnabled = true
+                
+                if UserDAO.sharedInstance.user.location.trim().isEmpty {
+                    self.imgLocation.isHidden = true
+                }
+                if UserDAO.sharedInstance.user.website.trim().isEmpty {
+                    self.imgLink.isHidden = true
+                }
+                self.lblFollowing.isHidden = false
+                self.lblFollowers.isHidden = false
+                if UserDAO.sharedInstance.user.followers.trim().isEmpty {
+                    self.lblFollowers.isHidden = true
+                }
+                if UserDAO.sharedInstance.user.following.trim().isEmpty {
+                    self.lblFollowing.isHidden = true
+                }
+                self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
+                //print(UserDAO.sharedInstance.user.userImage.trim())
+                if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
+                    self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+                }
+                if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
+                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblWebsite.isHidden = true
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = false
+                    self.imgLocation.image = self.imgLink.image
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                    self.lblLocation.addGestureRecognizer(tap)
+                    self.lblLocation.isUserInteractionEnabled = true
+                }
+                self.profileStreamShow()
             }
-            self.profileStreamShow()
-
+            
         }
       
         btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
@@ -462,6 +466,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
+        isEdited = true
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
         self.navigationController?.pushAsPresent(viewController: obj)
     }
@@ -988,7 +993,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     index = indexPath.row
                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }
-                
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = index
                 obj.viewStream = "fromProfile"

@@ -16,6 +16,7 @@ class DeeplinkDAO {
     var phone:String! = ""
     var userImage:String! = ""
     var userId:String! = ""
+    var userProfileID:String! = ""
 
     
     init(dictDeeplink:[String:Any]) {
@@ -42,6 +43,9 @@ class DeeplinkDAO {
         }
         if let data = dictDeeplink["user_id"]{
             self.userId =  "\(data)"
+        }
+        if let data = dictDeeplink["user_profile_id"]{
+            self.userProfileID =  "\(data)"
         }
     }
 }

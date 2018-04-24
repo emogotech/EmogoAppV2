@@ -239,6 +239,7 @@ class StreamListViewController: UIViewController {
                     objPeople.userId = SharedData.sharedInstance.objDeepLink?.userId
                     objPeople.userImage = SharedData.sharedInstance.objDeepLink?.userImage
                     objPeople.phoneNumber = SharedData.sharedInstance.objDeepLink?.phone
+                   objPeople.userProfileID = SharedData.sharedInstance.objDeepLink?.userProfileID
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -597,8 +598,10 @@ class StreamListViewController: UIViewController {
             self.viewMenu.isHidden = false
             isSearch = false
             if currentStreamType == .People {
+                self.lblNoResult.text = kAlert_No_User_Record_Found
                 collectionLayout.columnCount = 3
             }else {
+                self.lblNoResult.text = kAlert_No_Stream_found
                 collectionLayout.columnCount = 2
             }
             DispatchQueue.main.async {
@@ -1211,6 +1214,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     objPeople.userId = people.userId
                     objPeople.userImage = people.userImage
                     objPeople.phoneNumber = people.phoneNumber
+                    objPeople.userProfileID = people.userProfileId
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -1235,8 +1239,10 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     let objPeople = PeopleDAO(peopleData: [:])
                     objPeople.fullName = people.fullName
                     objPeople.userId = people.userId
+                    objPeople.userProfileID = people.userProfileId
                     objPeople.userImage = people.userImage
                     objPeople.phoneNumber = people.phoneNumber
+                    objPeople.userProfileID = people.userProfileId
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)

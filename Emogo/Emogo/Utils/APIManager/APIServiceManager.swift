@@ -1118,6 +1118,7 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
+                            print(result)
                             for obj in result {
                                 let people = StreamDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 StreamList.sharedInstance.arrayMyStream.append(people)
@@ -1306,6 +1307,7 @@ class APIServiceManager: NSObject {
     }
     
     func apiForGetUserStream(userID:String,type:RefreshType,streamType:String,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        
         if type == .start || type == .up{
             if streamType == "1" {
                 StreamList.sharedInstance.requestURl = kUserStreamEmogoAPI + userID
@@ -1327,6 +1329,7 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let array:[Any] = data as! [Any]
+                            print(array)
                             for obj in array {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
@@ -1931,5 +1934,67 @@ class APIServiceManager: NSObject {
     }
     
     
+   func apiForFollowingUserSearch(name:String,completionHandler:@escaping (_ results:[FollowerDAO]?, _ strError:String?)->Void){
+    let url =  kUserFollowingSeacrhAPI + name
+    var arrayResults = [FollowerDAO]()
+    APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+        switch(result){
+        case .success(let value):
+            print(value)
+            if let code = (value as! [String:Any])["status_code"] {
+                let status = "\(code)"
+                if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                    if let data = (value as! [String:Any])["data"] {
+                        let result:[Any] = data as! [Any]
+                        print(result)
+                        for obj in result {
+                            let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            arrayResults.append(follow)
+                        }
+                    }
+                    completionHandler(arrayResults,"")
+                }else {
+                    let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                    completionHandler(nil,errorMessage)
+                }
+            }
+        case .error(let error):
+            print(error.localizedDescription)
+            completionHandler(nil,error.localizedDescription)
+        }
+    }
+    }
+    
+    func apiForFollowerUserSearch(name:String,completionHandler:@escaping (_ type:[FollowerDAO]?, _ strError:String?)->Void){
+        let url =  kUserFollowerSearchAPI + name
+        var arrayResults = [FollowerDAO]()
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            print(result)
+                            for obj in result {
+                                let follow = FollowerDAO(dictFollow: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                arrayResults.append(follow)
+                            }
+                        }
+                        completionHandler(arrayResults,"")
+
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+    }
 }
 

@@ -130,7 +130,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             break
         case 4:
             currentStreamType   =   StreamType.Liked
-            
 //            currentStreamType = StreamType.People
 //            collectionLayout.columnCount = 3
 //            self.lblNoResult.text = kAlert_No_User_Record_Found
@@ -144,14 +143,12 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             break
         }
         print("currrent index--->\(index)")
-        if  index != 4 {
             StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
             collectionLayout.columnCount = 2
             self.lblNoResult.text = kAlert_No_Stream_found
             isPeopleList = false
           //  HUDManager.sharedInstance.showHUD()
           //  self.getStreamList(type:.start,filter: currentStreamType)
-        }
         self.streamCollectionView.es.resetNoMoreData()
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }

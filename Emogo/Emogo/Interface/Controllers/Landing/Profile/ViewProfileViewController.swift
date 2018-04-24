@@ -25,13 +25,14 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
     @IBOutlet weak var btnFollow: UIButton!
-    
+
     let layout = CHTCollectionViewWaterfallLayout()
     var objPeople:PeopleDAO!
     var oldContentOffset = CGPoint.zero
     var topConstraintRange = (CGFloat(0)..<CGFloat(220))
     var streamType:String! = "1"
     var arrayMyStreams = [StreamDAO]()
+    let color = UIColor(r: 155, g: 155, b: 155)
 
 
     override func viewDidLoad() {
@@ -46,14 +47,17 @@ class ViewProfileViewController: UIViewController {
     }
     
     func prepareLayouts(){
-        StreamList.sharedInstance.arrayMyStream.removeAll()
+    
         self.title = objPeople.fullName
+        self.lblNOResult.text = kAlert_No_Stream_found
         self.configureNavigationWithTitle()
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
         self.navigationItem.rightBarButtonItems = [btnFlag,btnShare]
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
+        StreamList.sharedInstance.arrayMyStream.removeAll()
+        self.profileCollectionView.reloadData()
         profileCollectionView.alwaysBounceVertical = true
         
         // Change individual layout attributes for the spacing between cells
@@ -97,7 +101,7 @@ class ViewProfileViewController: UIViewController {
     func prepareData(){
         let nibViews = UINib(nibName: "ProfileStreamView", bundle: nil)
         self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
-        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: objPeople.userId, isCurrentUser: false) { (people, errorMSG) in
+        APIServiceManager.sharedInstance.apiForGetUserInfo(userID: objPeople.userProfileID, isCurrentUser: false) { (people, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 if let people = people {
                     self.objPeople = people
@@ -151,6 +155,7 @@ class ViewProfileViewController: UIViewController {
                         self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
                     }
                     self.profileStreamShow()
+                    self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
                 }
             }
         }
@@ -158,36 +163,40 @@ class ViewProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        HUDManager.sharedInstance.showHUD()
-        self.getStreamList(type:.start,streamType: streamType)
+        if objPeople != nil  {
+            if !objPeople.userProfileID.isEmpty {
+                HUDManager.sharedInstance.showHUD()
+                self.getStreamList(type:.start,streamType: streamType)
+            }
+        }
+     
     }
     
     
     func profileStreamShow(){
         if self.streamType == "1" {
-            if UserDAO.sharedInstance.user.stream != nil {
-                if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
+            if objPeople.stream != nil {
+                if (objPeople.stream?.CoverImage.trim().isEmpty)! {
                     arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                     self.layout.headerHeight = 0
+                    if arrayMyStreams.count == 0 {
+                        self.lblNOResult.text = kAlert_No_Stream_found
+                        self.lblNOResult.isHidden = false
+                    }
                 }else {
                     let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
-                    if index != nil {
-                        lblNOResult.isHidden = true
                     arrayMyStreams = StreamList.sharedInstance.arrayMyStream
+                    if index != nil {
                         arrayMyStreams.remove(at: index!)
-                    }else {
-                        if arrayMyStreams.count == 0 {
-                            self.lblNOResult.text = "No Streams Found."
-                            self.lblNOResult.isHidden = false
-                        }
                     }
+                    lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
                 arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                 self.layout.headerHeight = 0
                 if arrayMyStreams.count == 0 {
-                    self.lblNOResult.text = "No Streams Found."
+                    self.lblNOResult.text = kAlert_No_Stream_found
                     self.lblNOResult.isHidden = false
                 }
             }
@@ -370,7 +379,7 @@ class ViewProfileViewController: UIViewController {
             }
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 if streamType == "2" {
-                    self.lblNOResult.text = "No colabs found!"
+                    self.lblNOResult.text = kAlert_No_Stream_found
                 }
                 self.lblNOResult.isHidden = false
             }
@@ -532,17 +541,20 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func actionForCover(){
+         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         
-        let array = StreamList.sharedInstance.arrayStream.filter { $0.isAdd == false }
-        StreamList.sharedInstance.arrayViewStream = array
-        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-        obj.streamType = currentStreamType.rawValue
         let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
         if index != nil {
             obj.currentIndex = index
         }else {
+            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
             obj.currentIndex = 0
         }
+        
+        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+        StreamList.sharedInstance.arrayViewStream = array
+        print(array)
+        obj.streamType = currentStreamType.rawValue
         obj.viewStream = "View"
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
