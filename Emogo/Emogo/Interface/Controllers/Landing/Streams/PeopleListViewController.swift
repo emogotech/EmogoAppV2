@@ -110,14 +110,25 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayColab[indexPath.row]
+        print(collaborator.userID)
+        print(UserDAO.sharedInstance.user.userId)
+        print(UserDAO.sharedInstance.user.userProfileID)
+
         if collaborator.userID != "" {
-            let people = PeopleDAO(peopleData:[:])
-            people.fullName = collaborator.name
-            people.userProfileID = collaborator.userID
-          //  people.userProfileID =
-            let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-            obj.objPeople = people
-            self.navigationController?.push(viewController: obj)
+            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                  let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.push(viewController: obj)
+
+            }else {
+                let people = PeopleDAO(peopleData:[:])
+                people.fullName = collaborator.name
+                people.userProfileID = collaborator.userID
+                //  people.userProfileID =
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = people
+                self.navigationController?.push(viewController: obj)
+            }
+           
         }else{
             self.showToast(strMSG: "Seems user is not registered with Emogo yet!")
         }

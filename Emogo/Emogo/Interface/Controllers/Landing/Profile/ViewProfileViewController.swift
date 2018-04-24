@@ -175,9 +175,9 @@ class ViewProfileViewController: UIViewController {
     
     func profileStreamShow(){
         if self.streamType == "1" {
+            arrayMyStreams = StreamList.sharedInstance.arrayMyStream
             if objPeople.stream != nil {
                 if (objPeople.stream?.CoverImage.trim().isEmpty)! {
-                    arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                     self.layout.headerHeight = 0
                     if arrayMyStreams.count == 0 {
                         self.lblNOResult.text = kAlert_No_Stream_found
@@ -193,7 +193,6 @@ class ViewProfileViewController: UIViewController {
                     self.layout.headerHeight = 200
                 }
             }else {
-                arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                 self.layout.headerHeight = 0
                 if arrayMyStreams.count == 0 {
                     self.lblNOResult.text = kAlert_No_Stream_found
@@ -284,7 +283,12 @@ class ViewProfileViewController: UIViewController {
             if ContentList.sharedInstance.mainStreamNavigate == "fromProfile" {
                 let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
                 StreamList.sharedInstance.arrayViewStream = array
-            }else {
+            }else if  ContentList.sharedInstance.mainStreamNavigate == "View"{
+//                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+//                StreamList.sharedInstance.arrayViewStream = array
+                
+            }
+            else {
                 let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 StreamList.sharedInstance.arrayViewStream = array
             }

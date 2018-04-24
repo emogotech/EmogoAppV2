@@ -569,31 +569,34 @@ class ProfileViewController: UIViewController {
     
     func profileStreamShow(){
         if self.currentMenu == .stream {
+            arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
             if UserDAO.sharedInstance.user.stream != nil {
                 if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
+                    if arrayMyStreams.count == 0 {
+                        self.layout.headerHeight = 0
+                        lblNOResult.text = "No Streams Found."
+                        lblNOResult.isHidden = false
+                    }
                 }else {
+                    
                     let index = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == UserDAO.sharedInstance.user.stream?.ID.trim()})
                     if index != nil {
-                        arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                         profileStreamIndex = index!
                         arrayMyStreams.remove(at: index!)
-                    }else {
-                        arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                     }
                     lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
-                   
                 }
             }else {
-                arrayMyStreams = StreamList.sharedInstance.arrayProfileStream
                self.layout.headerHeight = 0
+                if arrayMyStreams.count == 0 {
+                    self.layout.headerHeight = 0
+                    lblNOResult.text = "No Streams Found."
+                    lblNOResult.isHidden = false
+                }
             }
-            if arrayMyStreams.count == 0 {
-                self.layout.headerHeight = 0
-                lblNOResult.text = "No Streams Found."
-                lblNOResult.isHidden = false
-            }
+            
             self.profileCollectionView.reloadData()
         }
     }
@@ -987,7 +990,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 if currentMenu == .stream {
                     let tempStream = self.arrayMyStreams[indexPath.row]
                     let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-                    index = tempIndex!
+                    if tempIndex != nil {
+                        index = tempIndex!
+                    }
                      StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }else {
                     index = indexPath.row

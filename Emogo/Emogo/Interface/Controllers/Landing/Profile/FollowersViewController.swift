@@ -13,6 +13,7 @@ class FollowersViewController: UIViewController {
 
     @IBOutlet weak var tblFollowers: UITableView!
     @IBOutlet weak var txtSearch: UITextField!
+    @IBOutlet weak var lblNOResult: UILabel!
 
     let kHeader = "FollowHeader"
     var listType:FollowerType!
@@ -58,8 +59,9 @@ class FollowersViewController: UIViewController {
     }
     
     func prepareLayout(){
-    txtSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
-
+            self.lblNOResult.isHidden = true
+        self.lblNOResult.text = "No \(self.listType.rawValue) Found."
+       txtSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
         self.configureNavigationWithTitle()
         self.title = listType.rawValue
         self.configureLoadMoreAndRefresh()
@@ -77,7 +79,6 @@ class FollowersViewController: UIViewController {
                 self.getFollowing(type: .start)
             }
         }
-       
     }
 
     
@@ -107,16 +108,24 @@ class FollowersViewController: UIViewController {
     
     
    @objc func actionForFollowUser(sender:UIButton) {
-        let obj = FollowList.sharedInstance.arrayFollowers[sender.tag]
-    if listType == .Follower {
-        if obj.isFollowing {
-            self.unFollowUser(follow: obj, index: sender.tag)
-        }else {
-            self.followUser(userID: obj.userId, index: sender.tag)
-        }
+    var obj:FollowerDAO!
+    if self.isSearchEnable {
+        obj = self.arraySearch[sender.tag]
     }else {
-        self.unFollowUser(follow: obj, index: sender.tag)
+        obj = FollowList.sharedInstance.arrayFollowers[sender.tag]
     }
+    if obj != nil {
+        if listType == .Follower {
+            if obj.isFollowing {
+                self.unFollowUser(follow: obj, index: sender.tag)
+            }else {
+                self.followUser(userID: obj.userId, index: sender.tag)
+            }
+        }else {
+            self.unFollowUser(follow: obj, index: sender.tag)
+        }
+    }
+   
     }
     
    
@@ -187,9 +196,16 @@ class FollowersViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForFollowUser(userID: userID) { (isSuccess, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
-                let follow = FollowList.sharedInstance.arrayFollowers[index]
-                follow.isFollowing = true
-                FollowList.sharedInstance.arrayFollowers[index] = follow
+                if self.isSearchEnable {
+                    let follow = self.arraySearch[index]
+                    follow.isFollowing = true
+                    self.arraySearch[index] = follow
+                }else {
+                    let follow = FollowList.sharedInstance.arrayFollowers[index]
+                    follow.isFollowing = true
+                    FollowList.sharedInstance.arrayFollowers[index] = follow
+                }
+               
                 self.tblFollowers.reloadData()
                 NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
             }else {
@@ -202,12 +218,22 @@ class FollowersViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForUnFollowUser(userID: userID) { (isSuccess, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
-                if self.listType == FollowerType.Follower {
-                    let follow =  FollowList.sharedInstance.arrayFollowers[index]
-                    follow.isFollowing = false
-                    FollowList.sharedInstance.arrayFollowers[index] = follow
+                if self.isSearchEnable {
+                    if self.listType == FollowerType.Follower {
+                        let follow =  self.arraySearch[index]
+                        follow.isFollowing = false
+                        self.arraySearch[index] = follow
+                    }else {
+                       self.arraySearch.remove(at: index)
+                    }
                 }else {
-                    FollowList.sharedInstance.arrayFollowers.remove(at: index)
+                    if self.listType == FollowerType.Follower {
+                        let follow =  FollowList.sharedInstance.arrayFollowers[index]
+                        follow.isFollowing = false
+                        FollowList.sharedInstance.arrayFollowers[index] = follow
+                    }else {
+                        FollowList.sharedInstance.arrayFollowers.remove(at: index)
+                    }
                 }
                 self.tblFollowers.reloadData()
                 NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
@@ -227,6 +253,10 @@ class FollowersViewController: UIViewController {
                 self.arraySearch = results!
                 self.tblFollowers.reloadData()
                 self.isEditingEnable = true
+                self.lblNOResult.isHidden = true
+                if self.arraySearch.count == 0 {
+                    self.lblNOResult.isHidden = false
+                }
             }
         }
     }
@@ -236,6 +266,10 @@ class FollowersViewController: UIViewController {
                 self.arraySearch = results!
                 self.tblFollowers.reloadData()
                 self.isEditingEnable = true
+                self.lblNOResult.isHidden = true
+                if self.arraySearch.count == 0 {
+                    self.lblNOResult.isHidden = false
+                }
             }
         }
     }

@@ -1393,6 +1393,16 @@
                                     <outlet property="delegate" destination="myy-hA-vNi" id="6Jz-Pv-7t9"/>
                                 </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Users Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="mkY-33-Scf">
+                                <rect key="frame" x="57" y="430" width="261" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="HMn-dN-JiC"/>
+                                    <constraint firstAttribute="width" constant="261" id="JpJ-AL-Ee5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
+                                <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1403,10 +1413,13 @@
                             <constraint firstItem="lMe-Vd-Vuk" firstAttribute="leading" secondItem="gke-Ab-181" secondAttribute="leading" id="Teh-7E-zi5"/>
                             <constraint firstItem="lMe-Vd-Vuk" firstAttribute="top" secondItem="qXB-pb-ZiO" secondAttribute="bottom" constant="8" id="WtD-xZ-tA2"/>
                             <constraint firstItem="qXB-pb-ZiO" firstAttribute="top" secondItem="gke-Ab-181" secondAttribute="top" id="a5a-pw-czA"/>
+                            <constraint firstItem="mkY-33-Scf" firstAttribute="centerY" secondItem="lMe-Vd-Vuk" secondAttribute="centerY" constant="68" id="eK4-i9-FWb"/>
+                            <constraint firstItem="mkY-33-Scf" firstAttribute="centerX" secondItem="lMe-Vd-Vuk" secondAttribute="centerX" id="q7P-2I-eOQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gke-Ab-181"/>
                     </view>
                     <connections>
+                        <outlet property="lblNOResult" destination="mkY-33-Scf" id="ln2-4c-tXT"/>
                         <outlet property="tblFollowers" destination="lMe-Vd-Vuk" id="Hbj-jj-H91"/>
                         <outlet property="txtSearch" destination="xy8-pQ-Fiu" id="CrA-lD-pQK"/>
                     </connections>
@@ -2023,9 +2036,9 @@
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lG6-cj-WUo">
-                                        <rect key="frame" x="121" y="192.5" width="134" height="21"/>
+                                        <rect key="frame" x="57" y="193" width="261" height="21"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="134" id="H1u-KM-KLX"/>
+                                            <constraint firstAttribute="width" constant="261" id="H1u-KM-KLX"/>
                                             <constraint firstAttribute="height" constant="21" id="L9W-7O-tYl"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
@@ -3426,7 +3439,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-0J-xHY">
-                                        <rect key="frame" x="121" y="181.5" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="182" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="3xq-Du-d2f"/>
                                             <constraint firstAttribute="width" constant="134" id="CJn-Lu-WpT"/>
