@@ -175,7 +175,16 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_emogo_stream(self, qs, name, value):
-        qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        # 1. Get user as collaborator in streams created by requested user.
+        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by__user_data__id=value).values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        stream_as_collabs = qs.filter(id__in=stream_ids)
+
+        main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
+        qs = main_qs | stream_as_collabs
         qs = self.get_prefetch_records(qs)
         return qs
 
