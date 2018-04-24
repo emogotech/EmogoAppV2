@@ -17,7 +17,8 @@ CONTENT_TYPE = (
     ('Video', 'Video'),
     ('Picture', 'Picture'),
     ('Link', 'Link'),
-    ('Giphy', 'Giphy')
+    ('Giphy', 'Giphy'),
+    ('Note', 'Note')
 
 )
 
