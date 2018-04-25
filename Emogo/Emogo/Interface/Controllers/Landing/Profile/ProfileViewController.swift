@@ -573,6 +573,8 @@ class ProfileViewController: UIViewController {
             if UserDAO.sharedInstance.user.stream != nil {
                 if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
+                    lblNOResult.isHidden = true
+
                     if arrayMyStreams.count == 0 {
                         self.layout.headerHeight = 0
                         lblNOResult.text = "No Streams Found."
@@ -590,6 +592,7 @@ class ProfileViewController: UIViewController {
                 }
             }else {
                self.layout.headerHeight = 0
+                lblNOResult.isHidden = true
                 if arrayMyStreams.count == 0 {
                     self.layout.headerHeight = 0
                     lblNOResult.text = "No Streams Found."

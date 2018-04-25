@@ -1089,6 +1089,10 @@ extension UITextView: UITextViewDelegate {
         self.resizePlaceholder()
     }
     
+    func CGRectMake( x: CGFloat,  y: CGFloat,  width: CGFloat,  height: CGFloat) -> CGRect {
+        return CGRect(x: x, y: y, width: width, height: height)
+    }
+    
 }
 
 extension UITableViewCell {
@@ -1101,3 +1105,5 @@ extension UITableViewCell {
         self.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
+
+

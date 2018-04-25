@@ -37,9 +37,10 @@ class FollowersViewController: UIViewController {
         return customPresenter
     }()
     
-    lazy var popupViewController: TermsAndPrivacyViewController = {
-        let popupViewController = self.storyboard?.instantiateViewController(withIdentifier: "termsAndPrivacyView")
-        return popupViewController as! TermsAndPrivacyViewController
+   
+    lazy var popupViewController: AddCollaboratorContactsController = {
+        let popupViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddCollaboratorContactsView)
+        return popupViewController as! AddCollaboratorContactsController
     }()
     
     
@@ -142,6 +143,7 @@ class FollowersViewController: UIViewController {
     }
     
     func getFollowers(type:RefreshType){
+        self.lblNOResult.isHidden = true
         APIServiceManager.sharedInstance.apiForUserFollowerList(type: type) { (refreshType, errorMsg) in
             
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
@@ -168,6 +170,8 @@ class FollowersViewController: UIViewController {
         }
     }
     func getFollowing(type:RefreshType){
+        self.lblNOResult.isHidden = true
+
         APIServiceManager.sharedInstance.apiForUserFollowingList(type: type) { (refreshType, errorMsg) in
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if refreshType == .end {
@@ -219,11 +223,16 @@ class FollowersViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 if self.isSearchEnable {
+                    let follow =  self.arraySearch[index]
                     if self.listType == FollowerType.Follower {
-                        let follow =  self.arraySearch[index]
                         follow.isFollowing = false
                         self.arraySearch[index] = follow
                     }else {
+                        let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
+                        if indexTemp != nil {
+                            FollowList.sharedInstance.arrayFollowers.remove(at: indexTemp!)
+                        }
+
                        self.arraySearch.remove(at: index)
                     }
                 }else {
@@ -247,7 +256,7 @@ class FollowersViewController: UIViewController {
     }
     
     func searchFollowerUser(text:String) {
-        
+        self.lblNOResult.isHidden = true
         APIServiceManager.sharedInstance.apiForFollowerUserSearch(name: text) { (results, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 self.arraySearch = results!
@@ -261,6 +270,7 @@ class FollowersViewController: UIViewController {
         }
     }
     func searchFollowingUser(text:String) {
+        self.lblNOResult.isHidden = true
         APIServiceManager.sharedInstance.apiForFollowingUserSearch(name: text) { (results, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 self.arraySearch = results!

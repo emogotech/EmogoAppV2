@@ -175,10 +175,13 @@ class ViewProfileViewController: UIViewController {
     
     func profileStreamShow(){
         if self.streamType == "1" {
+
             arrayMyStreams = StreamList.sharedInstance.arrayMyStream
             if objPeople.stream != nil {
+
                 if (objPeople.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
+                    self.lblNOResult.isHidden = true
                     if arrayMyStreams.count == 0 {
                         self.lblNOResult.text = kAlert_No_Stream_found
                         self.lblNOResult.isHidden = false
@@ -188,12 +191,15 @@ class ViewProfileViewController: UIViewController {
                     arrayMyStreams = StreamList.sharedInstance.arrayMyStream
                     if index != nil {
                         arrayMyStreams.remove(at: index!)
+                    }else {
+                        StreamList.sharedInstance.arrayMyStream.append(self.objPeople.stream!)
                     }
                     lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
                 self.layout.headerHeight = 0
+                self.lblNOResult.isHidden = true
                 if arrayMyStreams.count == 0 {
                     self.lblNOResult.text = kAlert_No_Stream_found
                     self.lblNOResult.isHidden = false
@@ -479,13 +485,16 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if self.streamType == "" {
+        if self.streamType == "1" {
             let tempStream = self.arrayMyStreams[indexPath.row]
             let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-           let index = tempIndex!
-            StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-            obj.currentIndex = index
+            if tempIndex != nil {
+                obj.currentIndex = tempIndex!
+            }else {
+                obj.currentIndex = indexPath.row
+            }
+            StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
             obj.streamType = currentStreamType.rawValue
             obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil

@@ -375,6 +375,9 @@
 		F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */; };
 		F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F52011DD6E005436A1 /* ActionData.swift */; };
 		F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4CDD4F82011DE07005436A1 /* PMActionCell.xib */; };
+		F4CF824120905506005636FE /* AddCollaboratorContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824020905506005636FE /* AddCollaboratorContactsController.swift */; };
+		F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824220905569005636FE /* EmogoContactViewCell.swift */; };
+		F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824320905569005636FE /* ContactsViewCell.swift */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
 		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
@@ -821,6 +824,9 @@
 		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
 		F4CDD4F52011DD6E005436A1 /* ActionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionData.swift; sourceTree = "<group>"; };
 		F4CDD4F82011DE07005436A1 /* PMActionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PMActionCell.xib; sourceTree = "<group>"; };
+		F4CF824020905506005636FE /* AddCollaboratorContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddCollaboratorContactsController.swift; sourceTree = "<group>"; };
+		F4CF824220905569005636FE /* EmogoContactViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoContactViewCell.swift; sourceTree = "<group>"; };
+		F4CF824320905569005636FE /* ContactsViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewCell.swift; sourceTree = "<group>"; };
 		F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
@@ -1657,6 +1663,8 @@
 		F4266EF51FF66F680075BFD7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F4CF824320905569005636FE /* ContactsViewCell.swift */,
+				F4CF824220905569005636FE /* EmogoContactViewCell.swift */,
 				F4266EF61FF66F7B0075BFD7 /* ProfileStreamCell.swift */,
 				F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */,
 				F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */,
@@ -1679,6 +1687,7 @@
 				F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */,
 				F406FCF5208771AB006192B4 /* FollowersViewController.swift */,
 				F44509AB2088D37700B48706 /* ContactsViewController.swift */,
+				F4CF824020905506005636FE /* AddCollaboratorContactsController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -2700,6 +2709,7 @@
 				F43612F31FD69B3200788FFE /* AGBrightnessFilter.swift in Sources */,
 				F401DFB21FE2964B00BD7DDA /* LinkViewController.swift in Sources */,
 				F4431AAD1FC6DD2C00311C9A /* UIImage+Crop.swift in Sources */,
+				F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */,
 				F4431AAE1FC6DD2C00311C9A /* UIImage+Size.swift in Sources */,
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F4431AA71FC6DD2C00311C9A /* Protocols.swift in Sources */,
@@ -2747,6 +2757,7 @@
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
 				F43649CB2015CEA5004FBEE2 /* PermissionsView.swift in Sources */,
 				F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */,
+				F4CF824120905506005636FE /* AddCollaboratorContactsController.swift in Sources */,
 				F43612F11FD69B3200788FFE /* AGContrastFilter.metal in Sources */,
 				F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */,
 				F43612F21FD69B3200788FFE /* AGContrastFilter.swift in Sources */,
@@ -2839,6 +2850,7 @@
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4431A961FC6DD2C00311C9A /* EmojisCollectionViewDelegate.swift in Sources */,
+				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
 				F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */,

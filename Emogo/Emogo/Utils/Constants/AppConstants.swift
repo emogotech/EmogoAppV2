@@ -85,7 +85,7 @@ let kStoryboardID_ShowPreviewView = "showPreviewView"
 let kStoryboardID_TermsAndPrivacyView = "termsAndPrivacyView"
 let kStoryboardID_MyStuffPreView = "myStuffPreView"
 let kStoryboardID_FollowersView = "followersView"
-
+let kStoryboardID_AddCollaboratorContactsView = "addCollaboratorContactsView"
 
 
 

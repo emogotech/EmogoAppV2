@@ -211,7 +211,7 @@ class MyStreamViewController: UIViewController {
             
           //  self.lblNoResult.isHidden = true
             self.btnDone.isUserInteractionEnabled = true
-            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+            if StreamList.sharedInstance.arrayMyStream.count == 1 {
              //   self.lblNoResult.isHidden = false
                 self.btnDone.isUserInteractionEnabled = false
                 }
