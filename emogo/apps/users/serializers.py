@@ -203,10 +203,21 @@ class UserDetailSerializer(UserProfileSerializer):
     #         return ViewStreamSerializer(collaborators_streams, many=True, fields=('id', 'name', 'author', 'image')).data
     #     return list()
 
+    def get_user_instance(self):
+        if isinstance(self.context, dict):
+            return self.context.get('request').user
+        else:
+            return self.context.user
+
     def get_profile_stream(self, obj):
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
-            return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+            if obj.profile_stream.type == 'Private' and obj.profile_stream.created_by != self.get_user_instance():
+                if self.get_user_instance().username in [x.phone_number for x in obj.profile_stream.profile_stream_collaborator_list]:
+                    return ViewStreamSerializer(obj.profile_stream, fields=fields).data
+                return dict()
+            else:
+                return ViewStreamSerializer(obj.profile_stream, fields=fields).data
         return dict()
 
     def get_followers(self, obj):

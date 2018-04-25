@@ -164,6 +164,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
                 to_attr='total_like_dislike_data'
             ),
+            Prefetch(
+                'profile_stream__collaborator_list',
+                queryset=Collaborator.objects.all(),
+                to_attr='profile_stream_collaborator_list'
+            ),
         )
         if qs.__len__() > 0:
             return qs[0]
