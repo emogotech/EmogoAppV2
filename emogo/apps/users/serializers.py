@@ -238,7 +238,7 @@ class UserDetailSerializer(UserProfileSerializer):
     def get_is_follower(self, obj):
         if isinstance(self.context, dict):
             user_id = self.context.get('request').user.id
-        else :
+        else:
             user_id = self.context.user.id
         if user_id in [x.following_id for x in obj.user.following]:
             return True
