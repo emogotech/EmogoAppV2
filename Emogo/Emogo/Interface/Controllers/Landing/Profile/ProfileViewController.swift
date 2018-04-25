@@ -1060,11 +1060,3 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         self.navigationController?.push(viewController: obj)
     }
 }
-
-
-
-
-
-
-
-
