@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -558,3 +558,20 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         obj, created = UserFollow.objects.get_or_create(follower=self.request.user,
                                                         following_id=self.request.data.get('following'))
         return obj
+
+
+class CheckContactInEmogo(APIView):
+    """
+    Check contact list in emogo user.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CheckContactInEmogoSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            data = serializer.find_contact_list()
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
+        else:
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)
