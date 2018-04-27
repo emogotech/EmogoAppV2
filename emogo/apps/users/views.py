@@ -575,3 +575,20 @@ class CheckContactInEmogo(APIView):
             return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
         else:
             return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)
+
+
+class CheckContactInSEmogo(APIView):
+    """
+    Check contact list in emogo user.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CheckContactInEmogoSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            data = serializer.find_contact_list()
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
+        else:
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)
