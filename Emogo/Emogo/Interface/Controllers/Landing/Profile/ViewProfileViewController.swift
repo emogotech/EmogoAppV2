@@ -145,6 +145,8 @@ class ViewProfileViewController: UIViewController {
                             self.lblWebsite.addGestureRecognizer(tap)
                             self.lblWebsite.isUserInteractionEnabled = true
                         }
+                        self.imgUser.borderWidth = 1.0
+                        self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                         //print(people.userImage.trim())
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())

@@ -447,7 +447,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         let img = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
         self.navigationItem.leftBarButtonItem = btnback

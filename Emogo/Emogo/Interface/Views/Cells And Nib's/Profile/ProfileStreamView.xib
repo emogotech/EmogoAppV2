@@ -32,7 +32,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG3-Ew-L6g">
-                    <rect key="frame" x="11" y="140" width="297" height="21"/>
+                    <rect key="frame" x="16" y="140" width="292" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="94z-Uf-0FO"/>
                     </constraints>
@@ -50,7 +50,7 @@
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="TVa-Wt-Ybx"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="8" id="XjV-oO-zeS"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" id="YkL-GW-Sa9"/>
-                <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="uk0-Pj-VVK" secondAttribute="leading" constant="4" id="f1A-Zc-pWl"/>
+                <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="uk0-Pj-VVK" secondAttribute="leading" constant="9" id="f1A-Zc-pWl"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>

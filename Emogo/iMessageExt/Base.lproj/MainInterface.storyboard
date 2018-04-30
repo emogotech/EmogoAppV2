@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XjP-2U-Phs">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="XjP-2U-Phs">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -882,70 +882,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r1l-pd-jdl">
-                                <rect key="frame" x="0.0" y="20" width="375" height="627"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hn-2p-pb5">
-                                        <rect key="frame" x="107.5" y="431" width="160" height="36"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="36" id="C7n-v0-Moh"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="M3P-12-YBe"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
-                                        <state key="normal" title="Sign In">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="btnTapSignIn:" destination="XjP-2U-Phs" eventType="touchUpInside" id="9fZ-al-ldU"/>
-                                            <action selector="btnTapSignIn:" destination="8Jb-pS-eSp" eventType="touchUpInside" id="S8j-Pg-qmn"/>
-                                        </connections>
-                                    </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imsg_logo_open_icon" translatesAutoresizingMaskIntoConstraints="NO" id="dog-cT-Fsd">
-                                        <rect key="frame" x="104.5" y="50" width="166" height="31"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="31" id="gJ2-vg-fbP"/>
-                                            <constraint firstAttribute="width" constant="166" id="pTC-Eb-Q7l"/>
-                                        </constraints>
-                                    </imageView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3V-kN-78J" customClass="KASlideShow">
-                                        <rect key="frame" x="0.0" y="137" width="375" height="130"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="130" id="opt-XA-Arg"/>
-                                        </constraints>
-                                    </view>
-                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRr-yl-DUw" customClass="HHPageView">
-                                        <rect key="frame" x="124" y="287" width="127" height="32"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="D1m-wi-D9W"/>
-                                            <constraint firstAttribute="width" constant="127" id="ufH-kl-irm"/>
-                                        </constraints>
-                                    </view>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPa-Zv-Pvs">
-                                        <rect key="frame" x="80" y="339" width="216" height="52"/>
-                                        <state key="normal" image="imsg_getstarted_btn_open"/>
-                                        <connections>
-                                            <action selector="btnTapSignUp:" destination="XjP-2U-Phs" eventType="touchUpInside" id="qOt-uj-isq"/>
-                                            <segue destination="8Jb-pS-eSp" kind="show" identifier="SignUpNameViewController" id="YwA-XJ-Cbk"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="1Hn-2p-pb5" firstAttribute="top" secondItem="IPa-Zv-Pvs" secondAttribute="bottom" constant="40" id="4fE-nd-dGg"/>
-                                    <constraint firstItem="dog-cT-Fsd" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="5cK-n0-qpN"/>
-                                    <constraint firstItem="HRr-yl-DUw" firstAttribute="top" secondItem="o3V-kN-78J" secondAttribute="bottom" constant="20" id="BHI-gR-VPh"/>
-                                    <constraint firstItem="IPa-Zv-Pvs" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="Ceo-H3-jjf"/>
-                                    <constraint firstItem="1Hn-2p-pb5" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="F7w-tu-fS0"/>
-                                    <constraint firstItem="IPa-Zv-Pvs" firstAttribute="top" secondItem="HRr-yl-DUw" secondAttribute="bottom" constant="20" id="GYo-Y0-bVe"/>
-                                    <constraint firstItem="o3V-kN-78J" firstAttribute="leading" secondItem="r1l-pd-jdl" secondAttribute="leading" id="UHM-EC-h26"/>
-                                    <constraint firstItem="o3V-kN-78J" firstAttribute="top" secondItem="dog-cT-Fsd" secondAttribute="bottom" constant="56" id="XVv-oL-2Ui"/>
-                                    <constraint firstItem="dog-cT-Fsd" firstAttribute="top" secondItem="r1l-pd-jdl" secondAttribute="top" constant="50" id="gRM-b4-JWF"/>
-                                    <constraint firstItem="HRr-yl-DUw" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="qky-Cw-a1v"/>
-                                    <constraint firstAttribute="trailing" secondItem="o3V-kN-78J" secondAttribute="trailing" id="thq-Rf-7Pr"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfC-Qy-Xeq">
                                 <rect key="frame" x="0.0" y="205.5" width="375" height="256"/>
                                 <subviews>
@@ -1014,6 +950,70 @@
                                     <constraint firstItem="dkI-Ie-Azt" firstAttribute="centerX" secondItem="NfC-Qy-Xeq" secondAttribute="centerX" id="psj-KV-o10"/>
                                     <constraint firstItem="Vy4-o4-8Xp" firstAttribute="top" secondItem="gee-xA-AYF" secondAttribute="bottom" constant="6.5" id="saS-E8-Nc8"/>
                                     <constraint firstAttribute="width" constant="375" id="uaV-SX-ks1"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r1l-pd-jdl">
+                                <rect key="frame" x="0.0" y="20" width="375" height="627"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imsg_logo_open_icon" translatesAutoresizingMaskIntoConstraints="NO" id="dog-cT-Fsd">
+                                        <rect key="frame" x="104.5" y="48" width="166" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="31" id="gJ2-vg-fbP"/>
+                                            <constraint firstAttribute="width" constant="166" id="pTC-Eb-Q7l"/>
+                                        </constraints>
+                                    </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3V-kN-78J" customClass="KASlideShow">
+                                        <rect key="frame" x="0.0" y="122" width="375" height="102"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="102" id="opt-XA-Arg"/>
+                                        </constraints>
+                                    </view>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRr-yl-DUw" customClass="HHPageView">
+                                        <rect key="frame" x="124" y="248" width="127" height="32"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="D1m-wi-D9W"/>
+                                            <constraint firstAttribute="width" constant="127" id="ufH-kl-irm"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IPa-Zv-Pvs">
+                                        <rect key="frame" x="80" y="293" width="216" height="52"/>
+                                        <state key="normal" image="imsg_getstarted_btn_open"/>
+                                        <connections>
+                                            <action selector="btnTapSignUp:" destination="XjP-2U-Phs" eventType="touchUpInside" id="qOt-uj-isq"/>
+                                            <segue destination="8Jb-pS-eSp" kind="show" identifier="SignUpNameViewController" id="YwA-XJ-Cbk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hn-2p-pb5">
+                                        <rect key="frame" x="107" y="353" width="160" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="C7n-v0-Moh"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="160" id="M3P-12-YBe"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
+                                        <state key="normal" title="Sign In">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnTapSignIn:" destination="XjP-2U-Phs" eventType="touchUpInside" id="9fZ-al-ldU"/>
+                                            <action selector="btnTapSignIn:" destination="8Jb-pS-eSp" eventType="touchUpInside" id="S8j-Pg-qmn"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="1Hn-2p-pb5" firstAttribute="top" secondItem="IPa-Zv-Pvs" secondAttribute="bottom" constant="8" id="4fE-nd-dGg"/>
+                                    <constraint firstItem="dog-cT-Fsd" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="5cK-n0-qpN"/>
+                                    <constraint firstItem="HRr-yl-DUw" firstAttribute="top" secondItem="o3V-kN-78J" secondAttribute="bottom" constant="24" id="BHI-gR-VPh"/>
+                                    <constraint firstItem="IPa-Zv-Pvs" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="Ceo-H3-jjf"/>
+                                    <constraint firstItem="1Hn-2p-pb5" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="F7w-tu-fS0"/>
+                                    <constraint firstItem="IPa-Zv-Pvs" firstAttribute="top" secondItem="HRr-yl-DUw" secondAttribute="bottom" constant="13" id="GYo-Y0-bVe"/>
+                                    <constraint firstItem="o3V-kN-78J" firstAttribute="leading" secondItem="r1l-pd-jdl" secondAttribute="leading" id="UHM-EC-h26"/>
+                                    <constraint firstItem="o3V-kN-78J" firstAttribute="top" secondItem="dog-cT-Fsd" secondAttribute="bottom" constant="43" id="XVv-oL-2Ui"/>
+                                    <constraint firstItem="dog-cT-Fsd" firstAttribute="top" secondItem="r1l-pd-jdl" secondAttribute="top" constant="48" id="gRM-b4-JWF"/>
+                                    <constraint firstItem="HRr-yl-DUw" firstAttribute="centerX" secondItem="r1l-pd-jdl" secondAttribute="centerX" id="qky-Cw-a1v"/>
+                                    <constraint firstAttribute="trailing" secondItem="o3V-kN-78J" secondAttribute="trailing" id="thq-Rf-7Pr"/>
                                 </constraints>
                             </view>
                         </subviews>

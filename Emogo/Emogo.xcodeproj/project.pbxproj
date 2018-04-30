@@ -1219,7 +1219,6 @@
 			isa = PBXGroup;
 			children = (
 				F4838AD42084B7AF0034F2B4 /* Segment Control */,
-				F4B38D3B2022FDA1005E07CF /* Segment */,
 				F41752E6201CB684005AFE4A /* CheckBox */,
 				F4CDD4F22011DBC0005436A1 /* ActionSheet */,
 				F4961E1C1FFE929E00A406FF /* ImageView */,
@@ -2039,13 +2038,6 @@
 				F49D74911FBC2E650096A0CC /* HUDManager.swift */,
 			);
 			path = HUD;
-			sourceTree = "<group>";
-		};
-		F4B38D3B2022FDA1005E07CF /* Segment */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Segment;
 			sourceTree = "<group>";
 		};
 		F4CDD4F22011DBC0005436A1 /* ActionSheet */ = {

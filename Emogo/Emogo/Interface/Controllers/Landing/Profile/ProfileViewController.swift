@@ -213,6 +213,8 @@ class ProfileViewController: UIViewController {
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
                 }
+                self.imgUser.borderWidth = 1.0
+                self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                 if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
                     self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
                     self.lblWebsite.isHidden = true
@@ -328,8 +330,8 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = kNavigationColor
-        let img = UIImage(named: "forward_icon")
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        let img = UIImage(named: "forward_black")
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.profileBackAction))
         self.navigationItem.rightBarButtonItem = btnback
         let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
@@ -501,7 +503,7 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.es.resetNoMoreData()
         switch currentMenu {
         case .stuff:
-            kStuffOptionsHeight.constant = 28.0
+            kStuffOptionsHeight.constant = 17.0
             HUDManager.sharedInstance.showHUD()
             self.getMyStuff(type: .start)
             break
