@@ -55,7 +55,7 @@ class CustomNameGenerator(Generator):
         super(CustomNameGenerator, self).__init__(*args, **kwargs)
 
     def generate(self):
-        return self.name_prefix+"- {0}".format(uuid.uuid4().hex[:6].upper())
+        return self.name_prefix+"- {0}".format(uuid.uuid4().hex[:10].upper())
 
 
 class PhoneNumberGenerator(Generator):
@@ -71,6 +71,6 @@ class PhoneNumberGenerator(Generator):
         while '9' in n[3:6] or n[3:6] == '000' or n[6] == n[7] == n[8] == n[9]:
             n = str(random.randint(10 ** 9, 10 ** 10 - 1))
         if self.country_code != '+91':
-            return self.country_code+"- {0}".format(n[:3] + '-' + n[3:6] + '-' + n[6:])
+            return self.country_code+"{0}".format(n[:3]+n[3:6]+n[6:])
         else:
             return self.country_code+"{0}".format(n[:3]+n[3:6]+n[6:])

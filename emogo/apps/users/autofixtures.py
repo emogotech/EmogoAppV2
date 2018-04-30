@@ -2,12 +2,12 @@ import autofixture
 from autofixture import generators , AutoFixture
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
-from models import UserProfile
+from models import UserProfile, UserFollow
 from autofixture.autofixtures import UserFixture
 from emogo.lib.custom_generators.generators import PhoneNumberGenerator
 from emogo.apps.stream.autofixtures import StreamAutoFixture
 from emogo.apps.stream.models import Stream
-
+from datetime import datetime, timedelta
 
 class UserAutoFixture(UserFixture):
     """
@@ -37,12 +37,12 @@ class UserAutoFixture(UserFixture):
             self.client.login(username='foo', password='bar')
         """
         self.username = kwargs.pop('username', None)
-        self.password = 123456
+        self.password = 12345
         self.num_of_instances = kwargs.pop('num_of_instances', None)
         super(UserAutoFixture, self).__init__(*args, **kwargs)
 
     class Values(object):
-        username = PhoneNumberGenerator(country_code='+91')
+        username = PhoneNumberGenerator(country_code='+1')
         first_name = generators.FirstNameGenerator(1)
         last_name = generators.LastNameGenerator()
         password = staticmethod(lambda: make_password('123456'))
@@ -60,7 +60,7 @@ class UserAutoFixture(UserFixture):
         # make sure user's last login was not before he joined
         if instance:
             UserProfileAutoFixture(UserProfile, user=instance, full_name=(instance.first_name+' '+instance.last_name)).create(1)
-            StreamAutoFixture(Stream, user=instance, num_of_instances = self.num_of_instances).create(self.num_of_instances.get('stream'))
+            # StreamAutoFixture(Stream, user=instance, num_of_instances = self.num_of_instances).create(self.num_of_instances.get('stream'))
         return instance
 
 
@@ -84,8 +84,35 @@ class UserProfileAutoFixture(AutoFixture):
             self.field_values['user'] = self.user
         if self.full_name:
             self.field_values['full_name'] = self.full_name
+            self.field_values['display_name'] = self.full_name
         self.field_values['otp'] = None
         self.field_values['country_code'] = None
+        self.field_values['branchio_url'] = None
+        self.field_values['birthday'] = generators.DateGenerator()
         self.field_values['user_image'] = None
+        self.field_values['location'] = 'USA'
+        self.field_values['website'] = 'Not available'
+
+
+class UserFollowAutoFixture(AutoFixture):
+    """
+        :class:`UserProfileAutoFixture` is automatically used by default to create new
+        ``UserProfile`` instances. It uses the following values to assure that you can
+        use the generated instances without any modification:
+    """
+
+    # don't follow permissions and groups
+    follow_m2m = False
+
+    def __init__(self, *args, **kwargs):
+
+        self.user = kwargs.pop('user', None)
+        self.full_name = kwargs.pop('full_name', None)
+        self.company = kwargs.pop('company', None)
+        super(UserFollowAutoFixture, self).__init__(*args, **kwargs)
+
+    follow_fk = True
+
 
 autofixture.register(UserProfile, UserProfileAutoFixture, fail_silently=True)
+autofixture.register(UserFollow, UserFollowAutoFixture, fail_silently=True)
