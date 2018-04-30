@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (!branchHandled) {
             // If not handled by Branch, do other deep link routing for the Facebook SDK, Pinterest SDK, etc
         }else {
-           
             return true
         }
         
@@ -150,7 +149,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func getInfoFormURL(url:URL){
         var peopleData:[String:Any] = [String:Any]()
         peopleData["full_name"] = "\(url.valueOf(checkKeyType.fullname.rawValue)!)"
-        peopleData["user_profile_id"] = "\(url.valueOf(checkKeyType.userId.rawValue)!)"
+        peopleData["user_id"] = "\(url.valueOf(checkKeyType.userId.rawValue)!)"
+        peopleData["user_profile_id"] = "\(url.valueOf(checkKeyType.userProfileID.rawValue)!.replacingOccurrences(of: "/People", with: ""))"
         peopleData["phone_number"] = "\(url.valueOf(checkKeyType.phoneNumber.rawValue)!)"
         
         if url.valueOf(checkKeyType.userImage.rawValue)! == "/\(kDeepLinkTypePeople)"{
@@ -158,6 +158,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             peopleData["user_image"] = "\(url.valueOf(checkKeyType.userImage.rawValue)!)"
         }
+        print(peopleData)
         SharedData.sharedInstance.peopleInfo = PeopleDAO.init(peopleData: peopleData)
     }
     
@@ -264,8 +265,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     NotificationCenter.default.addObserver(self, selector: #selector(self.performLogin), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
-    
-   
     // Respond to Universal Links
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
         // pass the url to the handle deep link call
@@ -283,22 +282,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  var items = [URLQueryItem]()
  items.append(URLQueryItem(name: "test", value: "food"))
  components.queryItems = items
- 
- let layout = MSMessageTemplateLayout()
+  let layout = MSMessageTemplateLayout()
  layout.caption = "Test Me"
  let message = MSMessage(session: MSSession())
  message.url = components.url
  message.layout = layout
  return message
  }
- 
  @objc func actionButtonClicked (sender: UIButton) {
  let composeVC = MFMessageComposeViewController()
  composeVC.messageComposeDelegate = self
- 
  composeVC.recipients = []
  composeVC.message = composeMessage()
- 
  self.present(composeVC, animated: true, completion: nil)
  }
 */

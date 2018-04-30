@@ -182,6 +182,8 @@
 		F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4266EFD1FF67CDA0075BFD7 /* ProfileDAO.swift */; };
 		F42864321FC4A12500E3549D /* PreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864311FC4A12500E3549D /* PreviewController.swift */; };
 		F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F42FE2872096FFD400CF3E24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F406FCF9208779F9006192B4 /* Assets.xcassets */; };
+		F42FE28820970E8700CF3E24 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F406FCF9208779F9006192B4 /* Assets.xcassets */; };
 		F431185C202B7F71006139F7 /* filterMenuItem_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185B202B7F6F006139F7 /* filterMenuItem_icon@3x.png */; };
 		F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185E202B8891006139F7 /* filter_gradient_4_icon@3x.png */; };
 		F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F431185F202B8894006139F7 /* filter_gradient_6_icon@3x.png */; };
@@ -898,13 +900,6 @@
 			path = CollaboratorCollectonCell;
 			sourceTree = "<group>";
 		};
-		2BA51C282010D65400D11D97 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		2BDC4A9C1FD117350018FC6E /* Cells And Nibs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1031,7 +1026,6 @@
 			children = (
 				F49023C61FC42665004F3C90 /* iMessageExt-Bridging-Header.h */,
 				335B1A5B1FBB2413006DA9D9 /* MessagesViewController.swift */,
-				2BA51C282010D65400D11D97 /* New Group */,
 				337B8FB51FBEF45C00CFACE3 /* Utils */,
 				337B8F741FBEECBD00CFACE3 /* Interface */,
 				337B8F7E1FBEECBD00CFACE3 /* Externals */,
@@ -2364,6 +2358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BBA5EEB201B82810077CE7B /* DemoPreprocessor.js in Resources */,
+				F42FE2872096FFD400CF3E24 /* Assets.xcassets in Resources */,
 				335B1A491FBB23FE006DA9D9 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2382,6 +2377,7 @@
 				330FEB7C1FC3F68C00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				330FEB7F1FC3F68C00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				330FEB791FC3F68C00552260 /* SF-Pro-Display-Black.otf in Resources */,
+				F42FE28820970E8700CF3E24 /* Assets.xcassets in Resources */,
 				330FEB7D1FC3F68C00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

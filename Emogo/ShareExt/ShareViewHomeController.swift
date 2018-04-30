@@ -102,6 +102,13 @@ class ShareViewHomeController: UIViewController {
         let strPublicURL = String(kUTTypeURL)
         let strPublicPng  =   String(kUTTypePNG)
         let strPublicJpeg    =   String(kUTTypeJPEG)
+        print(extensionItem)
+        print(itemProvider)
+        print(propertyList)
+        print(strPublicURL)
+        print(strPublicPng)
+
+       
         if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
@@ -110,7 +117,7 @@ class ShareViewHomeController: UIViewController {
                         let urlString = results["URL"] as? String,
                         let url = NSURL(string: urlString) {
                         print("URL retrieved: \(urlString)")
-                        self.getData(mainURL: url as URL!)
+                        self.getData(mainURL: url as URL)
                     }
                 }
             })
@@ -118,7 +125,7 @@ class ShareViewHomeController: UIViewController {
             itemProvider.loadItem(forTypeIdentifier: strPublicURL, options: nil, completionHandler: { (item, error) -> Void in
                 guard let url = item as? URL else { return }
                 OperationQueue.main.addOperation {
-                        self.getData(mainURL: url as URL!)
+                        self.getData(mainURL: url as URL)
                 }
             })
         }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) || itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
@@ -153,7 +160,29 @@ class ShareViewHomeController: UIViewController {
                     print("No Image")
                 }
             })
-        } else {
+        } else  if let item = extensionContext?.inputItems.first as? NSExtensionItem {
+            if let itemProvider = item.attachments?.first as? NSItemProvider {
+                if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text") {
+                    itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil, completionHandler: { (url, error) -> Void in
+                        let strURL:String = url as! String
+                        print(strURL)
+                        guard let openUrl = URL(string: strURL) else {
+                            return
+                        }
+                        print(openUrl)
+
+                        
+                        OperationQueue.main.addOperation {
+                                self.getData(mainURL: openUrl)
+                            }
+                        
+                       
+                        //   self.extensionContext?.completeRequestReturningItems([], completionHandler:nil)
+                    })
+                }
+            }
+        }
+        else {
             print("Error - check itemProvider object!")
         }
     }

@@ -13,6 +13,8 @@ protocol ProfileStreamViewDelegate {
 class ProfileStreamView: UICollectionReusableView {
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var imgCover: UIImageView!
+    @IBOutlet weak var lblTitle: UILabel!
+
     var delegate:ProfileStreamViewDelegate?
 
     override func awakeFromNib() {
@@ -40,6 +42,8 @@ class ProfileStreamView: UICollectionReusableView {
      self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
         self.imgCover.contentMode = .scaleAspectFill
         self.imgUser.layer.masksToBounds = true
+        self.lblTitle.text = stream.Title.trim().capitalized
+        self.lblTitle.addShadow()
     }
     
     @objc func tap(gesture:UITapGestureRecognizer) {

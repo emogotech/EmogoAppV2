@@ -3633,7 +3633,7 @@ Cg
         <image name="content_flag" width="30" height="30"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="delete-stream" width="31" height="34"/>
-        <image name="demo_images" width="47" height="47"/>
+        <image name="demo_images" width="48" height="48"/>
         <image name="done_button-uncheck" width="375" height="75"/>
         <image name="done_icon" width="16" height="16"/>
         <image name="edit avtar icon" width="29" height="27"/>

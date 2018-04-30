@@ -122,7 +122,10 @@ class StreamListViewController: UIViewController {
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {
-            self.checkDeepLinkURL()
+            let when = DispatchTime.now() + 0.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.checkDeepLinkURL()
+            }
         }
         
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
@@ -437,6 +440,7 @@ class StreamListViewController: UIViewController {
             })
             self.isLoadFirst = false
         }
+        /*
         if(SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople){
             pagerView(menuView, didSelectItemAt: 4)
             menuView.currentIndex = 4
@@ -444,6 +448,7 @@ class StreamListViewController: UIViewController {
             self.menuView.isHidden = false
             SharedData.sharedInstance.deepLinkType = ""
         }
+ */
         if isSearch {
             self.viewMenu.isHidden = true
         }

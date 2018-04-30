@@ -368,7 +368,7 @@ class APIServiceManager: NSObject {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            print(data)
+                          //  print(data)
                             let result:[String:Any] = data as! [String:Any]
                             if let value = result["emogo"] {
                                 let dict:[String:Any] = value as! [String : Any]
@@ -433,7 +433,35 @@ class APIServiceManager: NSObject {
                                     }
                                 }
                             }
+                            
+                            if let value = result["following_stream"] {
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.Following
+                                        objects.append(stream)
+                                    }
+                                }
+                            }
+                            
+                            if let value = result["liked"] {
+                                let dict:[String:Any] = value as! [String : Any]
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.Liked
+                                        objects.append(stream)
+                                    }
+                                }
+                            }
+                            
                         }
+                        
+                        
+                        
                         completionHandler(objects,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])

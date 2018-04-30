@@ -101,61 +101,66 @@ class ViewProfileViewController: UIViewController {
     func prepareData(){
         let nibViews = UINib(nibName: "ProfileStreamView", bundle: nil)
         self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
+        print(objPeople.userProfileID)
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: objPeople.userProfileID, isCurrentUser: false) { (people, errorMSG) in
             if (errorMSG?.isEmpty)! {
-                if let people = people {
-                    self.objPeople = people
-                    self.lblFullName.text =  people.displayName.trim().capitalized
-                    self.lblFullName.minimumScaleFactor = 1.0
-                    self.lblWebsite.text = people.website.trim()
-                    self.lblWebsite.minimumScaleFactor = 1.0
-                    self.lblLocation.text = people.location.trim()
-                    self.lblLocation.minimumScaleFactor = 1.0
-                    self.lblBio.text = people.biography.trim()
-                    //self.lblBirthday.text = people.birthday.trim()
-                    self.title = people.fullName.trim()
-                    self.lblBio.minimumScaleFactor = 1.0
-                    self.imgLink.isHidden = false
-                    self.imgLocation.isHidden = false
-                    if self.objPeople.isFollowing {
-                        self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
-                    }else {
-                        self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
-                    }
-                    if people.location.trim().isEmpty {
-                        self.imgLocation.isHidden = true
-                    }
-                    if people.website.trim().isEmpty {
-                        self.imgLink.isHidden = true
-                    }
-                    if people.location.isEmpty && !people.website.trim().isEmpty {
-                        self.lblLocation.text = people.website.trim()
-                        self.lblWebsite.isHidden = true
-                        self.imgLink.isHidden = true
+                
+                DispatchQueue.main.async {
+                    if let people = people {
+                        self.objPeople = people
+                        self.lblFullName.text =  people.displayName.trim().capitalized
+                        self.lblFullName.minimumScaleFactor = 1.0
+                        self.lblWebsite.text = people.website.trim()
+                        self.lblWebsite.minimumScaleFactor = 1.0
+                        self.lblLocation.text = people.location.trim()
+                        self.lblLocation.minimumScaleFactor = 1.0
+                        self.lblBio.text = people.biography.trim()
+                        //self.lblBirthday.text = people.birthday.trim()
+                        self.title = people.fullName.trim()
+                        self.lblBio.minimumScaleFactor = 1.0
+                        self.imgLink.isHidden = false
                         self.imgLocation.isHidden = false
-                        self.imgLocation.image = self.imgLink.image
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                        self.lblLocation.addGestureRecognizer(tap)
-                        self.lblLocation.isUserInteractionEnabled = true
-                    }else {
-                        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                        self.lblWebsite.addGestureRecognizer(tap)
-                        self.lblWebsite.isUserInteractionEnabled = true
-                    }
-                    //print(people.userImage.trim())
-                    if !people.userImage.trim().isEmpty {
-                        self.imgUser.setImageWithResizeURL(people.userImage.trim())
-                    }
-                    if people.biography.trim().isEmpty  {
-                        self.kHeaderHeight.constant = 178
-                        self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
-                        
-                    }else {
-                        self.kHeaderHeight.constant = 220
-                        self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
-                    }
-                    self.profileStreamShow()
-                    self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
+                        if self.objPeople.isFollowing {
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
+                        }else {
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
+                        }
+                        if people.location.trim().isEmpty {
+                            self.imgLocation.isHidden = true
+                        }
+                        if people.website.trim().isEmpty {
+                            self.imgLink.isHidden = true
+                        }
+                        if people.location.isEmpty && !people.website.trim().isEmpty {
+                            self.lblLocation.text = people.website.trim()
+                            self.lblWebsite.isHidden = true
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = false
+                            self.imgLocation.image = self.imgLink.image
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblLocation.addGestureRecognizer(tap)
+                            self.lblLocation.isUserInteractionEnabled = true
+                        }else {
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblWebsite.addGestureRecognizer(tap)
+                            self.lblWebsite.isUserInteractionEnabled = true
+                        }
+                        //print(people.userImage.trim())
+                        if !people.userImage.trim().isEmpty {
+                            self.imgUser.setImageWithResizeURL(people.userImage.trim())
+                        }
+                        if people.biography.trim().isEmpty  {
+                            self.kHeaderHeight.constant = 178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+                            
+                        }else {
+                            self.kHeaderHeight.constant = 220
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+                        }
+                        self.profileStreamShow()
+                        self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
+                }
+               
                 }
             }
         }

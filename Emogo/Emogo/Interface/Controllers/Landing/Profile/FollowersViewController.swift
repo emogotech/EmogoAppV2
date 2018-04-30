@@ -61,7 +61,7 @@ class FollowersViewController: UIViewController {
     
     func prepareLayout(){
             self.lblNOResult.isHidden = true
-        self.lblNOResult.text = "No \(self.listType.rawValue) Found."
+        self.lblNOResult.text = "No Record Found."
        txtSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
         self.configureNavigationWithTitle()
         self.title = listType.rawValue
@@ -131,9 +131,15 @@ class FollowersViewController: UIViewController {
     
    
     @objc func textFieldEditingChange(sender:UITextField) {
+        if self.isSearchEnable == false {
+            self.tblFollowers.es.removeRefreshFooter()
+            self.tblFollowers.es.removeRefreshHeader()
+        }
         self.isSearchEnable = true
         self.arraySearch.removeAll()
         self.tblFollowers.reloadData()
+        
+      
         isEditingEnable = true
         if listType == .Follower {
             self.searchFollowerUser(text: (sender.text?.trim())!)
@@ -204,6 +210,10 @@ class FollowersViewController: UIViewController {
                     let follow = self.arraySearch[index]
                     follow.isFollowing = true
                     self.arraySearch[index] = follow
+                    let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
+                    if indexTemp != nil {
+                        FollowList.sharedInstance.arrayFollowers[indexTemp!] = follow
+                    }
                 }else {
                     let follow = FollowList.sharedInstance.arrayFollowers[index]
                     follow.isFollowing = true
@@ -227,6 +237,11 @@ class FollowersViewController: UIViewController {
                     if self.listType == FollowerType.Follower {
                         follow.isFollowing = false
                         self.arraySearch[index] = follow
+                        
+                        let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
+                        if indexTemp != nil {
+                            FollowList.sharedInstance.arrayFollowers[indexTemp!] = follow
+                        }
                     }else {
                         let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
                         if indexTemp != nil {
@@ -410,6 +425,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("Editing ended")
         if (txtSearch.text?.trim().isEmpty)! {
+            self.configureLoadMoreAndRefresh()
             self.isSearchEnable = false
             self.tblFollowers.reloadData()
         }

@@ -25,7 +25,11 @@ class FollowerCell: UITableViewCell {
         self.lblUserName.isHidden = false
         self.lblName.text = follow.displayName
         self.lblUserName.text = follow.fullName
-        self.imgUser.setImageWithResizeURL(follow.userImage.trim())
+        if follow.userImage.trim().isEmpty {
+            self.imgUser.image = #imageLiteral(resourceName: "demo_images")
+        }else {
+            self.imgUser.setImageWithResizeURL(follow.userImage.trim())
+        }
         if type == .Follower {
             if follow.isFollowing {
                 self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)

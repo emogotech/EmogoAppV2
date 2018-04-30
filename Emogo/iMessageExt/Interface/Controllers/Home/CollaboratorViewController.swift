@@ -102,8 +102,9 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
         let fullName = URLQueryItem(name: "fullName", value: userInfo.name!)
         let phoneNumber = URLQueryItem(name: "phoneNumber", value: userInfo.phone!)
         let userId = URLQueryItem(name: "userId", value: userInfo.userID!)
+        let userProfileId = URLQueryItem(name: "user_profile_id", value: userInfo.userID!)
         let userImage = URLQueryItem(name: "userImage", value: userInfo.imgUser!)
-        urlComponents.queryItems = [fullName, phoneNumber, userId, userImage]
+        urlComponents.queryItems = [fullName, phoneNumber, userId, userImage,userProfileId]
         let strURl = "\(urlComponents.url!)/\(kDeepLinkTypePeople)"
         print(strURl)
         return strURl

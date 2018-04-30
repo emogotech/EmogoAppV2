@@ -1595,9 +1595,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         // add params
         let fullName = URLQueryItem(name: "fullName", value: userInfo.fullName!)
         let phoneNumber = URLQueryItem(name: "phoneNumber", value: userInfo.phoneNumber!)
+        let userProfileID = URLQueryItem(name: "user_profile_id", value: userInfo.userProfileId!)
         let userId = URLQueryItem(name: "userId", value: userInfo.userId!)
         let userImage = URLQueryItem(name: "userImage", value: userInfo.userImage!)
-        urlComponents.queryItems = [fullName, phoneNumber, userId, userImage]
+        urlComponents.queryItems = [fullName, phoneNumber, userId, userProfileID,userImage]
         let strURl = "\(urlComponents.url!)/\(kDeepLinkTypePeople)"
         print(strURl)
         return strURl
