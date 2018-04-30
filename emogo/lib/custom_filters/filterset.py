@@ -189,7 +189,8 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_collab_stream(self, qs, name, value):
-        stream_ids = Collaborator.actives.filter(phone_number=get_object_or_404(User, user_data__id=value),
+        user = get_object_or_404(User, user_data__id=value)
+        stream_ids = Collaborator.actives.filter(phone_number__endswith=str(user.username)[-10:],
                                                  stream__status='Active',
                                                  created_by=self.request.user).values_list('stream', flat=True)
         qs = qs.filter(id__in=stream_ids)
