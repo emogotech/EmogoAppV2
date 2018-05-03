@@ -353,7 +353,6 @@ class PreviewController: UIViewController {
                 var arrButtons = [UIBarButtonItem]()
                 arrButtons.append(btnDelete)
             }
-            
         }
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
     }
@@ -733,6 +732,7 @@ class PreviewController: UIViewController {
     
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
+        /*
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
         photoEditor.image = image
         //PhotoEditorDelegate
@@ -742,6 +742,7 @@ class PreviewController: UIViewController {
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
         present(photoEditor, animated: true) {
         }
+ */
     }
     
     func setPreviewContent(title:String, description:String) {

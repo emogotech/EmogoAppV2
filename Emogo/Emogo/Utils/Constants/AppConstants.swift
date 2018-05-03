@@ -21,7 +21,8 @@ let kDefault                             = UserDefaults(suiteName: "group.com.em
 
 
 let kStoryboardMain                      = UIStoryboard(name: "Main", bundle: nil)
-let kStoryboardStuff                      = UIStoryboard(name: "Stuff", bundle: nil)
+let kStoryboardStuff                     = UIStoryboard(name: "Stuff", bundle: nil)
+let kStoryboardPhotoEditor               = UIStoryboard(name: "ImageEditor", bundle: nil)
 
 let kPhoneFormat                         = "##########"
 
@@ -86,6 +87,7 @@ let kStoryboardID_TermsAndPrivacyView = "termsAndPrivacyView"
 let kStoryboardID_MyStuffPreView = "myStuffPreView"
 let kStoryboardID_FollowersView = "followersView"
 let kStoryboardID_AddCollaboratorContactsView = "addCollaboratorContactsView"
+let kStoryboardID_PhotoEditorView = "photoEditorView"
 
 
 

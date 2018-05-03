@@ -182,6 +182,7 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
     
 }
 
+/*
 extension PreviewController:PhotoEditorDelegate
 {
     func doneEditing(image: UIImage) {
@@ -200,6 +201,7 @@ extension PreviewController:PhotoEditorDelegate
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
+ */
 
 
 extension PreviewController:UITextFieldDelegate {

@@ -35,7 +35,6 @@ class ContentViewController: UIViewController {
 
     var currentIndex:Int!
     var seletedImage:ContentDAO!
-    var photoEditor:PhotoEditorViewController!
     let shapes = ShapeDAO()
     var isEdit:Bool!
     var isAddStream:Bool! = false
@@ -771,14 +770,12 @@ class ContentViewController: UIViewController {
     }
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
-        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
+        let photoEditor:PhotoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_PhotoEditorView) as! PhotoEditorViewController
+        let nav = UINavigationController(rootViewController: photoEditor)
         photoEditor.image = image
         //PhotoEditorDelegate
-        photoEditor.photoEditorDelegate = self
-        photoEditor.hiddenControls = [.share]
-        photoEditor.stickers = shapes.shapes
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-        present(photoEditor, animated: true) {
+        present(nav, animated: true) {
         }
     }
 
@@ -1020,6 +1017,7 @@ class ContentViewController: UIViewController {
 
 }
 
+/*
 
 extension ContentViewController:PhotoEditorDelegate
 {
@@ -1042,7 +1040,7 @@ extension ContentViewController:PhotoEditorDelegate
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
-
+*/
 
 extension ContentViewController:UITextFieldDelegate {
     

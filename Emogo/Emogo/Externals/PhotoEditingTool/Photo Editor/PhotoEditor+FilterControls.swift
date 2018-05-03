@@ -8,11 +8,11 @@
 
 import Foundation
 import UIKit
-
-extension PhotoEditorViewController :UICollectionViewDataSource, UICollectionViewDelegate  {
-    
+ /*
+extension FilterViewController : UICollectionViewDataSource, UICollectionViewDelegate  {
+   
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isGradientFilter {
+        if self.isGradientFilter {
             return  self.filter.arrayGradient.count
         }else {
             return  self.filter.arrayMenu.count
@@ -40,10 +40,10 @@ extension PhotoEditorViewController :UICollectionViewDataSource, UICollectionVie
             self.gradientImageView.image = UIImage(named: "filter_gradient_\(1 + indexPath.row).png")
             self.btnFilterOptionSelected(index:indexPath.row)
         }else {
-            self.btnFilterOptionSelected(index:indexPath.row)
-
+           self.btnFilterOptionSelected(index:indexPath.row)
         }
     }
-    
-    
+ 
 }
+ */
+

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Photo Editor View Controller-->
+        <scene sceneID="mvy-jm-vOe">
+            <objects>
+                <viewController storyboardIdentifier="photoEditorView" id="rFU-qt-Qb4" customClass="PhotoEditorViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gN2-ZX-J7Y">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hr9-2A-9In">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcT-FO-5x2" customClass="ACEDrawingView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bu-x4-3we">
+                                <rect key="frame" x="163" y="600" width="50" height="50"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trash_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Gtr-12-Kuf">
+                                        <rect key="frame" x="16" y="13" width="19" height="23"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="top" secondItem="8Bu-x4-3we" secondAttribute="top" constant="13" id="Bn2-zc-oZn"/>
+                                    <constraint firstAttribute="bottom" secondItem="Gtr-12-Kuf" secondAttribute="bottom" constant="14" id="inc-nN-J4n"/>
+                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="leading" secondItem="8Bu-x4-3we" secondAttribute="leading" constant="16" id="rem-Gj-1Uw"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gtr-12-Kuf" secondAttribute="trailing" constant="15" id="tD2-Xw-EBJ"/>
+                                    <constraint firstAttribute="height" constant="50" id="vaY-H2-txL"/>
+                                    <constraint firstAttribute="width" constant="50" id="yz7-pC-1Ji"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ium-ia-2ul" userLabel="Color Picker">
+                                <rect key="frame" x="0.0" y="20" width="375" height="50"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="QCw-0v-qma">
+                                        <rect key="frame" x="4" y="2" width="367" height="30"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="hMg-pz-RcX"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ZOA-YF-rgM">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="QCw-0v-qma" firstAttribute="top" secondItem="ium-ia-2ul" secondAttribute="top" constant="2" id="LYr-vP-b43"/>
+                                    <constraint firstItem="QCw-0v-qma" firstAttribute="leading" secondItem="ium-ia-2ul" secondAttribute="leading" constant="4" id="XmM-IA-CQZ"/>
+                                    <constraint firstAttribute="height" constant="50" id="lgk-3s-NY0"/>
+                                    <constraint firstAttribute="trailing" secondItem="QCw-0v-qma" secondAttribute="trailing" constant="4" id="zkS-GX-hKF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hr9-2A-9In" firstAttribute="top" secondItem="Rg0-Pj-F2J" secondAttribute="top" id="2f1-9k-1jk"/>
+                            <constraint firstItem="ium-ia-2ul" firstAttribute="trailing" secondItem="Rg0-Pj-F2J" secondAttribute="trailing" id="4cU-Da-bUH"/>
+                            <constraint firstItem="ium-ia-2ul" firstAttribute="top" secondItem="Rg0-Pj-F2J" secondAttribute="top" id="IYY-Yt-DsI"/>
+                            <constraint firstItem="8Bu-x4-3we" firstAttribute="centerX" secondItem="gN2-ZX-J7Y" secondAttribute="centerX" id="LU2-DA-BqU"/>
+                            <constraint firstItem="Rg0-Pj-F2J" firstAttribute="bottom" secondItem="8Bu-x4-3we" secondAttribute="bottom" constant="17" id="Lvq-wX-d39"/>
+                            <constraint firstItem="ium-ia-2ul" firstAttribute="leading" secondItem="Rg0-Pj-F2J" secondAttribute="leading" id="h1O-Ye-ybC"/>
+                            <constraint firstItem="hr9-2A-9In" firstAttribute="bottom" secondItem="Rg0-Pj-F2J" secondAttribute="bottom" id="iun-If-4LF"/>
+                            <constraint firstItem="hr9-2A-9In" firstAttribute="trailing" secondItem="Rg0-Pj-F2J" secondAttribute="trailing" id="njd-Fn-cXF"/>
+                            <constraint firstItem="hr9-2A-9In" firstAttribute="leading" secondItem="Rg0-Pj-F2J" secondAttribute="leading" id="qLT-fH-pgd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Rg0-Pj-F2J"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="i2v-MT-MaN">
+                        <barButtonItem key="leftBarButtonItem" image="back" id="3gC-mt-mEU"/>
+                        <barButtonItem key="rightBarButtonItem" image="Save" id="84j-IE-tY8"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="baseImageView" destination="hr9-2A-9In" id="Zx7-dD-1QG"/>
+                        <outlet property="colorPickerView" destination="ium-ia-2ul" id="z4J-OV-9aZ"/>
+                        <outlet property="colorsCollectionView" destination="QCw-0v-qma" id="NJ7-mY-KiT"/>
+                        <outlet property="deleteView" destination="8Bu-x4-3we" id="L8S-K4-s4u"/>
+                        <outlet property="drawingView" destination="bcT-FO-5x2" id="vn6-IJ-BIl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cjJ-fM-F6R" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1117.5999999999999" y="-564.46776611694156"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Save" width="17" height="23"/>
+        <image name="back" width="16" height="16"/>
+        <image name="trash_icon" width="41" height="41"/>
+    </resources>
+</document>
