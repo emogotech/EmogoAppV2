@@ -32,7 +32,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnAddStream: UIButton!
     @IBOutlet weak var kWidth: NSLayoutConstraint!
-
+    @IBOutlet weak var btnAddMore: UIButton!
+    
     
     // MARK: - Variables
     
@@ -506,6 +507,9 @@ class PreviewController: UIViewController {
         }
     }
     
+    @IBAction func btnAddMoreAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
