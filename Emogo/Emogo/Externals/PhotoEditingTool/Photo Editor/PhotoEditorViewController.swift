@@ -21,6 +21,7 @@ enum FeatureType:String {
 class PhotoEditorViewController: UIViewController {
     @IBOutlet weak var canvasView: UIView!
     @IBOutlet weak var drawingView: ACEDrawingView!
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var baseImageView: UIImageView!
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var colorsCollectionView: UICollectionView!
@@ -67,6 +68,9 @@ class PhotoEditorViewController: UIViewController {
 
     func prepareLayouts(){
         self.baseImageView.image = self.image
+        let size = self.image.suitableSize(widthLimit: UIScreen.main.bounds.size.width)
+        print(size?.height)
+        self.colorPickerViewBottomConstraint.constant = (size?.height)!
         configureCollectionView()
       //  configureKeyboardWithColor()
         self.deleteView.isHidden = true
@@ -78,7 +82,7 @@ class PhotoEditorViewController: UIViewController {
         prepareRightSideMenu()
         prepareLeftMenu()
         self.drawingView.delegate = self
-        self.drawingView.isHidden = true
+        self.drawingView.isHidden = false
         self.stickers = shapes.shapes
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
     }

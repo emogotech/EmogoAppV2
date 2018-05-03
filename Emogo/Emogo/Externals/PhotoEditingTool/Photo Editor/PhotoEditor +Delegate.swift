@@ -12,10 +12,11 @@ import UIKit
 extension PhotoEditorViewController:StickersViewControllerDelegate {
     func didSelectView(view: UIView) {
         isStriker = true
-        
-        view.center = baseImageView.center
         view.tag = 112
+        print(self.baseImageView.center)
         self.baseImageView.addSubview(view)
+        view.center = baseImageView.center
+        print(view.center)
         self.removeStickersView()
         //Gestures
         addGestures(view: view)
@@ -30,6 +31,7 @@ extension PhotoEditorViewController:StickersViewControllerDelegate {
         imageView.frame.size = CGSize(width: 150, height: 150)
         imageView.center = baseImageView.center
         self.baseImageView.addSubview(imageView)
+        print(self.baseImageView.center)
         //Gestures
         self.removeStickersView()
         

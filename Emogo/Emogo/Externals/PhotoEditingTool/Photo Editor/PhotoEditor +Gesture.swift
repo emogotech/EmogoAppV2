@@ -221,9 +221,9 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                     let generator = UINotificationFeedbackGenerator()
                     generator.notificationOccurred(.success)
                 }
-            } else if !self.drawingView.frame.contains(view.frame.origin) { //Snap the view back to canvasImageView
+            } else if !self.baseImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
                 UIView.animate(withDuration: 0.3, animations: {
-                    view.center = self.drawingView.center
+                    view.center = self.baseImageView.center
                 })
                 
             }
