@@ -125,7 +125,7 @@ class ContentViewController: UIViewController {
 
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
-        tap.numberOfTapsRequired = 2
+        tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
         txtDescription.delegate = self
         
@@ -269,6 +269,7 @@ class ContentViewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
+                        
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.lblTitleImage.textColor = .white
 
@@ -283,6 +284,7 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
+                       
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
@@ -296,6 +298,7 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
+                       
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
@@ -311,7 +314,7 @@ class ContentViewController: UIViewController {
                         self.txtTitleImage.textColor = .white//colors.secondary
                         self.lblTitleImage.textColor = .white
                         self.txtDescription.textColor = .white//colors.secondary
-                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 

@@ -202,13 +202,15 @@ class ProfileViewController: UIViewController {
                 self.lblFollowing.isHidden = false
                 self.lblFollowers.isHidden = false
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty {
-                    self.lblFollowers.isHidden = true
+                   self.lblFollowers.text =  UserDAO.sharedInstance.user.following.trim()
+                   self.lblFollowers.isHidden = false
                 }
                 if UserDAO.sharedInstance.user.following.trim().isEmpty {
-                    self.lblFollowing.isHidden = true
+                   self.lblFollowing.isHidden = true
                 }
                 self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                 self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
+               
                 //print(UserDAO.sharedInstance.user.userImage.trim())
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())

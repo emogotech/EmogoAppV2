@@ -35,7 +35,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.showPreview))
         self.imgCover.addGestureRecognizer(tap)
         
-        self.expansionMode = .immediate
+        self.expansionMode = .topOnly
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
@@ -83,7 +83,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         
         // For  Now
         btnEdit.isHidden = true
-btnContainer.isHidden = true
+        btnContainer.isHidden = true
+        self.lblName.layer.contents = UIImage(named: "gradient")?.cgImage
+
     }
     
     

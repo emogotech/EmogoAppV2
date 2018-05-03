@@ -128,6 +128,8 @@ class CustomCameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         
         btnCamera.isEnabled = true
+        
+      
 //        btnCamera.center = self.cameraButtonContainer.center
 //        let frameForCamera = self.cameraButtonContainer.frame
 //        btnCamera.frame = frameForCamera
@@ -242,7 +244,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     func addNextButton(isAddButton:Bool){
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
-            let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
+            let btnNext = UIBarButtonItem(image:#imageLiteral(resourceName: "next"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext
         }else {
             self.navigationItem.rightBarButtonItem  = nil

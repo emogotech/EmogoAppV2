@@ -238,7 +238,7 @@ class ActionSheetController: ActionController<PMActionCell, ActionData, ActionCo
             header.btnCross.setImage(#imageLiteral(resourceName: "action_cross_image"), for: .normal)
             header.btnCross.addTarget(self, action: #selector(self.hideView), for: .touchUpInside)
             header.btnHeader.addTarget(self, action: #selector(self.headerViewTapped), for: .touchUpInside)
-            header.lblTopViewTitle.text =   "Create New Stream!"
+            header.lblTopViewTitle.text =   "Create New Emogo"
         }
         onConfigureCellForAction = { [weak self] cell, action, indexPath in
             cell.setup(action.data?.title, detail: action.data?.subtitle, image: action.data?.image)
