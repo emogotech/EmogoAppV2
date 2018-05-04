@@ -126,7 +126,7 @@ class StreamAutoFixture(AutoFixture):
 
     class Values(object):
 
-        name = CustomNameGenerator(name_prefix='Stream')
+        name = CustomNameGenerator(name_prefix='Stream-collab')
         description = generators.LoremGenerator(max_length=30)
         category = None
         image = generators.ChoicesGenerator(values=stream_images)
@@ -1264,7 +1264,7 @@ class ContentAutoFixture(AutoFixture):
         super(ContentAutoFixture, self).__init__(*args, **kwargs)
 
     class Values(object):
-        name = CustomNameGenerator(name_prefix='Content')
+        name = CustomNameGenerator(name_prefix='Content-from-481-l')
         description = generators.LoremGenerator(max_length=30)
         url = generators.ChoicesGenerator(values=content_urls)
         type = generators.ChoicesGenerator(values=('Video', 'Picture', 'Link', 'Giphy'))

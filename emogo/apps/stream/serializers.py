@@ -345,6 +345,7 @@ class ViewContentSerializer(ContentSerializer):
     user_image = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
     created_by = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
 
     def get_user_image(self, obj):
         return obj.created_by.user_data.user_image
@@ -355,6 +356,12 @@ class ViewContentSerializer(ContentSerializer):
     def get_created_by(self, obj):
         return obj.created_by.user_data.id
 
+    def get_liked(self, obj):
+        if obj.content_liked_user.__len__() > 0:
+            for x in obj.content_liked_user:
+                if self.context.get('request').auth.user_id == x.user_id:
+                    return True
+        return False
 
 
 class MoveContentToStreamSerializer(ContentSerializer):
