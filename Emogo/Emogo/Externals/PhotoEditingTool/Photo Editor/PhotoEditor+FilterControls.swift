@@ -8,12 +8,11 @@
 
 import Foundation
 import UIKit
- /*
 extension FilterViewController : UICollectionViewDataSource, UICollectionViewDelegate  {
    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.isGradientFilter {
-            return  self.filter.arrayGradient.count
+            return  self.images.count
         }else {
             return  self.filter.arrayMenu.count
         }
@@ -22,8 +21,9 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         if isGradientFilter {
-            let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "filterGradientCell", for: indexPath) as! FilterGradientCell
-             cell.prepareCell(filter:self.filter.arrayGradient[indexPath.row])
+            let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
+            cell.prepareCellData(filter: self.images[indexPath.row])
+           //  cell.prepareCell(filter:self.filter.arrayGradient[indexPath.row])
             return cell
 
         }else {
@@ -31,19 +31,27 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
             cell.prepareCell(filter:self.filter.arrayMenu[indexPath.row])
             return cell
         }
-      
 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
-            self.gradientImageView.image = UIImage(named: "filter_gradient_\(1 + indexPath.row).png")
-            self.btnFilterOptionSelected(index:indexPath.row)
+//            self.gradientImageView.image = UIImage(named: "filter_gradient_\(1 + indexPath.row).png")
+//            self.btnFilterOptionSelected(index:indexPath.row)
+            self.canvasImageView.image = self.images[indexPath.row].imgOriginal
         }else {
            self.btnFilterOptionSelected(index:indexPath.row)
         }
     }
  
 }
- */
 
+extension FilterViewController:FilterManagerDelegate {
+    
+    func processImage(images: [GradientfilterDAO]) {
+        self.images = images
+        self.gradientCollectionView.reloadData()
+    }
+    
+    
+}

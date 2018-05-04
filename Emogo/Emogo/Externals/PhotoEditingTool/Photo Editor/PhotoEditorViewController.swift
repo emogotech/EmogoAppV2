@@ -27,7 +27,11 @@ class PhotoEditorViewController: UIViewController {
     @IBOutlet weak var colorsCollectionView: UICollectionView!
     @IBOutlet weak var colorPickerView: UIView!
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var txtImageCaption: MBAutoGrowingTextView!
+    @IBOutlet weak var viewSaveButton: UIView!
+    @IBOutlet weak var viewDescription: UIView!
+
+
     var image:UIImage!
     fileprivate var edgeMenu: DPEdgeMenu?
     fileprivate var edgeMenuLeft: DPEdgeMenu?
@@ -64,13 +68,17 @@ class PhotoEditorViewController: UIViewController {
         prepareLayoutsWhenViewAppear()
     }
     
-    
 
     func prepareLayouts(){
         self.baseImageView.image = self.image
-        let size = self.image.suitableSize(widthLimit: UIScreen.main.bounds.size.width)
-        print(size?.height)
-        self.colorPickerViewBottomConstraint.constant = (size?.height)!
+        txtImageCaption.delegate = self
+        self.txtImageCaption.text = ""
+        self.txtImageCaption.placeholder = "Description"
+        self.txtImageCaption.placeholderColor = .white
+        
+//        let size = self.image.suitableSize(widthLimit: UIScreen.main.bounds.size.width)
+//        print(size?.height)
+//        self.colorPickerViewBottomConstraint.constant = (size?.height)!
         configureCollectionView()
       //  configureKeyboardWithColor()
         self.deleteView.isHidden = true
@@ -82,7 +90,7 @@ class PhotoEditorViewController: UIViewController {
         prepareRightSideMenu()
         prepareLeftMenu()
         self.drawingView.delegate = self
-        self.drawingView.isHidden = false
+        self.drawingView.isHidden = true
         self.stickers = shapes.shapes
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
     }
@@ -131,8 +139,17 @@ class PhotoEditorViewController: UIViewController {
     
     func updateContainerFrame(){
           let frame  = AVMakeRect(aspectRatio: (self.baseImageView?.image?.size)!, insideRect: self.baseImageView.frame)
-        self.drawingView.backgroundColor = .red
-        self.drawingView.frame = frame
+        print(frame)
+        print(self.canvasView.frame)
+
+        if frame.size.width > self.canvasView.frame.size.width {
+             self.drawingView.frame = CGRect(x: self.canvasView.frame.origin.x, y: frame.origin.y, width: self.canvasView.frame.size.width, height: frame.size.height)
+        }else {
+            self.drawingView.frame  = frame
+        }
+        
+       viewSaveButton.addBlurView()
+       viewDescription.addBlurView()
     }
     
     func prepareNavigationBar(){
@@ -140,8 +157,7 @@ class PhotoEditorViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.3)
-
+        self.navigationController?.navigationBar.barTintColor = UIColor.clear
        self.prepareNavigationButton(isEditing: false)
     }
     
@@ -160,6 +176,32 @@ class PhotoEditorViewController: UIViewController {
             self.navigationItem.rightBarButtonItem = save
         }
        
+    }
+    
+    func hideView(isEditing:Bool) {
+        if isEditing {
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(1.2 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
+                if self.selectedFeature != .Sticker {
+                    self.colorPickerView.isHidden = false
+                    Animation.viewSlideInFromBottomToTop(views: self.colorPickerView)
+                }
+                self.viewDescription.isHidden = true
+                self.viewSaveButton.isHidden = true
+                Animation.viewSlideInFromTopToBottom(views: self.viewDescription)
+                Animation.viewSlideInFromTopToBottom(views: self.viewSaveButton)
+            })
+            
+        }else {
+            self.drawingView.isHidden = true
+            self.deleteView.isHidden = true
+            self.colorPickerView.isHidden = true
+            Animation.viewSlideInFromTopToBottom(views: self.colorPickerView)
+            self.viewDescription.isHidden = false
+            self.viewSaveButton.isHidden = false
+            Animation.viewSlideInFromBottomToTop(views: self.viewDescription)
+            Animation.viewSlideInFromBottomToTop(views: self.viewSaveButton)
+        }
     }
     
     
@@ -341,13 +383,10 @@ class PhotoEditorViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(3 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
                 self.baseImageView.image = resultImage
                 self.drawingView.clear()
-                self.drawingView.isHidden = true
             })
         }
-       
-        self.colorPickerView.isHidden = true
+        self.drawingView.isHidden = true
         self.deleteView.isHidden = true
-        Animation.viewSlideInFromTopToBottom(views: self.colorPickerView)
         self.prepareNavigationButton(isEditing: false)
         guard let edgeMenu = self.edgeMenu else { return }
         if  edgeMenu.opened == false {
@@ -358,11 +397,15 @@ class PhotoEditorViewController: UIViewController {
         if  edgeMenuLeft.opened == true {
             edgeMenuLeft.close()
         }
+        self.hideView(isEditing: false)
+
     }
     
     @objc func actionForCancelButton() {
         if self.selectedFeature == .Sticker {
-            self.baseImageView.subviews[0].removeFromSuperview()
+            if self.baseImageView.subviews.count > 0 {
+                self.baseImageView.subviews[0].removeFromSuperview()
+            }
         }else {
             self.drawingView.clear()
         }
@@ -376,9 +419,9 @@ class PhotoEditorViewController: UIViewController {
         if  edgeMenuLeft.opened == true {
             edgeMenuLeft.close()
         }
+        self.drawingView.isHidden = true
         self.deleteView.isHidden = true
-        self.colorPickerView.isHidden = true
-        Animation.viewSlideInFromTopToBottom(views: self.colorPickerView)
+        self.hideView(isEditing: false)
     }
     
     @objc func actionForRightMenu(sender:UIButton) {
@@ -391,7 +434,10 @@ class PhotoEditorViewController: UIViewController {
             self.deleteView.isHidden = true
             self.drawingView.drawTool = ACEDrawingToolTypeDraggableText
             selectedFeature = FeatureType.Text
-            self.colorPickerView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(1.2 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
+                self.colorPickerView.isHidden = false
+                Animation.viewSlideInFromBottomToTop(views: self.colorPickerView)
+            })
             break
         case 103:
             self.deleteView.isHidden = true
@@ -413,9 +459,10 @@ class PhotoEditorViewController: UIViewController {
             self.colorPickerView.isHidden = true
             break
         case 105:
-//            let obj:FilterViewController = self.storyboard?.instantiateViewController(withIdentifier: "filterView") as! FilterViewController
-//            obj.image = self.baseImageView.image
-//            self.navigationController?.pushViewController(obj, animated: true)
+            
+            let obj:FilterViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_FilterView) as! FilterViewController
+            obj.image = self.baseImageView.image
+            self.navigationController?.pushViewController(obj, animated: true)
             break
         default:
             break
@@ -427,6 +474,7 @@ class PhotoEditorViewController: UIViewController {
                 edgeMenu.close()
                 self.prepareNavigationButton(isEditing: true)
             })
+            self.hideView(isEditing: true)
         }
         
     }

@@ -88,6 +88,7 @@ let kStoryboardID_MyStuffPreView = "myStuffPreView"
 let kStoryboardID_FollowersView = "followersView"
 let kStoryboardID_AddCollaboratorContactsView = "addCollaboratorContactsView"
 let kStoryboardID_PhotoEditorView = "photoEditorView"
+let kStoryboardID_FilterView = "filterView"
 
 
 
