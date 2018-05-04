@@ -89,6 +89,7 @@ let kStoryboardID_FollowersView = "followersView"
 let kStoryboardID_AddCollaboratorContactsView = "addCollaboratorContactsView"
 let kStoryboardID_PhotoEditorView = "photoEditorView"
 let kStoryboardID_FilterView = "filterView"
+let kStoryboardID_SettingView = "settingView"
 
 
 
@@ -107,7 +108,7 @@ let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
 let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
-let iMsgSegue_HomeCollectionPeople        = "PeopleSearchCollectionViewCells"
+let iMsgSegue_HomeCollectionPeople              = "PeopleSearchCollectionViewCells"
 
 let iMsgSegue_CollectionReusable_Footer        = "CustomFooterView"
 
