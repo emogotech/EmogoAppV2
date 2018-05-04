@@ -62,7 +62,7 @@ class FollowersViewController: UIViewController {
     func prepareLayout(){
             self.lblNOResult.isHidden = true
         self.lblNOResult.text = "No Record Found."
-       txtSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
+        txtSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
         self.configureNavigationWithTitle()
         self.title = listType.rawValue
         self.configureLoadMoreAndRefresh()
@@ -391,7 +391,8 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+           
+    customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
         }else {
             var people:FollowerDAO!
             if isSearchEnable {

@@ -333,12 +333,15 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.barTintColor = UIColor.white
+        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
         let img = UIImage(named: "forward_black")
         let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.profileBackAction))
         self.navigationItem.rightBarButtonItem = btnback
-        let btnLogout = UIBarButtonItem(image: #imageLiteral(resourceName: "logout_button"), style: .plain, target: self, action: #selector(self.btnLogoutAction))
-           let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
-        self.navigationItem.leftBarButtonItems = [btnLogout,btnShare]
+        
+        let imgSetting = UIImage(named: "setting_icon")
+        let btnSetting = UIBarButtonItem(image: imgSetting, style: .plain, target: self, action: #selector(self.btnSettingAction))
+        //let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
+        self.navigationItem.leftBarButtonItems = [btnSetting]
         
     }
     
@@ -350,7 +353,7 @@ class ProfileViewController: UIViewController {
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
         self.navigationController?.popNormal()
     }
-    
+    /*
     @objc func profileShareAction(){
         if UserDAO.sharedInstance.user.shareURL.isEmpty {
             return
@@ -367,7 +370,7 @@ class ProfileViewController: UIViewController {
             self.present(activityViewController, animated: true, completion: nil);
         }
     }
-    
+    */
     
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -521,7 +524,11 @@ class ProfileViewController: UIViewController {
             break
         }
     }
-    override func btnLogoutAction() {
+    @objc func btnSettingAction() {
+        
+        let settingVC = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView)
+        self.navigationController?.push(viewController: settingVC)
+        /*
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
             HUDManager.sharedInstance.showHUD()
@@ -543,7 +550,7 @@ class ProfileViewController: UIViewController {
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
-        
+        */
     }
     
     private func logout(){

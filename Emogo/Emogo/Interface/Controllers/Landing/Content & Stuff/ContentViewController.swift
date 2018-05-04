@@ -17,7 +17,9 @@ class ContentViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var imgCover: FLAnimatedImageView!
-    
+  
+    @IBOutlet weak var btnMore: UIButton!
+    @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var lblTitleImage: UILabel!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
@@ -31,8 +33,12 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
     @IBOutlet weak var kWidth: NSLayoutConstraint!
-
-
+    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var btnLikeDislike: UIButton!
+    @IBOutlet weak var consBottomBtnShare: NSLayoutConstraint!
+    @IBOutlet weak var consBottomImgUser: NSLayoutConstraint!
+    
+    
     var currentIndex:Int!
     var seletedImage:ContentDAO!
     let shapes = ShapeDAO()
@@ -44,6 +50,7 @@ class ContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         // Do any additional setup after loading the view.
          self.prepareLayout()
     }
@@ -140,7 +147,7 @@ class ContentViewController: UIViewController {
         self.updateContent()
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             self.btnAddToStream.isHidden = true
-             self.btnEdit.isHidden = true
+            self.btnEdit.isHidden = true
             self.btnDelete.isHidden = true
             self.btnFlagIcon.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
@@ -158,7 +165,7 @@ class ContentViewController: UIViewController {
     
     @objc func   imgTap(recognizer: UITapGestureRecognizer){
            self.lblTitleImage.text = self.txtTitleImage.text?.trim()
-        self.lblTitleImage.isHidden = false
+      //  self.lblTitleImage.isHidden = false
         self.txtTitleImage.isHidden = true
         self.view.endEditing(true)
     }
@@ -222,25 +229,36 @@ class ContentViewController: UIViewController {
         }
     
         self.txtDescription.isHidden = true
+        self.btnMore.isHidden = true
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
             self.lblTitleImage.text = seletedImage.name.trim()
-            self.lblTitleImage.isHidden = false
+            self.btnMore.isHidden = false
+           // self.lblTitleImage.isHidden = false
         } else {
             if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.txtTitleImage.isHidden = false
+               
             }
             else {
-                self.lblTitleImage.isHidden = false
+                //self.lblTitleImage.isHidden = false
             }
         }
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()
             if seletedImage.description.count > 250 {
                 description = seletedImage.description.trim(count: 250)
+                self.btnMore.isHidden = true
+                self.consBottomImgUser.constant = -50
+                self.consBottomBtnShare.constant = -50
             }
             self.txtDescription.text = description
+            self.consBottomImgUser.constant = -8
+            self.consBottomBtnShare.constant = -19
         }else{
+            self.consBottomImgUser.constant = -50
+            self.consBottomBtnShare.constant = -50
+            self.btnMore.isHidden = true
             self.txtDescription.text = ""
         }
 
@@ -322,7 +340,7 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage.isEdit == false {
             self.btnEdit.isHidden = true
-            self.btnDone.isHidden = true
+           self.btnDone.isHidden = true
             self.txtTitleImage.isUserInteractionEnabled = false
             self.txtDescription.isUserInteractionEnabled = false
             if self.seletedImage.description.trim().isEmpty {
@@ -337,7 +355,7 @@ class ContentViewController: UIViewController {
                 self.btnDone.isHidden = false
             }
             else{
-                self.btnDone.isHidden = true
+               self.btnDone.isHidden = true
             }
             self.txtDescription.isHidden = false
             
@@ -578,6 +596,7 @@ class ContentViewController: UIViewController {
        
     }
     
+  
     @IBAction func btnActionShare(_ sender: Any) {
         if MFMessageComposeViewController.canSendAttachments(){
             let composeVC = MFMessageComposeViewController()
@@ -639,6 +658,7 @@ class ContentViewController: UIViewController {
         self.navigationController?.push(viewController: obj)
         }
     }
+  
     @IBAction func btnDoneAction(_ sender: Any) {
        // Update Content
         HUDManager.sharedInstance.showHUD()
@@ -663,6 +683,16 @@ class ContentViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func btnSaveAction(_ sender: Any) {
+    }
+    
+    @IBAction func btnLikeDislikeAction(_ sender: Any) {
+    }
+    
+    @IBAction func btnMoreAction(_ sender: Any) {
+    }
+    
     
     @objc func textFieldDidChange(textfield:UITextField) {
         if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
@@ -989,6 +1019,30 @@ class ContentViewController: UIViewController {
             }
         }
     }
+    func likeDislikeContent(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: "", status: "")  { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                
+               
+            }else{
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
+    func saveToMyStuff(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForSaveStuffContent(contentID: "") { (isSuccess, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                
+                
+            }else{
+                HUDManager.sharedInstance.hideHUD()
+            }
+        }
+    }
     
     func uploadFile(){
         // Create a object array to upload file to AWS
@@ -1056,7 +1110,7 @@ extension ContentViewController:UITextFieldDelegate {
         
         self.txtTitleImage.isHidden = true
         self.lblTitleImage.text = self.txtTitleImage.text?.trim()
-        self.lblTitleImage.isHidden = false
+       // self.lblTitleImage.isHidden = false
         return true
     }
     

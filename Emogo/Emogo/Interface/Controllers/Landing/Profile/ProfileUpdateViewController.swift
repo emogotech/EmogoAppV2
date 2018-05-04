@@ -66,13 +66,13 @@ class ProfileUpdateViewController: UITableViewController {
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
 
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.tintColor = UIColor.darkGray
+        self.navigationController?.navigationBar.tintColor = UIColor(hex: "00ADF3")
         self.navigationController?.navigationBar.barTintColor = .white
         let img = UIImage(named: "profile_close_icon")
         let btnClose = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnCloseAction))
         self.navigationItem.leftBarButtonItem = btnClose
         
-        let btnSave = UIBarButtonItem(title: "done", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+        let btnSave = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
         self.navigationItem.rightBarButtonItem?.setTitleTextAttributes(myAttribute2, for: .normal)
         self.navigationItem.rightBarButtonItem = btnSave
        
