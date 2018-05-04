@@ -233,7 +233,11 @@ class ProfileViewController: UIViewController {
         }
       
         btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
-        kStuffOptionsHeight.constant = 0.0
+        if  self.currentMenu == .stuff {
+            kStuffOptionsHeight.constant = 17.0
+        }else {
+            kStuffOptionsHeight.constant = 0.0
+        }
 
         // Segment control Configure
 

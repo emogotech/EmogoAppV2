@@ -13,10 +13,9 @@ extension PhotoEditorViewController:StickersViewControllerDelegate {
     func didSelectView(view: UIView) {
         isStriker = true
         view.tag = 112
-        print(self.baseImageView.center)
+        print(self.baseImageView.frame)
         self.baseImageView.addSubview(view)
         view.center = baseImageView.center
-        print(view.center)
         self.removeStickersView()
         //Gestures
         addGestures(view: view)
@@ -24,7 +23,8 @@ extension PhotoEditorViewController:StickersViewControllerDelegate {
     
     func didSelectImage(image: UIImage) {
         isStriker = true
-        
+        print(self.baseImageView.frame)
+
         let imageView = UIImageView(image: image)
         imageView.tag = 111
         imageView.contentMode = .scaleAspectFill
@@ -76,4 +76,21 @@ extension PhotoEditorViewController: ColorDelegate {
     func didSelectColor(color: UIColor) {
         self.drawingView.lineColor = color
     }
+}
+
+extension PhotoEditorViewController:UITextViewDelegate {
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+       
+    }
+    
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            txtImageCaption.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+    }
+    
 }

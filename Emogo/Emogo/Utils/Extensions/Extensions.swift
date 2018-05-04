@@ -29,6 +29,27 @@ extension UIColor {
 // MARK: - UIView
 extension UIView {
     
+    func addBlurView(){
+        self.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = CGRect.zero
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.tag = 828748374
+        if let viewWithTag = self.viewWithTag(828748374) {
+            viewWithTag.removeFromSuperview()
+        }
+        self.insertSubview(blurView, at: 0)
+        
+        blurView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        blurView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        blurView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+//        blurView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+//        blurView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+
+    }
+    
     func setTopCurve(){
         let offset = CGFloat(self.frame.size.height/4)
         let bounds = self.bounds

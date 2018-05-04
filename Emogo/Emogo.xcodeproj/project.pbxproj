@@ -326,6 +326,9 @@
 		F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30520060DFE009A2D3A /* FLAnimatedImage.m */; };
 		F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */; };
 		F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */; };
+		F4A5F74D209C685100AC9AE1 /* FilterViewController+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5F74C209C685100AC9AE1 /* FilterViewController+Controls.swift */; };
+		F4A5F751209C6CE400AC9AE1 /* PhotoEditor+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5F750209C6CE400AC9AE1 /* PhotoEditor+Crop.swift */; };
+		F4A5F753209C898E00AC9AE1 /* GradientFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A5F752209C898E00AC9AE1 /* GradientFilterCell.swift */; };
 		F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA11FC4515D008F9534 /* Sound.swift */; };
 		F4A69BA41FC45181008F9534 /* beep.wav in Resources */ = {isa = PBXBuildFile; fileRef = F4A69BA31FC45180008F9534 /* beep.wav */; };
 		F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */; };
@@ -789,6 +792,9 @@
 		F49DF30820060E03009A2D3A /* FLAnimatedImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageView+WebCache.h"; sourceTree = "<group>"; };
 		F49DF30920060E04009A2D3A /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		F49DF30A20060E05009A2D3A /* FLAnimatedImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImageView+WebCache.m"; sourceTree = "<group>"; };
+		F4A5F74C209C685100AC9AE1 /* FilterViewController+Controls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FilterViewController+Controls.swift"; sourceTree = "<group>"; };
+		F4A5F750209C6CE400AC9AE1 /* PhotoEditor+Crop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Crop.swift"; sourceTree = "<group>"; };
+		F4A5F752209C898E00AC9AE1 /* GradientFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientFilterCell.swift; sourceTree = "<group>"; };
 		F4A69BA11FC4515D008F9534 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		F4A69BA31FC45180008F9534 /* beep.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = beep.wav; sourceTree = "<group>"; };
 		F4A69BA51FC45DCC008F9534 /* CameraViewControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewControls.swift; sourceTree = "<group>"; };
@@ -2048,6 +2054,7 @@
 			children = (
 				F4C20FD1209AE19A0094A7FC /* PhotoEditorViewController.swift */,
 				F4C21029209AE7010094A7FC /* FilterViewController.swift */,
+				F4A5F74C209C685100AC9AE1 /* FilterViewController+Controls.swift */,
 				F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */,
 				F4C20FE1209AE4E40094A7FC /* ColorCollectionViewCell.xib */,
 				F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */,
@@ -2072,6 +2079,7 @@
 				F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */,
 				F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */,
 				F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */,
+				F4A5F750209C6CE400AC9AE1 /* PhotoEditor+Crop.swift */,
 			);
 			path = "Photo Editor";
 			sourceTree = "<group>";
@@ -2080,6 +2088,7 @@
 			isa = PBXGroup;
 			children = (
 				F4C20FFE209AE5290094A7FC /* FilterManager.swift */,
+				F4A5F752209C898E00AC9AE1 /* GradientFilterCell.swift */,
 				F4C20FFF209AE52B0094A7FC /* StyleArt */,
 			);
 			path = Filter;
@@ -2934,6 +2943,7 @@
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
+				F4A5F751209C6CE400AC9AE1 /* PhotoEditor+Crop.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
@@ -3018,6 +3028,7 @@
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
+				F4A5F74D209C685100AC9AE1 /* FilterViewController+Controls.swift in Sources */,
 				F425C6392056646F002536E1 /* ASCollectionView.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
@@ -3045,6 +3056,7 @@
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
 				F4C21019209AE52B0094A7FC /* Predictions.swift in Sources */,
+				F4A5F753209C898E00AC9AE1 /* GradientFilterCell.swift in Sources */,
 				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F43649C72015CEA5004FBEE2 /* VolumeControl.swift in Sources */,

@@ -211,9 +211,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
             imageViewToPan = nil
             lastPanPoint = nil
             deleteView.isHidden = true
-            print("view---->\(view.center)")
-            print("drawing view---->\(drawingView.frame)")
-
+        
             let point = recognizer.location(in: self.view)
             if deleteView.frame.contains(point) { // Delete the view
                 view.removeFromSuperview()
@@ -221,11 +219,11 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                     let generator = UINotificationFeedbackGenerator()
                     generator.notificationOccurred(.success)
                 }
-            } else if !self.baseImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
+            } else if view.center.x < drawingView.frame.origin.x  || view.center.y < drawingView.frame.origin.y  ||  view.center.y >  (drawingView.frame.size.height + drawingView.frame.origin.y) || view.center.x > drawingView.frame.size.width { //Snap the view back to canvasImageView
+                //!self.drawingView.bounds.contains(view.center)
                 UIView.animate(withDuration: 0.3, animations: {
                     view.center = self.baseImageView.center
                 })
-                
             }
         }
         
