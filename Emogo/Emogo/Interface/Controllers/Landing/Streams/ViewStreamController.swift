@@ -688,7 +688,7 @@ class ViewStreamController: UIViewController {
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()
             if ContentList.sharedInstance.arrayContent.count == assets.count {
-                self.previewScreenNavigated()
+                self.perform(#selector(self.previewScreenNavigated), with: self, afterDelay: 0.2)
             }
         })
     }
@@ -697,7 +697,7 @@ class ViewStreamController: UIViewController {
         ContentList.sharedInstance.arrayContent.insert(content, at: 0)
     }
     
-    func previewScreenNavigated(){
+    @objc func previewScreenNavigated(){
         self.isRefresh = true
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController

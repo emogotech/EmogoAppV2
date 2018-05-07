@@ -112,6 +112,8 @@ class StreamList{
     var requestURl:String! = ""
     var selectedStream:StreamDAO!
     var requestURlSearch:String! = ""
+    var arrayProfileColabStream:[StreamDAO]!
+
 
     class var sharedInstance: StreamList {
         struct Static {
@@ -125,6 +127,7 @@ class StreamList{
         arrayMyStream = [StreamDAO]()
         arrayProfileStream = [StreamDAO]()
         arrayViewStream = [StreamDAO]()
+        arrayProfileColabStream = [StreamDAO]()
     }
     
     func updateRequestType(filter:StreamType){

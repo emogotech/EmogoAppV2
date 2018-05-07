@@ -37,6 +37,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.imgCover.addGestureRecognizer(tap)
         
         self.expansionMode = .topOnly
+        
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self

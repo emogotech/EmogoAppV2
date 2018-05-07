@@ -110,6 +110,9 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
+        ContentList.sharedInstance.arrayStuff.removeAll()
+        StreamList.sharedInstance.arrayProfileStream.removeAll()
+        StreamList.sharedInstance.arrayProfileColabStream.removeAll()
         self.profileCollectionView.dataSource  = self
         self.profileCollectionView.delegate = self
         HUDManager.sharedInstance.showHUD()
@@ -513,19 +516,29 @@ class ProfileViewController: UIViewController {
         switch currentMenu {
         case .stuff:
             kStuffOptionsHeight.constant = 17.0
-            HUDManager.sharedInstance.showHUD()
-            self.getMyStuff(type: .start)
+            if ContentList.sharedInstance.arrayStuff.count == 0 {
+                HUDManager.sharedInstance.showHUD()
+                self.getMyStuff(type: .start)
+            }
+            self.profileCollectionView.reloadData()
             break
         case .stream:
             kStuffOptionsHeight.constant = 0.0
-            HUDManager.sharedInstance.showHUD()
-            self.getStreamList(type:.start,filter: .myStream)
+            if StreamList.sharedInstance.arrayProfileStream.count == 0 {
+                HUDManager.sharedInstance.showHUD()
+                self.getStreamList(type:.start,filter: .myStream)
+            }
+            self.profileStreamShow()
+          
             break
         case .colabs:
             kStuffOptionsHeight.constant = 0.0
-            HUDManager.sharedInstance.showHUD()
-            self.getColabs(type: .start)
-            break
+            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
+                HUDManager.sharedInstance.showHUD()
+                self.getColabs(type: .start)
+            }
+            self.profileCollectionView.reloadData()
+         break
         }
     }
     @objc func btnSettingAction() {
@@ -691,7 +704,7 @@ class ProfileViewController: UIViewController {
     
     func getColabs(type:RefreshType){
         if type == .start || type == .up {
-            StreamList.sharedInstance.arrayProfileStream.removeAll()
+            StreamList.sharedInstance.arrayProfileColabStream.removeAll()
             self.profileCollectionView.reloadData()
         }
         APIServiceManager.sharedInstance.apiForGetColabList(type: type) { (refreshType, errorMsg) in
@@ -708,7 +721,7 @@ class ProfileViewController: UIViewController {
                 self.profileCollectionView.es.stopLoadingMore()
             }
             self.lblNOResult.isHidden = true
-            if StreamList.sharedInstance.arrayProfileStream.count == 0 {
+            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
                 self.lblNOResult.text  = "No Stream Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
@@ -900,7 +913,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if currentMenu == .stuff {
             return ContentList.sharedInstance.arrayStuff.count
         }else if currentMenu == .colabs {
-            return StreamList.sharedInstance.arrayProfileStream.count
+            return StreamList.sharedInstance.arrayProfileColabStream.count
         }else {
             return self.arrayMyStreams.count
         }
@@ -941,7 +954,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.isExclusiveTouch = true
             cell.btnEdit.tag = indexPath.row
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
-            let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
+            let stream = StreamList.sharedInstance.arrayProfileColabStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
             return cell
         }
@@ -1016,7 +1029,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                      StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }else {
                     index = indexPath.row
-                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
                 }
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = index
