@@ -426,7 +426,8 @@ class ContentViewController: UIViewController {
 //        }
         
         // image aspect ratio----
-        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.contentMode = .scaleAspectFill
+        self.imgCover.clipsToBounds = true
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
         

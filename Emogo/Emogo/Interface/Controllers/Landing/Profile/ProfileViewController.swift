@@ -170,6 +170,23 @@ class ProfileViewController: UIViewController {
         self.lblWebsite.isUserInteractionEnabled = true
         let nibViews = UINib(nibName: "ProfileStreamView", bundle: nil)
         self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
+     
+        // Segment control Configure
+        
+        segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
+        segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+            self.updateStuffList(index: index)
+        }
+        
+        segmentControl.selectionIndicatorHeight = 1.0
+        segmentControl.backgroundColor = UIColor.white
+        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentControl.selectionStyle = .textWidthStripe
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.selectionIndicatorLocation = .down
+        segmentControl.shouldAnimateUserSelection = false
         
     }
     
@@ -179,6 +196,10 @@ class ProfileViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
             
             DispatchQueue.main.async {
+                self.imgLink.image = #imageLiteral(resourceName: "link icon")
+                self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+                self.lblLocation.isHidden = false
+                self.lblWebsite.isHidden = false
                 self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
                 self.lblFullName.minimumScaleFactor = 1.0
                 self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
@@ -223,9 +244,8 @@ class ProfileViewController: UIViewController {
                 }
             //    self.imgUser.borderWidth = 1.0
               //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
-                self.imgLink.image = #imageLiteral(resourceName: "link icon")
-                self.imgLocation.image = #imageLiteral(resourceName: "location icon")
-                
+               
+
                 if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
                     self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
                     self.lblWebsite.isHidden = true
@@ -247,23 +267,7 @@ class ProfileViewController: UIViewController {
         }else {
             kStuffOptionsHeight.constant = 0.0
         }
-
-        // Segment control Configure
-
-        segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
-        segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
-            print("Selected index \(index) (via block)")
-            self.updateStuffList(index: index)
-        }
-
-        segmentControl.selectionIndicatorHeight = 1.0
-        segmentControl.backgroundColor = UIColor.white
-        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
-        segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
-        segmentControl.selectionStyle = .textWidthStripe
-        segmentControl.selectedSegmentIndex = 0
-        segmentControl.selectionIndicatorLocation = .down
-        segmentControl.shouldAnimateUserSelection = false
+        
     }
     
     func updateList(){

@@ -57,7 +57,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     var isForImageOnly    :   Bool?
     
-    var cameraOption:RS3DSegmentedControl = RS3DSegmentedControl()
+    var cameraOption:HMSegmentedControl = HMSegmentedControl()
     
     // MARK: - Override Functions
     
@@ -218,6 +218,23 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func prepareForCameraMode(){
+        cameraOption = HMSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
+        self.cameraOption.backgroundColor = UIColor.clear
+        self.cameraOption.selectedSegmentIndex = cameraMode.hashValue
+        cameraOption.selectionIndicatorHeight = 3.0
+        cameraOption.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white,NSAttributedStringKey.font : UIFont(name: kFontRegular, size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)]
+        cameraOption.selectionIndicatorColor = UIColor.white
+        cameraOption.selectionStyle = .textWidthStripe
+        cameraOption.selectionIndicatorLocation = .down
+        cameraOption.shouldAnimateUserSelection = false
+        cameraOption.sectionTitles = ["NORMAL","HANDS-FREE"]
+        cameraOption.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+            self.updateCameraType(index: index)
+        }
+        self.cameraModeOptions.addSubview(self.cameraOption)
+
+        /*
         self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
@@ -225,6 +242,7 @@ class CustomCameraViewController: SwiftyCamViewController {
          self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 16.0)
         self.cameraModeOptions.addSubview(self.cameraOption)
+ */
     }
     
     
