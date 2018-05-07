@@ -206,7 +206,7 @@ class ContentViewController: UIViewController {
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         
         let button = self.getShadowButton()
-        button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "white_back_icon"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBackAction(_:)), for: .touchUpInside)
         let btnBack = UIBarButtonItem.init(customView: button)
         
@@ -492,7 +492,7 @@ class ContentViewController: UIViewController {
 //                let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
                 
                 let buttonLink = self.getShadowButton()
-                buttonLink.setBackgroundImage(#imageLiteral(resourceName: "delete_icon-cover_image"), for: .normal)
+                buttonLink.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
                 let btnDelete = UIBarButtonItem.init(customView: buttonLink)
                 arrButtons.append(btnDelete)

@@ -338,7 +338,7 @@
                                     <constraint firstAttribute="height" constant="50" id="ejR-4C-3w3"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back-circle-icon"/>
+                                <state key="normal" image="back_new"/>
                                 <connections>
                                     <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="y34-cl-nr8"/>
                                     <action selector="btnBackAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="OzY-Wq-DhN"/>
@@ -354,7 +354,7 @@
                                             <constraint firstAttribute="width" constant="50" id="OhO-mc-5as"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="delete_icon-cover_image"/>
+                                        <state key="normal" image="delete_new"/>
                                         <connections>
                                             <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="mv1-ON-3xA"/>
                                             <action selector="btnDeleteAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="p2Z-PJ-8rz"/>
@@ -460,7 +460,7 @@
                                         </connections>
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oZ5-WW-Ab8">
-                                        <rect key="frame" x="0.0" y="24" width="312" height="105"/>
+                                        <rect key="frame" x="0.0" y="24" width="304" height="105"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="EwW-vM-XQp">
                                             <size key="itemSize" width="50" height="50"/>
@@ -517,14 +517,14 @@
                                         <rect key="frame" x="312" y="24" width="63" height="105"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoE-eh-5mm">
-                                                <rect key="frame" x="0.0" y="8" width="63" height="70"/>
+                                                <rect key="frame" x="-12" y="8" width="75" height="70"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="63" id="O9i-hc-M3M"/>
+                                                    <constraint firstAttribute="width" constant="75" id="O9i-hc-M3M"/>
                                                     <constraint firstAttribute="height" constant="70" id="jQy-yQ-Cc0"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
-                                                <inset key="titleEdgeInsets" minX="-38" minY="-43" maxX="0.0" maxY="4"/>
-                                                <inset key="imageEdgeInsets" minX="9" minY="0.0" maxX="0.0" maxY="-20"/>
+                                                <inset key="titleEdgeInsets" minX="-34" minY="-43" maxX="0.0" maxY="4"/>
+                                                <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="-20"/>
                                                 <state key="normal" title="ADD MORE" image="add_to_stream"/>
                                                 <connections>
                                                     <action selector="btnAddMoreAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="euG-8k-fSY"/>
@@ -543,8 +543,9 @@
                                 <constraints>
                                     <constraint firstItem="oZ5-WW-Ab8" firstAttribute="leading" secondItem="xL0-eK-8Ba" secondAttribute="leading" id="2sd-mf-fhy"/>
                                     <constraint firstAttribute="bottom" secondItem="oZ5-WW-Ab8" secondAttribute="bottom" id="8V1-9V-7dm"/>
-                                    <constraint firstItem="V6W-xy-EXC" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" id="FJa-9l-I6M"/>
+                                    <constraint firstItem="V6W-xy-EXC" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="8" id="FJa-9l-I6M"/>
                                     <constraint firstAttribute="bottom" secondItem="V6W-xy-EXC" secondAttribute="bottom" id="Gfc-RP-hVO"/>
+                                    <constraint firstItem="LoE-eh-5mm" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="-4" id="MrQ-Vv-GCE"/>
                                     <constraint firstAttribute="trailing" secondItem="ecZ-93-WDO" secondAttribute="trailing" id="SRe-Ow-4qT"/>
                                     <constraint firstAttribute="trailing" secondItem="V6W-xy-EXC" secondAttribute="trailing" id="Sca-k0-8OP"/>
                                     <constraint firstItem="V6W-xy-EXC" firstAttribute="top" secondItem="ecZ-93-WDO" secondAttribute="bottom" id="UST-ik-Nqp"/>
@@ -2920,6 +2921,7 @@
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_to_stream" width="31" height="31"/>
         <image name="back-circle-icon" width="24" height="24"/>
+        <image name="back_new" width="13" height="24"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="browse_streams" width="182" height="53"/>
         <image name="camera_icon_cover_images" width="131" height="131"/>
@@ -2929,7 +2931,7 @@
         <image name="click_pick" width="63" height="63"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="cross-icon" width="17" height="17"/>
-        <image name="delete_icon-cover_image" width="28" height="29"/>
+        <image name="delete_new" width="19" height="23"/>
         <image name="done_button" width="160" height="53"/>
         <image name="edit_icon" width="34" height="34"/>
         <image name="emogo_stream" width="182" height="53"/>
