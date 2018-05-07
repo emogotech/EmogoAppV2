@@ -509,7 +509,9 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnAddMoreAction(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        kDefault?.removeObject(forKey: kRetakeIndex)
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        self.navigationController?.popToViewController(vc: obj)
     }
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
