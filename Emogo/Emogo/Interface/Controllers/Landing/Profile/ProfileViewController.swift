@@ -44,6 +44,8 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var segmentControl: HMSegmentedControl!
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
+    @IBOutlet weak var btnNext: UIButton!
+
 
     var arrayTopContent = [TopContent]()
     var arrayMyStreams = [StreamDAO]()
@@ -110,6 +112,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
+        self.btnNext.isHidden = true
         ContentList.sharedInstance.arrayStuff.removeAll()
         StreamList.sharedInstance.arrayProfileStream.removeAll()
         StreamList.sharedInstance.arrayProfileColabStream.removeAll()
@@ -220,6 +223,9 @@ class ProfileViewController: UIViewController {
                 }
             //    self.imgUser.borderWidth = 1.0
               //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+                self.imgLink.image = #imageLiteral(resourceName: "link icon")
+                self.imgLocation.image = #imageLiteral(resourceName: "location icon")
+                
                 if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
                     self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
                     self.lblWebsite.isHidden = true
@@ -484,6 +490,51 @@ class ProfileViewController: UIViewController {
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
         self.navigationController?.pushAsPresent(viewController: obj)
     }
+    @IBAction func btnActionNext(_ sender: Any) {
+        if  ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
+            self.navigationController?.push(viewController: objPreview)
+        }else {
+            self.showToast(strMSG: kAlert_contentSelect)
+        }
+    }
+    
+    @objc func btnSelectAction(button : UIButton)  {
+        let index   =   button.tag
+        let indexPath   =   IndexPath(item: index, section: 0)
+        if let cell = self.profileCollectionView.cellForItem(at: indexPath) {
+            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            content.isSelected = !content.isSelected
+            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
+            if content.isSelected {
+                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+            self.updateSelected(obj: content)
+        }
+    }
+    
+    
+    func updateSelected(obj:ContentDAO){
+        
+        if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent.remove(at: index)
+        }else {
+            if obj.isSelected  {
+                ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
+            }
+        }
+        
+        let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
+        
+        if contains {
+            btnNext.isUserInteractionEnabled = true
+        }else {
+            btnNext.isUserInteractionEnabled = false
+        }
+        
+    }
     
    
     private func updateSegment(selected:Int){
@@ -493,18 +544,23 @@ class ProfileViewController: UIViewController {
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .stream
+            self.btnNext.isHidden = true
+
             break
         case 102:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .colabs
+            self.btnNext.isHidden = true
+
             break
         case 103:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
             self.currentMenu = .stuff
+            self.btnNext.isHidden = false
             break
         default:
             break
@@ -594,6 +650,23 @@ class ProfileViewController: UIViewController {
         obj.selectedType = top.type
         self.navigationController?.push(viewController: obj)
     }
+    
+    @objc func btnPlayAction(sender:UIButton){
+        let content = ContentList.sharedInstance.arrayStuff[sender.tag]
+        if content.isAdd {
+            btnActionForAddContent()
+        }else {
+            isEdited = true
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = sender.tag
+                self.navigationController?.push(viewController: objPreview)
+            }
+        }
+    }
+    
     
     func profileStreamShow(){
         if self.currentMenu == .stream {
@@ -924,11 +997,15 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if currentMenu == .stuff {
             
             let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
             // for Add Content
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
+            cell.btnSelect.tag = indexPath.row
+            cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
+            cell.btnPlay.tag = indexPath.row
+            cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
             cell.prepareLayout(content:content)
             return cell
             
