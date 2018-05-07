@@ -2024,5 +2024,54 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    // MARK:- Save Stuff Content API
+    
+    func apiForSaveStuffContent(contentID:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let params:[String:Any] = ["content_id":contentID]
+        APIManager.sharedInstance.POSTRequest(strURL: kSaveStuffContentAPI, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
+    
+    //MARK:- Like - DisLike Content API
+    
+    func apiForLikeDislikeContent(content:String, status:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    
+        let params:[String:Any] = ["content":content ,"status":status ]
+        APIManager.sharedInstance.POSTRequest(strURL: kLikeDislikeContentAPI, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+    }
 }
 

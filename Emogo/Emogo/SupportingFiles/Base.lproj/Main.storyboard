@@ -516,12 +516,15 @@
                                         <rect key="frame" x="312" y="24" width="63" height="105"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoE-eh-5mm">
-                                                <rect key="frame" x="7" y="28" width="50" height="50"/>
+                                                <rect key="frame" x="0.0" y="8" width="63" height="70"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="Fzh-ii-7vz"/>
-                                                    <constraint firstAttribute="height" constant="50" id="dTK-bt-odH"/>
+                                                    <constraint firstAttribute="width" constant="63" id="O9i-hc-M3M"/>
+                                                    <constraint firstAttribute="height" constant="70" id="jQy-yQ-Cc0"/>
                                                 </constraints>
-                                                <state key="normal" image="add_more"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
+                                                <inset key="titleEdgeInsets" minX="-38" minY="-43" maxX="0.0" maxY="4"/>
+                                                <inset key="imageEdgeInsets" minX="9" minY="0.0" maxX="0.0" maxY="-20"/>
+                                                <state key="normal" title="ADD MORE" image="add_to_stream"/>
                                                 <connections>
                                                     <action selector="btnAddMoreAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="euG-8k-fSY"/>
                                                 </connections>
@@ -530,8 +533,8 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="63" id="O19-CA-v7m"/>
-                                            <constraint firstAttribute="bottom" secondItem="LoE-eh-5mm" secondAttribute="bottom" constant="27" id="PF0-QI-JzP"/>
-                                            <constraint firstAttribute="trailing" secondItem="LoE-eh-5mm" secondAttribute="trailing" constant="6" id="blx-Qv-4zs"/>
+                                            <constraint firstAttribute="trailing" secondItem="LoE-eh-5mm" secondAttribute="trailing" id="giV-DU-qhE"/>
+                                            <constraint firstItem="LoE-eh-5mm" firstAttribute="top" secondItem="V6W-xy-EXC" secondAttribute="top" constant="8" id="zOk-qU-xXa"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -571,7 +574,7 @@
                                             <constraint firstAttribute="height" constant="30" id="Jjr-LF-ZKa"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                        <state key="normal" image="Add_to_Emogo_BLACK">
+                                        <state key="normal" image="Add_to_Emogo">
                                             <color key="titleColor" red="0.14859640598297119" green="0.67967122793197632" blue="0.95202726125717163" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -2908,13 +2911,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Add_to_Emogo_BLACK" width="128" height="30"/>
+        <image name="Add_to_Emogo" width="128" height="30"/>
         <image name="Save" width="17" height="23"/>
         <image name="add-stream-cover-image-placeholder" width="375" height="179"/>
         <image name="add_content_icon" width="147" height="147"/>
         <image name="add_galery" width="23" height="23"/>
         <image name="add_icon_home" width="56" height="56"/>
-        <image name="add_more" width="50" height="50"/>
+        <image name="add_to_stream" width="31" height="31"/>
         <image name="back-circle-icon" width="24" height="24"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="browse_streams" width="182" height="53"/>

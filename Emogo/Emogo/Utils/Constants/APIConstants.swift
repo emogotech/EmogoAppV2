@@ -54,8 +54,8 @@ let kGlobleSearchStreamAPI                          = "stream?global_search="
 let kProfileAPI                                     = "users/"
 let kLogoutAPI                                      = "logout/"
 let kCollaboratorAPI                                = "user_collaborators/"
-let kUserStreamEmogoAPI                                  = "user_streams?emogo_stream="
-let kUserStreamColabAPI                                  = "user_streams?collab_stream="
+let kUserStreamEmogoAPI                             = "user_streams?emogo_stream="
+let kUserStreamColabAPI                             = "user_streams?collab_stream="
 
 let kGetAllLinksAPI                                 = "content/link_type/"
 let kReportAPI                                      = "extremist_report/"
@@ -76,8 +76,8 @@ let kUserFollowersAPI                                = "get_user_followers/"
 let kUserFollowingAPI                                = "get_user_following/"
 let kUserFollowingSeacrhAPI                          = "get_user_following/?following_name="
 let kUserFollowerSearchAPI                           = "get_user_followers/?follower_name="
-
-
+let kSaveStuffContentAPI                             = "copy_content/"
+let kLikeDislikeContentAPI                           = "like_dislike_content/"
 
 
 // MARK: -  API STATUS CODE
