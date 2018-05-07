@@ -271,7 +271,7 @@ class PreviewController: UIViewController {
 
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
         let button = self.getShadowButton()
-        button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
+        button.setBackgroundImage(#imageLiteral(resourceName: "back_new"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
         let btnBack = UIBarButtonItem.init(customView: button)
         self.navigationItem.leftBarButtonItem = btnBack
@@ -310,7 +310,7 @@ class PreviewController: UIViewController {
 //        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
 
         let buttonDel = self.getShadowButton()
-        buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_icon-cover_image"), for: .normal)
+        buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
         buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
         let btnDelete = UIBarButtonItem.init(customView: buttonDel)
         
@@ -509,9 +509,11 @@ class PreviewController: UIViewController {
     }
     
     @IBAction func btnAddMoreAction(_ sender: Any) {
+        
         kDefault?.removeObject(forKey: kRetakeIndex)
         let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         self.navigationController?.popToViewController(vc: obj)
+      
     }
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {

@@ -2215,8 +2215,8 @@
                                     <constraint firstAttribute="height" constant="50" id="jbP-YG-Xt4"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="SXH-XZ-PHA">
-                                <rect key="frame" x="326" y="68" width="40" height="90"/>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="SXH-XZ-PHA">
+                                <rect key="frame" x="326" y="75" width="40" height="90"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hcf-Os-QJL">
                                         <rect key="frame" x="0.0" y="0.0" width="35" height="34"/>
@@ -2408,7 +2408,7 @@
                         <constraints>
                             <constraint firstItem="s8m-J6-CgU" firstAttribute="top" secondItem="QPw-Ix-gAb" secondAttribute="top" constant="10" id="0UV-IM-aBK"/>
                             <constraint firstItem="IeX-ta-8lO" firstAttribute="top" secondItem="0ex-6D-1EL" secondAttribute="bottom" constant="-30" id="0q7-aV-au6"/>
-                            <constraint firstItem="SXH-XZ-PHA" firstAttribute="top" secondItem="s8m-J6-CgU" secondAttribute="bottom" constant="8" id="3Ru-36-HGo"/>
+                            <constraint firstItem="SXH-XZ-PHA" firstAttribute="top" secondItem="s8m-J6-CgU" secondAttribute="bottom" constant="15" id="3Ru-36-HGo"/>
                             <constraint firstItem="IGr-yb-aJG" firstAttribute="trailing" secondItem="SXH-XZ-PHA" secondAttribute="trailing" constant="9" id="5Oy-A7-C6d"/>
                             <constraint firstItem="GNc-aU-Vds" firstAttribute="top" secondItem="Cd2-Pl-b27" secondAttribute="bottom" id="6MG-X5-Qo6"/>
                             <constraint firstItem="0ex-6D-1EL" firstAttribute="top" secondItem="QPw-Ix-gAb" secondAttribute="top" id="ALe-0r-Mee"/>

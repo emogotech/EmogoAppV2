@@ -32,7 +32,7 @@ class ContactsViewCell: UITableViewCell {
     var btnCheck :UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(UIImage(named:"unchecked_checkbox"), for: .normal)
+        btn.setImage(UIImage(named:"unchecked_checkbox-1"), for: .normal)
         return btn
     }()
    
@@ -74,9 +74,9 @@ class ContactsViewCell: UITableViewCell {
         imgProfile.heightAnchor.constraint(equalToConstant: 50).isActive = true
         imgProfile.layer.cornerRadius = 25
         
-        lblContact.leadingAnchor.constraint(equalTo: self.imgProfile.trailingAnchor, constant: 50).isActive = true
+        lblContact.leadingAnchor.constraint(equalTo: self.imgProfile.trailingAnchor, constant: 35).isActive = true
         lblContact.centerYAnchor.constraint(equalTo: self.imgProfile.centerYAnchor).isActive = true
-        lblContact.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
+        lblContact.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -80).isActive = true
         
         lblSeprator.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 1).isActive = true
         lblSeprator.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 1).isActive = true

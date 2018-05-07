@@ -11,9 +11,9 @@ import Contacts
 
 class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
     
-        var sectionHeading :  Array<String>  = ["emogo","contacts"]
+        var sectionHeading :  Array<String>  = ["contacts"]
         var isChecked: Bool! = false
-    
+        var rowsWhichAreChecked = [IndexPath]()
         // Varibales
         var arrayContacts = [CollaboratorDAO]()
         var arraySelected:[CollaboratorDAO]?
@@ -23,12 +23,13 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         @IBOutlet weak var tblContacts: UITableView!
         @IBOutlet weak var tfSearch: UITextField!
     
+        @IBOutlet weak var imgCheckonDone: UIImageView!
         @IBOutlet weak var btnDone: UIButton!
         @IBOutlet weak var btnClose: UIButton!
     
         //MARK:- set Images
-        let checkedImage = UIImage(named: "check_checkbox")! as UIImage
-        let uncheckedImage = UIImage(named: "unchecked_checkbox")! as UIImage
+        let checkedImage = UIImage(named: "check_checkbox-1")! as UIImage
+        let uncheckedImage = UIImage(named: "unchecked_checkbox-1")! as UIImage
         let kCell_ContactsCell = "contactscell"
         let kCell_EmogoContactsCell = "emogocontactCell"
     
@@ -43,7 +44,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         tblContacts.tableFooterView = nil
         
         self.tblContacts.register(ContactsViewCell.self, forCellReuseIdentifier: kCell_ContactsCell)
-        self.tblContacts.register(EmogoContactViewCell.self, forCellReuseIdentifier: kCell_EmogoContactsCell)
+      //  self.tblContacts.register(EmogoContactViewCell.self, forCellReuseIdentifier: kCell_EmogoContactsCell)
         
         self.prepareLayout()
       
@@ -62,7 +63,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
     //MARK:- prepare Layout
     
     func prepareLayout() {
-        
+        imgCheckonDone.image = UIImage(named: "unchecked_checkbox" )
         self.navigationController?.navigationBar.isHidden = true
         self.getContacts()
        
@@ -183,40 +184,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         })
     }
     
-    //MARK:- check uncheck button action
-    
-    @objc func btnCheckedClicked(sender: UIButton) {
-        if let cell = sender.superview as? ContactsViewCell {
-            sender.isSelected = !sender.isSelected
-            if sender.isSelected {
-                isChecked = true
-                cell.btnCheck.isSelected = true
-                cell.btnCheck.setImage(checkedImage, for: .selected)
-                btnDone.setImage(UIImage(named: "done_btn_with_check"), for: .normal)
-            }else{
-                isChecked = false
-                cell.btnCheck.isSelected = false
-                cell.btnCheck.setImage(uncheckedImage, for: .normal)
-            }
-        }
-    }
-    
-    @objc func btnEmogoCheckedClicked(sender: UIButton) {
-        if let cell = sender.superview as? EmogoContactViewCell {
-            sender.isSelected = !sender.isSelected
-            if sender.isSelected {
-                isChecked = true
-                cell.btnCheck.isSelected = true
-                cell.btnCheck.setImage(checkedImage, for: .selected)
-                btnDone.setImage(UIImage(named: "done_btn_with_check"), for: .normal)
-            }else{
-                isChecked = false
-                cell.btnCheck.isSelected = false
-                cell.btnCheck.setImage(uncheckedImage, for: .normal)
-            }
-        }
-    }
-    
+  
     //MARK:- close button Action
     @IBAction func btnCloseAction(_ sender: Any) {
         
@@ -251,26 +219,37 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
-            let cell:EmogoContactViewCell = tblContacts.dequeueReusableCell(withIdentifier: kCell_EmogoContactsCell) as! EmogoContactViewCell
-            cell.lblEmogoContact.text = "1234567890"
-            cell.imgProfile.image = UIImage(named: "demo_images")
-            cell.btnCheck.tag = indexPath.row
-            cell.btnCheck .addTarget(self, action: #selector(btnEmogoCheckedClicked(sender:)), for: .touchUpInside)
-             return cell
-        }else{
+    
             let cell:ContactsViewCell = tblContacts.dequeueReusableCell(withIdentifier: kCell_ContactsCell) as! ContactsViewCell
             let dictContact = self.arrayContacts[indexPath.row]
-            cell.lblContact.text = dictContact.phone
+            cell.lblContact.text = dictContact.name
             cell.imgProfile.image = UIImage(named: "demo_images")
-            cell.btnCheck.tag = indexPath.row
-            cell.btnCheck .addTarget(self, action: #selector(btnCheckedClicked(sender:)), for: .touchUpInside)
-            
+        
              return cell
-        }
+       
    
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell:ContactsViewCell = tblContacts.cellForRow(at: indexPath) as! ContactsViewCell
+        // cross checking for checked rows
+        if(rowsWhichAreChecked.contains(indexPath as IndexPath) == false){
+            isChecked = true
+            cell.btnCheck.setImage(checkedImage, for: .normal)
+            cell.contentView.backgroundColor = UIColor.white
+            imgCheckonDone.image = UIImage(named: "check_checkbox")
+            rowsWhichAreChecked.append(indexPath as IndexPath)
+        }else{
+            isChecked = false
+            cell.btnCheck.setImage(uncheckedImage, for: .normal)
+            cell.contentView.backgroundColor = UIColor.white
+            imgCheckonDone.image = UIImage(named: "unchecked_checkbox")
+            // remove the indexPath from rowsWhichAreCheckedArray
+            if let checkedItemIndex = rowsWhichAreChecked.index(of: indexPath){
+                rowsWhichAreChecked.remove(at: checkedItemIndex)
+            }
+        }
+    }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         
