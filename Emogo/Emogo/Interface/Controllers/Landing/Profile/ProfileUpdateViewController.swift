@@ -62,7 +62,13 @@ class ProfileUpdateViewController: UITableViewController {
     }
     
     func prepreNavigation(){
-       let  myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14.0, weight: .light)]
+        
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
 
         self.navigationController?.isNavigationBarHidden = false

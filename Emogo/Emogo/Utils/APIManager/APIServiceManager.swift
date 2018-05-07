@@ -1301,10 +1301,10 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                if StreamList.sharedInstance.arrayProfileStream.contains(where: {$0.ID == stream.ID}) {
+                                if StreamList.sharedInstance.arrayProfileColabStream.contains(where: {$0.ID == stream.ID}) {
                                     // it exists, do something
                                 } else {
-                                    StreamList.sharedInstance.arrayProfileStream.append(stream)                                }
+                                    StreamList.sharedInstance.arrayProfileColabStream.append(stream)                                }
                             }
                         }
                         if let obj = (value as! [String:Any])["next"]{

@@ -37,7 +37,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnLikeDislike: UIButton!
     @IBOutlet weak var consBottomBtnShare: NSLayoutConstraint!
     @IBOutlet weak var consBottomImgUser: NSLayoutConstraint!
-    
+    @IBOutlet weak var viewDescription: UIView!
+
     
     var currentIndex:Int!
     var seletedImage:ContentDAO!
@@ -70,6 +71,10 @@ class ContentViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.viewDescription.addBlurView()
     }
     
     // MARK: - PrepareLayout
@@ -249,15 +254,15 @@ class ContentViewController: UIViewController {
             if seletedImage.description.count > 250 {
                 description = seletedImage.description.trim(count: 250)
                 self.btnMore.isHidden = true
-                self.consBottomImgUser.constant = -50
-                self.consBottomBtnShare.constant = -50
+              //  self.consBottomImgUser.constant = -50
+             //   self.consBottomBtnShare.constant = -50
             }
             self.txtDescription.text = description
-            self.consBottomImgUser.constant = -8
-            self.consBottomBtnShare.constant = -19
+           // self.consBottomImgUser.constant = -8
+          //  self.consBottomBtnShare.constant = -19
         }else{
-            self.consBottomImgUser.constant = -50
-            self.consBottomBtnShare.constant = -50
+         //   self.consBottomImgUser.constant = -50
+         //   self.consBottomBtnShare.constant = -50
             self.btnMore.isHidden = true
             self.txtDescription.text = ""
         }
@@ -421,7 +426,8 @@ class ContentViewController: UIViewController {
 //        }
         
         // image aspect ratio----
-        self.imgCover.contentMode = .scaleAspectFit
+        self.imgCover.contentMode = .scaleAspectFill
+        self.imgCover.clipsToBounds = true
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
         

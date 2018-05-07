@@ -105,17 +105,17 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </button>
-                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-np-uiY">
+                        <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-np-uiY">
                             <rect key="frame" x="12" y="170" width="296" height="36"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number_of_views_icon" translatesAutoresizingMaskIntoConstraints="NO" id="cQc-ew-sdY">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="number_of_views_icon" translatesAutoresizingMaskIntoConstraints="NO" id="cQc-ew-sdY">
                                     <rect key="frame" x="12" y="5" width="29" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="29" id="P8k-bh-Mtb"/>
                                         <constraint firstAttribute="height" constant="27" id="UoJ-Ol-dTg"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkA-h6-Q6s">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkA-h6-Q6s">
                                     <rect key="frame" x="49" y="8" width="89" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="89" id="bJ5-HS-Kv2"/>
@@ -125,14 +125,14 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number_of_likes_icon" translatesAutoresizingMaskIntoConstraints="NO" id="yzL-YP-gdX">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="number_of_likes_icon" translatesAutoresizingMaskIntoConstraints="NO" id="yzL-YP-gdX">
                                     <rect key="frame" x="157" y="5" width="29" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="27" id="0Ec-83-3Py"/>
                                         <constraint firstAttribute="width" constant="29" id="QTR-aQ-8dD"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sTx-Fg-fSL">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sTx-Fg-fSL">
                                     <rect key="frame" x="194" y="7" width="89" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="89" id="vPE-3b-2zS"/>

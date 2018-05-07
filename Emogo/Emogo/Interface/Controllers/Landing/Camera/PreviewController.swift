@@ -227,8 +227,8 @@ class PreviewController: UIViewController {
             self.btnDone.isHidden = true
         }
         
-        self.imgPreview.contentMode = .scaleAspectFit
-      
+        self.imgPreview.contentMode = .scaleAspectFill
+        self.imgPreview.clipsToBounds = true
         self.btnShareAction.isHidden = true
         kWidth.constant = 0.0
         if self.isShowRetake != nil  {
@@ -369,7 +369,8 @@ class PreviewController: UIViewController {
         self.txtTitleImage.text = ""
         txtDescription.text = ""
         self.selectedIndex = index
-        self.imgPreview.contentMode = .scaleAspectFit
+        self.imgPreview.contentMode = .scaleAspectFill
+        self.imgPreview.clipsToBounds = true
         seletedImage =  ContentList.sharedInstance.arrayContent[index]
         if !seletedImage.name.isEmpty {
             var title  = seletedImage.name.trim()
@@ -714,7 +715,8 @@ class PreviewController: UIViewController {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
-                self.imgPreview.contentMode = .scaleAspectFit
+                self.imgPreview.contentMode = .scaleAspectFill
+                self.imgPreview.clipsToBounds = true
                 //  kWidthOptions.constant = 0.0
                 self.viewOptions.isHidden = false
                 self.kWidthOptions.constant = 63.0
@@ -723,7 +725,8 @@ class PreviewController: UIViewController {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-                self.imgPreview.contentMode = .scaleAspectFit
+                self.imgPreview.contentMode = .scaleAspectFill
+                self.imgPreview.clipsToBounds = true
                 self.kWidthOptions.constant = 0.0
                 self.viewOptions.isHidden = true
                 
