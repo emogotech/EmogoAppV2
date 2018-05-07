@@ -215,8 +215,8 @@ class ProfileViewController: UIViewController {
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
                 }
-                self.imgUser.borderWidth = 1.0
-                self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+            //    self.imgUser.borderWidth = 1.0
+              //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                 if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
                     self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
                     self.lblWebsite.isHidden = true
@@ -960,6 +960,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             headerView.delegate = self
         headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
             }
+            headerView.imgCover.layer.cornerRadius = 5.0
+            headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
             return headerView
             

@@ -14,6 +14,7 @@ class ProfileStreamView: UICollectionReusableView {
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var viewContainer: UIView!
 
     var delegate:ProfileStreamViewDelegate?
 
@@ -23,6 +24,9 @@ class ProfileStreamView: UICollectionReusableView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.tap(gesture:)))
         self.imgCover.addGestureRecognizer(tap)
         imgCover.isUserInteractionEnabled = true
+        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+        viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 5)
+
     }
     
     func prepareLayout(stream:StreamDAO,isCurrentUser:Bool,image:String? = nil){

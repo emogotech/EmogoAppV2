@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,15 +33,25 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stream-card-placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i1b-sa-qbQ">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="241"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-6b-txq">
-                            <rect key="frame" x="12" y="213" width="296" height="20"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fhf-Q4-Z9P">
+                            <rect key="frame" x="0.0" y="213" width="320" height="28"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="zdk-6b-txq">
+                                    <rect key="frame" x="10" y="5" width="296" height="20"/>
+                                    <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="22"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="20" id="aeh-GH-q4M"/>
+                                <constraint firstAttribute="height" constant="28" id="6iV-AY-0t4"/>
+                                <constraint firstAttribute="bottom" secondItem="zdk-6b-txq" secondAttribute="bottom" constant="3" id="BDB-pF-gIx"/>
+                                <constraint firstItem="zdk-6b-txq" firstAttribute="leading" secondItem="fhf-Q4-Z9P" secondAttribute="leading" constant="10" id="Nha-pt-sEC"/>
+                                <constraint firstItem="zdk-6b-txq" firstAttribute="top" secondItem="fhf-Q4-Z9P" secondAttribute="top" constant="5" id="UWQ-GA-smU"/>
+                                <constraint firstAttribute="trailing" secondItem="zdk-6b-txq" secondAttribute="trailing" constant="14" id="dKk-nI-bad"/>
                             </constraints>
-                            <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="22"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7hR-WH-JyQ">
                             <rect key="frame" x="0.0" y="241" width="320" height="65"/>
                             <subviews>
@@ -150,11 +160,11 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="6gJ-DM-QZF" firstAttribute="top" secondItem="OoM-EK-BMI" secondAttribute="bottom" constant="7" id="6Eb-Gb-bHz"/>
                         <constraint firstAttribute="trailing" secondItem="u8r-np-uiY" secondAttribute="trailing" constant="12" id="AAk-Kb-zVo"/>
-                        <constraint firstItem="zdk-6b-txq" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="12" id="L3N-av-WHj"/>
+                        <constraint firstItem="fhf-Q4-Z9P" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" id="MNZ-kt-ZPI"/>
                         <constraint firstAttribute="trailing" secondItem="OoM-EK-BMI" secondAttribute="trailing" constant="9" id="Q7X-Ci-pkR"/>
                         <constraint firstItem="7hR-WH-JyQ" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" id="SD3-rn-Xgy"/>
                         <constraint firstItem="OoM-EK-BMI" firstAttribute="top" secondItem="ibH-2l-PEN" secondAttribute="bottom" constant="7" id="Tfh-UJ-HuD"/>
@@ -167,10 +177,9 @@
                         <constraint firstItem="7hR-WH-JyQ" firstAttribute="top" secondItem="i1b-sa-qbQ" secondAttribute="bottom" id="oh1-BL-cfS"/>
                         <constraint firstAttribute="bottom" secondItem="7hR-WH-JyQ" secondAttribute="bottom" id="ozr-9d-XXf"/>
                         <constraint firstAttribute="trailing" secondItem="6gJ-DM-QZF" secondAttribute="trailing" constant="8" id="pYa-O2-6Da"/>
-                        <constraint firstItem="zdk-6b-txq" firstAttribute="top" secondItem="i1b-sa-qbQ" secondAttribute="bottom" constant="-28" id="rdm-ZU-yMP"/>
-                        <constraint firstAttribute="trailing" secondItem="zdk-6b-txq" secondAttribute="trailing" constant="12" id="w79-gx-MHp"/>
-                        <constraint firstItem="zdk-6b-txq" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="bottom" constant="7" id="y6X-F1-qBb"/>
+                        <constraint firstAttribute="trailing" secondItem="fhf-Q4-Z9P" secondAttribute="trailing" id="vSt-Ti-IK0"/>
                         <constraint firstItem="ibH-2l-PEN" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="8" id="y84-jz-zyX"/>
+                        <constraint firstItem="7hR-WH-JyQ" firstAttribute="top" secondItem="fhf-Q4-Z9P" secondAttribute="bottom" id="zi7-lM-dCU"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -202,6 +211,7 @@
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
                 <outlet property="lblName" destination="zdk-6b-txq" id="ExY-of-h9I"/>
                 <outlet property="viewContainer" destination="7hR-WH-JyQ" id="HzC-ua-fYx"/>
+                <outlet property="viewContainerTitle" destination="fhf-Q4-Z9P" id="XJP-Db-lpM"/>
             </connections>
             <point key="canvasLocation" x="34" y="130"/>
         </view>

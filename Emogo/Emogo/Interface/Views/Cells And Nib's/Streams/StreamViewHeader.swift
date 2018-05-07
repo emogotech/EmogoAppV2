@@ -18,6 +18,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
+    @IBOutlet weak var viewContainerTitle: UIView!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
@@ -40,9 +41,11 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
         self.stretchDelegate  = self
         self.maximumContentHeight = 306
+
     }
     
     func prepareLayout(stream:StreamViewDAO?){
+        self.viewContainerTitle.layer.contents = UIImage(named: "gradient")?.cgImage
         btnEdit.isHidden = true
         btnDelete.isHidden = true
         guard let objStream = stream  else {
@@ -84,8 +87,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // For  Now
         btnEdit.isHidden = true
         btnContainer.isHidden = true
-        self.lblName.layer.contents = UIImage(named: "gradient")?.cgImage
-
     }
     
     

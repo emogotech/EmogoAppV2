@@ -31,32 +31,43 @@
                         <constraint firstAttribute="height" constant="88" id="aQU-FX-CEd"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG3-Ew-L6g">
-                    <rect key="frame" x="16" y="140" width="292" height="21"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6PO-hz-kZt">
+                    <rect key="frame" x="7" y="135" width="306" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MG3-Ew-L6g">
+                            <rect key="frame" x="5" y="0.0" width="292" height="30"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="94z-Uf-0FO"/>
+                        <constraint firstItem="MG3-Ew-L6g" firstAttribute="top" secondItem="6PO-hz-kZt" secondAttribute="top" id="7fZ-6o-HfU"/>
+                        <constraint firstAttribute="bottom" secondItem="MG3-Ew-L6g" secondAttribute="bottom" id="HTF-rg-uBj"/>
+                        <constraint firstAttribute="height" constant="30" id="RBv-9L-ze1"/>
+                        <constraint firstAttribute="trailing" secondItem="MG3-Ew-L6g" secondAttribute="trailing" constant="9" id="nPK-bE-k9e"/>
+                        <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="6PO-hz-kZt" secondAttribute="leading" constant="5" id="whi-Sy-DK1"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                </view>
             </subviews>
             <constraints>
-                <constraint firstItem="MG3-Ew-L6g" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="-5" id="1gq-rl-ar2"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="6PO-hz-kZt" secondAttribute="bottom" constant="9" id="0te-kd-Pmw"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="uk0-Pj-VVK" secondAttribute="trailing" constant="7" id="52B-3f-rAO"/>
-                <constraint firstItem="MG3-Ew-L6g" firstAttribute="trailing" secondItem="uk0-Pj-VVK" secondAttribute="trailing" constant="-5" id="Arc-KM-4Uu"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="7" id="AzI-a0-L1M"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="N0R-uE-Lbg"/>
                 <constraint firstItem="dlc-mY-dtk" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="TVa-Wt-Ybx"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="8" id="XjV-oO-zeS"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="6PO-hz-kZt" secondAttribute="trailing" constant="7" id="Yag-3C-aUh"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" id="YkL-GW-Sa9"/>
-                <constraint firstItem="MG3-Ew-L6g" firstAttribute="leading" secondItem="uk0-Pj-VVK" secondAttribute="leading" constant="9" id="f1A-Zc-pWl"/>
+                <constraint firstItem="6PO-hz-kZt" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="7" id="gqa-ud-HtW"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
                 <outlet property="imgCover" destination="uk0-Pj-VVK" id="Zu1-I9-lsW"/>
                 <outlet property="imgUser" destination="dlc-mY-dtk" id="Z6F-iv-ONT"/>
                 <outlet property="lblTitle" destination="MG3-Ew-L6g" id="Hwc-wc-bl0"/>
+                <outlet property="viewContainer" destination="6PO-hz-kZt" id="dpD-P8-QiP"/>
             </connections>
             <point key="canvasLocation" x="65" y="116"/>
         </collectionReusableView>
