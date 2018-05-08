@@ -59,7 +59,7 @@ class FilterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setImageView(image: image!)
-        
+        self.prepareGradientOption()
     }
     
     func prepareLayout(){
@@ -68,10 +68,8 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        DispatchQueue.main.sync {
-            self.prepareGradientOption()
-        }
     }
+    
     
     func prepareNavigation() {
        

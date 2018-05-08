@@ -69,10 +69,8 @@ class FilterManager: NSObject {
         }else if hasNumbers {
             
             if #available(iOS 11.0, *) {
-                DispatchQueue.main.async {
                 StyleArt.shared.process(image: self.image, style: ArtStyle(rawValue: self.filterType.hashValue)!) { (originalImage) in
                     completionHandler(originalImage ?? nil, originalImage ?? nil)
-                }
                 }
             } else {
                 // Fallback on earlier versions
