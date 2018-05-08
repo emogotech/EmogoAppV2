@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^unfollow_user/(?P<pk>[0-9]+)/$', views.UserFollowAPI.as_view()),
     url(r'^get_user_followers/$', views.UserFollowersAPI.as_view()),
     url(r'^get_user_following/$', views.UserFollowingAPI.as_view()),
+    url(r'^check_contact_in_emogo_user/$', views.CheckContactInEmogo.as_view()),
 
 ]

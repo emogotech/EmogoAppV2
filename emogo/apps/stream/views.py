@@ -227,7 +227,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().select_related('created_by__user_data__user').order_by('order', '-crd')
+    queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "content_like_dislike_status",
+            queryset=LikeDislikeContent.objects.filter(status=1),
+            to_attr='content_liked_user'
+        )
+    ).order_by('order', '-crd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     filter_class = ContentsFilter
@@ -279,7 +285,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         #  Customized field list
         fields = (
         'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
-        'color', 'user_image', 'full_name', 'order')
+        'color', 'user_image', 'full_name', 'order', 'liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -334,16 +340,17 @@ class GetTopContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image')
+            'order', 'color', 'full_name', 'user_image', 'liked')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         picture_type = self.get_serializer(queryset.filter(type='Picture')[0:10], many=True, fields=fields)
         video_type = self.get_serializer(queryset.filter(type='Video')[0:10], many=True, fields=fields)
         link_type = self.get_serializer(queryset.filter(type='Link')[0:10], many=True, fields=fields)
         giphy_type = self.get_serializer(queryset.filter(type='Giphy')[0:10], many=True, fields=fields)
+        notes_type = self.get_serializer(queryset.filter(type='Note')[0:10], many=True, fields=fields)
         all = self.get_serializer(queryset[0:20], many=True, fields=fields)
         data = {'picture': picture_type.data, 'video': video_type.data, 'link': link_type.data,
-                'giphy': giphy_type.data, 'all': all.data}
+                'giphy': giphy_type.data, 'note': notes_type.data, 'all': all.data}
         return custom_render_response(data=data, status_code=status.HTTP_200_OK)
 
 
@@ -352,11 +359,11 @@ class GetTopTwentyContentAPI(ContentAPI):
         #  Override serializer class : ViewContentSerializer
         fields = (
             'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
-            'order', 'color', 'full_name', 'user_image')
+            'order', 'color', 'full_name', 'user_image', 'liked')
         self.serializer_class = ViewContentSerializer
         queryset = self.filter_queryset(self.get_queryset())
         final_qs = itertools.chain(queryset.filter(type='Link')[0:5], queryset.filter(type='Picture')[0:5],
-                                   queryset.filter(type='Video')[0:5], queryset.filter(type='Giphy')[0:5])
+                                   queryset.filter(type='Video')[0:5], queryset.filter(type='Giphy')[0:5], queryset.filter(type='Note')[0:5])
         serializer = self.get_serializer(final_qs, many=True, fields=fields)
         return custom_render_response(data=serializer.data, status_code=status.HTTP_200_OK)
 
@@ -366,7 +373,13 @@ class LinkTypeContentAPI(ListAPIView):
     Stream CRUD API
     """
     serializer_class = ContentSerializer
-    queryset = Content.actives.all().order_by('-id')
+    queryset = Content.actives.all().select_related('created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "content_like_dislike_status",
+            queryset=LikeDislikeContent.objects.filter(status=1),
+            to_attr='content_liked_user'
+        )
+    ).order_by('order', '-crd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
@@ -397,7 +410,7 @@ class LinkTypeContentAPI(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ('id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image','height', 'width',
-                  'full_name', 'user_image')
+                  'full_name', 'user_image', 'liked')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
