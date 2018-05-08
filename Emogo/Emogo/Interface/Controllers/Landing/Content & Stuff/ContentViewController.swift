@@ -478,7 +478,7 @@ class ContentViewController: UIViewController {
                 
                 
                 let buttonLink = self.getShadowButton(Alignment: 1)
-                buttonLink.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                buttonLink.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                 let btnLink = UIBarButtonItem.init(customView: buttonLink)
                 

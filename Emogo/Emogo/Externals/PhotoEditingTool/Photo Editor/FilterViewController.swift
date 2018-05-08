@@ -28,7 +28,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientCollectionView: UICollectionView!
     @IBOutlet weak var gradientView: UIView!
-
+    var addFilterCount = 0
     
     var selectedItem : PMEditingModel? = nil
     
@@ -68,6 +68,7 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
+        self.images.removeAll()
     }
     
     
@@ -95,24 +96,21 @@ class FilterViewController: UIViewController {
 
     
     func prepareGradientOption(){
-        let group = DispatchGroup()
-        self.images.removeAll()
-        for name in  ApplyFilter.allValues {
-            group.enter()
-           
-            self.filterManager.applyFilter(filterName: name.rawValue, image: self.image!) { (originalImage, previewImage) in
-                
-                let objImage = GradientfilterDAO(name: "\(name)")
-                objImage.imgOriginal = originalImage!
-                objImage.imgPreview = previewImage!
-                objImage.isFileRecieved  = true
-                self.images.append(objImage)
-                group.leave()
-        }
-    }
-     group.notify(queue: .main, execute: {
-           print("converted")
-        })
+        print(self.addFilterCount)
+       let name = ApplyFilter.allValues[addFilterCount].rawValue
+        
+        self.filterManager.applyFilter(filterName: name, image: self.image!) { (originalImage, previewImage) in
+            
+            let objImage = GradientfilterDAO(name: "\(ApplyFilter.allValues[self.addFilterCount])")
+            objImage.imgOriginal = originalImage!
+            objImage.imgPreview = previewImage!
+            objImage.isFileRecieved  = true
+            self.images.append(objImage)
+            if self.addFilterCount != ApplyFilter.allValues.count-1 {
+                self.addFilterCount += 1
+                self.prepareGradientOption()
+            }
+         }
     }
     /*
     // MARK: - Navigation

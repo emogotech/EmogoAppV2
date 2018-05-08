@@ -3749,7 +3749,7 @@ Cg
                                 <rect key="frame" x="12" y="40" width="351" height="180"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Haptic Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeO-yI-4mv">
-                                        <rect key="frame" x="8" y="24" width="120" height="21"/>
+                                        <rect key="frame" x="8" y="24" width="120.5" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="bID-4l-kTd"/>
                                         </constraints>
