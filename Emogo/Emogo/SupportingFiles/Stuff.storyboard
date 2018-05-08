@@ -3691,8 +3691,8 @@ Cg
                                     <constraint firstItem="QNZ-ql-ru6" firstAttribute="leading" secondItem="0jz-Kr-iV8" secondAttribute="trailing" constant="8" id="YsO-vi-bNu"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="80" sectionHeaderHeight="40" sectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHV-fM-Yxj">
-                                <rect key="frame" x="0.0" y="127" width="375" height="465"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="80" sectionHeaderHeight="40" sectionFooterHeight="1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHV-fM-Yxj">
+                                <rect key="frame" x="0.0" y="127" width="375" height="472"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Piy-US-7wf" id="qM5-LO-3et"/>
@@ -3700,16 +3700,24 @@ Cg
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zXQ-Of-cNR">
-                                <rect key="frame" x="0.0" y="592" width="375" height="75"/>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <rect key="frame" x="0.0" y="600" width="375" height="67"/>
+                                <color key="backgroundColor" red="0.0" green="0.67843137249999996" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="rfx-47-aD9"/>
+                                    <constraint firstAttribute="height" constant="67" id="rfx-47-aD9"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="done_button-uncheck"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="26"/>
+                                <state key="normal" title="Done"/>
                                 <connections>
                                     <action selector="btnDoneAction:" destination="Piy-US-7wf" eventType="touchUpInside" id="ZhN-k0-r0c"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unchecked_checkbox" translatesAutoresizingMaskIntoConstraints="NO" id="9o5-Wj-xTy">
+                                <rect key="frame" x="321" y="613" width="33" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="4o2-3x-A8a"/>
+                                    <constraint firstAttribute="width" constant="33" id="qa0-CS-I7P"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -3718,11 +3726,14 @@ Cg
                             <constraint firstItem="nHV-fM-Yxj" firstAttribute="trailing" secondItem="ZCB-RW-rbd" secondAttribute="trailing" id="CGD-Qw-ULK"/>
                             <constraint firstItem="zXQ-Of-cNR" firstAttribute="leading" secondItem="ZCB-RW-rbd" secondAttribute="leading" id="GdO-Ib-mUi"/>
                             <constraint firstItem="J7S-e5-zKT" firstAttribute="top" secondItem="ccQ-nu-zL6" secondAttribute="top" id="HGa-A5-cGe"/>
-                            <constraint firstItem="zXQ-Of-cNR" firstAttribute="top" secondItem="nHV-fM-Yxj" secondAttribute="bottom" id="Qtw-K5-zKX"/>
+                            <constraint firstItem="ZCB-RW-rbd" firstAttribute="bottom" secondItem="9o5-Wj-xTy" secondAttribute="bottom" constant="21" id="HWa-LL-uq7"/>
+                            <constraint firstItem="zXQ-Of-cNR" firstAttribute="top" secondItem="nHV-fM-Yxj" secondAttribute="bottom" constant="1" id="Qtw-K5-zKX"/>
                             <constraint firstItem="8Vr-LF-RDf" firstAttribute="leading" secondItem="zXQ-Of-cNR" secondAttribute="leading" id="Rho-Ru-MVH"/>
+                            <constraint firstItem="ZCB-RW-rbd" firstAttribute="trailing" secondItem="9o5-Wj-xTy" secondAttribute="trailing" constant="21" id="Tol-1n-WjQ"/>
                             <constraint firstItem="ZCB-RW-rbd" firstAttribute="bottom" secondItem="zXQ-Of-cNR" secondAttribute="bottom" id="XFq-pK-mDq"/>
                             <constraint firstItem="8Vr-LF-RDf" firstAttribute="top" secondItem="J7S-e5-zKT" secondAttribute="bottom" constant="8" id="Zn9-pR-xec"/>
                             <constraint firstItem="nHV-fM-Yxj" firstAttribute="top" secondItem="8Vr-LF-RDf" secondAttribute="bottom" constant="8" id="a8V-9K-gEz"/>
+                            <constraint firstItem="9o5-Wj-xTy" firstAttribute="centerY" secondItem="zXQ-Of-cNR" secondAttribute="centerY" constant="-4" id="bc4-cL-qN2"/>
                             <constraint firstItem="nHV-fM-Yxj" firstAttribute="leading" secondItem="ZCB-RW-rbd" secondAttribute="leading" id="beX-rc-T2J"/>
                             <constraint firstItem="ZCB-RW-rbd" firstAttribute="trailing" secondItem="zXQ-Of-cNR" secondAttribute="trailing" id="nkl-kd-jLM"/>
                             <constraint firstItem="8Vr-LF-RDf" firstAttribute="trailing" secondItem="zXQ-Of-cNR" secondAttribute="trailing" id="rs0-Nd-dOK"/>
@@ -3734,6 +3745,7 @@ Cg
                     <connections>
                         <outlet property="btnClose" destination="CWu-vv-3tN" id="IWi-Sy-E2q"/>
                         <outlet property="btnDone" destination="zXQ-Of-cNR" id="UF8-0q-j3V"/>
+                        <outlet property="imgCheckonDone" destination="9o5-Wj-xTy" id="kn5-bX-QVx"/>
                         <outlet property="tblContacts" destination="nHV-fM-Yxj" id="g0u-lH-mBG"/>
                         <outlet property="tfSearch" destination="QNZ-ql-ru6" id="Z7i-ot-FOE"/>
                     </connections>
@@ -3741,7 +3753,7 @@ Cg
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wDL-7y-5x4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="Yw7-c8-RLW"/>
             </objects>
-            <point key="canvasLocation" x="2025" y="251"/>
+            <point key="canvasLocation" x="2024.8" y="250.52473763118442"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="evw-nX-wT8">
@@ -3872,7 +3884,6 @@ Cg
         <image name="content_next_btn" width="160" height="53"/>
         <image name="delete icon_new" width="33" height="37"/>
         <image name="demo_images" width="48" height="48"/>
-        <image name="done_button-uncheck" width="375" height="75"/>
         <image name="edit avtar icon" width="29" height="27"/>
         <image name="edit icon_new" width="34" height="34"/>
         <image name="editProfile" width="128" height="28"/>
@@ -3898,5 +3909,6 @@ Cg
         <image name="stream_icon_add" width="147" height="147"/>
         <image name="strems_active_icon" width="45" height="35"/>
         <image name="stuff_icon" width="34" height="37"/>
+        <image name="unchecked_checkbox" width="26" height="26"/>
     </resources>
 </document>

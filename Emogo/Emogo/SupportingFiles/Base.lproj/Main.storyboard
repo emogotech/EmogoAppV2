@@ -2927,7 +2927,7 @@
         <image name="camera_icon_cover_images" width="131" height="131"/>
         <image name="camera_icon_top" width="29" height="25"/>
         <image name="camera_retake_icon" width="23" height="23"/>
-        <image name="check-box-empty" width="17" height="18"/>
+        <image name="check-box-empty" width="26" height="26"/>
         <image name="click_pick" width="63" height="63"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="cross-icon" width="17" height="17"/>

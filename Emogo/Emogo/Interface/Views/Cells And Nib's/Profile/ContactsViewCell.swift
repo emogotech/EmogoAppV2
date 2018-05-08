@@ -32,7 +32,7 @@ class ContactsViewCell: UITableViewCell {
     var btnCheck :UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setImage(UIImage(named:"unchecked_checkbox-1"), for: .normal)
+        btn.setImage(UIImage(named:"check-box-empty"), for: .normal)
         return btn
     }()
    
