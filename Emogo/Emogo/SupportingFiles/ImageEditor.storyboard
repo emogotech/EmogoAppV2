@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
         <array key="SF-Pro-Display-Semibold.otf">
             <string>SFProDisplay-Semibold</string>
         </array>
@@ -34,12 +37,10 @@
                                 <subviews>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hr9-2A-9In">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="667" id="T2T-Rt-NFS"/>
-                                        </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AHg-8U-fiG">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                     <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcT-FO-5x2" customClass="ACEDrawingView">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -47,7 +48,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="AHg-8U-fiG" firstAttribute="leading" secondItem="waQ-As-SIk" secondAttribute="leading" id="Aid-VZ-BnI"/>
                                     <constraint firstAttribute="bottom" secondItem="AHg-8U-fiG" secondAttribute="bottom" id="Keu-hc-M0O"/>
@@ -63,15 +64,15 @@
                                 <rect key="frame" x="163" y="600" width="50" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="trash_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Gtr-12-Kuf">
-                                        <rect key="frame" x="16" y="13" width="19" height="23"/>
+                                        <rect key="frame" x="5" y="3" width="40" height="44"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="top" secondItem="8Bu-x4-3we" secondAttribute="top" constant="13" id="Bn2-zc-oZn"/>
-                                    <constraint firstAttribute="bottom" secondItem="Gtr-12-Kuf" secondAttribute="bottom" constant="14" id="inc-nN-J4n"/>
-                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="leading" secondItem="8Bu-x4-3we" secondAttribute="leading" constant="16" id="rem-Gj-1Uw"/>
-                                    <constraint firstAttribute="trailing" secondItem="Gtr-12-Kuf" secondAttribute="trailing" constant="15" id="tD2-Xw-EBJ"/>
+                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="leading" secondItem="8Bu-x4-3we" secondAttribute="leading" constant="5" id="1XU-sd-jZ0"/>
+                                    <constraint firstItem="Gtr-12-Kuf" firstAttribute="top" secondItem="8Bu-x4-3we" secondAttribute="top" constant="3" id="4rt-S6-A7Z"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gtr-12-Kuf" secondAttribute="trailing" constant="5" id="Lc0-4T-PdF"/>
+                                    <constraint firstAttribute="bottom" secondItem="Gtr-12-Kuf" secondAttribute="bottom" constant="3" id="Upt-SL-CmE"/>
                                     <constraint firstAttribute="height" constant="50" id="vaY-H2-txL"/>
                                     <constraint firstAttribute="width" constant="50" id="yz7-pC-1Ji"/>
                                 </constraints>
@@ -165,7 +166,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="IDq-l5-hsm" firstAttribute="trailing" secondItem="Rg0-Pj-F2J" secondAttribute="trailing" id="1Jz-yI-J9e"/>
                             <constraint firstItem="ium-ia-2ul" firstAttribute="trailing" secondItem="Rg0-Pj-F2J" secondAttribute="trailing" id="4cU-Da-bUH"/>
@@ -193,7 +193,6 @@
                         <outlet property="baseImageView" destination="AHg-8U-fiG" id="DqX-Kh-FS0"/>
                         <outlet property="canvasView" destination="waQ-As-SIk" id="P2H-Hh-c2b"/>
                         <outlet property="colorPickerView" destination="ium-ia-2ul" id="z4J-OV-9aZ"/>
-                        <outlet property="colorPickerViewBottomConstraint" destination="T2T-Rt-NFS" id="X8b-k1-NRw"/>
                         <outlet property="colorsCollectionView" destination="QCw-0v-qma" id="NJ7-mY-KiT"/>
                         <outlet property="deleteView" destination="8Bu-x4-3we" id="L8S-K4-s4u"/>
                         <outlet property="drawingView" destination="bcT-FO-5x2" id="vn6-IJ-BIl"/>
@@ -244,11 +243,63 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="362" height="50"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hF7-MZ-Uez">
-                                                    <size key="itemSize" width="50" height="50"/>
+                                                    <size key="itemSize" width="60" height="50"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="filterCell" id="Ahm-V4-wsV" customClass="FilterCell" customModule="Emogo" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bK5-8d-Vkp">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                                                                    <subviews>
+                                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="brigtness-effect-icon" translatesAutoresizingMaskIntoConstraints="NO" id="cMb-A2-Qlx">
+                                                                            <rect key="frame" x="13" y="0.0" width="35" height="35"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="width" constant="35" id="dG0-tv-hth"/>
+                                                                                <constraint firstAttribute="height" constant="35" id="hCp-SG-Nwq"/>
+                                                                            </constraints>
+                                                                        </imageView>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brightness" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zCS-hO-2L2">
+                                                                            <rect key="frame" x="0.0" y="36" width="60" height="13"/>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="height" constant="13" id="ljU-kt-dpf"/>
+                                                                            </constraints>
+                                                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="trailing" secondItem="zCS-hO-2L2" secondAttribute="trailing" id="GH3-mg-SF7"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="cMb-A2-Qlx" secondAttribute="trailing" constant="12" id="aha-T3-eHn"/>
+                                                                        <constraint firstItem="cMb-A2-Qlx" firstAttribute="top" secondItem="bK5-8d-Vkp" secondAttribute="top" id="brh-sk-5r4"/>
+                                                                        <constraint firstItem="cMb-A2-Qlx" firstAttribute="leading" secondItem="bK5-8d-Vkp" secondAttribute="leading" constant="13" id="fSh-wv-AA8"/>
+                                                                        <constraint firstItem="zCS-hO-2L2" firstAttribute="leading" secondItem="bK5-8d-Vkp" secondAttribute="leading" id="ot2-a6-xcu"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="zCS-hO-2L2" secondAttribute="bottom" constant="1" id="ozu-gi-BZw"/>
+                                                                    </constraints>
+                                                                </view>
+                                                            </subviews>
+                                                        </view>
+                                                        <constraints>
+                                                            <constraint firstItem="bK5-8d-Vkp" firstAttribute="top" secondItem="Ahm-V4-wsV" secondAttribute="top" id="MgO-Xi-dwR"/>
+                                                            <constraint firstAttribute="trailing" secondItem="bK5-8d-Vkp" secondAttribute="trailing" id="QfJ-vZ-nkw"/>
+                                                            <constraint firstItem="bK5-8d-Vkp" firstAttribute="leading" secondItem="Ahm-V4-wsV" secondAttribute="leading" id="Ugk-dE-qB5"/>
+                                                            <constraint firstAttribute="bottom" secondItem="bK5-8d-Vkp" secondAttribute="bottom" id="W05-9O-7cw"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outlet property="imgView" destination="cMb-A2-Qlx" id="DyF-RQ-cXg"/>
+                                                            <outlet property="lblTitle" destination="zCS-hO-2L2" id="kno-MH-Tv5"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
                                                 <connections>
                                                     <outlet property="dataSource" destination="W7J-zc-5Jo" id="5RF-ul-ocI"/>
                                                     <outlet property="delegate" destination="W7J-zc-5Jo" id="vW2-5y-qwG"/>
@@ -527,6 +578,7 @@
     <resources>
         <image name="Save" width="17" height="23"/>
         <image name="back" width="16" height="16"/>
+        <image name="brigtness-effect-icon" width="41" height="41"/>
         <image name="color_icon_inactive" width="41" height="41"/>
         <image name="image-effect-icon" width="29" height="29"/>
         <image name="next_icon" width="12" height="20"/>

@@ -43,6 +43,7 @@ class FilterViewController: UIViewController {
     public var image: UIImage?
     var imageToFilter:UIImage?
     var images = [GradientfilterDAO]()
+    var filterManager = FilterManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,12 +63,16 @@ class FilterViewController: UIViewController {
     }
     
     func prepareLayout(){
-        filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
-        filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
+      //  filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
+      //  filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        self.prepareGradientImages()
+        for name in  ApplyFilter.allValues {
+            let obj = GradientfilterDAO(name: "\(name)")
+            images.append(obj)
+        }
+        
     }
     
     func prepareNavigation() {
@@ -89,16 +94,6 @@ class FilterViewController: UIViewController {
         self.canvasView.frame = AVMakeRect(aspectRatio: img.size, insideRect: self.canvasImageView.frame)
         self.canvasView.center = self.view.center
     }
-    
-    func prepareGradientImages(){
-        self.isGradientFilter = true
-        DispatchQueue.main.async {
-            let filter  = FilterManager(image: self.image!)
-            filter.filterDelegate = self
-        }
-    }
-   
-   
     
     
 
