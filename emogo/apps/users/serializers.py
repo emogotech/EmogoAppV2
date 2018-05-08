@@ -530,6 +530,9 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
 
 
 class CheckContactInEmogoSerializer(serializers.Serializer):
+    """
+    Check contact list exist in Emogo user.
+    """
     contact_list = serializers.ListField(min_length=1)
 
     class Meta:
