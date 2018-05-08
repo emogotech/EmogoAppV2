@@ -124,6 +124,7 @@ class ContentDAO{
     var width:Int! = 300
     var height:Int! = 300
     var color:String! = ""
+    var stuffType:StuffType! = .All
 
     var imgPreview:UIImage? = nil {
         

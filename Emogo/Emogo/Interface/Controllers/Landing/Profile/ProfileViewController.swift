@@ -307,9 +307,13 @@ class ProfileViewController: UIViewController {
         default:
             self.selectedType = .All
         }
-        HUDManager.sharedInstance.showHUD()
-        self.profileCollectionView.es.resetNoMoreData()
-        self.getMyStuff(type: .start)
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        if array.count == 0  {
+            HUDManager.sharedInstance.showHUD()
+            self.profileCollectionView.es.resetNoMoreData()
+            self.getMyStuff(type: .start)
+        }
+        self.profileCollectionView.reloadData()
     }
     
     func configureLoadMoreAndRefresh(){
@@ -580,6 +584,7 @@ class ProfileViewController: UIViewController {
                 HUDManager.sharedInstance.showHUD()
                 self.getMyStuff(type: .start)
             }
+            self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
             break
         case .stream:
@@ -597,6 +602,7 @@ class ProfileViewController: UIViewController {
                 HUDManager.sharedInstance.showHUD()
                 self.getColabs(type: .start)
             }
+            self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
          break
         }
@@ -747,7 +753,12 @@ class ProfileViewController: UIViewController {
     
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
-            ContentList.sharedInstance.arrayStuff.removeAll()
+            for _ in  ContentList.sharedInstance.arrayStuff {
+                if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
+                     ContentList.sharedInstance.arrayStuff.remove(at: index)
+                    print("Removed")
+                }
+            }
             self.profileCollectionView.reloadData()
         }
         
@@ -988,7 +999,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if currentMenu == .stuff {
-            return ContentList.sharedInstance.arrayStuff.count
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            return array.count
         }else if currentMenu == .colabs {
             return StreamList.sharedInstance.arrayProfileColabStream.count
         }else {
@@ -999,8 +1011,9 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
         if currentMenu == .stuff {
-            
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+
+            let content = array[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
             // for Add Content
             cell.layer.cornerRadius = 5.0
@@ -1101,20 +1114,23 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
           //  let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
                 isEdited = true
                 var index = 0
+            let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 if currentMenu == .stream {
                     let tempStream = self.arrayMyStreams[indexPath.row]
                     let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
                     if tempIndex != nil {
                         index = tempIndex!
                     }
+                    obj.viewStream = "fromProfile"
+
                      StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
                 }else {
+
+                    obj.viewStream = "fromColabProfile"
                     index = indexPath.row
                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
                 }
-                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = index
-                obj.viewStream = "fromProfile"
                 ContentList.sharedInstance.objStream = nil
                 self.navigationController?.push(viewController: obj)
             }

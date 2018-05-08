@@ -206,7 +206,7 @@ class ContentViewController: UIViewController {
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         
         let button = self.getShadowButton()
-        button.setBackgroundImage(#imageLiteral(resourceName: "white_back_icon"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "white_back_icon"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBackAction(_:)), for: .touchUpInside)
         let btnBack = UIBarButtonItem.init(customView: button)
         
@@ -451,7 +451,7 @@ class ContentViewController: UIViewController {
 //                    let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
 
                     let buttonEdit = self.getShadowButton()
-                    buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
+                    buttonEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
                     buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                     let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
                     
@@ -465,7 +465,7 @@ class ContentViewController: UIViewController {
                     
                     
                     let buttonFlag = self.getShadowButton()
-                    buttonFlag.setBackgroundImage(#imageLiteral(resourceName: "content_flag"), for: .normal)
+                    buttonFlag.setImage(#imageLiteral(resourceName: "content_flag"), for: .normal)
                     buttonFlag.addTarget(self, action: #selector(self.btnShowReportListAction(_:)), for: .touchUpInside)
                     let btnFlag = UIBarButtonItem.init(customView: buttonFlag)
                     arrButtons.append(btnFlag)
@@ -479,7 +479,7 @@ class ContentViewController: UIViewController {
                 
                 
                 let buttonLink = self.getShadowButton()
-                buttonLink.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                buttonLink.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                 let btnLink = UIBarButtonItem.init(customView: buttonLink)
                 
@@ -492,7 +492,7 @@ class ContentViewController: UIViewController {
 //                let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
                 
                 let buttonLink = self.getShadowButton()
-                buttonLink.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
+                buttonLink.setImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
                 let btnDelete = UIBarButtonItem.init(customView: buttonLink)
                 arrButtons.append(btnDelete)

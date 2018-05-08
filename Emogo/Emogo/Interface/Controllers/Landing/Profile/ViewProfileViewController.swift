@@ -145,8 +145,8 @@ class ViewProfileViewController: UIViewController {
                             self.lblWebsite.addGestureRecognizer(tap)
                             self.lblWebsite.isUserInteractionEnabled = true
                         }
-                        self.imgUser.borderWidth = 1.0
-                        self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+                     //   self.imgUser.borderWidth = 1.0
+                       // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                         //print(people.userImage.trim())
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())
@@ -296,7 +296,10 @@ class ViewProfileViewController: UIViewController {
             if ContentList.sharedInstance.mainStreamNavigate == "fromProfile" {
                 let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
                 StreamList.sharedInstance.arrayViewStream = array
-            }else if  ContentList.sharedInstance.mainStreamNavigate == "View"{
+            }else if ContentList.sharedInstance.mainStreamNavigate == "fromColabProfile"{
+                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
+                }
+            else if  ContentList.sharedInstance.mainStreamNavigate == "View"{
 //                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
 //                StreamList.sharedInstance.arrayViewStream = array
                 

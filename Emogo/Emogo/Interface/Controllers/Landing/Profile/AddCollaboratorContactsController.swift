@@ -28,8 +28,8 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         @IBOutlet weak var btnClose: UIButton!
     
         //MARK:- set Images
-        let checkedImage = UIImage(named: "check_checkbox-1")! as UIImage
-        let uncheckedImage = UIImage(named: "unchecked_checkbox-1")! as UIImage
+        let checkedImage = UIImage(named: "check-box-filled")! as UIImage
+        let uncheckedImage = UIImage(named: "check-box-empty")! as UIImage
         let kCell_ContactsCell = "contactscell"
         let kCell_EmogoContactsCell = "emogocontactCell"
     

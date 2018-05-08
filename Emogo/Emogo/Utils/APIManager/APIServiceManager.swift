@@ -879,6 +879,7 @@ class APIServiceManager: NSObject {
                                 content.isUploaded = true
                                 content.isShowAddStream = true
                                 content.isEdit = true
+                                content.stuffType = contentType
                                 ContentList.sharedInstance.arrayStuff.append(content)
                             }
                           
