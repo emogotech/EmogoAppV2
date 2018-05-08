@@ -5,9 +5,8 @@ from django.contrib.auth.hashers import make_password
 from models import UserProfile, UserFollow
 from autofixture.autofixtures import UserFixture
 from emogo.lib.custom_generators.generators import PhoneNumberGenerator
-from emogo.apps.stream.autofixtures import StreamAutoFixture
-from emogo.apps.stream.models import Stream
-from datetime import datetime, timedelta
+from rest_framework.authtoken.models import Token
+
 
 class UserAutoFixture(UserFixture):
     """
@@ -114,5 +113,21 @@ class UserFollowAutoFixture(AutoFixture):
     follow_fk = True
 
 
+class TokenAutoFixture(AutoFixture):
+    """
+        :class:`UserProfileAutoFixture` is automatically used by default to create new
+        ``UserProfile`` instances. It uses the following values to assure that you can
+        use the generated instances without any modification:
+    """
+
+    # don't follow permissions and groups
+    follow_m2m = False
+    follow_fk = True
+
+    def __init__(self, *args, **kwargs):
+        super(TokenAutoFixture, self).__init__(*args, **kwargs)
+
+
 autofixture.register(UserProfile, UserProfileAutoFixture, fail_silently=True)
 autofixture.register(UserFollow, UserFollowAutoFixture, fail_silently=True)
+autofixture.register(Token, UserFollowAutoFixture, fail_silently=True)

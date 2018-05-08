@@ -1319,12 +1319,8 @@ class LikeDislikeStreamAutoFixture(AutoFixture):
             self.field_values['stream'] = self.stream
         super(LikeDislikeStreamAutoFixture, self).__init__(*args, **kwargs)
 
-    # class Values(object):
-    #     name = CustomNameGenerator(name_prefix='Content')
-    #     description = generators.LoremGenerator(max_length=30)
-    #     url = generators.ChoicesGenerator(values=content_urls)
-    #     type = generators.ChoicesGenerator(values=('Video', 'Picture', 'Link', 'Giphy'))
-    #     video_image = None #'https://dummyimage.com/300/09f/fff.png' if type.get_value()=='Video' else None
+    class Values(object):
+        status = generators.ChoicesGenerator(values=(0, 1))
 
     # don't follow permissions and groups
     follow_m2m = False
@@ -1347,12 +1343,8 @@ class LikeDislikeContentAutoFixture(AutoFixture):
         #     self.field_values['stream'] = self.stream
         super(LikeDislikeContentAutoFixture, self).__init__(*args, **kwargs)
 
-    # class Values(object):
-    #     name = CustomNameGenerator(name_prefix='Content')
-    #     description = generators.LoremGenerator(max_length=30)
-    #     url = generators.ChoicesGenerator(values=content_urls)
-    #     type = generators.ChoicesGenerator(values=('Video', 'Picture', 'Link', 'Giphy'))
-    #     video_image = None #'https://dummyimage.com/300/09f/fff.png' if type.get_value()=='Video' else None
+    class Values(object):
+        status = generators.ChoicesGenerator(values=(0, 1))
 
     # don't follow permissions and groups
     follow_m2m = False
