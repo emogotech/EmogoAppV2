@@ -61,15 +61,20 @@ class SettingViewController: UIViewController {
         
         self.title = "Settings"
     }
+    
     //MARK: button actions
     
     @objc func btnCloseAction(){
         self.navigationController?.popViewAsDismiss()
     }
     
+    //MARK:- button logout action
+    
     @IBAction func btnLogoutAction(_ sender: Any) {
         self.btnLogoutAction()
     }
+    
+    //MARK:- button share action
     
     @IBAction func btnShareProfile(_ sender: Any) {
         self.profileShareAction()
