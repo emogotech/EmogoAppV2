@@ -23,23 +23,8 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
             
-            let name = ApplyFilter.allValues[indexPath.row].rawValue
             let objImage = images[indexPath.row]
             cell.prepareCellData(filter: objImage)
-
-            if objImage.isFileRecieved == false {
-                DispatchQueue.global(qos: .background).async {
-                    self.filterManager.applyFilter(filterName: "\(name)", image: self.image!) { (originalImage, previewImage) in
-                        
-                          objImage.imgOriginal = originalImage!
-                          objImage.imgPreview = previewImage!
-                            objImage.isFileRecieved  = true
-                            self.images[indexPath.row] = objImage
-                            cell.prepareCellData(filter: objImage)
-                }
-            }
-            }
-            
            //  cell.prepareCell(filter:self.filter.arrayGradient[indexPath.row])
             return cell
 

@@ -68,11 +68,9 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        for name in  ApplyFilter.allValues {
-            let obj = GradientfilterDAO(name: "\(name)")
-            images.append(obj)
+        DispatchQueue.main.async {
+           self.prepareGradientOption()
         }
-        
     }
     
     func prepareNavigation() {
@@ -97,6 +95,27 @@ class FilterViewController: UIViewController {
     
     
 
+    
+    func prepareGradientOption(){
+        let group = DispatchGroup()
+        self.images.removeAll()
+        for name in  ApplyFilter.allValues {
+            group.enter()
+           
+            self.filterManager.applyFilter(filterName: name.rawValue, image: self.image!) { (originalImage, previewImage) in
+                
+                let objImage = GradientfilterDAO(name: "\(name)")
+                objImage.imgOriginal = originalImage!
+                objImage.imgPreview = previewImage!
+                objImage.isFileRecieved  = true
+                self.images.append(objImage)
+                group.leave()
+        }
+    }
+     group.notify(queue: .main, execute: {
+           print("converted")
+        })
+    }
     /*
     // MARK: - Navigation
 

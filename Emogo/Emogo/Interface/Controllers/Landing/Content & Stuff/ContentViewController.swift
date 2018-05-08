@@ -384,7 +384,7 @@ class ContentViewController: UIViewController {
         if self.seletedImage.isDelete == false {
             self.btnDelete.isHidden = true
         }else {
-            self.btnDelete.isHidden = false
+            self.btnDelete.isHidden = true
         }
         isAddStream = self.seletedImage.isShowAddStream
         if self.isAddStream {
@@ -524,7 +524,8 @@ class ContentViewController: UIViewController {
         }
  */
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
-
+        self.btnDelete.isHidden = true
+        self.btnEdit.isHidden = true
     }
     
 

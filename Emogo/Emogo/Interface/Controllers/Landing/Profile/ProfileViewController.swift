@@ -308,6 +308,7 @@ class ProfileViewController: UIViewController {
             self.selectedType = .All
         }
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        self.lblNOResult.isHidden = true
         if array.count == 0  {
             HUDManager.sharedInstance.showHUD()
             self.profileCollectionView.es.resetNoMoreData()
@@ -777,10 +778,14 @@ class ProfileViewController: UIViewController {
             }
             
             self.lblNOResult.isHidden = true
-            if ContentList.sharedInstance.arrayStuff.count == 0 {
+            self.btnNext.isHidden = false
+            self.btnNext.isUserInteractionEnabled = false
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
+                self.btnNext.isHidden = true
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
@@ -1097,12 +1102,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if currentMenu == .stuff {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            let content = array[indexPath.row]
             if content.isAdd {
                 btnActionForAddContent()
             }else {
                 isEdited = true
-                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
                 if ContentList.sharedInstance.arrayContent.count != 0 {
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
