@@ -307,7 +307,15 @@ class ProfileViewController: UIViewController {
         default:
             self.selectedType = .All
         }
+        ContentList.sharedInstance.arrayContent.removeAll()
+        for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+            let obj = ContentList.sharedInstance.arrayStuff[i]
+            obj.isSelected = false
+            ContentList.sharedInstance.arrayStuff[i] = obj
+        }
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        self.lblNOResult.isHidden = true
+        self.btnNext.isHidden = true
         if array.count == 0  {
             HUDManager.sharedInstance.showHUD()
             self.profileCollectionView.es.resetNoMoreData()
@@ -499,6 +507,7 @@ class ProfileViewController: UIViewController {
         self.navigationController?.pushAsPresent(viewController: obj)
     }
     @IBAction func btnActionNext(_ sender: Any) {
+
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
@@ -511,9 +520,12 @@ class ProfileViewController: UIViewController {
         let index   =   button.tag
         let indexPath   =   IndexPath(item: index, section: 0)
         if let cell = self.profileCollectionView.cellForItem(at: indexPath) {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            let content = array[indexPath.row]
             content.isSelected = !content.isSelected
-            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
+//            if let mainIndex =  ContentList.sharedInstance.arrayStuff.index(where: {$0.contentID.trim() == content.contentID.trim() && $0.stuffType == self.selectedType }) {
+//                ContentList.sharedInstance.arrayStuff[mainIndex] = content
+//            }
             if content.isSelected {
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
@@ -532,14 +544,15 @@ class ProfileViewController: UIViewController {
             if obj.isSelected  {
                 ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
             }
+            
         }
         
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
-            btnNext.isUserInteractionEnabled = true
+            btnNext.isHidden = false
         }else {
-            btnNext.isUserInteractionEnabled = false
+            btnNext.isHidden = true
         }
         
     }
@@ -777,10 +790,14 @@ class ProfileViewController: UIViewController {
             }
             
             self.lblNOResult.isHidden = true
-            if ContentList.sharedInstance.arrayStuff.count == 0 {
+            self.btnNext.isHidden = false
+            self.btnNext.isHidden = true
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
+                self.btnNext.isHidden = true
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
@@ -1097,12 +1114,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if currentMenu == .stuff {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            let content = array[indexPath.row]
             if content.isAdd {
                 btnActionForAddContent()
             }else {
                 isEdited = true
-                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
                 if ContentList.sharedInstance.arrayContent.count != 0 {
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController

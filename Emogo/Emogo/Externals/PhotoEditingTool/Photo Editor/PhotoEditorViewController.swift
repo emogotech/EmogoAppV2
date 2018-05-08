@@ -154,10 +154,10 @@ class PhotoEditorViewController: UIViewController {
     
     func prepareNavigationBar(){
       
-        self.navigationController?.isNavigationBarHidden = false
+    self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.barTintColor = UIColor.clear
+        self.navigationController?.view.backgroundColor = .clear
        self.prepareNavigationButton(isEditing: false)
     }
     

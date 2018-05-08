@@ -12,7 +12,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.isGradientFilter {
-            return  self.images.count
+            return  images.count
         }else {
             return  self.filter.arrayMenu.count
         }
@@ -22,12 +22,14 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
-            cell.prepareCellData(filter: self.images[indexPath.row])
+            
+            let objImage = images[indexPath.row]
+            cell.prepareCellData(filter: objImage)
            //  cell.prepareCell(filter:self.filter.arrayGradient[indexPath.row])
             return cell
 
         }else {
-            let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "filterCell", for: indexPath) as! FilterCell
+            let cell  = filterCollectionView.dequeueReusableCell(withReuseIdentifier: "filterCell", for: indexPath) as! FilterCell
             cell.prepareCell(filter:self.filter.arrayMenu[indexPath.row])
             return cell
         }
@@ -44,14 +46,4 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         }
     }
  
-}
-
-extension FilterViewController:FilterManagerDelegate {
-    
-    func processImage(images: [GradientfilterDAO]) {
-        self.images = images
-        self.gradientCollectionView.reloadData()
-    }
-    
-    
 }

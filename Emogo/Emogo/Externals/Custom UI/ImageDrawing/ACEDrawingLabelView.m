@@ -130,6 +130,7 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
         self.labelTextField.tintColor = [UIColor redColor];
         self.labelTextField.textColor = [UIColor whiteColor];
         self.labelTextField.text = @"";
+        self.labelTextField.textAlignment = NSTextAlignmentCenter;
         [self.labelTextField addTarget:self action:@selector(textFieldEditingChanged:) forControlEvents:UIControlEventEditingChanged];
         
         self.border = [CAShapeLayer layer];

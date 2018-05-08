@@ -43,6 +43,7 @@ class FilterViewController: UIViewController {
     public var image: UIImage?
     var imageToFilter:UIImage?
     var images = [GradientfilterDAO]()
+    var filterManager = FilterManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,17 +59,17 @@ class FilterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setImageView(image: image!)
-        
+        self.prepareGradientOption()
     }
     
     func prepareLayout(){
-        filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
-        filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
+      //  filterCollectionView.register(UINib(nibName: "FilterCell", bundle: nil), forCellWithReuseIdentifier: "filterCell")
+      //  filterCollectionView.register(UINib(nibName: "FilterGradientCell", bundle: nil), forCellWithReuseIdentifier: "filterGradientCell")
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        self.prepareGradientImages()
     }
+    
     
     func prepareNavigation() {
        
@@ -90,18 +91,29 @@ class FilterViewController: UIViewController {
         self.canvasView.center = self.view.center
     }
     
-    func prepareGradientImages(){
-        self.isGradientFilter = true
-        DispatchQueue.main.async {
-            let filter  = FilterManager(image: self.image!)
-            filter.filterDelegate = self
-        }
-    }
-   
-   
-    
     
 
+    
+    func prepareGradientOption(){
+        let group = DispatchGroup()
+        self.images.removeAll()
+        for name in  ApplyFilter.allValues {
+            group.enter()
+           
+            self.filterManager.applyFilter(filterName: name.rawValue, image: self.image!) { (originalImage, previewImage) in
+                
+                let objImage = GradientfilterDAO(name: "\(name)")
+                objImage.imgOriginal = originalImage!
+                objImage.imgPreview = previewImage!
+                objImage.isFileRecieved  = true
+                self.images.append(objImage)
+                group.leave()
+        }
+    }
+     group.notify(queue: .main, execute: {
+           print("converted")
+        })
+    }
     /*
     // MARK: - Navigation
 

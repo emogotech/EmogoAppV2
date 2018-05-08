@@ -273,7 +273,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
             self.navigationItem.leftBarButtonItem  = nil
-            let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
+            let button = self.getShadowButton(Alignment: 1)
+            button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+            button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
+            let btnBack = UIBarButtonItem.init(customView: button)
             self.navigationItem.leftBarButtonItem = btnBack
             let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext

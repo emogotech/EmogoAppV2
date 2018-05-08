@@ -16,8 +16,10 @@ class GradientFilterCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     func prepareCellData(filter:GradientfilterDAO) {
-        self.lblName.text = filter.name
-        self.imgPreview.image = filter.imgPreview
+        DispatchQueue.main.async {
+            self.lblName.text = filter.name
+            self.imgPreview.image = filter.imgPreview
+        }
     }
 }
 
@@ -26,12 +28,11 @@ class GradientFilterCell: UICollectionViewCell {
 
 class GradientfilterDAO {
     
-    var imgPreview:UIImage?
-    var imgOriginal:UIImage?
+    var imgPreview:UIImage = #imageLiteral(resourceName: "stream-card-placeholder")
+    var imgOriginal:UIImage = #imageLiteral(resourceName: "stream-card-placeholder")
+    var isFileRecieved:Bool! = false
     var name:String!
-    init(name:String,imgPreview:UIImage? = nil, imgOriginal:UIImage? = nil ) {
-        self.imgPreview = imgPreview
-        self.imgOriginal  = imgOriginal
+    init(name:String ) {
         self.name = name
     }
 }
