@@ -370,11 +370,14 @@ class PhotoEditorViewController: UIViewController {
     @objc func actionForBackButton() {
         self.dismiss(animated: true, completion: nil)
     }
+    
     @objc func actionForSaveButton() {
         if self.selectedFeature == .Sticker {
             let img = self.baseImageView.toImage()
             self.baseImageView.image = img
-            self.baseImageView.subviews[0].removeFromSuperview()
+            if self.baseImageView.subviews.count > 0 {
+                self.baseImageView.subviews[0].removeFromSuperview()
+            }
         }else {
             self.drawingView.prepareForSnapshot()
             let baseImage: UIImage = baseImageView.image!
