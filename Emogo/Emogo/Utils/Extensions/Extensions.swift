@@ -520,6 +520,36 @@ extension UIViewController {
         transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseInEaseOut)
         view.window!.layer.add(transition, forKey: kCATransition)
     }
+    func getShadowButton(Alignment:Int) -> UIButton {
+        let button = UIButton(type: .custom)
+       // button.backgroundColor = .red
+        button.frame = CGRect(x: 0, y: 0, width: 50, height: 40)
+        button.layer.masksToBounds = false
+      //  button.layer.cornerRadius = 10
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)//CGSize(width: 1.5, height: 1.5)
+        button.layer.shadowRadius = 0.5
+        button.layer.shadowOpacity = 1.0
+        button.layer.shadowColor = UIColor.black.cgColor
+        switch Alignment {
+        case 0:
+            button.contentHorizontalAlignment  = .left
+            button.contentVerticalAlignment = .bottom
+            break
+        case 1:
+            button.contentHorizontalAlignment  = .right
+            button.contentVerticalAlignment = .bottom
+            break
+        case 2:
+            button.contentHorizontalAlignment  = .right
+            button.contentVerticalAlignment = .bottom
+//            button.contentHorizontalAlignment  = .center
+//            button.contentVerticalAlignment = .bottom
+            break
+        default:
+            break
+        }
+        return button
+    }
 }
 
 

@@ -38,6 +38,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var consBottomBtnShare: NSLayoutConstraint!
     @IBOutlet weak var consBottomImgUser: NSLayoutConstraint!
     @IBOutlet weak var viewDescription: UIView!
+    
 
     
     var currentIndex:Int!
@@ -48,7 +49,8 @@ class ContentViewController: UIViewController {
     var isEditngContent:Bool! = false
     var isForEditOnly:Bool!
     var isFromAll:String?
-    
+    var isMoreTapped:Bool! = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -175,18 +177,6 @@ class ContentViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    func getShadowButton() -> UIButton {
-        let button = UIButton(type: .custom)
-        
-        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        button.layer.masksToBounds = false
-        button.layer.cornerRadius = 10
-        button.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)//CGSize(width: 1.5, height: 1.5)
-        button.layer.shadowRadius = 0.5
-        button.layer.shadowOpacity = 1.0
-        button.layer.shadowColor = UIColor.black.cgColor
-        return button
-    }
     
     func prepareNavBarButtons(){
         
@@ -205,7 +195,7 @@ class ContentViewController: UIViewController {
         
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBackAction(_:)))
         
-        let button = self.getShadowButton()
+        let button = self.getShadowButton(Alignment: 0)
        // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBackAction(_:)), for: .touchUpInside)
@@ -397,7 +387,7 @@ class ContentViewController: UIViewController {
             kHeight.constant = 0.0
             self.viewOption.isHidden = true
         }else {
-            kHeight.constant = 30.0
+            kHeight.constant = 48.0
             self.viewOption.isHidden = false
         }
         
@@ -431,11 +421,16 @@ class ContentViewController: UIViewController {
         self.imgCover.clipsToBounds = true
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
-        
+        self.viewOption.addBlurView()
         self.btnEdit.isHidden = true
         self.btnDelete.isHidden = true
         self.btnFlagIcon.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
+        self.imgUser.image = #imageLiteral(resourceName: "demo_images")
+        if !seletedImage.createrImage.trim().isEmpty {
+            self.imgUser.setImageWithResizeURL(seletedImage.createrImage.trim())
+        }
+        self.btnMore.isHidden = true
     }
     
     
@@ -451,7 +446,7 @@ class ContentViewController: UIViewController {
                 if selected.type == .image {
 //                    let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
 
-                    let buttonEdit = self.getShadowButton()
+                    let buttonEdit = self.getShadowButton(Alignment: 1)
                     //buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
                    buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
                     buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
@@ -466,7 +461,7 @@ class ContentViewController: UIViewController {
 //                    let btnFlag = UIBarButtonItem(image: imgFlag, style: .plain, target: self, action: #selector(self.btnShowReportListAction(_:)))
                     
                     
-                    let buttonFlag = self.getShadowButton()
+                    let buttonFlag = self.getShadowButton(Alignment: 2)
                   //  buttonFlag.setBackgroundImage(#imageLiteral(resourceName: "content_flag"), for: .normal)
                     //buttonFlag.setImage(#imageLiteral(resourceName: "content_flag"), for: .normal)
                     buttonFlag.setImage(#imageLiteral(resourceName: "more icon"), for: .normal)
@@ -482,7 +477,7 @@ class ContentViewController: UIViewController {
 //                let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
                 
                 
-                let buttonLink = self.getShadowButton()
+                let buttonLink = self.getShadowButton(Alignment: 1)
                 buttonLink.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                 let btnLink = UIBarButtonItem.init(customView: buttonLink)
@@ -495,7 +490,7 @@ class ContentViewController: UIViewController {
 //                let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
 //                let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
                 
-                let buttonLink = self.getShadowButton()
+                let buttonLink = self.getShadowButton(Alignment: 1)
                // buttonLink.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
                 buttonLink.setImage(#imageLiteral(resourceName: "delete icon_new"), for: .normal)
                 buttonLink.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
@@ -703,6 +698,13 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnMoreAction(_ sender: Any) {
+        isMoreTapped = !isMoreTapped
+        if isMoreTapped {
+            txtDescription.textContainer.maximumNumberOfLines = 3
+        }else {
+            txtDescription.textContainer.maximumNumberOfLines = 3
+
+        }
     }
     
     

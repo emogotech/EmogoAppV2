@@ -538,9 +538,9 @@ class ProfileViewController: UIViewController {
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
-            btnNext.isUserInteractionEnabled = true
+            btnNext.isHidden = false
         }else {
-            btnNext.isUserInteractionEnabled = false
+            btnNext.isHidden = true
         }
         
     }
@@ -779,7 +779,7 @@ class ProfileViewController: UIViewController {
             
             self.lblNOResult.isHidden = true
             self.btnNext.isHidden = false
-            self.btnNext.isUserInteractionEnabled = false
+            self.btnNext.isHidden = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"

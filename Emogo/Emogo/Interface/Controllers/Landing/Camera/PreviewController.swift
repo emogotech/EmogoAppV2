@@ -267,10 +267,8 @@ class PreviewController: UIViewController {
 //        useButton.layer.shadowColor = [UIColor blackColor].CGColor;
 //        useButton.backgroundColor = [UIColor redColor];
         
-
-
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
-        let button = self.getShadowButton()
+        let button = self.getShadowButton(Alignment: 0)
        // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
         button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
@@ -278,18 +276,7 @@ class PreviewController: UIViewController {
         self.navigationItem.leftBarButtonItem = btnBack
     }
     
-    func getShadowButton() -> UIButton {
-        let button = UIButton(type: .custom)
-        
-        button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        button.layer.masksToBounds = false
-        button.layer.cornerRadius = 10
-        button.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)//CGSize(width: 1.5, height: 1.5)
-        button.layer.shadowRadius = 0.5
-        button.layer.shadowOpacity = 1.0
-        button.layer.shadowColor = UIColor.black.cgColor
-        return button
-    }
+   
     
     func changeButtonAccordingSwipe(selected:ContentDAO){
         //editing_cross_icon
@@ -300,7 +287,7 @@ class PreviewController: UIViewController {
 //        var imgEdit = #imageLiteral(resourceName: "edit_icon")
 //        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
-        let buttonEdit = self.getShadowButton()
+        let buttonEdit = self.getShadowButton(Alignment: 1)
         buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
       //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
@@ -311,7 +298,7 @@ class PreviewController: UIViewController {
 //        let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
 //        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
 
-        let buttonDel = self.getShadowButton()
+        let buttonDel = self.getShadowButton(Alignment: 2)
       //  buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
         buttonDel.setImage(#imageLiteral(resourceName: "delete icon_new"), for: .normal)
         buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
@@ -327,8 +314,8 @@ class PreviewController: UIViewController {
 //                imgEdit = #imageLiteral(resourceName: "change_link")
 //                btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
 
-                let buttonDel = self.getShadowButton()
-                buttonDel.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                let buttonDel = self.getShadowButton(Alignment: 1)
+                buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
                 buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                 let btnEdit = UIBarButtonItem.init(customView: buttonDel)
                 
@@ -342,8 +329,8 @@ class PreviewController: UIViewController {
                 }
                 if selected.type == .link {
 
-                    let buttonDel = self.getShadowButton()
-                    buttonDel.setBackgroundImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+                    let buttonDel = self.getShadowButton(Alignment: 1)
+                    buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
                     buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                     let btnEdit = UIBarButtonItem.init(customView: buttonDel)
                     arrButtons.append(btnEdit)
@@ -478,7 +465,9 @@ class PreviewController: UIViewController {
         self.btnEdit.isHidden = true
         self.btnDelete.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
-    }
+        self.txtTitleImage.isHidden = true
+        
+     }
     
     
     func hideControls(isHide:Bool) {

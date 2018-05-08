@@ -125,6 +125,7 @@ class ContentDAO{
     var height:Int! = 300
     var color:String! = ""
     var stuffType:StuffType! = .All
+    var createrImage:String! = ""
 
     var imgPreview:UIImage? = nil {
         
@@ -143,6 +144,10 @@ class ContentDAO{
     
 
     init(contentData:[String:Any]) {
+        
+        if let obj  = contentData["user_image"] {
+            self.createrImage = obj as! String
+        }
         if let obj  = contentData["name"] {
             self.name = obj as! String
         }

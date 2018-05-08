@@ -68,8 +68,8 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        DispatchQueue.main.async {
-           self.prepareGradientOption()
+        DispatchQueue.main.sync {
+            self.prepareGradientOption()
         }
     }
     

@@ -49,10 +49,6 @@ class FilterManager: NSObject {
     fileprivate var filterType:ApplyFilter!
     fileprivate let context = CIContext(options: nil)
     
-    typealias SuccessHandler = (_ originalImage: UIImage?, _ previewImage: UIImage?) -> ()
-    
-    var ResultHandler:SuccessHandler!
-    
     override init() {
         super.init()
     }
@@ -62,7 +58,6 @@ class FilterManager: NSObject {
         self.image = image
         print(filterName)
        // self.smallImage = self.resizeImage(image: image)
-        self.ResultHandler = completionHandler
         let numbersRange = filterName.rangeOfCharacter(from: .decimalDigits)
         let hasNumbers = (numbersRange != nil)
         let anEnum = ApplyFilter(rawValue: filterName)!
@@ -74,8 +69,10 @@ class FilterManager: NSObject {
         }else if hasNumbers {
             
             if #available(iOS 11.0, *) {
+                DispatchQueue.main.async {
                 StyleArt.shared.process(image: self.image, style: ArtStyle(rawValue: self.filterType.hashValue)!) { (originalImage) in
                     completionHandler(originalImage ?? nil, originalImage ?? nil)
+                }
                 }
             } else {
                 // Fallback on earlier versions
