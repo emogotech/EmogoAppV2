@@ -506,3 +506,16 @@ class UserFollowSerializer(DynamicFieldsModelSerializer):
     def get_is_following(self, ob):
         return False
 
+class CheckContactInEmogoSerializer(serializers.Serializer):
+    """
+    Check contact list exist in Emogo user.
+    """
+    contact_list = serializers.ListField(min_length=1)
+
+    class Meta:
+        fields = ('contact_list',)
+
+    def find_contact_list(self):
+        users = User.objects.all().values_list('username', flat=True)
+        return {contact: (True if contact in users else False) for contact in self.validated_data.get('contact_list')}
+
