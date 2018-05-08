@@ -276,7 +276,7 @@ class UserFollowersAPI(ListAPIView):
     """
     serializer_class = UserFollowSerializer
     authentication_classes = (TokenAuthentication,)
-    queryset = UserFollow.objects.all()
+    queryset = UserFollow.objects.all().order_by('-id')
     filter_class = FollowerFollowingUserFilter
     permission_classes = (IsAuthenticated,)
 

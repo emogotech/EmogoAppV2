@@ -32,10 +32,14 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
     added_by_me = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
     user_profile_id = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     class Meta:
         model = Collaborator
         fields = '__all__'
+
+    def get_user_info(self, obj):
+        return User.objects.filter(is_active=True, username__icontains=str(obj.phone_number))
 
     def get_added_by_me(self, obj):
         if self.context['request'].user == obj.created_by:
@@ -51,8 +55,15 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
         return None
 
     def get_user_profile_id(self, obj):
-        qs = User.objects.filter(is_active=True, username__icontains=str(obj.phone_number))
-        if qs.exists():
+        qs = self.get_user_info(obj)
+        if qs is not None:
             return qs[0].user_data.id
+        else:
+            return None
+
+    def get_name(self, obj):
+        qs = self.get_user_info(obj)
+        if qs is not None:
+            return qs[0].user_data.full_name
         else:
             return None
