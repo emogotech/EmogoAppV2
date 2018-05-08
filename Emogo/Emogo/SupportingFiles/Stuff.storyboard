@@ -1635,33 +1635,33 @@
                                         <rect key="frame" x="108" y="46" width="256" height="45"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" tag="111" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y5n-eB-juX">
-                                                <rect key="frame" x="8" y="0.0" width="85" height="45"/>
+                                                <rect key="frame" x="78" y="0.0" width="85" height="45"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="45" id="YgI-6T-PmC"/>
-                                                    <constraint firstAttribute="width" constant="85" id="hZe-QG-fDR"/>
+                                                    <constraint firstAttribute="height" constant="45" id="I3d-ry-ax9"/>
+                                                    <constraint firstAttribute="width" constant="85" id="KmG-Fc-BaL"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="12"/>
                                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" tag="222" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPd-mg-gR4">
-                                                <rect key="frame" x="107" y="0.0" width="108" height="45"/>
+                                                <rect key="frame" x="167" y="0.0" width="85" height="45"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="45" id="9lR-my-HdE"/>
-                                                    <constraint firstAttribute="width" constant="108" id="HfG-Xy-L04"/>
+                                                    <constraint firstAttribute="height" constant="45" id="5JA-PO-qk4"/>
+                                                    <constraint firstAttribute="width" constant="85" id="y1e-8l-cvj"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="12"/>
                                                 <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="CQf-1Z-Upc"/>
-                                            <constraint firstItem="y5n-eB-juX" firstAttribute="top" secondItem="PKr-Ir-g25" secondAttribute="top" id="HxY-hm-teZ"/>
-                                            <constraint firstItem="y5n-eB-juX" firstAttribute="leading" secondItem="PKr-Ir-g25" secondAttribute="leading" constant="8" id="V57-CR-rx0"/>
-                                            <constraint firstItem="aPd-mg-gR4" firstAttribute="leading" secondItem="y5n-eB-juX" secondAttribute="trailing" constant="14" id="gZT-el-Zwx"/>
-                                            <constraint firstItem="aPd-mg-gR4" firstAttribute="top" secondItem="PKr-Ir-g25" secondAttribute="top" id="u1X-3d-8vp"/>
+                                            <constraint firstAttribute="trailing" secondItem="aPd-mg-gR4" secondAttribute="trailing" constant="4" id="Iwg-2w-nW1"/>
+                                            <constraint firstItem="aPd-mg-gR4" firstAttribute="leading" secondItem="y5n-eB-juX" secondAttribute="trailing" constant="4" id="MEP-BC-4DC"/>
+                                            <constraint firstAttribute="bottom" secondItem="y5n-eB-juX" secondAttribute="bottom" id="VDa-PY-rQ7"/>
+                                            <constraint firstAttribute="bottom" secondItem="aPd-mg-gR4" secondAttribute="bottom" id="i6F-og-1pp"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="uTr-gh-4hZ">
@@ -2177,7 +2177,7 @@
                                     <constraint firstAttribute="width" constant="50" id="Y0c-IL-zuF"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back-circle-icon"/>
+                                <state key="normal" image="back icon_shadow"/>
                                 <connections>
                                     <action selector="btnBackAction:" destination="evI-UO-yab" eventType="touchUpInside" id="hfP-XH-RHP"/>
                                 </connections>
@@ -2192,7 +2192,7 @@
                                             <constraint firstAttribute="width" constant="50" id="gPw-bX-cgo"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="6" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="delete-stream"/>
+                                        <state key="normal" image="delete icon_new"/>
                                         <connections>
                                             <action selector="btnDeleteAction:" destination="evI-UO-yab" eventType="touchUpInside" id="SIC-RR-zyb"/>
                                         </connections>
@@ -2204,7 +2204,7 @@
                                             <constraint firstAttribute="height" constant="50" id="hMG-fZ-2FD"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="edit_icon"/>
+                                        <state key="normal" image="edit icon_new"/>
                                         <connections>
                                             <action selector="btnEditAction:" destination="evI-UO-yab" eventType="touchUpInside" id="dzo-GR-YYq"/>
                                         </connections>
@@ -2248,7 +2248,7 @@
                                     <constraint firstAttribute="height" constant="50" id="6vw-f1-RI7"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="2" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="content_flag"/>
+                                <state key="normal" image="more icon"/>
                                 <connections>
                                     <action selector="btnShowReportListAction:" destination="evI-UO-yab" eventType="touchUpInside" id="Lyw-vd-4Rw"/>
                                 </connections>
@@ -2356,7 +2356,7 @@
                                             <constraint firstAttribute="width" constant="130" id="znI-Gq-9w5"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                        <state key="normal" image="Add_to_Emogo">
+                                        <state key="normal" image="add to emogo btn">
                                             <color key="titleColor" red="0.14859640599999999" green="0.67967122790000001" blue="0.95202726130000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -3741,7 +3741,7 @@ Cg
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wDL-7y-5x4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <searchDisplayController id="Yw7-c8-RLW"/>
             </objects>
-            <point key="canvasLocation" x="2000.8" y="251.42428785607197"/>
+            <point key="canvasLocation" x="2025" y="251"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="evw-nX-wT8">
@@ -3862,21 +3862,20 @@ Cg
         </scene>
     </scenes>
     <resources>
-        <image name="Add_to_Emogo" width="128" height="30"/>
         <image name="Oval" width="90" height="88"/>
         <image name="Save" width="17" height="23"/>
+        <image name="add to emogo btn" width="114" height="30"/>
         <image name="add_content_icon" width="147" height="147"/>
-        <image name="back-circle-icon" width="24" height="24"/>
+        <image name="back icon_shadow" width="20" height="32"/>
         <image name="closeButton" width="44" height="44"/>
         <image name="collabs_icon" width="41" height="35"/>
-        <image name="content_flag" width="30" height="30"/>
         <image name="content_next_btn" width="160" height="53"/>
-        <image name="delete-stream" width="31" height="34"/>
+        <image name="delete icon_new" width="33" height="37"/>
         <image name="demo_images" width="48" height="48"/>
         <image name="done_button-uncheck" width="375" height="75"/>
         <image name="edit avtar icon" width="29" height="27"/>
+        <image name="edit icon_new" width="34" height="34"/>
         <image name="editProfile" width="128" height="28"/>
-        <image name="edit_icon" width="34" height="34"/>
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="follow_btn" width="100" height="30"/>
         <image name="following_button" width="100" height="28"/>
@@ -3886,6 +3885,7 @@ Cg
         <image name="location icon" width="15" height="15"/>
         <image name="lock_icon" width="9" height="13"/>
         <image name="messages_icon" width="43" height="37"/>
+        <image name="more icon" width="38" height="18"/>
         <image name="more_icon" width="27" height="8"/>
         <image name="play_button" width="30" height="30"/>
         <image name="save btn" width="173" height="62"/>

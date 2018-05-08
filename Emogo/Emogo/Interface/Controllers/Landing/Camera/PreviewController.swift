@@ -271,7 +271,8 @@ class PreviewController: UIViewController {
 
 //        let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "back-circle-icon"), style: .plain, target: self, action: #selector(self.btnBack))
         let button = self.getShadowButton()
-        button.setBackgroundImage(#imageLiteral(resourceName: "back_new"), for: .normal)
+       // button.setBackgroundImage(#imageLiteral(resourceName: "back-circle-icon"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
         button.addTarget(self, action: #selector(self.btnBack), for: .touchUpInside)
         let btnBack = UIBarButtonItem.init(customView: button)
         self.navigationItem.leftBarButtonItem = btnBack
@@ -300,7 +301,8 @@ class PreviewController: UIViewController {
 //        var btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
         
         let buttonEdit = self.getShadowButton()
-        buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
+        buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
+      //  buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
         buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
         let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
         
@@ -310,7 +312,8 @@ class PreviewController: UIViewController {
 //        let btnDelete = UIBarButtonItem(image: imgDelete, style: .plain, target: self, action: #selector(self.btnDeleteAction(_:)))
 
         let buttonDel = self.getShadowButton()
-        buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
+      //  buttonDel.setBackgroundImage(#imageLiteral(resourceName: "delete_new"), for: .normal)
+        buttonDel.setImage(#imageLiteral(resourceName: "delete icon_new"), for: .normal)
         buttonDel.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
         let btnDelete = UIBarButtonItem.init(customView: buttonDel)
         

@@ -338,7 +338,7 @@
                                     <constraint firstAttribute="height" constant="50" id="ejR-4C-3w3"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back_new"/>
+                                <state key="normal" image="back icon_shadow"/>
                                 <connections>
                                     <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="y34-cl-nr8"/>
                                     <action selector="btnBackAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="OzY-Wq-DhN"/>
@@ -354,7 +354,7 @@
                                             <constraint firstAttribute="width" constant="50" id="OhO-mc-5as"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="delete_new"/>
+                                        <state key="normal" image="delete icon_new"/>
                                         <connections>
                                             <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="mv1-ON-3xA"/>
                                             <action selector="btnDeleteAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="p2Z-PJ-8rz"/>
@@ -367,7 +367,7 @@
                                             <constraint firstAttribute="width" constant="50" id="zu8-Mx-l72"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="edit_icon"/>
+                                        <state key="normal" image="edit icon_new"/>
                                         <connections>
                                             <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="iSs-zX-bZ7"/>
                                             <action selector="btnEditAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="uMi-Fl-u6d"/>
@@ -576,7 +576,7 @@
                                             <constraint firstAttribute="height" constant="30" id="Jjr-LF-ZKa"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
-                                        <state key="normal" image="Add_to_Emogo">
+                                        <state key="normal" image="add to emogo btn">
                                             <color key="titleColor" red="0.14859640598297119" green="0.67967122793197632" blue="0.95202726125717163" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -2913,15 +2913,15 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Add_to_Emogo" width="128" height="30"/>
         <image name="Save" width="17" height="23"/>
+        <image name="add to emogo btn" width="114" height="30"/>
         <image name="add-stream-cover-image-placeholder" width="375" height="179"/>
         <image name="add_content_icon" width="147" height="147"/>
         <image name="add_galery" width="23" height="23"/>
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_to_stream" width="31" height="31"/>
+        <image name="back icon_shadow" width="20" height="32"/>
         <image name="back-circle-icon" width="24" height="24"/>
-        <image name="back_new" width="13" height="24"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="browse_streams" width="182" height="53"/>
         <image name="camera_icon_cover_images" width="131" height="131"/>
@@ -2931,9 +2931,9 @@
         <image name="click_pick" width="63" height="63"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="cross-icon" width="17" height="17"/>
-        <image name="delete_new" width="19" height="23"/>
+        <image name="delete icon_new" width="33" height="37"/>
         <image name="done_button" width="160" height="53"/>
-        <image name="edit_icon" width="34" height="34"/>
+        <image name="edit icon_new" width="34" height="34"/>
         <image name="emogo_stream" width="182" height="53"/>
         <image name="flash-icon" width="27" height="28"/>
         <image name="get started btn" width="215" height="51"/>
