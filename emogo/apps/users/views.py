@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 # serializer
 from emogo.apps.users.serializers import UserSerializer, UserOtpSerializer, UserDetailSerializer, UserLoginSerializer, \
     UserResendOtpSerializer, UserProfileSerializer, GetTopStreamSerializer, VerifyOtpLoginSerializer, UserFollowSerializer, \
-    UserListFollowerFollowingSerializer
+    UserListFollowerFollowingSerializer, CheckContactInEmogoSerializer
 from emogo.apps.stream.serializers import StreamSerializer, ViewStreamSerializer
 # constants
 from emogo.constants import messages
@@ -163,6 +163,11 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
                 'profile_stream__stream_like_dislike_status',
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
                 to_attr='total_like_dislike_data'
+            ),
+            Prefetch(
+                'profile_stream__collaborator_list',
+                queryset=Collaborator.objects.all(),
+                to_attr='profile_stream_collaborator_list'
             ),
         )
         if qs.__len__() > 0:
@@ -381,7 +386,7 @@ class UserLikedSteams(ListAPIView):
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            ))
+            )).order_by('-upd')
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -553,3 +558,20 @@ class UserFollowAPI(CreateAPIView, DestroyAPIView):
         obj, created = UserFollow.objects.get_or_create(follower=self.request.user,
                                                         following_id=self.request.data.get('following'))
         return obj
+
+
+class CheckContactInEmogo(APIView):
+    """
+    Check contact list in emogo user.
+    """
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = CheckContactInEmogoSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            data = serializer.find_contact_list()
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
+        else:
+            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)

@@ -24,13 +24,14 @@ class CollaboratorAutoFixture(AutoFixture):
 
     class Values(object):
         name = CustomNameGenerator(name_prefix='Collaborator')
-        phone_number = PhoneNumberGenerator(country_code='+91')
+        phone_number = PhoneNumberGenerator(country_code='+1')
         # permission_choice = [True, False]
         # can_add_content = random.choice(permission_choice)
-        # can_add_people = random.choice(permission_choice)
+        status = 'Active'
         image = None
 
     # don't follow permissions and groups
+    follow_fk = True
     follow_m2m = False
 
 autofixture.register(Collaborator, CollaboratorAutoFixture, fail_silently=True)
