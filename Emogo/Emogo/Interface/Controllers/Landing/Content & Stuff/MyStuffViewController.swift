@@ -15,11 +15,14 @@ class MyStuffViewController: UIViewController {
     
     @IBOutlet weak var stuffCollectionView: UICollectionView!
     @IBOutlet weak var btnNext: UIButton!
-
+    @IBOutlet weak var segmentControl: HMSegmentedControl!
     
     // MARK: - Variables
-
-
+    
+   
+    var selectedType:StuffType! = StuffType.All
+    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    
     // MARK: - Override Functions
 
     override func viewDidLoad() {
@@ -66,6 +69,23 @@ class MyStuffViewController: UIViewController {
         
         // Add the waterfall layout to your collection view
         self.stuffCollectionView.collectionViewLayout = layout
+     
+        // Segment control Configure
+        
+        segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
+        segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+            self.updateStuffList(index: index)
+        }
+        
+        segmentControl.selectionIndicatorHeight = 1.0
+        segmentControl.backgroundColor = UIColor.white
+        segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentControl.selectionStyle = .textWidthStripe
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.selectionIndicatorLocation = .down
+        segmentControl.shouldAnimateUserSelection = false
         
         self.configureLoadMoreAndRefresh()
         
@@ -199,6 +219,51 @@ class MyStuffViewController: UIViewController {
             }
         }
     }
+    
+    
+    func updateStuffList(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = .All
+            break
+        case 1:
+            self.selectedType = StuffType.Picture
+            break
+        case 2:
+            self.selectedType = StuffType.Video
+            break
+        case 3:
+            self.selectedType = StuffType.Links
+            break
+        case 4:
+            self.selectedType = StuffType.Notes
+            break
+        case 5:
+            self.selectedType = StuffType.Giphy
+            break
+        default:
+            self.selectedType = .All
+        }
+        ContentList.sharedInstance.arrayContent.removeAll()
+        for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+            let obj = ContentList.sharedInstance.arrayStuff[i]
+            obj.isSelected = false
+            ContentList.sharedInstance.arrayStuff[i] = obj
+        }
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+       
+        self.btnNext.isHidden = true
+        if array.count == 0  {
+            HUDManager.sharedInstance.showHUD()
+            self.stuffCollectionView.es.resetNoMoreData()
+            self.getMyStuff(type: .start)
+        }
+        self.stuffCollectionView.reloadData()
+    }
+    
+  
+    
+    
 
     /*
     // MARK: - Navigation
