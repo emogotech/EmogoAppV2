@@ -919,12 +919,12 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         self.setupButtonWhileRecording(isAddButton: false)
     }
     func unableToOpenCamera(){
-        if self.isDismiss != nil {
-            self.dismiss(animated: true, completion: nil)
-            return
-        }else {
-            self.navigationController?.popNormal()
-        }
+//        if self.isDismiss != nil {
+//            self.dismiss(animated: true, completion: nil)
+//            return
+//        }else {
+//            self.navigationController?.popNormal()
+//        }
     }
 }
 

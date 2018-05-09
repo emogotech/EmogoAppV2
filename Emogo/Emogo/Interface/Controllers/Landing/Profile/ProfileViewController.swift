@@ -229,16 +229,19 @@ class ProfileViewController: UIViewController {
                 }
                 self.lblFollowing.isHidden = false
                 self.lblFollowers.isHidden = false
+                
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty {
-                   self.lblFollowers.text =  UserDAO.sharedInstance.user.following.trim()
-                   self.lblFollowers.isHidden = false
+                    self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
+                    self.lblFollowers.isHidden = false
                 }
-                if UserDAO.sharedInstance.user.following.trim().isEmpty {
-                   self.lblFollowing.isHidden = true
+               else if UserDAO.sharedInstance.user.following.trim().isEmpty {
+                   self.lblFollowing.text = UserDAO.sharedInstance.user.followers.trim()
+                   self.lblFollowing.isHidden = false
+                    
+                }else{
+                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
                 }
-                self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
-                self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
-               
                 //print(UserDAO.sharedInstance.user.userImage.trim())
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
@@ -1088,6 +1091,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             headerView.imgCover.layer.cornerRadius = 5.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
+            headerView.btnEdit.isHidden = false
+            headerView.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             return headerView
             
         default:
