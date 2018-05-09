@@ -38,7 +38,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var consBottomBtnShare: NSLayoutConstraint!
     @IBOutlet weak var consBottomImgUser: NSLayoutConstraint!
     @IBOutlet weak var viewDescription: UIView!
-    
+    @IBOutlet weak var viewContainer: UIView!
+
 
     
     var currentIndex:Int!
@@ -74,11 +75,7 @@ class ContentViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.viewDescription.addBlurView()
-    }
-    
+   
     // MARK: - PrepareLayout
     
     func prepareLayout() {
@@ -421,7 +418,7 @@ class ContentViewController: UIViewController {
         self.imgCover.clipsToBounds = true
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
-        self.viewOption.addBlurView()
+        self.viewContainer.addBlurView()
         self.btnEdit.isHidden = true
         self.btnDelete.isHidden = true
         self.btnFlagIcon.isHidden = true
