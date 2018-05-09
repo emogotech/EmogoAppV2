@@ -339,7 +339,7 @@ class MyStuffViewController: UIViewController {
             ContentList.sharedInstance.arrayStuff[i] = obj
         }
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-       
+        self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true
         if array.count == 0  {
            

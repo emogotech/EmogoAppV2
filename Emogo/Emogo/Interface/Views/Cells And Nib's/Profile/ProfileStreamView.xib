@@ -24,6 +24,14 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uk0-Pj-VVK">
                     <rect key="frame" x="7" y="6" width="306" height="174"/>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ANb-Ix-v28">
+                    <rect key="frame" x="281" y="18" width="21" height="22"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="21" id="QWc-XF-V2M"/>
+                        <constraint firstAttribute="height" constant="22" id="vxQ-pS-sW1"/>
+                    </constraints>
+                    <state key="normal" image="edit_icon_card"/>
+                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval" translatesAutoresizingMaskIntoConstraints="NO" id="dlc-mY-dtk" customClass="NZCircularImageView">
                     <rect key="frame" x="115" y="51" width="90" height="88"/>
                     <constraints>
@@ -60,10 +68,13 @@
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="uk0-Pj-VVK" secondAttribute="bottom" constant="2" id="XjV-oO-zeS"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="6PO-hz-kZt" secondAttribute="trailing" constant="7" id="Yag-3C-aUh"/>
                 <constraint firstItem="uk0-Pj-VVK" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="6" id="YkL-GW-Sa9"/>
+                <constraint firstItem="ANb-Ix-v28" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" constant="18" id="gbL-7M-sMK"/>
                 <constraint firstItem="6PO-hz-kZt" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="7" id="gqa-ud-HtW"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="ANb-Ix-v28" secondAttribute="trailing" constant="18" id="huy-dZ-FZc"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
+                <outlet property="btnEdit" destination="ANb-Ix-v28" id="qhN-lo-w4p"/>
                 <outlet property="imgCover" destination="uk0-Pj-VVK" id="Zu1-I9-lsW"/>
                 <outlet property="imgUser" destination="dlc-mY-dtk" id="Z6F-iv-ONT"/>
                 <outlet property="lblTitle" destination="MG3-Ew-L6g" id="Hwc-wc-bl0"/>
@@ -74,5 +85,6 @@
     </objects>
     <resources>
         <image name="Oval" width="90" height="88"/>
+        <image name="edit_icon_card" width="21" height="21"/>
     </resources>
 </document>
