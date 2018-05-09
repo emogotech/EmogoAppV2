@@ -554,12 +554,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "547553588.503646"
+            timestampString = "547561354.181129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "512"
             endingLineNumber = "512"
-            landmarkName = "btnActionNext(_:)"
+            landmarkName = "btnActionProfileUpdate(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

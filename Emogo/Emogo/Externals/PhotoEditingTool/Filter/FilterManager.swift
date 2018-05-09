@@ -34,7 +34,7 @@ enum ApplyFilter:String {
     case Gradient5 = "filter_gradient_5.png"
     case Gradient6 = "filter_gradient_6.png"
     case Gradient7 = "filter_gradient_7.png"
-
+    
     
     static let allValues = [Mosaic, scream, Muse,Udanie,Candy,Feathers,Normal,Chrome,Fade,Instant,Mono,Noir,Process,Tonal,Transfer,Tone,Linear,Gradient1,Gradient2,Gradient3,Gradient4,Gradient5,Gradient6,Gradient7]
     
@@ -48,6 +48,21 @@ class FilterManager: NSObject {
     fileprivate var filterType:ApplyFilter!
     fileprivate let context = CIContext(options: nil)
     
+    
+    private let filters: [PMFilter] = [
+        MosaicFilter(),
+        TheScreamFilter(),
+        LaMuseFilter(),
+        UdnieFilter(),
+        CandyFilter(),
+        FeathersFilter(),
+        ]
+    
+    private var imageBuffer: ImageBuffer?
+    
+    private var renderedFilterBuffer: [String: ImageBuffer] = [:]
+    
+    
     init(image:UIImage) {
         super.init()
         self.image = image
@@ -57,12 +72,31 @@ class FilterManager: NSObject {
     func getPreviewImage() {
         if self.image != nil {
             self.smallImage = self.resizeImage(image: self.image)
+            if #available(iOS 11.0, *) {
+                let resizedImage = image.resize(to: CGSize(width: 720, height: 720))
+                imageBuffer = resizedImage.buffer()
+                self.loadRenderedImages()
+            }
         }
+    }
+    
+    private func loadRenderedImages() {
+        renderedFilterBuffer.removeAll()
+        guard let buffer = imageBuffer else {
+            return
+        }
+        
+        filters.forEach { (filter) in
+            if let filteredBuffer = filter.render(from: buffer) {
+                renderedFilterBuffer[filter.name] = filteredBuffer
+            }
+        }
+        
     }
     
     func applyFilter(filterName:String, completionHandler:@escaping (_ originalImage:UIImage?, _ previewImage:UIImage?)->Void) {
         print(filterName)
-       // self.smallImage = self.resizeImage(image: image)
+        // self.smallImage = self.resizeImage(image: image)
         let numbersRange = filterName.rangeOfCharacter(from: .decimalDigits)
         let hasNumbers = (numbersRange != nil)
         let anEnum = ApplyFilter(rawValue: filterName)!
@@ -74,9 +108,18 @@ class FilterManager: NSObject {
         }else if hasNumbers {
             
             if #available(iOS 11.0, *) {
-                StyleArt.shared.process(image: self.image, style: ArtStyle(rawValue: self.filterType.hashValue)!) { (originalImage) in
-                    completionHandler(originalImage ?? nil, originalImage ?? nil)
+                if let  index = Int(filterName) {
+                    let filter = filters[index]
+                    if let buffer = renderedFilterBuffer[filter.name] {
+                        imageBuffer = buffer
+                    }
+                    guard let imageBuffer = imageBuffer else {
+                        return
+                    }
+                    let image = UIImage(imageBuffer: imageBuffer)
+                    completionHandler(image,image)
                 }
+                
             } else {
                 // Fallback on earlier versions
                 completionHandler(nil,nil)
@@ -85,7 +128,7 @@ class FilterManager: NSObject {
         }else {
             // self.smallImage = self.resizeImage(image: image)
             let originalImage = createFilteredImage(filterName: filterName, image: self.image)
-           // let previewImage = createFilteredImage(filterName: filterName, image: self.smallImage)
+            // let previewImage = createFilteredImage(filterName: filterName, image: self.smallImage)
             completionHandler(originalImage,originalImage)
         }
         
@@ -112,29 +155,29 @@ class FilterManager: NSObject {
         let filteredImageRef = ciContext.createCGImage(filteredImageData, from: filteredImageData.extent)
         let filteredImage = UIImage(cgImage: filteredImageRef!)
         return filteredImage
-
+        
         /*
-        let sourceImage = CIImage(image: image)
-        
-        // 2 - create filter using name
-        let filter = CIFilter(name: filterName)
-        filter?.setDefaults()
-        if filter == nil {
-            return image
-        }
-        
-        // 3 - set source image
-        filter?.setValue(sourceImage, forKey: kCIInputImageKey)
-        
-        // 4 - output filtered image as cgImage with dimension.
-        let outputCGImage = context.createCGImage((filter?.outputImage!)!, from: (filter?.outputImage!.extent)!)
-        
-        // 5 - convert filtered CGImage to UIImage
-        let filteredImage = UIImage(cgImage: outputCGImage!)
-    
-        
-        return filteredImage
- */
+         let sourceImage = CIImage(image: image)
+         
+         // 2 - create filter using name
+         let filter = CIFilter(name: filterName)
+         filter?.setDefaults()
+         if filter == nil {
+         return image
+         }
+         
+         // 3 - set source image
+         filter?.setValue(sourceImage, forKey: kCIInputImageKey)
+         
+         // 4 - output filtered image as cgImage with dimension.
+         let outputCGImage = context.createCGImage((filter?.outputImage!)!, from: (filter?.outputImage!.extent)!)
+         
+         // 5 - convert filtered CGImage to UIImage
+         let filteredImage = UIImage(cgImage: outputCGImage!)
+         
+         
+         return filteredImage
+         */
     }
     
     func resizeImage(image: UIImage) -> UIImage {
@@ -147,6 +190,6 @@ class FilterManager: NSObject {
         return resizedImage!
     }
     
-  
+    
     
 }
