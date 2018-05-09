@@ -15,7 +15,8 @@ class ProfileStreamView: UICollectionReusableView {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var viewContainer: UIView!
-
+    @IBOutlet weak var btnEdit: UIButton!
+    
     var delegate:ProfileStreamViewDelegate?
 
     override func awakeFromNib() {

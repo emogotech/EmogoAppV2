@@ -11,12 +11,13 @@ import Lightbox
 
 class MyStuffViewController: UIViewController {
     
+    
     // MARK: - UI Elements
     
     @IBOutlet weak var stuffCollectionView: UICollectionView!
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var segmentControl: HMSegmentedControl!
-    
+    @IBOutlet weak var lblNoResult: UILabel!
     // MARK: - Variables
     
    
@@ -31,6 +32,7 @@ class MyStuffViewController: UIViewController {
         self.stuffCollectionView.accessibilityLabel = "MyStuffCollectionView"
         self.prepareLayouts()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -40,6 +42,7 @@ class MyStuffViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
+       
     }
     
     
@@ -70,6 +73,14 @@ class MyStuffViewController: UIViewController {
         // Add the waterfall layout to your collection view
         self.stuffCollectionView.collectionViewLayout = layout
      
+        
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.stuffCollectionView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.stuffCollectionView.addGestureRecognizer(swipeLeft)
         // Segment control Configure
         
         segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
@@ -111,6 +122,35 @@ class MyStuffViewController: UIViewController {
     }
     
     
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.left:
+                print("Swie Left")
+                        Animation.addRightTransition(collection: self.stuffCollectionView)
+                        let index = self.selectedType.hashValue + 1
+                        self.segmentControl.selectedSegmentIndex = index
+                        self.updateStuffList(index: index)
+                
+                break
+                
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swie Right")
+            
+                        Animation.addLeftTransition(collection: self.stuffCollectionView)
+                        let index = self.selectedType.hashValue - 1
+                        self.segmentControl.selectedSegmentIndex = index
+                        self.updateStuffList(index: index)
+                
+                
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    
     
     
     @IBAction func btnActionNext(_ sender: Any) {
@@ -146,6 +186,8 @@ class MyStuffViewController: UIViewController {
         self.openFullView(index: sender.tag)
     }
     
+  
+ 
     // MARK: - Class Methods
     func openFullView(index:Int){
         var arrayContents = [LightboxImage]()
@@ -183,7 +225,7 @@ class MyStuffViewController: UIViewController {
     }
     
     // MARK: - API Methods
-    
+    /*
     func getMyStuff(type:RefreshType){
         
         if type == .start || type == .up {
@@ -205,22 +247,68 @@ class MyStuffViewController: UIViewController {
                 self.stuffCollectionView.es.stopLoadingMore()
             }
             
-            
-            if ContentList.sharedInstance.arrayStuff.count == 0 {
+         
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            if array.count == 0 {
+            //if ContentList.sharedInstance.arrayStuff.count == 0 {
+               
                 let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 30))
                 label.text = "No Contents Found!"
                 label.sizeToFit()
                 label.center = self.view.center
                 self.view.addSubview(label)
             }
+           
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
     }
+ */
+    func getMyStuff(type:RefreshType) {
+        if type == .start || type == .up {
+                for _ in  ContentList.sharedInstance.arrayStuff {
+                    if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
+                        ContentList.sharedInstance.arrayStuff.remove(at: index)
+                        print("Removed")
+                    }
+            }
+            self.stuffCollectionView.reloadData()
+        }
     
+        APIServiceManager.sharedInstance.apiForGetStuffList(type: type,contentType: selectedType) { (refreshType, errorMsg) in
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.stuffCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.stuffCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.stuffCollectionView.es.stopLoadingMore()
+            }
     
+            self.lblNoResult.isHidden = true
+            self.btnNext.isHidden = false
+            self.btnNext.isHidden = true
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            if array.count == 0 {
+                self.lblNoResult.text  = "No Stuff Found"
+                self.lblNoResult.minimumScaleFactor = 1.0
+                self.lblNoResult.isHidden = false
+                self.btnNext.isHidden = true
+            }
+         
+            self.stuffCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
+   
     func updateStuffList(index:Int){
         switch index {
         case 0:
@@ -254,6 +342,7 @@ class MyStuffViewController: UIViewController {
        
         self.btnNext.isHidden = true
         if array.count == 0  {
+           
             HUDManager.sharedInstance.showHUD()
             self.stuffCollectionView.es.resetNoMoreData()
             self.getMyStuff(type: .start)
@@ -282,12 +371,18 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ContentList.sharedInstance.arrayStuff.count
+        //return ContentList.sharedInstance.arrayStuff.count
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        return array.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        //let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        
+        let content = array[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
         // for Add Content
         cell.layer.cornerRadius = 5.0
