@@ -36,7 +36,6 @@ class FilterViewController: UIViewController {
         return PMPhotoEditingManager.create()
         } ()
     
-    
     var filter = FilterDAO()
     var isGradientFilter:Bool! = false
     var isFilterSelected: Bool = false
@@ -59,7 +58,11 @@ class FilterViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setImageView(image: image!)
-        self.prepareGradientOption()
+        if self.images.count == 0 {
+            HUDManager.sharedInstance.showHUD()
+            self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.2)
+        }
+     
     }
     
     func prepareLayout(){
@@ -68,8 +71,11 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        filterManager = FilterManager(image:self.imageToFilter!)
-        self.images.removeAll()
+        if self.images.count == 0 {
+            filterManager = FilterManager(image:self.imageToFilter!)
+            self.images.removeAll()
+        }
+        
     }
     
     
@@ -94,6 +100,7 @@ class FilterViewController: UIViewController {
     }
     
     
+    
 
     
     @objc func prepareGradientOption(){
@@ -111,6 +118,8 @@ class FilterViewController: UIViewController {
                 self.addFilterCount += 1
                 self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.2)
             //    self.prepareGradientOption()
+            }else {
+                HUDManager.sharedInstance.hideHUD()
             }
          }
     }

@@ -360,22 +360,6 @@
 		F4C20FFB209AE4E80094A7FC /* PhotoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */; };
 		F4C20FFC209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */; };
 		F4C21012209AE52B0094A7FC /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FFE209AE5290094A7FC /* FilterManager.swift */; };
-		F4C21013209AE52B0094A7FC /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21001209AE52B0094A7FC /* Array.swift */; };
-		F4C21014209AE52B0094A7FC /* CVPixelBuffer+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21002209AE52B0094A7FC /* CVPixelBuffer+Helpers.swift */; };
-		F4C21015209AE52B0094A7FC /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21003209AE52B0094A7FC /* Math.swift */; };
-		F4C21016209AE52B0094A7FC /* MLMultiArray+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21004209AE52B0094A7FC /* MLMultiArray+Image.swift */; };
-		F4C21017209AE52B0094A7FC /* MultiArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21005209AE52B0094A7FC /* MultiArray.swift */; };
-		F4C21018209AE52B0094A7FC /* NonMaxSuppression.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21006209AE52B0094A7FC /* NonMaxSuppression.swift */; };
-		F4C21019209AE52B0094A7FC /* Predictions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21007209AE52B0094A7FC /* Predictions.swift */; };
-		F4C2101A209AE52B0094A7FC /* UIImage+CVPixelBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21008209AE52B0094A7FC /* UIImage+CVPixelBuffer.swift */; };
-		F4C2101B209AE52B0094A7FC /* FNS-Candy.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100A209AE52B0094A7FC /* FNS-Candy.mlmodel */; };
-		F4C2101C209AE52B0094A7FC /* FNS-Feathers.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100B209AE52B0094A7FC /* FNS-Feathers.mlmodel */; };
-		F4C2101D209AE52B0094A7FC /* FNS-La-Muse.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100C209AE52B0094A7FC /* FNS-La-Muse.mlmodel */; };
-		F4C2101E209AE52B0094A7FC /* FNS-Mosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100D209AE52B0094A7FC /* FNS-Mosaic.mlmodel */; };
-		F4C2101F209AE52B0094A7FC /* FNS-The-Scream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100E209AE52B0094A7FC /* FNS-The-Scream.mlmodel */; };
-		F4C21020209AE52B0094A7FC /* FNS-Udnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C2100F209AE52B0094A7FC /* FNS-Udnie.mlmodel */; };
-		F4C21021209AE52B0094A7FC /* StyleArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21010209AE52B0094A7FC /* StyleArt.swift */; };
-		F4C21022209AE52B0094A7FC /* StyleArtInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21011209AE52B0094A7FC /* StyleArtInput.swift */; };
 		F4C21024209AE5ED0094A7FC /* PhotoEditor +Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */; };
 		F4C21026209AE6470094A7FC /* PhotoEditor +Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */; };
 		F4C21028209AE6C70094A7FC /* PhotoEditor +Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */; };
@@ -392,6 +376,14 @@
 		F4C21044209B366B0094A7FC /* ACEDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2103A209B366A0094A7FC /* ACEDrawingView.m */; };
 		F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
+		F4C9554420A31D890065D1C8 /* FNSUdnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9553E20A31D860065D1C8 /* FNSUdnie.mlmodel */; };
+		F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9553F20A31D860065D1C8 /* FNSMosaic.mlmodel */; };
+		F4C9554620A31D890065D1C8 /* FNSFeathers.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554020A31D870065D1C8 /* FNSFeathers.mlmodel */; };
+		F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554120A31D870065D1C8 /* FNSLaMuse.mlmodel */; };
+		F4C9554820A31D890065D1C8 /* FNSCandy.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554220A31D880065D1C8 /* FNSCandy.mlmodel */; };
+		F4C9554920A31D890065D1C8 /* FNSTheScream.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554320A31D890065D1C8 /* FNSTheScream.mlmodel */; };
+		F4C9554D20A31DA00065D1C8 /* PMFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554B20A31D9F0065D1C8 /* PMFilter.swift */; };
+		F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C9554C20A31D9F0065D1C8 /* Gram+UIImage.swift */; };
 		F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */; };
 		F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */; };
 		F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */; };
@@ -827,22 +819,6 @@
 		F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Keyboard.swift"; sourceTree = "<group>"; };
 		F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		F4C20FFE209AE5290094A7FC /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
-		F4C21001209AE52B0094A7FC /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
-		F4C21002209AE52B0094A7FC /* CVPixelBuffer+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Helpers.swift"; sourceTree = "<group>"; };
-		F4C21003209AE52B0094A7FC /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		F4C21004209AE52B0094A7FC /* MLMultiArray+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MLMultiArray+Image.swift"; sourceTree = "<group>"; };
-		F4C21005209AE52B0094A7FC /* MultiArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiArray.swift; sourceTree = "<group>"; };
-		F4C21006209AE52B0094A7FC /* NonMaxSuppression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonMaxSuppression.swift; sourceTree = "<group>"; };
-		F4C21007209AE52B0094A7FC /* Predictions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Predictions.swift; sourceTree = "<group>"; };
-		F4C21008209AE52B0094A7FC /* UIImage+CVPixelBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+CVPixelBuffer.swift"; sourceTree = "<group>"; };
-		F4C2100A209AE52B0094A7FC /* FNS-Candy.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Candy.mlmodel"; sourceTree = "<group>"; };
-		F4C2100B209AE52B0094A7FC /* FNS-Feathers.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Feathers.mlmodel"; sourceTree = "<group>"; };
-		F4C2100C209AE52B0094A7FC /* FNS-La-Muse.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-La-Muse.mlmodel"; sourceTree = "<group>"; };
-		F4C2100D209AE52B0094A7FC /* FNS-Mosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Mosaic.mlmodel"; sourceTree = "<group>"; };
-		F4C2100E209AE52B0094A7FC /* FNS-The-Scream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-The-Scream.mlmodel"; sourceTree = "<group>"; };
-		F4C2100F209AE52B0094A7FC /* FNS-Udnie.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "FNS-Udnie.mlmodel"; sourceTree = "<group>"; };
-		F4C21010209AE52B0094A7FC /* StyleArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleArt.swift; sourceTree = "<group>"; };
-		F4C21011209AE52B0094A7FC /* StyleArtInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleArtInput.swift; sourceTree = "<group>"; };
 		F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Gesture.swift"; sourceTree = "<group>"; };
 		F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Drawing.swift"; sourceTree = "<group>"; };
 		F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Delegate.swift"; sourceTree = "<group>"; };
@@ -864,6 +840,14 @@
 		F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
 		F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAutoGrowingTextView.h; sourceTree = "<group>"; };
+		F4C9553E20A31D860065D1C8 /* FNSUdnie.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSUdnie.mlmodel; sourceTree = "<group>"; };
+		F4C9553F20A31D860065D1C8 /* FNSMosaic.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSMosaic.mlmodel; sourceTree = "<group>"; };
+		F4C9554020A31D870065D1C8 /* FNSFeathers.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSFeathers.mlmodel; sourceTree = "<group>"; };
+		F4C9554120A31D870065D1C8 /* FNSLaMuse.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSLaMuse.mlmodel; sourceTree = "<group>"; };
+		F4C9554220A31D880065D1C8 /* FNSCandy.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSCandy.mlmodel; sourceTree = "<group>"; };
+		F4C9554320A31D890065D1C8 /* FNSTheScream.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = FNSTheScream.mlmodel; sourceTree = "<group>"; };
+		F4C9554B20A31D9F0065D1C8 /* PMFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMFilter.swift; sourceTree = "<group>"; };
+		F4C9554C20A31D9F0065D1C8 /* Gram+UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Gram+UIImage.swift"; sourceTree = "<group>"; };
 		F4CA09792052A6D2004EEFCE /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		F4CA097B2052C5C3004EEFCE /* MyStuffCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffCollectionCell.swift; sourceTree = "<group>"; };
 		F4CDD4F32011DBF8005436A1 /* ActionSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetController.swift; sourceTree = "<group>"; };
@@ -2087,50 +2071,11 @@
 		F4C20FFD209AE5200094A7FC /* Filter */ = {
 			isa = PBXGroup;
 			children = (
+				F4C9553C20A31D6C0065D1C8 /* CoreML */,
 				F4C20FFE209AE5290094A7FC /* FilterManager.swift */,
 				F4A5F752209C898E00AC9AE1 /* GradientFilterCell.swift */,
-				F4C20FFF209AE52B0094A7FC /* StyleArt */,
 			);
 			path = Filter;
-			sourceTree = "<group>";
-		};
-		F4C20FFF209AE52B0094A7FC /* StyleArt */ = {
-			isa = PBXGroup;
-			children = (
-				F4C21000209AE52B0094A7FC /* CoreMLHelpers */,
-				F4C21009209AE52B0094A7FC /* CoreMLModels */,
-				F4C21010209AE52B0094A7FC /* StyleArt.swift */,
-				F4C21011209AE52B0094A7FC /* StyleArtInput.swift */,
-			);
-			path = StyleArt;
-			sourceTree = "<group>";
-		};
-		F4C21000209AE52B0094A7FC /* CoreMLHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				F4C21001209AE52B0094A7FC /* Array.swift */,
-				F4C21002209AE52B0094A7FC /* CVPixelBuffer+Helpers.swift */,
-				F4C21003209AE52B0094A7FC /* Math.swift */,
-				F4C21004209AE52B0094A7FC /* MLMultiArray+Image.swift */,
-				F4C21005209AE52B0094A7FC /* MultiArray.swift */,
-				F4C21006209AE52B0094A7FC /* NonMaxSuppression.swift */,
-				F4C21007209AE52B0094A7FC /* Predictions.swift */,
-				F4C21008209AE52B0094A7FC /* UIImage+CVPixelBuffer.swift */,
-			);
-			path = CoreMLHelpers;
-			sourceTree = "<group>";
-		};
-		F4C21009209AE52B0094A7FC /* CoreMLModels */ = {
-			isa = PBXGroup;
-			children = (
-				F4C2100A209AE52B0094A7FC /* FNS-Candy.mlmodel */,
-				F4C2100B209AE52B0094A7FC /* FNS-Feathers.mlmodel */,
-				F4C2100C209AE52B0094A7FC /* FNS-La-Muse.mlmodel */,
-				F4C2100D209AE52B0094A7FC /* FNS-Mosaic.mlmodel */,
-				F4C2100E209AE52B0094A7FC /* FNS-The-Scream.mlmodel */,
-				F4C2100F209AE52B0094A7FC /* FNS-Udnie.mlmodel */,
-			);
-			path = CoreMLModels;
 			sourceTree = "<group>";
 		};
 		F4C2102B209B362C0094A7FC /* ImageDrawing */ = {
@@ -2160,6 +2105,37 @@
 				F4C21039209B366A0094A7FC /* sticker_resize@3x.png */,
 			);
 			path = ACEDraggableText;
+			sourceTree = "<group>";
+		};
+		F4C9553C20A31D6C0065D1C8 /* CoreML */ = {
+			isa = PBXGroup;
+			children = (
+				F4C9554A20A31D980065D1C8 /* Models */,
+				F4C9553D20A31D7A0065D1C8 /* Lib */,
+			);
+			path = CoreML;
+			sourceTree = "<group>";
+		};
+		F4C9553D20A31D7A0065D1C8 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				F4C9554220A31D880065D1C8 /* FNSCandy.mlmodel */,
+				F4C9554020A31D870065D1C8 /* FNSFeathers.mlmodel */,
+				F4C9554120A31D870065D1C8 /* FNSLaMuse.mlmodel */,
+				F4C9553F20A31D860065D1C8 /* FNSMosaic.mlmodel */,
+				F4C9554320A31D890065D1C8 /* FNSTheScream.mlmodel */,
+				F4C9553E20A31D860065D1C8 /* FNSUdnie.mlmodel */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		F4C9554A20A31D980065D1C8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F4C9554B20A31D9F0065D1C8 /* PMFilter.swift */,
+				F4C9554C20A31D9F0065D1C8 /* Gram+UIImage.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F4CDD4F22011DBC0005436A1 /* ActionSheet */ = {
@@ -2812,7 +2788,6 @@
 				F43612E21FD69B0E00788FFE /* AGImageMetalDevice.swift in Sources */,
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
 				F4C20FF9209AE4E80094A7FC /* GradientView.swift in Sources */,
-				F4C21015209AE52B0094A7FC /* Math.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
 				F406FD002087854B006192B4 /* FollowerDAO.swift in Sources */,
 				F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */,
@@ -2826,9 +2801,9 @@
 				F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */,
 				F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
+				F4C9554420A31D890065D1C8 /* FNSUdnie.mlmodel in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */,
-				F4C21014209AE52B0094A7FC /* CVPixelBuffer+Helpers.swift in Sources */,
 				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
 				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
@@ -2838,7 +2813,6 @@
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
-				F4C21018209AE52B0094A7FC /* NonMaxSuppression.swift in Sources */,
 				F4C20FFC209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
@@ -2847,6 +2821,7 @@
 				F4C21044209B366B0094A7FC /* ACEDrawingView.m in Sources */,
 				F4C20FED209AE4E80094A7FC /* UIImage+Size.swift in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
+				F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
 				F4C20FE8209AE4E80094A7FC /* StickerCollectionViewCell.swift in Sources */,
@@ -2858,7 +2833,6 @@
 				F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */,
 				F447441A20246E94002964A0 /* FilterDAO.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
-				F4C2101A209AE52B0094A7FC /* UIImage+CVPixelBuffer.swift in Sources */,
 				F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */,
 				F4C21026209AE6470094A7FC /* PhotoEditor +Drawing.swift in Sources */,
 				F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */,
@@ -2866,8 +2840,7 @@
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F4C21012209AE52B0094A7FC /* FilterManager.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
-				F4C2101D209AE52B0094A7FC /* FNS-La-Muse.mlmodel in Sources */,
-				F4C21022209AE52B0094A7FC /* StyleArtInput.swift in Sources */,
+				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */,
@@ -2878,7 +2851,6 @@
 				F43612F61FD69B3200788FFE /* AGSoftLightFilter.swift in Sources */,
 				F43649CB2015CEA5004FBEE2 /* PermissionsView.swift in Sources */,
 				F454C9811FFBC9BA00DE887B /* RMPZoomTransitionAnimator.m in Sources */,
-				F4C21020209AE52B0094A7FC /* FNS-Udnie.mlmodel in Sources */,
 				F4CF824120905506005636FE /* AddCollaboratorContactsController.swift in Sources */,
 				F43612F11FD69B3200788FFE /* AGContrastFilter.metal in Sources */,
 				F42864381FC4A8C900E3549D /* CameraDAO.swift in Sources */,
@@ -2902,7 +2874,6 @@
 				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
-				F4C2101C209AE52B0094A7FC /* FNS-Feathers.mlmodel in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
@@ -2914,7 +2885,6 @@
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
 				F403765F1FDEA12B0007C696 /* GradientBarView.swift in Sources */,
 				F44939E11FEA567800AE2FCA /* ESPullToRefresh.swift in Sources */,
-				F4C2101E209AE52B0094A7FC /* FNS-Mosaic.mlmodel in Sources */,
 				337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */,
 				F406FCFC20877B67006192B4 /* FollowHeader.swift in Sources */,
 				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
@@ -2935,6 +2905,7 @@
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
+				F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */,
 				F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */,
 				F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
@@ -2948,7 +2919,6 @@
 				F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
 				F4C20FEB209AE4E80094A7FC /* PhotoEditor+FilterControls.swift in Sources */,
-				F4C21017209AE52B0094A7FC /* MultiArray.swift in Sources */,
 				C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */,
 				F4C20FF5209AE4E80094A7FC /* Protocols.swift in Sources */,
 				F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */,
@@ -2963,13 +2933,13 @@
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,
 				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
+				F4C9554820A31D890065D1C8 /* FNSCandy.mlmodel in Sources */,
 				F4C21024209AE5ED0094A7FC /* PhotoEditor +Gesture.swift in Sources */,
 				F4C20FFB209AE4E80094A7FC /* PhotoEditor+Keyboard.swift in Sources */,
 				F4C2103C209B366B0094A7FC /* ACEDrawingTools.m in Sources */,
 				F43649C22015CEA5004FBEE2 /* SingleImageFetcher.swift in Sources */,
 				F43649C32015CEA5004FBEE2 /* SingleImageSaver.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
-				F4C2101F209AE52B0094A7FC /* FNS-The-Scream.mlmodel in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
@@ -2998,10 +2968,8 @@
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4C20FF7209AE4E80094A7FC /* EmojiCollectionViewCell.swift in Sources */,
-				F4C2101B209AE52B0094A7FC /* FNS-Candy.mlmodel in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
-				F4C21013209AE52B0094A7FC /* Array.swift in Sources */,
 				F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
 				F4C20FFA209AE4E80094A7FC /* ColorCollectionViewCell.swift in Sources */,
@@ -3017,10 +2985,12 @@
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
+				F4C9554920A31D890065D1C8 /* FNSTheScream.mlmodel in Sources */,
 				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
 				F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */,
 				F4CDD4F42011DBF8005436A1 /* ActionSheetController.swift in Sources */,
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
+				F4C9554D20A31DA00065D1C8 /* PMFilter.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F4C21028209AE6C70094A7FC /* PhotoEditor +Delegate.swift in Sources */,
@@ -3038,16 +3008,15 @@
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */,
 				F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */,
-				F4C21021209AE52B0094A7FC /* StyleArt.swift in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
 				F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
-				F4C21016209AE52B0094A7FC /* MLMultiArray+Image.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
 				F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */,
 				F44939E81FEA567800AE2FCA /* ESRefreshProtocol.swift in Sources */,
 				F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */,
+				F4C9554620A31D890065D1C8 /* FNSFeathers.mlmodel in Sources */,
 				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
@@ -3055,7 +3024,6 @@
 				F4C20FF0209AE4E80094A7FC /* EmojisCollectionViewDelegate.swift in Sources */,
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
-				F4C21019209AE52B0094A7FC /* Predictions.swift in Sources */,
 				F4A5F753209C898E00AC9AE1 /* GradientFilterCell.swift in Sources */,
 				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
