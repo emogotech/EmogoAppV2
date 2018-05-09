@@ -56,14 +56,14 @@ class ViewCollaboratorSerializer(DynamicFieldsModelSerializer):
 
     def get_user_profile_id(self, obj):
         qs = self.get_user_info(obj)
-        if qs is not None:
+        if qs.__len__() > 0 :
             return qs[0].user_data.id
         else:
             return None
 
     def get_name(self, obj):
         qs = self.get_user_info(obj)
-        if qs is not None:
+        if qs.__len__() > 0:
             return qs[0].user_data.full_name
         else:
             return None
