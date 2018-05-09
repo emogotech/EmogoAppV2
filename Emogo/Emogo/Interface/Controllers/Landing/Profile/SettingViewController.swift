@@ -76,10 +76,10 @@ class SettingViewController: UIViewController {
     
     //MARK:- button share action
     
-    @IBAction func btnShareProfile(_ sender: Any) {
-        self.profileShareAction()
-        
-    }
+//    @IBAction func btnShareProfile(_ sender: Any) {
+//        self.profileShareAction()
+//
+//    }
     //MARK:- logout Action
     
     override func btnLogoutAction() {
@@ -112,7 +112,7 @@ class SettingViewController: UIViewController {
         let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
         self.navigationController?.reverseFlipPush(viewController: obj)
     }
-    
+    /*
     //MARK:- share Profile Action
     
      func profileShareAction(){
@@ -130,5 +130,5 @@ class SettingViewController: UIViewController {
         DispatchQueue.main.async {
             self.present(activityViewController, animated: true, completion: nil);
         }
-    }
+    }*/
 }
