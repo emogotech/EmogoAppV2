@@ -43,7 +43,7 @@ class FilterViewController: UIViewController {
     public var image: UIImage?
     var imageToFilter:UIImage?
     var images = [GradientfilterDAO]()
-    var filterManager = FilterManager()
+    var filterManager :FilterManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +68,7 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
+        filterManager = FilterManager(image:self.imageToFilter!)
         self.images.removeAll()
     }
     
@@ -95,11 +96,11 @@ class FilterViewController: UIViewController {
     
 
     
-    func prepareGradientOption(){
+    @objc func prepareGradientOption(){
         print(self.addFilterCount)
        let name = ApplyFilter.allValues[addFilterCount].rawValue
         
-        self.filterManager.applyFilter(filterName: name, image: self.image!) { (originalImage, previewImage) in
+        self.filterManager.applyFilter(filterName: name) { (originalImage, previewImage) in
             
             let objImage = GradientfilterDAO(name: "\(ApplyFilter.allValues[self.addFilterCount])")
             objImage.imgOriginal = originalImage!
@@ -108,7 +109,8 @@ class FilterViewController: UIViewController {
             self.images.append(objImage)
             if self.addFilterCount != ApplyFilter.allValues.count-1 {
                 self.addFilterCount += 1
-                self.prepareGradientOption()
+                self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.2)
+            //    self.prepareGradientOption()
             }
          }
     }

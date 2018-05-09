@@ -43,19 +43,24 @@ enum ApplyFilter:String {
 
 class FilterManager: NSObject {
     
-    
     fileprivate var image:UIImage!
     fileprivate var smallImage:UIImage!
     fileprivate var filterType:ApplyFilter!
     fileprivate let context = CIContext(options: nil)
     
-    override init() {
+    init(image:UIImage) {
         super.init()
+        self.image = image
+        self.getPreviewImage()
     }
     
+    func getPreviewImage() {
+        if self.image != nil {
+            self.smallImage = self.resizeImage(image: self.image)
+        }
+    }
     
-    func applyFilter(filterName:String,image:UIImage, completionHandler:@escaping (_ originalImage:UIImage?, _ previewImage:UIImage?)->Void) {
-        self.image = image
+    func applyFilter(filterName:String, completionHandler:@escaping (_ originalImage:UIImage?, _ previewImage:UIImage?)->Void) {
         print(filterName)
        // self.smallImage = self.resizeImage(image: image)
         let numbersRange = filterName.rangeOfCharacter(from: .decimalDigits)
@@ -78,6 +83,7 @@ class FilterManager: NSObject {
             }
             
         }else {
+            // self.smallImage = self.resizeImage(image: image)
             let originalImage = createFilteredImage(filterName: filterName, image: self.image)
            // let previewImage = createFilteredImage(filterName: filterName, image: self.smallImage)
             completionHandler(originalImage,originalImage)
@@ -92,6 +98,22 @@ class FilterManager: NSObject {
     
     func createFilteredImage(filterName: String, image: UIImage) -> UIImage {
         // 1 - create source image
+        
+        let ciContext = CIContext(options: nil)
+        let coreImage = CIImage(image: image)
+        let filter = CIFilter(name: filterName )
+        filter?.setDefaults()
+        if filter == nil {
+            return image
+        }
+        filter!.setDefaults()
+        filter!.setValue(coreImage, forKey: kCIInputImageKey)
+        let filteredImageData = filter!.value(forKey: kCIOutputImageKey) as! CIImage
+        let filteredImageRef = ciContext.createCGImage(filteredImageData, from: filteredImageData.extent)
+        let filteredImage = UIImage(cgImage: filteredImageRef!)
+        return filteredImage
+
+        /*
         let sourceImage = CIImage(image: image)
         
         // 2 - create filter using name
@@ -109,8 +131,10 @@ class FilterManager: NSObject {
         
         // 5 - convert filtered CGImage to UIImage
         let filteredImage = UIImage(cgImage: outputCGImage!)
+    
         
         return filteredImage
+ */
     }
     
     func resizeImage(image: UIImage) -> UIImage {
