@@ -821,13 +821,13 @@ class ContentViewController: UIViewController {
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
         let photoEditor:PhotoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_PhotoEditorView) as! PhotoEditorViewController
-        let nav = UINavigationController(rootViewController: photoEditor)
+      //  let nav = UINavigationController(rootViewController: photoEditor)
         photoEditor.image = image
+        photoEditor.seletedImage = self.seletedImage
         photoEditor.photoEditorDelegate = self
         //PhotoEditorDelegate
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-        present(nav, animated: true) {
-        }
+        self.navigationController?.pushAsPresent(viewController: photoEditor)
     }
 
     func deleteSelectedContent(){
