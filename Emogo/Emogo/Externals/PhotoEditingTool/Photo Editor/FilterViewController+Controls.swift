@@ -24,8 +24,12 @@ extension FilterViewController {
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
-        self.isFilterSelected = !self.isFilterSelected
-        switch sender.tag {
+       self.updateFilter(index: sender.tag)
+    }
+    
+    func updateFilter(index:Int) {
+         self.isFilterSelected = !self.isFilterSelected
+        switch index {
         case 111:
             isGradientFilter = false
             self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
@@ -39,7 +43,6 @@ extension FilterViewController {
         default:
             break
         }
-        
     }
     
     @objc func actionforCancel(){
@@ -80,20 +83,24 @@ extension FilterViewController {
         self.gradientCollectionView.reloadData()
         Animation.viewSlideInFromTopToBottom(views:self.gradientView)
         if self.isFilterSelected  {
+            self.gradientViewHeightConstraint.constant = 170
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = true
             let img = self.imageOrientation(self.canvasImageView.image!)
             editingService.setImage (image: img)
             self.gradientView.isHidden = false
             self.filterViewButton.isHidden = false
+            self.setImageView(image: img)
             let imgIcon = #imageLiteral(resourceName: "color_icon_active") //UIImage(named: "filterMenuItem_icon.png")
             self.filterButton.setImage(imgIcon, for: .normal)
         }else {
+            self.gradientViewHeightConstraint.constant = 0
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = false
             self.filterViewButton.isHidden = true
             self.gradientImageView.isHidden = true
             self.gradientView.isHidden = true
+            self.setImageView(image: self.image!)
             self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         }
     }

@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.5027291"
+            timestampString = "547561888.057826"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "291"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.50283"
+            timestampString = "547561888.057937"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "184"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.503022"
+            timestampString = "547561888.058128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -250,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.503082"
+            timestampString = "547561888.058192"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.503183"
+            timestampString = "547561888.058293"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
@@ -314,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-            timestampString = "547553588.503242"
+            timestampString = "547561888.058388"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "107"
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "547561354.181129"
+            timestampString = "547566950.403159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "512"
-            endingLineNumber = "512"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "btnActionProfileUpdate(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -596,12 +596,12 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "547551459.2838939"
+                  timestampString = "547564921.6623009"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "659"
                   endingLineNumber = "659"
-                  offsetFromSymbolStart = "416">
+                  offsetFromSymbolStart = "516">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -611,14 +611,30 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "547551459.286467"
+                  timestampString = "547564921.666113"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "660"
                   endingLineNumber = "660"
-                  offsetFromSymbolStart = "40">
+                  offsetFromSymbolStart = "30">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/PhotoEditingTool/Photo Editor/FilterViewController.swift"
+            timestampString = "547567983.87284"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

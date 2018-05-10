@@ -27,6 +27,8 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var gradientCollectionView: UICollectionView!
+    @IBOutlet weak var gradientViewHeightConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var gradientView: UIView!
     var addFilterCount = 0
     
@@ -60,7 +62,7 @@ class FilterViewController: UIViewController {
         self.setImageView(image: image!)
         if self.images.count == 0 {
             HUDManager.sharedInstance.showHUD()
-            self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.2)
+            self.perform(#selector(self.prepareFilter), with: self, afterDelay: 0.0)
         }
      
     }
@@ -71,11 +73,15 @@ class FilterViewController: UIViewController {
         filterSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         prepareNavigation()
         self.imageToFilter = self.image
-        if self.images.count == 0 {
-            filterManager = FilterManager(image:self.imageToFilter!)
-            self.images.removeAll()
-        }
         
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.up
+        self.canvasView.addGestureRecognizer(swipeRight)
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.down
+        self.canvasView.addGestureRecognizer(swipeLeft)
+        self.canvasView.isUserInteractionEnabled = true
     }
     
     
@@ -93,12 +99,22 @@ class FilterViewController: UIViewController {
     
     func setImageView(image: UIImage) {
         //imageView.image = image
+        print(self.view.frame)
         self.canvasImageView.image = image
         let img = self.imageOrientation(self.canvasImageView.image!)
-        self.canvasView.frame = AVMakeRect(aspectRatio: img.size, insideRect: self.canvasImageView.frame)
-        self.canvasView.center = self.view.center
+        let frame = AVMakeRect(aspectRatio: img.size, insideRect: self.canvasView.frame)
+        self.imageViewHeightConstraint.constant = frame.size.height
     }
     
+    @objc func prepareFilter(){
+        if self.images.count == 0 {
+            filterManager = FilterManager(image:self.imageToFilter!)
+            self.images.removeAll()
+            autoreleasepool {
+                prepareGradientOption()
+            }
+        }
+    }
     
     
 
@@ -116,13 +132,33 @@ class FilterViewController: UIViewController {
             self.images.append(objImage)
             if self.addFilterCount != ApplyFilter.allValues.count-1 {
                 self.addFilterCount += 1
-                self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.2)
+                self.perform(#selector(self.prepareGradientOption), with: self, afterDelay: 0.0)
             //    self.prepareGradientOption()
             }else {
                 HUDManager.sharedInstance.hideHUD()
             }
          }
     }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swie up")
+                break
+                
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swie down")
+                self.updateFilter(index: 222)
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+    
+    
     /*
     // MARK: - Navigation
 
