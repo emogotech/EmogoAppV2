@@ -55,10 +55,17 @@ class ProfileUpdateViewController: UITableViewController {
         txtDisplayName.text = UserDAO.sharedInstance.user.displayName.trim()
         //txtBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
         txtLocation.text = UserDAO.sharedInstance.user.location.trim()
-        self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
+      //  self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+        }else{
+            if UserDAO.sharedInstance.user.displayName.isEmpty {
+                self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
+            }else{
+                self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
+            }
         }
+        
     }
     
     func prepreNavigation(){

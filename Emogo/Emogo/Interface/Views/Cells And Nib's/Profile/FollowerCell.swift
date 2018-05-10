@@ -26,7 +26,13 @@ class FollowerCell: UITableViewCell {
         self.lblName.text = follow.displayName
         self.lblUserName.text = follow.fullName
         if follow.userImage.trim().isEmpty {
-            self.imgUser.image = #imageLiteral(resourceName: "demo_images")
+         
+            if follow.displayName.isEmpty {
+                self.imgUser.setImage(string: follow.fullName, color: UIColor.colorHash(name: follow.fullName ), circular: true)
+            }else{
+                self.imgUser.setImage(string: follow.displayName, color: UIColor.colorHash(name: follow.displayName ), circular: true)
+                }
+           // self.imgUser.image = #imageLiteral(resourceName: "demo_images")
         }else {
             self.imgUser.setImageWithResizeURL(follow.userImage.trim())
         }

@@ -150,6 +150,15 @@ class ViewProfileViewController: UIViewController {
                         //print(people.userImage.trim())
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())
+                        }else {
+                            if people.displayName.trim().isEmpty {
+                                
+                            self.imgUser.setImage(string:people.fullName, color: UIColor.colorHash(name:people.fullName ), circular: true)
+                            
+                        }else{
+                            self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
+                            }
+                            
                         }
                         if people.biography.trim().isEmpty  {
                             self.kHeaderHeight.constant = 178

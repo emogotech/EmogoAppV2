@@ -423,14 +423,20 @@ class ContentViewController: UIViewController {
         self.btnDelete.isHidden = true
         self.btnFlagIcon.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
-        self.imgUser.image = #imageLiteral(resourceName: "demo_images")
+       // self.imgUser.image = #imageLiteral(resourceName: "demo_images")
         if !seletedImage.createrImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(seletedImage.createrImage.trim())
+        }
+        else {
+            if UserDAO.sharedInstance.user.displayName.isEmpty {
+               self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
+            }else{
+                self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
         }
         self.btnMore.isHidden = true
     }
     
-    
+    }
     func changeButtonAccordingSwipe(selected:ContentDAO){
         //editing_cross_icon
         self.navigationItem.setRightBarButtonItems([], animated: true)
