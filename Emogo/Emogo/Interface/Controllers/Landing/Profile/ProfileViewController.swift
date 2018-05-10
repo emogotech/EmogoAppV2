@@ -151,14 +151,14 @@ class ProfileViewController: UIViewController {
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
-        
-        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
-        self.lblFollowers.isUserInteractionEnabled = true
-        self.lblFollowers.addGestureRecognizer(tapFollow)
-        
-        let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
-        self.lblFollowing.isUserInteractionEnabled = true
-        self.lblFollowing.addGestureRecognizer(tapFollowing)
+
+//        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+//        self.lblFollowers.isUserInteractionEnabled = true
+//        self.lblFollowers.addGestureRecognizer(tapFollow)
+//
+//        let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+//        self.lblFollowing.isUserInteractionEnabled = true
+//        self.lblFollowing.addGestureRecognizer(tapFollowing)
         
         self.btnStream.setTitleColor(colorSelected, for: .normal)
         self.btnStream.titleLabel?.font = fontSelected
@@ -230,17 +230,34 @@ class ProfileViewController: UIViewController {
                 self.lblFollowing.isHidden = false
                 self.lblFollowers.isHidden = false
                 
+                let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+                let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
+               
+               
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty {
                     self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowers.isHidden = false
+                    self.lblFollowers.tag = 0
+                    self.lblFollowers.isUserInteractionEnabled = true
+                    self.lblFollowing.isUserInteractionEnabled = false
+                    self.lblFollowers.addGestureRecognizer(tapFollowing)
+             
                 }
                else if UserDAO.sharedInstance.user.following.trim().isEmpty {
-                   self.lblFollowing.text = UserDAO.sharedInstance.user.followers.trim()
-                   self.lblFollowing.isHidden = false
+                    self.lblFollowing.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowing.isHidden = false
+                    self.lblFollowing.tag = 111
+                    self.lblFollowing.isUserInteractionEnabled = true
+                    self.lblFollowers.isUserInteractionEnabled = false
+                    self.lblFollowing.addGestureRecognizer(tapFollow)
                     
                 }else{
                     self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowers.isUserInteractionEnabled = true
+                    self.lblFollowers.addGestureRecognizer(tapFollow)
                     self.lblFollowing.text = UserDAO.sharedInstance.user.following.trim()
+                    self.lblFollowing.isUserInteractionEnabled = true
+                    self.lblFollowing.addGestureRecognizer(tapFollowing)
                 }
                 //print(UserDAO.sharedInstance.user.userImage.trim())
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
@@ -373,8 +390,8 @@ class ProfileViewController: UIViewController {
         
         let imgSetting = UIImage(named: "setting_icon")
         let btnSetting = UIBarButtonItem(image: imgSetting, style: .plain, target: self, action: #selector(self.btnSettingAction))
-        //let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
-        self.navigationItem.leftBarButtonItems = [btnSetting]
+        let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
+        self.navigationItem.leftBarButtonItems = [btnSetting,btnShare]
         
     }
     
@@ -386,13 +403,13 @@ class ProfileViewController: UIViewController {
         self.addLeftTransitionView(subtype: kCATransitionFromRight)
         self.navigationController?.popNormal()
     }
-    /*
+
     @objc func profileShareAction(){
         if UserDAO.sharedInstance.user.shareURL.isEmpty {
             return
         }
         let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
-      let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
+        let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
         let text = "\n via Emogo"
 
        // let shareItem = "Hey checkout the s profile,emogo"
@@ -403,7 +420,7 @@ class ProfileViewController: UIViewController {
             self.present(activityViewController, animated: true, completion: nil);
         }
     }
-    */
+   
     
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {

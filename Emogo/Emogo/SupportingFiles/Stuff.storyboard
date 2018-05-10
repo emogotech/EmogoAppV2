@@ -3801,32 +3801,8 @@ Cg
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6xz-CY-tvm">
-                                        <rect key="frame" x="8" y="78" width="335" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="uAe-uf-vaa"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
-                                        <state key="normal" title="Share Profile">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="btnShareProfile:" destination="rfm-sm-7xz" eventType="touchUpInside" id="hLq-CU-JNC"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="msv-wu-L0c">
-                                        <rect key="frame" x="1" y="122" width="349" height="1"/>
-                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="pPG-F6-C1s"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CeN-jd-wDP">
-                                        <rect key="frame" x="8" y="137" width="335" height="30"/>
+                                        <rect key="frame" x="8" y="76" width="335" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="HWl-nq-VAB"/>
@@ -3846,16 +3822,10 @@ Cg
                                     <constraint firstItem="CeN-jd-wDP" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="8" id="6de-qV-p2I"/>
                                     <constraint firstAttribute="height" constant="180" id="78d-Mg-t2E"/>
                                     <constraint firstItem="ISP-Ea-KGw" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="1" id="Cs2-jn-mew"/>
-                                    <constraint firstItem="6xz-CY-tvm" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="8" id="DnG-XA-iWR"/>
                                     <constraint firstAttribute="trailing" secondItem="CeN-jd-wDP" secondAttribute="trailing" constant="8" id="HYx-HH-gal"/>
-                                    <constraint firstItem="6xz-CY-tvm" firstAttribute="top" secondItem="ISP-Ea-KGw" secondAttribute="bottom" constant="14" id="Juz-id-QqH"/>
-                                    <constraint firstItem="msv-wu-L0c" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="1" id="Nah-vj-69b"/>
-                                    <constraint firstItem="CeN-jd-wDP" firstAttribute="top" secondItem="msv-wu-L0c" secondAttribute="bottom" constant="14" id="Rf5-PH-pLq"/>
-                                    <constraint firstAttribute="trailing" secondItem="6xz-CY-tvm" secondAttribute="trailing" constant="8" id="UeC-Xy-K9R"/>
                                     <constraint firstAttribute="trailing" secondItem="ISP-Ea-KGw" secondAttribute="trailing" constant="1" id="XYy-lX-cHd"/>
                                     <constraint firstItem="zeO-yI-4mv" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="8" id="bYr-As-fmc"/>
-                                    <constraint firstAttribute="trailing" secondItem="msv-wu-L0c" secondAttribute="trailing" constant="1" id="cgB-qG-kFM"/>
-                                    <constraint firstItem="msv-wu-L0c" firstAttribute="top" secondItem="6xz-CY-tvm" secondAttribute="bottom" constant="14" id="fDu-NO-cob"/>
+                                    <constraint firstItem="CeN-jd-wDP" firstAttribute="top" secondItem="ISP-Ea-KGw" secondAttribute="bottom" constant="12" id="gST-OS-xic"/>
                                     <constraint firstItem="FMd-e9-TiZ" firstAttribute="centerY" secondItem="zeO-yI-4mv" secondAttribute="centerY" id="gg2-VJ-n9n"/>
                                     <constraint firstItem="ISP-Ea-KGw" firstAttribute="top" secondItem="zeO-yI-4mv" secondAttribute="bottom" constant="18" id="z5e-mN-FN8"/>
                                 </constraints>
@@ -3872,7 +3842,6 @@ Cg
                     </view>
                     <connections>
                         <outlet property="btnLogout" destination="CeN-jd-wDP" id="6ml-Ug-NI7"/>
-                        <outlet property="btnShareProfile" destination="6xz-CY-tvm" id="gUY-JD-5za"/>
                         <outlet property="switchForEffect" destination="FMd-e9-TiZ" id="H05-0C-Gbe"/>
                     </connections>
                 </viewController>
