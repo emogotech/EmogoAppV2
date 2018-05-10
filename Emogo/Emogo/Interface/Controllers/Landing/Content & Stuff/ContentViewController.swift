@@ -817,6 +817,7 @@ class ContentViewController: UIViewController {
         let photoEditor:PhotoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_PhotoEditorView) as! PhotoEditorViewController
         let nav = UINavigationController(rootViewController: photoEditor)
         photoEditor.image = image
+        photoEditor.photoEditorDelegate = self
         //PhotoEditorDelegate
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
         present(nav, animated: true) {
@@ -1085,7 +1086,6 @@ class ContentViewController: UIViewController {
 
 }
 
-/*
 
 extension ContentViewController:PhotoEditorDelegate
 {
@@ -1108,7 +1108,6 @@ extension ContentViewController:PhotoEditorDelegate
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
-*/
 
 extension ContentViewController:UITextFieldDelegate {
     

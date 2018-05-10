@@ -15,11 +15,11 @@ class GradientFilterCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    func prepareCellData(filter:GradientfilterDAO) {
-        DispatchQueue.main.async {
-            self.lblName.text = filter.name
-            self.imgPreview.image = filter.imgPreview
-        }
+  
+    
+    func setup(filter:Filter) {
+            lblName.text = filter.iconName
+            self.imgPreview.image = filter.icon
     }
 }
 
@@ -36,3 +36,4 @@ class GradientfilterDAO {
         self.name = name
     }
 }
+

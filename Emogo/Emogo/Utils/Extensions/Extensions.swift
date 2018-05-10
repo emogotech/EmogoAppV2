@@ -865,6 +865,19 @@ extension UIImage {
         //        print("formatted result: \(str)")
     }
     
+    func resize(targetSize:CGSize) -> UIImage {
+        // Figure out what our orientation is, and use that to form the rectangle
+        let newSize = targetSize
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height:  newSize.height)
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+    }
+    
+    
     func resizeImage(targetSize: CGSize) -> UIImage {
         let size = self.size
         

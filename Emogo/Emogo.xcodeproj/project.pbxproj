@@ -359,7 +359,6 @@
 		F4C20FFA209AE4E80094A7FC /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */; };
 		F4C20FFB209AE4E80094A7FC /* PhotoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */; };
 		F4C20FFC209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */; };
-		F4C21012209AE52B0094A7FC /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FFE209AE5290094A7FC /* FilterManager.swift */; };
 		F4C21024209AE5ED0094A7FC /* PhotoEditor +Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */; };
 		F4C21026209AE6470094A7FC /* PhotoEditor +Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */; };
 		F4C21028209AE6C70094A7FC /* PhotoEditor +Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */; };
@@ -818,7 +817,6 @@
 		F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Keyboard.swift"; sourceTree = "<group>"; };
 		F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		F4C20FFE209AE5290094A7FC /* FilterManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Gesture.swift"; sourceTree = "<group>"; };
 		F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Drawing.swift"; sourceTree = "<group>"; };
 		F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Delegate.swift"; sourceTree = "<group>"; };
@@ -2072,7 +2070,6 @@
 			isa = PBXGroup;
 			children = (
 				F4C9553C20A31D6C0065D1C8 /* CoreML */,
-				F4C20FFE209AE5290094A7FC /* FilterManager.swift */,
 				F4A5F752209C898E00AC9AE1 /* GradientFilterCell.swift */,
 			);
 			path = Filter;
@@ -2838,7 +2835,6 @@
 				F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
-				F4C21012209AE52B0094A7FC /* FilterManager.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,

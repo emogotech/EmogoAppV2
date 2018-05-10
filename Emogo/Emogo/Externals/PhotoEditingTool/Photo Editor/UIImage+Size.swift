@@ -99,4 +99,34 @@ public extension UIImage {
         return newImage
     }
     
+    func createFilteredImage(filterName: String) -> UIImage {
+        // 1 - create source image
+        
+        let ciContext = CIContext(options: nil)
+        let coreImage = CIImage(image: self)
+        let filter = CIFilter(name: filterName )
+        filter?.setDefaults()
+        if filter == nil {
+            return self
+        }
+        filter!.setDefaults()
+        filter!.setValue(coreImage, forKey: kCIInputImageKey)
+        let filteredImageData = filter!.value(forKey: kCIOutputImageKey) as! CIImage
+        let filteredImageRef = ciContext.createCGImage(filteredImageData, from: filteredImageData.extent)
+        let filteredImage = UIImage(cgImage: filteredImageRef!)
+        return filteredImage
+        
+    }
+    
+    func resizeImage() -> UIImage {
+        let image = self
+        let ratio: CGFloat = 0.3
+        let resizedSize = CGSize(width: Int(image.size.width * ratio), height: Int(image.size.height * ratio))
+        UIGraphicsBeginImageContext(resizedSize)
+        image.draw(in: CGRect(x: 0, y: 0, width: resizedSize.width, height: resizedSize.height))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage!
+    }
+    
 }

@@ -20,7 +20,10 @@ extension FilterViewController {
     }
     
     @IBAction func continueButtonPressed(_ sender: Any) {
-        
+        if filterDelegate != nil  {
+            self.filterDelegate?.doneWithImage(resultImage: self.canvasImageView.image!)
+        }
+        self.navigationController?.popNormal()
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
@@ -58,6 +61,10 @@ extension FilterViewController {
     
     func filterOptionUpdated(){
         if isGradientFilter{
+            if self.images.count == 0 {
+                self.showAlert(strMessage: "Please wait while we are loading.")
+                return
+            }
             gradientOptionUpdated()
         }else {
             Animation.viewSlideInFromTopToBottom(views:self.filterView)
@@ -80,10 +87,13 @@ extension FilterViewController {
     }
     
     func gradientOptionUpdated(){
+        
         self.gradientCollectionView.reloadData()
         Animation.viewSlideInFromTopToBottom(views:self.gradientView)
         if self.isFilterSelected  {
+            self.prepareNavigationButton(isEditing: true)
             self.gradientViewHeightConstraint.constant = 170
+            self.view.setNeedsUpdateConstraints()
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = true
             let img = self.imageOrientation(self.canvasImageView.image!)
@@ -93,8 +103,11 @@ extension FilterViewController {
             self.setImageView(image: img)
             let imgIcon = #imageLiteral(resourceName: "color_icon_active") //UIImage(named: "filterMenuItem_icon.png")
             self.filterButton.setImage(imgIcon, for: .normal)
+
         }else {
+            self.prepareNavigationButton(isEditing: false)
             self.gradientViewHeightConstraint.constant = 0
+            self.view.setNeedsUpdateConstraints()
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = false
             self.filterViewButton.isHidden = true

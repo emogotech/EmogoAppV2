@@ -78,6 +78,13 @@ extension PhotoEditorViewController: ColorDelegate {
     }
 }
 
+extension PhotoEditorViewController: FilterViewControllerDelegate {
+    
+    func doneWithImage(resultImage: UIImage) {
+        self.baseImageView.image = resultImage
+    }
+}
+
 extension PhotoEditorViewController:UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {

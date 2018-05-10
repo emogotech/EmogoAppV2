@@ -47,6 +47,7 @@ class PhotoEditorViewController: UIViewController {
     public var colors  : [UIColor] = []
     var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
     let shapes = ShapeDAO()
+    public var photoEditorDelegate: PhotoEditorDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -465,6 +466,7 @@ class PhotoEditorViewController: UIViewController {
             
             let obj:FilterViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_FilterView) as! FilterViewController
             obj.image = self.baseImageView.image
+            obj.filterDelegate = self
             self.navigationController?.pushViewController(obj, animated: true)
             break
         default:
