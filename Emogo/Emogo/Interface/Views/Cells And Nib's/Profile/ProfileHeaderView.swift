@@ -61,6 +61,12 @@ class ProfileHeaderView: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDeleg
         self.imgUser.image = #imageLiteral(resourceName: "camera_icon_cover_images")
         if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+        }else{
+            if !UserDAO.sharedInstance.user.displayName.isEmpty {
+                self.imgUser.setImage(string: UserDAO.sharedInstance.user.username , color: UIColor.colorHash(name: UserDAO.sharedInstance.user.username ), circular: true)
+            }else{
+                self.imgUser.setImage(string: UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name: UserDAO.sharedInstance.user.displayName), circular: true)
+            }
         }
 
        // btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)

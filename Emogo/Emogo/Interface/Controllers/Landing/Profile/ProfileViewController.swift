@@ -262,6 +262,12 @@ class ProfileViewController: UIViewController {
                 //print(UserDAO.sharedInstance.user.userImage.trim())
                 if !UserDAO.sharedInstance.user.userImage.trim().isEmpty {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
+                }else {
+                    if UserDAO.sharedInstance.user.displayName.isEmpty {
+                        self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
+                    }else{
+                        self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
+                    }
                 }
             //    self.imgUser.borderWidth = 1.0
               //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
@@ -338,9 +344,8 @@ class ProfileViewController: UIViewController {
         self.lblNOResult.isHidden = true
         self.btnNext.isHidden = true
         if array.count == 0  {
-            HUDManager.sharedInstance.showHUD()
-            self.profileCollectionView.es.resetNoMoreData()
-            self.getMyStuff(type: .start)
+            self.lblNOResult.isHidden = false
+            self.lblNOResult.text = "No Stuff Found"
         }
         self.profileCollectionView.reloadData()
     }
@@ -616,7 +621,8 @@ class ProfileViewController: UIViewController {
             kStuffOptionsHeight.constant = 17.0
             if ContentList.sharedInstance.arrayStuff.count == 0 {
                 HUDManager.sharedInstance.showHUD()
-                self.getMyStuff(type: .start)
+                self.getTopContents()
+              //  self.getMyStuff(type: .start)
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
@@ -679,11 +685,19 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         isEdited = true
-        let stream = StreamList.sharedInstance.arrayProfileStream[sender.tag]
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-        obj.streamID = stream.ID
-        self.navigationController?.push(viewController: obj)
+            let stream = self.arrayMyStreams[sender.tag]
+            obj.streamID = stream.ID
+            self.navigationController?.push(viewController: obj)
     }
+    
+    @objc func btnActionForHeaderEdit(sender:UIButton) {
+        isEdited = true
+        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
+            self.navigationController?.push(viewController: obj)
+    }
+    
     
     @objc func btnShowMoreAction(sender:UIButton){
         let top = self.arrayTopContent[sender.tag]
@@ -785,6 +799,28 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    
+    func getTopContents(){
+        APIServiceManager.sharedInstance.apiForGetTopContent { (_, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.lblNOResult.isHidden = true
+                self.btnNext.isHidden = false
+                self.btnNext.isHidden = true
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                if array.count == 0 {
+                    self.lblNOResult.text  = "No Stuff Found"
+                    self.lblNOResult.minimumScaleFactor = 1.0
+                    self.lblNOResult.isHidden = false
+                    self.btnNext.isHidden = true
+                }
+                self.layout.headerHeight = 0.0
+                self.profileCollectionView.reloadData()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
             for _ in  ContentList.sharedInstance.arrayStuff {
@@ -1073,6 +1109,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let stream = self.arrayMyStreams[indexPath.row]
             cell.prepareLayouts(stream: stream)
+            
             if currentMenu == .stream {
                 cell.lblName.text = ""
                 cell.lblName.isHidden = true
@@ -1103,13 +1140,15 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if UserDAO.sharedInstance.user.stream != nil {
                
             headerView.delegate = self
-        headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
+            headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
+            headerView.btnEditHeader.addTarget(self, action: #selector(self.btnActionForHeaderEdit(sender:)), for: .touchUpInside)
             }
             headerView.imgCover.layer.cornerRadius = 5.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
-            headerView.btnEdit.isHidden = false
-            headerView.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
+            headerView.btnEditHeader.isHidden = false
+           
+        
             return headerView
             
         default:

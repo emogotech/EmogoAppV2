@@ -74,7 +74,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
-                <outlet property="btnEdit" destination="ANb-Ix-v28" id="qhN-lo-w4p"/>
+                <outlet property="btnEditHeader" destination="ANb-Ix-v28" id="uzP-3y-xrB"/>
                 <outlet property="imgCover" destination="uk0-Pj-VVK" id="Zu1-I9-lsW"/>
                 <outlet property="imgUser" destination="dlc-mY-dtk" id="Z6F-iv-ONT"/>
                 <outlet property="lblTitle" destination="MG3-Ew-L6g" id="Hwc-wc-bl0"/>

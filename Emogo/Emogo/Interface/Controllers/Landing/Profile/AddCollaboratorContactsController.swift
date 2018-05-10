@@ -223,8 +223,12 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             let cell:ContactsViewCell = tblContacts.dequeueReusableCell(withIdentifier: kCell_ContactsCell) as! ContactsViewCell
             let dictContact = self.arrayContacts[indexPath.row]
             cell.lblContact.text = dictContact.name
-            cell.imgProfile.image = UIImage(named: "demo_images")
-        
+           // cell.imgProfile.image = UIImage(named: "demo_images")
+        if dictContact.imgUser.isEmpty {
+            cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name ), circular: true)
+        }else{
+            cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name), circular: true)
+        }
              return cell
        
    

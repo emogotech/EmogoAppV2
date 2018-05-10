@@ -15,7 +15,7 @@ class ProfileStreamView: UICollectionReusableView {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var viewContainer: UIView!
-    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var btnEditHeader: UIButton!
     
     var delegate:ProfileStreamViewDelegate?
 
@@ -34,7 +34,14 @@ class ProfileStreamView: UICollectionReusableView {
         
         if isCurrentUser {
             if  !UserDAO.sharedInstance.user.userImage.isEmpty {
-        self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
+            }else{
+                if !UserDAO.sharedInstance.user.displayName.isEmpty {
+                     self.imgUser.setImage(string: UserDAO.sharedInstance.user.username , color: UIColor.colorHash(name: UserDAO.sharedInstance.user.username ), circular: true)
+                }else{
+                    self.imgUser.setImage(string: UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name: UserDAO.sharedInstance.user.displayName), circular: true)
+                }
+                
             }
         }else {
             if image != nil {
@@ -49,6 +56,11 @@ class ProfileStreamView: UICollectionReusableView {
         self.imgUser.layer.masksToBounds = true
         self.lblTitle.text = stream.Title.trim().capitalized
         self.lblTitle.addShadow()
+        self.btnEditHeader.isHidden = true
+        if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.btnEditHeader.isHidden = false
+        }
+      
     }
     
     @objc func tap(gesture:UITapGestureRecognizer) {

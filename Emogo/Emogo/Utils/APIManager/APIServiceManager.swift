@@ -1642,73 +1642,54 @@ class APIServiceManager: NSObject {
     
     
     func apiForGetTopContent(completionHandler:@escaping (_ isSuccess:[TopContent]?, _ strError:String?)->Void){
-        var arrayTopContents = [TopContent]()
-        APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetTopContentAPI) { (result) in
+        
+     APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetTopContentAPI) { (result) in
             switch(result){
             case .success(let value):
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
-                            print(data)
-                            
+                          //  print(data)
                             
                             if  let all = (data as! [String:Any])["all"] {
                                 
                                 let array:[Any] = all as! [Any]
                                 
-                                var contents = [ContentDAO]()
                                 for obj in array {
-                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                     content.isUploaded = true
                                     content.isShowAddStream = true
                                     content.isEdit = true
-                                    contents.append(content)
+                                    content.stuffType = .All
+                                    ContentList.sharedInstance.arrayStuff.append(content)
                                 }
-                                if contents.count != 0 {
-                                    let top = TopContent(name: "All", contents: contents)
-                                    top.image = nil
-                                    top.type = .All
-                                    arrayTopContents.append(top)
-                                }
-                                
                             }
                          if  let picture = (data as! [String:Any])["picture"] {
                                
                                 let array:[Any] = picture as! [Any]
                                 
-                               var contents = [ContentDAO]()
                                 for obj in array {
-                             let content = ContentDAO(contentData: obj as! [String : Any])
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                     content.isUploaded = true
                                     content.isShowAddStream = true
                                     content.isEdit = true
-                                   contents.append(content)
-                                }
-                                if contents.count != 0 {
-                                    let top = TopContent(name: "Photos", contents: contents)
-                                    top.image = #imageLiteral(resourceName: "photos icon")
-                                    top.type = .Picture
-                                    arrayTopContents.append(top)
+                                    content.stuffType = .Picture
+                                    ContentList.sharedInstance.arrayStuff.append(content)
                                 }
                             
                             }
                            if let video = (data as! [String:Any])["video"] {
                               
                                let array:[Any] = video as! [Any]
-                                var contents = [ContentDAO]()
+                            
                                 for obj in array {
-                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                     content.isUploaded = true
                                     content.isShowAddStream = true
                                     content.isEdit = true
-                                    contents.append(content)
-                                }
-                                if contents.count != 0 {
-                                    let top = TopContent(name: "Videos", contents: contents)
-                                    top.image = #imageLiteral(resourceName: "videos icon")
-                                    top.type = .Video
-                                    arrayTopContents.append(top)
+                                    content.stuffType = .Video
+                                    ContentList.sharedInstance.arrayStuff.append(content)
                                 }
                            
                             }
@@ -1716,20 +1697,13 @@ class APIServiceManager: NSObject {
                              
                                 let array:[Any] = link as! [Any]
                             
-                                var contents = [ContentDAO]()
                                 for obj in array {
-                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                     content.isUploaded = true
                                     content.isShowAddStream = true
                                     content.isEdit = true
-                                    contents.append(content)
-                                }
-                                if contents.count != 0 {
-                                    let top = TopContent(name: "Links", contents: contents)
-                                    top.image = #imageLiteral(resourceName: "links icon")
-                                    top.type = .Links
-                                    arrayTopContents.append(top)
-                                    
+                                    content.stuffType = .Links
+                                    ContentList.sharedInstance.arrayStuff.append(content)
                                 }
                             
                                 
@@ -1737,23 +1711,31 @@ class APIServiceManager: NSObject {
                          if  let giphy = (data as! [String:Any])["giphy"] {
                                
                                 let array:[Any] = giphy as! [Any]
-                                var contents = [ContentDAO]()
                                 for obj in array {
-                                    let content = ContentDAO(contentData: obj as! [String : Any])
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                     content.isUploaded = true
                                     content.isShowAddStream = true
                                     content.isEdit = true
-                                    contents.append(content)
-                                }
-                                if contents.count != 0 {
-                                    let top = TopContent(name: "Gifs", contents: contents)
-                                    top.image = #imageLiteral(resourceName: "gifs icon")
-                                    top.type = .Giphy
-                                    arrayTopContents.append(top)
+                                    content.stuffType = .Giphy
+                                    ContentList.sharedInstance.arrayStuff.append(content)
                                 }
                             }
+                            if  let giphy = (data as! [String:Any])["note"] {
+                                
+                                let array:[Any] = giphy as! [Any]
+                                for obj in array {
+                                    let content = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    content.isUploaded = true
+                                    content.isShowAddStream = true
+                                    content.isEdit = true
+                                    content.stuffType = .Notes
+                                    ContentList.sharedInstance.arrayStuff.append(content)
+                                }
+                            }
+                            
+                            
                             //print(result)
-                            completionHandler(arrayTopContents,"")
+                            completionHandler([],"")
                         }
                         
                     }else {
