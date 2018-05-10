@@ -42,6 +42,7 @@ class MyStuffViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
+        self.getTopContents()
        
     }
     
@@ -343,14 +344,33 @@ class MyStuffViewController: UIViewController {
         self.btnNext.isHidden = true
         if array.count == 0  {
            
-            HUDManager.sharedInstance.showHUD()
-            self.stuffCollectionView.es.resetNoMoreData()
-            self.getMyStuff(type: .start)
+            self.lblNoResult.isHidden = false
+            self.lblNoResult.text = "No Stuff Found"
         }
         self.stuffCollectionView.reloadData()
     }
     
-  
+    func getTopContents(){
+        APIServiceManager.sharedInstance.apiForGetTopContent { (_, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.lblNoResult.isHidden = true
+                self.btnNext.isHidden = false
+                self.btnNext.isHidden = true
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                if array.count == 0 {
+                    self.lblNoResult.text  = "No Stuff Found"
+                    self.lblNoResult.minimumScaleFactor = 1.0
+                    self.lblNoResult.isHidden = false
+                    self.btnNext.isHidden = true
+                }
+               
+                self.stuffCollectionView.reloadData()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     
     
 
