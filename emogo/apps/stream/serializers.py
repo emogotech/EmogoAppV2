@@ -233,30 +233,33 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_collaborators(self, obj):
         fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id')
-
-        # If logged-in user is owner of stream show all collaborator
-        current_url = resolve(self.context.get('request').path_info).url_name
-        # If user as owner or want to get all collaborator list
-        if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-            instances = obj.stream_collaborator
-            phone_numbers = [str(_.phone_number) for _ in instances]
-            condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-            user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
-        # else Show collaborator created by logged in user.
-        else:
-            instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user]
-
-            phone_numbers = [str(_.phone_number) for _ in instances]
-            condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-            user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
         list_of_instances = list()
-        if user_qs.__len__() > 0:
-            for user, instance in product(user_qs, instances):
-                # print(user.get('username'), instance)
-                if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
-                    setattr(instance, 'name', user.get('user_data__full_name'))
-                    setattr(instance, 'user_profile_id', user.get('user_data__id') )
-                    list_of_instances.append(instance)
+        user_qs = list()
+        if obj.stream_collaborator.__len__() > 0:
+
+            # If logged-in user is owner of stream show all collaborator
+            current_url = resolve(self.context.get('request').path_info).url_name
+            # If user as owner or want to get all collaborator list
+            if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
+                instances = obj.stream_collaborator
+                phone_numbers = [str(_.phone_number) for _ in instances]
+                if phone_numbers.__len__() > 0:
+                    condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
+            # else Show collaborator created by logged in user.
+            else:
+                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user]
+                phone_numbers = [str(_.phone_number) for _ in instances]
+                if phone_numbers.__len__() > 0:
+                    condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
+            if user_qs.__len__() > 0:
+                for user, instance in product(user_qs, instances):
+                    # print(user.get('username'), instance)
+                    if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
+                        setattr(instance, 'name', user.get('user_data__full_name'))
+                        setattr(instance, 'user_profile_id', user.get('user_data__id') )
+                        list_of_instances.append(instance)
 
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
