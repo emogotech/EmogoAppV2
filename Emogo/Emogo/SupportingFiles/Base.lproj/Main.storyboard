@@ -460,10 +460,10 @@
                                         </connections>
                                     </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oZ5-WW-Ab8">
-                                        <rect key="frame" x="0.0" y="24" width="304" height="105"/>
+                                        <rect key="frame" x="0.0" y="24" width="306" height="105"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="8" minimumInteritemSpacing="8" id="EwW-vM-XQp">
-                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="itemSize" width="53" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="10" minY="0.0" maxX="0.0" maxY="8"/>
@@ -514,15 +514,15 @@
                                         </connections>
                                     </collectionView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6W-xy-EXC">
-                                        <rect key="frame" x="312" y="24" width="63" height="105"/>
+                                        <rect key="frame" x="305" y="24" width="70" height="105"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoE-eh-5mm">
-                                                <rect key="frame" x="-12" y="8" width="75" height="70"/>
+                                                <rect key="frame" x="0.0" y="8" width="70" height="70"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="75" id="O9i-hc-M3M"/>
+                                                    <constraint firstAttribute="width" constant="70" id="O9i-hc-M3M"/>
                                                     <constraint firstAttribute="height" constant="70" id="jQy-yQ-Cc0"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                                 <inset key="titleEdgeInsets" minX="-34" minY="-43" maxX="0.0" maxY="4"/>
                                                 <inset key="imageEdgeInsets" minX="17" minY="0.0" maxX="0.0" maxY="-20"/>
                                                 <state key="normal" title="ADD MORE" image="add_to_stream"/>
@@ -533,7 +533,7 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="63" id="O19-CA-v7m"/>
+                                            <constraint firstAttribute="width" constant="70" id="O19-CA-v7m"/>
                                             <constraint firstAttribute="trailing" secondItem="LoE-eh-5mm" secondAttribute="trailing" id="giV-DU-qhE"/>
                                             <constraint firstItem="LoE-eh-5mm" firstAttribute="top" secondItem="V6W-xy-EXC" secondAttribute="top" constant="8" id="zOk-qU-xXa"/>
                                         </constraints>
@@ -543,9 +543,9 @@
                                 <constraints>
                                     <constraint firstItem="oZ5-WW-Ab8" firstAttribute="leading" secondItem="xL0-eK-8Ba" secondAttribute="leading" id="2sd-mf-fhy"/>
                                     <constraint firstAttribute="bottom" secondItem="oZ5-WW-Ab8" secondAttribute="bottom" id="8V1-9V-7dm"/>
-                                    <constraint firstItem="V6W-xy-EXC" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="8" id="FJa-9l-I6M"/>
+                                    <constraint firstItem="V6W-xy-EXC" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="-1" id="FJa-9l-I6M"/>
                                     <constraint firstAttribute="bottom" secondItem="V6W-xy-EXC" secondAttribute="bottom" id="Gfc-RP-hVO"/>
-                                    <constraint firstItem="LoE-eh-5mm" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="-4" id="MrQ-Vv-GCE"/>
+                                    <constraint firstItem="LoE-eh-5mm" firstAttribute="leading" secondItem="oZ5-WW-Ab8" secondAttribute="trailing" constant="-1" id="MrQ-Vv-GCE"/>
                                     <constraint firstAttribute="trailing" secondItem="ecZ-93-WDO" secondAttribute="trailing" id="SRe-Ow-4qT"/>
                                     <constraint firstAttribute="trailing" secondItem="V6W-xy-EXC" secondAttribute="trailing" id="Sca-k0-8OP"/>
                                     <constraint firstItem="V6W-xy-EXC" firstAttribute="top" secondItem="ecZ-93-WDO" secondAttribute="bottom" id="UST-ik-Nqp"/>
@@ -2061,7 +2061,7 @@
                                 <rect key="frame" x="5" y="99" width="365" height="410"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="52.5" y="113" width="261" height="48"/>
+                                        <rect key="frame" x="52" y="113" width="261" height="48"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
                                         <nil key="highlightedColor"/>
                                     </label>
