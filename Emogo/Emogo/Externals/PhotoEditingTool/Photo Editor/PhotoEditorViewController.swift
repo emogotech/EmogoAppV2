@@ -26,7 +26,7 @@ class PhotoEditorViewController: UIViewController {
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var colorsCollectionView: UICollectionView!
     @IBOutlet weak var colorPickerView: UIView!
-    @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var txtImageCaption: MBAutoGrowingTextView!
     @IBOutlet weak var viewSaveButton: UIView!
     @IBOutlet weak var viewDescription: UIView!
@@ -49,7 +49,14 @@ class PhotoEditorViewController: UIViewController {
     let shapes = ShapeDAO()
     public var photoEditorDelegate: PhotoEditorDelegate?
     var seletedImage:ContentDAO!
+    
+    var lastTextViewTransform: CGAffineTransform?
+    var lastTextViewTransCenter: CGPoint?
+    var lastTextViewFont:UIFont?
+    var activeTextView: UITextView?
+    var isTyping: Bool = false
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -95,6 +102,7 @@ class PhotoEditorViewController: UIViewController {
         self.drawingView.isHidden = true
         self.stickers = shapes.shapes
         stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
+        activeTextView?.keyboardAppearance = .dark
     }
     
     
@@ -140,17 +148,9 @@ class PhotoEditorViewController: UIViewController {
     }
     
     func updateContainerFrame(){
-          let frame  = AVMakeRect(aspectRatio: (self.baseImageView?.image?.size)!, insideRect: self.baseImageView.frame)
-        print(frame)
-        print(self.canvasView.frame)
-
-        if frame.size.width > self.canvasView.frame.size.width {
-             self.drawingView.frame = CGRect(x: self.canvasView.frame.origin.x, y: frame.origin.y, width: self.canvasView.frame.size.width, height: frame.size.height)
-        }else {
-            self.drawingView.frame  = frame
-        }
-        
-        
+        let img = self.imageOrientation(self.image)
+        let frame = AVMakeRect(aspectRatio: img.size, insideRect: self.canvasView.frame)
+        self.imageViewHeightConstraint.constant = frame.size.height
        viewSaveButton.addBlurView()
        viewDescription.addBlurView()
     }
@@ -316,6 +316,18 @@ class PhotoEditorViewController: UIViewController {
     }
     
     
+    
+    @IBAction func saveButtonPressed(_ sender: Any) {
+        
+        HUDManager.sharedInstance.showHUD()
+        if self.seletedImage.imgPreview != nil {
+            self.uploadFile()
+        }else {
+            //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+        }
+    }
+    
     func addStickersViewController() {
           stickersVCIsVisible = true
         // hideToolbar(hide: true)
@@ -377,11 +389,14 @@ class PhotoEditorViewController: UIViewController {
     
     @objc func actionForSaveButton() {
         if self.selectedFeature == .Sticker {
-            let img = self.baseImageView.toImage()
-            self.baseImageView.image = img
+           let editiedImage = self.baseImageView.toImage()
+            self.baseImageView.image = editiedImage
             if self.baseImageView.subviews.count > 0 {
                 self.baseImageView.subviews[0].removeFromSuperview()
             }
+            self.seletedImage.imgPreview = editiedImage
+            self.seletedImage.width = Int(editiedImage.size.width)
+            self.seletedImage.height = Int(editiedImage.size.height)
         }else {
             self.drawingView.prepareForSnapshot()
             let baseImage: UIImage = baseImageView.image!
@@ -390,6 +405,9 @@ class PhotoEditorViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(3 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
                 self.baseImageView.image = resultImage
                 self.drawingView.clear()
+                self.seletedImage.imgPreview = resultImage
+                self.seletedImage.width = Int(resultImage.size.width)
+                self.seletedImage.height = Int(resultImage.size.height)
             })
         }
         self.drawingView.isHidden = true
@@ -405,7 +423,7 @@ class PhotoEditorViewController: UIViewController {
             edgeMenuLeft.close()
         }
         self.hideView(isEditing: false)
-
+       
     }
     
     @objc func actionForCancelButton() {
@@ -544,7 +562,8 @@ class PhotoEditorViewController: UIViewController {
                     
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
-                
+                self.photoEditorDelegate?.doneEditing(image: UIImage())
+                self.navigationController?.popViewAsDismiss()
                // update data after saving and navigate back
               
             }else {

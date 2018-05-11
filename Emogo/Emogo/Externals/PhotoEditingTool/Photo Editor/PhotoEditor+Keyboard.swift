@@ -33,17 +33,17 @@ extension PhotoEditorViewController {
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
             if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
-             self.colorPickerViewBottomConstraint.constant = 0.0
+             self.imageViewHeightConstraint.constant = 0.0
             } else {
                 
                 if #available(iOS 11.0, *) {
                     let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
                     let height = (endFrame?.size.height)! - extraBottomSpace!
-                self.colorPickerViewBottomConstraint.constant =  -height //?? 0.0
+                self.imageViewHeightConstraint.constant =  -height //?? 0.0
                 } else {
                     // Fallback on earlier versions
 
-                self.colorPickerViewBottomConstraint.constant =  endFrame?.size.height ?? 0.0
+                self.imageViewHeightConstraint.constant =  endFrame?.size.height ?? 0.0
                 }
             }
             UIView.animate(withDuration: duration,

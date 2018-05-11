@@ -39,6 +39,12 @@ extension FilterViewController {
             filterOptionUpdated()
             break
         case 222:
+            
+            if self.images.count == 0 {
+                self.showToast(type: .success, strMSG: "Please wait while we are loading.")
+                self.isFilterSelected = false
+                return
+            }
             isGradientFilter = true
             self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
             filterOptionUpdated()
@@ -61,17 +67,14 @@ extension FilterViewController {
     
     func filterOptionUpdated(){
         if isGradientFilter{
-            if self.images.count == 0 {
-                self.showAlert(strMessage: "Please wait while we are loading.")
-                return
-            }
+        
             gradientOptionUpdated()
         }else {
             Animation.viewSlideInFromTopToBottom(views:self.filterView)
             if self.isFilterSelected  {
                 self.filterCollectionView.reloadData()
                 self.gradientButton.isHidden = true
-               let img = self.imageOrientation(self.canvasView.toImage())
+                let img = self.imageOrientation(self.image!)
                 editingService.setImage (image: img)
                 self.filterView.isHidden = false
                 self.filterViewButton.isHidden = false
@@ -96,7 +99,7 @@ extension FilterViewController {
             self.view.setNeedsUpdateConstraints()
             self.filterButton.isHidden = false
             self.gradientButton.isHidden = true
-            let img = self.imageOrientation(self.canvasImageView.image!)
+            let img = self.imageOrientation(self.image!)
             editingService.setImage (image: img)
             self.gradientView.isHidden = false
             self.filterViewButton.isHidden = false
@@ -198,12 +201,12 @@ extension FilterViewController {
             self.editingService.ciContext = nil
             self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         }else {
-            self.canvasImageView.image = self.editingService.posterImage()
+            self.image  = self.editingService.posterImage()
+            self.canvasImageView.image =  self.image
             /// self.canvasImageView.image = self.canvasView.toImage()
-            
         }
         self.gradientImageView.isHidden = true
-        self.editingService.setImage(image: self.canvasImageView.image!)
+        self.editingService.setImage(image: self.image!)
         
     }
     @IBAction func btnFilterCancelPressed(_ sender: UIButton) {

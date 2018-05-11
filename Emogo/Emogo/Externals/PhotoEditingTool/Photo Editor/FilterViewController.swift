@@ -168,12 +168,13 @@ class FilterViewController: UIViewController {
                 guard let imageBuffer = imageBuffer else {
                     return
                 }
-                imageGradientFilter = UIImage(imageBuffer: imageBuffer)
+                imageGradientFilter = UIImage(imageBuffer: imageBuffer)?.resize(to: (self.imageToFilter?.size)!)
+                
             }else {
                 imageGradientFilter = self.image?.createFilteredImage(filterName: value)
             }
             if let image = imageGradientFilter {
-                canvasImageView.image = image.resizeImage(targetSize:  CGSize(width: canvasView.frame.size.width, height: canvasImageView.frame.size.height))
+                canvasImageView.image = image
             }
 
         }
@@ -228,9 +229,9 @@ class FilterViewController: UIViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
-        DispatchQueue.global(qos: .background).async {
-            self.prepareGradientImages(image: self.image!)
-        }
+//        DispatchQueue.global(qos: .background).async {
+//            self.prepareGradientImages(image: self.image!)
+//        }
     }
     
     

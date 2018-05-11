@@ -81,6 +81,9 @@ extension PhotoEditorViewController: ColorDelegate {
 extension PhotoEditorViewController: FilterViewControllerDelegate {
     
     func doneWithImage(resultImage: UIImage) {
+        self.seletedImage.imgPreview = resultImage
+        seletedImage.width = Int(resultImage.size.width)
+        seletedImage.height = Int(resultImage.size.height)
         self.baseImageView.image = resultImage
     }
 }
