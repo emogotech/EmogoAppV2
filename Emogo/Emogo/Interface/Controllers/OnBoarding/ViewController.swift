@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
 
     // MARK: - UI Elements
-    @IBOutlet weak var viewTutorial                 : KASlideShow!
+    @IBOutlet weak var viewTutorial                  : KASlideShow!
     @IBOutlet weak var pageController                : HHPageView!
     @IBOutlet weak var lblWelcome                    : UILabel!
 

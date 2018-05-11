@@ -128,6 +128,11 @@ class ContentViewController: UIViewController {
             let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             imgCover.addGestureRecognizer(swipeLeft)
+            
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeDown.direction = UISwipeGestureRecognizerDirection.down
+            imgCover.addGestureRecognizer(swipeDown)
+            
          }else {
             self.btnAddToStream.isHidden = true
         }
@@ -451,7 +456,7 @@ class ContentViewController: UIViewController {
 
                     let buttonEdit = self.getShadowButton(Alignment: 1)
                     //buttonEdit.setBackgroundImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
-                   buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
+                    buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
                     buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                     let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
                     
@@ -765,6 +770,9 @@ class ContentViewController: UIViewController {
                 }
                 break
                 
+            case .down:
+                self.navigationController?.popViewController(animated: true)
+                break
             default:
                 break
             }
