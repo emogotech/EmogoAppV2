@@ -1,14 +1,4 @@
-//
-//  ViewController+Gesture.swift
-//  ImageEditing
-//
-//  Created by Pushpendra on 01/05/18.
-//  Copyright © 2018 Pushpendra. All rights reserved.
-//
-
-import Foundation
 import UIKit
-import AVFoundation
 
 extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     
@@ -17,12 +7,13 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      Selecting transparent parts of the imageview won't move the object
      */
     @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
+        print("panGesture")
         self.view.endEditing(true)
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
                 if recognizer.state == .began {
-                    for imageView in subImageViews(view: baseImageView) {
+                    for imageView in subImageViews(view: canvasImageView) {
                         let location = recognizer.location(in: imageView)
                         let alpha = imageView.alphaAtPoint(location)
                         if alpha > 0 {
@@ -55,7 +46,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         if let view = recognizer.view {
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
-                //   self.colorsCollectionView.isHidden = true
+                self.colorsCollectionView.isHidden = true
                 if viewSub?.tag  == 2001{
                     viewSub?.transform = (viewSub?.transform.scaledBy(x: recognizer.scale, y: recognizer.scale))!
                     recognizer.scale = 1
@@ -63,7 +54,6 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
             }
             view.transform = view.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
             recognizer.scale = 1
-            
         }
     }
     
@@ -72,8 +62,9 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
      */
     @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
         self.view.endEditing(true)
+        
         if let view = recognizer.view {
-            //  self.colorsCollectionView.isHidden = true
+            self.colorsCollectionView.isHidden = true
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
                 if viewSub?.tag  == 2001{
@@ -85,6 +76,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 view.transform = view.transform.rotated(by: recognizer.rotation)
                 recognizer.rotation = 0
             }
+            
         }
     }
     
@@ -97,7 +89,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         if let view = recognizer.view {
             if view is UIImageView {
                 //Tap only on visible parts on the image
-                for imageView in subImageViews(view: baseImageView) {
+                for imageView in subImageViews(view: canvasImageView) {
                     let location = recognizer.location(in: imageView)
                     let alpha = imageView.alphaAtPoint(location)
                     if alpha > 0 {
@@ -128,7 +120,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     
     @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         if recognizer.state == .recognized {
-            if !self.stickersVCIsVisible {
+            if !stickersVCIsVisible {
                 addStickersViewController()
             }
         }
@@ -169,18 +161,16 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     
     func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
         
-    //    hideToolbar(hide: true)
         deleteView.isHidden = false
        // doneButton.isHidden = true
- //       self.filterButtonContainer.isHidden = true
         
         view.superview?.bringSubview(toFront: view)
         let pointToSuperView = recognizer.location(in: self.view)
         
-        view.center = CGPoint(x: view.center.x + recognizer.translation(in: baseImageView).x,
-                              y: view.center.y + recognizer.translation(in: baseImageView).y)
+        view.center = CGPoint(x: view.center.x + recognizer.translation(in: canvasImageView).x,
+                              y: view.center.y + recognizer.translation(in: canvasImageView).y)
         
-        recognizer.setTranslation(CGPoint.zero, in: baseImageView)
+        recognizer.setTranslation(CGPoint.zero, in: canvasImageView)
         
         if let previousPoint = lastPanPoint {
             
@@ -193,7 +183,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 }
                 UIView.animate(withDuration: 0.3, animations: {
                     view.transform = view.transform.scaledBy(x: 0.25, y: 0.25)
-                    view.center = recognizer.location(in: self.baseImageView)
+                    view.center = recognizer.location(in: self.canvasImageView)
                 })
             }
                 //View is going out of deleteView
@@ -201,7 +191,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 //Scale to original Size
                 UIView.animate(withDuration: 0.3, animations: {
                     view.transform = view.transform.scaledBy(x: 4, y: 4)
-                    view.center = recognizer.location(in: self.baseImageView)
+                    view.center = recognizer.location(in: self.canvasImageView)
                 })
             }
         }
@@ -210,69 +200,19 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         if recognizer.state == .ended {
             imageViewToPan = nil
             lastPanPoint = nil
-            deleteView.isHidden = true
-        
-            let point = recognizer.location(in: self.view)
-            if deleteView.frame.contains(point) { // Delete the view
-                view.removeFromSuperview()
-                if #available(iOS 10.0, *) {
-                    let generator = UINotificationFeedbackGenerator()
-                    generator.notificationOccurred(.success)
-                }
-            } else if view.center.x < drawingView.frame.origin.x  || view.center.y < drawingView.frame.origin.y  ||  view.center.y >  (drawingView.frame.size.height + drawingView.frame.origin.y) || view.center.x > drawingView.frame.size.width { //Snap the view back to canvasImageView
-                //!self.drawingView.bounds.contains(view.center)
-                UIView.animate(withDuration: 0.3, animations: {
-                    view.center = self.baseImageView.center
-                })
-            }
-        }
-        
-//        if isTyping == true {
-//            hideToolbar(hide: true)
-//        }
-    }
-    
-    
-    /*
-    func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
-        let dragableFrmae = AVMakeRect(aspectRatio: (self.baseImageView?.image?.size)!, insideRect: self.baseImageView.frame)
-        
-        view.superview?.bringSubview(toFront: view)
-        let pointToSuperView = recognizer.location(in: self.view)
-        
-        view.center = CGPoint(x: view.center.x + recognizer.translation(in: baseImageView).x,
-                              y: view.center.y + recognizer.translation(in: baseImageView).y)
-        
-        recognizer.setTranslation(CGPoint.zero, in: baseImageView)
-        if let previousPoint = lastPanPoint {
             
-            
-            //View is going into deleteView
-            if deleteView.frame.contains(pointToSuperView) && !deleteView.frame.contains(previousPoint) {
-                if #available(iOS 10.0, *) {
-                    let generator = UIImpactFeedbackGenerator(style: .heavy)
-                    generator.impactOccurred()
-                }
-                UIView.animate(withDuration: 0.3, animations: {
-                    view.transform = view.transform.scaledBy(x: 0.25, y: 0.25)
-                    view.center = recognizer.location(in: self.baseImageView)
-                })
+            if isText {
+                self.colorsCollectionView.isHidden = true
+                //doneButton.isHidden = false
+                deleteView.isHidden = true
+            } else if isStriker {
+                self.colorsCollectionView.isHidden = true
+             //   doneButton.isHidden = false
+                deleteView.isHidden = true
             }
-                //View is going out of deleteView
-            else if deleteView.frame.contains(previousPoint) && !deleteView.frame.contains(pointToSuperView) {
-                //Scale to original Size
-                UIView.animate(withDuration: 0.3, animations: {
-                    view.transform = view.transform.scaledBy(x: 4, y: 4)
-                    view.center = recognizer.location(in: self.baseImageView)
-                })
+            else{
+                deleteView.isHidden = true
             }
-        }
-        self.lastPanPoint = pointToSuperView
-        
-        if recognizer.state == .ended {
-            imageViewToPan = nil
-            self.lastPanPoint = nil
-            
             let point = recognizer.location(in: self.view)
             
             if deleteView.frame.contains(point) { // Delete the view
@@ -281,19 +221,18 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                     let generator = UINotificationFeedbackGenerator()
                     generator.notificationOccurred(.success)
                 }
-            } else if !dragableFrmae.contains(view.center) { //Snap the view back to canvasImageView
+            } else if !canvasImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
                 UIView.animate(withDuration: 0.3, animations: {
-                    view.center = self.baseImageView.center
+                    view.center = self.canvasImageView.center
                 })
                 
             }
         }
         
-        //        if isTyping == true {
-        //            hideToolbar(hide: true)
-        //        }
+        if isTyping == true {
+            removeNavigationButtons()
+        }
     }
- */
     
     func subImageViews(view: UIView) -> [UIImageView] {
         var imageviews: [UIImageView] = []

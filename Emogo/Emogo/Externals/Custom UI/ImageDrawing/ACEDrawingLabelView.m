@@ -131,6 +131,8 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
         self.labelTextField.textColor = [UIColor whiteColor];
         self.labelTextField.text = @"";
         self.labelTextField.textAlignment = NSTextAlignmentCenter;
+        self.labelTextField.keyboardAppearance = UIKeyboardAppearanceDark;
+        self.labelTextField.keyboardType = UIKeyboardTypeASCIICapable;
         [self.labelTextField addTarget:self action:@selector(textFieldEditingChanged:) forControlEvents:UIControlEventEditingChanged];
         
         self.border = [CAShapeLayer layer];
@@ -366,6 +368,7 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
             [self.delegate labelViewDidChangeEditing:self];
         }
     } else if (recognizer.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"Gesture Ended.");
         [self setCenter:[self estimatedCenter]];
         
         if ([self.delegate respondsToSelector:@selector(labelViewDidEndEditing:)]) {

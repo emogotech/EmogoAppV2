@@ -164,6 +164,42 @@
 		F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E7201CB690005AFE4A /* Checkbox.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
+		F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91920A9582F00FA8623 /* GradientView.swift */; };
+		F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */ = {isa = PBXBuildFile; fileRef = F41FD91A20A9583000FA8623 /* PhotoCropEditorBorder.png */; };
+		F41FD94220A9583F00FA8623 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F41FD91B20A9583000FA8623 /* icomoon.ttf */; };
+		F41FD94320A9583F00FA8623 /* PhotoCropEditorBorder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41FD91C20A9583100FA8623 /* PhotoCropEditorBorder@2x.png */; };
+		F41FD94420A9583F00FA8623 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91D20A9583100FA8623 /* Protocols.swift */; };
+		F41FD94520A9583F00FA8623 /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91E20A9583100FA8623 /* UIImage+Size.swift */; };
+		F41FD94620A9583F00FA8623 /* ResizeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91F20A9583200FA8623 /* ResizeControl.swift */; };
+		F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92020A9583200FA8623 /* PhotoEditor+StickersViewController.swift */; };
+		F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92120A9583200FA8623 /* UIView+Image.swift */; };
+		F41FD94920A9583F00FA8623 /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92220A9583300FA8623 /* ColorCollectionViewCell.xib */; };
+		F41FD94A20A9583F00FA8623 /* StickersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92320A9583300FA8623 /* StickersViewController.xib */; };
+		F41FD94C20A9583F00FA8623 /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92520A9583400FA8623 /* FilterCell.xib */; };
+		F41FD94D20A9583F00FA8623 /* PhotoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92620A9583400FA8623 /* PhotoEditorViewController.xib */; };
+		F41FD94E20A9583F00FA8623 /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92720A9583400FA8623 /* ColorCollectionViewCell.swift */; };
+		F41FD94F20A9583F00FA8623 /* EmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92820A9583500FA8623 /* EmojiCollectionViewCell.xib */; };
+		F41FD95120A9583F00FA8623 /* CropRectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92A20A9583500FA8623 /* CropRectView.swift */; };
+		F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92B20A9583600FA8623 /* PhotoEditor+Controls.swift */; };
+		F41FD95320A9583F00FA8623 /* FilterGradientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92C20A9583600FA8623 /* FilterGradientCell.xib */; };
+		F41FD95420A9583F00FA8623 /* PhotoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92D20A9583600FA8623 /* PhotoEditor+Keyboard.swift */; };
+		F41FD95520A9583F00FA8623 /* PhotoCropEditorBorder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41FD92E20A9583700FA8623 /* PhotoCropEditorBorder@3x.png */; };
+		F41FD95620A9583F00FA8623 /* PhotoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD92F20A9583700FA8623 /* PhotoEditorViewController.swift */; };
+		F41FD95720A9583F00FA8623 /* CropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93020A9583800FA8623 /* CropView.swift */; };
+		F41FD95820A9583F00FA8623 /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93120A9583800FA8623 /* StickerCollectionViewCell.swift */; };
+		F41FD95920A9583F00FA8623 /* EmojisCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93220A9583800FA8623 /* EmojisCollectionViewDelegate.swift */; };
+		F41FD95A20A9583F00FA8623 /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93320A9583900FA8623 /* ColorsCollectionViewDelegate.swift */; };
+		F41FD95B20A9583F00FA8623 /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93420A9583900FA8623 /* UIImageView+Alpha.swift */; };
+		F41FD95C20A9583F00FA8623 /* PhotoEditor+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93520A9583A00FA8623 /* PhotoEditor+Gestures.swift */; };
+		F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = F41FD93620A9583A00FA8623 /* Montserrat-Regular.otf */; };
+		F41FD95E20A9583F00FA8623 /* PhotoEditor+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93720A9583B00FA8623 /* PhotoEditor+UITextView.swift */; };
+		F41FD95F20A9583F00FA8623 /* PhotoEditor+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93820A9583B00FA8623 /* PhotoEditor+Drawing.swift */; };
+		F41FD96020A9583F00FA8623 /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93920A9583C00FA8623 /* EmojiCollectionViewCell.swift */; };
+		F41FD96120A9583F00FA8623 /* filterMenuItem_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41FD93A20A9583C00FA8623 /* filterMenuItem_icon@3x.png */; };
+		F41FD96220A9583F00FA8623 /* UIImage+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93B20A9583C00FA8623 /* UIImage+Crop.swift */; };
+		F41FD96320A9583F00FA8623 /* PhotoEditor+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93C20A9583D00FA8623 /* PhotoEditor+Font.swift */; };
+		F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */; };
+		F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93F20A9583E00FA8623 /* StickersViewController.swift */; };
 		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
 		F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */; };
 		F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F42217B020074D4D002D4E4E /* k-popup-dismiss-button@2x.png */; };
@@ -337,31 +373,11 @@
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
 		F4C20FCF209ADFD30094A7FC /* ImageEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FCE209ADFD30094A7FC /* ImageEditor.storyboard */; };
-		F4C20FD2209AE19A0094A7FC /* PhotoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD1209AE19A0094A7FC /* PhotoEditorViewController.swift */; };
-		F4C20FE8209AE4E80094A7FC /* StickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD3209AE4DB0094A7FC /* StickerCollectionViewCell.swift */; };
 		F4C20FE9209AE4E80094A7FC /* FilterGradientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD4209AE4DB0094A7FC /* FilterGradientCell.swift */; };
 		F4C20FEA209AE4E80094A7FC /* FilterGradientCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FD5209AE4DC0094A7FC /* FilterGradientCell.xib */; };
 		F4C20FEB209AE4E80094A7FC /* PhotoEditor+FilterControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD6209AE4DD0094A7FC /* PhotoEditor+FilterControls.swift */; };
-		F4C20FEC209AE4E80094A7FC /* StickersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FD7209AE4DD0094A7FC /* StickersViewController.xib */; };
-		F4C20FED209AE4E80094A7FC /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD8209AE4DE0094A7FC /* UIImage+Size.swift */; };
 		F4C20FEE209AE4E80094A7FC /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */; };
-		F4C20FEF209AE4E80094A7FC /* EmojiCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FDA209AE4DF0094A7FC /* EmojiCollectionViewCell.xib */; };
-		F4C20FF0209AE4E80094A7FC /* EmojisCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FDB209AE4E00094A7FC /* EmojisCollectionViewDelegate.swift */; };
-		F4C20FF1209AE4E80094A7FC /* StickerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FDC209AE4E10094A7FC /* StickerCollectionViewCell.xib */; };
-		F4C20FF2209AE4E80094A7FC /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FDD209AE4E10094A7FC /* UIImageView+Alpha.swift */; };
-		F4C20FF3209AE4E80094A7FC /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FDE209AE4E20094A7FC /* UIView+Image.swift */; };
-		F4C20FF4209AE4E80094A7FC /* StickersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FDF209AE4E30094A7FC /* StickersViewController.swift */; };
-		F4C20FF5209AE4E80094A7FC /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE0209AE4E30094A7FC /* Protocols.swift */; };
-		F4C20FF6209AE4E80094A7FC /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FE1209AE4E40094A7FC /* ColorCollectionViewCell.xib */; };
-		F4C20FF7209AE4E80094A7FC /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE2209AE4E50094A7FC /* EmojiCollectionViewCell.swift */; };
 		F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE3209AE4E50094A7FC /* FilterCell.swift */; };
-		F4C20FF9209AE4E80094A7FC /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE4209AE4E60094A7FC /* GradientView.swift */; };
-		F4C20FFA209AE4E80094A7FC /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */; };
-		F4C20FFB209AE4E80094A7FC /* PhotoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */; };
-		F4C20FFC209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */; };
-		F4C21024209AE5ED0094A7FC /* PhotoEditor +Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */; };
-		F4C21026209AE6470094A7FC /* PhotoEditor +Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */; };
-		F4C21028209AE6C70094A7FC /* PhotoEditor +Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */; };
 		F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21029209AE7010094A7FC /* FilterViewController.swift */; };
 		F4C2103B209B366B0094A7FC /* ACEDrawingLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2102D209B36650094A7FC /* ACEDrawingLabelView.m */; };
 		F4C2103C209B366B0094A7FC /* ACEDrawingTools.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2102F209B36670094A7FC /* ACEDrawingTools.m */; };
@@ -598,6 +614,42 @@
 		F41752E7201CB690005AFE4A /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
+		F41FD91920A9582F00FA8623 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		F41FD91A20A9583000FA8623 /* PhotoCropEditorBorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PhotoCropEditorBorder.png; sourceTree = "<group>"; };
+		F41FD91B20A9583000FA8623 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
+		F41FD91C20A9583100FA8623 /* PhotoCropEditorBorder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PhotoCropEditorBorder@2x.png"; sourceTree = "<group>"; };
+		F41FD91D20A9583100FA8623 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		F41FD91E20A9583100FA8623 /* UIImage+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
+		F41FD91F20A9583200FA8623 /* ResizeControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResizeControl.swift; sourceTree = "<group>"; };
+		F41FD92020A9583200FA8623 /* PhotoEditor+StickersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+StickersViewController.swift"; sourceTree = "<group>"; };
+		F41FD92120A9583200FA8623 /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
+		F41FD92220A9583300FA8623 /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
+		F41FD92320A9583300FA8623 /* StickersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersViewController.xib; sourceTree = "<group>"; };
+		F41FD92520A9583400FA8623 /* FilterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
+		F41FD92620A9583400FA8623 /* PhotoEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoEditorViewController.xib; sourceTree = "<group>"; };
+		F41FD92720A9583400FA8623 /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		F41FD92820A9583500FA8623 /* EmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmojiCollectionViewCell.xib; sourceTree = "<group>"; };
+		F41FD92A20A9583500FA8623 /* CropRectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropRectView.swift; sourceTree = "<group>"; };
+		F41FD92B20A9583600FA8623 /* PhotoEditor+Controls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Controls.swift"; sourceTree = "<group>"; };
+		F41FD92C20A9583600FA8623 /* FilterGradientCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterGradientCell.xib; sourceTree = "<group>"; };
+		F41FD92D20A9583600FA8623 /* PhotoEditor+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Keyboard.swift"; sourceTree = "<group>"; };
+		F41FD92E20A9583700FA8623 /* PhotoCropEditorBorder@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PhotoCropEditorBorder@3x.png"; sourceTree = "<group>"; };
+		F41FD92F20A9583700FA8623 /* PhotoEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorViewController.swift; sourceTree = "<group>"; };
+		F41FD93020A9583800FA8623 /* CropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropView.swift; sourceTree = "<group>"; };
+		F41FD93120A9583800FA8623 /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		F41FD93220A9583800FA8623 /* EmojisCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojisCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		F41FD93320A9583900FA8623 /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
+		F41FD93420A9583900FA8623 /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
+		F41FD93520A9583A00FA8623 /* PhotoEditor+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Gestures.swift"; sourceTree = "<group>"; };
+		F41FD93620A9583A00FA8623 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
+		F41FD93720A9583B00FA8623 /* PhotoEditor+UITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+UITextView.swift"; sourceTree = "<group>"; };
+		F41FD93820A9583B00FA8623 /* PhotoEditor+Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Drawing.swift"; sourceTree = "<group>"; };
+		F41FD93920A9583C00FA8623 /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		F41FD93A20A9583C00FA8623 /* filterMenuItem_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterMenuItem_icon@3x.png"; sourceTree = "<group>"; };
+		F41FD93B20A9583C00FA8623 /* UIImage+Crop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Crop.swift"; sourceTree = "<group>"; };
+		F41FD93C20A9583D00FA8623 /* PhotoEditor+Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Font.swift"; sourceTree = "<group>"; };
+		F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickerCollectionViewCell.xib; sourceTree = "<group>"; };
+		F41FD93F20A9583E00FA8623 /* StickersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersViewController.swift; sourceTree = "<group>"; };
 		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
 		F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZPopupViewController.m; sourceTree = "<group>"; };
 		F42217AC20074CF9002D4E4E /* BIZPopupViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -795,31 +847,11 @@
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
 		F4C20FCE209ADFD30094A7FC /* ImageEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageEditor.storyboard; sourceTree = "<group>"; };
-		F4C20FD1209AE19A0094A7FC /* PhotoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorViewController.swift; sourceTree = "<group>"; };
-		F4C20FD3209AE4DB0094A7FC /* StickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4C20FD4209AE4DB0094A7FC /* FilterGradientCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterGradientCell.swift; sourceTree = "<group>"; };
 		F4C20FD5209AE4DC0094A7FC /* FilterGradientCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterGradientCell.xib; sourceTree = "<group>"; };
 		F4C20FD6209AE4DD0094A7FC /* PhotoEditor+FilterControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+FilterControls.swift"; sourceTree = "<group>"; };
-		F4C20FD7209AE4DD0094A7FC /* StickersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickersViewController.xib; sourceTree = "<group>"; };
-		F4C20FD8209AE4DE0094A7FC /* UIImage+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 		F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
-		F4C20FDA209AE4DF0094A7FC /* EmojiCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmojiCollectionViewCell.xib; sourceTree = "<group>"; };
-		F4C20FDB209AE4E00094A7FC /* EmojisCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojisCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		F4C20FDC209AE4E10094A7FC /* StickerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickerCollectionViewCell.xib; sourceTree = "<group>"; };
-		F4C20FDD209AE4E10094A7FC /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
-		F4C20FDE209AE4E20094A7FC /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
-		F4C20FDF209AE4E30094A7FC /* StickersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersViewController.swift; sourceTree = "<group>"; };
-		F4C20FE0209AE4E30094A7FC /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
-		F4C20FE1209AE4E40094A7FC /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
-		F4C20FE2209AE4E50094A7FC /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		F4C20FE3209AE4E50094A7FC /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
-		F4C20FE4209AE4E60094A7FC /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
-		F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
-		F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Keyboard.swift"; sourceTree = "<group>"; };
-		F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
-		F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Gesture.swift"; sourceTree = "<group>"; };
-		F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Drawing.swift"; sourceTree = "<group>"; };
-		F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor +Delegate.swift"; sourceTree = "<group>"; };
 		F4C21029209AE7010094A7FC /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		F4C2102C209B36650094A7FC /* ACEDrawingLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingLabelView.h; sourceTree = "<group>"; };
 		F4C2102D209B36650094A7FC /* ACEDrawingLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingLabelView.m; sourceTree = "<group>"; };
@@ -1616,6 +1648,49 @@
 			path = BadgeButton;
 			sourceTree = "<group>";
 		};
+		F41FD91820A9581400FA8623 /* Drawing+Text */ = {
+			isa = PBXGroup;
+			children = (
+				F41FD92720A9583400FA8623 /* ColorCollectionViewCell.swift */,
+				F41FD92220A9583300FA8623 /* ColorCollectionViewCell.xib */,
+				F41FD93320A9583900FA8623 /* ColorsCollectionViewDelegate.swift */,
+				F41FD92A20A9583500FA8623 /* CropRectView.swift */,
+				F41FD93020A9583800FA8623 /* CropView.swift */,
+				F41FD93920A9583C00FA8623 /* EmojiCollectionViewCell.swift */,
+				F41FD92820A9583500FA8623 /* EmojiCollectionViewCell.xib */,
+				F41FD93220A9583800FA8623 /* EmojisCollectionViewDelegate.swift */,
+				F41FD92520A9583400FA8623 /* FilterCell.xib */,
+				F41FD92C20A9583600FA8623 /* FilterGradientCell.xib */,
+				F41FD93A20A9583C00FA8623 /* filterMenuItem_icon@3x.png */,
+				F41FD91920A9582F00FA8623 /* GradientView.swift */,
+				F41FD91B20A9583000FA8623 /* icomoon.ttf */,
+				F41FD93620A9583A00FA8623 /* Montserrat-Regular.otf */,
+				F41FD91A20A9583000FA8623 /* PhotoCropEditorBorder.png */,
+				F41FD91C20A9583100FA8623 /* PhotoCropEditorBorder@2x.png */,
+				F41FD92E20A9583700FA8623 /* PhotoCropEditorBorder@3x.png */,
+				F41FD92B20A9583600FA8623 /* PhotoEditor+Controls.swift */,
+				F41FD93820A9583B00FA8623 /* PhotoEditor+Drawing.swift */,
+				F41FD93C20A9583D00FA8623 /* PhotoEditor+Font.swift */,
+				F41FD93520A9583A00FA8623 /* PhotoEditor+Gestures.swift */,
+				F41FD92D20A9583600FA8623 /* PhotoEditor+Keyboard.swift */,
+				F41FD92020A9583200FA8623 /* PhotoEditor+StickersViewController.swift */,
+				F41FD93720A9583B00FA8623 /* PhotoEditor+UITextView.swift */,
+				F41FD92F20A9583700FA8623 /* PhotoEditorViewController.swift */,
+				F41FD92620A9583400FA8623 /* PhotoEditorViewController.xib */,
+				F41FD91D20A9583100FA8623 /* Protocols.swift */,
+				F41FD91F20A9583200FA8623 /* ResizeControl.swift */,
+				F41FD93120A9583800FA8623 /* StickerCollectionViewCell.swift */,
+				F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */,
+				F41FD93F20A9583E00FA8623 /* StickersViewController.swift */,
+				F41FD92320A9583300FA8623 /* StickersViewController.xib */,
+				F41FD93B20A9583C00FA8623 /* UIImage+Crop.swift */,
+				F41FD91E20A9583100FA8623 /* UIImage+Size.swift */,
+				F41FD93420A9583900FA8623 /* UIImageView+Alpha.swift */,
+				F41FD92120A9583200FA8623 /* UIView+Image.swift */,
+			);
+			path = "Drawing+Text";
+			sourceTree = "<group>";
+		};
 		F42217A820074CB6002D4E4E /* PopupView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1853,6 +1928,7 @@
 		F4431A661FC6DD1A00311C9A /* PhotoEditingTool */ = {
 			isa = PBXGroup;
 			children = (
+				F41FD91820A9581400FA8623 /* Drawing+Text */,
 				F4C20FFD209AE5200094A7FC /* Filter */,
 				F4C20FD0209AE1320094A7FC /* Photo Editor */,
 				F431185D202B8885006139F7 /* Images */,
@@ -2034,33 +2110,13 @@
 		F4C20FD0209AE1320094A7FC /* Photo Editor */ = {
 			isa = PBXGroup;
 			children = (
-				F4C20FD1209AE19A0094A7FC /* PhotoEditorViewController.swift */,
 				F4C21029209AE7010094A7FC /* FilterViewController.swift */,
 				F4A5F74C209C685100AC9AE1 /* FilterViewController+Controls.swift */,
-				F4C20FE5209AE4E70094A7FC /* ColorCollectionViewCell.swift */,
-				F4C20FE1209AE4E40094A7FC /* ColorCollectionViewCell.xib */,
-				F4C20FE7209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift */,
-				F4C20FE2209AE4E50094A7FC /* EmojiCollectionViewCell.swift */,
-				F4C20FDA209AE4DF0094A7FC /* EmojiCollectionViewCell.xib */,
-				F4C20FDB209AE4E00094A7FC /* EmojisCollectionViewDelegate.swift */,
 				F4C20FE3209AE4E50094A7FC /* FilterCell.swift */,
 				F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */,
 				F4C20FD4209AE4DB0094A7FC /* FilterGradientCell.swift */,
 				F4C20FD5209AE4DC0094A7FC /* FilterGradientCell.xib */,
-				F4C20FE4209AE4E60094A7FC /* GradientView.swift */,
 				F4C20FD6209AE4DD0094A7FC /* PhotoEditor+FilterControls.swift */,
-				F4C20FE6209AE4E70094A7FC /* PhotoEditor+Keyboard.swift */,
-				F4C20FE0209AE4E30094A7FC /* Protocols.swift */,
-				F4C20FD3209AE4DB0094A7FC /* StickerCollectionViewCell.swift */,
-				F4C20FDC209AE4E10094A7FC /* StickerCollectionViewCell.xib */,
-				F4C20FDF209AE4E30094A7FC /* StickersViewController.swift */,
-				F4C20FD7209AE4DD0094A7FC /* StickersViewController.xib */,
-				F4C20FD8209AE4DE0094A7FC /* UIImage+Size.swift */,
-				F4C20FDD209AE4E10094A7FC /* UIImageView+Alpha.swift */,
-				F4C20FDE209AE4E20094A7FC /* UIView+Image.swift */,
-				F4C21023209AE5EC0094A7FC /* PhotoEditor +Gesture.swift */,
-				F4C21025209AE6470094A7FC /* PhotoEditor +Drawing.swift */,
-				F4C21027209AE6C60094A7FC /* PhotoEditor +Delegate.swift */,
 				F4A5F750209C6CE400AC9AE1 /* PhotoEditor+Crop.swift */,
 			);
 			path = "Photo Editor";
@@ -2367,14 +2423,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
+				F41FD94F20A9583F00FA8623 /* EmojiCollectionViewCell.xib in Resources */,
+				F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */,
 				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
-				F4C20FEC209AE4E80094A7FC /* StickersViewController.xib in Resources */,
 				F4C21041209B366B0094A7FC /* sticker_resize.png in Resources */,
 				F4C20FEA209AE4E80094A7FC /* FilterGradientCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
 				F4C20FCF209ADFD30094A7FC /* ImageEditor.storyboard in Resources */,
 				F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */,
+				F41FD94C20A9583F00FA8623 /* FilterCell.xib in Resources */,
 				F406FCFE20877B79006192B4 /* FollowHeader.xib in Resources */,
 				F4311871202B88D2006139F7 /* filter_gradient_3_icon@3x.png in Resources */,
 				F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */,
@@ -2382,17 +2440,19 @@
 				F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */,
 				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
+				F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */,
 				F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */,
 				F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */,
 				F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */,
 				F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
+				F41FD95320A9583F00FA8623 /* FilterGradientCell.xib in Resources */,
 				F4C21042209B366B0094A7FC /* sticker_resize@2x.png in Resources */,
 				F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */,
+				F41FD94A20A9583F00FA8623 /* StickersViewController.xib in Resources */,
 				F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */,
-				F4C20FF6209AE4E80094A7FC /* ColorCollectionViewCell.xib in Resources */,
 				F4C21040209B366B0094A7FC /* sticker_close@3x.png in Resources */,
-				F4C20FF1209AE4E80094A7FC /* StickerCollectionViewCell.xib in Resources */,
+				F41FD95520A9583F00FA8623 /* PhotoCropEditorBorder@3x.png in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
 				F46AC6E32043E92E00B71102 /* TLCollectionTableViewCell.xib in Resources */,
@@ -2404,6 +2464,7 @@
 				F4C21043209B366B0094A7FC /* sticker_resize@3x.png in Resources */,
 				F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */,
 				F4311873202B88D2006139F7 /* filter_gradient_3.png in Resources */,
+				F41FD96120A9583F00FA8623 /* filterMenuItem_icon@3x.png in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */,
 				F4C20FEE209AE4E80094A7FC /* FilterCell.xib in Resources */,
@@ -2411,7 +2472,10 @@
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
+				F41FD94220A9583F00FA8623 /* icomoon.ttf in Resources */,
 				F43649D12015CEA5004FBEE2 /* CameraViewAssets.xcassets in Resources */,
+				F41FD94320A9583F00FA8623 /* PhotoCropEditorBorder@2x.png in Resources */,
+				F41FD94D20A9583F00FA8623 /* PhotoEditorViewController.xib in Resources */,
 				330FEB841FC3F68E00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */,
 				F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */,
@@ -2420,10 +2484,11 @@
 				F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
+				F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */,
 				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
+				F41FD94920A9583F00FA8623 /* ColorCollectionViewCell.xib in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
-				F4C20FEF209AE4E80094A7FC /* EmojiCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2784,7 +2849,6 @@
 			files = (
 				F43612E21FD69B0E00788FFE /* AGImageMetalDevice.swift in Sources */,
 				F43612F91FD69B3200788FFE /* AGDetailsFilter.swift in Sources */,
-				F4C20FF9209AE4E80094A7FC /* GradientView.swift in Sources */,
 				F403765D1FDE9F830007C696 /* Types.swift in Sources */,
 				F406FD002087854B006192B4 /* FollowerDAO.swift in Sources */,
 				F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */,
@@ -2799,6 +2863,7 @@
 				F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F4C9554420A31D890065D1C8 /* FNSUdnie.mlmodel in Sources */,
+				F41FD96020A9583F00FA8623 /* EmojiCollectionViewCell.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */,
 				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
@@ -2810,20 +2875,18 @@
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
-				F4C20FFC209AE4E80094A7FC /* ColorsCollectionViewDelegate.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
 				F43649C42015CEA5004FBEE2 /* UIButtonExtensions.swift in Sources */,
 				F43649C92015CEA5004FBEE2 /* CropOverlay.swift in Sources */,
 				F4C21044209B366B0094A7FC /* ACEDrawingView.m in Sources */,
-				F4C20FED209AE4E80094A7FC /* UIImage+Size.swift in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
 				F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
-				F4C20FE8209AE4E80094A7FC /* StickerCollectionViewCell.swift in Sources */,
 				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */,
+				F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */,
 				F4539375200CD93200F7D029 /* UILabel+LineCounter.m in Sources */,
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
 				F43612E11FD69B0E00788FFE /* AGImagePipeline.swift in Sources */,
@@ -2831,9 +2894,9 @@
 				F447441A20246E94002964A0 /* FilterDAO.swift in Sources */,
 				F4402F6C1FCD606B00152D01 /* UIImageView+Letters.swift in Sources */,
 				F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */,
-				F4C21026209AE6470094A7FC /* PhotoEditor +Drawing.swift in Sources */,
 				F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
+				F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
@@ -2858,12 +2921,15 @@
 				F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
+				F41FD96320A9583F00FA8623 /* PhotoEditor+Font.swift in Sources */,
+				F41FD95620A9583F00FA8623 /* PhotoEditorViewController.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
 				F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */,
+				F41FD95A20A9583F00FA8623 /* ColorsCollectionViewDelegate.swift in Sources */,
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
@@ -2872,10 +2938,13 @@
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */,
+				F41FD94520A9583F00FA8623 /* UIImage+Size.swift in Sources */,
 				F4431AB31FC7044D00311C9A /* ASToast.swift in Sources */,
 				F42DCD392098406F00078969 /* DPEdgeMenu.swift in Sources */,
 				F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */,
+				F41FD94E20A9583F00FA8623 /* ColorCollectionViewCell.swift in Sources */,
 				F49DF30B20060E05009A2D3A /* FLAnimatedImage.m in Sources */,
+				F41FD95E20A9583F00FA8623 /* PhotoEditor+UITextView.swift in Sources */,
 				F43649BF2015CEA5004FBEE2 /* CroppingParameters.swift in Sources */,
 				F401DFB61FE2967B00BD7DDA /* ImportViewController.swift in Sources */,
 				F43612E01FD69B0E00788FFE /* AGImageDevice.swift in Sources */,
@@ -2885,8 +2954,8 @@
 				F406FCFC20877B67006192B4 /* FollowHeader.swift in Sources */,
 				F4961E221FFE92E000A406FF /* NZCircularImageView.m in Sources */,
 				F44939E01FEA567800AE2FCA /* ESRefreshComponent.swift in Sources */,
+				F41FD95920A9583F00FA8623 /* EmojisCollectionViewDelegate.swift in Sources */,
 				F49DF30C20060E05009A2D3A /* FLAnimatedImageView.m in Sources */,
-				F4C20FD2209AE19A0094A7FC /* PhotoEditorViewController.swift in Sources */,
 				F40376591FDE9F830007C696 /* GradientLoadingBar.swift in Sources */,
 				F425C63B2056646F002536E1 /* ASCollectionViewParallaxCell.swift in Sources */,
 				337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */,
@@ -2894,8 +2963,10 @@
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
+				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
+				F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */,
 				F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */,
 				F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
@@ -2908,7 +2979,9 @@
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,
 				F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
+				F41FD94620A9583F00FA8623 /* ResizeControl.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
+				F41FD96220A9583F00FA8623 /* UIImage+Crop.swift in Sources */,
 				33DAB2FC1FC6B9AC0053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				F4A5F751209C6CE400AC9AE1 /* PhotoEditor+Crop.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
@@ -2916,12 +2989,12 @@
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
 				F4C20FEB209AE4E80094A7FC /* PhotoEditor+FilterControls.swift in Sources */,
 				C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */,
-				F4C20FF5209AE4E80094A7FC /* Protocols.swift in Sources */,
 				F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */,
 				F43612EF1FD69B3200788FFE /* AGBrightnessFilter.metal in Sources */,
 				F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */,
 				F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */,
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
+				F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
 				F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */,
@@ -2930,8 +3003,7 @@
 				F43649C02015CEA5004FBEE2 /* ImageFetcher.swift in Sources */,
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
 				F4C9554820A31D890065D1C8 /* FNSCandy.mlmodel in Sources */,
-				F4C21024209AE5ED0094A7FC /* PhotoEditor +Gesture.swift in Sources */,
-				F4C20FFB209AE4E80094A7FC /* PhotoEditor+Keyboard.swift in Sources */,
+				F41FD94420A9583F00FA8623 /* Protocols.swift in Sources */,
 				F4C2103C209B366B0094A7FC /* ACEDrawingTools.m in Sources */,
 				F43649C22015CEA5004FBEE2 /* SingleImageFetcher.swift in Sources */,
 				F43649C32015CEA5004FBEE2 /* SingleImageSaver.swift in Sources */,
@@ -2942,9 +3014,7 @@
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
 				F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */,
-				F4C20FF4209AE4E80094A7FC /* StickersViewController.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
-				F4C20FF2209AE4E80094A7FC /* UIImageView+Alpha.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
@@ -2952,6 +3022,7 @@
 				F4C2103B209B366B0094A7FC /* ACEDrawingLabelView.m in Sources */,
 				F406FCF8208773BF006192B4 /* FollowerCell.swift in Sources */,
 				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				F41FD95120A9583F00FA8623 /* CropRectView.swift in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
 				F040CC872050034B00224035 /* HHPageView.m in Sources */,
@@ -2959,16 +3030,16 @@
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				F4522CA61FCC2DC10021562D /* AddStreamViewController.swift in Sources */,
 				F43649C62015CEA5004FBEE2 /* Utilities.swift in Sources */,
+				F41FD95420A9583F00FA8623 /* PhotoEditor+Keyboard.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
-				F4C20FF7209AE4E80094A7FC /* EmojiCollectionViewCell.swift in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
-				F4C20FFA209AE4E80094A7FC /* ColorCollectionViewCell.swift in Sources */,
+				F41FD95B20A9583F00FA8623 /* UIImageView+Alpha.swift in Sources */,
 				F43649C12015CEA5004FBEE2 /* PhotoLibraryAuthorizer.swift in Sources */,
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
@@ -2980,6 +3051,7 @@
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
+				F41FD95C20A9583F00FA8623 /* PhotoEditor+Gestures.swift in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,
 				F4C9554920A31D890065D1C8 /* FNSTheScream.mlmodel in Sources */,
 				F4539386200CF40800F7D029 /* UIImageColors.swift in Sources */,
@@ -2988,8 +3060,8 @@
 				F4522C9E1FCBF8B40021562D /* MenuDAO.swift in Sources */,
 				F4C9554D20A31DA00065D1C8 /* PMFilter.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
+				F41FD95820A9583F00FA8623 /* StickerCollectionViewCell.swift in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
-				F4C21028209AE6C70094A7FC /* PhotoEditor +Delegate.swift in Sources */,
 				F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
@@ -2999,13 +3071,13 @@
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
-				F4C20FF3209AE4E80094A7FC /* UIView+Image.swift in Sources */,
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */,
 				F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */,
 				F4402F6A1FCD5E9F00152D01 /* AddCollaboratorsViewCell.swift in Sources */,
 				F401DFB41FE2966B00BD7DDA /* GiphyViewController.swift in Sources */,
+				F41FD95F20A9583F00FA8623 /* PhotoEditor+Drawing.swift in Sources */,
 				F43649C82015CEA5004FBEE2 /* CameraView.swift in Sources */,
 				F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */,
 				F43612F41FD69B3200788FFE /* AGSoftLightFilter.metal in Sources */,
@@ -3016,8 +3088,8 @@
 				F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */,
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
+				F41FD95720A9583F00FA8623 /* CropView.swift in Sources */,
 				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
-				F4C20FF0209AE4E80094A7FC /* EmojisCollectionViewDelegate.swift in Sources */,
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,
 				F4A5F753209C898E00AC9AE1 /* GradientFilterCell.swift in Sources */,

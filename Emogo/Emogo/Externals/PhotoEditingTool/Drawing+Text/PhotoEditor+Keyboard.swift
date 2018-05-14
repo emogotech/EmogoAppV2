@@ -12,17 +12,15 @@ import UIKit
 extension PhotoEditorViewController {
     
    @objc func keyboardDidShow(notification: NSNotification) {
-//        if isTyping {
-//            doneButton.isHidden = false
-//            colorPickerView.isHidden = false
-//            hideToolbar(hide: true)
-//        }
+        if isTyping {
+            colorPickerView.isHidden = false
+            removeNavigationButtons()
+        }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-//        isTyping = false
-//        doneButton.isHidden = true
-//        hideToolbar(hide: false)
+        isTyping = false
+       // hideToolbar(hide: false)
     }
     
    @objc func keyboardWillChangeFrame(_ notification: NSNotification) {
@@ -33,17 +31,17 @@ extension PhotoEditorViewController {
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
             if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
-             self.imageViewHeightConstraint.constant = 0.0
+                self.colorPickerViewBottomConstraint?.constant = 0.0
             } else {
                 
                 if #available(iOS 11.0, *) {
                     let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
                     let height = (endFrame?.size.height)! - extraBottomSpace!
-                self.imageViewHeightConstraint.constant =  -height //?? 0.0
+                    self.colorPickerViewBottomConstraint?.constant = height //?? 0.0
                 } else {
                     // Fallback on earlier versions
 
-                self.imageViewHeightConstraint.constant =  endFrame?.size.height ?? 0.0
+                    self.colorPickerViewBottomConstraint?.constant = endFrame?.size.height ?? 0.0
                 }
             }
             UIView.animate(withDuration: duration,

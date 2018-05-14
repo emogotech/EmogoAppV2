@@ -91,7 +91,7 @@ class FilterViewController: UIViewController {
 //        swipeDown.direction = UISwipeGestureRecognizerDirection.down
 //        self.canvasView.addGestureRecognizer(swipeDown)
         
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .default).async {
             self.prepareGradientFilter()
         }
     }

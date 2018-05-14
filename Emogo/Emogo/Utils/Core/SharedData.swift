@@ -223,7 +223,6 @@ class SharedData: NSObject {
     
     func downloadFile(strURl: String,handler:@escaping (_ image: UIImage?, _ type:String?)-> Void){
          let imageURL = URL(string: strURl.stringByAddingPercentEncodingForURLQueryParameter()!)!
-        print("Download Started")
         getDataFromUrl(url: imageURL) { data, response, error in
             guard let data = data, error == nil else { handler(nil,nil);
                 return }

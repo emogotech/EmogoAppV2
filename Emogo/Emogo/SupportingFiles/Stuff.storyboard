@@ -2343,7 +2343,7 @@
                                             <constraint firstItem="3fG-sN-hSC" firstAttribute="top" secondItem="GNc-aU-Vds" secondAttribute="top" constant="7" id="Do2-cr-sZI"/>
                                             <constraint firstItem="z4l-Y4-pu7" firstAttribute="leading" secondItem="3fG-sN-hSC" secondAttribute="trailing" constant="8" id="Myd-QA-uyL"/>
                                             <constraint firstItem="3fG-sN-hSC" firstAttribute="leading" secondItem="GNc-aU-Vds" secondAttribute="leading" constant="14" id="NP4-8D-qvw"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="iqj-UA-haq"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" id="iqj-UA-haq"/>
                                             <constraint firstAttribute="trailing" secondItem="z4l-Y4-pu7" secondAttribute="trailing" constant="4" id="ohK-8w-ma4"/>
                                             <constraint firstAttribute="bottom" secondItem="3fG-sN-hSC" secondAttribute="bottom" constant="3" id="vxF-8Z-F8S"/>
                                         </constraints>
@@ -3720,7 +3720,7 @@ Cg
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unchecked_checkbox" translatesAutoresizingMaskIntoConstraints="NO" id="9o5-Wj-xTy">
-                                <rect key="frame" x="322" y="613" width="33" height="33"/>
+                                <rect key="frame" x="321" y="613" width="33" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="33" id="4o2-3x-A8a"/>
                                     <constraint firstAttribute="width" constant="33" id="qa0-CS-I7P"/>

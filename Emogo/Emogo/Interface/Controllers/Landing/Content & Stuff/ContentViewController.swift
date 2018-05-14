@@ -32,11 +32,8 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
-    @IBOutlet weak var kWidth: NSLayoutConstraint!
     @IBOutlet weak var btnSave: UIButton!
     @IBOutlet weak var btnLikeDislike: UIButton!
-    @IBOutlet weak var consBottomBtnShare: NSLayoutConstraint!
-    @IBOutlet weak var consBottomImgUser: NSLayoutConstraint!
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var viewContainer: UIView!
 
@@ -51,6 +48,7 @@ class ContentViewController: UIViewController {
     var isForEditOnly:Bool!
     var isFromAll:String?
     var isMoreTapped:Bool! = false
+    var photoEditor:PhotoEditorViewController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -419,8 +417,7 @@ class ContentViewController: UIViewController {
 //        }
         
         // image aspect ratio----
-        self.imgCover.contentMode = .scaleAspectFill
-        self.imgCover.clipsToBounds = true
+        self.imgCover.contentMode = .scaleAspectFit
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
         self.viewContainer.addBlurView()
@@ -828,12 +825,13 @@ class ContentViewController: UIViewController {
     }
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
-        let photoEditor:PhotoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_PhotoEditorView) as! PhotoEditorViewController
-      //  let nav = UINavigationController(rootViewController: photoEditor)
+        photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
         photoEditor.image = image
         photoEditor.seletedImage = self.seletedImage
-        photoEditor.photoEditorDelegate = self
         //PhotoEditorDelegate
+        photoEditor.photoEditorDelegate = self
+        photoEditor.hiddenControls = [.share]
+        photoEditor.stickers = shapes.shapes
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
         self.navigationController?.pushAsPresent(viewController: photoEditor)
     }

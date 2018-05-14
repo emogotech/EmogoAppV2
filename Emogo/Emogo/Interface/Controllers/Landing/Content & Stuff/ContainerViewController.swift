@@ -503,7 +503,6 @@ class ContainerViewController: UIViewController {
         _ = PHCachingImageManager().requestImageData(for: asset, options: options) { (imageData, dataUTI, orientation, info) in
             if let data = imageData {
                 let image = UIImage(data: data)
-                print(image)
                  handler(image)
             }
         }

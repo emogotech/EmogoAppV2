@@ -197,10 +197,12 @@
     UIImage *drawings = [self image];
     
     // scale drawings to size of base image
-    drawings = (baseImage.size.width > baseImage.size.height) ? [self scaleImage:drawings proportionallyToWidth:baseImage.size.width] : [self scaleImage:drawings proportionallyToHeight:baseImage.size.height];
-    
-    // blend drawings with image
-    return [self blendImage:baseImage topImage:drawings];
+   drawings = (baseImage.size.width > baseImage.size.height) ? [self scaleImage:drawings proportionallyToWidth:baseImage.size.width] : [self scaleImage:drawings proportionallyToHeight:baseImage.size.height];
+//
+//    // blend drawings with image
+     UIImage *drawings1   = [self blendImage:baseImage topImage:drawings];
+
+    return drawings1;
 }
 
 - (void)finishDrawing
@@ -361,7 +363,8 @@
         [self setNeedsDisplayInRect:drawBox];
         
     } else if ([self.currentTool isKindOfClass:[ACEDrawingDraggableTextTool class]]) {
-        return;
+       // return;
+        NSLog(@"Text Drawing Moving");
     
     } else {
         [self.currentTool moveFromPoint:previousPoint1 toPoint:currentPoint];
@@ -715,5 +718,23 @@
     UIGraphicsEndImageContext();
     return image;
 }
+
+- (UIImage *)mergeImage:(UIImage *)topImage bottomImage:(UIImage *)bottomImage{
+    
+    CGSize newSize = CGSizeMake(bottomImage.size.width, bottomImage.size.height);
+    UIGraphicsBeginImageContext( newSize );
+    
+    // Use existing opacity as is
+    [bottomImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Apply supplied opacity if applicable
+    [topImage drawInRect:CGRectMake(0,0,newSize.width,newSize.height) blendMode:kCGBlendModeNormal alpha:1.0];
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
 
 @end
