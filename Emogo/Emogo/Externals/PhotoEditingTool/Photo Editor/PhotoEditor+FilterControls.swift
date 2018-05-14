@@ -12,7 +12,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.isGradientFilter {
-            return  images.count
+            return  self.images.count
         }else {
             return  self.filter.arrayMenu.count
         }
@@ -22,8 +22,9 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
-            let filter = images[indexPath.row]
-            cell.setup(filter:filter)
+             let filter = self.images[indexPath.row]
+             self.prepareImageFor(index: indexPath.row)
+             cell.setup(filter:filter)
             return cell
             
         }else {
@@ -36,22 +37,8 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
-            
-            let dict:[String:String] = self.filter.arrayFilters[indexPath.row] as! [String : String]
-            if let value = dict["value"] {
-                
-                let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-                let hasNumbers = (numbersRange != nil)
-                if hasNumbers  && !value.contains(".png") {
-                    let filter = filters[indexPath.row]
-                    if renderedFilterBuffer[filter.name] != nil {
-                        if let buffer = renderedFilterBuffer[filter.name] {
-                            imageBuffer = buffer
-                        }
-                    }
-                }
-            }
-            self.updateImageView(dict: dict)
+            let filter = self.images[indexPath.row]
+            self.updateImageView(image: filter.icon)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             
         }else {

@@ -12,7 +12,7 @@ import UIKit
 class FilterDAO {
     var arrayMenu = [Filter]()
     var arrayGradient = [Filter]()
-    var arrayFilters  = [Any]()
+    var arrayFilters  = [[String:String]]()
     
     init() {
         self.prepareData()
@@ -72,9 +72,10 @@ class FilterDAO {
 }
 
 class Filter {
-    var icon:UIImage!
+    var icon:UIImage?
     var iconName:String! = ""
-    init(icon:UIImage, name:String) {
+    var key:String! = ""
+    init(icon:UIImage?, name:String) {
         self.icon = icon
         self.iconName = name
     }
