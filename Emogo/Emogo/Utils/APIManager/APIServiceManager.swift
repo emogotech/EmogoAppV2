@@ -2012,7 +2012,7 @@ class APIServiceManager: NSObject {
     
     func apiForSaveStuffContent(contentID:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
         let params:[String:Any] = ["content_id":contentID]
-        APIManager.sharedInstance.POSTRequest(strURL: kSaveStuffContentAPI, Param: params) { (result) in
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kSaveStuffContentAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 //print(value)
@@ -2037,7 +2037,7 @@ class APIServiceManager: NSObject {
     func apiForLikeDislikeContent(content:String, status:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
     
         let params:[String:Any] = ["content":content ,"status":status ]
-        APIManager.sharedInstance.POSTRequest(strURL: kLikeDislikeContentAPI, Param: params) { (result) in
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLikeDislikeContentAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):
                 //print(value)

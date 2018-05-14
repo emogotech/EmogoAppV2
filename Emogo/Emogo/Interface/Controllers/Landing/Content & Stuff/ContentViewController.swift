@@ -697,9 +697,13 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnSaveAction(_ sender: Any) {
+        self.saveToMyStuff()
+        
     }
     
     @IBAction func btnLikeDislikeAction(_ sender: Any) {
+       // self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        self.likeDislikeContent()
     }
     
     @IBAction func btnMoreAction(_ sender: Any) {
@@ -1043,24 +1047,39 @@ class ContentViewController: UIViewController {
             }
         }
     }
+    
+    //MARK:- Like Dislike Content
+    
     func likeDislikeContent(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: "", status: "")  { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: self.seletedImage.contentID, status:"")  { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 
+//                isLike == 0 {
+//                   self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+//                }else{
+//                      self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+//                }
+                print("contentID: \(self.seletedImage.contentID)")
+                self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
                
             }else{
                 HUDManager.sharedInstance.hideHUD()
             }
         }
     }
+    //MARK:- Save Content to My Stuff
+    
     func saveToMyStuff(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForSaveStuffContent(contentID: "") { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForSaveStuffContent(contentID: self.seletedImage.contentID) { (isSuccess, error) in
             HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                
+              print("contentID: \(self.seletedImage.contentID)")
+             if isSuccess == true {
+                print("contentID: \(self.seletedImage.contentID)")
+                 self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
+              
                 
             }else{
                 HUDManager.sharedInstance.hideHUD()

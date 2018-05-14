@@ -93,7 +93,7 @@
                                 <constraint firstAttribute="height" constant="40" id="P9w-YH-RJ9"/>
                                 <constraint firstAttribute="width" constant="40" id="kSQ-Im-8AI"/>
                             </constraints>
-                            <state key="normal" image="like_icon"/>
+                            <state key="normal" image="Unlike_icon"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4V-5K-llI" customClass="MIBadgeButton" customModule="Emogo" customModuleProvider="target">
                             <rect key="frame" x="8" y="7" width="56" height="56"/>
@@ -223,9 +223,9 @@
         </view>
     </objects>
     <resources>
+        <image name="Unlike_icon" width="41" height="36"/>
         <image name="delete-stream" width="31" height="34"/>
         <image name="edit_icon" width="34" height="34"/>
-        <image name="like_icon" width="41" height="36"/>
         <image name="number_of_likes_icon" width="29" height="27"/>
         <image name="number_of_views_icon" width="30" height="24"/>
         <image name="stream-card-placeholder" width="145" height="145"/>

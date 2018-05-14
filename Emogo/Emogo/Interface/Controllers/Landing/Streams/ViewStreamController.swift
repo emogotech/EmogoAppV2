@@ -216,7 +216,7 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnDelete.isHidden = true
             stretchyHeader.btnLike.isHidden = true
             stretchyHeader.btnEdit.isHidden = false
-            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
             stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnContainer.isHidden = true

@@ -312,6 +312,7 @@ let kAlert_Confirmation_Description_For_Edit_Content                     = "We n
 let kAlert_Confirmation_Description_For_Add_Content                      = "We need to redirect you to the Emogo App so you can add content. Are you ready?"
 let kAlert_Edit_Image                                                    = "You don't have image to Edit."
 let kAlert_Save_Image                                                    = "Image successfully saved to Photos library"
+let kAlert_Save_Image_MyStuff                                             = "Image successfully saved to My Stuff"
 let kAlert_Delete_Stream_Msg                                              = "Are you sure you want to delete this Stream?"
 let kAlert_Delete_Content_Msg                                             = "Are you sure you want to delete this Content?"
 let kAlert_Logout                                                       = "Are you sure you want to logout?"

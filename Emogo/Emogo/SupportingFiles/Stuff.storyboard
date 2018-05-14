@@ -1054,7 +1054,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMj-Dc-JVe">
-                                                    <rect key="frame" x="0.0" y="5" width="375" height="100"/>
+                                                    <rect key="frame" x="0.0" y="5" width="375" height="100.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQV-aZ-gET">
                                                             <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
@@ -1076,7 +1076,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NXw-vz-kXk">
-                                                            <rect key="frame" x="15" y="35" width="352" height="61"/>
+                                                            <rect key="frame" x="15" y="35" width="352" height="61.5"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" name="SFProText-Regular" family="SF Pro Text" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="next"/>
@@ -1085,7 +1085,7 @@
                                                             </connections>
                                                         </textView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJK-tp-SHM">
-                                                            <rect key="frame" x="0.0" y="98" width="375" height="1"/>
+                                                            <rect key="frame" x="0.0" y="98.5" width="375" height="1"/>
                                                             <color key="backgroundColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="IO1-GR-taM"/>
@@ -2242,7 +2242,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Hx-ei-Q8E">
                                         <rect key="frame" x="0.0" y="54" width="40" height="36"/>
-                                        <state key="normal" image="like_icon"/>
+                                        <state key="normal" image="Unlike_icon"/>
                                         <connections>
                                             <action selector="btnLikeDislikeAction:" destination="evI-UO-yab" eventType="touchUpInside" id="Kit-My-NMF"/>
                                         </connections>
@@ -2254,10 +2254,10 @@
                                 </constraints>
                             </stackView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcA-6G-RnM">
-                                <rect key="frame" x="323" y="10" width="50" height="50"/>
+                                <rect key="frame" x="323" y="10" width="50" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="3S9-08-wZ6"/>
-                                    <constraint firstAttribute="height" constant="50" id="6vw-f1-RI7"/>
+                                    <constraint firstAttribute="height" constant="45" id="6vw-f1-RI7"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="2" minY="4" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" image="more icon"/>
@@ -2283,7 +2283,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3fG-sN-hSC" customClass="MBAutoGrowingTextView">
-                                                <rect key="frame" x="14" y="7" width="334" height="25"/>
+                                                <rect key="frame" x="14" y="7" width="324" height="25"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="2Tj-bC-skV"/>
@@ -2326,9 +2326,9 @@
                                                 <string key="userLabel">fgye gcdec]sb ccbdc dbyc fgye gcdec]sb ccbdc dbyc ]\ fgye gcdec]sb ccbdc dbyc  fgye gcdec]sb ccbdc dbyc  fgye gcdec]sb ccbdc dbyc</string>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4l-Y4-pu7">
-                                                <rect key="frame" x="356" y="0.0" width="15" height="35"/>
+                                                <rect key="frame" x="346" y="0.0" width="25" height="35"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="15" id="3JE-ox-78W"/>
+                                                    <constraint firstAttribute="width" constant="25" id="3JE-ox-78W"/>
                                                     <constraint firstAttribute="height" constant="35" id="Ewp-dR-Dt5"/>
                                                 </constraints>
                                                 <state key="normal" image="more_icon"/>
@@ -2470,7 +2470,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VUh-LM-0RA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2861.5999999999999" y="-1190.5547226386807"/>
+            <point key="canvasLocation" x="2838" y="-1190"/>
         </scene>
         <!--Terms And Privacy View Controller-->
         <scene sceneID="883-CB-CsO">
@@ -3853,6 +3853,7 @@ Cg
     <resources>
         <image name="Oval" width="90" height="88"/>
         <image name="Save" width="17" height="23"/>
+        <image name="Unlike_icon" width="41" height="36"/>
         <image name="add to emogo btn" width="114" height="30"/>
         <image name="add_content_icon" width="147" height="147"/>
         <image name="back icon_shadow" width="20" height="32"/>
@@ -3868,7 +3869,6 @@ Cg
         <image name="follow_btn" width="100" height="30"/>
         <image name="following_button" width="100" height="28"/>
         <image name="icon-download" width="31" height="34"/>
-        <image name="like_icon" width="41" height="36"/>
         <image name="link icon" width="15" height="15"/>
         <image name="location icon" width="15" height="15"/>
         <image name="lock_icon" width="9" height="13"/>
