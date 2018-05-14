@@ -17,7 +17,7 @@ from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
 
@@ -50,7 +50,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 to_attr='total_like_dislike_data'
             ),
 
-        ).order_by('-id')
+        ).order_by('total_view_count')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -316,6 +316,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
+        self.serializer_class = ViewContentSerializer
+        #  Customized field list
+        fields = (
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order',
+            'color', 'user_image', 'full_name', 'order', 'liked')
+        serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def destroy(self, request, *args, **kwargs):
