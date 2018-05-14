@@ -113,6 +113,7 @@ enum EditingFeature {
         self.txtDescription.text = ""
         self.txtDescription.placeholder = "Description"
         self.txtDescription.placeholderColor = .white
+        txtDescription.delegate = self
         
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()

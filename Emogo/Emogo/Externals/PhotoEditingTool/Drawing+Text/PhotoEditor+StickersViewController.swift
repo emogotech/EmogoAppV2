@@ -127,3 +127,16 @@ extension PhotoEditorViewController: StickersViewControllerDelegate {
         
     }
 }
+
+
+extension PhotoEditorViewController:FilterViewControllerDelegate {
+    
+    func doneWithImage(resultImage: UIImage?) {
+        if let image = resultImage {
+            self.canvasImageView.image = image
+            self.image = image
+            self.seletedImage.imgPreview = image
+        }
+    }
+    
+}

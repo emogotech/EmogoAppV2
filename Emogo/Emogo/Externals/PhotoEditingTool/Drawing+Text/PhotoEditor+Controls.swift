@@ -25,6 +25,14 @@ extension PhotoEditorViewController {
     
     //MARK: Top Toolbar
     @IBAction func saveEditedImageButtonTapped(_ sender: Any) {
+        HUDManager.sharedInstance.showHUD()
+        if self.seletedImage.imgPreview != nil {
+            self.uploadFile()
+        }else {
+            //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+        }
+
     }
     
     
@@ -68,6 +76,7 @@ extension PhotoEditorViewController {
             self.selectedFeature = .none
         let obj:FilterViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_FilterView) as! FilterViewController
             obj.image  = self.canvasImageView.image
+            obj.filterDelegate = self
             self.navigationController?.pushViewController(obj, animated: true)
             break
         default:
@@ -158,7 +167,7 @@ extension PhotoEditorViewController {
         self.gradientImageView.isHidden = true
         let img = self.canvasView.toImage()
         self.canvasImageView.image = img
-        
+        self.seletedImage.imgPreview = img
         if  isText {
             isText = false
             self.lastTextViewTransform = nil

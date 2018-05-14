@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 
 protocol FilterViewControllerDelegate {
-    func doneWithImage(resultImage:UIImage)
+    func doneWithImage(resultImage:UIImage?)
 }
 class FilterViewController: UIViewController {
     
@@ -91,9 +91,13 @@ class FilterViewController: UIViewController {
 //        swipeDown.direction = UISwipeGestureRecognizerDirection.down
 //        self.canvasView.addGestureRecognizer(swipeDown)
         
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.main.async {
             self.prepareGradientFilter()
         }
+        
+//        DispatchQueue.global(qos: .default).async {
+//            self.prepareGradientFilter()
+//        }
     }
     
     
@@ -139,7 +143,7 @@ class FilterViewController: UIViewController {
             let resizedImage = image.resize(to: CGSize(width: 720, height: 720))
             imageBuffer = resizedImage.buffer()
             loadRenderedImages()
-            prepareGradientImages(image: self.image!)
+            self.prepareDummyDataForFilter()
         }
     }
     
@@ -211,9 +215,9 @@ class FilterViewController: UIViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
-        DispatchQueue.global(qos: .background).async {
-            self.prepareGradientImages(image: self.image!)
-        }
+//        DispatchQueue.global(qos: .background).async {
+//            self.prepareGradientImages(image: self.image!)
+//        }
     }
     @objc func actionForCancelButton() {
         self.isFilterSelected = false
@@ -235,20 +239,34 @@ class FilterViewController: UIViewController {
     }
     
     
-    func prepareGradientImages(image:UIImage){
+    func prepareDummyDataForFilter(){
         self.images.removeAll()
-        for (index,obj) in self.filter.arrayFilters.enumerated() {
-            if let value = (obj as! [String:String])["value"], let name = (obj as! [String:String])["name"] {
-                
-                    let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-                    let hasNumbers = (numbersRange != nil)
-                    if value.contains(".png") {
+        for obj in self.filter.arrayFilters {
+            if let value = obj["value"], let name = obj["name"] {
+                    let filter = Filter(icon: nil, name: name)
+                    filter.key = value
+                    self.images.append(filter)
+        }
+        }
+        DispatchQueue.main.async {
+            self.gradientCollectionView.reloadData()
+        }
+    }
+    
+    func prepareImageFor(index:Int) {
+        let obj = self.images[index]
+        if obj.icon != nil {
+            return
+        }
+        let value:String = obj.key
+        let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
+        let hasNumbers = (numbersRange != nil)
+        if value.contains(".png") {
                         let frontImage = UIImage(named: value)
-                        let filterImage = image.mergedImageWith(frontImage: frontImage!)
-                        let filter = Filter(icon: filterImage, name: name)
-                        self.images.append(filter)
-                        
-                    }else if hasNumbers {
+            let filterImage = self.image?.mergedImageWith(frontImage: frontImage!)
+            obj.icon = filterImage
+            self.images[index] = obj
+        }else if hasNumbers {
                       
                         let filter = filters[index]
                         if let buffer = renderedFilterBuffer[filter.name] {
@@ -256,21 +274,16 @@ class FilterViewController: UIViewController {
                         }
                         if imageBuffer != nil {
                             let filterImage = UIImage(imageBuffer: imageBuffer!)
-                            let filter = Filter(icon: filterImage!, name: name)
-                            self.images.append(filter)
+                            obj.icon = filterImage
+                            self.images[index] = obj
                         }
                        
                     }else {
-                        let filterImage  = image.createFilteredImage(filterName: value)
-                        let filter = Filter(icon: filterImage, name: name)
-                        self.images.append(filter)
+            let filterImage  = self.image?.createFilteredImage(filterName: value)
+                     obj.icon = filterImage
+                     self.images[index] = obj
                 }
-            }
-            print(self.images.count)
-        }
-        DispatchQueue.main.async {
-            self.gradientCollectionView.reloadData()
-        }
+        
     }
     
     /*

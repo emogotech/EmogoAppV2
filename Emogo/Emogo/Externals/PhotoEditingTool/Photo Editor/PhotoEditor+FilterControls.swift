@@ -12,7 +12,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if self.isGradientFilter {
-            return  images.count
+            return  self.images.count
         }else {
             return  self.filter.arrayMenu.count
         }
@@ -22,8 +22,9 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
-            let filter = images[indexPath.row]
-            cell.setup(filter:filter)
+             let filter = self.images[indexPath.row]
+             self.prepareImageFor(index: indexPath.row)
+             cell.setup(filter:filter)
             return cell
             
         }else {
@@ -37,7 +38,7 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
             
-            let dict:[String:String] = self.filter.arrayFilters[indexPath.row] as! [String : String]
+            let dict = self.filter.arrayFilters[indexPath.row]
             if let value = dict["value"] {
                 
                 let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
