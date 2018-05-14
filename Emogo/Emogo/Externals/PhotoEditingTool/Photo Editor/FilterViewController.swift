@@ -159,29 +159,11 @@ class FilterViewController: UIViewController {
         }
     }
     
-    func updateImageView(dict:[String:String]) {
-        if let value = dict["value"] {
-            
-            let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-            let hasNumbers = (numbersRange != nil)
-            if value.contains(".png") {
-                let frontImage = UIImage(named: value)
-                imageGradientFilter = self.image?.mergedImageWith(frontImage: frontImage!)
-                
-            }else if hasNumbers {
-                guard let imageBuffer = imageBuffer else {
-                    return
-                }
-                imageGradientFilter = UIImage(imageBuffer: imageBuffer)?.resize(to: (self.imageToFilter?.size)!)
-                
-            }else {
-                imageGradientFilter = self.image?.createFilteredImage(filterName: value)
-            }
+    func updateImageView(image:UIImage?) {
+           imageGradientFilter = image
             if let image = imageGradientFilter {
                 canvasImageView.image = image
             }
-
-        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -200,8 +182,9 @@ class FilterViewController: UIViewController {
     }
     
     @objc func actionForSaveButton() {
-
-        self.image = self.imageGradientFilter?.resize(targetSize: (self.imageToFilter?.size)!)
+        if self.imageGradientFilter != nil {
+            self.image = self.imageGradientFilter?.resize(targetSize: (self.imageToFilter?.size)!)
+        }
         self.isFilterSelected = false
         self.prepareNavigationButton(isEditing: false)
         self.gradientViewHeightConstraint.constant = 0
@@ -215,9 +198,9 @@ class FilterViewController: UIViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
-//        DispatchQueue.global(qos: .background).async {
-//            self.prepareGradientImages(image: self.image!)
-//        }
+        DispatchQueue.global(qos: .background).async {
+            self.prepareDummyDataForFilter()
+        }
     }
     @objc func actionForCancelButton() {
         self.isFilterSelected = false
@@ -274,7 +257,7 @@ class FilterViewController: UIViewController {
                         }
                         if imageBuffer != nil {
                             let filterImage = UIImage(imageBuffer: imageBuffer!)
-                            obj.icon = filterImage
+                            obj.icon = filterImage?.resize(to: (self.imageToFilter?.size)!)
                             self.images[index] = obj
                         }
                        

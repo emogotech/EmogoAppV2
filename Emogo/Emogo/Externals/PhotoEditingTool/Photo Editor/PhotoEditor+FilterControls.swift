@@ -37,22 +37,8 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
-            
-            let dict = self.filter.arrayFilters[indexPath.row]
-            if let value = dict["value"] {
-                
-                let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-                let hasNumbers = (numbersRange != nil)
-                if hasNumbers  && !value.contains(".png") {
-                    let filter = filters[indexPath.row]
-                    if renderedFilterBuffer[filter.name] != nil {
-                        if let buffer = renderedFilterBuffer[filter.name] {
-                            imageBuffer = buffer
-                        }
-                    }
-                }
-            }
-            self.updateImageView(dict: dict)
+            let filter = self.images[indexPath.row]
+            self.updateImageView(image: filter.icon)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             
         }else {
