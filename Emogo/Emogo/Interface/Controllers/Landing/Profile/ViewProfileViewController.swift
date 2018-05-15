@@ -63,8 +63,10 @@ class ViewProfileViewController: UIViewController {
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
-        layout.sectionInset = UIEdgeInsetsMake(17, 8, 0, 8)
+        layout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
+        
         layout.columnCount = 2
+
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         // Add the waterfall layout to your collection view

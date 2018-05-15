@@ -3444,7 +3444,7 @@ Cg
                                 <rect key="frame" x="0.0" y="300" width="375" height="367"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1D7-c0-ti8">
-                                        <rect key="frame" x="0.0" y="17" width="375" height="350"/>
+                                        <rect key="frame" x="0.0" y="12" width="375" height="355"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="veI-M6-s9X">
                                             <size key="itemSize" width="147" height="116"/>
@@ -3568,7 +3568,7 @@ Cg
                                         </cells>
                                     </collectionView>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Collabs Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="iuf-0J-xHY">
-                                        <rect key="frame" x="120.5" y="182" width="134" height="21"/>
+                                        <rect key="frame" x="120.5" y="181.5" width="134" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="3xq-Du-d2f"/>
                                             <constraint firstAttribute="width" constant="134" id="CJn-Lu-WpT"/>
@@ -3580,9 +3580,9 @@ Cg
                                 </subviews>
                                 <color key="backgroundColor" red="0.99991279840000002" green="1" blue="0.99988144639999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="1D7-c0-ti8" firstAttribute="top" secondItem="VHQ-ha-dUr" secondAttribute="top" constant="17" id="1tx-hn-ZiJ"/>
+                                    <constraint firstItem="1D7-c0-ti8" firstAttribute="top" secondItem="VHQ-ha-dUr" secondAttribute="top" constant="12" id="1tx-hn-ZiJ"/>
                                     <constraint firstAttribute="trailing" secondItem="1D7-c0-ti8" secondAttribute="trailing" id="MdV-As-GE3"/>
-                                    <constraint firstItem="iuf-0J-xHY" firstAttribute="centerY" secondItem="1D7-c0-ti8" secondAttribute="centerY" id="NxS-be-Hc7"/>
+                                    <constraint firstItem="iuf-0J-xHY" firstAttribute="centerY" secondItem="1D7-c0-ti8" secondAttribute="centerY" constant="2.5" id="NxS-be-Hc7"/>
                                     <constraint firstItem="iuf-0J-xHY" firstAttribute="centerX" secondItem="1D7-c0-ti8" secondAttribute="centerX" id="P8h-ch-TyD"/>
                                     <constraint firstItem="1D7-c0-ti8" firstAttribute="leading" secondItem="VHQ-ha-dUr" secondAttribute="leading" id="WcI-S0-GNQ"/>
                                     <constraint firstAttribute="bottom" secondItem="1D7-c0-ti8" secondAttribute="bottom" id="wpc-le-X0j"/>

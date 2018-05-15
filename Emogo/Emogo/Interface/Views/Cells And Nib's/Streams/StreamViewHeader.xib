@@ -87,7 +87,7 @@
                             </constraints>
                             <state key="normal" image="delete-stream"/>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gJ-DM-QZF">
                             <rect key="frame" x="272" y="102" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="P9w-YH-RJ9"/>
