@@ -11,8 +11,8 @@ import UIKit
 
 class FilterManager {
     
-    var cache = NSCache<UIImage, AnyObject>()
-    
+    let cache = NSCache<NSString, UIImage>()
+
     class var sharedInstance : FilterManager {
         struct Static {
             static let instance : FilterManager = FilterManager()
@@ -25,7 +25,7 @@ class FilterManager {
     func imageFor(obj: Filter,buffer:ImageBuffer?,image:UIImage, completionHandler:@escaping (_ image: Filter?) -> ()) {
         
         var objFilter:Filter?
-        let data: UIImage? = self.cache.object(forKey: (obj.key as AnyObject) as! UIImage) as? UIImage
+        let data: UIImage? = self.cache.object(forKey: (obj.key as NSString))
         
         if let imageData = data {
             objFilter = Filter(icon: imageData, name: obj.iconName)
@@ -35,14 +35,15 @@ class FilterManager {
             }
             return
         }
-        
+        DispatchQueue.global(qos: .default).async {
+
         let value:String = obj.key
         let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
         let hasNumbers = (numbersRange != nil)
         if value.contains(".png") {
             if let frontImage = UIImage(named: value) {
                 let filterImage = image.mergedImageWith(frontImage: frontImage)
-                self.cache.setObject(filterImage, forKey: (value as AnyObject) as! UIImage)
+                self.cache.setObject(filterImage, forKey: (obj.key as NSString))
                 objFilter = Filter(icon: filterImage, name: obj.iconName)
                 objFilter?.key = obj.key
                 DispatchQueue.main.async {
@@ -53,7 +54,7 @@ class FilterManager {
         }else if hasNumbers {
             if buffer != nil {
                 let filterImage = UIImage(imageBuffer: buffer!)
-                self.cache.setObject(filterImage!, forKey: (value as AnyObject) as! UIImage)
+                self.cache.setObject(filterImage!, forKey: (obj.key as NSString))
                 objFilter = Filter(icon: filterImage, name: obj.iconName)
                 objFilter?.key = obj.key
                 DispatchQueue.main.async {
@@ -62,7 +63,7 @@ class FilterManager {
             }
         }else {
             let filterImage  = image.createFilteredImage(filterName: value)
-            self.cache.setObject(filterImage, forKey: (value as AnyObject) as! UIImage)
+            self.cache.setObject(filterImage, forKey: (obj.key as NSString))
             objFilter = Filter(icon: filterImage, name: obj.iconName)
             objFilter?.key = obj.key
             DispatchQueue.main.async {
@@ -71,5 +72,6 @@ class FilterManager {
         }
         
     
+    }
     }
 }

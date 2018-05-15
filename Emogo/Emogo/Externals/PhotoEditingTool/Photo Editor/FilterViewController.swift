@@ -164,7 +164,39 @@ class FilterViewController: UIViewController {
         }
     }
     
-    func updateImageView(image:UIImage?) {
+    func updateImageView(image:UIImage?, index:Int? = nil) {
+        if let index = index {
+            let obj = self.images[index]
+            let value:String = obj.key
+            let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
+            let hasNumbers = (numbersRange != nil)
+            if !value.contains(".png") &&  hasNumbers {
+                let filter = self.filters[index]
+                print("Core Ml Images")
+                if let buffer = self.renderedFilterBuffer[filter.name] {
+                    self.imageBuffer = buffer
+                }
+                FilterManager.sharedInstance.imageFor(obj: obj, buffer: self.imageBuffer, image: self.image!) { (filterResult) in
+                    if let filter = filterResult {
+                        self.imageGradientFilter = filter.icon
+                        if let image = self.imageGradientFilter {
+                            self.canvasImageView.image = image
+                        }
+                    }
+                }
+                
+            }else {
+                FilterManager.sharedInstance.imageFor(obj: obj, buffer: nil, image: self.image!) { (filterResult) in
+                    if let filter = filterResult {
+                        self.imageGradientFilter = filter.icon
+                        if let image = self.imageGradientFilter {
+                            self.canvasImageView.image = image
+                        }
+                    }
+                }
+            }
+            return
+        }
         imageGradientFilter = image
         if let image = imageGradientFilter {
             canvasImageView.image = image
@@ -247,6 +279,7 @@ class FilterViewController: UIViewController {
     func prepareImageFor(index:Int,cell:GradientFilterCell) {
         
         weak var weakCell: GradientFilterCell? = cell
+        /*
         let obj = self.images[index]
         let value:String = obj.key
         let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
@@ -260,21 +293,25 @@ class FilterViewController: UIViewController {
             FilterManager.sharedInstance.imageFor(obj: obj, buffer: self.imageBuffer, image: self.image!) { (filterResult) in
                 if let filter = filterResult {
                     weakCell?.imgPreview.image = filter.icon
+                  if  let tag = weakCell?.tag {
+                    self.images[tag] = filter
+                    }
                 }
-                
             }
             
         }else {
             FilterManager.sharedInstance.imageFor(obj: obj, buffer: nil, image: self.image!) { (filterResult) in
                 if let filter = filterResult {
                     weakCell?.imgPreview.image = filter.icon
+                    if let tag = weakCell?.tag {
+                        self.images[tag] = filter
+                    }
                 }
             }
         }
-        
-        
-        /*
+ */
         // Async
+        
         DispatchQueue.global(qos: .default).async {
             // Get Image
             let obj = self.images[index]
@@ -285,7 +322,15 @@ class FilterViewController: UIViewController {
             let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
             let hasNumbers = (numbersRange != nil)
             if value.contains(".png") {
-              
+                if let frontImage = UIImage(named: value) {
+                    let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
+                    obj.icon = filterImage
+                    DispatchQueue.main.async(execute: {() -> Void in
+                        if  weakCell?.tag == index {
+                            self.images[index] = obj
+                        }
+                    })
+                }
                
             }else if hasNumbers {
                 
@@ -294,14 +339,25 @@ class FilterViewController: UIViewController {
                 if let buffer = self.renderedFilterBuffer[filter.name] {
                     self.imageBuffer = buffer
                 }
-               
+                if self.imageBuffer != nil {
+                    let filterImage = UIImage(imageBuffer: self.imageBuffer!)
+                    obj.icon = filterImage
+                    DispatchQueue.main.async(execute: {() -> Void in
+                        if  weakCell?.tag == index {
+                            self.images[index] = obj
+                        }
+                    })
+                    
+                }
                 
             }else {
                 let filterImage  = self.image?.createFilteredImage(filterName: value)
                 obj.icon = filterImage
-                if  self.images[index].key == value {
-                    self.images[index] = obj
-                }
+                DispatchQueue.main.async(execute: {() -> Void in
+                    if  weakCell?.tag == index {
+                        self.images[index] = obj
+                    }
+                })
             }
            
         DispatchQueue.main.async(execute: {() -> Void in
@@ -309,7 +365,6 @@ class FilterViewController: UIViewController {
            // weakCell?.setup(filter: self.images[index] )
         })
     }
- */
     }
     /*
      // MARK: - Navigation
