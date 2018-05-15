@@ -39,7 +39,7 @@ class StreamDAO {
     var hieght                 :Int! = 300
     var selectionType:StreamType!
     var count:Int! = 0
-    
+   
     // People
 
     var fullName                   :String! = ""

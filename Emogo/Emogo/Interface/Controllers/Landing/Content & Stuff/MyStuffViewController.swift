@@ -49,8 +49,8 @@ class MyStuffViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
-        
-//        btnNext.isUserInteractionEnabled = false
+        self.btnNext.isHidden = true
+      //  btnNext.isUserInteractionEnabled = false
         ContentList.sharedInstance.arrayContent.removeAll()
         // Attach datasource and delegate
 
@@ -342,10 +342,12 @@ class MyStuffViewController: UIViewController {
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true
+        self.btnNext.isHidden = false
         if array.count == 0  {
            
             self.lblNoResult.isHidden = false
             self.lblNoResult.text = "No Stuff Found"
+            self.btnNext.isHidden = true
         }
         self.stuffCollectionView.reloadData()
     }
@@ -356,7 +358,7 @@ class MyStuffViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.lblNoResult.isHidden = true
                 self.btnNext.isHidden = false
-                self.btnNext.isHidden = true
+//                self.btnNext.isHidden = true
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
                     self.lblNoResult.text  = "No Stuff Found"
@@ -484,9 +486,11 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
+            btnNext.isHidden = false
             btnNext.isUserInteractionEnabled = true
         }else {
-            btnNext.isUserInteractionEnabled = false
+             btnNext.isHidden = true
+             btnNext.isUserInteractionEnabled = false
         }
 
     }
