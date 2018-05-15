@@ -32,6 +32,9 @@ target 'Emogo' do
     pod ‘RS3DSegmentedControl’
     pod 'Branch'
     pod 'Presentr'
+  pod 'PryntTrimmerView'
+pod 'BMPlayer'
+
     
     
     target 'EmogoTests' do

@@ -262,7 +262,6 @@ open class SwiftyCamViewController: UIViewController {
 		// Add Gesture Recognizers
         
         addGestureRecognizers()
-
 		previewLayer.session = session
 
 		// Test authorization status for Camera and Micophone

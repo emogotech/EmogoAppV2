@@ -90,6 +90,7 @@ let kStoryboardID_AddCollaboratorContactsView = "addCollaboratorContactsView"
 let kStoryboardID_PhotoEditorView = "photoEditorView"
 let kStoryboardID_FilterView = "filterView"
 let kStoryboardID_SettingView = "settingView"
+let kStoryboardID_VideoEditorView = "videoEditorView"
 
 
 

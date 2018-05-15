@@ -23,7 +23,7 @@ extension FilterViewController {
         if filterDelegate != nil  {
             self.filterDelegate?.doneWithImage(resultImage: self.canvasImageView.image!)
         }
-        self.navigationController?.popNormal()
+        self.navigationController?.popViewAsDismiss()
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
@@ -40,7 +40,7 @@ extension FilterViewController {
             break
         case 222:
             
-            if self.images.count == 0 {
+            if self.images.count == 0 || imageBuffer == nil {
                 self.showToast(type: .success, strMSG: "Please wait while we are loading.")
                 self.isFilterSelected = false
                 return
@@ -55,7 +55,7 @@ extension FilterViewController {
     }
     
     @objc func actionforCancel(){
-        self.btnBackAction()
+        self.navigationController?.popViewAsDismiss()
     }
     
     @objc func actionForCropButton(){
@@ -67,7 +67,6 @@ extension FilterViewController {
     
     func filterOptionUpdated(){
         if isGradientFilter{
-        
             gradientOptionUpdated()
         }else {
             Animation.viewSlideInFromTopToBottom(views:self.filterView)

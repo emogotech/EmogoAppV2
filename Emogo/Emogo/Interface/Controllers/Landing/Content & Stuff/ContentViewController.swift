@@ -445,7 +445,9 @@ class ContentViewController: UIViewController {
                 self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
         }
         self.btnMore.isHidden = true
-    }
+        txtDescription.isEditable = false
+            
+        }
     
     }
     func changeButtonAccordingSwipe(selected:ContentDAO){
@@ -457,7 +459,7 @@ class ContentViewController: UIViewController {
         
         if selected.isUploaded {
             if selected.isEdit {
-                if selected.type == .image {
+                if selected.type == .image ||  selected.type == .video {
 //                    let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
 
                     let buttonEdit = self.getShadowButton(Alignment: 1)
@@ -626,7 +628,7 @@ class ContentViewController: UIViewController {
                 }
                 self.openURL(url: url)
                 return
-            }else if self.seletedImage.type == .image {
+            }else if self.seletedImage.type == .image  || self.seletedImage.type == .video {
                 if isEdit != nil {
                     performEdit()
                 }else {
@@ -852,6 +854,10 @@ class ContentViewController: UIViewController {
             }else {
                 self.openEditor(image:seletedImage.imgPreview!)
             }
+        }else if seletedImage.type == .video {
+            let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
+            objVideoEditor.seletedImage = self.seletedImage
+            self.navigationController?.pushAsPresent(viewController: objVideoEditor)
         }
     }
     
