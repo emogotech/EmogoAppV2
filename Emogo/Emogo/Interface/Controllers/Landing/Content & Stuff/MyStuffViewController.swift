@@ -342,7 +342,7 @@ class MyStuffViewController: UIViewController {
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true
-        self.btnNext.isHidden = false
+  
         if array.count == 0  {
            
             self.lblNoResult.isHidden = false
@@ -358,7 +358,7 @@ class MyStuffViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.lblNoResult.isHidden = true
                 self.btnNext.isHidden = false
-//                self.btnNext.isHidden = true
+                self.btnNext.isHidden = true
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
                     self.lblNoResult.text  = "No Stuff Found"
