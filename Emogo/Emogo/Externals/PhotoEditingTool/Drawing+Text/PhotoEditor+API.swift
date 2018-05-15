@@ -47,10 +47,10 @@ extension PhotoEditorViewController {
             if (errorMsg?.isEmpty)! {
                 
                 if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
-                    
+                    self.seletedImage = content
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
-                self.photoEditorDelegate?.doneEditing(image: self.image!)
+                self.photoEditorDelegate?.doneEditing(image: self.seletedImage)
                 self.navigationController?.popViewAsDismiss()
                 // update data after saving and navigate back
                 

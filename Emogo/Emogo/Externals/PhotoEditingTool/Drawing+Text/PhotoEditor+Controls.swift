@@ -26,7 +26,12 @@ extension PhotoEditorViewController {
     //MARK: Top Toolbar
     @IBAction func saveEditedImageButtonTapped(_ sender: Any) {
         if isForEditOnly == false{
-            self.photoEditorDelegate?.doneEditing(image: self.image!)
+            seletedImage.imgPreview = image
+            seletedImage.description = txtDescription.text.trim()
+            seletedImage.fileName = NSUUID().uuidString + ".png"
+            seletedImage.isUploaded = false
+            seletedImage.type = PreviewType.image
+            self.photoEditorDelegate?.doneEditing(image: self.seletedImage!)
             self.navigationController?.popViewAsDismiss()
         }else {
             HUDManager.sharedInstance.showHUD()
@@ -348,9 +353,8 @@ extension PhotoEditorViewController {
     }
     
     @IBAction func continueButtonPressed(_ sender: Any) {
-        let img = self.canvasView.toImage()
-        photoEditorDelegate?.doneEditing(image: img)
-        self.dismiss(animated: true, completion: nil)
+//        let img = self.canvasView.toImage()
+//        self.dismiss(animated: true, completion: nil)
     }
     
    

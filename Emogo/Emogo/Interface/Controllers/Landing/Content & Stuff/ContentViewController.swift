@@ -1121,10 +1121,12 @@ class ContentViewController: UIViewController {
 
 extension ContentViewController:PhotoEditorDelegate
 {
-    func doneEditing(image: UIImage) {
-        // the edited image
+    func doneEditing(image: ContentDAO) {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = image
         self.updateContent()
     }
+    
     
     func canceledEditing() {
         print("Canceled")

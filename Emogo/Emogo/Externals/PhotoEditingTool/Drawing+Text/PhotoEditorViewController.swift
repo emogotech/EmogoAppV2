@@ -250,7 +250,6 @@ enum EditingFeature {
         self.canvasImageView.image = image
         let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
         imageViewHeightConstraint.constant = (size?.height)!
-        self.canvasImageView.backgroundColor = .red
     }
     
     func hideToolbar(hide: Bool?) {

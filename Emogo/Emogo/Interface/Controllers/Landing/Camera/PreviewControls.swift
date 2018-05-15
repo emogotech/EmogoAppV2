@@ -184,16 +184,15 @@ extension PreviewController:UICollectionViewDelegateFlowLayout,UICollectionViewD
 
 extension PreviewController:PhotoEditorDelegate
 {
-    func doneEditing(image: UIImage) {
-        // the edited image
+    func doneEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
-        seletedImage.imgPreview = image
-        seletedImage.fileName = NSUUID().uuidString + ".png"
-        seletedImage.isUploaded = false
-        ContentList.sharedInstance.arrayContent[selectedIndex] = seletedImage
+        ContentList.sharedInstance.arrayContent[selectedIndex] = image
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()
     }
+    
+    
+    
     
     func canceledEditing() {
         print("Canceled")
