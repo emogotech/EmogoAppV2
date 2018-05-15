@@ -235,6 +235,64 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
         
         deleteView.isHidden = false
+        
+        view.superview?.bringSubview(toFront: view)
+        let pointToSuperView = recognizer.location(in: self.view)
+        
+        view.center = CGPoint(x: view.center.x + recognizer.translation(in: canvasImageView).x,
+                              y: view.center.y + recognizer.translation(in: canvasImageView).y)
+        
+        recognizer.setTranslation(CGPoint.zero, in: canvasImageView)
+        
+        if let previousPoint = lastPanPoint {
+            //View is going into deleteView
+            if deleteView.frame.contains(pointToSuperView) && !deleteView.frame.contains(previousPoint) {
+                if #available(iOS 10.0, *) {
+                    let generator = UIImpactFeedbackGenerator(style: .heavy)
+                    generator.impactOccurred()
+                }
+                UIView.animate(withDuration: 0.3, animations: {
+                    view.transform = view.transform.scaledBy(x: 0.25, y: 0.25)
+                    view.center = recognizer.location(in: self.canvasImageView)
+                })
+            }
+                //View is going out of deleteView
+            else if deleteView.frame.contains(previousPoint) && !deleteView.frame.contains(pointToSuperView) {
+                //Scale to original Size
+                UIView.animate(withDuration: 0.3, animations: {
+                    view.transform = view.transform.scaledBy(x: 4, y: 4)
+                    view.center = recognizer.location(in: self.canvasImageView)
+                })
+            }
+        }
+        lastPanPoint = pointToSuperView
+        
+        if recognizer.state == .ended {
+            imageViewToPan = nil
+            lastPanPoint = nil
+            deleteView.isHidden = true
+            self.hideToolbar(hide: true)
+            let point = recognizer.location(in: self.view)
+            
+            if deleteView.frame.contains(point) { // Delete the view
+                view.removeFromSuperview()
+                if #available(iOS 10.0, *) {
+                    let generator = UINotificationFeedbackGenerator()
+                    generator.notificationOccurred(.success)
+                }
+            } else if !canvasImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
+                UIView.animate(withDuration: 0.3, animations: {
+                    view.center = self.canvasImageView.center
+                })
+                
+            }
+        }
+    }
+    /*
+    
+    func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
+        
+        deleteView.isHidden = false
        // doneButton.isHidden = true
         
         view.superview?.bringSubview(toFront: view)
@@ -304,6 +362,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
         }
         
     }
+ */
     
     func subImageViews(view: UIView) -> [UIImageView] {
         var imageviews: [UIImageView] = []
