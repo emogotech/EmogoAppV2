@@ -38,10 +38,10 @@ class FollowersViewController: UIViewController {
     }()
     
    
-    lazy var popupViewController: AddCollaboratorContactsController = {
-        let popupViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddCollaboratorContactsView)
-        return popupViewController as! AddCollaboratorContactsController
-    }()
+//    lazy var popupViewController: AddCollaboratorContactsController = {
+//        let popupViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddCollaboratorContactsView)
+//        return popupViewController as! AddCollaboratorContactsController
+    //}()
     
     
     override func viewDidLoad() {
@@ -392,7 +392,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
            
-    customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+    //customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
         }else {
             var people:FollowerDAO!
             if isSearchEnable {
