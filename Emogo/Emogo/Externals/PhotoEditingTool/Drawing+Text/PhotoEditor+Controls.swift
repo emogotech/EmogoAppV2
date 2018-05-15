@@ -299,6 +299,7 @@ extension PhotoEditorViewController {
     }
     
      func textButtonTapped() {
+        
         isTyping = true
         self.colorsCollectionView.isHidden = false
         let textView = UITextView(frame: CGRect(x: 0, y:0,
