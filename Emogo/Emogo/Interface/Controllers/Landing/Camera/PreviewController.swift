@@ -731,17 +731,16 @@ class PreviewController: UIViewController {
     
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
-        /*
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
         photoEditor.image = image
+        photoEditor.isForEditOnly = false
+        photoEditor.seletedImage = self.seletedImage
         //PhotoEditorDelegate
         photoEditor.photoEditorDelegate = self
         photoEditor.hiddenControls = [.share]
         photoEditor.stickers = shapes.shapes
         photoEditor.colors = [.red,.blue,.green, .black, .brown, .cyan, .darkGray, .yellow, .lightGray, .purple , .groupTableViewBackground]
-        present(photoEditor, animated: true) {
-        }
- */
+        self.navigationController?.pushAsPresent(viewController: photoEditor)
     }
     
     func setPreviewContent(title:String, description:String) {

@@ -25,13 +25,19 @@ extension PhotoEditorViewController {
     
     //MARK: Top Toolbar
     @IBAction func saveEditedImageButtonTapped(_ sender: Any) {
-        HUDManager.sharedInstance.showHUD()
-        if self.seletedImage.imgPreview != nil {
-            self.uploadFile()
+        if isForEditOnly == false{
+            self.photoEditorDelegate?.doneEditing(image: self.image!)
+            self.navigationController?.popViewAsDismiss()
         }else {
-            //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
-            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+            HUDManager.sharedInstance.showHUD()
+            if self.seletedImage.imgPreview != nil {
+                self.uploadFile()
+            }else {
+                //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+                self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+            }
         }
+      
 
     }
     

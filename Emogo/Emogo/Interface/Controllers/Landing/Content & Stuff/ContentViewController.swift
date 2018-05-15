@@ -831,6 +831,7 @@ class ContentViewController: UIViewController {
         AppDelegate.appDelegate.keyboardResign(isActive: false)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
         photoEditor.image = image
+        photoEditor.isForEditOnly = true
         photoEditor.seletedImage = self.seletedImage
         //PhotoEditorDelegate
         photoEditor.photoEditorDelegate = self

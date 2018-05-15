@@ -32,6 +32,7 @@ enum EditingFeature {
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
+    var isForEditOnly:Bool!
 
   
    

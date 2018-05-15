@@ -50,7 +50,7 @@ extension PhotoEditorViewController {
                     
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
-                self.photoEditorDelegate?.doneEditing(image: UIImage())
+                self.photoEditorDelegate?.doneEditing(image: self.image!)
                 self.navigationController?.popViewAsDismiss()
                 // update data after saving and navigate back
                 
