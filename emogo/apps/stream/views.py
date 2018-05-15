@@ -31,7 +31,13 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').order_by('order', '-attached_date'),
+                queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
                 to_attr="content_list"
             ),
             Prefetch(
@@ -265,6 +271,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         else:
             return self.list(request, *args, **kwargs)
 
+    def get_object(self):
+        qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
+        if qs.exists():
+            return qs[0]
+        else:
+            return Http404
+
     def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -273,7 +286,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :return: Get Stream detail API.
         """
         #  Developer overwrite the self.get_object() method because any one can see content Detail
-        instance = Content.actives.get(id=kwargs.get('pk'))
+        instance = self.get_object()
         self.serializer_class = ViewContentSerializer
         serializer = self.get_serializer(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
