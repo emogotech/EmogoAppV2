@@ -26,7 +26,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var heightConstant: NSLayoutConstraint!
-
+    @IBOutlet weak var lblViewCount: UILabel!
+    @IBOutlet weak var lblLikeCount: UILabel!
+    
     var streamDelegate:StreamViewHeaderDelegate?
     
     override func awakeFromNib() {
@@ -66,6 +68,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
         self.lblDescription.minimumScaleFactor = 1.0
+        self.lblLikeCount.text = objStream.totalLikeCount.trim()
+        self.lblViewCount.text = objStream.viewCount.trim()
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false
@@ -88,6 +92,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // For  Now
         btnEdit.isHidden = true
         btnContainer.isHidden = true
+        
     }
     
     

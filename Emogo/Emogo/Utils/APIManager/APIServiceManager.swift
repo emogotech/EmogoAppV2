@@ -1775,8 +1775,8 @@ class APIServiceManager: NSObject {
         }
     }
     
-    func apiForLikeUnlikeStream(stream:String,isLike:Bool,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
-        let param = ["stream":stream,"status":isLike] as [String : Any]
+    func apiForLikeUnlikeStream(stream:String, status:String,completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let param = ["stream":stream,"status":status] as [String : Any]
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamLikeDislikeAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
@@ -1785,6 +1785,12 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             print(data)
+                            let stream = StreamViewDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            let result:[String:Any] = data as! [String : Any]
+                            if let likestatus = result["status"] {
+                                stream.likeStatus = "\(likestatus)"
+                            }
+                            
                         }
                         completionHandler(true,"")
 
@@ -2034,9 +2040,9 @@ class APIServiceManager: NSObject {
     
     //MARK:- Like - DisLike Content API
     
-    func apiForLikeDislikeContent(content:String, status:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForLikeDislikeContent(content:String, status:Int, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
     
-        let params:[String:Any] = ["content":content ,"status":status ]
+        let params:[String:Any] = ["content":content ,"status":status]
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kLikeDislikeContentAPI, Param: params) { (result) in
             switch(result){
             case .success(let value):

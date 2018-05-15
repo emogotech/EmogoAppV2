@@ -10,14 +10,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Medium.otf">
+            <string>SFProDisplay-Medium</string>
+        </array>
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
         </array>
         <array key="SF-UI-Display-Regular.otf">
             <string>SFUIDisplay-Regular</string>
-        </array>
-        <array key="SF-UI-Display-Semibold.otf">
-            <string>SFUIDisplay-Semibold</string>
         </array>
     </customFonts>
     <objects>
@@ -124,7 +124,7 @@
                                         <constraint firstAttribute="width" constant="89" id="bJ5-HS-Kv2"/>
                                         <constraint firstAttribute="height" constant="21" id="j5M-8Z-fLV"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="10"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="15"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -141,13 +141,14 @@
                                         <constraint firstAttribute="width" constant="89" id="vPE-3b-2zS"/>
                                         <constraint firstAttribute="height" constant="21" id="vvz-dp-A0O"/>
                                     </constraints>
-                                    <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="10"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="15"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="vkA-h6-Q6s" firstAttribute="centerY" secondItem="cQc-ew-sdY" secondAttribute="centerY" id="2yg-t1-9Jb"/>
                                 <constraint firstAttribute="bottom" secondItem="vkA-h6-Q6s" secondAttribute="bottom" constant="7" id="5e9-C9-NEt"/>
                                 <constraint firstItem="vkA-h6-Q6s" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="top" constant="8" id="CMh-lR-ohq"/>
                                 <constraint firstAttribute="bottom" secondItem="sTx-Fg-fSL" secondAttribute="bottom" constant="8" id="DqU-JP-6gB"/>
@@ -215,7 +216,9 @@
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
+                <outlet property="lblLikeCount" destination="sTx-Fg-fSL" id="7AQ-pP-odn"/>
                 <outlet property="lblName" destination="zdk-6b-txq" id="ExY-of-h9I"/>
+                <outlet property="lblViewCount" destination="vkA-h6-Q6s" id="qrp-rG-BXy"/>
                 <outlet property="viewContainer" destination="7hR-WH-JyQ" id="HzC-ua-fYx"/>
                 <outlet property="viewContainerTitle" destination="fhf-Q4-Z9P" id="XJP-Db-lpM"/>
             </connections>

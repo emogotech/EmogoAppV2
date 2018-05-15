@@ -159,6 +159,7 @@ class ContentViewController: UIViewController {
             self.btnFlagIcon.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
         }
+      
         
     }
     
@@ -202,6 +203,13 @@ class ContentViewController: UIViewController {
         let btnBack = UIBarButtonItem.init(customView: button)
         
         self.navigationItem.leftBarButtonItem = btnBack
+        
+        
+        if seletedImage.likeStatus == 0 {
+             self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+        }else{
+             self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
     }
     
     
@@ -229,7 +237,8 @@ class ContentViewController: UIViewController {
         if !seletedImage.name.isEmpty {
             self.txtTitleImage.text = seletedImage.name.trim()
             self.lblTitleImage.text = seletedImage.name.trim()
-            self.btnMore.isHidden = false
+            self.btnMore.isHidden = true
+        
            // self.lblTitleImage.isHidden = false
         } else {
             if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
@@ -459,6 +468,12 @@ class ContentViewController: UIViewController {
                     
                     arrButtons.append(btnEdit)
                     
+                    if seletedImage.likeStatus == 0{
+                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
+                    }else{
+                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    }
+                    
                 }
             }else {
                 if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
@@ -474,6 +489,13 @@ class ContentViewController: UIViewController {
                     let btnFlag = UIBarButtonItem.init(customView: buttonFlag)
                     arrButtons.append(btnFlag)
                     
+                    
+                    if seletedImage.likeStatus == 0{
+                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
+                    }else{
+                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    }
+                    
                 }
             }
             
@@ -488,6 +510,12 @@ class ContentViewController: UIViewController {
                 let btnLink = UIBarButtonItem.init(customView: buttonLink)
                 
                 arrButtons.append(btnLink)
+                
+                if seletedImage.likeStatus == 0{
+                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
+                }else{
+                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
             }
             
             
@@ -501,6 +529,12 @@ class ContentViewController: UIViewController {
                 buttonLink.addTarget(self, action: #selector(self.btnDeleteAction(_:)), for: .touchUpInside)
                 let btnDelete = UIBarButtonItem.init(customView: buttonLink)
                 arrButtons.append(btnDelete)
+                
+                if seletedImage.likeStatus == 0{
+                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
+                }else{
+                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
             }
         }
     
@@ -702,7 +736,14 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnLikeDislikeAction(_ sender: Any) {
-       // self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        
+        if seletedImage.likeStatus == 0{
+            seletedImage.likeStatus = 1
+        }else{
+             seletedImage.likeStatus = 0
+        }
+        
+     
         self.likeDislikeContent()
     }
     
@@ -1053,15 +1094,15 @@ class ContentViewController: UIViewController {
     
     func likeDislikeContent(){
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: self.seletedImage.contentID, status:"")  { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: self.seletedImage.contentID, status:self.seletedImage.likeStatus)  { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
-                
-//                isLike == 0 {
-//                   self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-//                }else{
-//                      self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-//                }
+                if self.seletedImage.likeStatus == 0 {
+                   self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                    
+                }else{
+                    self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
                 print("contentID: \(self.seletedImage.contentID)")
                 self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
                
@@ -1076,11 +1117,10 @@ class ContentViewController: UIViewController {
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForSaveStuffContent(contentID: self.seletedImage.contentID) { (isSuccess, error) in
             HUDManager.sharedInstance.hideHUD()
-              print("contentID: \(self.seletedImage.contentID)")
+            
              if isSuccess == true {
-                print("contentID: \(self.seletedImage.contentID)")
-                 self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
               
+                 self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
                 
             }else{
                 HUDManager.sharedInstance.hideHUD()

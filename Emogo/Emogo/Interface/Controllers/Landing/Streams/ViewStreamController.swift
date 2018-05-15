@@ -36,6 +36,7 @@ class ViewStreamController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewStreamCollectionView.accessibilityLabel = "ViewStreamCollectionView"
+      
         self.prepareLayouts()
     }
     
@@ -47,6 +48,7 @@ class ViewStreamController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = nil
+       
         self.prepareNavigation()
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,6 +89,10 @@ class ViewStreamController: UIViewController {
     longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
+       
+        
+     
+
     }
     
     func configureStrechyHeader() {
@@ -94,6 +100,14 @@ class ViewStreamController: UIViewController {
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
         stretchyHeader.streamDelegate = self
+        
+      
+        if self.objStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+        }else{
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            
+        }
         stretchyHeader.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
@@ -112,6 +126,8 @@ class ViewStreamController: UIViewController {
             self.currentIndex = ContentList.sharedInstance.mainStreamIndex
             ContentList.sharedInstance.mainStreamIndex = nil
         }
+
+     
         self.configureNavigationTite()
         let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
@@ -285,6 +301,13 @@ class ViewStreamController: UIViewController {
     
     @objc func likeStreamAction(sender:UIButton){
        print("Like Action")
+        
+        if self.objStream?.likeStatus == "0" {
+            self.objStream?.likeStatus = "1"
+        }else{
+            self.objStream?.likeStatus = "0"
+        }
+        self.likeDislikeStream()
     }
     
     
@@ -357,6 +380,43 @@ class ViewStreamController: UIViewController {
             selectedIndex = nil
         }
     }
+    
+      //MARK:- Like Dislike Stream
+    
+    func likeDislikeStream(){
+        var id:String! = ""
+        
+        if ContentList.sharedInstance.objStream != nil {
+            id = ContentList.sharedInstance.objStream
+        }
+        else {
+            if currentIndex != nil {
+                let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                id =  stream.ID
+            }
+        }
+        
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(isSuccess, error) in
+            
+             HUDManager.sharedInstance.hideHUD()
+            if isSuccess == true {
+                
+                if self.objStream?.likeStatus == "0" {
+                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                   
+                }else{
+                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
+              
+                    
+                }else{
+                    HUDManager.sharedInstance.hideHUD()
+                }
+            }
+    }
+    
+   
     
     func next() {
         self.lblNoContent.isHidden = true

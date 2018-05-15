@@ -2325,7 +2325,7 @@
                                                 <nil key="highlightedColor"/>
                                                 <string key="userLabel">fgye gcdec]sb ccbdc dbyc fgye gcdec]sb ccbdc dbyc ]\ fgye gcdec]sb ccbdc dbyc  fgye gcdec]sb ccbdc dbyc  fgye gcdec]sb ccbdc dbyc</string>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4l-Y4-pu7">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4l-Y4-pu7">
                                                 <rect key="frame" x="346" y="0.0" width="25" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="25" id="3JE-ox-78W"/>
