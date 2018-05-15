@@ -3,6 +3,13 @@ PODS:
   - AWSCore (2.6.5)
   - AWSS3 (2.6.5):
     - AWSCore (= 2.6.5)
+  - BMPlayer (1.0.1):
+    - BMPlayer/Full (= 1.0.1)
+  - BMPlayer/Core (1.0.1)
+  - BMPlayer/Full (1.0.1):
+    - BMPlayer/Core
+    - NVActivityIndicatorView (~> 4.0.0)
+    - SnapKit (~> 4.0.0)
   - Branch (0.23.2):
     - Branch/Core (= 0.23.2)
   - Branch/Core (0.23.2)
@@ -21,12 +28,17 @@ PODS:
   - Lightbox (2.1.1):
     - Hue (~> 3.0)
     - Imaginary (~> 3.0)
+  - NVActivityIndicatorView (4.0.1):
+    - NVActivityIndicatorView/Presenter (= 4.0.1)
+  - NVActivityIndicatorView/Presenter (4.0.1)
   - Presentr (1.3.2)
+  - PryntTrimmerView (2.0.0)
   - RS3DSegmentedControl (0.2.7):
     - iCarousel
   - SDWebImage (4.2.3):
     - SDWebImage/Core (= 4.2.3)
   - SDWebImage/Core (4.2.3)
+  - SnapKit (4.0.0)
   - SwiftLinkPreview (2.1.0)
   - SwiftyCam (2.6.0)
   - SwiftyJSON (3.1.4)
@@ -37,6 +49,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - AWSS3
+  - BMPlayer
   - Branch
   - Crashlytics
   - CropViewController
@@ -46,6 +59,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Lightbox
   - Presentr
+  - PryntTrimmerView
   - RS3DSegmentedControl
   - SDWebImage
   - SwiftLinkPreview
@@ -57,6 +71,7 @@ SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AWSCore: b4895b4a5256d0040f8825ad31f3477d081f508f
   AWSS3: a92df2b4625488b5aae142f4311379fcd6bae3a7
+  BMPlayer: 44eebf06eb01450dd14ea74b27d07c5222f0eed1
   Branch: 085821e2f2ff386e780cf48a0f7a622e7fcf9593
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
@@ -69,14 +84,17 @@ SPEC CHECKSUMS:
   Imaginary: d675200546110e305d6a26db6267c0622ffe5e6b
   IQKeyboardManagerSwift: 02bfbb0dff71c66d0ab77d80d25dfce0c3717735
   Lightbox: 30dc3540527e03194a10ee51be8ad5e039a1893f
+  NVActivityIndicatorView: 77ed6d7b571643e24899e7858bf9ae2ee4c21f31
   Presentr: 797ae6ec8904eaba4ec58a4c2065bd66e31569ea
+  PryntTrimmerView: 3af9f84875d347b9a131501b3695abf94b02a7bb
   RS3DSegmentedControl: 686b5bc9e3080a6b7b902ba4e04735a90c52dc6d
   SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftLinkPreview: 2366319a604683d14292c0b59d70a619c1e3d461
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: b32b5a6b99fcedb45d8181a0edfa3ee709dd2f5f
+PODFILE CHECKSUM: e087e3a22723c4740441c5f0cc31634cad0067a2
 
 COCOAPODS: 1.4.0

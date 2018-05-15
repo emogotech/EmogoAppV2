@@ -88,7 +88,9 @@ extension PhotoEditorViewController {
         let obj:FilterViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_FilterView) as! FilterViewController
             obj.image  = self.canvasImageView.image
             obj.filterDelegate = self
-            self.navigationController?.pushViewController(obj, animated: true)
+            obj.isLoaded = "Load"
+            
+            self.navigationController?.pushAsPresent(viewController: obj)
             break
         default:
             break
@@ -255,6 +257,7 @@ extension PhotoEditorViewController {
             guard let edgeMenu = self.edgeMenuLeft else { return }
             edgeMenu.open()
             self.colorPickerView.isHidden = false
+            self.colorsCollectionView.isHidden = false
             Animation.viewSlideInFromBottomToTop(views: self.colorPickerView)
         })
         isDrawing = true

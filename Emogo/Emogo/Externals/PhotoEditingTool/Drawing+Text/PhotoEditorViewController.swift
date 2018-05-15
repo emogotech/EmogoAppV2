@@ -68,6 +68,7 @@ enum EditingFeature {
     var activeTextView: UITextView?
     var imageViewToPan: UIImageView?
     var isTyping: Bool = false
+    var lastScale:CGFloat! = 0.0
 
     var drawWidth:CGFloat = 5.0
     var stickersViewController: StickersViewController!

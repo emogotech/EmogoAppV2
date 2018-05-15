@@ -22,9 +22,10 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
-             let filter = self.images[indexPath.row]
-             self.prepareImageFor(index: indexPath.row)
-             cell.setup(filter:filter)
+            let filter = self.images[indexPath.row]
+            cell.lblName.text = filter.iconName
+             self.prepareImageFor(index: indexPath.row,cell: cell)
+          //   cell.setup(filter:filter)
             return cell
             
         }else {

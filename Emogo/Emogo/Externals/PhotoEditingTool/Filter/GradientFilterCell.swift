@@ -11,7 +11,7 @@ import UIKit
 class GradientFilterCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgPreview: UIImageView!
-    
+    var image:UIImage!? =  nil
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -19,7 +19,11 @@ class GradientFilterCell: UICollectionViewCell {
     
     func setup(filter:Filter) {
             lblName.text = filter.iconName
+        if filter.icon == nil {
+            self.imgPreview.image = #imageLiteral(resourceName: "stream-card-placeholder")
+        }else {
             self.imgPreview.image = filter.icon
+        }
     }
 }
 

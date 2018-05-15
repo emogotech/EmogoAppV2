@@ -372,6 +372,11 @@
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
+		F4B8887220AAB7550056666B /* VideoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887120AAB7540056666B /* VideoEditorViewController.swift */; };
+		F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */; };
+		F4B8887620AABD9D0056666B /* VideoEditor+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */; };
+		F4B8887820AABDAC0056666B /* VideoEditor+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */; };
+		F4B8887A20AB045D0056666B /* FilterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887920AB045D0056666B /* FilterManager.swift */; };
 		F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */; };
 		F4C20FCF209ADFD30094A7FC /* ImageEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FCE209ADFD30094A7FC /* ImageEditor.storyboard */; };
 		F4C20FE9209AE4E80094A7FC /* FilterGradientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FD4209AE4DB0094A7FC /* FilterGradientCell.swift */; };
@@ -846,6 +851,11 @@
 		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPreviewViewController.swift; sourceTree = "<group>"; };
+		F4B8887120AAB7540056666B /* VideoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorViewController.swift; sourceTree = "<group>"; };
+		F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMVideoEditor.swift; sourceTree = "<group>"; };
+		F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Controls.swift"; sourceTree = "<group>"; };
+		F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Delegate.swift"; sourceTree = "<group>"; };
+		F4B8887920AB045D0056666B /* FilterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterManager.swift; sourceTree = "<group>"; };
 		F4B9F24D1FEB9977009D7492 /* UIImage+ImageCompress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageCompress.m"; sourceTree = "<group>"; };
 		F4B9F24E1FEB9978009D7492 /* UIImage+ImageCompress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageCompress.h"; sourceTree = "<group>"; };
 		F4C20FCE209ADFD30094A7FC /* ImageEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageEditor.storyboard; sourceTree = "<group>"; };
@@ -1244,6 +1254,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F4B8887020AAB7430056666B /* VideoEditing */,
 				F4086D8B206E2378005C7318 /* PulseView */,
 				F425C62F205660A8002536E1 /* CollectionView */,
 				F02C6199204FEDB10041CEE4 /* PageController */,
@@ -2110,10 +2121,22 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
+		F4B8887020AAB7430056666B /* VideoEditing */ = {
+			isa = PBXGroup;
+			children = (
+				F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */,
+				F4B8887120AAB7540056666B /* VideoEditorViewController.swift */,
+				F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */,
+				F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */,
+			);
+			path = VideoEditing;
+			sourceTree = "<group>";
+		};
 		F4C20FD0209AE1320094A7FC /* Photo Editor */ = {
 			isa = PBXGroup;
 			children = (
 				F4C21029209AE7010094A7FC /* FilterViewController.swift */,
+				F4B8887920AB045D0056666B /* FilterManager.swift */,
 				F4A5F74C209C685100AC9AE1 /* FilterViewController+Controls.swift */,
 				F4C20FE3209AE4E50094A7FC /* FilterCell.swift */,
 				F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */,
@@ -2751,6 +2774,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework",
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BMPlayer/BMPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
@@ -2760,9 +2784,12 @@
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
+				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyCam/SwiftyCam.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -2774,6 +2801,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BMPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
@@ -2783,9 +2811,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RS3DSegmentedControl.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyCam.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -2867,6 +2898,7 @@
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
 				F4C9554420A31D890065D1C8 /* FNSUdnie.mlmodel in Sources */,
 				F41FD96020A9583F00FA8623 /* EmojiCollectionViewCell.swift in Sources */,
+				F4B8887820AABDAC0056666B /* VideoEditor+Delegate.swift in Sources */,
 				F49023C51FC4010A004F3C90 /* Reachability.swift in Sources */,
 				F43649C52015CEA5004FBEE2 /* UIViewExtensions.swift in Sources */,
 				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
@@ -2876,6 +2908,7 @@
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
+				F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */,
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
@@ -2899,6 +2932,7 @@
 				F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */,
 				F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
+				F4B8887620AABD9D0056666B /* VideoEditor+Controls.swift in Sources */,
 				F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
@@ -2990,6 +3024,7 @@
 				F4A5F751209C6CE400AC9AE1 /* PhotoEditor+Crop.swift in Sources */,
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */,
+				F4B8887A20AB045D0056666B /* FilterManager.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
 				F4C20FEB209AE4E80094A7FC /* PhotoEditor+FilterControls.swift in Sources */,
 				C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */,
@@ -3001,6 +3036,7 @@
 				F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
+				F4B8887220AAB7550056666B /* VideoEditorViewController.swift in Sources */,
 				F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */,
 				33BCB0761FBB353E004FF634 /* PMButton.swift in Sources */,
 				F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */,

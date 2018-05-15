@@ -426,7 +426,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "548058589.752887"
+            timestampString = "548076980.82561"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "539"
@@ -564,12 +564,12 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "547982705.983415"
+                  timestampString = "548072902.859675"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "659"
                   endingLineNumber = "659"
-                  offsetFromSymbolStart = "516">
+                  offsetFromSymbolStart = "416">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -579,12 +579,12 @@
                   moduleName = "Emogo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "547982705.988987"
+                  timestampString = "548072902.862322"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "660"
                   endingLineNumber = "660"
-                  offsetFromSymbolStart = "30">
+                  offsetFromSymbolStart = "40">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -596,11 +596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/PhotoEditingTool/Photo Editor/FilterViewController.swift"
-            timestampString = "547992921.134583"
+            timestampString = "548076980.826074"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "actionForSaveButton()"
             landmarkType = "7">
          </BreakpointContent>
@@ -644,11 +644,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/PhotoEditingTool/Drawing+Text/PhotoEditor+Controls.swift"
-            timestampString = "548058589.7533211"
+            timestampString = "548076980.826337"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "124"
+            endingLineNumber = "124"
             landmarkName = "btnCancelAction()"
             landmarkType = "7">
          </BreakpointContent>
