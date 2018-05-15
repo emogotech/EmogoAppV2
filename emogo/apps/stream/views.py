@@ -56,7 +56,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 to_attr='total_like_dislike_data'
             ),
 
-        ).order_by('total_view_count')
+        ).order_by('-upd')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
