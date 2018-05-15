@@ -200,6 +200,7 @@ class ViewStreamSerializer(StreamSerializer):
     view_count = serializers.SerializerMethodField()
     total_likes = serializers.SerializerMethodField()
     user_liked = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -218,6 +219,12 @@ class ViewStreamSerializer(StreamSerializer):
             return obj.total_like_dislike_data.__len__()
         except AttributeError:
             return None
+
+    def get_liked(self, obj):
+        for x in obj.total_like_dislike_data:
+            if x.user_id == self.context.get('request').auth.user_id:
+                return True
+        return False
 
     def get_user_liked(self, obj):
         try:
