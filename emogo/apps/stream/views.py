@@ -28,7 +28,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
+    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
                 queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
@@ -55,8 +55,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
                 to_attr='total_like_dislike_data'
             ),
-
-        ).order_by('-upd')
+        ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
