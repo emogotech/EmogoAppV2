@@ -174,6 +174,8 @@ class StreamViewDAO{
     var streamPermission:String! = ""
     var type:String! = ""
     var viewCount:String! = ""
+    var totalLikeCount:String! = ""
+    var likeStatus: String! = ""
     var arrayContent = [ContentDAO]()
     var arrayColab = [CollaboratorDAO]()
     var width                  :Int! = 0
@@ -186,7 +188,12 @@ class StreamViewDAO{
         if let obj  = streamData["created_by"] {
             self.idCreatedBy = "\(obj)"
         }
-        
+        if let obj  = streamData["total_likes"] {
+            self.totalLikeCount = "\(obj)"
+        }
+        if let obj =  streamData["liked"] {
+            self.likeStatus = "\(obj)"
+        }
         if let obj  = streamData["view_count"] {
             self.viewCount = "\(obj)"
         }

@@ -121,6 +121,7 @@ class ContentDAO{
     var isEdit:Bool! = false
     var isDelete:Bool! = false
     var isShowAddStream:Bool! = false
+    var likeStatus:Int! = 0
     var width:Int! = 300
     var height:Int! = 300
     var color:String! = ""
@@ -178,6 +179,9 @@ class ContentDAO{
         }
         if let obj  = contentData["video_image"] {
             self.coverImageVideo = obj as! String
+        }
+        if let obj  = contentData["liked"] {
+            self.likeStatus = Int("\(obj)")
         }
         
         if let obj = contentData["width"] {
