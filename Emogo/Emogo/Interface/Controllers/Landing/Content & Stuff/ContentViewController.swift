@@ -1109,8 +1109,7 @@ class ContentViewController: UIViewController {
                 }else{
                     self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
-                print("contentID: \(self.seletedImage.contentID)")
-                self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
+              
                
             }else{
                 HUDManager.sharedInstance.hideHUD()

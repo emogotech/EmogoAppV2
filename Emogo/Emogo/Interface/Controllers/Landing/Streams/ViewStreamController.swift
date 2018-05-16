@@ -90,7 +90,7 @@ class ViewStreamController: UIViewController {
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
        
-    
+       
     }
     
     func configureStrechyHeader() {
@@ -100,7 +100,7 @@ class ViewStreamController: UIViewController {
         stretchyHeader.streamDelegate = self
         
        
-        if self.objStream?.likeStatus == nil {
+        if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
@@ -228,7 +228,7 @@ class ViewStreamController: UIViewController {
 
         }else {
             stretchyHeader.btnDelete.isHidden = true
-            stretchyHeader.btnLike.isHidden = true
+            stretchyHeader.btnLike.isHidden = false
             stretchyHeader.btnEdit.isHidden = false
             stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
             stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
@@ -239,9 +239,14 @@ class ViewStreamController: UIViewController {
 
         }
         // removed for now
-        stretchyHeader.btnLike.isHidden = true
-        stretchyHeader.btnContainer.isHidden = true
-
+        stretchyHeader.btnLike.isHidden = false
+        stretchyHeader.btnContainer.isHidden = false
+        if self.objStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
     }
     
     @objc func showReportList(){

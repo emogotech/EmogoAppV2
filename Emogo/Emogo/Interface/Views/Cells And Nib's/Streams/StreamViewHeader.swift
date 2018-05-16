@@ -90,8 +90,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         
         // For  Now
-        btnEdit.isHidden = true
-        btnContainer.isHidden = true
+       // btnEdit.isHidden = false
+        btnContainer.isHidden = false
         
     }
     
