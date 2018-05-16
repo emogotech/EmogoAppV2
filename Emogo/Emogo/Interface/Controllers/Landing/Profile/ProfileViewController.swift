@@ -812,7 +812,6 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.lblNOResult.isHidden = true
-                self.btnNext.isHidden = false
                 self.btnNext.isHidden = true
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {

@@ -42,7 +42,6 @@ class MyStuffViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
-        self.getTopContents()
        
     }
     
@@ -53,13 +52,11 @@ class MyStuffViewController: UIViewController {
       //  btnNext.isUserInteractionEnabled = false
         ContentList.sharedInstance.arrayContent.removeAll()
         // Attach datasource and delegate
-
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
         stuffCollectionView.alwaysBounceVertical = true
         HUDManager.sharedInstance.showHUD()
-        self.getMyStuff(type:.start)
-        
+        self.getTopContents()
        
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
@@ -357,8 +354,8 @@ class MyStuffViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 self.lblNoResult.isHidden = true
-                self.btnNext.isHidden = false
                 self.btnNext.isHidden = true
+              
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
                     self.lblNoResult.text  = "No Stuff Found"
@@ -366,7 +363,7 @@ class MyStuffViewController: UIViewController {
                     self.lblNoResult.isHidden = false
                     self.btnNext.isHidden = true
                 }
-               
+                 
                 self.stuffCollectionView.reloadData()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -419,14 +416,16 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[indexPath.row]
         return CGSize(width: content.width, height: content.height)
     }
     
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index       =   indexPath.row
-        let content = ContentList.sharedInstance.arrayStuff[index]
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[indexPath.row]
         if content.type == .link{
             guard let url = URL(string: content.coverImage) else {
                 return //be safe
@@ -434,7 +433,15 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             self.openURL(url: url)
         }else if content.type == .gif{
             self.gifPreview(content: content)
-        } else{
+        }else if content.type == .video {
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = indexPath.row
+                self.navigationController?.push(viewController: objPreview)
+            }
+        }
+        else{
             self.openFullView(index: index)
         }
         
@@ -459,8 +466,10 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             content.isSelected = !content.isSelected
             ContentList.sharedInstance.arrayStuff[indexPath.row] = content
             if content.isSelected {
+              
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
+               
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
             self.updateSelected(obj: content)

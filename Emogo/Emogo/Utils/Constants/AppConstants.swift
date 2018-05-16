@@ -225,6 +225,8 @@ let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 //Action sheet constant
 let kAlertSheet_Spam = "It's Spam"
 let kAlertSheet_Inappropiate = "It's inappropiate"
+let kAlertSheet_SaveToGallery = "Save To Gallery"
+let kAlertSheet_SaveToMyStuff = "Save To MyStuff"
 
 
 //Notification Name`

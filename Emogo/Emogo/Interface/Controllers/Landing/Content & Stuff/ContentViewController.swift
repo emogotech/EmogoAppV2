@@ -702,7 +702,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnSaveAction(_ sender: Any) {
-        self.saveToMyStuff()
+        self.SaveAlert()
         
     }
     
@@ -728,7 +728,99 @@ class ContentViewController: UIViewController {
         }
     }
     
+    func SaveAlert(){
     
+        let optionMenu = UIAlertController(title: kAlert_Message, message: "", preferredStyle: .actionSheet)
+        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+                self.saveToMyStuff()
+        })
+        
+        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+           
+           
+            if self.seletedImage.type == .image {
+                if self.seletedImage.imgPreview == nil {
+                    HUDManager.sharedInstance.showHUD()
+                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+                        HUDManager.sharedInstance.hideHUD()
+                        if image != nil {
+                            UIImageWriteToSavedPhotosAlbum(image!
+                                ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                                ), nil)
+
+                        }
+                    })
+                }
+               
+            }else if self.seletedImage.type == .video{
+               
+                
+          
+            }else if self.seletedImage.type == .gif{
+                
+                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                        
+                    }
+                })
+            }else if self.seletedImage.type == .video {
+                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
+                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                        
+                    }
+                })
+            }
+    })
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(saveToMyStuffAction)
+        optionMenu.addAction(saveToGalleryAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+   
+    
+    @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
+        self.showToast(type: .error, strMSG: kAlert_Save_Image)
+    }
+    @objc func videoDownload(){
+        
+//        DispatchQueue.global(qos: .background).async {
+//            
+//            if let url = URL(string: urlString),
+//                let urlData = NSData(contentsOf: url) {
+//                let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
+//                let filePath="\(documentsPath)/tempFile.mp4"
+//                DispatchQueue.main.async {
+//                    urlData.write(toFile: filePath, atomically: true)
+//                    PHPhotoLibrary.shared().performChanges({
+//                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
+//                    }) { completed, error in
+//                        if completed {
+//                            print("Video is saved!")
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        
+    }
     @objc func textFieldDidChange(textfield:UITextField) {
         if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
             isEditngContent = true
@@ -738,6 +830,7 @@ class ContentViewController: UIViewController {
             self.btnDone.isHidden = false
         }
     }
+  
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
