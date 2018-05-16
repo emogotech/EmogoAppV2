@@ -15,12 +15,14 @@ class FilterCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.imgView.contentMode = .scaleAspectFit
     }
     
     
     func prepareCell(filter:Filter) {
         lblTitle.text = filter.iconName
-        imgView.image = filter.icon
+        self.imgView.image = filter.icon?.resize(to: CGSize(width: imgView.bounds.size.width*2, height: imgView.bounds.size.height*2))
+
     }
 
 }
