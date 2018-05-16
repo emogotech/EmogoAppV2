@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Regular.otf">
+        <array key="Montserrat-Regular.ttf">
             <string>Montserrat-Regular</string>
         </array>
         <array key="SF-Pro-Display-Semibold.otf">
@@ -244,15 +244,13 @@
                                                     <constraint firstAttribute="width" constant="84" id="SMS-D7-A8K"/>
                                                 </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hen-3h-LiO">
-                                                <rect key="frame" x="284" y="3" width="84" height="50"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="hen-3h-LiO">
+                                                <rect key="frame" x="230" y="3" width="140" height="50"/>
                                                 <subviews>
                                                     <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iRf-3s-twH">
-                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="42" id="3wS-by-U7v"/>
-                                                            <constraint firstAttribute="height" constant="50" id="iz3-Nd-1qO"/>
-                                                        </constraints>
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="50"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                         <size key="titleShadowOffset" width="1" height="0.0"/>
                                                         <state key="normal" image="undo_button">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -262,34 +260,38 @@
                                                             <action selector="clearButtonTapped:" destination="W7J-zc-5Jo" eventType="touchUpInside" id="zHN-K5-LuA"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qsw-k7-XiY">
-                                                        <rect key="frame" x="42" y="0.0" width="42" height="50"/>
+                                                    <button opaque="NO" tag="111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BjJ-k1-ekx">
+                                                        <rect key="frame" x="70" y="0.0" width="70" height="50"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="ZDa-FC-7tW"/>
-                                                            <constraint firstAttribute="width" constant="42" id="yVE-kS-vTX"/>
+                                                            <constraint firstAttribute="height" constant="50" id="6DC-om-h9l"/>
+                                                            <constraint firstAttribute="width" constant="70" id="YCd-dd-yMw"/>
                                                         </constraints>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="titleEdgeInsets" minX="-30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        <inset key="imageEdgeInsets" minX="50" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                         <size key="titleShadowOffset" width="1" height="0.0"/>
-                                                        <state key="normal" image="next_icon">
+                                                        <state key="normal" title="Save" image="next_icon">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.1532266695" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="continueButtonPressed:" destination="W7J-zc-5Jo" eventType="touchUpInside" id="Qqz-Oy-ceR"/>
+                                                            <action selector="continueButtonPressed:" destination="W7J-zc-5Jo" eventType="touchUpInside" id="1BN-93-WfQ"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="SlA-xD-ncU"/>
-                                                    <constraint firstAttribute="width" constant="84" id="kyg-O5-c7f"/>
+                                                    <constraint firstAttribute="width" constant="140" id="H4b-bu-hDY"/>
+                                                    <constraint firstAttribute="height" constant="50" id="LEa-8X-F0Z"/>
                                                 </constraints>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="hen-3h-LiO" secondAttribute="trailing" constant="5" id="4Jf-W9-WXr"/>
                                             <constraint firstItem="O4c-XA-Zfs" firstAttribute="leading" secondItem="kT0-Zz-GjF" secondAttribute="leading" constant="7" id="CWd-da-pFV"/>
-                                            <constraint firstAttribute="trailing" secondItem="hen-3h-LiO" secondAttribute="trailing" constant="7" id="GuH-dB-uhc"/>
                                             <constraint firstAttribute="height" constant="57" id="azb-sa-chl"/>
-                                            <constraint firstItem="hen-3h-LiO" firstAttribute="top" secondItem="kT0-Zz-GjF" secondAttribute="top" constant="3" id="bJt-qR-fVG"/>
+                                            <constraint firstAttribute="bottom" secondItem="hen-3h-LiO" secondAttribute="bottom" constant="4" id="bUI-OW-DOo"/>
                                             <constraint firstItem="O4c-XA-Zfs" firstAttribute="top" secondItem="kT0-Zz-GjF" secondAttribute="top" constant="3" id="hBM-X6-7Hh"/>
                                         </constraints>
                                     </view>
@@ -324,8 +326,9 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Czi-6j-Zm2">
-                                                            <rect key="frame" x="0.0" y="7" width="35" height="16"/>
+                                                            <rect key="frame" x="0.0" y="7" width="157" height="16"/>
                                                             <constraints>
+                                                                <constraint firstAttribute="width" constant="157" id="d9E-pX-kJ3"/>
                                                                 <constraint firstAttribute="height" constant="16" id="uD7-fA-EYH"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="SFProText-Semibold" family="SF Pro Text" pointSize="13"/>
@@ -333,7 +336,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tQi-o2-FkP">
-                                                            <rect key="frame" x="6" y="31" width="23" height="953"/>
+                                                            <rect key="frame" x="6" y="31" width="145" height="122"/>
                                                         </imageView>
                                                     </subviews>
                                                 </view>
@@ -420,13 +423,13 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c5g-qy-GzR">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="607"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdI-SW-eah" customClass="TrimmerView" customModule="PryntTrimmerView">
                                 <rect key="frame" x="0.0" y="607" width="375" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="0Yf-Gr-GMG"/>
+                                    <constraint firstAttribute="height" id="0Yf-Gr-GMG"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="mainColor">
@@ -438,7 +441,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="0HO-2B-5Ds"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="5WF-pb-5j4"/>

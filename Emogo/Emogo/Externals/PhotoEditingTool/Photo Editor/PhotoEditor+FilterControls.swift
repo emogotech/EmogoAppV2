@@ -23,14 +23,25 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
         if isGradientFilter {
             let cell  = collectionView.dequeueReusableCell(withReuseIdentifier: "gradientFilterCell", for: indexPath) as! GradientFilterCell
             let filter = self.images[indexPath.row]
-            cell.tag = indexPath.row
+            cell.imgPreview.tag = indexPath.row
             cell.lblName.text = filter.iconName
-            cell.imgPreview.image = #imageLiteral(resourceName: "stream-card-placeholder")
-            //if filter.icon == nil {
-                self.prepareImageFor(index: indexPath.row,cell: cell)
-//            }else {
-//                cell.setup(filter:filter)
-//            }
+            if filter.icon ==  nil {
+                self.prepareImageFor(obj: filter, index: indexPath.row) { (objFilter) in
+                    
+                    DispatchQueue.main.async {
+                        if  cell.imgPreview.tag == indexPath.row {
+                            if let objFilter = objFilter {
+                                self.images[indexPath.row] = objFilter
+                                cell.setup(filter: objFilter)
+                            }
+                        }
+                    }
+                    
+                }
+            }else {
+                cell.setup(filter: filter)
+            }
+          
             return cell
             
         }else {
@@ -44,10 +55,19 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
             let filter = self.images[indexPath.row]
-            self.updateImageView(image: filter.icon,index:indexPath.row)
-          //  self.updateImageView(image: filter.icon)
-        //    collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            
+            self.prepareImageFor(obj: filter, index: indexPath.row) { (objFilter) in
+                DispatchQueue.main.async {
+                    if let objFilter = objFilter {
+                        self.imageGradientFilter = objFilter.icon
+                        self.images[indexPath.row] = objFilter
+                        if let image = self.imageGradientFilter {
+                            self.canvasImageView.image = image.resize(to: (self.imageToFilter?.size)!)
+                        }
+                    }
+                   
+                }
+            }
+         
         }else {
             self.btnFilterOptionSelected(index:indexPath.row)
         }

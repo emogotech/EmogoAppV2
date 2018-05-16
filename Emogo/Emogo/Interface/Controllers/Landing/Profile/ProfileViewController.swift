@@ -302,7 +302,14 @@ class ProfileViewController: UIViewController {
             HUDManager.sharedInstance.showHUD()
             isEdited = false
             if  self.currentMenu == .stuff {
-                self.getMyStuff(type: .start)
+                HUDManager.sharedInstance.hideHUD()
+                ContentList.sharedInstance.arrayContent.removeAll()
+                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                    let obj = ContentList.sharedInstance.arrayStuff[i]
+                    obj.isSelected = false
+                    ContentList.sharedInstance.arrayStuff[i] = obj
+                }
+            //    self.getMyStuff(type: .start)
             }else if self.currentMenu == .stream{
                 self.getStreamList(type:.start,filter: .myStream)
             }else {
@@ -1159,12 +1166,18 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         if currentMenu == .stuff {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
-            if selectedIndex != nil {
-                let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
-                return CGSize(width: tempContent.width, height: tempContent.height)
+            if self.selectedType == .All {
+                let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+                if selectedIndex != nil {
+                    let tempContent = ContentList.sharedInstance.arrayStuff[selectedIndex!.row]
+                    return CGSize(width: tempContent.width, height: tempContent.height)
+                }
+                return CGSize(width: content.width, height: content.height)
+            }else {
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                let content = array[indexPath.row]
+                return CGSize(width: content.width, height: content.height)
             }
-            return CGSize(width: content.width, height: content.height)
         }else {
             let itemWidth = collectionView.bounds.size.width/2.0
             return CGSize(width: itemWidth, height: itemWidth - 40)

@@ -63,6 +63,7 @@ class FilterViewController: UIViewController {
     var renderedFilterBuffer: [String: ImageBuffer] = [:]
     var imageBuffer: ImageBuffer?
     var isLoaded:String? = nil
+    let deviceName = UIDevice.current.modelName
     
     
     override func viewDidLoad() {
@@ -113,6 +114,7 @@ class FilterViewController: UIViewController {
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.tintColor = .white
         self.navigationController?.navigationBar.barTintColor = UIColor.black.withAlphaComponent(0.3)
+    
         self.prepareNavigationButton(isEditing: false)
     }
     
@@ -124,9 +126,12 @@ class FilterViewController: UIViewController {
             let btnCancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.actionForCancelButton))
             self.navigationItem.leftBarButtonItem = btnCancel
             self.navigationItem.rightBarButtonItem = btnSave
+            navigationItem.hidesBackButton = true
+
         }else {
-            let back = UIBarButtonItem(image: #imageLiteral(resourceName: "photo-edit-back"), style: .plain, target: self, action: #selector(self.actionforCancel))
-            self.navigationItem.leftBarButtonItem = back
+            navigationItem.hidesBackButton = false
+//            let back = UIBarButtonItem(image: #imageLiteral(resourceName: "photo-edit-back"), style: .plain, target: self, action: #selector(self.actionforCancel))
+//            self.navigationItem.leftBarButtonItem = back
             let save = UIBarButtonItem(image:#imageLiteral(resourceName: "crrop_icon") , style: .plain, target: self, action: #selector(self.actionForCropButton))
             self.navigationItem.rightBarButtonItem = save
             
@@ -141,7 +146,6 @@ class FilterViewController: UIViewController {
         let frame = AVMakeRect(aspectRatio: img.size, insideRect: self.canvasView.frame)
         self.imageViewHeightConstraint.constant = frame.size.height
         print(self.canvasView.frame)
-        
     }
     
     func prepareGradientFilter(){
@@ -166,41 +170,59 @@ class FilterViewController: UIViewController {
     
     func updateImageView(image:UIImage?, index:Int? = nil) {
         if let index = index {
-            let obj = self.images[index]
-            let value:String = obj.key
-            let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-            let hasNumbers = (numbersRange != nil)
-            if !value.contains(".png") &&  hasNumbers {
-                let filter = self.filters[index]
-                print("Core Ml Images")
-                if let buffer = self.renderedFilterBuffer[filter.name] {
-                    self.imageBuffer = buffer
-                }
-                FilterManager.sharedInstance.imageFor(obj: obj, buffer: self.imageBuffer, image: self.image!) { (filterResult) in
-                    if let filter = filterResult {
-                        self.imageGradientFilter = filter.icon
+            DispatchQueue.global(qos: .default).async {
+                // Get Image
+                let obj = self.images[index]
+              
+                let value:String = obj.key
+                let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
+                let hasNumbers = (numbersRange != nil)
+                if value.contains(".png") {
+                    if let frontImage = UIImage(named: value) {
+                        let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
+                        obj.icon = filterImage
+                        self.imageGradientFilter = filterImage
+                        DispatchQueue.main.async(execute: {() -> Void in
+                            self.images[index] = obj
+                            if let image = self.imageGradientFilter {
+                                self.canvasImageView.image = image
+                            }
+                        })
+                    }
+                }else if hasNumbers {
+                    
+                    let filter = self.filters[index]
+                    print("Core Ml Images")
+                    if let buffer = self.renderedFilterBuffer[filter.name] {
+                        self.imageBuffer = buffer
+                    }
+                    if self.imageBuffer != nil {
+                        let filterImage = UIImage(imageBuffer: self.imageBuffer!)
+                        obj.icon = filterImage
+                        self.imageGradientFilter = filterImage
+                        DispatchQueue.main.async(execute: {() -> Void in
+                            self.images[index] = obj
+                            if let image = self.imageGradientFilter {
+                                self.canvasImageView.image = image.resize(to: (self.imageToFilter?.size)!)
+                            }
+                        })
+                    }
+                    
+                }else {
+                    let filterImage  = self.image?.createFilteredImage(filterName: value)
+                    obj.icon = filterImage
+                    self.imageGradientFilter = filterImage
+                    DispatchQueue.main.async(execute: {() -> Void in
+                            self.images[index] = obj
                         if let image = self.imageGradientFilter {
                             self.canvasImageView.image = image
                         }
-                    }
+                    })
                 }
                 
-            }else {
-                FilterManager.sharedInstance.imageFor(obj: obj, buffer: nil, image: self.image!) { (filterResult) in
-                    if let filter = filterResult {
-                        self.imageGradientFilter = filter.icon
-                        if let image = self.imageGradientFilter {
-                            self.canvasImageView.image = image
-                        }
-                    }
-                }
             }
-            return
         }
-        imageGradientFilter = image
-        if let image = imageGradientFilter {
-            canvasImageView.image = image
-        }
+       
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -274,98 +296,46 @@ class FilterViewController: UIViewController {
                             self.gradientCollectionView.reloadData()
                         }
                     }
+        
     }
     
-    func prepareImageFor(index:Int,cell:GradientFilterCell) {
+    
+    func prepareImageFor(obj: Filter,index:Int, completionHandler:@escaping (_ image: Filter?) -> ()) {
         
-        weak var weakCell: GradientFilterCell? = cell
-        /*
-        let obj = self.images[index]
-        let value:String = obj.key
-        let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-        let hasNumbers = (numbersRange != nil)
-        if !value.contains(".png") &&  hasNumbers {
-            let filter = self.filters[index]
-            print("Core Ml Images")
-            if let buffer = self.renderedFilterBuffer[filter.name] {
-                self.imageBuffer = buffer
-            }
-            FilterManager.sharedInstance.imageFor(obj: obj, buffer: self.imageBuffer, image: self.image!) { (filterResult) in
-                if let filter = filterResult {
-                    weakCell?.imgPreview.image = filter.icon
-                  if  let tag = weakCell?.tag {
-                    self.images[tag] = filter
-                    }
-                }
-            }
-            
-        }else {
-            FilterManager.sharedInstance.imageFor(obj: obj, buffer: nil, image: self.image!) { (filterResult) in
-                if let filter = filterResult {
-                    weakCell?.imgPreview.image = filter.icon
-                    if let tag = weakCell?.tag {
-                        self.images[tag] = filter
-                    }
-                }
-            }
-        }
- */
-        // Async
-        
-        DispatchQueue.global(qos: .default).async {
+        DispatchQueue.global(qos: .background).async {
             // Get Image
-            let obj = self.images[index]
-//            if obj.icon != nil  {
-//                return
-//            }
+            var objFilter:Filter?
             let value:String = obj.key
             let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
             let hasNumbers = (numbersRange != nil)
             if value.contains(".png") {
                 if let frontImage = UIImage(named: value) {
                     let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
-                    obj.icon = filterImage
-                    DispatchQueue.main.async(execute: {() -> Void in
-                        if  weakCell?.tag == index {
-                            self.images[index] = obj
-                        }
-                    })
+                      objFilter = Filter(icon: filterImage, name: obj.iconName)
+                      objFilter?.key = value
+                    completionHandler(objFilter)
                 }
-               
             }else if hasNumbers {
                 
                 let filter = self.filters[index]
-                print("Core Ml Images")
                 if let buffer = self.renderedFilterBuffer[filter.name] {
                     self.imageBuffer = buffer
                 }
                 if self.imageBuffer != nil {
                     let filterImage = UIImage(imageBuffer: self.imageBuffer!)
-                    obj.icon = filterImage
-                    DispatchQueue.main.async(execute: {() -> Void in
-                        if  weakCell?.tag == index {
-                            self.images[index] = obj
-                        }
-                    })
-                    
+                    objFilter = Filter(icon: filterImage, name: obj.iconName)
+                    objFilter?.key = value
+                    completionHandler(objFilter)
                 }
                 
             }else {
                 let filterImage  = self.image?.createFilteredImage(filterName: value)
-                obj.icon = filterImage
-                DispatchQueue.main.async(execute: {() -> Void in
-                    if  weakCell?.tag == index {
-                        self.images[index] = obj
-                    }
-                })
+                 objFilter = Filter(icon: filterImage, name: obj.iconName)
+                 objFilter?.key = value
+                 completionHandler(objFilter)
             }
-           
-        DispatchQueue.main.async(execute: {() -> Void in
-            weakCell?.imgPreview.image = self.images[index].icon
-           // weakCell?.setup(filter: self.images[index] )
-        })
     }
-    }
+ }
     /*
      // MARK: - Navigation
      

@@ -64,7 +64,10 @@ extension PhotoEditorViewController {
     }
     
     @objc func actionForRightMenu(sender:UIButton) {
-        
+          guard let edgeMenuLeft = self.edgeMenuLeft else { return }
+        if edgeMenuLeft.opened {
+            edgeMenuLeft.close()
+        }
         guard let edgeMenu = self.edgeMenu else { return }
         self.viewDescription.isHidden = true
         edgeMenu.close()
@@ -89,8 +92,7 @@ extension PhotoEditorViewController {
             obj.image  = self.canvasImageView.image
             obj.filterDelegate = self
             obj.isLoaded = "Load"
-            
-            self.navigationController?.pushAsPresent(viewController: obj)
+            self.navigationController?.pushNormal(viewController: obj)
             break
         default:
             break
@@ -253,7 +255,7 @@ extension PhotoEditorViewController {
     
      func drawButtonTapped() {
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(1.2 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(0.8 * Double(NSEC_PER_SEC)) / Double(NSEC_PER_SEC), execute: {() -> Void in
             guard let edgeMenu = self.edgeMenuLeft else { return }
             edgeMenu.open()
             self.colorPickerView.isHidden = false

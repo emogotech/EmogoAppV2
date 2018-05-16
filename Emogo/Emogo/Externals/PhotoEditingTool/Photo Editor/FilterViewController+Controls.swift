@@ -23,7 +23,7 @@ extension FilterViewController {
         if filterDelegate != nil  {
             self.filterDelegate?.doneWithImage(resultImage: self.canvasImageView.image!)
         }
-        self.navigationController?.popViewAsDismiss()
+        self.navigationController?.popNormal()
     }
     
     @IBAction func btnFilterPressed(_ sender: UIButton) {
@@ -55,7 +55,7 @@ extension FilterViewController {
     }
     
     @objc func actionforCancel(){
-        self.navigationController?.popViewAsDismiss()
+        self.navigationController?.popNormal()
     }
     
     @objc func actionForCropButton(){

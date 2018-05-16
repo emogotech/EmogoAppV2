@@ -15,8 +15,6 @@ class PreviewController: UIViewController {
     // MARK: - UI Elements
     @IBOutlet weak var containerView : UIView!
     @IBOutlet weak var actionContainerView : UIView!
-
-
     @IBOutlet weak var imgPreview: FLAnimatedImageView!
     @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
@@ -27,8 +25,6 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var kWidthOptions: NSLayoutConstraint!
     @IBOutlet weak var viewOptions: UIView!
-    @IBOutlet weak var btnEdit: UIButton!
-    @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var btnAddStream: UIButton!
     @IBOutlet weak var kWidth: NSLayoutConstraint!
@@ -180,29 +176,6 @@ class PreviewController: UIViewController {
         //        }
         imgPreview.backgroundColor = .black
         
-        if !self.seletedImage.createdBy.trim().isEmpty {
-            
-            if self.seletedImage.isEdit == false {
-                self.btnEdit.isHidden = true
-            }else {
-                if self.seletedImage.type == .image {
-                    self.btnEdit.isHidden = false
-                }else{
-                    self.btnEdit.isHidden = true
-                }
-            }
-            if self.seletedImage.isDelete == false {
-                self.btnEdit.isHidden = true
-            }else {
-                if self.seletedImage.type == .image {
-                    self.btnEdit.isHidden = false
-                }else{
-                    self.btnEdit.isHidden = true
-                }
-            }
-        }
-        
-        
         self.imgPreview.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 2
@@ -235,7 +208,6 @@ class PreviewController: UIViewController {
             kWidth.constant = 50.0
         }
       
-        self.btnEdit.isHidden = true
     }
     
     
@@ -376,13 +348,10 @@ class PreviewController: UIViewController {
         }
         if seletedImage.type == .image {
             self.btnPlayIcon.isHidden = true
-            self.btnEdit.isHidden = false
         }else if seletedImage.type == .video {
             self.btnPlayIcon.isHidden = false
-            self.btnEdit.isHidden = true
         }else {
             self.btnPlayIcon.isHidden = true
-            self.btnEdit.isHidden = true
         }
         if seletedImage.imgPreview != nil {
             self.imgPreview.image = seletedImage.imgPreview
@@ -435,20 +404,7 @@ class PreviewController: UIViewController {
         self.txtTitleImage.isHidden = false
         self.txtDescription.isHidden = false
         if seletedImage.isUploaded {
-            if self.seletedImage.isEdit == false {
-                self.btnEdit.isHidden = true
-            }else {
-                if self.seletedImage.type == .image {
-                    self.btnEdit.isHidden = false
-                }else{
-                    self.btnEdit.isHidden = true
-                }
-            }
-            if self.seletedImage.isDelete == false {
-                self.btnDelete.isHidden = true
-            }else {
-                self.btnDelete.isHidden = false
-            }
+           
             self.txtTitleImage.isUserInteractionEnabled = false
             self.txtDescription.isUserInteractionEnabled = false
             
@@ -459,9 +415,6 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
-        
-        self.btnEdit.isHidden = true
-        self.btnDelete.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
         self.txtTitleImage.isHidden = true
         
