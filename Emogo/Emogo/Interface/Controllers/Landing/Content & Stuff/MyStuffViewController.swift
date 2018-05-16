@@ -358,7 +358,7 @@ class MyStuffViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.lblNoResult.isHidden = true
                 self.btnNext.isHidden = false
-                self.btnNext.isHidden = true
+              
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
                     self.lblNoResult.text  = "No Stuff Found"
@@ -366,7 +366,7 @@ class MyStuffViewController: UIViewController {
                     self.lblNoResult.isHidden = false
                     self.btnNext.isHidden = true
                 }
-               
+                 self.btnNext.isHidden = true
                 self.stuffCollectionView.reloadData()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -419,14 +419,16 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[indexPath.row]
         return CGSize(width: content.width, height: content.height)
     }
     
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let index       =   indexPath.row
-        let content = ContentList.sharedInstance.arrayStuff[index]
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[indexPath.row]
         if content.type == .link{
             guard let url = URL(string: content.coverImage) else {
                 return //be safe
