@@ -299,7 +299,15 @@ class AWSRequestManager:NSObject {
                                 value.coverImageVideo = strThumb
                                 arrayContentToCreate.append(value)
                                 print(arrayContentToCreate.count)
+                            }else {
+                                print("nil index")
+                                let value = array[0]
+                                value.imgPreview = nil
+                                value.coverImage = strVideo
+                                value.coverImageVideo = strThumb
+                                arrayContentToCreate.append(value)
                             }
+                            
                         }
                         dispatchGroup.leave()
                     })
@@ -336,6 +344,7 @@ class AWSRequestManager:NSObject {
                 self.createContent(StreamID: StreamID, array: arrayContentToCreate)
             }else{
                  AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+                HUDManager.sharedInstance.hideProgress()
             }
         }
     }

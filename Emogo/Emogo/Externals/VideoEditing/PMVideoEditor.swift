@@ -76,11 +76,11 @@ class PMVideoEditor: NSObject {
      *
      *  @return finish: (URL?, Error?)-> Void) (required). This will call when video will be finished processing or any error occur while procerssing.
      */
-    func trimVideo(path: URL, begin: Float64, end: Float64, progress: @escaping (Float,String)-> Void, finish: @escaping (URL?, Error?)-> Void) {
+    func trimVideo(path: URL, begin: CMTime, end: CMTime, progress: @escaping (Float,String)-> Void, finish: @escaping (URL?, Error?)-> Void) {
         self.progressBlock = progress
         self.finishedBlock = finish
         self.extract_Audio_Video_Assets(path: path)
-        guard let composition = self.getComposition(withDuration: CMTimeMakeWithSeconds(begin, Int32(NSEC_PER_SEC)), endDuration: CMTimeMakeWithSeconds(end, Int32(NSEC_PER_SEC)), shouldScale: false, rate: 1.0) else {
+        guard let composition = self.getComposition(withDuration: begin, endDuration: end, shouldScale: false, rate: 1.0) else {
             finish(nil, NSError(domain: "Invalid asset", code: -999, userInfo: nil))
             return
         }

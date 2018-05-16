@@ -380,4 +380,33 @@ class APIManager: NSObject {
         }
     }
     
+    func download(strFile:String,completionHandler:@escaping (_ filePath:String?, _ fileURL:URL?)->Void) {
+        
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            // the name of the file here I kept is yourFileName with appended extension
+            documentsURL.appendPathComponent(strFile.getName())
+            return (documentsURL, [.removePreviousFile])
+        }
+        
+        Alamofire.download(strFile, to: destination).response { response in
+            
+            if response.destinationURL != nil {
+                print(response.destinationURL!)
+             if   let imagePath = response.destinationURL?.path {
+                                    print(imagePath)
+                completionHandler(imagePath,response.destinationURL)
+                return
+                            }
+            }else {
+                completionHandler(nil,nil)
+            }
+//            if response.request, let imagePath = response.destinationURL?.path {
+//                print(imagePath)
+//            }
+        }
+        
+        
+    }
+    
 }

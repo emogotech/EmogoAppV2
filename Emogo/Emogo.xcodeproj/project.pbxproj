@@ -159,6 +159,8 @@
 		F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2E1FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.m */; };
 		F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
 		F4148A3A1FBDB5CE00081900 /* SHSPhoneTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */; };
+		F4164F3C20AC40530066DD97 /* VideoEditor+Trimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */; };
+		F4164F3E20AC6B620066DD97 /* VideoEditor+Resolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4164F3D20AC6B620066DD97 /* VideoEditor+Resolution.swift */; };
 		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
 		F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */; };
 		F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E7201CB690005AFE4A /* Checkbox.swift */; };
@@ -615,6 +617,8 @@
 		F4148A331FBDB5CD00081900 /* SHSPhoneNumberFormatter+UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SHSPhoneNumberFormatter+UserConfig.h"; sourceTree = "<group>"; };
 		F4148A341FBDB5CE00081900 /* SHSPhoneTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSPhoneTextField.m; sourceTree = "<group>"; };
 		F4148A351FBDB5CE00081900 /* SHSPhoneLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSPhoneLogic.h; sourceTree = "<group>"; };
+		F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Trimmer.swift"; sourceTree = "<group>"; };
+		F4164F3D20AC6B620066DD97 /* VideoEditor+Resolution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Resolution.swift"; sourceTree = "<group>"; };
 		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyViewController.swift; sourceTree = "<group>"; };
 		F41752E7201CB690005AFE4A /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
@@ -2127,6 +2131,8 @@
 				F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */,
 				F4B8887120AAB7540056666B /* VideoEditorViewController.swift */,
 				F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */,
+				F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */,
+				F4164F3D20AC6B620066DD97 /* VideoEditor+Resolution.swift */,
 				F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */,
 			);
 			path = VideoEditing;
@@ -2889,6 +2895,7 @@
 				33BCB0701FBB353E004FF634 /* APIManager.swift in Sources */,
 				F43612F31FD69B3200788FFE /* AGBrightnessFilter.swift in Sources */,
 				F401DFB21FE2964B00BD7DDA /* LinkViewController.swift in Sources */,
+				F4164F3E20AC6B620066DD97 /* VideoEditor+Resolution.swift in Sources */,
 				F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */,
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F4C2103D209B366B0094A7FC /* ACEDrawingToolState.m in Sources */,
@@ -2954,6 +2961,7 @@
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
 				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
+				F4164F3C20AC40530066DD97 /* VideoEditor+Trimmer.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
 				F4CDD4F62011DD6E005436A1 /* ActionData.swift in Sources */,
 				F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */,

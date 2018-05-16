@@ -15,15 +15,15 @@ import AVFoundation
 extension VideoEditorViewController: TrimmerViewDelegate {
     
     func positionBarStoppedMoving(_ playerTime: CMTime) {
-        player.seek(playerTime.seconds)
-        player.play()
+        avPlayer?.seek(to: playerTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        avPlayer?.play()
         startPlaybackTimeChecker()
     }
     
     func didChangePositionBar(_ playerTime: CMTime) {
         stopPlaybackTimeChecker()
-        player.pause()
-        player.seek(playerTime.seconds)
+        avPlayer?.pause()
+        avPlayer?.seek(to: playerTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         let duration = (trimmerView.endTime! - trimmerView.startTime!).seconds
         print(duration)
     }

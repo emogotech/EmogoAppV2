@@ -11,6 +11,14 @@ import BMPlayer
 import PryntTrimmerView
 import AVFoundation
 
+enum VideoEditorFeature {
+    case trimer
+    case resolution
+    case sticker
+    case rate
+    case none
+}
+
 class VideoEditorViewController: UIViewController {
 
     @IBOutlet weak var playerContainerView: UIView!
@@ -21,6 +29,13 @@ class VideoEditorViewController: UIViewController {
     var edgeMenu: DPEdgeMenu?
     var playbackTimeCheckerTimer: Timer?
     var trimmerPositionChangedTimer: Timer?
+    var fileLocalPath:String! = ""
+    var avPlayer: AVPlayer?
+    var selectedFeature:VideoEditorFeature! = .none
+    var editManager = PMVideoEditor()
+    var localFileURl:URL?
+    var originalFile:String! = ""
+    var originalFileURl:URL?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +51,10 @@ class VideoEditorViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        openPlayer()
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Document.deleteFile(name: self.fileLocalPath.getName())
     }
     
     func prepareLayout(){
@@ -44,9 +62,6 @@ class VideoEditorViewController: UIViewController {
         prepareNavigation()
         self.prepareMenu()
          getVideo()
-     NotificationCenter.default.addObserver(self, selector: #selector(self.itemDidFinishPlaying(_:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player)
-        
     }
     
 
@@ -101,20 +116,24 @@ class VideoEditorViewController: UIViewController {
         edgeMenu.backgroundColor = UIColor.clear
         edgeMenu.itemSpacing = 0.0
         edgeMenu.animationDuration = 0.8
-        
         self.view.addSubview(edgeMenu)
     }
     
 
-    
     func getVideo(){
         let strvideo = self.seletedImage.coverImage.trim()
-        self.getLocalPath(strURl: strvideo) { (filePath) in
-            print(filePath)
+        self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
+            self.fileLocalPath = filePath
+            self.localFileURl = fileURL
+            self.originalFileURl = fileURL
+            self.originalFile = filePath
+            self.openPlayer(videoUrl: fileURL!)
         }
-        
     }
+    
+    
     func configureNavigationButtons(){
+        
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
@@ -130,45 +149,49 @@ class VideoEditorViewController: UIViewController {
     }
     
     
-    
-    @objc func onPlaybackTimeChecker() {
-        
-        guard let startTime = trimmerView.startTime, let endTime = trimmerView.endTime else {
-            return
+    func configureNavigationForEditing(){
+        guard let edgeMenu = self.edgeMenu else { return }
+        if edgeMenu.opened  == true {
+            edgeMenu.close()
         }
-        
-        let playBackTime = self.player.avPlayer?.currentTime()
-        trimmerView.seek(to: playBackTime!)
-        
-        if playBackTime! >= endTime {
-            player.seek(startTime.seconds)
-            trimmerView.seek(to: startTime)
-        }
-    }
-        
-   
-    
-    @objc func itemDidFinishPlaying(_ notification: Notification) {
-        if let startTime = trimmerView.startTime {
-            player.seek(startTime.seconds)
-        }
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem = nil
+        let btnCancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.btnCancelAction))
+        let btnSave = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(self.btnApplyFeatureAction))
+        self.navigationItem.leftBarButtonItem = btnCancel
+        self.navigationItem.rightBarButtonItem = btnSave
+        navigationItem.hidesBackButton = true
     }
     
-    func openPlayer(){
+    func removeAllNavButtons(){
+        guard let edgeMenu = self.edgeMenu else { return }
+        if edgeMenu.opened  == true {
+            edgeMenu.close()
+        }
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem = nil
+    }
+  
+    
+    func closePreview(){
+        self.kTrimmerHeight.constant = 0.0
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func openPlayer(videoUrl:URL){
         
         player = BMPlayer()
-        let strvideo = self.seletedImage.coverImage.trim()
-        
-        
-        let videoUrl = URL(string: strvideo)
-        guard let url = videoUrl  else {
-            return
-        }
-        let asset = BMPlayerResource(url: url)
+        let asset = BMPlayerResource(url: videoUrl)
         player.setVideo(resource: asset)
-        player.frame = self.playerContainerView.bounds
         playerContainerView.addSubview(player)
-        
+        player.snp.makeConstraints { (maker) in
+            maker.top.equalTo(self.playerContainerView)
+            maker.leading.equalTo(self.playerContainerView)
+            maker.trailing.equalTo(self.playerContainerView)
+            maker.bottom.equalTo(self.playerContainerView)
+        }
         // Back button event
         player.backBlock = {  (isFullScreen) in
             if isFullScreen == true { return }
@@ -185,51 +208,18 @@ class VideoEditorViewController: UIViewController {
         if !(self.edgeMenu?.opened)! {
             self.edgeMenu?.open()
         }
-    }
-    
-    
-    
-    func loadAssest(){
-       let strvideo = self.seletedImage.coverImage.trim()
-        let videoUrl = URL(string: strvideo)
-        guard let url = videoUrl  else {
-            return
-        }
-        let asset = AVAsset(url: url)
-        self.trimmerView.delegate = self
-        self.trimmerView.asset = asset
-    }
-    
-    
-    func startPlaybackTimeChecker() {
         
-        stopPlaybackTimeChecker()
-        playbackTimeCheckerTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self,
-                                                        selector:
-            #selector(self.onPlaybackTimeChecker), userInfo: nil, repeats: true)
-    }
-    
-    func stopPlaybackTimeChecker() {
-        
-        playbackTimeCheckerTimer?.invalidate()
-        playbackTimeCheckerTimer = nil
     }
     
     
-    func getLocalPath(strURl: String,handler:@escaping (_ filePath: String?)-> Void){
-        DispatchQueue.global(qos: .background).async {
-            if let url = URL(string: strURl),
-            let urlData = NSData(contentsOf: url)
-            {
-                let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-                let filePath="\(documentsPath)/"+strURl.getName()
-                DispatchQueue.main.async {
-                    urlData.write(toFile: filePath, atomically: true)
-                    handler(filePath)
-                }
+    func getLocalPath(strURl: String,handler:@escaping (_ filePath: String?, _ fileURL:URL?)-> Void){
+        APIManager.sharedInstance.download(strFile: strURl) { (filePath,fileURL) in
+            if let filePath = filePath {
+                handler(filePath,fileURL)
             }
         }
     }
+    
     
     
     
