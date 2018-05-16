@@ -214,6 +214,8 @@
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
                 <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
+                <outlet property="heightEdit" destination="AAY-6I-n3U" id="sMl-xM-IiT"/>
+                <outlet property="heigtDelete" destination="bQo-aO-iIZ" id="jkX-TO-g0v"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
                 <outlet property="lblLikeCount" destination="sTx-Fg-fSL" id="7AQ-pP-odn"/>
