@@ -29,6 +29,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblViewCount: UILabel!
     @IBOutlet weak var lblLikeCount: UILabel!
     
+    @IBOutlet weak var heigtDelete: NSLayoutConstraint!
+    @IBOutlet weak var heightEdit: NSLayoutConstraint!
     var streamDelegate:StreamViewHeaderDelegate?
     
     override func awakeFromNib() {
@@ -74,6 +76,11 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false
             btnDelete.isHidden = false
+            heightEdit.constant = 40
+            heigtDelete.constant = 40
+        }else{
+            heightEdit.constant = 0
+            heigtDelete.constant = 0 
         }
         if objStream.anyOneCanEdit == true {
             btnCollab.isHidden = true
@@ -90,8 +97,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         
         // For  Now
-        btnEdit.isHidden = true
-        btnContainer.isHidden = true
+       // btnEdit.isHidden = false
+      
+        btnContainer.isHidden = false
         
     }
     

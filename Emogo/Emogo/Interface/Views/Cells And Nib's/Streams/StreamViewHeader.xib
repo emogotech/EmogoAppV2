@@ -79,7 +79,7 @@
                             </constraints>
                             <state key="normal" image="edit_icon"/>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OoM-EK-BMI">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OoM-EK-BMI">
                             <rect key="frame" x="272" y="55" width="40" height="40"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="40" id="RXJ-OE-RKz"/>
@@ -214,6 +214,8 @@
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
                 <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
+                <outlet property="heightEdit" destination="AAY-6I-n3U" id="sMl-xM-IiT"/>
+                <outlet property="heigtDelete" destination="bQo-aO-iIZ" id="jkX-TO-g0v"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
                 <outlet property="lblLikeCount" destination="sTx-Fg-fSL" id="7AQ-pP-odn"/>
