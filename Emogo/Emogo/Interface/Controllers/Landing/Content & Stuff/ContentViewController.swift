@@ -10,6 +10,7 @@ import UIKit
 import MessageUI
 import Messages
 import Lightbox
+import Photos
 import IQKeyboardManagerSwift
 
 class ContentViewController: UIViewController {
@@ -755,11 +756,10 @@ class ContentViewController: UIViewController {
                 }
                
             }else if self.seletedImage.type == .video{
-               
-                
-          
+              self.videoDownload()
+           
             }else if self.seletedImage.type == .gif{
-                
+               
                 self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
                     HUDManager.sharedInstance.hideHUD()
@@ -767,12 +767,12 @@ class ContentViewController: UIViewController {
                         UIImageWriteToSavedPhotosAlbum(image!
                             ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
                             ), nil)
-                        
+
                     }
                 })
-            }else if self.seletedImage.type == .video {
-                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
-                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
+            }else if self.seletedImage.type == .link{
+              
+                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
                     HUDManager.sharedInstance.hideHUD()
                     if image != nil {
@@ -799,27 +799,34 @@ class ContentViewController: UIViewController {
         self.showToast(type: .error, strMSG: kAlert_Save_Image)
     }
     @objc func videoDownload(){
+      
+        APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
+            if let fileURL = fileURL {
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
+                }) { completed, error in
+                    if completed {
+                        print("Video is saved!")
+                    }
+                }
+            }
+        }
         
-//        DispatchQueue.global(qos: .background).async {
-//            
-//            if let url = URL(string: urlString),
-//                let urlData = NSData(contentsOf: url) {
-//                let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0];
-//                let filePath="\(documentsPath)/tempFile.mp4"
-//                DispatchQueue.main.async {
-//                    urlData.write(toFile: filePath, atomically: true)
-//                    PHPhotoLibrary.shared().performChanges({
-//                        PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: URL(fileURLWithPath: filePath))
-//                    }) { completed, error in
-//                        if completed {
-//                            print("Video is saved!")
-//                        }
-//                    }
-//                }
-//            }
-//        }
+    }
+    
+    @objc func gifDownload(){
         
-        
+        APIManager.sharedInstance.download(strFile: self.seletedImage.coverImageVideo) { (_, fileURL) in
+            if let fileURL = fileURL {
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
+                }) { completed, error in
+                    if completed {
+                        print("gif is saved!")
+                    }
+                }
+            }
+        }
     }
     @objc func textFieldDidChange(textfield:UITextField) {
         if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {

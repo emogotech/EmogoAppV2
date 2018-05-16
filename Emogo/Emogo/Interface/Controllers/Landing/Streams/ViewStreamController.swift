@@ -20,6 +20,7 @@ class ViewStreamController: UIViewController {
     var streamType:String!
     var objStream:StreamViewDAO?
     var currentIndex:Int!
+    var currentCount:Int!
     var viewStream:String?
     var isRefresh:Bool! = true
     var isUpload:Bool! = false
@@ -304,7 +305,7 @@ class ViewStreamController: UIViewController {
     
     @objc func likeStreamAction(sender:UIButton){
        print("Like Action")
-        
+     
         if self.objStream?.likeStatus == "0" {
             self.objStream?.likeStatus = "1"
         }else{
@@ -401,20 +402,17 @@ class ViewStreamController: UIViewController {
         
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(isSuccess, error) in
-            
              HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                
+           if (error?.isEmpty)! {
                 if self.objStream?.likeStatus == "0" {
-                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                   
+                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
-                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
-              
-                    
-                }else{
+            
+            }else{
                     HUDManager.sharedInstance.hideHUD()
+                    self.showToast(type: .success, strMSG: error!)
                 }
             }
     }
