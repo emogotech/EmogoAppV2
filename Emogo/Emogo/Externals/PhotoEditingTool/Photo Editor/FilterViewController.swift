@@ -296,10 +296,7 @@ class FilterViewController: UIViewController {
                             self.gradientCollectionView.reloadData()
                         }
                     }
-        if deviceName.lowercased().contains("iphone 5") ||  deviceName.lowercased().contains("iphone5") || deviceName.lowercased().contains("iphone 6") || deviceName.lowercased().contains("iphone6"){
-            print(self.images[4..<self.images.count]) //[4,5,6]
-
-        }
+        
     }
     
     

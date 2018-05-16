@@ -331,54 +331,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OW2-MW-XJQ">
-                                <rect key="frame" x="0.0" y="10" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="O9i-sJ-B62"/>
-                                    <constraint firstAttribute="height" constant="50" id="ejR-4C-3w3"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="-10" minY="4" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" image="back icon_shadow"/>
-                                <connections>
-                                    <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="y34-cl-nr8"/>
-                                    <action selector="btnBackAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="OzY-Wq-DhN"/>
-                                </connections>
-                            </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3uw-5u-fwC">
-                                <rect key="frame" x="275" y="10" width="100" height="50"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OfC-aG-FKj">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="Ntq-TO-HqS"/>
-                                            <constraint firstAttribute="width" constant="50" id="OhO-mc-5as"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="delete icon_new"/>
-                                        <connections>
-                                            <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="mv1-ON-3xA"/>
-                                            <action selector="btnDeleteAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="p2Z-PJ-8rz"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mGM-bQ-3S9">
-                                        <rect key="frame" x="50" y="0.0" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="qb5-H9-kMF"/>
-                                            <constraint firstAttribute="width" constant="50" id="zu8-Mx-l72"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="10" minY="4" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" image="edit icon_new"/>
-                                        <connections>
-                                            <action selector="btnActionBack:" destination="taN-Fu-ihg" eventType="touchUpInside" id="iSs-zX-bZ7"/>
-                                            <action selector="btnEditAction:" destination="pOf-qT-WPB" eventType="touchUpInside" id="uMi-Fl-u6d"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="2Lz-tL-KCE"/>
-                                    <constraint firstAttribute="width" constant="100" id="MEC-G6-9cK"/>
-                                </constraints>
-                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xd-F1-Pek">
                                 <rect key="frame" x="0.0" y="421" width="375" height="69"/>
                                 <subviews>
@@ -621,7 +573,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="OW2-MW-XJQ" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" constant="10" id="2PQ-uE-4NQ"/>
                             <constraint firstItem="Kqd-OM-WJP" firstAttribute="bottom" secondItem="2XJ-PN-EU6" secondAttribute="bottom" id="41J-B4-qws"/>
                             <constraint firstItem="Kqd-OM-WJP" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="BuJ-4z-6di"/>
                             <constraint firstItem="r3J-Yq-4fN" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="DhZ-7f-HbB"/>
@@ -639,11 +590,8 @@
                             <constraint firstItem="xL0-eK-8Ba" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="e3X-7Q-1Zu"/>
                             <constraint firstItem="r3J-Yq-4fN" firstAttribute="top" secondItem="Kqd-OM-WJP" secondAttribute="bottom" constant="-48" id="i4z-FB-tpZ"/>
                             <constraint firstItem="r3J-Yq-4fN" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="jcp-5s-vUw"/>
-                            <constraint firstItem="3uw-5u-fwC" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" constant="10" id="lsE-3C-DkF"/>
                             <constraint firstItem="otu-8u-hua" firstAttribute="top" secondItem="AbH-pb-5De" secondAttribute="top" id="tOb-uO-vLT"/>
                             <constraint firstItem="otu-8u-hua" firstAttribute="bottom" secondItem="2XJ-PN-EU6" secondAttribute="bottom" id="xkh-yq-wE9"/>
-                            <constraint firstItem="OW2-MW-XJQ" firstAttribute="leading" secondItem="2XJ-PN-EU6" secondAttribute="leading" id="yNx-fe-bdi"/>
-                            <constraint firstItem="3uw-5u-fwC" firstAttribute="trailing" secondItem="2XJ-PN-EU6" secondAttribute="trailing" id="zFZ-2k-lYp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2XJ-PN-EU6"/>
                     </view>
@@ -651,9 +599,7 @@
                         <outlet property="actionContainerView" destination="Kqd-OM-WJP" id="T4c-fx-HPq"/>
                         <outlet property="btnAddMore" destination="LoE-eh-5mm" id="kyV-wx-93O"/>
                         <outlet property="btnAddStream" destination="QKb-MD-C7d" id="27V-a3-6Lf"/>
-                        <outlet property="btnDelete" destination="OfC-aG-FKj" id="uXc-uP-W4A"/>
                         <outlet property="btnDone" destination="4pY-ca-wue" id="KLR-cv-Pna"/>
-                        <outlet property="btnEdit" destination="mGM-bQ-3S9" id="h5K-Ev-GoY"/>
                         <outlet property="btnPlayIcon" destination="3RP-cT-R1w" id="cNK-fE-BZ0"/>
                         <outlet property="btnPreviewOpen" destination="ecZ-93-WDO" id="9WK-S1-11P"/>
                         <outlet property="btnShareAction" destination="4kB-Xn-YG0" id="xrY-tV-7Sb"/>
@@ -2061,7 +2007,7 @@
                                 <rect key="frame" x="5" y="99" width="365" height="410"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="53" y="113" width="261" height="48"/>
+                                        <rect key="frame" x="52" y="113" width="261" height="48"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2920,7 +2866,6 @@
         <image name="add_galery" width="23" height="23"/>
         <image name="add_icon_home" width="56" height="56"/>
         <image name="add_to_stream" width="31" height="31"/>
-        <image name="back icon_shadow" width="20" height="32"/>
         <image name="back-circle-icon" width="24" height="24"/>
         <image name="background-iPhone" width="375" height="665"/>
         <image name="browse_streams" width="182" height="53"/>
@@ -2931,9 +2876,7 @@
         <image name="click_pick" width="63" height="63"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="cross-icon" width="17" height="17"/>
-        <image name="delete icon_new" width="33" height="37"/>
         <image name="done_button" width="160" height="53"/>
-        <image name="edit icon_new" width="34" height="34"/>
         <image name="emogo_stream" width="182" height="53"/>
         <image name="flash-icon" width="27" height="28"/>
         <image name="get started btn" width="215" height="51"/>

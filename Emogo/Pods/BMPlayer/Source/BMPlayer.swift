@@ -89,7 +89,7 @@ open class BMPlayer: UIView {
     /// 用来保存时间状态
     fileprivate var sumTime         : TimeInterval = 0
     fileprivate var totalDuration   : TimeInterval = 0
-    fileprivate var currentPosition : TimeInterval = 0
+    var currentPosition : TimeInterval = 0
     fileprivate var shouldSeekTo    : TimeInterval = 0
     
     fileprivate var isURLSet        = false

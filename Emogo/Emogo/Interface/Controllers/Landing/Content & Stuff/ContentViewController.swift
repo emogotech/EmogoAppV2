@@ -26,8 +26,6 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var btnFlagIcon: UIButton!
-    @IBOutlet weak var btnEdit: UIButton!
-    @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnAddToStream: UIButton!
     @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var kHeight: NSLayoutConstraint!
@@ -154,8 +152,6 @@ class ContentViewController: UIViewController {
         self.updateContent()
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             self.btnAddToStream.isHidden = true
-            self.btnEdit.isHidden = true
-            self.btnDelete.isHidden = true
             self.btnFlagIcon.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
         }
@@ -269,11 +265,10 @@ class ContentViewController: UIViewController {
 
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
-            self.btnEdit.isHidden     = false
         }else {
             self.btnPlayIcon.isHidden = true
-            self.btnEdit.isHidden     = true
         }
+        
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
@@ -344,8 +339,7 @@ class ContentViewController: UIViewController {
         }
         
         if self.seletedImage.isEdit == false {
-            self.btnEdit.isHidden = true
-           self.btnDone.isHidden = true
+            self.btnDone.isHidden = true
             self.txtTitleImage.isUserInteractionEnabled = false
             self.txtDescription.isUserInteractionEnabled = false
             if self.seletedImage.description.trim().isEmpty {
@@ -355,7 +349,6 @@ class ContentViewController: UIViewController {
             }
             self.btnFlagIcon.isHidden = false
         }else {
-            self.btnEdit.isHidden = false
             if isEditngContent {
                 self.btnDone.isHidden = false
             }
@@ -368,23 +361,7 @@ class ContentViewController: UIViewController {
             self.txtDescription.isUserInteractionEnabled = true
             self.btnFlagIcon.isHidden = true
         }
-        if self.seletedImage.type == .image {
-            self.btnEdit.isHidden = false
-            self.btnEdit.isUserInteractionEnabled = true
-            self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: .normal)
-        }else if self.seletedImage.type == .link{
-            self.btnEdit.isHidden = false
-            self.btnEdit.isUserInteractionEnabled = false
-            self.btnEdit.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
-        } else{
-            self.btnEdit.isHidden = true
-        }
-        
-        if self.seletedImage.isDelete == false {
-            self.btnDelete.isHidden = true
-        }else {
-            self.btnDelete.isHidden = true
-        }
+      
         isAddStream = self.seletedImage.isShowAddStream
         if self.isAddStream {
             btnAddToStream.isHidden = false
@@ -415,10 +392,8 @@ class ContentViewController: UIViewController {
         
         if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.btnFlagIcon.isHidden = true
-            self.btnEdit.isHidden = false
         }else{
             self.btnFlagIcon.isHidden = false
-            self.btnEdit.isHidden = true
         }
     //     self.btnShareAction.isHidden = false
 //         if ContentList.sharedInstance.objStream == nil {
@@ -430,8 +405,6 @@ class ContentViewController: UIViewController {
         self.txtTitleImage.addShadow()
         self.txtDescription.addShadow()
         self.viewContainer.addBlurView()
-        self.btnEdit.isHidden = true
-        self.btnDelete.isHidden = true
         self.btnFlagIcon.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
        // self.imgUser.image = #imageLiteral(resourceName: "demo_images")
@@ -560,8 +533,6 @@ class ContentViewController: UIViewController {
         }
  */
         self.navigationItem.setRightBarButtonItems(arrButtons, animated: true)
-        self.btnDelete.isHidden = true
-        self.btnEdit.isHidden = true
     }
     
 
@@ -569,8 +540,6 @@ class ContentViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-   
     
     
     // MARK: -  Action Methods And Selector

@@ -2,22 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>branch_key</key>
-    <dict>
-        <key>live</key>
-        <string>key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ</string>
-        <key>test</key>
-        <string>key_test_ibuT46nKy5BtlYCK9VQ0MklptDfS2nly</string>
-    </dict>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>emogo</string>
-            </array>
-        </dict>
-    </array>
 	<key>AWS</key>
 	<dict>
 		<key>CredentialsProvider</key>
@@ -95,17 +79,17 @@
 		<true/>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>media</string>
+	<string></string>
 	<key>NSCameraUsageDescription</key>
-	<string>camera</string>
+	<string></string>
 	<key>NSContactsUsageDescription</key>
-	<string>access contacts.</string>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>microphone</string>
+	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>photos</string>
+	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>gallery</string>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-Pro-Display-Black.otf</string>
@@ -142,5 +126,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_joqR74nNwWBqb7BRWJV00fhmvAaUXijJ</string>
+		<key>test</key>
+		<string>key_test_ibuT46nKy5BtlYCK9VQ0MklptDfS2nly</string>
+	</dict>
 </dict>
 </plist>
