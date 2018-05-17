@@ -36,6 +36,7 @@ class ViewStreamController: UIViewController {
     var nextIndexPath:IndexPath?
 
     var indexForMinimum = 0
+    var isFromCreateStream:String?
     
     
     override func viewDidLoad() {
@@ -634,7 +635,12 @@ class ViewStreamController: UIViewController {
                     }
                 }
                 self.showToast(strMSG: kAlert_Stream_Deleted_Success)
-                self.navigationController?.popNormal()
+                if self.isFromCreateStream  != nil  {
+                    let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+                    self.navigationController?.popToViewController(vc: obj)
+                }else {
+                    self.navigationController?.popNormal()
+                }
                 //self.prepareList()
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
