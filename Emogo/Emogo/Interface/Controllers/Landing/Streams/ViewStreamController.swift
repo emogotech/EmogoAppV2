@@ -10,7 +10,10 @@ import UIKit
 import Lightbox
 import XLActionController
 
+
 class ViewStreamController: UIViewController {
+   
+    
     
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
@@ -20,9 +23,11 @@ class ViewStreamController: UIViewController {
     var streamType:String!
     var objStream:StreamViewDAO?
     var currentIndex:Int!
+    var currentCount:Int!
     var viewStream:String?
     var isRefresh:Bool! = true
     var isUpload:Bool! = false
+    var isbackFromDown:Bool! = false
     
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
@@ -50,7 +55,10 @@ class ViewStreamController: UIViewController {
         self.title = nil
        
         self.prepareNavigation()
+        
     }
+    
+ 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
@@ -84,6 +92,10 @@ class ViewStreamController: UIViewController {
             let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
+            
+            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+            swipeDown.direction = UISwipeGestureRecognizerDirection.down
+            viewStreamCollectionView.addGestureRecognizer(swipeDown)
         }
         
     longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
@@ -134,7 +146,7 @@ class ViewStreamController: UIViewController {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
             print("prepareNavigation iin view controller")
-
+           
             if let data = notification.userInfo?["data"] as? [String] {
                 print(data)
                 self.isUpload  = true
@@ -150,7 +162,9 @@ class ViewStreamController: UIViewController {
                     ContentList.sharedInstance.objStream = nil
                 }
                 
-            }
+                }
+                
+            
         }
         if isRefresh {
             if ContentList.sharedInstance.objStream != nil {
@@ -240,7 +254,7 @@ class ViewStreamController: UIViewController {
         }
         // removed for now
         stretchyHeader.btnLike.isHidden = false
-        stretchyHeader.btnContainer.isHidden = false
+       // stretchyHeader.btnContainer.isHidden = false
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
             
@@ -304,7 +318,7 @@ class ViewStreamController: UIViewController {
     
     @objc func likeStreamAction(sender:UIButton){
        print("Like Action")
-        
+     
         if self.objStream?.likeStatus == "0" {
             self.objStream?.likeStatus = "1"
         }else{
@@ -345,6 +359,11 @@ class ViewStreamController: UIViewController {
                     self.previous()
                 }
                 break
+                
+            case .down:
+           
+               self.navigationController?.popViewAsDismiss()
+                
             default:
                 break
             }
@@ -401,20 +420,17 @@ class ViewStreamController: UIViewController {
         
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(isSuccess, error) in
-            
              HUDManager.sharedInstance.hideHUD()
-            if isSuccess == true {
-                
+           if (error?.isEmpty)! {
                 if self.objStream?.likeStatus == "0" {
-                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-                   
+                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
-                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
-              
-                    
-                }else{
+            
+            }else{
                     HUDManager.sharedInstance.hideHUD()
+                    self.showToast(type: .success, strMSG: error!)
                 }
             }
     }
@@ -866,10 +882,12 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
 
 }
 
-extension ViewStreamController:StreamViewHeaderDelegate {
+extension ViewStreamController:StreamViewHeaderDelegate  {
     func showPreview() {
         self.openFullView(index: nil)
     }
+    
+   
 }
 
 //extension CHTCollectionViewWaterfallLayout {

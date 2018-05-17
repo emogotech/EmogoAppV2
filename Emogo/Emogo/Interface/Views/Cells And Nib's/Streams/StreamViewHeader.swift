@@ -76,9 +76,11 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             btnEdit.isHidden = false
             btnDelete.isHidden = false
+            btnContainer.isHidden = false
             heightEdit.constant = 40
             heigtDelete.constant = 40
         }else{
+            btnContainer.isHidden = true
             heightEdit.constant = 0
             heigtDelete.constant = 0 
         }
@@ -99,10 +101,10 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         // For  Now
        // btnEdit.isHidden = false
       
-        btnContainer.isHidden = false
+      
         
     }
-    
+   
     
     
     @IBAction func btnShowFullDescription(_ sender: UIButton) {
@@ -128,6 +130,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     }
     
     func stretchyHeaderView(_ headerView: GSKStretchyHeaderView, didChangeStretchFactor stretchFactor: CGFloat) {
+       
     }
     
 }
