@@ -175,6 +175,7 @@ class StreamViewDAO{
     var type:String! = ""
     var viewCount:String! = ""
     var totalLikeCount:String! = ""
+    var totalLiked:String! = ""
     var likeStatus: String! = ""
     var arrayContent = [ContentDAO]()
     var arrayColab = [CollaboratorDAO]()
@@ -196,6 +197,9 @@ class StreamViewDAO{
         }
         if let obj  = streamData["view_count"] {
             self.viewCount = "\(obj)"
+        }
+        if let obj = streamData["total_liked"] {
+            self.totalLiked = "\(obj)"
         }
         if let obj  = streamData["category"] {
             self.category = obj as! String

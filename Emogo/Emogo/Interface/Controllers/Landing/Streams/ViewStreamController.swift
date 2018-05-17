@@ -419,13 +419,21 @@ class ViewStreamController: UIViewController {
         }
         
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(isSuccess, error) in
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(count,status, error) in
              HUDManager.sharedInstance.hideHUD()
            if (error?.isEmpty)! {
-                if self.objStream?.likeStatus == "0" {
+             self.objStream?.likeStatus = status
+             self.objStream?.totalLiked = count
+                  if status == "0" {
+                    if let totalLike = self.objStream?.totalLiked.trim(){
+                        self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
+                    }
                    self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
                 }else{
-                   self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    if let totalLike = self.objStream?.totalLiked.trim(){
+                        self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
+                    }
+                  self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
             
             }else{

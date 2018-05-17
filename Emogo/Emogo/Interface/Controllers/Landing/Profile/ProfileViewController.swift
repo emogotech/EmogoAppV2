@@ -240,6 +240,7 @@ class ProfileViewController: UIViewController {
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty {
                     self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
                     self.lblFollowers.isHidden = false
+                    self.lblFollowing.isHidden  = true
                     self.lblFollowers.tag = 0
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowing.isUserInteractionEnabled = false
@@ -247,14 +248,15 @@ class ProfileViewController: UIViewController {
              
                 }
                else if UserDAO.sharedInstance.user.following.trim().isEmpty {
-                    self.lblFollowing.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
+                    self.lblFollowers.isHidden = false
+                    self.lblFollowers.tag = 111
+                    self.lblFollowers.isUserInteractionEnabled = true
+                    self.lblFollowers.addGestureRecognizer(tapFollow)
+                }
+                else{
+                    self.lblFollowers.isHidden = false
                     self.lblFollowing.isHidden = false
-                    self.lblFollowing.tag = 111
-                    self.lblFollowing.isUserInteractionEnabled = true
-                    self.lblFollowers.isUserInteractionEnabled = false
-                    self.lblFollowing.addGestureRecognizer(tapFollow)
-                    
-                }else{
                     self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowers.addGestureRecognizer(tapFollow)
