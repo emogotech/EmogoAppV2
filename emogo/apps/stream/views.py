@@ -550,7 +550,7 @@ class StreamLikeDislikeAPI(CreateAPIView):
     Like Dislike CRUD API
     """
     serializer_class = StreamLikeDislikeSerializer
-    queryset = LikeDislikeStream.objects.all().order_by('-id')
+    queryset = LikeDislikeStream.objects.filter().select_related('stream').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'

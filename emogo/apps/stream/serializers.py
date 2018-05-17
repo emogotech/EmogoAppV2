@@ -12,7 +12,7 @@ from django.core.urlresolvers import resolve
 from copy import deepcopy
 from django.contrib.auth.models import User
 import operator
-from django.db.models import Q
+from django.db.models import Q, Count
 from itertools import product
 
 
@@ -534,11 +534,15 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     Stream like dislike serializer class
     """
     user = serializers.CharField(read_only=True)
+    total_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = LikeDislikeStream
-        fields = ['user', 'stream', 'status']
+        fields = ['user', 'stream', 'status', 'total_liked']
         extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def get_total_liked(self, obj):
+        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream')).aggregate(total_liked=Count('id')).get('total_liked',0)
 
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
