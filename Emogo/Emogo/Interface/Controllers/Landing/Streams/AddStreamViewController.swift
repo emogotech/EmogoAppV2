@@ -491,6 +491,7 @@ class AddStreamViewController: UITableViewController {
                             StreamList.sharedInstance.arrayViewStream = array
                             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                             obj.currentIndex = 0
+                            obj.isFromCreateStream = "TRUE"
                             obj.streamType = currentStreamType.rawValue
                             ContentList.sharedInstance.objStream = nil
                             self.navigationController?.popToViewController(vc: obj)
