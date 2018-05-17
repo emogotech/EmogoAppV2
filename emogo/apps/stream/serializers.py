@@ -1,6 +1,6 @@
 from emogo.lib.common_serializers.fields import CustomListField, CustomDictField
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
-from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent
+from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeStream, LikeDislikeContent, StreamUserViewStatus
 from emogo.apps.collaborator.models import Collaborator
 from emogo.apps.collaborator.serializers import ViewCollaboratorSerializer
 from rest_framework import serializers
@@ -557,11 +557,15 @@ class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
     Stream like dislike serializer class
     """
     user = serializers.CharField(read_only=True)
+    total_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = LikeDislikeContent
-        fields = ['user', 'content', 'status']
+        fields = ['user', 'content', 'status', 'total_liked']
         extra_kwargs = {'status': {'required': True, 'allow_null': False}}
+
+    def get_total_liked(self, obj):
+        return LikeDislikeContent.objects.filter(status=1, content=obj.get('content')).aggregate(total_liked=Count('id')).get('total_liked',0)
 
     def create(self, validated_data):
         obj, created = LikeDislikeContent.objects.update_or_create(
@@ -569,3 +573,24 @@ class ContentLikeDislikeSerializer(DynamicFieldsModelSerializer):
             defaults={'status': self.validated_data.get('status')},
         )
         return obj
+
+
+class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
+    """
+    Stream user view status API.
+    """
+    total_view_count = serializers.SerializerMethodField()
+    user = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = StreamUserViewStatus
+        fields = '__all__'
+        extra_kwargs = {'stream': {'required': True}}
+
+    def get_total_view_count(self, obj):
+        return StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
+
+    def create(self, validated_data):
+        instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
+        instance.save()
+        return instance

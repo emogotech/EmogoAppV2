@@ -10,7 +10,7 @@ from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeS
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
@@ -20,7 +20,6 @@ from emogo.apps.collaborator.models import Collaborator
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
-
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -575,7 +574,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
     Like dislike CRUD API
     """
     serializer_class = ContentLikeDislikeSerializer
-    queryset = LikeDislikeContent.objects.order_by('-id')
+    queryset = LikeDislikeContent.objects.select_related('content').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -637,3 +636,28 @@ def get_stream_qs_objects(instances=None):
         if qs.exists():
             return qs[0]
     return qs
+
+
+class IncreaseStreamViewCount(CreateAPIView):
+    """
+    Like Dislike CRUD API
+    """
+    serializer_class = StreamUserViewStatusSerializer
+    queryset = StreamUserViewStatus.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
