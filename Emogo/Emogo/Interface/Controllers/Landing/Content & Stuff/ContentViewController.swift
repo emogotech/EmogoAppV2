@@ -703,7 +703,7 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnSaveAction(_ sender: Any) {
-        self.SaveAlert()
+       self.SaveActionSheet()
         
     }
     
@@ -714,8 +714,6 @@ class ContentViewController: UIViewController {
         }else{
              seletedImage.likeStatus = 0
         }
-        
-     
         self.likeDislikeContent()
     }
     
@@ -729,75 +727,13 @@ class ContentViewController: UIViewController {
         }
     }
     
-    func SaveAlert(){
-    
-        let optionMenu = UIAlertController(title: kAlert_Message, message: "", preferredStyle: .actionSheet)
-        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .destructive, handler: {
-            (alert: UIAlertAction!) -> Void in
-                self.saveToMyStuff()
-        })
-        
-        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .destructive, handler: {
-            (alert: UIAlertAction!) -> Void in
-           
-           
-            if self.seletedImage.type == .image {
-                if self.seletedImage.imgPreview == nil {
-                    HUDManager.sharedInstance.showHUD()
-                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
-                        HUDManager.sharedInstance.hideHUD()
-                        if image != nil {
-                            UIImageWriteToSavedPhotosAlbum(image!
-                                ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
-                                ), nil)
-
-                        }
-                    })
-                }
-               
-            }else if self.seletedImage.type == .video{
-              self.videoDownload()
-           
-            }else if self.seletedImage.type == .gif{
-               
-                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
-                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-                    HUDManager.sharedInstance.hideHUD()
-                    if image != nil {
-                        UIImageWriteToSavedPhotosAlbum(image!
-                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
-                            ), nil)
-
-                    }
-                })
-            }else if self.seletedImage.type == .link{
-              
-                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
-                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-                    HUDManager.sharedInstance.hideHUD()
-                    if image != nil {
-                        UIImageWriteToSavedPhotosAlbum(image!
-                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
-                            ), nil)
-                        
-                    }
-                })
-            }
-    })
-        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
-            (alert: UIAlertAction!) -> Void in
-        })
-        
-        optionMenu.addAction(saveToMyStuffAction)
-        optionMenu.addAction(saveToGalleryAction)
-        optionMenu.addAction(cancelAction)
-        self.present(optionMenu, animated: true, completion: nil)
-    }
    
     
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
         self.showToast(type: .error, strMSG: kAlert_Save_Image)
     }
+    
+    //MARK:- Video Download
     @objc func videoDownload(){
       
         APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
@@ -807,27 +743,14 @@ class ContentViewController: UIViewController {
                 }) { completed, error in
                     if completed {
                         print("Video is saved!")
+                         self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
                     }
                 }
             }
         }
         
     }
-    
-    @objc func gifDownload(){
-        
-        APIManager.sharedInstance.download(strFile: self.seletedImage.coverImageVideo) { (_, fileURL) in
-            if let fileURL = fileURL {
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
-                }) { completed, error in
-                    if completed {
-                        print("gif is saved!")
-                    }
-                }
-            }
-        }
-    }
+ 
     @objc func textFieldDidChange(textfield:UITextField) {
         if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
             isEditngContent = true
@@ -884,12 +807,77 @@ class ContentViewController: UIViewController {
                 break
                 
             case .down:
-                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewAsDismiss()
+               
                 break
             default:
                 break
             }
         }
+    }
+    func SaveActionSheet(){
+        
+        let optionMenu = UIAlertController(title: kAlert_Message, message: "", preferredStyle: .actionSheet)
+        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.saveToMyStuff()
+        })
+        
+        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+            
+            
+            if self.seletedImage.type == .image {
+                if self.seletedImage.imgPreview == nil {
+                    HUDManager.sharedInstance.showHUD()
+                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+                        HUDManager.sharedInstance.hideHUD()
+                        if image != nil {
+                            UIImageWriteToSavedPhotosAlbum(image!
+                                ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                                ), nil)
+                             self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
+                        }
+                    })
+                }
+                
+            }else if self.seletedImage.type == .video{
+                self.videoDownload()
+                
+            }else if self.seletedImage.type == .gif{
+                
+                self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImageVideo)
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                          self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF)
+                    }
+                })
+            }else if self.seletedImage.type == .link{
+                
+                //  self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
+                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                            ), nil)
+                        self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link)
+                    }
+                })
+            }
+        })
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(saveToMyStuffAction)
+        optionMenu.addAction(saveToGalleryAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     func next() {
@@ -1178,10 +1166,9 @@ class ContentViewController: UIViewController {
                 }else{
                     self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
                 }
-              
-               
             }else{
                 HUDManager.sharedInstance.hideHUD()
+                self.showToast(strMSG: errorMsg!)
             }
         }
     }
@@ -1191,13 +1178,19 @@ class ContentViewController: UIViewController {
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForSaveStuffContent(contentID: self.seletedImage.contentID) { (isSuccess, error) in
             HUDManager.sharedInstance.hideHUD()
-            
-             if isSuccess == true {
-              
-                 self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
-                
+            if isSuccess == true {
+                if self.seletedImage.type == .image {
+                    self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image_MyStuff)
+                }else  if self.seletedImage.type == .video {
+                     self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video_MyStuff)
+                }else  if self.seletedImage.type == .gif {
+                     self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF_MyStuff)
+                }else  if self.seletedImage.type == .link{
+                     self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link_MyStuff)
+                }
             }else{
                 HUDManager.sharedInstance.hideHUD()
+                self.showToast(strMSG: error!)
             }
         }
     }
