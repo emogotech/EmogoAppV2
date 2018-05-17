@@ -24,6 +24,8 @@ class VideoEditorViewController: UIViewController {
     @IBOutlet weak var playerContainerView: UIView!
     @IBOutlet weak var trimmerView: TrimmerView!
     @IBOutlet weak var kTrimmerHeight: NSLayoutConstraint!
+    @IBOutlet weak var activity: UIActivityIndicatorView!
+
     var player = BMPlayer()
     var seletedImage:ContentDAO!
     var edgeMenu: DPEdgeMenu?
@@ -121,6 +123,8 @@ class VideoEditorViewController: UIViewController {
     
 
     func getVideo(){
+        activity.startAnimating()
+        activity.isHidden = false
         let strvideo = self.seletedImage.coverImage.trim()
         self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
             self.fileLocalPath = filePath
@@ -128,6 +132,8 @@ class VideoEditorViewController: UIViewController {
             self.originalFileURl = fileURL
             self.originalFile = filePath
             self.openPlayer(videoUrl: fileURL!)
+            self.activity.stopAnimating()
+            self.activity.isHidden = true
         }
     }
     
@@ -210,6 +216,7 @@ class VideoEditorViewController: UIViewController {
         }
         
     }
+    
     
     
     func getLocalPath(strURl: String,handler:@escaping (_ filePath: String?, _ fileURL:URL?)-> Void){

@@ -302,20 +302,24 @@ class ProfileViewController: UIViewController {
     
     func updateList(){
         if isEdited {
-            HUDManager.sharedInstance.showHUD()
             isEdited = false
             if  self.currentMenu == .stuff {
-                HUDManager.sharedInstance.hideHUD()
                 ContentList.sharedInstance.arrayContent.removeAll()
-                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-                    let obj = ContentList.sharedInstance.arrayStuff[i]
-                    obj.isSelected = false
-                    ContentList.sharedInstance.arrayStuff[i] = obj
-                }
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                ContentList.sharedInstance.arrayContent = array.filter { $0.isSelected == true }
+                self.profileCollectionView.reloadData()
+//
+//                for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+//                    let obj = ContentList.sharedInstance.arrayStuff[i]
+//                    obj.isSelected = false
+//                    ContentList.sharedInstance.arrayStuff[i] = obj
+//                }
             //    self.getMyStuff(type: .start)
             }else if self.currentMenu == .stream{
+                HUDManager.sharedInstance.showHUD()
                 self.getStreamList(type:.start,filter: .myStream)
             }else {
+                HUDManager.sharedInstance.showHUD()
                 self.getColabs(type: .start)
             }
         }

@@ -60,7 +60,7 @@ class ProfileUpdateViewController: UITableViewController {
             self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage)
         }else{
             if UserDAO.sharedInstance.user.displayName.isEmpty {
-                self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
+                self.imgUser.setImage(string:UserDAO.sharedInstance.user.fullName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.fullName ), circular: true)
             }else{
                 self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
             }

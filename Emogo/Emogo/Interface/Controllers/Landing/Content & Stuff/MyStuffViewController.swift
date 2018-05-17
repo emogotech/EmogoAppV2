@@ -51,6 +51,7 @@ class MyStuffViewController: UIViewController {
         self.btnNext.isHidden = true
       //  btnNext.isUserInteractionEnabled = false
         ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.arrayStuff.removeAll()
         // Attach datasource and delegate
         self.stuffCollectionView.dataSource  = self
         self.stuffCollectionView.delegate = self
@@ -462,14 +463,12 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         let index   =   button.tag
         let indexPath   =   IndexPath(item: index, section: 0)
         if let cell = self.stuffCollectionView.cellForItem(at: indexPath) {
-            let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+            let content = array[indexPath.row]
             content.isSelected = !content.isSelected
-            ContentList.sharedInstance.arrayStuff[indexPath.row] = content
             if content.isSelected {
-              
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
-               
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
             }
             self.updateSelected(obj: content)

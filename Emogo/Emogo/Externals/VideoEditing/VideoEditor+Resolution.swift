@@ -8,6 +8,7 @@
 
 import Foundation
 import AVFoundation
+import BMPlayer
 
 extension VideoEditorViewController {
     
@@ -63,7 +64,20 @@ extension VideoEditorViewController {
         self.editManager.optimizeVideo(path: self.localFileURl!, exportPreset: strResoultion, fps: 0, progress: { (_, _) in
             
         }, finish: { (fileURL, error) in
-            
+            DispatchQueue.main.async {
+                if let fileURL = fileURL {
+                    self.updatePlayerAsset(videURl:fileURL)
+                }
+            }
         })
+    }
+    
+    func updatePlayerAsset(videURl:URL) {
+        if self.player.isPlaying {
+            self.player.pause()
+        }
+        let asset = BMPlayerResource(url: videURl)
+        player.setVideo(resource: asset)
+        player.play()
     }
 }

@@ -127,6 +127,7 @@ class ContentDAO{
     var color:String! = ""
     var stuffType:StuffType! = .All
     var createrImage:String! = ""
+    var fullname:String! = ""
 
     var imgPreview:UIImage? = nil {
         
@@ -182,6 +183,9 @@ class ContentDAO{
         }
         if let obj  = contentData["liked"] {
             self.likeStatus = Int("\(obj)")
+        }
+        if let obj  = contentData["full_name"] {
+            self.fullname = obj as! String
         }
         
         if let obj = contentData["width"] {

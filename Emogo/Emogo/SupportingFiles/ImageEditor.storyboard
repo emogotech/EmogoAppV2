@@ -440,20 +440,30 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="5MR-Zc-rUw">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="frt-my-ru4"/>
+                                    <constraint firstAttribute="width" constant="37" id="gYl-wS-xaN"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="0HO-2B-5Ds"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="5WF-pb-5j4"/>
+                            <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerX" secondItem="TuQ-3s-rsu" secondAttribute="centerX" id="CcM-Kj-e96"/>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="GcD-qP-Gd4"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="bottom" secondItem="JA2-Zb-Ltf" secondAttribute="bottom" id="Itx-vI-dKG"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Jk9-kd-eat"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="c5g-qy-GzR" secondAttribute="bottom" id="S9f-qB-2lr"/>
+                            <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerY" secondItem="TuQ-3s-rsu" secondAttribute="centerY" id="fdi-Xk-EOx"/>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="top" secondItem="TuQ-3s-rsu" secondAttribute="top" id="xly-c3-biV"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JA2-Zb-Ltf"/>
                     </view>
                     <connections>
+                        <outlet property="activity" destination="5MR-Zc-rUw" id="t3c-kc-hih"/>
                         <outlet property="kTrimmerHeight" destination="0Yf-Gr-GMG" id="ryH-bK-ldj"/>
                         <outlet property="playerContainerView" destination="c5g-qy-GzR" id="p4f-FO-hqe"/>
                         <outlet property="trimmerView" destination="mdI-SW-eah" id="0cE-ST-mHf"/>

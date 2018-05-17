@@ -413,15 +413,10 @@ class ContentViewController: UIViewController {
             self.imgUser.setImageWithResizeURL(seletedImage.createrImage.trim())
         }
         else {
-            if UserDAO.sharedInstance.user.displayName.isEmpty {
-               self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
-            }else{
-                self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
+            self.imgUser.setImage(string:seletedImage.fullname.trim(), color: UIColor.colorHash(name:seletedImage.fullname.trim() ), circular: true)
         }
         self.btnMore.isHidden = true
         txtDescription.isEditable = false
-            
-        }
     
     }
     func changeButtonAccordingSwipe(selected:ContentDAO){
