@@ -73,6 +73,9 @@ class ProfileViewController: UIViewController {
     var didScrollInLast:Bool! = false
     var selectedType:StuffType! = StuffType.All
     var profileStreamIndex = 0
+    var isCalledMyStream:Bool! = true
+    var isCalledColabStream:Bool! = true
+    var isStuffUpdated:Bool! = true
 
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
@@ -264,7 +267,7 @@ class ProfileViewController: UIViewController {
                     self.imgUser.setImageWithResizeURL(UserDAO.sharedInstance.user.userImage.trim())
                 }else {
                     if UserDAO.sharedInstance.user.displayName.isEmpty {
-                        self.imgUser.setImage(string:UserDAO.sharedInstance.user.username, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.username ), circular: true)
+                        self.imgUser.setImage(string:UserDAO.sharedInstance.user.fullName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.fullName ), circular: true)
                     }else{
                         self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
                     }
@@ -614,7 +617,7 @@ class ProfileViewController: UIViewController {
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
             self.currentMenu = .stuff
-            self.btnNext.isHidden = false
+            self.btnNext.isHidden = true
             break
         default:
             break
@@ -626,17 +629,24 @@ class ProfileViewController: UIViewController {
         switch currentMenu {
         case .stuff:
             kStuffOptionsHeight.constant = 17.0
-            if ContentList.sharedInstance.arrayStuff.count == 0 {
+            if ContentList.sharedInstance.arrayStuff.count == 0  && self.isStuffUpdated {
                 HUDManager.sharedInstance.showHUD()
                 self.getTopContents()
               //  self.getMyStuff(type: .start)
+            }else {
+                let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                self.lblNOResult.isHidden = true
+                if array.count == 0  {
+                    self.lblNOResult.isHidden = false
+                    self.lblNOResult.text = "No Stuff Found"
+                }
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
             break
         case .stream:
             kStuffOptionsHeight.constant = 0.0
-            if StreamList.sharedInstance.arrayProfileStream.count == 0 {
+            if StreamList.sharedInstance.arrayProfileStream.count == 0  &&  self.isCalledMyStream {
                 HUDManager.sharedInstance.showHUD()
                 self.getStreamList(type:.start,filter: .myStream)
             }
@@ -645,11 +655,12 @@ class ProfileViewController: UIViewController {
             break
         case .colabs:
             kStuffOptionsHeight.constant = 0.0
-            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
+            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 && isCalledColabStream {
                 HUDManager.sharedInstance.showHUD()
                 self.getColabs(type: .start)
             }
             self.layout.headerHeight = 0.0
+            self.profileStreamShow()
             self.profileCollectionView.reloadData()
          break
         }
@@ -767,6 +778,13 @@ class ProfileViewController: UIViewController {
             }
             
             self.profileCollectionView.reloadData()
+        }else if self.currentMenu == .colabs {
+            self.lblNOResult.isHidden = true
+            if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
+                self.lblNOResult.text  = "No Stream Found"
+                self.lblNOResult.minimumScaleFactor = 1.0
+                self.lblNOResult.isHidden = false
+            }
         }
     }
     
@@ -797,7 +815,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
-           
+            self.isCalledMyStream = false
             self.profileStreamShow()
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -818,8 +836,9 @@ class ProfileViewController: UIViewController {
                     self.lblNOResult.text  = "No Stuff Found"
                     self.lblNOResult.minimumScaleFactor = 1.0
                     self.lblNOResult.isHidden = false
-                    self.btnNext.isHidden = true
                 }
+                self.isStuffUpdated = false
+
                 self.layout.headerHeight = 0.0
                 self.profileCollectionView.reloadData()
             }else {
@@ -853,14 +872,12 @@ class ProfileViewController: UIViewController {
             }
             
             self.lblNOResult.isHidden = true
-            self.btnNext.isHidden = false
             self.btnNext.isHidden = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
-                self.btnNext.isHidden = true
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
@@ -894,6 +911,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
+            self.isCalledColabStream = false
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {

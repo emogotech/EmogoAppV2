@@ -879,6 +879,7 @@ extension UILabel {
 
 extension UIImage {
     
+    
     func compressImageSwift () -> UIImage {
         
         let actualHeight:CGFloat = self.size.height

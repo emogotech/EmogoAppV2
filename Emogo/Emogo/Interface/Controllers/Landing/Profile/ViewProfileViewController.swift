@@ -32,7 +32,10 @@ class ViewProfileViewController: UIViewController {
     var topConstraintRange = (CGFloat(0)..<CGFloat(220))
     var streamType:String! = "1"
     var arrayMyStreams = [StreamDAO]()
+    var arrayColabStream = [StreamDAO]()
     let color = UIColor(r: 155, g: 155, b: 155)
+    var isCalledMyStream:Bool! = true
+    var isCalledColabStream:Bool! = true
 
 
     override func viewDidLoad() {
@@ -159,7 +162,6 @@ class ViewProfileViewController: UIViewController {
                         }else{
                             self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
                             }
-                            
                         }
                         if people.biography.trim().isEmpty  {
                             self.kHeaderHeight.constant = 178
@@ -192,8 +194,9 @@ class ViewProfileViewController: UIViewController {
     
     func profileStreamShow(){
         if self.streamType == "1" {
-
-            arrayMyStreams = StreamList.sharedInstance.arrayMyStream
+            if self.isCalledMyStream {
+                arrayMyStreams = StreamList.sharedInstance.arrayMyStream
+            }
             if objPeople.stream != nil {
 
                 if (objPeople.stream?.CoverImage.trim().isEmpty)! {
@@ -204,12 +207,22 @@ class ViewProfileViewController: UIViewController {
                         self.lblNOResult.isHidden = false
                     }
                 }else {
-                    let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
-                    arrayMyStreams = StreamList.sharedInstance.arrayMyStream
-                    if index != nil {
-                        arrayMyStreams.remove(at: index!)
+                    if self.isCalledMyStream {
+                        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+                        arrayMyStreams = StreamList.sharedInstance.arrayMyStream
+                        if index != nil {
+                            arrayMyStreams.remove(at: index!)
+                        }else {
+                            StreamList.sharedInstance.arrayMyStream.append(self.objPeople.stream!)
+                        }
                     }else {
-                        StreamList.sharedInstance.arrayMyStream.append(self.objPeople.stream!)
+                        StreamList.sharedInstance.arrayMyStream = self.arrayMyStreams
+                        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+                        if index != nil {
+                            arrayMyStreams.remove(at: index!)
+                        }else {
+                            StreamList.sharedInstance.arrayMyStream.append(self.objPeople.stream!)
+                        }
                     }
                     lblNOResult.isHidden = true
                     self.layout.headerHeight = 200
@@ -278,12 +291,27 @@ class ViewProfileViewController: UIViewController {
         case 101:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
-            self.getStream(type: "1")
+            self.streamType = "1"
+            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.profileStreamShow()
             break
         case 102:
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
-            self.getStream(type: "2")
+            self.streamType = "2"
+            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.lblNOResult.isHidden = true
+            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                self.lblNOResult.text = kAlert_No_Stream_found
+                self.lblNOResult.isHidden = false
+            }
+            self.layout.headerHeight = 0
+            self.profileCollectionView.reloadData()
             break
         default:
             break
@@ -291,7 +319,6 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStream(type:String){
-        self.streamType = type
          HUDManager.sharedInstance.showHUD()
          self.getStreamList(type:.start,streamType: type)
     }
@@ -415,9 +442,11 @@ class ViewProfileViewController: UIViewController {
             }
             if streamType == "1" {
                 self.profileStreamShow()
+                self.isCalledMyStream = false
             }else {
-                
                 self.layout.headerHeight = 0
+                self.arrayColabStream = StreamList.sharedInstance.arrayMyStream
+                self.isCalledColabStream = false
             }
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
