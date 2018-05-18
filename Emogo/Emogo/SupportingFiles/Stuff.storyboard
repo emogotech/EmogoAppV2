@@ -2367,7 +2367,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TWD-Xl-TvZ">
-                                <rect key="frame" x="317" y="552" width="52" height="45"/>
+                                <rect key="frame" x="317" y="560" width="52" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="dJG-Mk-sP1"/>
                                     <constraint firstAttribute="width" constant="52" id="hB7-ay-uQV"/>
@@ -2391,7 +2391,7 @@
                             <constraint firstItem="rcA-6G-RnM" firstAttribute="top" secondItem="QPw-Ix-gAb" secondAttribute="top" constant="10" id="ZWC-Sw-pdO"/>
                             <constraint firstItem="0ex-6D-1EL" firstAttribute="bottom" secondItem="IGr-yb-aJG" secondAttribute="bottom" id="cl8-VA-irW"/>
                             <constraint firstItem="ttS-3l-cZK" firstAttribute="bottom" secondItem="IGr-yb-aJG" secondAttribute="bottom" id="eg7-aH-wQy"/>
-                            <constraint firstItem="ttS-3l-cZK" firstAttribute="top" secondItem="TWD-Xl-TvZ" secondAttribute="bottom" constant="-13" id="o0A-SW-I2g"/>
+                            <constraint firstItem="ttS-3l-cZK" firstAttribute="top" secondItem="TWD-Xl-TvZ" secondAttribute="bottom" constant="-21" id="o0A-SW-I2g"/>
                             <constraint firstItem="SXH-XZ-PHA" firstAttribute="top" secondItem="IGr-yb-aJG" secondAttribute="top" id="tIg-Jj-QQO"/>
                             <constraint firstAttribute="trailing" secondItem="rcA-6G-RnM" secondAttribute="trailing" constant="2" id="tRx-q8-YBu"/>
                             <constraint firstItem="ttS-3l-cZK" firstAttribute="leading" secondItem="IGr-yb-aJG" secondAttribute="leading" id="tgO-zH-VPZ"/>

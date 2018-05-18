@@ -31,7 +31,7 @@ class LoadingView: UIView {
         self.alpha = 0.7
         
         load = KDLoadingView.init()
-        load?.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        load?.frame = CGRect.zero
         load?.backgroundColor = UIColor.clear
         load?.duration = 5.0
         load?.lineWidth = 4.0
@@ -47,7 +47,7 @@ class LoadingView: UIView {
         load?.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         load?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
         
-        loaderImage = UIImageView(frame:  CGRect(x: 0, y: 0, width: 15, height: 15))
+        loaderImage = UIImageView(frame:  CGRect.zero)
         loaderImage?.image = #imageLiteral(resourceName: "loader")
         
         self.addSubview(loaderImage!)

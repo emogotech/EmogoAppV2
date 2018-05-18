@@ -38,6 +38,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     @IBOutlet weak var previewCollection: UICollectionView!
     @IBOutlet weak var lblRecordTimer: UILabel!
     @IBOutlet weak var cameraModeOptions: UIView!
+    @IBOutlet weak var previewContainer: UIView!
 
     // MARK: - Variables
     var isRecording:Bool! = false
@@ -100,7 +101,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-         btnCamera.delegate = self
         self.prepareContainerToPresent()
         self.previewCollection.reloadData()
     }
@@ -123,13 +123,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     
+    
     // MARK: - Prepare Layouts
     
     func prepareLayouts(){
-        
         btnCamera.isEnabled = true
-        
-      
+        btnCamera.delegate = self
 //        btnCamera.center = self.cameraButtonContainer.center
 //        let frameForCamera = self.cameraButtonContainer.frame
 //        btnCamera.frame = frameForCamera
@@ -177,7 +176,8 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.previewCollection.addGestureRecognizer(swipeDown)
             self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
         }
-
+        self.previewCollection.register(PreviewCell.self, forCellWithReuseIdentifier: kCell_PreviewCell)
+      
     }
     
     @objc func stopVideo(){
@@ -287,35 +287,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     func prepareContainerToPresent(){
-        
-        if kContainerNav == "1" {
-            kContainerNav = "2"
-            arraySelectedContent! += ContentList.sharedInstance.arrayContent
-            // remove all duplicate contents
-            var seen = Set<String>()
-            var unique = [ContentDAO]()
-            for obj in arraySelectedContent! {
-                if obj.isUploaded {
-                    if !seen.contains(obj.contentID) {
-                        unique.append(obj)
-                        seen.insert(obj.contentID)
-                    }
-                }else if obj.type == .gif || obj.type == .link{
-                    if !seen.contains(obj.coverImage.trim()) {
-                        unique.append(obj)
-                        seen.insert(obj.coverImage.trim())
-                    }
-                }else {
-                    if !seen.contains(obj.fileName.trim()) {
-                        unique.append(obj)
-                        seen.insert(obj.fileName.trim())
-                    }
-                }
-            }
-            arraySelectedContent = unique
-            ContentList.sharedInstance.arrayContent = unique
-            performSegue(withIdentifier: kSegue_ContainerSegue, sender: self)
-        }
         
         if !kBackNav.isEmpty {
             kBackNav = ""
@@ -670,23 +641,20 @@ class CustomCameraViewController: SwiftyCamViewController {
                 // Down icon
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
                 self.kPreviewHeight.constant = 129.0
-//                self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 250.0, width: 75.0, height: 75.0)
             }else {
                 // Up icon
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
-//                self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 160.0, width: 75.0, height: 75.0)
             }
             self.previewCollection.reloadData()
-            self.view.updateConstraintsIfNeeded()
+            self.previewContainer.updateConstraintsIfNeeded()
         }
     }
     private  func viewUP(){
+        self.kPreviewHeight.constant = 129.0
         UIView.animate(withDuration: 0.2) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-            self.kPreviewHeight.constant = 129.0
-//            self.btnCamera.frame = CGRect(x: self.view.frame.midX - 37.5, y: self.view.frame.height - 250.0, width: 75.0, height: 75.0)
-            self.view.updateConstraintsIfNeeded()
+            self.previewContainer.updateConstraintsIfNeeded()
         }
     }
     
@@ -742,21 +710,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     // MARK: - Navigation
     
     // In a storyboard-based  application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if segue.identifier == kSegue_ContainerSegue {
-            if let destinationViewController = segue.destination as? ContainerViewController {
-                destinationViewController.transitioningDelegate = self
-                destinationViewController.interactor = interactor
-            }
-        }
-        
-    }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        print("Rotation Called")
-    }
     
     func presentCropperWithImage(image:UIImage){
         let croppingStyle = CropViewCroppingStyle.default
@@ -786,8 +740,8 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileName = NSUUID().uuidString + ".png"
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
-            self.previewCollection.reloadData()
-            setupButtonWhileRecording(isAddButton: true)
+             self.previewCollection.reloadData()
+        //    setupButtonWhileRecording(isAddButton: true)
 
         }else {
             self.presentCropperWithImage(image: photo)
@@ -917,18 +871,22 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         self.setupButtonWhileRecording(isAddButton: false)
     }
     func unableToOpenCamera(){
-//        if self.isDismiss != nil {
-//            self.dismiss(animated: true, completion: nil)
-//            return
-//        }else {
-//            self.navigationController?.popNormal()
-//        }
+        if self.isDismiss != nil {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }else {
+            self.navigationController?.popNormal()
+        }
     }
 }
 
 
 
 extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return   ContentList.sharedInstance.arrayContent.count
     }
@@ -948,19 +906,6 @@ extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDa
 
 
 
-extension CustomCameraViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        print("dissmiss")
-        return DismissAnimator()
-    }
-    
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        DispatchQueue.main.async { // Correct
-            self.session.startRunning()
-        }
-        return interactor.hasStarted ? interactor : nil
-    }
-}
 
 
 extension CustomCameraViewController:CropViewControllerDelegate {

@@ -14,10 +14,14 @@ class PreviewCell: UICollectionViewCell {
     @IBOutlet weak var previewImage: FLAnimatedImageView!
     @IBOutlet weak var playIcon: UIButton!
 
+
     func setupPreviewWithType(content:ContentDAO){
         
         if content.imgPreview != nil {
-            self.previewImage.image = content.imgPreview
+            if let image = content.imgPreview {
+                print(self.previewImage)
+                self.previewImage.image = image
+            }
         }else {
             if content.type == .image {
                     self.previewImage.setForAnimatedImage(strImage:content.coverImage)
