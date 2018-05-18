@@ -1003,7 +1003,10 @@ class ContentViewController: UIViewController {
                 }else {
                     let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
-                    image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
+                    if let url = url, let videoUrl = videoUrl {
+                    image = LightboxImage(imageURL: url, text: text.trim(), videoURL: videoUrl)
+                    }
+                 
                 }
             }
             if image != nil {
@@ -1017,7 +1020,9 @@ class ContentViewController: UIViewController {
         if seletedImage.type == .video {
             if self.currentIndex == nil {
                 let videoUrl = URL(string: self.seletedImage.coverImage)
-                LightboxConfig.handleVideo(self, videoUrl!)
+                if let videoUrl = videoUrl {
+                    LightboxConfig.handleVideo(self, videoUrl)
+                }
             }else {
                 let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
                 let videoUrl = URL(string: temp.coverImage)

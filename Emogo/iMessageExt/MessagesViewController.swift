@@ -133,8 +133,10 @@ class MessagesViewController: MSMessagesAppViewController {
                 if self.hudView != nil {
                     self.hudView.stopLoaderWithAnimation()
                 }
-                self.hudView.removeFromSuperview()
+            }else {
+                SharedData.sharedInstance.countryCode = SharedData.sharedInstance.getLocaleCountryCode()
             }
+            self.hudView.removeFromSuperview()
         }
     }
     

@@ -151,6 +151,8 @@ open class SwiftyCamViewController: UIViewController {
     
     public var allowAutoRotate                = false
     
+    public var isCaptureTapped                = false
+
     /// Specifies the [videoGravity](https://developer.apple.com/reference/avfoundation/avcapturevideopreviewlayer/1386708-videogravity) for the preview layer.
     public var videoGravity                   : SwiftyCamVideoGravity = .resizeAspectFill
     
@@ -307,8 +309,20 @@ open class SwiftyCamViewController: UIViewController {
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        if let previewLayerConnection =  self.previewLayer?.videoPreviewLayer.connection  {
+            let orientation = self.getPreviewLayerOrientation()
+            if previewLayerConnection.isVideoOrientationSupported {
+                updatePreviewLayer(layer: previewLayerConnection, orientation: orientation)
+            }
+        }
+                //updatePreviewFrame()
+    }
+    
+    func updatePreviewFrame(){
         if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
-            
+            if isCaptureTapped {
+                return
+            }
             let currentDevice: UIDevice = UIDevice.current
             
             let orientation: UIDeviceOrientation = currentDevice.orientation
@@ -318,6 +332,7 @@ open class SwiftyCamViewController: UIViewController {
             if previewLayerConnection.isVideoOrientationSupported {
                 
                 switch (orientation) {
+                    
                 case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
                 
                     break
@@ -334,7 +349,8 @@ open class SwiftyCamViewController: UIViewController {
                 
                     break
                     
-                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
+                default:
+                  //  updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
                 
                     break
                 }

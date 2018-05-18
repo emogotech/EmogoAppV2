@@ -235,6 +235,7 @@ class APIManager: NSObject {
                 let dict:[String:Any] = value as! [String : Any]
                 print(dict)
                 guard let code = dict["country_code"] else {
+                    
                     completionHandler("")
                     return
                 }

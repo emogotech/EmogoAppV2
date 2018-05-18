@@ -88,6 +88,9 @@ class ViewController: UIViewController {
             if !(code?.isEmpty)! {
                let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"
                 SharedData.sharedInstance.countryCode = code
+            }else {
+                
+                SharedData.sharedInstance.countryCode = SharedData.sharedInstance.getLocaleCountryCode()
             }
         }
     }
