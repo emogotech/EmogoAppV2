@@ -18,6 +18,9 @@ class ViewController: UIViewController {
 
    var images = [UIImage]()
     
+ 
+    
+    
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +97,9 @@ class ViewController: UIViewController {
             }
         }
     }
+    
 }
+
 
 
 extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDelegate {

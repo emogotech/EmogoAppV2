@@ -132,6 +132,10 @@
 		F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0701FDA997500E8ACC2 /* AddContentCell.swift */; };
 		F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */; };
 		F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */; };
+		F40557C920AEB37000A28F51 /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */; };
+		F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */ = {isa = PBXBuildFile; fileRef = F40557CA20AEB39D00A28F51 /* countryCodes.json */; };
+		F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557CC20AEB50B00A28F51 /* CountryDAO.swift */; };
+		F40557CF20AEB90500A28F51 /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557CE20AEB90500A28F51 /* CountryCell.swift */; };
 		F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCF5208771AB006192B4 /* FollowersViewController.swift */; };
 		F406FCF8208773BF006192B4 /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F406FCF7208773BF006192B4 /* FollowerCell.swift */; };
 		F406FCFA208779FA006192B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F406FCF9208779F9006192B4 /* Assets.xcassets */; };
@@ -587,6 +591,10 @@
 		F404C0701FDA997500E8ACC2 /* AddContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentCell.swift; sourceTree = "<group>"; };
 		F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
 		F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
+		F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickerViewController.swift; sourceTree = "<group>"; };
+		F40557CA20AEB39D00A28F51 /* countryCodes.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = countryCodes.json; sourceTree = "<group>"; };
+		F40557CC20AEB50B00A28F51 /* CountryDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDAO.swift; sourceTree = "<group>"; };
+		F40557CE20AEB90500A28F51 /* CountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCell.swift; sourceTree = "<group>"; };
 		F406FCF5208771AB006192B4 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
 		F406FCF7208773BF006192B4 /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
 		F406FCF9208779F9006192B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1258,6 +1266,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F40557C720AEB36500A28F51 /* CountryCodePicker */,
 				F4B8887020AAB7430056666B /* VideoEditing */,
 				F4086D8B206E2378005C7318 /* PulseView */,
 				F425C62F205660A8002536E1 /* CollectionView */,
@@ -1535,6 +1544,16 @@
 				F454C9801FFBC9B900DE887B /* RMPZoomTransitionAnimator.m */,
 			);
 			path = Animation;
+			sourceTree = "<group>";
+		};
+		F40557C720AEB36500A28F51 /* CountryCodePicker */ = {
+			isa = PBXGroup;
+			children = (
+				F40557CA20AEB39D00A28F51 /* countryCodes.json */,
+				F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */,
+				F40557CE20AEB90500A28F51 /* CountryCell.swift */,
+			);
+			path = CountryCodePicker;
 			sourceTree = "<group>";
 		};
 		F4086D8B206E2378005C7318 /* PulseView */ = {
@@ -2028,6 +2047,7 @@
 			children = (
 				F45A78761FBC68E1003FD6AB /* User */,
 				F4148A221FBD7DAA00081900 /* StreamDAO.swift */,
+				F40557CC20AEB50B00A28F51 /* CountryDAO.swift */,
 				F42864371FC4A8C900E3549D /* CameraDAO.swift */,
 				F4522C9D1FCBF8B40021562D /* MenuDAO.swift */,
 				F4402F6D1FCD6AD700152D01 /* CollaboratorDAO.swift */,
@@ -2457,6 +2477,7 @@
 				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
 				F41FD94F20A9583F00FA8623 /* EmojiCollectionViewCell.xib in Resources */,
 				F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */,
+				F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */,
 				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
 				F4C21041209B366B0094A7FC /* sticker_resize.png in Resources */,
 				F4C20FEA209AE4E80094A7FC /* FilterGradientCell.xib in Resources */,
@@ -2940,6 +2961,7 @@
 				F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */,
 				F497B3B21FD7EA38006614F2 /* PeopleListViewController.swift in Sources */,
 				F4B8887620AABD9D0056666B /* VideoEditor+Controls.swift in Sources */,
+				F40557CF20AEB90500A28F51 /* CountryCell.swift in Sources */,
 				F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
@@ -3024,6 +3046,7 @@
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,
 				F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
+				F40557C920AEB37000A28F51 /* CountryPickerViewController.swift in Sources */,
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F41FD94620A9583F00FA8623 /* ResizeControl.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
@@ -3061,6 +3084,7 @@
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
+				F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */,
 				F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
 				F4148A371FBDB5CE00081900 /* SHSPhoneNumberFormatter.m in Sources */,

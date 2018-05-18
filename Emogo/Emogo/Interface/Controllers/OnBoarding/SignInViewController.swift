@@ -7,11 +7,34 @@
 //
 
 import UIKit
+import Presentr
 
 class SignInViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
+    @IBOutlet weak var btnCountryPicker               : UIButton!
+
+    
+    let customOrientationPresenter: Presentr = {
+        let customType = PresentationType.bottomHalf
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.backgroundColor = .black
+        customPresenter.backgroundOpacity = 0.5
+        customPresenter.cornerRadius = 5.0
+        customPresenter.dismissOnSwipe = true
+        return customPresenter
+    }()
+    
+    lazy var popupViewController: CountryPickerViewController = {
+        let popupViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CountryPickerView)
+        
+        return popupViewController as! CountryPickerViewController
+    }()
+    
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -22,11 +45,15 @@ class SignInViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
+    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
@@ -39,6 +66,12 @@ class SignInViewController: UIViewController {
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
+        if SharedData.sharedInstance.countryCode.isEmpty {
+            self.btnCountryPicker.isHidden = false
+            popupViewController.delegate = self
+        }else {
+            self.btnCountryPicker.isHidden = true
+        }
         txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode!
       //  txtPhoneNumber.formatter.prefix = "+1"
         txtPhoneNumber.hasPredictiveInput = true;
@@ -66,6 +99,11 @@ class SignInViewController: UIViewController {
     }
     @IBAction func btnActionBack(_ sender: Any) {
         self.navigationController?.pop()
+    }
+    
+    @IBAction func btnCountryPickerAction(_ sender: Any) {
+        let nav = UINavigationController(rootViewController: popupViewController)
+        customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
     }
     
     // MARK: - Class Methods
@@ -132,5 +170,14 @@ extension SignInViewController: UITextFieldDelegate{
 }
 
 
+extension SignInViewController: CountryPickerViewControllerDelegate{
+    
+    func dissmissPickerWith(country: CountryDAO) {
+        SharedData.sharedInstance.countryCode = country.phoneCode
+        txtPhoneNumber.formatter.prefix = country.phoneCode
+        self.btnCountryPicker.isHidden = true
+    }
+    
+}
 
 

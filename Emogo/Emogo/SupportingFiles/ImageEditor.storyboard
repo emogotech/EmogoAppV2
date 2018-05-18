@@ -19,6 +19,12 @@
         <array key="SF-Pro-Text-Semibold.otf">
             <string>SFProText-Semibold</string>
         </array>
+        <array key="SF-UI-Display-Light.otf">
+            <string>SFUIDisplay-Light</string>
+        </array>
+        <array key="SF-UI-Display-Medium.otf">
+            <string>SFUIDisplay-Medium</string>
+        </array>
     </customFonts>
     <scenes>
         <!--Filter View Controller-->
@@ -413,6 +419,90 @@
             </objects>
             <point key="canvasLocation" x="1773.5999999999999" y="-581.55922038980509"/>
         </scene>
+        <!--Country Picker View Controller-->
+        <scene sceneID="AA8-bH-FMD">
+            <objects>
+                <viewController storyboardIdentifier="countryPickerView" id="Yfi-2J-67L" customClass="CountryPickerViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b8M-Hd-M2e">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ky5-w7-8bL">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="countryCell" rowHeight="61" id="gBw-5H-FF0" customClass="CountryCell" customModule="Emogo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gBw-5H-FF0" id="8EG-Wh-Vle">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="60.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY8-XA-NQv">
+                                                    <rect key="frame" x="15" y="8" width="290" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="SZe-Xc-wFg"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="15"/>
+                                                    <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVL-CV-dfx">
+                                                    <rect key="frame" x="15" y="33" width="290" height="21"/>
+                                                    <fontDescription key="fontDescription" name="SFUIDisplay-Light" family="SF UI Display" pointSize="13"/>
+                                                    <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check-box-empty" translatesAutoresizingMaskIntoConstraints="NO" id="1Pf-xm-GdH">
+                                                    <rect key="frame" x="334" y="18" width="26" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="26" id="4Ny-lM-HN2"/>
+                                                        <constraint firstAttribute="height" constant="26" id="zk4-am-ch7"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="WVL-CV-dfx" secondAttribute="bottom" constant="6.5" id="10Y-Yt-mGP"/>
+                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="leading" secondItem="8EG-Wh-Vle" secondAttribute="leading" constant="15" id="8pW-J2-9dR"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="dY8-XA-NQv" secondAttribute="trailing" constant="29" id="937-k7-jQm"/>
+                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="leading" secondItem="8EG-Wh-Vle" secondAttribute="leading" constant="15" id="EKQ-pr-bBb"/>
+                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="top" secondItem="8EG-Wh-Vle" secondAttribute="top" constant="8" id="O04-Ia-Jw2"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="top" secondItem="8EG-Wh-Vle" secondAttribute="top" constant="18" id="ar3-o5-Xqv"/>
+                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="top" secondItem="dY8-XA-NQv" secondAttribute="bottom" constant="4" id="cAk-he-7lR"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="WVL-CV-dfx" secondAttribute="trailing" constant="29" id="qEk-gX-jcd"/>
+                                                <constraint firstAttribute="trailing" secondItem="1Pf-xm-GdH" secondAttribute="trailing" constant="15" id="qIN-ra-d8Q"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="checkMark" destination="1Pf-xm-GdH" id="yAn-qx-z8P"/>
+                                            <outlet property="lblName" destination="dY8-XA-NQv" id="wP0-Pv-W19"/>
+                                            <outlet property="lblPhoneCode" destination="WVL-CV-dfx" id="312-vg-dfm"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Yfi-2J-67L" id="tAO-JH-8uv"/>
+                                    <outlet property="delegate" destination="Yfi-2J-67L" id="SZm-NR-BLA"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ky5-w7-8bL" firstAttribute="trailing" secondItem="9Sd-Jm-Y7w" secondAttribute="trailing" id="4e9-eO-req"/>
+                            <constraint firstItem="ky5-w7-8bL" firstAttribute="top" secondItem="9Sd-Jm-Y7w" secondAttribute="top" id="ZkM-iD-gse"/>
+                            <constraint firstItem="ky5-w7-8bL" firstAttribute="leading" secondItem="9Sd-Jm-Y7w" secondAttribute="leading" id="tVs-mQ-fHD"/>
+                            <constraint firstItem="ky5-w7-8bL" firstAttribute="bottom" secondItem="9Sd-Jm-Y7w" secondAttribute="bottom" id="wi3-wj-qcP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="9Sd-Jm-Y7w"/>
+                    </view>
+                    <connections>
+                        <outlet property="tblCountry" destination="ky5-w7-8bL" id="k5m-7p-AKg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MAH-Lo-cAV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2432.8000000000002" y="-582.45877061469275"/>
+        </scene>
         <!--Video Editor View Controller-->
         <scene sceneID="IPv-VB-bEC">
             <objects>
@@ -476,6 +566,7 @@
     </scenes>
     <resources>
         <image name="brigtness-effect-icon" width="41" height="41"/>
+        <image name="check-box-empty" width="26" height="26"/>
         <image name="color_icon_inactive" width="41" height="41"/>
         <image name="image-effect-icon" width="29" height="29"/>
         <image name="next_icon" width="12" height="20"/>

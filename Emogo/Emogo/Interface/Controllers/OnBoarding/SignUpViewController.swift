@@ -7,14 +7,35 @@
 //
 
 import UIKit
+import Presentr
 
 class SignUpViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var txtPhoneNumber                 : SHSPhoneTextField!
-    
+    @IBOutlet weak var btnCountryPicker               : UIButton!
+
      var userName:String!
 
+    let customOrientationPresenter: Presentr = {
+        let customType = PresentationType.bottomHalf
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVerticalFromTop
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.backgroundColor = .black
+        customPresenter.backgroundOpacity = 0.5
+        customPresenter.cornerRadius = 5.0
+        customPresenter.dismissOnSwipe = true
+        return customPresenter
+    }()
+    
+    lazy var popupViewController: CountryPickerViewController = {
+        let popupViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CountryPickerView)
+        
+        return popupViewController as! CountryPickerViewController
+    }()
+    
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -40,7 +61,12 @@ class SignUpViewController: UIViewController {
         // Set Rule for Phone Format
 
         txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
-        txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode!
+        if SharedData.sharedInstance.countryCode.isEmpty {
+            self.btnCountryPicker.isHidden = false
+            popupViewController.delegate = self
+        }else {
+            self.btnCountryPicker.isHidden = true
+        }
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
@@ -66,6 +92,12 @@ class SignUpViewController: UIViewController {
     @IBAction func btnActionBack(_ sender: Any) {
         self.navigationController?.pop()
     }
+    
+    @IBAction func btnCountryPickerAction(_ sender: Any) {
+        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+        
+    }
+    
     // MARK: - Class Methods
     @objc func disMissKeyboard(){
         self.view.endEditing(true)
@@ -126,4 +158,14 @@ extension SignUpViewController: UITextFieldDelegate{
     func cancelPressed(){
         view.endEditing(true) // or do something
     }
+}
+
+extension SignUpViewController: CountryPickerViewControllerDelegate{
+    
+    func dissmissPickerWith(country: CountryDAO) {
+        SharedData.sharedInstance.countryCode = country.phoneCode
+        txtPhoneNumber.formatter.prefix = country.phoneCode
+        self.btnCountryPicker.isHidden = true
+    }
+    
 }
