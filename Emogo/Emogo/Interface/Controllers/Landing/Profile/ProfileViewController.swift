@@ -204,6 +204,9 @@ class ProfileViewController: UIViewController {
                 self.imgLocation.image = #imageLiteral(resourceName: "location icon")
                 self.lblLocation.isHidden = false
                 self.lblWebsite.isHidden = false
+                self.lblFollowers.isHidden = true
+                self.lblFollowing.isHidden = true
+
                 self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
                 self.lblFullName.minimumScaleFactor = 1.0
                 self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
@@ -236,27 +239,32 @@ class ProfileViewController: UIViewController {
                 let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
                 let tapFollowing = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
                
-               
-                if UserDAO.sharedInstance.user.followers.trim().isEmpty {
+                if UserDAO.sharedInstance.user.followers.trim().isEmpty && !UserDAO.sharedInstance.user.following.trim().isEmpty  {
                     self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
+                     self.lblFollowing.text = ""
                     self.lblFollowers.isHidden = false
-                    self.lblFollowing.isHidden  = true
                     self.lblFollowers.tag = 0
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowing.isUserInteractionEnabled = false
                     self.lblFollowers.addGestureRecognizer(tapFollowing)
-             
                 }
-               else if UserDAO.sharedInstance.user.following.trim().isEmpty {
+                
+                if UserDAO.sharedInstance.user.following.trim().isEmpty && !UserDAO.sharedInstance.user.followers.trim().isEmpty  {
                     self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 111
                     self.lblFollowers.isUserInteractionEnabled = true
+                    self.lblFollowing.isUserInteractionEnabled = false
                     self.lblFollowers.addGestureRecognizer(tapFollow)
+                    self.lblFollowing.text = ""
                 }
-                else{
+                    
+                if !UserDAO.sharedInstance.user.following.trim().isEmpty && !UserDAO.sharedInstance.user.followers.trim().isEmpty  {
+                   
                     self.lblFollowers.isHidden = false
                     self.lblFollowing.isHidden = false
+                    self.lblFollowers.tag = 111
+                    self.lblFollowing.tag = 0
                     self.lblFollowers.text = UserDAO.sharedInstance.user.followers.trim()
                     self.lblFollowers.isUserInteractionEnabled = true
                     self.lblFollowers.addGestureRecognizer(tapFollow)

@@ -24,8 +24,7 @@ class ViewController: UIViewController {
     // MARK: - Override Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        pageController.delegate = self
-        
+        prepareLayouts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,8 +34,8 @@ class ViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        prepareLayouts()
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,15 +43,17 @@ class ViewController: UIViewController {
     }
    
    // MARK: - Prepare Layouts
+    
     func prepareLayouts(){
         images.removeAll()
         images.append(UIImage(named: "image one")!)
         images.append(UIImage(named: "image two")!)
         images.append(UIImage(named: "image three")!)
         images.append(UIImage(named: "image four")!)
-        pageController.setCurrentPage(0)
-        pageController.setNumberOfPages(images.count)
+        pageController.delegate = self
         pageController.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
+        pageController.setNumberOfPages(images.count)
+        pageController.setCurrentPage(1)
         viewTutorial.datasource = self
         viewTutorial.delegate = self
         viewTutorial.delay = 1 // Delay between transitions
@@ -64,12 +65,13 @@ class ViewController: UIViewController {
         viewTutorial.isExclusiveTouch = true
         viewTutorial.reloadData()
         pageController.load()
-        pageController.updateState(forPageNumber: 1)
+       // pageController.updateState(forPageNumber: 1)
         if SharedData.sharedInstance.countryCode.trim().isEmpty {
             self.getCountryCode()
         }
     }
 
+    
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionSignup(_ sender: Any) {
         let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
