@@ -201,6 +201,7 @@ class ViewStreamSerializer(StreamSerializer):
     total_likes = serializers.SerializerMethodField()
     user_liked = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
+    have_some_update = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -219,6 +220,31 @@ class ViewStreamSerializer(StreamSerializer):
             return obj.total_like_dislike_data.__len__()
         except AttributeError:
             return None
+
+    def get_have_some_update(self, obj):
+        # 1. Get last view date of user views Stream
+        try:
+            last_view_date = max(row.action_date for row in obj.total_view_count)
+        except ValueError:
+            return True
+        # 1. Get last date of add content to stream
+        if obj.content_list.__len__() > 0:
+            last_content_added_date = max(row.attached_date for row in obj.content_list)
+            if last_view_date < last_content_added_date:
+                return True
+        # 2. Get last date of modify content of stream
+        if obj.content_list.__len__() > 0:
+            last_content_modify_date = max(row.content.upd for row in obj.content_list)
+            if last_view_date < last_content_modify_date:
+                return True
+        # 3. Get last date of collaborator added in stream
+        if obj.stream_collaborator.__len__() > 0:
+            last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
+            if last_view_date < last_collaborator_added:
+                return True
+        if last_view_date < obj.upd :
+            return True
+        return False
 
     def get_liked(self, obj):
         for x in obj.total_like_dislike_data:

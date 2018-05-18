@@ -99,7 +99,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -153,7 +153,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
-# Todo the DeleteStreamContentAPI is not used but it was keeped because it is using in last build.
+# Todo the DeleteStreamContentAPI is not used but it was keep because it is using in last build.
 class DeleteStreamContentAPI(DestroyAPIView):
 
     serializer_class = DeleteStreamContentSerializer
