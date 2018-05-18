@@ -62,23 +62,25 @@ class SharedData: NSObject {
     
     
     func getLocaleCountryCode() -> String {
+        /*
         var code:String! = ""
         let network_Info = CTTelephonyNetworkInfo()
         let carrier: CTCarrier? = network_Info.subscriberCellularProvider
         if let countryCode = carrier?.isoCountryCode {
-            code = countryCode.uppercased()
+            code = countryCode.uppercased().trim()
         }
         if code.isEmpty {
             if let countryCode = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
                 print(countryCode)
-                code = countryCode
+                code = countryCode.uppercased().trim()
             }
 
         }
         if !code.isEmpty {
-        code = self.getCountryCallingCode(countryRegionCode: code)
+        code = self.getCountryCallingCode(countryRegionCode: code).trim()
         }
-        return code
+ */
+        return ""
     }
     // MARK: - show alert with block
     func showAlertWithHandler(VC:UIViewController, title:String, message:String,  completion: @escaping (_ results: UIAlertAction) -> Void){

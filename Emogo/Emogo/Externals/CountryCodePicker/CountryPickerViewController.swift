@@ -31,7 +31,7 @@ class CountryPickerViewController: UIViewController {
     func prepareLayout(){
     self.title = "Select Your Country"
         let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
-        let cancel = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneButtonAction))
+        let cancel = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelButtonAction))
         self.navigationItem.leftBarButtonItem = cancel
         self.navigationItem.rightBarButtonItem = done
         readJson()
@@ -39,10 +39,13 @@ class CountryPickerViewController: UIViewController {
     
     @objc func doneButtonAction(){
      let array =  arrayCodes.filter { $0.isSelected == true }
-        if self.delegate != nil {
-            delegate?.dissmissPickerWith(country: array[0])
+        if array.count != 0 {
+            if self.delegate != nil {
+                delegate?.dissmissPickerWith(country: array[0])
+            }
+            self.dismiss(animated: true, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
+       
     }
     
    @objc func cancelButtonAction(){

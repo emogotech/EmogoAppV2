@@ -123,7 +123,10 @@ class ShareViewHomeController: UIViewController {
             })
         }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicURL){
             itemProvider.loadItem(forTypeIdentifier: strPublicURL, options: nil, completionHandler: { (item, error) -> Void in
-                guard let url = item as? URL else { return }
+                guard let url = item as? URL else {
+                    //remove
+                    self.closeAfter()
+                    return }
                 OperationQueue.main.addOperation {
                         self.getData(mainURL: url as URL)
                 }
@@ -167,6 +170,8 @@ class ShareViewHomeController: UIViewController {
                         let strURL:String = url as! String
                         print(strURL)
                         guard let openUrl = URL(string: strURL) else {
+                            //remove
+                            self.closeAfter()
                             return
                         }
                         print(openUrl)
@@ -184,6 +189,8 @@ class ShareViewHomeController: UIViewController {
         }
         else {
             print("Error - check itemProvider object!")
+            //remove
+          closeAfter()
         }
     }
     
