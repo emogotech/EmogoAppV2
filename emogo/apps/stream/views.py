@@ -10,17 +10,16 @@ from models import Stream, Content, ExtremistReport, StreamContent, LikeDislikeS
 from serializers import StreamSerializer, ViewStreamSerializer, ContentSerializer, ViewContentSerializer, \
     ContentBulkDeleteSerializer, MoveContentToStreamSerializer, ExtremistReportSerializer, DeleteStreamContentSerializer,\
     ReorderStreamContentSerializer, ReorderContentSerializer, StreamLikeDislikeSerializer, CopyContentSerializer, \
-    ContentLikeDislikeSerializer
+    ContentLikeDislikeSerializer, StreamUserViewStatusSerializer
 from emogo.lib.custom_filters.filterset import StreamFilter, ContentsFilter
 from rest_framework.views import APIView
 from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
-from django.db.models import Prefetch
+from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
-
 
 
 class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveAPIView):
@@ -28,10 +27,16 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
     Stream CRUD API
     """
     serializer_class = StreamSerializer
-    queryset = Stream.actives.all().select_related('created_by__user_data__user').prefetch_related(
+    queryset = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related('created_by__user_data__user').prefetch_related(
             Prefetch(
                 "stream_contents",
-                queryset=StreamContent.objects.all().select_related('content').order_by('order', '-attached_date'),
+                queryset=StreamContent.objects.all().select_related('content', 'content__created_by__user_data').prefetch_related(
+                    Prefetch(
+                        "content__content_like_dislike_status",
+                        queryset=LikeDislikeContent.objects.filter(status=1),
+                        to_attr='content_liked_user'
+                    )
+                ).order_by('order', '-attached_date'),
                 to_attr="content_list"
             ),
             Prefetch(
@@ -49,8 +54,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
                 queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
                 to_attr='total_like_dislike_data'
             ),
-
-        ).order_by('-id')
+        ).order_by('-stream_view_count')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -95,7 +99,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         self.serializer_class = ViewStreamSerializer
         queryset = self.filter_queryset(self.queryset)
         #  Customized field list
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update')
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
@@ -149,7 +153,7 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=None)
 
 
-# Todo the DeleteStreamContentAPI is not used but it was keeped because it is using in last build.
+# Todo the DeleteStreamContentAPI is not used but it was keep because it is using in last build.
 class DeleteStreamContentAPI(DestroyAPIView):
 
     serializer_class = DeleteStreamContentSerializer
@@ -265,6 +269,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         else:
             return self.list(request, *args, **kwargs)
 
+    def get_object(self):
+        qs = self.get_queryset().filter(pk=self.kwargs.get('pk'))
+        if qs.exists():
+            return qs[0]
+        else:
+            return Http404
+
     def retrieve(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -273,7 +284,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         :return: Get Stream detail API.
         """
         #  Developer overwrite the self.get_object() method because any one can see content Detail
-        instance = Content.actives.get(id=kwargs.get('pk'))
+        instance = self.get_object()
         self.serializer_class = ViewContentSerializer
         serializer = self.get_serializer(instance)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
@@ -316,6 +327,13 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
+        self.serializer_class = ViewContentSerializer
+        #  Customized field list
+        fields = (
+            'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width',
+            'order',
+            'color', 'user_image', 'full_name', 'order', 'liked')
+        serializer = self.get_serializer(instance, fields=fields)
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
     def destroy(self, request, *args, **kwargs):
@@ -531,7 +549,7 @@ class StreamLikeDislikeAPI(CreateAPIView):
     Like Dislike CRUD API
     """
     serializer_class = StreamLikeDislikeSerializer
-    queryset = LikeDislikeStream.objects.all().order_by('-id')
+    queryset = LikeDislikeStream.objects.filter().select_related('stream').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -556,7 +574,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
     Like dislike CRUD API
     """
     serializer_class = ContentLikeDislikeSerializer
-    queryset = LikeDislikeContent.objects.order_by('-id')
+    queryset = LikeDislikeContent.objects.select_related('content').order_by('-id')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
@@ -618,3 +636,28 @@ def get_stream_qs_objects(instances=None):
         if qs.exists():
             return qs[0]
     return qs
+
+
+class IncreaseStreamViewCount(CreateAPIView):
+    """
+    Like Dislike CRUD API
+    """
+    serializer_class = StreamUserViewStatusSerializer
+    queryset = StreamUserViewStatus.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'pk'
+
+    def create(self, request, *args, **kwargs):
+        """
+        :param request: The request data
+        :param args: list or tuple data
+        :param kwargs: dict param
+        :return: Create Stream API.
+        """
+        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer.is_valid(raise_exception=True)
+        serializer.create(serializer)
+        # To return created stream data
+        # self.serializer_class = ViewStreamSerializer
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
