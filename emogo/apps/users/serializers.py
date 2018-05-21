@@ -454,11 +454,11 @@ class GetTopStreamSerializer(serializers.Serializer):
 
     def get_featured(self, obj):
         qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
-        return {"total": qs.count(), "data": ViewStreamSerializer(get_stream_qs_objects(qs[0:10]), many=True, fields=self.use_fields()).data }
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_popular(self, obj):
         # Get self created streams
@@ -476,7 +476,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         else:
             total = owner_qs.count()
             result_list = owner_qs[0:10]
-        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_my_stream(self, obj):
 
@@ -499,7 +499,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         # else:
         #     total = owner_qs.count()
         #     result_list = owner_qs[0:5]
-        return {"total": total, "data": ViewStreamSerializer(get_stream_qs_objects(result_list), many=True, fields=self.use_fields()).data}
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
