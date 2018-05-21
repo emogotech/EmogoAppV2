@@ -10,12 +10,14 @@ from emogo.constants import messages
 from emogo.lib.common_serializers.serializers import DynamicFieldsModelSerializer
 from emogo.lib.custom_validator.validators import CustomUniqueValidator
 from emogo.apps.stream.serializers import ViewStreamSerializer, ViewContentSerializer
-from emogo.apps.stream.models import Stream
+from emogo.apps.stream.models import Stream, LikeDislikeStream, StreamContent, StreamUserViewStatus, LikeDislikeStream,\
+    LikeDislikeContent
 from emogo.apps.collaborator.models import Collaborator
 from itertools import chain
 from django.db import IntegrityError
 from emogo.lib.helpers.utils import generate_pin, send_otp
 from emogo.apps.stream.views import get_stream_qs_objects
+from django.db.models import Prefetch, Count
 
 
 class UserSerializer(DynamicFieldsModelSerializer):
@@ -420,7 +422,25 @@ class GetTopStreamSerializer(serializers.Serializer):
     """
     The Custom Serializer
     """
-    qs = Stream.actives.all().order_by('-id')
+    qs = Stream.actives.all().annotate(stream_view_count=Count('stream_user_view_status')).select_related(
+        'created_by__user_data__user').prefetch_related(
+        Prefetch(
+            "stream_contents",
+            queryset=StreamContent.objects.all().select_related('content','content__created_by__user_data'),
+            to_attr="content_list"
+        ),
+        Prefetch(
+            'collaborator_list',
+            queryset=Collaborator.actives.all().select_related('created_by').order_by('-id'),
+            to_attr='stream_collaborator'
+        ),
+        Prefetch(
+            'stream_user_view_status',
+            queryset=StreamUserViewStatus.objects.all(),
+            to_attr='total_view_count'
+        )
+    ).order_by('-id')
+
     featured = serializers.SerializerMethodField()
     emogo = serializers.SerializerMethodField()
     popular = serializers.SerializerMethodField()
@@ -429,7 +449,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all()
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width')
+        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update')
         return fields
 
     def get_featured(self, obj):
