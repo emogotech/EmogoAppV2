@@ -385,7 +385,6 @@ class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
     """
     Collaborator model Serializer
     """
-    # streams = CustomListField(child=serializers.IntegerField())
     content_list = CustomListField(child=serializers.IntegerField(min_value=1), min_length=1)
 
     class Meta:
