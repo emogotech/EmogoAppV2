@@ -12,7 +12,8 @@ import PhotosUI
 import AVFoundation
 import Lightbox
 import Contacts
-
+import XLActionController
+import CropViewController
 
 class AddStreamViewController: UITableViewController {
     
@@ -29,16 +30,16 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var lblStreamDescPlaceHolder : UILabel!
-
-       @IBOutlet weak var switchAddContent: PMSwitch!
+    
+    @IBOutlet weak var switchAddContent: PMSwitch!
     // Varibales
-
+    
     var isExpandRow: Bool = false {
         didSet {
             self.configureCollaboatorsRowExpandCollapse()
         }
     }
-  
+    
     var coverImage:UIImage!
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
@@ -50,8 +51,8 @@ class AddStreamViewController: UITableViewController {
     var isAddContent:Bool!
     var minimumSize: CGSize = CGSize.zero
     
-    var contentRowHeight : CGFloat = 30.0 
-
+    var contentRowHeight : CGFloat = 30.0
+    
     
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: minimumSize)
@@ -61,23 +62,23 @@ class AddStreamViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         prepareLayouts()
-
+        
     }
-   
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.prepareLayoutForApper()
     }
     
-   
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-  
-
+    
+    
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
@@ -100,7 +101,7 @@ class AddStreamViewController: UITableViewController {
         self.txtStreamName.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 60
-      
+        
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
@@ -128,7 +129,7 @@ class AddStreamViewController: UITableViewController {
     func prepareLayoutForApper(){
         self.viewGradient.layer.contents = UIImage(named: "strems_name_gradient")?.cgImage
     }
-
+    
     func prepareForEditStream(){
         if self.objStream != nil {
             self.title =  self.objStream?.title.trim()
@@ -136,7 +137,7 @@ class AddStreamViewController: UITableViewController {
             txtStreamCaption.text = self.objStream?.description.trim()
             if !(objStream?.coverImage.trim().isEmpty)!  {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
-                   // self.imgCover.image = image
+                    // self.imgCover.image = image
                     self.imgCover.backgroundColor = image?.getColors().background
                 })
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
@@ -151,7 +152,7 @@ class AddStreamViewController: UITableViewController {
                 self.switchMakePrivate.isOn = true
                 streamType = "Private"
             }
-          
+            
             // If Editor is Creator
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.prepareEdit(isEnable: true)
@@ -193,32 +194,32 @@ class AddStreamViewController: UITableViewController {
                         self.switchAddContent.isOn = (self.objStream?.canAddContent)!
                     }
                 }
-
+                
             }else {
                 // Colab is Logged in as Editor
-            self.prepareEdit(isEnable: false)
-            self.switchAddCollaborators.isUserInteractionEnabled = true
-            if self.switchAddPeople.isOn == true {
-                self.switchAddPeople.isUserInteractionEnabled  = true
-            }else {
-                self.switchAddPeople.isUserInteractionEnabled  = false
+                self.prepareEdit(isEnable: false)
+                self.switchAddCollaborators.isUserInteractionEnabled = true
+                if self.switchAddPeople.isOn == true {
+                    self.switchAddPeople.isUserInteractionEnabled  = true
+                }else {
+                    self.switchAddPeople.isUserInteractionEnabled  = false
                 }
                 
-            if self.switchAddContent.isOn == true {
+                if self.switchAddContent.isOn == true {
                     self.switchAddContent.isUserInteractionEnabled  = true
-            }else {
-                self.switchAddContent.isUserInteractionEnabled  = false
+                }else {
+                    self.switchAddContent.isUserInteractionEnabled  = false
                 }
-            if self.selectedCollaborators.count != 0 {
+                if self.selectedCollaborators.count != 0 {
                     self.rowHieght.constant = 325.0
                     self.isExpandRow = true
                     self.switchAddCollaborators.isOn = true
-            }
+                }
                 
-        }
+            }
             
-        isPerform = true
-        self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            isPerform = true
+            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
         }
         
         if self.txtStreamCaption.text.count > 0 {
@@ -273,28 +274,28 @@ class AddStreamViewController: UITableViewController {
     }
     
     @IBAction func makePrivateAction(_ sender: PMSwitch) {
-            sender.isOn = !sender.isOn
-            if self.switchMakePrivate.isOn {
-                streamType = "Private"
-                self.switchAnyOneCanEdit.isOn = false
-                self.switchAnyOneCanEdit.isUserInteractionEnabled = false
-                self.switchAddPeople.isUserInteractionEnabled = false
-                self.switchAddContent.isUserInteractionEnabled = false
-                self.switchAddPeople.isOn = false
-                self.switchAddContent.isOn = false
-                self.switchAddCollaborators.isUserInteractionEnabled = true
-            }else{
-                streamType = "Public"
-                self.switchAddCollaborators.isOn = false
-                self.rowHieght.constant = 0.0
-                self.isExpandRow = false
-                self.switchAnyOneCanEdit.isOn = false
-                self.switchAnyOneCanEdit.isUserInteractionEnabled = true
-                self.switchAddPeople.isUserInteractionEnabled = false
-                self.switchAddContent.isUserInteractionEnabled = false
-                self.switchAddPeople.isOn = false
-                self.switchAddContent.isOn = false
-                self.switchAddCollaborators.isUserInteractionEnabled = true
+        sender.isOn = !sender.isOn
+        if self.switchMakePrivate.isOn {
+            streamType = "Private"
+            self.switchAnyOneCanEdit.isOn = false
+            self.switchAnyOneCanEdit.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isOn = false
+            self.switchAddCollaborators.isUserInteractionEnabled = true
+        }else{
+            streamType = "Public"
+            self.switchAddCollaborators.isOn = false
+            self.rowHieght.constant = 0.0
+            self.isExpandRow = false
+            self.switchAnyOneCanEdit.isOn = false
+            self.switchAnyOneCanEdit.isUserInteractionEnabled = true
+            self.switchAddPeople.isUserInteractionEnabled = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isOn = false
+            self.switchAddCollaborators.isUserInteractionEnabled = true
         }
     }
     
@@ -322,12 +323,13 @@ class AddStreamViewController: UITableViewController {
         if coverImage == nil && strCoverImage.isEmpty{
             self.showToastOnWindow(strMSG: kAlert_Stream_Cover_Empty)
         }
-       else if (self.txtStreamName.text?.trim().isEmpty)! {
+        else if (self.txtStreamName.text?.trim().isEmpty)! {
             txtStreamName.shake()
+            self.showToastOnWindow(strMSG: kAlert_Stream_Title_Empty)
         }else if switchAddCollaborators.isOn  && self.selectedCollaborators.count == 0{
             self.showToastOnWindow(strMSG: kAlert_Stream_Colab_Empty)
         }else {
-             self.showToastOnWindow(strMSG: kAlert_Upload_Wait_Msg)
+            self.showToastOnWindow(strMSG: kAlert_Upload_Wait_Msg)
             if self.streamID == nil {
                 self.uploadCoverImage()
             }else {
@@ -341,26 +343,18 @@ class AddStreamViewController: UITableViewController {
     }
     
     @IBAction func btnActionCamera(_ sender: Any) {
-        
-        let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        cameraViewController.isDismiss = true
-        cameraViewController.delegate = self
-        cameraViewController.isForImageOnly = true
-        ContentList.sharedInstance.arrayContent.removeAll()
-        let nav = UINavigationController(rootViewController: cameraViewController)
-        self.present(nav, animated: true, completion: nil)
-        
+        actionForUploadCover()
         /*
-        let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
-            if let img = image{
-                self?.setCoverImage(image: img)
-            }
-            self?.dismiss(animated: true, completion: nil)
-        }
+         let cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+         if let img = image{
+         self?.setCoverImage(image: img)
+         }
+         self?.dismiss(animated: true, completion: nil)
+         }
+         
+         present(cameraViewController, animated: true, completion: nil)
+         */
         
-        present(cameraViewController, animated: true, completion: nil)
- */
-       
     }
     
     @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
@@ -373,15 +367,87 @@ class AddStreamViewController: UITableViewController {
         }
     }
     
-   
+    
     
     // MARK: - CLASS FUNCTION
     // MARK: - Expand Collapse Row
-
-    func configureCollaboatorsRowExpandCollapse() {
-           self.reloadIndex(index: 3)
+    
+    
+    func actionForUploadCover(){
+        let actionController = ActionSheetController()
+        actionController.addAction(Action(ActionData(title: "Photos", subtitle: "1", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
+            self.btnImportAction()
+        }))
+        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "1", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
+            
+            self.actionForCamera()
+            
+        }))
+        
+        actionController.headerData = "SELECT STREAM COVER"
+        actionController.shouldShowAddButton    =   false
+        present(actionController, animated: true, completion: nil)
     }
-
+    
+    func btnImportAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            if assets.count != 0 {
+                self?.prepareCoverImage(asset:assets[0])
+            }
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = [TLPHAsset]()
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 1
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        configure.allowedVideo = false
+        configure.usedPrefetch = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func actionForCamera(){
+        let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        cameraViewController.isDismiss = true
+        cameraViewController.delegate = self
+        cameraViewController.isForImageOnly = true
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let nav = UINavigationController(rootViewController: cameraViewController)
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func prepareCoverImage(asset:TLPHAsset){
+        if let image = asset.fullResolutionImage {
+            self.presentCropperWithImage(image: image)
+            return
+        }
+        asset.cloudImageDownload(progressBlock: { (_) in
+        }, completionBlock: { (image) in
+            if let image = image {
+                self.presentCropperWithImage(image: image)
+            }
+        })
+    }
+    
+    func presentCropperWithImage(image:UIImage){
+        let croppingStyle = CropViewCroppingStyle.default
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
+        cropController.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // your code here
+            self.present(cropController, animated: true, completion: nil)
+        }
+    }
+    
+    func configureCollaboatorsRowExpandCollapse() {
+        self.reloadIndex(index: 3)
+    }
+    
     
     func reloadIndex(index:Int) {
         self.tableView.beginUpdates()
@@ -391,7 +457,7 @@ class AddStreamViewController: UITableViewController {
         self.tableView.reloadData()
     }
     // MARK: - Set Cover Image
-
+    
     func setCoverImage(image:UIImage) {
         self.coverImage = image
         self.imgCover.image = image
@@ -401,12 +467,12 @@ class AddStreamViewController: UITableViewController {
         self.imgCover.backgroundColor = image.getColors().background
         print(self.fileName)
     }
-   
-  
+    
+    
     @objc func openFullView(){
         var image:LightboxImage!
         let text = (txtStreamName.text?.trim())! + "\n" +  txtStreamCaption.text.trim()
-
+        
         if self.coverImage == nil {
             if self.objStream != nil {
                 guard  let url = URL(string: (self.objStream?.coverImage.stringByAddingPercentEncodingForURLQueryParameter())!) else
@@ -415,7 +481,7 @@ class AddStreamViewController: UITableViewController {
                 }
                 image = LightboxImage(imageURL: url, text: text, videoURL: nil)
             }
-          
+            
         }else {
             image = LightboxImage(image: coverImage,text:text.trim())
         }
@@ -425,21 +491,21 @@ class AddStreamViewController: UITableViewController {
             present(controller, animated: true, completion: nil)
         }
     }
-   
     
-   private func uploadCoverImage(){
+    
+    private func uploadCoverImage(){
         HUDManager.sharedInstance.showHUD()
-         let image = self.coverImage
+        let image = self.coverImage
         let imageData = UIImageJPEGRepresentation(image!, 1.0)
-       let url = Document.saveFile(data: imageData!, name: self.fileName)
+        let url = Document.saveFile(data: imageData!, name: self.fileName)
         let fileUrl = URL(fileURLWithPath: url)
         AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
             if error == nil {
                 DispatchQueue.main.async {
                     if self.streamID == nil   {
-                    self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.createStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
                     } else {
-                    self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                        self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
                     }
                 }
             }else {
@@ -447,8 +513,8 @@ class AddStreamViewController: UITableViewController {
             }
         }
     }
-   
-   
+    
+    
     func selectedCollaborator(colabs:[CollaboratorDAO]){
         print(self.selectedCollaborators)
         self.selectedCollaborators = colabs
@@ -456,7 +522,7 @@ class AddStreamViewController: UITableViewController {
     
     // MARK: - API Methods
     
-   
+    
     
     func getStream(){
         HUDManager.sharedInstance.showHUD()
@@ -473,14 +539,14 @@ class AddStreamViewController: UITableViewController {
     
     private func createStream(cover:String,width:Int,hieght:Int){
         
-     APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
+        APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.txtStreamName.text!, streamDescription: self.txtStreamCaption.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchAnyOneCanEdit.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
                     currentStreamType = StreamType.myStream
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
-                       NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if isAssignProfile != nil {
                         self.assignProfileStream(streamID: (stream?.ID)!)
                     }else {
@@ -495,18 +561,18 @@ class AddStreamViewController: UITableViewController {
                             obj.streamType = currentStreamType.rawValue
                             ContentList.sharedInstance.objStream = nil
                             self.navigationController?.popToViewController(vc: obj)
-                    }
-                   
-
+                        }
                         
-                   // self.navigationController?.popNormal()
-
-//                        if kNavForProfile.isEmpty {
-//                            self.navigationController?.popNormal()
-//                        }else {
-//                            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
-//                            self.navigationController?.popToViewController(vc: obj)
-//                        }
+                        
+                        
+                        // self.navigationController?.popNormal()
+                        
+                        //                        if kNavForProfile.isEmpty {
+                        //                            self.navigationController?.popNormal()
+                        //                        }else {
+                        //                            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+                        //                            self.navigationController?.popToViewController(vc: obj)
+                        //                        }
                     }
                 }
             }else {
@@ -516,12 +582,12 @@ class AddStreamViewController: UITableViewController {
     }
     
     func assignProfileStream(streamID:String){
-       
+        
         APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: streamID) { (isUpdated, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 self.showToast(strMSG: kAlert_ProfileStreamAdded)
                 isAssignProfile = nil
-                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                 self.navigationController?.popToViewController(vc: obj)
             }else {
                 self.showToast(strMSG: errorMSG!)
@@ -537,7 +603,7 @@ class AddStreamViewController: UITableViewController {
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
                 DispatchQueue.main.async{
                     self.navigationController?.popNormal()
-                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
                 }
             }else {
                 self.showToastOnWindow(strMSG: errorMsg!)
@@ -568,11 +634,11 @@ class AddStreamViewController: UITableViewController {
                     ContentList.sharedInstance.objStream = id
                     self.navigationController?.popToViewController(vc: obj)
                 }
-            
+                
             }
         }
     }
-   
+    
     
     func getContacts() {
         let store = CNContactStore()
@@ -604,7 +670,7 @@ class AddStreamViewController: UITableViewController {
     
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == kSegue_AddCollaboratorsView) {
@@ -620,7 +686,7 @@ class AddStreamViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return isPerform
     }
-
+    
 }
 
 
@@ -630,8 +696,8 @@ class AddStreamViewController: UITableViewController {
 // MARK: - DataSource And Delegate
 
 extension AddStreamViewController {
-
-
+    
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if self.isExpandRow  && indexPath.row == 3{
@@ -646,7 +712,7 @@ extension AddStreamViewController {
 
 
 extension AddStreamViewController :UITextViewDelegate, UITextFieldDelegate {
-  
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == txtStreamName {
             txtStreamCaption.becomeFirstResponder()
@@ -681,8 +747,19 @@ extension AddStreamViewController:CustomCameraViewControllerDelegate {
             self.setCoverImage(image: img)
         }
     }
-
+    
 }
+
+extension AddStreamViewController:CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        self.dismiss(animated: true, completion: nil)
+        self.setCoverImage(image: image)
+    }
+    
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+    }
+}
+
 
 
 

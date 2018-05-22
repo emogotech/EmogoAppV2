@@ -26,6 +26,8 @@ extension VideoEditorViewController {
             self.prepareAlertForResolution()
             break
         case 104:
+            removeAllNavButtons()
+            self.prepareForPlayRate()
             break
         default:
             break
@@ -34,8 +36,9 @@ extension VideoEditorViewController {
     
     
     @objc func btnSaveAction(){
-        
-      
+        if let editedFileURL = editedFileURL {
+            self.localFileURl = editedFileURL
+        }
     }
     
     @objc func buttonBackAction(){
@@ -56,6 +59,8 @@ extension VideoEditorViewController {
             self.closePreview()
             self.updateAsset(videoUrl: self.localFileURl!, type: self.selectedFeature)
         }
+        self.editedFileURL = nil
+        self.updatePlayerAsset(videURl: self.localFileURl!)
     }
     
     @objc func btnApplyFeatureAction(){
@@ -66,20 +71,23 @@ extension VideoEditorViewController {
         }
         configureNavigationButtons()
         if self.selectedFeature == .trimer {
-         
-            self.editManager.trimVideo(path: self.localFileURl!, begin: self.trimmerView.startTime!, end: self.trimmerView.endTime!, progress: { (progress, strProgress) in
-                print("progrss---->\(progress)")
-                print("strProgress---->\(progress)")
-
-            }, finish: { (fileUrl, error) in
-                if error == nil {
-                    DispatchQueue.main.async {
-                        self.updateAsset(videoUrl: fileUrl!, type: self.selectedFeature)
-                    }
-                }
-            })
+          trimVideo()
         }
     }
     
+    func trimVideo(){
+        self.showActivity()
+        self.editManager.trimVideo(path: self.localFileURl!, begin: self.trimmerView.startTime!, end: self.trimmerView.endTime!, progress: { (progress, strProgress) in
+            print("progrss---->\(progress)")
+            print("strProgress---->\(progress)")
+            
+        }, finish: { (fileUrl, error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.updateAsset(videoUrl: fileUrl!, type: self.selectedFeature)
+                }
+            }
+        })
+    }
     
 }

@@ -40,9 +40,9 @@ extension VideoEditorViewController {
         let q1920 = UIAlertAction(title: "1920x1080", style: .destructive) { (action) in
             self.updateViderResolution(strResoultion: AVAssetExportPreset1920x1080)
         }
-        let q3840 = UIAlertAction(title: "3840x2160", style: .destructive) { (action) in
-            self.updateViderResolution(strResoultion: AVAssetExportPreset3840x2160)
-        }
+//        let q3840 = UIAlertAction(title: "3840x2160", style: .destructive) { (action) in
+//            self.updateViderResolution(strResoultion: AVAssetExportPreset3840x2160)
+//        }
         
         let cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -54,15 +54,16 @@ extension VideoEditorViewController {
         alert.addAction(q960)
         alert.addAction(q1280)
         alert.addAction(q1920)
-        alert.addAction(q3840)
+      //  alert.addAction(q3840)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }
     
     
     func updateViderResolution(strResoultion:String){
-        self.editManager.optimizeVideo(path: self.localFileURl!, exportPreset: strResoultion, fps: 0, progress: { (_, _) in
-            
+        self.showActivity()
+        self.editManager.optimizeVideo(path: self.localFileURl!, exportPreset: strResoultion, fps: 0, progress: { (progress, strprogress) in
+            print("progrss---->\(progress)")
         }, finish: { (fileURL, error) in
             DispatchQueue.main.async {
                 if let fileURL = fileURL {
@@ -73,9 +74,12 @@ extension VideoEditorViewController {
     }
     
     func updatePlayerAsset(videURl:URL) {
+        self.configureNavigationForEditing()
         if self.player.isPlaying {
             self.player.pause()
         }
+        self.editedFileURL = videURl
+        self.hideActivity()
         let asset = BMPlayerResource(url: videURl)
         player.setVideo(resource: asset)
         player.play()

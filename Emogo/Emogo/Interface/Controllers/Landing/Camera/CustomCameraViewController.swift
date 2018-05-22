@@ -22,9 +22,9 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     @IBOutlet var cameraButtonContainer: UIView!
     //    @IBOutlet weak var btnRecording: UIButton!
-//    var btnCamera = SwiftyRecordButton(frame: CGRect(x: 0, y: 0, width: 75.0, height: 75.0))
+    //    var btnCamera = SwiftyRecordButton(frame: CGRect(x: 0, y: 0, width: 75.0, height: 75.0))
     @IBOutlet weak var btnCamera: SwiftyRecordButton!
-
+    
     @IBOutlet var btnCameraSwitch: UIButton!
     //    @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var btnTimer: UIButton!
@@ -39,7 +39,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     @IBOutlet weak var lblRecordTimer: UILabel!
     @IBOutlet weak var cameraModeOptions: UIView!
     @IBOutlet weak var previewContainer: UIView!
-
+    
     // MARK: - Variables
     var isRecording:Bool! = false
     var isPreviewOpen:Bool! = false
@@ -77,10 +77,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         SharedData.sharedInstance.tempVC = self
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(self.stopVideo), name: NSNotification.Name("StopRec"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.forceStopVideoRecording), name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
-
-
+        
+        
         if self.isDismiss == nil {
             if ContentList.sharedInstance.arrayContent.count == 0 {
                 kPreviewHeight.constant = 24.0
@@ -94,15 +94,15 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.cameraModeOptions.isHidden = true
         }
         prepareNavBarButtons()
-        
+        self.prepareContainerToPresent()
+        self.previewCollection.reloadData()
     }
     
-
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.prepareContainerToPresent()
-        self.previewCollection.reloadData()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -110,9 +110,9 @@ class CustomCameraViewController: SwiftyCamViewController {
         SharedData.sharedInstance.tempVC = nil
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("ForceStopVideoRecording"), object: nil)
-
-//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
-
+        
+        //        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("StopRec"), object: nil)
+        
         self.showStatusBar()
     }
     
@@ -129,12 +129,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     func prepareLayouts(){
         btnCamera.isEnabled = true
         btnCamera.delegate = self
-//        btnCamera.center = self.cameraButtonContainer.center
-//        let frameForCamera = self.cameraButtonContainer.frame
-//        btnCamera.frame = frameForCamera
-//        self.cameraButtonContainer.addSubview(btnCamera)
-//        view.addSubview(btnCamera)
-//        btnCamera.frame = CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 160.0, width: 75.0, height: 75.0)
+        //        btnCamera.center = self.cameraButtonContainer.center
+        //        let frameForCamera = self.cameraButtonContainer.frame
+        //        btnCamera.frame = frameForCamera
+        //        self.cameraButtonContainer.addSubview(btnCamera)
+        //        view.addSubview(btnCamera)
+        //        btnCamera.frame = CGRect(x: view.frame.midX - 37.5, y: view.frame.height - 160.0, width: 75.0, height: 75.0)
         
         cameraDelegate = self
         doubleTapCameraSwitch = false
@@ -176,12 +176,11 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.previewCollection.addGestureRecognizer(swipeDown)
             self.perform(#selector(self.prepareForCameraMode), with: nil, afterDelay: 0.2)
         }
-        self.previewCollection.register(PreviewCell.self, forCellWithReuseIdentifier: kCell_PreviewCell)
-      
+        
     }
     
     @objc func stopVideo(){
-          if isRecording {
+        if isRecording {
             if timer != nil {
                 self.timer.invalidate()
                 self.timeSec = 0
@@ -195,7 +194,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.prepareNavBarButtons()
             }
             self.cameraOption.isUserInteractionEnabled = true
-//            self.recordButtonTapped(isShow: false)
+            //            self.recordButtonTapped(isShow: false)
             self.performCamera(action: .stop)
         }
     }
@@ -233,22 +232,22 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.updateCameraType(index: index)
         }
         self.cameraModeOptions.addSubview(self.cameraOption)
-
+        
         /*
-        self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
-        cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+         self.cameraOption = RS3DSegmentedControl(frame: CGRect(x: 0, y: 0, width: self.cameraModeOptions.frame.size.width, height: self.cameraModeOptions.frame.size.height))
+         cameraModeOptions.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
+         self.cameraOption.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
          self.cameraOption.delegate = self
          self.cameraOption.selectedSegmentIndex = UInt(cameraMode.hashValue)
-        self.cameraOption.textFont = UIFont(name: kFontRegular, size: 16.0)
-        self.cameraModeOptions.addSubview(self.cameraOption)
- */
+         self.cameraOption.textFont = UIFont(name: kFontRegular, size: 16.0)
+         self.cameraModeOptions.addSubview(self.cameraOption)
+         */
     }
     
     
     func prepareNavBarButtons(){
         self.navigationController?.isNavigationBarHidden = false
-
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -267,14 +266,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         }else {
             self.navigationItem.rightBarButtonItem  = nil
         }
-      
+        
     }
     func setupButtonWhileRecording(isAddButton:Bool){
         if isAddButton {
             self.navigationItem.rightBarButtonItem  = nil
             self.navigationItem.leftBarButtonItem  = nil
             let btnBack = UIBarButtonItem(image: #imageLiteral(resourceName: "white_back_icon"), style: .plain, target: self, action: #selector(self.btnBack))
-
+            
             self.navigationItem.leftBarButtonItem = btnBack
             let btnNext = UIBarButtonItem(image: #imageLiteral(resourceName: "share_button"), style: .plain, target: self, action: #selector(self.previewScreenNavigated))
             self.navigationItem.rightBarButtonItem = btnNext
@@ -287,21 +286,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     func prepareContainerToPresent(){
-        
-        if !kBackNav.isEmpty {
-            kBackNav = ""
-            self.navigationController?.popNormal()
-        }
-        
         if ContentList.sharedInstance.arrayContent.count == 0 {
-        //    self.btnShutter.isHidden = true
+            //    self.btnShutter.isHidden = true
             self.addNextButton(isAddButton: false)
             self.btnPreviewOpen.isHidden = true
             kPreviewHeight.constant = 24.0
         }else {
             //self.btnShutter.isHidden = false
             self.addNextButton(isAddButton: true)
-
         }
     }
     
@@ -318,7 +310,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.lblRecordTimer.isHidden = false
                 self.performCamera(action: .recording)
             }else {
-//                self.recordButtonTapped(isShow: false)
+                //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
             }
         }
@@ -329,7 +321,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         timeSec = 0
         let alert = UIAlertController(title: kAlert_Select_Time, message: nil, preferredStyle: .actionSheet)
         let action1 = UIAlertAction(title: TimerSet.fiveSec.rawValue, style: .default) { (action) in
-           self.captureInSec = 5
+            self.captureInSec = 5
         }
         let action2 = UIAlertAction(title: TimerSet.tenSec.rawValue, style: .default) { (action) in
             
@@ -357,34 +349,34 @@ class CustomCameraViewController: SwiftyCamViewController {
     @IBAction func btnActionGallery(_ sender: Any) {
         
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
-                //     self?.selectedAssets = assets
+            //     self?.selectedAssets = assets
             if assets.count > 0 {
                 self?.preparePreview(assets: assets)
             }
-                }, didCancel: nil)
-            viewController.didExceedMaximumNumberOfSelection = { (picker) in
-                //exceed max selection
-            }
-            viewController.selectedAssets = [TLPHAsset]()
-            var configure = TLPhotosPickerConfigure()
-            configure.numberOfColumn = 3
-         if self.isDismiss != nil {
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = [TLPHAsset]()
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        if self.isDismiss != nil {
             configure.allowedVideo =  false
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
-         }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
+        }else if kDefault?.value(forKey: kRetakeIndex) != nil  {
             configure.allowedVideo =  false
             configure.singleSelectedMode = true
             configure.maxSelectedAssets = 1
-         }
-          else {
-             configure.maxSelectedAssets = 10
-           }
-             configure.muteAudio = true
-            configure.usedCameraButton = false
-              configure.usedPrefetch = false
-            viewController.configure = configure
-            self.present(viewController, animated: true, completion: nil)
+        }
+        else {
+            configure.maxSelectedAssets = 10
+        }
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        configure.usedPrefetch = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
     }
     
     
@@ -413,10 +405,10 @@ class CustomCameraViewController: SwiftyCamViewController {
         // self.beepSound?.stop()
         if self.isCaptureMode == false {
             self.isRecording = false
-//            self.recordButtonTapped(isShow: false)
+            //            self.recordButtonTapped(isShow: false)
         }else {
             if kContainerNav.isEmpty {
-              //  addLeftTransitionView(subtype: kCATransitionFromLeft)
+                //  addLeftTransitionView(subtype: kCATransitionFromLeft)
                 self.navigationController?.popNormal()
             }else {
                 kContainerNav = "1"
@@ -425,8 +417,8 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
     }
     
-  
-  
+    
+    
     
     @IBAction func btnAnimateViewAction(_ sender: Any) {
         self.animateView()
@@ -449,7 +441,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func swipeGestureAction(gesture : UISwipeGestureRecognizer){
-         if gesture.direction == .down {
+        if gesture.direction == .down {
             if ContentList.sharedInstance.arrayContent.count > 0{
                 self.animateView()
             }
@@ -463,7 +455,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         if self.cameraMode  == .handFree {
             if isRecording {
                 self.lblRecordTimer.isHidden = true
-//                self.recordButtonTapped(isShow: false)
+                //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
                 isRecording = false
             }else {
@@ -481,7 +473,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     //            self.recordButtonTapped(isShow: true)
                     setupButtonWhileRecording(isAddButton: false)
                     
-//                    self.performCamera(action: .capture)
+                    //                    self.performCamera(action: .capture)
                 }
             }
         }else {
@@ -493,7 +485,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.performCamera(action: .capture)
             }
         }
-       
+        
     }
     
     @objc func recordingModeTap(_ sender: UIGestureRecognizer){
@@ -504,19 +496,19 @@ class CustomCameraViewController: SwiftyCamViewController {
             self.lblRecordTimer.isHidden = true
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
-//            self.recordButtonTapped(isShow: true)
+            //            self.recordButtonTapped(isShow: true)
             break
         case .ended:
             if self.cameraMode == .normal {
                 print("end Recording")
                 self.lblRecordTimer.isHidden = true
-//                self.recordButtonTapped(isShow: false)
+                //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
             }else{
                 print(">>>>>>>>>>>>>>>>>else")
             }
             break
-       
+            
         default: break
         }
     }
@@ -533,7 +525,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         // self.beepSound?.stop()
         if self.isCaptureMode == false {
             self.isRecording = false
-//            self.recordButtonTapped(isShow: false)
+            //            self.recordButtonTapped(isShow: false)
         }else {
             if kContainerNav.isEmpty {
                 //  addLeftTransitionView(subtype: kCATransitionFromLeft)
@@ -545,12 +537,12 @@ class CustomCameraViewController: SwiftyCamViewController {
         }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         SharedData.sharedInstance.tempVC = nil
-
+        
     }
     
     // MARK: - Class Methods
     
-
+    
     
     func preparePreview(assets:[TLPHAsset]){
         
@@ -567,7 +559,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     })
                 }else {
                     self.presentCropperWithImage(image: assets[0].fullResolutionImage!)
-
+                    
                 }
             }
             return
@@ -624,14 +616,14 @@ class CustomCameraViewController: SwiftyCamViewController {
         group.notify(queue: .main, execute: {
             HUDManager.sharedInstance.hideHUD()
             self.btnPreviewOpen.isHidden = false
-           // self.btnShutter.isHidden = false
+            // self.btnShutter.isHidden = false
             self.addNextButton(isAddButton: true)
             self.previewCollection.reloadData()
-             if kDefault?.value(forKey: kRetakeIndex) != nil  {
+            if kDefault?.value(forKey: kRetakeIndex) != nil  {
                 self.previewScreenNavigated()
             }
         })
-      
+        
     }
     
     private func animateView(){
@@ -646,22 +638,24 @@ class CustomCameraViewController: SwiftyCamViewController {
                 self.kPreviewHeight.constant = 24.0
                 self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "white_up_arrow"), for: .normal)
             }
+            //  self.previewContainer.layoutIfNeeded()
             self.previewCollection.reloadData()
-            self.previewContainer.updateConstraintsIfNeeded()
+            //  self.previewContainer.updateConstraintsIfNeeded()
         }
     }
     private  func viewUP(){
         self.kPreviewHeight.constant = 129.0
         UIView.animate(withDuration: 0.2) {
             self.btnPreviewOpen.setImage(#imageLiteral(resourceName: "preview_down_arrow"), for: .normal)
-            self.previewContainer.updateConstraintsIfNeeded()
+            // self.previewContainer.layoutIfNeeded()
+            //  self.previewContainer.updateConstraintsIfNeeded()
         }
     }
     
     func updateData(content:ContentDAO) {
-       
+        
         if  ContentList.sharedInstance.arrayContent.count == 0 {
-          //  self.btnShutter.isHidden = false
+            //  self.btnShutter.isHidden = false
             self.addNextButton(isAddButton: true)
             self.viewUP()
         }
@@ -675,13 +669,13 @@ class CustomCameraViewController: SwiftyCamViewController {
             }
             print(linkContent.type)
             print(linkContent.fileName)
-
+            
             ContentList.sharedInstance.arrayContent[value] = linkContent
         }else   {
             ContentList.sharedInstance.arrayContent.insert(content, at: 0)
         }
         self.btnPreviewOpen.isHidden = false
-      
+        
     }
     
     // MARK: - Class Methods
@@ -693,7 +687,7 @@ class CustomCameraViewController: SwiftyCamViewController {
             return
         }
         if   ContentList.sharedInstance.arrayContent.count != 0 {
-        
+            
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             objPreview.isShowRetake = true
             if kDefault?.value(forKey: kRetakeIndex) != nil {
@@ -732,7 +726,7 @@ class CustomCameraViewController: SwiftyCamViewController {
 extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-   
+        
         if isDismiss == nil {
             let camera = ContentDAO(contentData: [:])
             camera.type = .image
@@ -740,13 +734,15 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileName = NSUUID().uuidString + ".png"
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
-             self.previewCollection.reloadData()
-        //    setupButtonWhileRecording(isAddButton: true)
-
+            DispatchQueue.main.async {
+                self.previewCollection.reloadData()
+            }
+            //    setupButtonWhileRecording(isAddButton: true)
+            
         }else {
             self.presentCropperWithImage(image: photo)
         }
-    
+        
     }
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
         
@@ -766,13 +762,13 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         btnCamera.growButton()
         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(CustomCameraViewController.updateRecordingTime)), userInfo: nil, repeats: true)
         UIView.animate(withDuration: 0.25, animations: {
-                        self.btnFlash.alpha = 0.0
-                           self.btnTimer.alpha = 0.0
-                         self.btnGallery.alpha = 0.0
-                        self.btnCameraSwitch.alpha = 0.0
-//                        self.btnRecording.alpha = 0.0
+            self.btnFlash.alpha = 0.0
+            self.btnTimer.alpha = 0.0
+            self.btnGallery.alpha = 0.0
+            self.btnCameraSwitch.alpha = 0.0
+            //                        self.btnRecording.alpha = 0.0
             
-                    })
+        })
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -787,12 +783,12 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
         timer.invalidate()
         self.lblRecordTimer.isHidden = true
         UIView.animate(withDuration: 0.25, animations: {
-                        self.btnFlash.alpha = 1.0
-                            self.btnTimer.alpha = 1.0
-                           self.btnGallery.alpha = 1.0
-                            self.btnCameraSwitch.alpha = 1.0
-//                        self.btnRecording.alpha = 1.0
-                    })
+            self.btnFlash.alpha = 1.0
+            self.btnTimer.alpha = 1.0
+            self.btnGallery.alpha = 1.0
+            self.btnCameraSwitch.alpha = 1.0
+            //                        self.btnRecording.alpha = 1.0
+        })
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
@@ -883,23 +879,25 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
 
 
 extension CustomCameraViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return   ContentList.sharedInstance.arrayContent.count
+        return  ContentList.sharedInstance.arrayContent.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Create the cell and return the cell
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PreviewCell, for: indexPath) as! PreviewCell
-        let obj =   ContentList.sharedInstance.arrayContent[indexPath.row]
-        cell.setupPreviewWithType(content: obj)
+        let obj =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        cell.setupPreviewWithType(content:obj)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        print("collection view frame----\(collectionView.frame)")
         return CGSize(width: collectionView.frame.size.height - 30, height: collectionView.frame.size.height - 10)
     }
 }
@@ -922,7 +920,7 @@ extension CustomCameraViewController:CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
         if self.delegate != nil {
             self.dismiss(animated: true, completion: {
-             //   self.delegate?.dismissWith(image: cropViewController.image)
+                //   self.delegate?.dismissWith(image: cropViewController.image)
             })
         }
     }
@@ -935,4 +933,5 @@ extension CustomCameraViewController:CropViewControllerDelegate {
 //    }
 //
 //}
+
 

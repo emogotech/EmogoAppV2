@@ -40,6 +40,8 @@ extension VideoEditorViewController {
             self.avPlayer = nil
             self.closePreview()
         }
+        self.hideActivity()
+        self.editedFileURL = videoUrl
         self.openPlayer(videoUrl: videoUrl)
     }
     

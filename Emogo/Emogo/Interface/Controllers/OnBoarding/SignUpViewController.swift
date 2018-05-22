@@ -66,6 +66,7 @@ class SignUpViewController: UIViewController {
             popupViewController.delegate = self
         }else {
             self.btnCountryPicker.isHidden = true
+            txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode
         }
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in

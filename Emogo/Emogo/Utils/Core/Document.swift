@@ -40,6 +40,18 @@ class Document: NSObject {
         }
     }
     
+
+    static func checkFile(name:String) -> URL?{
+        let fileManager = FileManager.default
+        let imagePAth = (self.getDirectoryPath() as NSString).appendingPathComponent(name)
+        let fileURL = URL(fileURLWithPath: imagePAth)
+        if fileManager.fileExists(atPath: imagePAth){
+            return fileURL
+        }else{
+            return nil
+        }
+    }
+    
   static  func createDirectory(){
         let fileManager = FileManager.default
         let paths = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent("customDirectory")

@@ -342,7 +342,7 @@ let kAlert_Success_Report_Content = "You have successfully reported this content
 let kAlert_Capture_Limit_Exceeded = "You can select only 10 images at once."
 let kAlert_Stream_Deleted = "This Stream has been deleted by its author!"
 
-
+let kAlert_Stream_Title_Empty                                              =  "Title your stream."
 
 let kName_Report_Inappropriate = "Inappropriate"
 let kName_Report_Spam = "Spam"

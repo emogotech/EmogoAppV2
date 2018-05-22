@@ -30,3 +30,28 @@ extension VideoEditorViewController: TrimmerViewDelegate {
     
     
 }
+
+
+extension VideoEditorViewController: ColorDelegate {
+    
+    func didSelectColor(color: UIColor){
+        
+    }
+
+}
+
+extension VideoEditorViewController: StickersViewControllerDelegate {
+    func didSelectView(view: UIView) {
+        
+    }
+    
+    func didSelectImage(image: UIImage) {
+        
+    }
+    
+    func stickersViewDidDisappear() {
+        
+    }
+        
+}
+

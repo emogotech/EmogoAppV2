@@ -25,6 +25,7 @@ class VideoEditorViewController: UIViewController {
     @IBOutlet weak var trimmerView: TrimmerView!
     @IBOutlet weak var kTrimmerHeight: NSLayoutConstraint!
     @IBOutlet weak var activity: UIActivityIndicatorView!
+    @IBOutlet weak var colorsCollectionView: UICollectionView!
 
     var player = BMPlayer()
     var seletedImage:ContentDAO!
@@ -38,6 +39,19 @@ class VideoEditorViewController: UIViewController {
     var localFileURl:URL?
     var originalFile:String! = ""
     var originalFileURl:URL?
+    var editedFileURL:URL?
+    var stickersViewController: StickersViewController!
+    var lastPanPoint: CGPoint?
+    var lastTextViewTransform: CGAffineTransform?
+    var lastTextViewTransCenter: CGPoint?
+    var lastTextViewFont:UIFont?
+    var activeTextView: UITextView?
+    var imageViewToPan: UIImageView?
+    var stickersVCIsVisible = false
+    var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
+    var stickers : [UIImage] = []
+    var colors  : [UIColor] = []
+    var isTyping: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,10 +74,17 @@ class VideoEditorViewController: UIViewController {
     }
     
     func prepareLayout(){
+     stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
+        configureCollectionView()
         self.kTrimmerHeight.constant = 0.0
         prepareNavigation()
         self.prepareMenu()
          getVideo()
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.screenEdgeSwiped(_:)))
+        edgePan.edges = .bottom
+        edgePan.delegate = self
+        self.view.addGestureRecognizer(edgePan)
+        
     }
     
 
@@ -178,6 +199,26 @@ class VideoEditorViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = nil
     }
   
+    func configureCollectionView() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 30, height: 30)
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        colorsCollectionView.collectionViewLayout = layout
+        colorsCollectionViewDelegate = ColorsCollectionViewDelegate()
+        colorsCollectionViewDelegate.colorDelegate = self
+        if !colors.isEmpty {
+            colorsCollectionViewDelegate.colors = colors
+        }
+        colorsCollectionView.delegate = colorsCollectionViewDelegate
+        colorsCollectionView.dataSource = colorsCollectionViewDelegate
+        
+        colorsCollectionView.register(
+            UINib(nibName: "ColorCollectionViewCell", bundle: Bundle(for: ColorCollectionViewCell.self)),
+            forCellWithReuseIdentifier: "ColorCollectionViewCell")
+    }
+    
     
     func closePreview(){
         self.kTrimmerHeight.constant = 0.0
@@ -225,6 +266,14 @@ class VideoEditorViewController: UIViewController {
                 handler(filePath,fileURL)
             }
         }
+    }
+    func showActivity(){
+        self.activity.isHidden = false
+        self.activity.startAnimating()
+    }
+    func hideActivity(){
+        self.activity.stopAnimating()
+        self.activity.isHidden = true
     }
     
     

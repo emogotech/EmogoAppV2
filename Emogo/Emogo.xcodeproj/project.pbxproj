@@ -207,6 +207,8 @@
 		F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */; };
 		F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93F20A9583E00FA8623 /* StickersViewController.swift */; };
 		F41FD96820A970E800FA8623 /* PhotoEditor+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD96720A970E800FA8623 /* PhotoEditor+API.swift */; };
+		F421E87820B400C9003DB600 /* VideoEditor+TextEmoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */; };
+		F421E87A20B401C6003DB600 /* VideoEditor+Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */; };
 		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
 		F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */; };
 		F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F42217B020074D4D002D4E4E /* k-popup-dismiss-button@2x.png */; };
@@ -378,6 +380,7 @@
 		F4A69BA81FC47577008F9534 /* EmogoStreamListVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */; };
 		F4A94B8B1FBC2AE500E7B6CE /* PMProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */; };
 		F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */; };
+		F4B4560E20B2C8EE007E4753 /* VideoEditor+PlayRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B4560D20B2C8EE007E4753 /* VideoEditor+PlayRate.swift */; };
 		F4B8887220AAB7550056666B /* VideoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887120AAB7540056666B /* VideoEditorViewController.swift */; };
 		F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */; };
 		F4B8887620AABD9D0056666B /* VideoEditor+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */; };
@@ -669,6 +672,8 @@
 		F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickerCollectionViewCell.xib; sourceTree = "<group>"; };
 		F41FD93F20A9583E00FA8623 /* StickersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersViewController.swift; sourceTree = "<group>"; };
 		F41FD96720A970E800FA8623 /* PhotoEditor+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+API.swift"; sourceTree = "<group>"; };
+		F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+TextEmoji.swift"; sourceTree = "<group>"; };
+		F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Gesture.swift"; sourceTree = "<group>"; };
 		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
 		F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZPopupViewController.m; sourceTree = "<group>"; };
 		F42217AC20074CF9002D4E4E /* BIZPopupViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewControllerDelegate.h; sourceTree = "<group>"; };
@@ -863,6 +868,7 @@
 		F4A69BA71FC47577008F9534 /* EmogoStreamListVCTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmogoStreamListVCTests.swift; sourceTree = "<group>"; };
 		F4A94B8A1FBC2AE500E7B6CE /* PMProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMProgressHUD.swift; sourceTree = "<group>"; };
 		F4B2D2022011343400D66B56 /* ShowPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPreviewViewController.swift; sourceTree = "<group>"; };
+		F4B4560D20B2C8EE007E4753 /* VideoEditor+PlayRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+PlayRate.swift"; sourceTree = "<group>"; };
 		F4B8887120AAB7540056666B /* VideoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoEditorViewController.swift; sourceTree = "<group>"; };
 		F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMVideoEditor.swift; sourceTree = "<group>"; };
 		F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Controls.swift"; sourceTree = "<group>"; };
@@ -2154,6 +2160,9 @@
 				F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */,
 				F4164F3D20AC6B620066DD97 /* VideoEditor+Resolution.swift */,
 				F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */,
+				F4B4560D20B2C8EE007E4753 /* VideoEditor+PlayRate.swift */,
+				F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */,
+				F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */,
 			);
 			path = VideoEditing;
 			sourceTree = "<group>";
@@ -2932,6 +2941,7 @@
 				2BD7EF112022EABE00FA0956 /* SharedData.swift in Sources */,
 				F4402F6E1FCD6AD700152D01 /* CollaboratorDAO.swift in Sources */,
 				F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */,
+				F4B4560E20B2C8EE007E4753 /* VideoEditor+PlayRate.swift in Sources */,
 				F4C20FE9209AE4E80094A7FC /* FilterGradientCell.swift in Sources */,
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
@@ -3047,6 +3057,7 @@
 				F4B9F24F1FEB9978009D7492 /* UIImage+ImageCompress.m in Sources */,
 				F4961E211FFE92E000A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				F40557C920AEB37000A28F51 /* CountryPickerViewController.swift in Sources */,
+				F421E87A20B401C6003DB600 /* VideoEditor+Gesture.swift in Sources */,
 				F44939DF1FEA567800AE2FCA /* ESRefreshAnimator.swift in Sources */,
 				F41FD94620A9583F00FA8623 /* ResizeControl.swift in Sources */,
 				F4E758791FD68242008DB12E /* LoadingView.swift in Sources */,
@@ -3108,6 +3119,7 @@
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
+				F421E87820B400C9003DB600 /* VideoEditor+TextEmoji.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
