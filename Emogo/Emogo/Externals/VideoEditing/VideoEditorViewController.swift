@@ -22,11 +22,13 @@ enum VideoEditorFeature {
 class VideoEditorViewController: UIViewController {
 
     @IBOutlet weak var playerContainerView: UIView!
+    @IBOutlet weak var canvasImageView: UIImageView!
     @IBOutlet weak var trimmerView: TrimmerView!
     @IBOutlet weak var kTrimmerHeight: NSLayoutConstraint!
     @IBOutlet weak var activity: UIActivityIndicatorView!
     @IBOutlet weak var colorsCollectionView: UICollectionView!
-
+    @IBOutlet weak var colorPickerView: UIView!
+    @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
     var player = BMPlayer()
     var seletedImage:ContentDAO!
     var edgeMenu: DPEdgeMenu?
@@ -52,6 +54,7 @@ class VideoEditorViewController: UIViewController {
     var stickers : [UIImage] = []
     var colors  : [UIColor] = []
     var isTyping: Bool = false
+    let shapes = ShapeDAO()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +77,7 @@ class VideoEditorViewController: UIViewController {
     }
     
     func prepareLayout(){
+        self.stickers = self.shapes.shapes
      stickersViewController = StickersViewController(nibName: "StickersViewController", bundle: Bundle(for: StickersViewController.self))
         configureCollectionView()
         self.kTrimmerHeight.constant = 0.0

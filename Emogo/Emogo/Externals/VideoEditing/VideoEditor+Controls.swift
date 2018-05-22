@@ -20,12 +20,16 @@ extension VideoEditorViewController {
             self.loadAssest()
             break
         case 102:
+            selectedFeature = VideoEditorFeature.sticker
+            self.addStickersViewController()
             break
         case 103:
              removeAllNavButtons()
+             selectedFeature = VideoEditorFeature.resolution
             self.prepareAlertForResolution()
             break
         case 104:
+            selectedFeature = VideoEditorFeature.rate
             removeAllNavButtons()
             self.prepareForPlayRate()
             break
@@ -52,6 +56,10 @@ extension VideoEditorViewController {
             edgeMenu.open()
         }
         configureNavigationButtons()
+        if self.selectedFeature == VideoEditorFeature.sticker {
+            self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
+            self.canvasImageView.isHidden = true
+        }
         if self.avPlayer != nil {
             self.avPlayer?.pause()
             self.playerContainerView.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
@@ -72,6 +80,8 @@ extension VideoEditorViewController {
         configureNavigationButtons()
         if self.selectedFeature == .trimer {
           trimVideo()
+        }else if self.selectedFeature == .sticker {
+            addStickerOnvideo()
         }
     }
     

@@ -67,6 +67,7 @@ extension VideoEditorViewController {
         }, finish: { (fileURL, error) in
             DispatchQueue.main.async {
                 if let fileURL = fileURL {
+                    self.configureNavigationForEditing()
                     self.updatePlayerAsset(videURl:fileURL)
                 }
             }
@@ -74,7 +75,6 @@ extension VideoEditorViewController {
     }
     
     func updatePlayerAsset(videURl:URL) {
-        self.configureNavigationForEditing()
         if self.player.isPlaying {
             self.player.pause()
         }

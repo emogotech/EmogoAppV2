@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/VideoEditor+Resolution.swift"
-            timestampString = "548666892.654557"
+            timestampString = "548674725.1061161"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/VideoEditor+Resolution.swift"
-            timestampString = "548666892.65465"
+            timestampString = "548674725.106231"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "updateViderResolution(strResoultion:)"
             landmarkType = "7">
          </BreakpointContent>

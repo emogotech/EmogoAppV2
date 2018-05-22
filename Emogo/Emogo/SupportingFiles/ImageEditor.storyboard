@@ -537,23 +537,59 @@
                                     <constraint firstAttribute="width" constant="37" id="gYl-wS-xaN"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vMC-uu-6hj" userLabel="Color Picker">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <subviews>
+                                    <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EVP-Zq-3b5">
+                                        <rect key="frame" x="4" y="5" width="367" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mRH-cc-R59">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="jH4-K1-rSi"/>
+                                </constraints>
+                            </view>
+                            <imageView hidden="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jSQ-zb-a9d">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="0HO-2B-5Ds"/>
+                            <constraint firstItem="JA2-Zb-Ltf" firstAttribute="bottom" secondItem="vMC-uu-6hj" secondAttribute="bottom" id="1bz-eb-5xs"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="5WF-pb-5j4"/>
+                            <constraint firstItem="jSQ-zb-a9d" firstAttribute="top" secondItem="TuQ-3s-rsu" secondAttribute="top" id="B80-DL-387"/>
                             <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerX" secondItem="TuQ-3s-rsu" secondAttribute="centerX" id="CcM-Kj-e96"/>
+                            <constraint firstItem="vMC-uu-6hj" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="EcF-kU-g89"/>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="GcD-qP-Gd4"/>
+                            <constraint firstItem="jSQ-zb-a9d" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Gia-lE-UMJ"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="bottom" secondItem="JA2-Zb-Ltf" secondAttribute="bottom" id="Itx-vI-dKG"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Jk9-kd-eat"/>
+                            <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="jSQ-zb-a9d" secondAttribute="bottom" id="OD2-wI-GZU"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="c5g-qy-GzR" secondAttribute="bottom" id="S9f-qB-2lr"/>
                             <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerY" secondItem="TuQ-3s-rsu" secondAttribute="centerY" id="fdi-Xk-EOx"/>
+                            <constraint firstItem="vMC-uu-6hj" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="tXU-de-tcA"/>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="top" secondItem="TuQ-3s-rsu" secondAttribute="top" id="xly-c3-biV"/>
+                            <constraint firstItem="jSQ-zb-a9d" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="yNK-8o-PsT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JA2-Zb-Ltf"/>
                     </view>
                     <connections>
                         <outlet property="activity" destination="5MR-Zc-rUw" id="t3c-kc-hih"/>
+                        <outlet property="canvasImageView" destination="jSQ-zb-a9d" id="OOj-YQ-Jfw"/>
+                        <outlet property="colorPickerView" destination="vMC-uu-6hj" id="6pa-U0-9ug"/>
+                        <outlet property="colorPickerViewBottomConstraint" destination="1bz-eb-5xs" id="wY8-2D-dIT"/>
+                        <outlet property="colorsCollectionView" destination="EVP-Zq-3b5" id="DZB-PM-G8a"/>
                         <outlet property="kTrimmerHeight" destination="0Yf-Gr-GMG" id="ryH-bK-ldj"/>
                         <outlet property="playerContainerView" destination="c5g-qy-GzR" id="p4f-FO-hqe"/>
                         <outlet property="trimmerView" destination="mdI-SW-eah" id="0cE-ST-mHf"/>

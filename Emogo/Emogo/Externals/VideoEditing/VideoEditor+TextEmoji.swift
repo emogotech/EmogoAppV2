@@ -42,6 +42,23 @@ extension VideoEditorViewController  {
         })
     }
     
+    func addStickerOnvideo(){
+        let size = CGSize(width: 150, height: 150)
+        self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: size, contents: self.canvasImageView.subviews, progress: {(progress, strProgress) in
+            print("progrss---->\(progress)")
+            print("strProgress---->\(progress)")
+        }) { (fileURL, error) in
+            
+            if let fileURL = fileURL {
+                DispatchQueue.main.async {
+                    self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
+                    //self.canvasImageView.isHidden = true
+                    self.updatePlayerAsset(videURl: fileURL)
+                }
+            }
+        }
+    }
+    
 }
 
 

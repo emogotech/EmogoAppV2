@@ -45,6 +45,7 @@ extension VideoEditorViewController  {
             }, finish: { (fileURL, error) in
                 if let fileURL = fileURL {
                     DispatchQueue.main.async {
+                        self.configureNavigationForEditing()
                         self.updatePlayerAsset(videURl: fileURL)
                     }
                 }
