@@ -139,7 +139,6 @@ class UserStreamFilter(django_filters.FilterSet):
         # 3. Get main stream created by requested user and stream type is Public.
         main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_following_stream(self, qs, name, value):
@@ -155,7 +154,6 @@ class UserStreamFilter(django_filters.FilterSet):
         # 3. Get main stream created by requested user and stream type is Public.
         main_qs = qs.filter(created_by__in=following_ids, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_follower_stream(self, qs, name, value):
@@ -171,7 +169,6 @@ class UserStreamFilter(django_filters.FilterSet):
         # 3. Get main stream created by requested user and stream type is Public.
         main_qs = qs.filter(created_by__in=follower_ids, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_emogo_stream(self, qs, name, value):
@@ -185,26 +182,21 @@ class UserStreamFilter(django_filters.FilterSet):
 
         main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_collab_stream(self, qs, name, value):
         user = get_object_or_404(User, user_data__id=value)
         stream_ids = Collaborator.actives.filter(phone_number__endswith=str(user.username)[-10:],
-                                                 stream__status='Active',
-                                                 created_by=self.request.user).values_list('stream', flat=True)
+                                                 stream__status='Active').values_list('stream', flat=True)
         qs = qs.filter(id__in=stream_ids)
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_private_stream(self, qs, name, value):
         qs = qs.filter(created_by__user_data__id=value, type='Private').order_by('-upd')
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def filter_public_stream(self, qs, name, value):
         qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
-        qs = self.get_prefetch_records(qs)
         return qs
 
     def get_prefetch_records(self, qs):
