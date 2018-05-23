@@ -254,13 +254,13 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_user_liked(self, obj):
         try:
-            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image }  for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
     def get_view_count(self, obj):
         try:
-            return obj.total_view_count.__len__()
+            return obj.total_view_count.__len__() + obj.view_count
         except AttributeError:
             return 0
 
@@ -546,7 +546,7 @@ class ReorderContentSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Content
-        fields = ['my_order','order','id']
+        fields = ['my_order', 'order', 'id']
         extra_kwargs = {'content': {'required': True, 'allow_null': False}}
 
     def reorder_content(self):
