@@ -287,13 +287,27 @@ class ViewStreamSerializer(StreamSerializer):
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
             if user_qs.__len__() > 0:
+                # If some collaborator are registered
                 for user, instance in product(user_qs, instances):
                     # print(user.get('username'), instance)
                     if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', user.get('user_data__full_name'))
-                        setattr(instance, 'user_profile_id', user.get('user_data__id') )
+                        setattr(instance, 'user_profile_id', user.get('user_data__id'))
                         list_of_instances.append(instance)
 
+                # If some collaborator are not registered.
+                for user in user_qs:
+                    if not user.get('username').endswith(instance.phone_number):
+                        setattr(instance, 'name', instance.name)
+                        setattr(instance, 'user_profile_id', None)
+                        list_of_instances.append(instance)
+            # If any collaborator is not registered
+            else:
+                for instance in instances:
+                    setattr(instance, 'name', instance.name)
+                    setattr(instance, 'user_profile_id', None)
+                    list_of_instances.append(instance)
+            list_of_instances = set(list_of_instances)
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
 
