@@ -202,6 +202,7 @@ class ViewStreamSerializer(StreamSerializer):
     user_liked = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     have_some_update = serializers.SerializerMethodField()
+    user_image = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -212,6 +213,12 @@ class ViewStreamSerializer(StreamSerializer):
     def get_author(self, obj):
         try:
             return obj.created_by.user_data.full_name
+        except AttributeError:
+            return None
+
+    def get_user_image(self, obj):
+        try:
+            return obj.created_by.user_data.user_image
         except AttributeError:
             return None
 
@@ -242,7 +249,7 @@ class ViewStreamSerializer(StreamSerializer):
             last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
             if last_view_date < last_collaborator_added:
                 return True
-        if last_view_date < obj.upd :
+        if last_view_date < obj.upd:
             return True
         return False
 
@@ -278,14 +285,14 @@ class ViewStreamSerializer(StreamSerializer):
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             # else Show collaborator created by logged in user.
             else:
                 instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user]
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username')
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             if user_qs.__len__() > 0:
                 # If some collaborator are registered
                 for user, instance in product(user_qs, instances):
@@ -293,6 +300,7 @@ class ViewStreamSerializer(StreamSerializer):
                     if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', user.get('user_data__full_name'))
                         setattr(instance, 'user_profile_id', user.get('user_data__id'))
+                        setattr(instance, 'user_image', user.get('user_data__user_image'))
                         list_of_instances.append(instance)
 
                 # If some collaborator are not registered.
@@ -300,14 +308,16 @@ class ViewStreamSerializer(StreamSerializer):
                     if not user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
+                        setattr(instance, 'user_image', None)
                         list_of_instances.append(instance)
             # If any collaborator is not registered
             else:
                 for instance in instances:
                     setattr(instance, 'name', instance.name)
                     setattr(instance, 'user_profile_id', None)
+                    setattr(instance, 'user_image', None)
                     list_of_instances.append(instance)
-            list_of_instances = set(list_of_instances)
+            list_of_instances = list(set(list_of_instances))
         return ViewCollaboratorSerializer(list_of_instances,
                                           many=True, fields=fields, context=self.context).data
 
