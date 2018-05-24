@@ -661,3 +661,14 @@ class IncreaseStreamViewCount(CreateAPIView):
         # To return created stream data
         # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
+
+
+class TestUrlAPI(APIView):
+
+    def get(self, request, format=None):
+        """
+        Return a list of all users.
+        """
+        return custom_render_response(status_code=status.HTTP_201_CREATED, data={"key":"Ranjeet"})
+
+
