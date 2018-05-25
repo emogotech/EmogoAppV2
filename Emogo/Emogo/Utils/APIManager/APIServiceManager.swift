@@ -2066,5 +2066,120 @@ class APIServiceManager: NSObject {
             }
         }
     }
+    
+    //MARK:- get collab List
+    
+    func apiForGetMyStreamCollabList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        
+        if type == .start || type == .up{
+            StreamList.sharedInstance.requestURl = kMyStreamCollabListAPI + UserDAO.sharedInstance.user.userProfileID
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        print("stream request URl ==\(StreamList.sharedInstance.requestURl!)")
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            
+                            for obj in result {
+                                
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                if kShowOnlyMyStream.isEmpty {
+                                    
+                                    StreamList.sharedInstance.arrayStream.append(stream)
+                                }else {
+                                    if StreamList.sharedInstance.arrayMyStream.contains(where: {$0.ID == stream.ID}) {
+                                        // it exists, do something
+                                    } else {
+                                        StreamList.sharedInstance.arrayMyStream.append(stream)
+                                    }
+                                }
+                            }
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                StreamList.sharedInstance.requestURl = ""
+                                SharedData.sharedInstance.isMoreContentAvailable = false
+                                
+                                completionHandler(.end,"")
+                            }else {
+                                StreamList.sharedInstance.requestURl = obj as! String
+                                SharedData.sharedInstance.isMoreContentAvailable = true
+                                
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
+    
+    
+    //MAR:- API for Emogo Contact List
+    
+    func apiForGetEmogoContactList(type:RefreshType,deviceType:DeviceType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
+        if type == .start || type == .up{
+            PeopleList.sharedInstance.requestURl = kPeopleAPI
+        }
+        if PeopleList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: PeopleList.sharedInstance.requestURl) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            if deviceType == .iPhone {
+                                for obj in result {
+                                    let people = PeopleDAO(peopleData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                    PeopleList.sharedInstance.arrayPeople.append(people)
+                                }
+                            }
+                            
+                        }
+                        if let obj = (value as! [String:Any])["next"]{
+                            if obj is NSNull {
+                                PeopleList.sharedInstance.requestURl = ""
+                                completionHandler(.end,"")
+                            }else {
+                                PeopleList.sharedInstance.requestURl = obj as! String
+                                completionHandler(.down,"")
+                            }
+                        }
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+            
+        }
+    }
 }
 

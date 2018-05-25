@@ -25,10 +25,11 @@ class MyStreamViewController: UIViewController {
     var currentType:RefreshType! = .start
     var objContent:ContentDAO!
     var streamID:String?
-    
+    let fontSegment = UIFont(name: "SFProDisplay-Bold", size: 15.0)
+    var selectedType:StreamType! = StreamType.Emogo
     var stretchyHeader: MyStreamHeaderView!
     var lastSelectedIndex:IndexPath?
-    
+    var arraySelected = [StreamDAO]()
     
     // MARK: - Override Functions
 
@@ -104,6 +105,24 @@ class MyStreamViewController: UIViewController {
         }
         self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
         self.stretchyHeader.sliderDelegate = self
+        
+        // Segment control Configure
+        
+        self.stretchyHeader.segmentControl.sectionTitles = ["Emogo", "Collabs"]
+        self.stretchyHeader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+            self.updateStuffList(index: index)
+        }
+        
+        self.stretchyHeader.segmentControl.selectionIndicatorHeight = 1.0
+        self.stretchyHeader.segmentControl.backgroundColor =  UIColor(r: 245, g: 245, b: 245)
+        self.stretchyHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.selectionIndicatorColor = UIColor(r: 155, g: 155, b: 155)
+        self.stretchyHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.stretchyHeader.segmentControl.selectionStyle = .textWidthStripe
+        self.stretchyHeader.segmentControl.selectedSegmentIndex = 0
+        self.stretchyHeader.segmentControl.selectionIndicatorLocation = .down
+        self.stretchyHeader.segmentControl.shouldAnimateUserSelection = false
     }
     
     func configureLoadMoreAndRefresh(){
@@ -116,7 +135,23 @@ class MyStreamViewController: UIViewController {
         }
         self.myStreamCollectionView.expiredTimeInterval = 20.0
     }
-    
+    func updateStuffList(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = StreamType.Emogo
+            self.getMyStreams(type: .start, filter: .myStream)
+            
+            break
+        case 1:
+            self.getColabStreams(type: .start)
+            break
+            
+        default:
+            self.selectedType = StreamType.Emogo
+            
+        }
+        
+    }
     
     
     // MARK: -  Action Methods And Selector
@@ -221,13 +256,79 @@ class MyStreamViewController: UIViewController {
                     StreamList.sharedInstance.arrayMyStream.remove(at: index)
                 }
             }
+            
+            if self.arraySelected.count != 0 {
+                for (index,obj) in StreamList.sharedInstance.arrayMyStream.enumerated() {
+                    
+                    if self.arraySelected.contains(where: {$0.ID.trim() == obj.ID.trim()}) {
+                        let stream = obj
+                        stream.isSelected = true
+                        StreamList.sharedInstance.arrayMyStream[index] = stream
+                    }
+                }
+            }
+            
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
         }
     }
-
+    //MARK:- Get Collab List
+    
+    
+    func getColabStreams(type:RefreshType){
+        HUDManager.sharedInstance.showHUD()
+        if type == .start || type == .up {
+            StreamList.sharedInstance.arrayMyStream.removeAll()
+            self.myStreamCollectionView.reloadData()
+        }
+        
+        APIServiceManager.sharedInstance.apiForGetMyStreamCollabList(type: type) { (refreshType, errorMsg) in
+            
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if refreshType == .end {
+                self.myStreamCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.myStreamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                self.myStreamCollectionView.es.stopLoadingMore()
+            }
+            
+            self.btnDone.isUserInteractionEnabled = true
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                
+                self.btnDone.isUserInteractionEnabled = false
+            }
+            self.currentType = refreshType
+            if self.streamID != nil {
+                if let index =   StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.streamID?.trim()}) {
+                    StreamList.sharedInstance.arrayMyStream.remove(at: index)
+                }
+            }
+            if self.arraySelected.count != 0 {
+                for (index,obj) in StreamList.sharedInstance.arrayMyStream.enumerated() {
+                    
+                    if self.arraySelected.contains(where: {$0.ID.trim() == obj.ID.trim()}) {
+                        let stream = obj
+                        stream.isSelected = true
+                        StreamList.sharedInstance.arrayMyStream[index] = stream
+                    }
+                }
+            }
+            
+            self.myStreamCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+            
+        }
+        
+    }
     func associateContentToStream(id:[String]){
         if self.objContent != nil {
          HUDManager.sharedInstance.showHUD()

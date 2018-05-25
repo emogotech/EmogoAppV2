@@ -37,7 +37,7 @@ class SettingViewController: UIViewController {
     //MARK:- prepare Layout
     
     func prepareLayout() {
-        
+        btnLogout.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         switchForEffect.tintColor = UIColor(hex: "00ADF3")
     }
     

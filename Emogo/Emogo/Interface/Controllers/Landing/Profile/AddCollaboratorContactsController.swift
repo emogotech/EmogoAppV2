@@ -11,13 +11,13 @@ import Contacts
 
 class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
     
-        var sectionHeading :  Array<String>  = ["contacts"]
+       var sectionHeading :  Array<String>  = ["Emogo","contacts"]
         var isChecked: Bool! = false
         var rowsWhichAreChecked = [IndexPath]()
         // Varibales
         var arrayContacts = [CollaboratorDAO]()
         var arraySelected:[CollaboratorDAO]?
-    
+        var arrayEmogoContacts = [PeopleDAO]()
         //MARK:- outlet Connections
     
         @IBOutlet weak var tblContacts: UITableView!
@@ -44,7 +44,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         tblContacts.tableFooterView = nil
         
         self.tblContacts.register(ContactsViewCell.self, forCellReuseIdentifier: kCell_ContactsCell)
-      //  self.tblContacts.register(EmogoContactViewCell.self, forCellReuseIdentifier: kCell_EmogoContactsCell)
+        self.tblContacts.register(EmogoContactViewCell.self, forCellReuseIdentifier: kCell_EmogoContactsCell)
         
         self.prepareLayout()
       
@@ -183,7 +183,75 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             AppDelegate.appDelegate.window?.rootViewController?.present(alertController, animated: true, completion: nil)
         })
     }
+    //MARK:- API For Get Emogo Contacts
+    func getEmogoContactList(type:RefreshType){
+        APIServiceManager.sharedInstance.apiForGetEmogoContactList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+            if refreshType == .end {
+                self.tblContacts.es.noticeNoMoreData()
+            }
+            if type == .start {
+                HUDManager.sharedInstance.hideHUD()
+            }
+            if type == .up {
+                UIApplication.shared.endIgnoringInteractionEvents()
+                self.tblContacts.es.stopPullToRefresh()
+            }else if type == .down {
+                self.tblContacts.es.stopLoadingMore()
+            }
+            DispatchQueue.main.async {
+                self.arrayEmogoContacts = PeopleList.sharedInstance.arrayPeople
+            }
+            
+            self.tblContacts.reloadData()
+            if(errorMsg?.isEmpty)!{
+                self.showToast(type: .success, strMSG: errorMsg!)
+                
+            }else{
+                self.showToast(strMSG: errorMsg!)
+            }
+            self.tblContacts.reloadData()
+        }
+    }
+    //MARK:- Selector Methods
     
+    @objc func btnCheckedClicked(sender: UIButton) {
+        
+        if let cell = sender.superview as? ContactsViewCell {
+            sender.isSelected = !sender.isSelected
+            if sender.isSelected {
+                isChecked = true
+                cell.btnCheck.isSelected = true
+                cell.btnCheck.setImage(checkedImage, for: .selected)
+                imgCheckonDone.image = UIImage(named: "check-box-filled")
+                
+            }else{
+                isChecked = false
+                cell.btnCheck.isSelected = false
+                cell.btnCheck.setImage(uncheckedImage, for: .normal)
+                imgCheckonDone.image = UIImage(named: "check-box-empty")
+            }
+        }
+    }
+    
+    @objc func btnCheckedEmogoClicked(sender: UIButton) {
+        
+        if let cell = sender.superview as? EmogoContactViewCell {
+            sender.isSelected = !sender.isSelected
+            if sender.isSelected {
+                isChecked = true
+                cell.btnCheck.isSelected = true
+                cell.btnCheck.setImage(checkedImage, for: .selected)
+                imgCheckonDone.image = UIImage(named: "check-box-filled")
+                
+            }else{
+                isChecked = false
+                cell.btnCheck.isSelected = false
+                cell.btnCheck.setImage(uncheckedImage, for: .normal)
+                imgCheckonDone.image = UIImage(named: "check-box-empty")
+            }
+        }
+    }
   
     //MARK:- close button Action
     @IBAction func btnCloseAction(_ sender: Any) {
@@ -212,14 +280,26 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 1
+            return self.arrayEmogoContacts.count
         }else{
             return self.arrayContacts.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-    
+        if indexPath.section == 0{
+            
+            let cell:EmogoContactViewCell = tblContacts.dequeueReusableCell(withIdentifier: kCell_EmogoContactsCell) as! EmogoContactViewCell
+            
+            let dictEmogoContact = self.arrayEmogoContacts[indexPath.row]
+            
+            cell.lblEmogoContact.text = dictEmogoContact.fullName
+            cell.imgProfile.image = UIImage(named: "demo_images")
+            cell.btnCheck.tag = indexPath.row
+            cell.btnCheck .addTarget(self, action:#selector(btnCheckedEmogoClicked(sender:)) , for: .touchUpInside )
+            return cell
+        }
+        else{
             let cell:ContactsViewCell = tblContacts.dequeueReusableCell(withIdentifier: kCell_ContactsCell) as! ContactsViewCell
             let dictContact = self.arrayContacts[indexPath.row]
             cell.lblContact.text = dictContact.name
@@ -230,7 +310,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name), circular: true)
         }
              return cell
-       
+        }
    
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -240,13 +320,13 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             isChecked = true
             cell.btnCheck.setImage(checkedImage, for: .normal)
             cell.contentView.backgroundColor = UIColor.white
-            imgCheckonDone.image = UIImage(named: "check_checkbox")
+            imgCheckonDone.image = UIImage(named: "check-box-filled")
             rowsWhichAreChecked.append(indexPath as IndexPath)
         }else{
             isChecked = false
             cell.btnCheck.setImage(uncheckedImage, for: .normal)
             cell.contentView.backgroundColor = UIColor.white
-            imgCheckonDone.image = UIImage(named: "unchecked_checkbox")
+            imgCheckonDone.image = UIImage(named: "check-box-empty")
             // remove the indexPath from rowsWhichAreCheckedArray
             if let checkedItemIndex = rowsWhichAreChecked.index(of: indexPath){
                 rowsWhichAreChecked.remove(at: checkedItemIndex)

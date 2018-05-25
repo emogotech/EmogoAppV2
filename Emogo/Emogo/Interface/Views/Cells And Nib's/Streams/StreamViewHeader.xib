@@ -95,13 +95,33 @@
                             </constraints>
                             <state key="normal" image="Unlike_icon"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4V-5K-llI" customClass="MIBadgeButton" customModule="Emogo" customModuleProvider="target">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-Pb-Fpo" customClass="NZCircularImageView">
+                            <rect key="frame" x="25" y="6" width="56" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="56" id="NR5-Om-Xls"/>
+                                <constraint firstAttribute="height" constant="56" id="xUt-JU-CEF"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="Mlf-s9-RF9" customClass="NZCircularImageView">
+                            <rect key="frame" x="17" y="6" width="56" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="56" id="2xB-q4-49x"/>
+                                <constraint firstAttribute="height" constant="56" id="C75-Kg-FHN"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="2Kv-N8-M7k" customClass="NZCircularImageView">
+                            <rect key="frame" x="8" y="6" width="56" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="56" id="hpR-cd-HH7"/>
+                                <constraint firstAttribute="height" constant="56" id="zat-bo-Gdk"/>
+                            </constraints>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g4V-5K-llI">
                             <rect key="frame" x="8" y="7" width="56" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="56" id="d1w-0u-BkT"/>
                                 <constraint firstAttribute="height" constant="56" id="zIX-hb-bZt"/>
                             </constraints>
-                            <state key="normal" image="user_icon"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="badgeBackgroundColor">
                                     <color key="value" red="0.17798337340000001" green="0.62045657629999995" blue="0.91360145810000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -166,8 +186,10 @@
                     </subviews>
                     <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="2Kv-N8-M7k" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="2ck-6C-Bvg"/>
                         <constraint firstAttribute="trailing" secondItem="OoM-EK-BMI" secondAttribute="trailing" constant="8" id="48T-ds-3JD"/>
                         <constraint firstAttribute="trailing" secondItem="ibH-2l-PEN" secondAttribute="trailing" constant="8" id="51s-GG-4ZZ"/>
+                        <constraint firstItem="u6H-Pb-Fpo" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="8bQ-s6-mCG"/>
                         <constraint firstAttribute="trailing" secondItem="u8r-np-uiY" secondAttribute="trailing" constant="12" id="AAk-Kb-zVo"/>
                         <constraint firstAttribute="trailing" secondItem="6gJ-DM-QZF" secondAttribute="trailing" constant="8" id="BbC-D7-bmo"/>
                         <constraint firstItem="OoM-EK-BMI" firstAttribute="top" secondItem="ibH-2l-PEN" secondAttribute="bottom" constant="7" id="FPb-ZF-LAN"/>
@@ -178,14 +200,18 @@
                         <constraint firstItem="u8r-np-uiY" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="12" id="Vlp-2x-KCm"/>
                         <constraint firstItem="i1b-sa-qbQ" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" id="Wte-XD-wlb"/>
                         <constraint firstItem="6gJ-DM-QZF" firstAttribute="top" secondItem="OoM-EK-BMI" secondAttribute="bottom" constant="7" id="Ywu-5m-R9u"/>
+                        <constraint firstItem="u6H-Pb-Fpo" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="25" id="cCv-PN-lr5"/>
                         <constraint firstItem="i1b-sa-qbQ" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" id="cTL-BL-PJK"/>
+                        <constraint firstItem="2Kv-N8-M7k" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="8" id="dyW-Nv-Dqb"/>
                         <constraint firstItem="ibH-2l-PEN" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="8" id="g3o-hd-EKJ"/>
                         <constraint firstItem="fhf-Q4-Z9P" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="bottom" constant="7" id="h0V-oB-TEu"/>
                         <constraint firstItem="g4V-5K-llI" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="8" id="hsA-59-het"/>
                         <constraint firstAttribute="trailing" secondItem="7hR-WH-JyQ" secondAttribute="trailing" id="nYV-pD-Kku"/>
+                        <constraint firstItem="Mlf-s9-RF9" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="nzB-Xo-mWW"/>
                         <constraint firstItem="7hR-WH-JyQ" firstAttribute="top" secondItem="i1b-sa-qbQ" secondAttribute="bottom" id="oh1-BL-cfS"/>
                         <constraint firstAttribute="bottom" secondItem="7hR-WH-JyQ" secondAttribute="bottom" id="ozr-9d-XXf"/>
                         <constraint firstAttribute="trailing" secondItem="fhf-Q4-Z9P" secondAttribute="trailing" id="vSt-Ti-IK0"/>
+                        <constraint firstItem="Mlf-s9-RF9" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="17" id="xqG-W4-6yv"/>
                         <constraint firstItem="7hR-WH-JyQ" firstAttribute="top" secondItem="fhf-Q4-Z9P" secondAttribute="bottom" id="zi7-lM-dCU"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
@@ -216,7 +242,10 @@
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="heightEdit" destination="AAY-6I-n3U" id="sMl-xM-IiT"/>
                 <outlet property="heigtDelete" destination="bQo-aO-iIZ" id="jkX-TO-g0v"/>
+                <outlet property="imgCollabOne" destination="Mlf-s9-RF9" id="Vcu-xB-xfI"/>
+                <outlet property="imgCollabTwo" destination="u6H-Pb-Fpo" id="eef-JK-oPz"/>
                 <outlet property="imgCover" destination="i1b-sa-qbQ" id="hZs-Zk-3S1"/>
+                <outlet property="imgUser" destination="2Kv-N8-M7k" id="6Vn-Uo-ai9"/>
                 <outlet property="lblDescription" destination="Mpi-8z-teU" id="StH-4Q-eay"/>
                 <outlet property="lblLikeCount" destination="sTx-Fg-fSL" id="7AQ-pP-odn"/>
                 <outlet property="lblName" destination="zdk-6b-txq" id="ExY-of-h9I"/>
@@ -230,10 +259,10 @@
     <resources>
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="delete-stream" width="31" height="34"/>
+        <image name="demo_images" width="48" height="48"/>
         <image name="edit_icon" width="34" height="34"/>
         <image name="number_of_likes_icon" width="29" height="27"/>
         <image name="number_of_views_icon" width="30" height="24"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
-        <image name="user_icon" width="56" height="56"/>
     </resources>
 </document>
