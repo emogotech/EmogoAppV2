@@ -151,6 +151,7 @@ open class BMPlayer: UIView {
             let asset = resource.definitions[currentDefinition]
             playerLayer?.playAsset(asset: asset.avURLAsset)
             controlView.hideCoverImageView()
+            controlView.hidePlayToTheEndView()
             isURLSet                = true
         }
         

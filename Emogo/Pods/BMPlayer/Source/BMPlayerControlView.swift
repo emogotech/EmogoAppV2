@@ -143,6 +143,7 @@ open class BMPlayerControlView: UIView {
     open func playerStateDidChange(state: BMPlayerState) {
         switch state {
         case .readyToPlay:
+            hidePlayToTheEndView()
             hideLoader()
             
         case .buffering:

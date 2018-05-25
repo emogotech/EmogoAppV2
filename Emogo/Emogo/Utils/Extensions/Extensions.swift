@@ -879,6 +879,12 @@ extension UILabel {
 
 extension UIImage {
     
+     class func image(_ view: UIView) -> UIImage {
+            UIGraphicsBeginImageContextWithOptions(view.bounds.size, false, 0)
+            defer { UIGraphicsEndImageContext() }
+            view.layer.render(in: UIGraphicsGetCurrentContext()!)
+            return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+        }
     
     func compressImageSwift () -> UIImage {
         

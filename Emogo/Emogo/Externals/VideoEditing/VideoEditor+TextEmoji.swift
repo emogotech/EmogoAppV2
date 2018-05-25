@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AVFoundation
+
 extension VideoEditorViewController  {
     
     
@@ -43,22 +45,37 @@ extension VideoEditorViewController  {
     }
     
     func addStickerOnvideo(){
-        let size = CGSize(width: 150, height: 150)
-        self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: size, contents: self.canvasImageView.subviews, progress: {(progress, strProgress) in
-            print("progrss---->\(progress)")
-            print("strProgress---->\(progress)")
+        if self.player.isPlaying {
+            self.player.pause()
+        }
+          let subview = self.canvasImageView.subviews
+          let  size = self.canvasImageView.bounds.size
+          let view = subview[0]
+          let imageView = UIImageView(image: UIImage.image(view))
+           imageView.backgroundColor = .clear
+           imageView.contentMode = .scaleAspectFit
+        print(imageView)
+
+        self.canvasImageView.isHidden = true
+        self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: view.bounds.size, contents: [imageView], progress: {(progress, strProgress) in
         }) { (fileURL, error) in
             
             if let fileURL = fileURL {
                 DispatchQueue.main.async {
                     self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
-                    //self.canvasImageView.isHidden = true
                     self.updatePlayerAsset(videURl: fileURL)
                 }
             }
         }
     }
     
+    
+    func resolutionSizeForLocalVideo(url:NSURL) -> CGSize? {
+        
+        guard let track = AVAsset(url: url as URL).tracks(withMediaType: AVMediaType.video).first else { return nil }
+        let size = track.naturalSize.applying(track.preferredTransform)
+        return CGSize(width: fabs(size.width), height: fabs(size.height))
+    }
 }
 
 

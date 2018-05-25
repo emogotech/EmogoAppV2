@@ -149,6 +149,9 @@
 		F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
 		F409FC741FE3DF430093E0E7 /* DismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC731FE3DF430093E0E7 /* DismissAnimator.swift */; };
 		F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC751FE3E4450093E0E7 /* PMInteractor.swift */; };
+		F40CA39420B5814F005EE0B0 /* PMVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */; };
+		F40CA39620B581D5005EE0B0 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F40CA39520B581D5005EE0B0 /* silence.mp3 */; };
+		F40CA39920B583C4005EE0B0 /* black.mov in Resources */ = {isa = PBXBuildFile; fileRef = F40CA39820B583C3005EE0B0 /* black.mov */; };
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
@@ -611,6 +614,9 @@
 		F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
 		F409FC731FE3DF430093E0E7 /* DismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissAnimator.swift; sourceTree = "<group>"; };
 		F409FC751FE3E4450093E0E7 /* PMInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMInteractor.swift; sourceTree = "<group>"; };
+		F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMVideoManager.swift; sourceTree = "<group>"; };
+		F40CA39520B581D5005EE0B0 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
+		F40CA39820B583C3005EE0B0 /* black.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = black.mov; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
 		F4148A201FBD7C7C00081900 /* StreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCell.swift; sourceTree = "<group>"; };
@@ -1590,6 +1596,17 @@
 			path = SwipeViewController;
 			sourceTree = "<group>";
 		};
+		F40CA39720B58211005EE0B0 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F40CA39820B583C3005EE0B0 /* black.mov */,
+				F40CA39520B581D5005EE0B0 /* silence.mp3 */,
+				F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */,
+				F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		F4110B531FBEDD1D00BC2A8A /* Dictionary */ = {
 			isa = PBXGroup;
 			children = (
@@ -2154,7 +2171,7 @@
 		F4B8887020AAB7430056666B /* VideoEditing */ = {
 			isa = PBXGroup;
 			children = (
-				F4B8887320AAB8CE0056666B /* PMVideoEditor.swift */,
+				F40CA39720B58211005EE0B0 /* Core */,
 				F4B8887120AAB7540056666B /* VideoEditorViewController.swift */,
 				F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */,
 				F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */,
@@ -2504,8 +2521,10 @@
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */,
 				F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */,
+				F40CA39620B581D5005EE0B0 /* silence.mp3 in Resources */,
 				F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */,
 				F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */,
+				F40CA39920B583C4005EE0B0 /* black.mov in Resources */,
 				F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F41FD95320A9583F00FA8623 /* FilterGradientCell.xib in Resources */,
@@ -3051,6 +3070,7 @@
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */,
+				F40CA39420B5814F005EE0B0 /* PMVideoManager.swift in Sources */,
 				F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */,
 				F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,

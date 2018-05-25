@@ -139,6 +139,7 @@ class PMVideoEditor: NSObject {
                 layers.append(self.getTextLayer(lable: content as! UILabel, size: boundingSize))
             }
             else if content.isKind(of: UIImageView.self) {
+                print(self.getImageLayer(imgView: content as! UIImageView, size: boundingSize))
                 layers.append(self.getImageLayer(imgView: content as! UIImageView, size: boundingSize))
             }
         }
@@ -359,10 +360,13 @@ class PMVideoEditor: NSObject {
     private func getTextLayer(lable: UILabel, size: CGSize) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.backgroundColor = lable.backgroundColor?.cgColor
+        let frame = self.getTransformedRect(fromSize: size, forView: lable)
+        print(frame)
         textLayer.frame = self.getTransformedRect(fromSize: size, forView: lable)
         textLayer.transform =  CATransform3DMakeAffineTransform(lable.transform.inverted())
         textLayer.isWrapped = true
         let video_rect = self.getVideoRect()
+        print(video_rect)
         let sizeScale = CGSize(width: video_rect.width / size.width , height: video_rect.height / size.height)
         textLayer.font = lable.font
         textLayer.fontSize = lable.font.pointSize * sizeScale.width
@@ -405,6 +409,8 @@ class PMVideoEditor: NSObject {
         let imglayer = CALayer()
         imglayer.backgroundColor = imgView.backgroundColor?.cgColor
         imglayer.contents = imgView.image?.cgImage
+        print(imgView)
+        print(self.getTransformedRect(fromSize: size, forView: imgView))
         imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
         imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
         switch imgView.contentMode {
