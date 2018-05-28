@@ -12,7 +12,23 @@ import AVFoundation
 extension VideoEditorViewController {
     
     
+    @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
+        
+           if self.isForEditOnly == nil {
+            return
+           }
+             HUDManager.sharedInstance.showHUD()
+        
+            if self.isForEditOnly == false {
+                self.uploadFile()
+            }else {
+                self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+            }
+        
+    }
+    
     @objc func actionForRightMenu(sender:UIButton) {
+        self.viewDescription.isHidden = true
         switch sender.tag {
         case 101:
             self.configureNavigationForEditing()
@@ -21,6 +37,7 @@ extension VideoEditorViewController {
             break
         case 102:
             selectedFeature = VideoEditorFeature.sticker
+            self.canvasImageView.isUserInteractionEnabled = true
             self.addStickersViewController()
             break
         case 103:
@@ -33,6 +50,12 @@ extension VideoEditorViewController {
             removeAllNavButtons()
             self.prepareForPlayRate()
             break
+        case 105:
+            selectedFeature = VideoEditorFeature.text
+            self.canvasImageView.isUserInteractionEnabled = false
+            configureNavigationForTextEditing()
+            self.prepareForTextEditing()
+            break
         default:
             break
         }
@@ -42,15 +65,23 @@ extension VideoEditorViewController {
     @objc func btnSaveAction(){
         if let editedFileURL = editedFileURL {
             self.localFileURl = editedFileURL
+            self.isForEditOnly = false
         }
+        self.viewDescription.isHidden = false
     }
     
     @objc func buttonBackAction(){
         self.navigationController?.popViewAsDismiss()
     }
-    
+    @objc func btnTextEditingDone(){
+        self.view.endEditing(true)
+        self.colorPickerView.isHidden = true
+        self.canvasImageView.isUserInteractionEnabled = true
+        configureNavigationForEditing()
+    }
     
     @objc func btnCancelAction(){
+        self.isForEditOnly = nil
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false {
             edgeMenu.open()
@@ -69,6 +100,7 @@ extension VideoEditorViewController {
         }
         self.editedFileURL = nil
         self.updatePlayerAsset(videURl: self.localFileURl!)
+        self.viewDescription.isHidden = false
     }
     
     @objc func btnApplyFeatureAction(){
@@ -82,6 +114,8 @@ extension VideoEditorViewController {
           trimVideo()
         }else if self.selectedFeature == .sticker {
             addStickerOnvideo()
+        }else if self.selectedFeature == .text {
+            addTextonvideo()
         }
     }
     

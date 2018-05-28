@@ -33,9 +33,6 @@ enum EditingFeature {
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     var isForEditOnly:Bool!
-
-  
-   
     
     public var image: UIImage?
     var imageToFilter:UIImage?

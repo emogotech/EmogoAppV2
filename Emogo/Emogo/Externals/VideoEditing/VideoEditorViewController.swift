@@ -16,6 +16,7 @@ enum VideoEditorFeature {
     case resolution
     case sticker
     case rate
+    case text
     case none
 }
 
@@ -29,6 +30,8 @@ class VideoEditorViewController: UIViewController {
     @IBOutlet weak var colorsCollectionView: UICollectionView!
     @IBOutlet weak var colorPickerView: UIView!
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewDescription: UIView!
+    @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     var player = BMPlayer()
     var seletedImage:ContentDAO!
     var edgeMenu: DPEdgeMenu?
@@ -54,8 +57,9 @@ class VideoEditorViewController: UIViewController {
     var stickers : [UIImage] = []
     var colors  : [UIColor] = []
     var isTyping: Bool = false
+    var isForEditOnly: Bool? = nil
     let shapes = ShapeDAO()
-    var result:(AVMutableComposition, AVMutableVideoComposition)!
+    var textColor: UIColor = UIColor.white
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +93,7 @@ class VideoEditorViewController: UIViewController {
         edgePan.edges = .bottom
         edgePan.delegate = self
         self.view.addGestureRecognizer(edgePan)
-        
+        self.keyboardSetup()
     }
     
 
@@ -133,12 +137,19 @@ class VideoEditorViewController: UIViewController {
         
         let btnRate = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 52))
         btnRate.setImage(#imageLiteral(resourceName: "rate_of_video") , for: .normal)
-        btnRate.setBackgroundImage(#imageLiteral(resourceName: "rectangle_down"), for: .normal)
+        btnRate.setBackgroundImage(#imageLiteral(resourceName: "rectangle_center"), for: .normal)
         btnRate.tag = 104
         btnRate.isExclusiveTouch = true
         btnRate.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
         
-        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate],
+        let btnText = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 52))
+        btnText.setImage(#imageLiteral(resourceName: "add_text"), for: .normal)
+        btnText.setBackgroundImage(#imageLiteral(resourceName: "rectangle_down"), for: .normal)
+        btnText.tag = 105
+        btnText.isExclusiveTouch = true
+        btnText.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
+        
+        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate,btnText],
                                    animationDuration: 0.8, menuPosition: .right)
         guard let edgeMenu = self.edgeMenu else { return }
         edgeMenu.backgroundColor = UIColor.clear
@@ -203,6 +214,21 @@ class VideoEditorViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
     }
+    
+    func configureNavigationForTextEditing(){
+        guard let edgeMenu = self.edgeMenu else { return }
+        if edgeMenu.opened  == true {
+            edgeMenu.close()
+        }
+        self.navigationItem.rightBarButtonItem = nil
+        self.navigationItem.leftBarButtonItem = nil
+        let btnCancel = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.btnTextEditingDone))
+        self.navigationItem.rightBarButtonItem = btnCancel
+        navigationItem.hidesBackButton = true
+    }
+    
+    
+    
   
     func configureCollectionView() {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -272,6 +298,7 @@ class VideoEditorViewController: UIViewController {
             }
         }
     }
+    
     func showActivity(){
         self.activity.isHidden = false
         self.activity.startAnimating()

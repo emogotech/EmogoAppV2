@@ -210,7 +210,7 @@
 		F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */; };
 		F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD93F20A9583E00FA8623 /* StickersViewController.swift */; };
 		F41FD96820A970E800FA8623 /* PhotoEditor+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD96720A970E800FA8623 /* PhotoEditor+API.swift */; };
-		F421E87820B400C9003DB600 /* VideoEditor+TextEmoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */; };
+		F421E87820B400C9003DB600 /* VideoEditor+StickerEmoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421E87720B400C9003DB600 /* VideoEditor+StickerEmoji.swift */; };
 		F421E87A20B401C6003DB600 /* VideoEditor+Gesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */; };
 		F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */; };
 		F42217B320074D56002D4E4E /* UIViewController+BIZChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F42217AE20074CF9002D4E4E /* UIViewController+BIZChildViewController.m */; };
@@ -338,6 +338,10 @@
 		F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F463DAD0200DE69C0039A58A /* CustomCameraViewController.swift */; };
 		F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */; };
 		F4647C071FFE5BFF00CCEDA3 /* UIImageView+FaceAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */; };
+		F46AB0C520BC1FC300229031 /* VideoEditor+Text.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AB0C420BC1FC300229031 /* VideoEditor+Text.swift */; };
+		F46AB0C720BC2BFC00229031 /* VideoEditor+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AB0C620BC2BFC00229031 /* VideoEditor+UITextView.swift */; };
+		F46AB0C920BC2C3300229031 /* VideoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AB0C820BC2C3300229031 /* VideoEditor+Keyboard.swift */; };
+		F46AB0CB20BC37FA00229031 /* VideoEditor+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AB0CA20BC37FA00229031 /* VideoEditor+API.swift */; };
 		F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D02043E92500B71102 /* TLPhotosPickerViewController.swift */; };
 		F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F46AC6D12043E92600B71102 /* TLPhotosPickerViewController.xib */; };
 		F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46AC6D22043E92600B71102 /* TLPhotoLibrary.swift */; };
@@ -678,7 +682,7 @@
 		F41FD93E20A9583E00FA8623 /* StickerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StickerCollectionViewCell.xib; sourceTree = "<group>"; };
 		F41FD93F20A9583E00FA8623 /* StickersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StickersViewController.swift; sourceTree = "<group>"; };
 		F41FD96720A970E800FA8623 /* PhotoEditor+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+API.swift"; sourceTree = "<group>"; };
-		F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+TextEmoji.swift"; sourceTree = "<group>"; };
+		F421E87720B400C9003DB600 /* VideoEditor+StickerEmoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+StickerEmoji.swift"; sourceTree = "<group>"; };
 		F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Gesture.swift"; sourceTree = "<group>"; };
 		F42217AA20074CF9002D4E4E /* BIZPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIZPopupViewController.h; sourceTree = "<group>"; };
 		F42217AB20074CF9002D4E4E /* BIZPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIZPopupViewController.m; sourceTree = "<group>"; };
@@ -823,6 +827,10 @@
 		F4647C031FFE133500CCEDA3 /* UIFloatLabelTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFloatLabelTextView.m; sourceTree = "<group>"; };
 		F4647C041FFE133600CCEDA3 /* UIFloatLabelTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFloatLabelTextView.h; sourceTree = "<group>"; };
 		F4647C061FFE5BFE00CCEDA3 /* UIImageView+FaceAware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+FaceAware.swift"; sourceTree = "<group>"; };
+		F46AB0C420BC1FC300229031 /* VideoEditor+Text.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Text.swift"; sourceTree = "<group>"; };
+		F46AB0C620BC2BFC00229031 /* VideoEditor+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+UITextView.swift"; sourceTree = "<group>"; };
+		F46AB0C820BC2C3300229031 /* VideoEditor+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+Keyboard.swift"; sourceTree = "<group>"; };
+		F46AB0CA20BC37FA00229031 /* VideoEditor+API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VideoEditor+API.swift"; sourceTree = "<group>"; };
 		F46AC6D02043E92500B71102 /* TLPhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotosPickerViewController.swift; sourceTree = "<group>"; };
 		F46AC6D12043E92600B71102 /* TLPhotosPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TLPhotosPickerViewController.xib; sourceTree = "<group>"; };
 		F46AC6D22043E92600B71102 /* TLPhotoLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLPhotoLibrary.swift; sourceTree = "<group>"; };
@@ -2178,8 +2186,12 @@
 				F4164F3D20AC6B620066DD97 /* VideoEditor+Resolution.swift */,
 				F4B8887720AABDAC0056666B /* VideoEditor+Delegate.swift */,
 				F4B4560D20B2C8EE007E4753 /* VideoEditor+PlayRate.swift */,
-				F421E87720B400C9003DB600 /* VideoEditor+TextEmoji.swift */,
+				F421E87720B400C9003DB600 /* VideoEditor+StickerEmoji.swift */,
+				F46AB0C420BC1FC300229031 /* VideoEditor+Text.swift */,
 				F421E87920B401C6003DB600 /* VideoEditor+Gesture.swift */,
+				F46AB0C620BC2BFC00229031 /* VideoEditor+UITextView.swift */,
+				F46AB0C820BC2C3300229031 /* VideoEditor+Keyboard.swift */,
+				F46AB0CA20BC37FA00229031 /* VideoEditor+API.swift */,
 			);
 			path = VideoEditing;
 			sourceTree = "<group>";
@@ -2947,6 +2959,7 @@
 				F4164F3E20AC6B620066DD97 /* VideoEditor+Resolution.swift in Sources */,
 				F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */,
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
+				F46AB0C520BC1FC300229031 /* VideoEditor+Text.swift in Sources */,
 				F4C2103D209B366B0094A7FC /* ACEDrawingToolState.m in Sources */,
 				F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */,
 				F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */,
@@ -3062,6 +3075,7 @@
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
+				F46AB0C920BC2C3300229031 /* VideoEditor+Keyboard.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */,
 				F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */,
@@ -3097,6 +3111,7 @@
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
 				F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
+				F46AB0C720BC2BFC00229031 /* VideoEditor+UITextView.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
 				F4B8887220AAB7550056666B /* VideoEditorViewController.swift in Sources */,
 				F44509AC2088D37700B48706 /* ContactsViewController.swift in Sources */,
@@ -3139,7 +3154,7 @@
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
-				F421E87820B400C9003DB600 /* VideoEditor+TextEmoji.swift in Sources */,
+				F421E87820B400C9003DB600 /* VideoEditor+StickerEmoji.swift in Sources */,
 				F45A78781FBC68EF003FD6AB /* UserDAO.swift in Sources */,
 				F4CA097C2052C5C3004EEFCE /* MyStuffCollectionCell.swift in Sources */,
 				F42217B720075045002D4E4E /* ProfileUpdateViewController.swift in Sources */,
@@ -3171,6 +3186,7 @@
 				F43612F01FD69B3200788FFE /* AGSharpenFilter.swift in Sources */,
 				F401DFB91FE2AE1300BD7DDA /* MyStuffCell.swift in Sources */,
 				F4A5F74D209C685100AC9AE1 /* FilterViewController+Controls.swift in Sources */,
+				F46AB0CB20BC37FA00229031 /* VideoEditor+API.swift in Sources */,
 				F425C6392056646F002536E1 /* ASCollectionView.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,

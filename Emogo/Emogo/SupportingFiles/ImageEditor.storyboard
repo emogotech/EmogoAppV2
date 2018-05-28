@@ -10,8 +10,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Regular.ttf">
+        <array key="Montserrat-Regular.otf">
             <string>Montserrat-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
         </array>
         <array key="SF-Pro-Display-Semibold.otf">
             <string>SFProDisplay-Semibold</string>
@@ -540,7 +543,7 @@
                             <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vMC-uu-6hj" userLabel="Color Picker">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
-                                    <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EVP-Zq-3b5">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EVP-Zq-3b5">
                                         <rect key="frame" x="4" y="5" width="367" height="40"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -562,6 +565,64 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mug-YX-E2U">
+                                <rect key="frame" x="0.0" y="584" width="375" height="83"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="haD-Oy-Vgl">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="B0D-03-Hpn" customClass="MBAutoGrowingTextView">
+                                                <rect key="frame" x="11" y="7" width="353" height="25"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="25" id="LHA-x6-EAD"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="25" id="YJe-x0-dt4"/>
+                                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="120" id="npc-XN-eY4"/>
+                                                </constraints>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" priority="250" constant="35" id="6Gj-Xa-G4O"/>
+                                            <constraint firstAttribute="trailing" secondItem="B0D-03-Hpn" secondAttribute="trailing" constant="11" id="fUY-4P-47j"/>
+                                            <constraint firstAttribute="bottom" secondItem="B0D-03-Hpn" secondAttribute="bottom" constant="3" id="jf6-il-1qv"/>
+                                            <constraint firstItem="B0D-03-Hpn" firstAttribute="top" secondItem="haD-Oy-Vgl" secondAttribute="top" constant="7" id="tMh-im-Zpu"/>
+                                            <constraint firstItem="B0D-03-Hpn" firstAttribute="leading" secondItem="haD-Oy-Vgl" secondAttribute="leading" constant="11" id="xge-h8-fmr"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="or6-YW-2Qq">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="48"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lNw-x9-fXS">
+                                                <rect key="frame" x="301" y="6" width="70" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="Xbd-eL-Y5a"/>
+                                                    <constraint firstAttribute="width" constant="70" id="wXe-Q1-IN7"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
+                                                <state key="normal" title=" Save" image="Save"/>
+                                                <connections>
+                                                    <action selector="saveEditedVideoButtonTapped:" destination="yNd-HX-RbZ" eventType="touchUpInside" id="wtB-VA-lSY"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="lNw-x9-fXS" secondAttribute="trailing" constant="4" id="SA8-DP-1PX"/>
+                                            <constraint firstAttribute="height" constant="48" id="X2a-ZQ-Z2q"/>
+                                            <constraint firstAttribute="bottom" secondItem="lNw-x9-fXS" secondAttribute="bottom" constant="12" id="cMO-za-yfp"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="83" id="C11-fE-blr"/>
+                                    <constraint firstItem="or6-YW-2Qq" firstAttribute="top" secondItem="haD-Oy-Vgl" secondAttribute="bottom" id="iu4-1I-zdV"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -577,7 +638,10 @@
                             <constraint firstItem="mdI-SW-eah" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Jk9-kd-eat"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="jSQ-zb-a9d" secondAttribute="bottom" id="OD2-wI-GZU"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="c5g-qy-GzR" secondAttribute="bottom" id="S9f-qB-2lr"/>
+                            <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="mug-YX-E2U" secondAttribute="bottom" id="Y78-LO-Znb"/>
+                            <constraint firstItem="mug-YX-E2U" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="bzh-Km-hgp"/>
                             <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerY" secondItem="TuQ-3s-rsu" secondAttribute="centerY" id="fdi-Xk-EOx"/>
+                            <constraint firstItem="mug-YX-E2U" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="klq-af-UD0"/>
                             <constraint firstItem="vMC-uu-6hj" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="tXU-de-tcA"/>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="top" secondItem="TuQ-3s-rsu" secondAttribute="top" id="xly-c3-biV"/>
                             <constraint firstItem="jSQ-zb-a9d" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="yNK-8o-PsT"/>
@@ -593,6 +657,8 @@
                         <outlet property="kTrimmerHeight" destination="0Yf-Gr-GMG" id="ryH-bK-ldj"/>
                         <outlet property="playerContainerView" destination="c5g-qy-GzR" id="p4f-FO-hqe"/>
                         <outlet property="trimmerView" destination="mdI-SW-eah" id="0cE-ST-mHf"/>
+                        <outlet property="txtDescription" destination="B0D-03-Hpn" id="E2o-gR-BT6"/>
+                        <outlet property="viewDescription" destination="mug-YX-E2U" id="5Kh-kf-Lcn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AZ-Os-QOZ" sceneMemberID="firstResponder"/>
@@ -601,6 +667,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Save" width="17" height="23"/>
         <image name="brigtness-effect-icon" width="41" height="41"/>
         <image name="check-box-empty" width="26" height="26"/>
         <image name="color_icon_inactive" width="41" height="41"/>

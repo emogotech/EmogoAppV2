@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 
 extension PhotoEditorViewController: UITextViewDelegate {
-    
-    
-    
    
      func textViewDidChange(_ textView: UITextView) {
         if textView != txtDescription {

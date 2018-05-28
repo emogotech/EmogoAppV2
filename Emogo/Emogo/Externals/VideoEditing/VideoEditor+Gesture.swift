@@ -28,10 +28,7 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
                     moveView(view: imageViewToPan!, recognizer: recognizer)
                 }
             } else  if view is UITextView  {
-                let viewSub = recognizer.view?.superview
-                if viewSub?.tag  == 2001{
-                    moveView(view: viewSub!, recognizer: recognizer)
-                }
+                   self.moveView(view: view, recognizer: recognizer)
             } else {
                 self.moveView(view: view, recognizer: recognizer)
             }
@@ -44,7 +41,7 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
      */
     
     @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
-        self.colorsCollectionView.isHidden = true
+        self.colorPickerView.isHidden = true
         self.view.endEditing(true)
         let pinchGesture = recognizer
         
@@ -101,7 +98,7 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
         self.view.endEditing(true)
         
         if let view = recognizer.view {
-            self.colorsCollectionView.isHidden = true
+            self.colorPickerView.isHidden = true
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
                 if viewSub?.tag  == 2001{

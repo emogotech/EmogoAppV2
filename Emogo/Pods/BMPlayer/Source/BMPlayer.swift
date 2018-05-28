@@ -168,6 +168,7 @@ open class BMPlayer: UIView {
     open func pause(allowAutoPlay allow: Bool = false) {
         playerLayer?.pause()
         isPauseByUser = !allow
+        controlView.hidePlayToTheEndView()
     }
     
     /**
