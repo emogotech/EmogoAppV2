@@ -112,7 +112,7 @@ class ViewStreamController: UIViewController {
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
         stretchyHeader.streamDelegate = self
         
-       
+        
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{

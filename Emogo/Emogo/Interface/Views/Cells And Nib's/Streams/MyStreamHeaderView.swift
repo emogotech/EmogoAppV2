@@ -21,6 +21,9 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     @IBOutlet weak var sliderCover: KASlideShow!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
+    @IBOutlet weak var segmentControl: HMSegmentedControl!
+    
+    
     var arrayContent = [Any]()
     var arrayContents = [ContentDAO]()
     var sliderDelegate:MyStreamHeaderViewDelegate?
@@ -33,7 +36,9 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
         self.expansionMode = .topOnly
         // You can change the minimum and maximum content heights
         self.minimumContentHeight = 0 // you can replace the navigation bar with a stretchy header view
+        self.maximumContentHeight = 306
         self.stretchDelegate  = self
+      
     }
     
     

@@ -17,6 +17,8 @@ enum StreamType:String {
     case People = "People"
     case Liked  =   "Liked"
     case Following  =   "Following"
+    case Emogo = "Emogo"
+    case Collab = "Collab"
 }
 
 enum DeviceType:String {
@@ -153,6 +155,12 @@ class StreamList{
         case .Following:
             self.requestURl = "user_streams?following_stream=True"
             break
+        case .Emogo:
+            self.requestURl =  kStreamAPI + "my_stream=True"
+            break
+        case .Collab:
+            self.requestURl =  kMyStreamCollabListAPI + "collab=True"
+            break
         }
     }
     
@@ -184,6 +192,10 @@ class StreamViewDAO{
     var userCanAddPeople:Bool! = false
     var userCanAddContent:Bool! = false
     var totalCollaborator:String! = ""
+    var userImage:String! = ""
+    var colabImageFirst:String! = ""
+    var colabImageSecond:String! = ""
+
     init(streamData:[String:Any]) {
         
         if let obj  = streamData["created_by"] {
@@ -259,13 +271,27 @@ class StreamViewDAO{
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
             print(objColab)
-            for value in objColab {
+            for (index,value) in objColab.enumerated() {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
                 if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                     colab.isSelected = true
                 }else {
                     colab.isSelected = colab.addedByMe
                 }
+                if index == 0 {
+                    if colab.userImage.isEmpty {
+                        self.colabImageFirst =  colab.name
+                    }else {
+                      self.colabImageFirst = colab.userImage
+                    }
+                }else if index == 1 {
+                    if colab.userImage.isEmpty{
+                        self.colabImageSecond = colab.name
+                    }else{
+                        self.colabImageSecond = colab.userImage
+                    }
+                }
+                
                 self.arrayColab.append(colab)
             }
         }
@@ -307,6 +333,9 @@ class StreamViewDAO{
         }
         if let obj  = streamData["id"] {
             self.streamID = "\(obj)"
+        }
+        if let obj = streamData["user_image"]{
+            self.userImage = obj as! String
         }
         if let obj = streamData["width"] {
             self.width =  Int("\(obj)")

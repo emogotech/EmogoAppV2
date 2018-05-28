@@ -28,10 +28,14 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var heightConstant: NSLayoutConstraint!
     @IBOutlet weak var lblViewCount: UILabel!
     @IBOutlet weak var lblLikeCount: UILabel!
-    
     @IBOutlet weak var heigtDelete: NSLayoutConstraint!
     @IBOutlet weak var heightEdit: NSLayoutConstraint!
+    @IBOutlet weak var imgCollabTwo: NZCircularImageView!
+    @IBOutlet weak var imgCollabOne: NZCircularImageView!
+    @IBOutlet weak var imgUser: NZCircularImageView!
+    
     var streamDelegate:StreamViewHeaderDelegate?
+    var objColab:StreamViewDAO!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -59,11 +63,11 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.imgCover.contentMode = .scaleAspectFill
         //   self.imgCover.backgroundColor = .black
         if objStream.totalCollaborator.isEmpty || objStream.totalCollaborator == "0"  {
-            btnCollab.isHidden = true
-        }else {
-            btnCollab.badgeString = objStream.totalCollaborator
             btnCollab.isHidden = false
-            btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
+        }else {
+         //   btnCollab.badgeString = objStream.totalCollaborator
+            btnCollab.isHidden = false
+           // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
         self.lblName.text = objStream.title.trim().capitalized
         self.lblName.shadow()
@@ -90,14 +94,25 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if  objStream.canAddPeople == true {
             btnEdit.isHidden = false
         }
-        
+         btnCollab.isHidden = false
         if objStream.description.trim().isEmpty {
             self.heightConstant.constant = 0
         }else {
             let height = objStream.description.trim().height(withConstrainedWidth: self.lblDescription.bounds.size.width, font: self.lblDescription.font)
             self.heightConstant.constant = height + 10
         }
-        
+        if !objStream.userImage.trim().isEmpty {
+            self.imgUser.setImageWithResizeURL(objStream.userImage.trim())
+        }
+        else {
+            self.imgUser.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+            
+        }
+     
+    
+        self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+        self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+       
         // For  Now
        // btnEdit.isHidden = false
       

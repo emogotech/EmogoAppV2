@@ -81,6 +81,8 @@ let kUserFollowingSeacrhAPI                          = "get_user_following/?foll
 let kUserFollowerSearchAPI                           = "get_user_followers/?follower_name="
 let kSaveStuffContentAPI                             = "copy_content/"
 let kLikeDislikeContentAPI                           = "like_dislike_content/"
+let kMyStreamListAPI                                 = "user_streams?public_stream="
+let kMyStreamCollabListAPI                           = "user_streams?collab_stream="
 
 
 // MARK: -  API STATUS CODE
