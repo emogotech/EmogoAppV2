@@ -139,7 +139,6 @@ class PMVideoEditor: NSObject {
                 layers.append(self.getTextLayer(lable: content as! UILabel, size: boundingSize))
             }
             else if content.isKind(of: UIImageView.self) {
-                print(self.getImageLayer(imgView: content as! UIImageView, size: boundingSize))
                 layers.append(self.getImageLayer(imgView: content as! UIImageView, size: boundingSize))
             }
         }
@@ -220,12 +219,21 @@ class PMVideoEditor: NSObject {
         video_compositon.renderSize = video_size
         video_compositon.frameDuration = current_fps
         if layers.count > 0 {
+            print(video_size)
             let baselayer = CALayer()
             baselayer.frame = CGRect(x: 0, y: 0, width: video_size.width, height: video_size.height)
             let videoLayer = CALayer()
             videoLayer.frame = CGRect(x: 0, y: 0, width: video_size.width, height: video_size.height)
             baselayer.addSublayer(videoLayer)
+            
             for layer in layers {
+                
+                let frame = AVMakeRect(aspectRatio: layer.bounds.size, insideRect: baselayer.frame)
+                let frmae1 = baselayer.convert(layer.frame.origin, from: layer)
+                print(frmae1)
+                print(layer.position)
+                layer.position = frmae1
+                print(frame)
                 baselayer.addSublayer(layer)
             }
             video_compositon.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videoLayer, in: baselayer)
@@ -410,8 +418,9 @@ class PMVideoEditor: NSObject {
         imglayer.backgroundColor = imgView.backgroundColor?.cgColor
         imglayer.contents = imgView.image?.cgImage
         print(imgView)
-        print(self.getTransformedRect(fromSize: size, forView: imgView))
-        imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
+        imglayer.frame = imgView.frame
+       //  imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
+        print(imglayer.frame)
         imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
         switch imgView.contentMode {
         case .bottom:

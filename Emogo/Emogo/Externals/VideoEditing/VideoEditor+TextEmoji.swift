@@ -49,13 +49,25 @@ extension VideoEditorViewController  {
             self.player.pause()
         }
           let subview = self.canvasImageView.subviews
-          let  size = self.canvasImageView.bounds.size
           let view = subview[0]
           let imageView = UIImageView(image: UIImage.image(view))
            imageView.backgroundColor = .clear
-           imageView.contentMode = .scaleAspectFit
-        print(imageView)
+          imageView.frame = view.frame
+        if let videoSize = self.resolutionSizeForLocalVideo(url: self.localFileURl!) {
+            print(self.canvasImageView.bounds.size)
+            print(imageView.frame)
+            print(videoSize)
+            print(videoSize.height/self.canvasImageView.bounds.size.height)
+            print(videoSize.width/self.canvasImageView.bounds.size.width)
+            print(self.canvasImageView.bounds.size.height-videoSize.height)
+            print(self.canvasImageView.bounds.size.width-videoSize.width)
 
+            let valueY = imageView.frame.origin.y - (self.canvasImageView.bounds.size.height-videoSize.height)
+            let valueX = imageView.frame.origin.x - (self.canvasImageView.bounds.size.width-videoSize.width)
+            print(valueY)
+            print(valueX)
+            imageView.center = CGPoint(x: valueX, y: valueY)
+        }
         self.canvasImageView.isHidden = true
         self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: view.bounds.size, contents: [imageView], progress: {(progress, strProgress) in
         }) { (fileURL, error) in
@@ -70,9 +82,9 @@ extension VideoEditorViewController  {
     }
     
     
-    func resolutionSizeForLocalVideo(url:NSURL) -> CGSize? {
+    func resolutionSizeForLocalVideo(url:URL) -> CGSize? {
         
-        guard let track = AVAsset(url: url as URL).tracks(withMediaType: AVMediaType.video).first else { return nil }
+        guard let track = AVAsset(url: url).tracks(withMediaType: AVMediaType.video).first else { return nil }
         let size = track.naturalSize.applying(track.preferredTransform)
         return CGSize(width: fabs(size.width), height: fabs(size.height))
     }

@@ -121,22 +121,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Externals/VideoEditing/VideoEditor+TextEmoji.swift"
-            timestampString = "548851371.2720881"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "addStickerOnvideo()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/PMVideoEditor.swift"
             timestampString = "548765240.708364"
             startingColumnNumber = "9223372036854775807"
@@ -154,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/Core/PMVideoEditor.swift"
-            timestampString = "548851371.272593"
+            timestampString = "548947355.130208"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "getTextLayer(lable:size:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/Core/PMVideoEditor.swift"
-            timestampString = "548851371.272662"
+            timestampString = "548947355.130689"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
+            startingLineNumber = "417"
+            endingLineNumber = "417"
             landmarkName = "getImageLayer(imgView:size:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +170,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/Core/PMVideoEditor.swift"
-            timestampString = "548851371.272723"
+            timestampString = "548947355.131003"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "addContentToVideo(path:boundingSize:contents:progress:finish:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/VideoEditing/Core/PMVideoEditor.swift"
+            timestampString = "548947355.1312979"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "renderContents(layers:fps:composition:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,12 +202,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/VideoEditing/Core/PMVideoEditor.swift"
-            timestampString = "548851371.272783"
+            timestampString = "548947355.131585"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "addContentToVideo(path:boundingSize:contents:progress:finish:)"
+            startingLineNumber = "231"
+            endingLineNumber = "231"
+            landmarkName = "renderContents(layers:fps:composition:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/VideoEditing/VideoEditor+TextEmoji.swift"
+            timestampString = "548947355.131876"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "addStickerOnvideo()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/VideoEditing/VideoEditor+TextEmoji.swift"
+            timestampString = "548947355.131946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "addStickerOnvideo()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

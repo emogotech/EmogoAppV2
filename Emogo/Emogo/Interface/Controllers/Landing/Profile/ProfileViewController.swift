@@ -191,7 +191,6 @@ class ProfileViewController: UIViewController {
         segmentControl.selectedSegmentIndex = 0
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
-        
     }
     
     func prepareLayout() {
