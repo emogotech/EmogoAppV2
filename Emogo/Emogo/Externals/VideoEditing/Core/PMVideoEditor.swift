@@ -215,7 +215,9 @@ class PMVideoEditor: NSObject {
         if self.isTrackPortriate() {
             video_size = CGSize(width: video_size.height, height: video_size.width)
         }
+        
         let video_compositon = AVMutableVideoComposition()
+        
         video_compositon.renderSize = video_size
         video_compositon.frameDuration = current_fps
         if layers.count > 0 {
@@ -227,18 +229,12 @@ class PMVideoEditor: NSObject {
             baselayer.addSublayer(videoLayer)
             
             for layer in layers {
-                
-                let frame = AVMakeRect(aspectRatio: layer.bounds.size, insideRect: baselayer.frame)
-                let frmae1 = baselayer.convert(layer.frame.origin, from: layer)
-                print(frmae1)
-                print(layer.position)
-                layer.position = frmae1
-                print(frame)
                 baselayer.addSublayer(layer)
             }
             video_compositon.animationTool = AVVideoCompositionCoreAnimationTool(postProcessingAsVideoLayer: videoLayer, in: baselayer)
             
         }
+        
         let instructions: AVMutableVideoCompositionInstruction = AVMutableVideoCompositionInstruction()
         instructions.timeRange = CMTimeRangeMake(kCMTimeZero, composition.duration)
         let video_track = composition.tracks(withMediaType: AVMediaType.video).first
@@ -248,6 +244,52 @@ class PMVideoEditor: NSObject {
         instructions.timeRange = CMTimeRangeMake(kCMTimeZero, composition.duration)
         video_compositon.instructions = [instructions]
         return video_compositon
+    }
+    
+    func addWatermark(image:UIImage,inputURL: URL, outputURL: URL, handler:@escaping (_ exportSession: AVAssetExportSession?)-> Void) {
+        let mixComposition = AVMutableComposition()
+        let asset = AVAsset(url: inputURL)
+        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
+        let timerange = CMTimeRangeMake(kCMTimeZero, asset.duration)
+        
+        let compositionVideoTrack:AVMutableCompositionTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))!
+        
+        do {
+            try compositionVideoTrack.insertTimeRange(timerange, of: videoTrack, at: kCMTimeZero)
+            compositionVideoTrack.preferredTransform = videoTrack.preferredTransform
+        } catch {
+            print(error)
+        }
+        
+        let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
+        let watermarkImage = CIImage(image: image)
+        let videoComposition = AVVideoComposition(asset: asset) { (filteringRequest) in
+            let source = filteringRequest.sourceImage.clampedToExtent()
+            watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
+            let transform = CGAffineTransform(translationX: filteringRequest.sourceImage.extent.width - (watermarkImage?.extent.width)! - 2, y: 0)
+            watermarkFilter.setValue(watermarkImage?.transformed(by: transform), forKey: "inputImage")
+            filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
+        }
+        
+        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPreset640x480) else {
+            handler(nil)
+            
+            return
+        }
+        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
+        let date = dateFormatter.string(from: Date())
+        let url = URL(fileURLWithPath: documentDirectory).appendingPathComponent("watermarkVideo-\(date).mov")
+        
+        exportSession.outputURL = url
+        exportSession.outputFileType = AVFileType.mov
+        exportSession.shouldOptimizeForNetworkUse = true
+        exportSession.videoComposition = videoComposition
+        exportSession.exportAsynchronously { () -> Void in
+            handler(exportSession)
+        }
     }
     
     private func isTrackPortriate() -> Bool {
@@ -420,8 +462,10 @@ class PMVideoEditor: NSObject {
         print(imgView)
         imglayer.frame = imgView.frame
        //  imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
+     //   imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
         print(imglayer.frame)
-        imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
+
+        /*
         switch imgView.contentMode {
         case .bottom:
             imglayer.contentsGravity = kCAGravityBottom
@@ -463,6 +507,7 @@ class PMVideoEditor: NSObject {
             imglayer.contentsGravity = kCAGravityResizeAspectFill
             break
         }
+        */
         return imglayer
     }
     private func getFullURL(fnam: String) -> URL? {

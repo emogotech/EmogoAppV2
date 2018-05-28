@@ -19,4 +19,17 @@ extension UIView {
         UIGraphicsEndImageContext()
         return snapshotImageFromMyView!
     }
+    
+}
+
+extension UIImage {
+    class func imageWithColor(tintColor: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: kFrame.size.width, height: kFrame.size.height)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0)
+        tintColor.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }

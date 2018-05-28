@@ -55,6 +55,7 @@ class VideoEditorViewController: UIViewController {
     var colors  : [UIColor] = []
     var isTyping: Bool = false
     let shapes = ShapeDAO()
+    var result:(AVMutableComposition, AVMutableVideoComposition)!
 
     override func viewDidLoad() {
         super.viewDidLoad()

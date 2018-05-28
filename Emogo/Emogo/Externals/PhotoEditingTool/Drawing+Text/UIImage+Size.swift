@@ -87,12 +87,16 @@ public extension UIImage {
         return combinedImage!
     }
     
-    func mergedImageWith(frontImage:UIImage) -> UIImage{
+    func mergedImageWith(frontImage:UIImage,frame:CGRect? = nil) -> UIImage{
         
         let size = self.size
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
         self.draw(in: CGRect.init(x: 0, y: 0, width: size.width, height: size.height))
-        frontImage.draw(in: CGRect.init(x: 0, y: 0, width: size.width, height: size.height), blendMode: .normal, alpha: 0.5)
+        if frame == nil {
+            frontImage.draw(in: CGRect.init(x: 0, y: 0, width: size.width, height: size.height), blendMode: .normal, alpha: 0.5)
+        }else {
+            frontImage.draw(in: CGRect.init(x: (frame?.origin.x)!, y: (frame?.origin.y)!, width: (frame?.size.width)!, height: (frame?.size.height)!), blendMode: .normal, alpha: 1.0)
+        }
         let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
