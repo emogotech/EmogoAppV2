@@ -334,7 +334,7 @@ class MyStreamViewController: UIViewController {
          HUDManager.sharedInstance.showHUD()
             AWSRequestManager.sharedInstance.associateContentToStream(streamID: id, contents: ContentList.sharedInstance.arrayToCreate, completion: { (isScuccess, errorMSG) in
                 HUDManager.sharedInstance.hideProgress()
-              HUDManager.sharedInstance.hideHUD()
+                HUDManager.sharedInstance.hideHUD()
                 if (errorMSG?.isEmpty)! {
                     self.navigationController?.pop()
                 }

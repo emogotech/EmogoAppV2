@@ -184,6 +184,7 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         })
     }
     //MARK:- API For Get Emogo Contacts
+    
     func getEmogoContactList(type:RefreshType){
         APIServiceManager.sharedInstance.apiForGetEmogoContactList(type:type,deviceType:.iPhone) { (refreshType, errorMsg) in
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
@@ -201,16 +202,17 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             }
             DispatchQueue.main.async {
                 self.arrayEmogoContacts = PeopleList.sharedInstance.arrayPeople
+                self.tblContacts.reloadData()
             }
             
-            self.tblContacts.reloadData()
+          
             if(errorMsg?.isEmpty)!{
                 self.showToast(type: .success, strMSG: errorMsg!)
                 
             }else{
                 self.showToast(strMSG: errorMsg!)
             }
-            self.tblContacts.reloadData()
+          
         }
     }
     //MARK:- Selector Methods
@@ -294,7 +296,12 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             let dictEmogoContact = self.arrayEmogoContacts[indexPath.row]
             
             cell.lblEmogoContact.text = dictEmogoContact.fullName
-            cell.imgProfile.image = UIImage(named: "demo_images")
+           // cell.imgProfile.image = UIImage(named: "demo_images")
+            if dictEmogoContact.userImage.isEmpty {
+                 cell.imgProfile.setImage(string: dictEmogoContact.displayName,color:UIColor.colorHash(name: dictEmogoContact.displayName),circular: true)
+            }else{
+                  cell.imgProfile.setImage(string: dictEmogoContact.displayName,color:UIColor.colorHash(name: dictEmogoContact.displayName),circular: true)
+            }
             cell.btnCheck.tag = indexPath.row
             cell.btnCheck .addTarget(self, action:#selector(btnCheckedEmogoClicked(sender:)) , for: .touchUpInside )
             return cell
@@ -304,11 +311,13 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             let dictContact = self.arrayContacts[indexPath.row]
             cell.lblContact.text = dictContact.name
            // cell.imgProfile.image = UIImage(named: "demo_images")
-        if dictContact.imgUser.isEmpty {
-            cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name ), circular: true)
-        }else{
-            cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name), circular: true)
-        }
+            if dictContact.imgUser.isEmpty {
+                cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name ), circular: true)
+            }else{
+                cell.imgProfile.setImage(string:dictContact.name, color: UIColor.colorHash(name:dictContact.name), circular: true)
+            }
+           cell.btnCheck.tag = indexPath.row
+           cell.btnCheck .addTarget(self, action:#selector(btnCheckedClicked(sender:)) , for: .touchUpInside )
              return cell
         }
    
@@ -346,10 +355,8 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
         lblTitle.textColor =   UIColor.init(r: 74.0, g: 74.0, b: 74.0)
         lblTitle.text = self.sectionHeading[section]
         
-        
         let lblSepratorTop : UILabel = UILabel.init(frame: CGRect(x: 0, y: 0, width: self.tblContacts.frame.size.width, height: 1))
         lblSepratorTop.backgroundColor = UIColor.init(r: 229.0 , g: 229.0, b: 229.0)
-        
         
         let lblSepratorBottom : UILabel = UILabel.init(frame: CGRect(x: 0, y: viewHeader.frame.size.height-1, width: self.tblContacts.frame.size.width, height: 1))
         lblSepratorBottom.backgroundColor = UIColor.init(r: 229.0 , g: 229.0, b: 229.0)

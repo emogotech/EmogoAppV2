@@ -109,10 +109,19 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             
         }
      
-    
-        self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
-        self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
-       
+        if !objStream.colabImageFirst.trim().isEmpty {
+            self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+           
+        }else{
+             self.imgCollabOne.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+        }
+        
+        if !objStream.colabImageSecond.trim().isEmpty {
+              self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+          
+        }else{
+            self.imgCollabTwo.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+        }
         // For  Now
        // btnEdit.isHidden = false
       
