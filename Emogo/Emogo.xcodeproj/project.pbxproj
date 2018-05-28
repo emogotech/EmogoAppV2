@@ -430,13 +430,6 @@
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
 		F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
-		F4EB7C7E20BC067800F19B64 /* YGCAddImageForVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7720BC067700F19B64 /* YGCAddImageForVideo.swift */; };
-		F4EB7C7F20BC067800F19B64 /* YGCAddTextOnVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7820BC067700F19B64 /* YGCAddTextOnVideo.swift */; };
-		F4EB7C8020BC067800F19B64 /* YGCCutVideoTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7920BC067700F19B64 /* YGCCutVideoTime.swift */; };
-		F4EB7C8120BC067800F19B64 /* YGCRepeatSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7A20BC067700F19B64 /* YGCRepeatSegment.swift */; };
-		F4EB7C8220BC067800F19B64 /* YGCResizeVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7B20BC067700F19B64 /* YGCResizeVideo.swift */; };
-		F4EB7C8320BC067800F19B64 /* YGCSlowMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7C20BC067700F19B64 /* YGCSlowMotion.swift */; };
-		F4EB7C8420BC067800F19B64 /* YGCVideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EB7C7D20BC067700F19B64 /* YGCVideoHelper.swift */; };
 		F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
@@ -933,13 +926,6 @@
 		F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
-		F4EB7C7720BC067700F19B64 /* YGCAddImageForVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCAddImageForVideo.swift; sourceTree = "<group>"; };
-		F4EB7C7820BC067700F19B64 /* YGCAddTextOnVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCAddTextOnVideo.swift; sourceTree = "<group>"; };
-		F4EB7C7920BC067700F19B64 /* YGCCutVideoTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCCutVideoTime.swift; sourceTree = "<group>"; };
-		F4EB7C7A20BC067700F19B64 /* YGCRepeatSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCRepeatSegment.swift; sourceTree = "<group>"; };
-		F4EB7C7B20BC067700F19B64 /* YGCResizeVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCResizeVideo.swift; sourceTree = "<group>"; };
-		F4EB7C7C20BC067700F19B64 /* YGCSlowMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCSlowMotion.swift; sourceTree = "<group>"; };
-		F4EB7C7D20BC067700F19B64 /* YGCVideoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YGCVideoHelper.swift; sourceTree = "<group>"; };
 		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
 		F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffPreViewController.swift; sourceTree = "<group>"; };
 		F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkDAO.swift; sourceTree = "<group>"; };
@@ -2186,7 +2172,6 @@
 			isa = PBXGroup;
 			children = (
 				F40CA39720B58211005EE0B0 /* Core */,
-				F4EB7C7620BC067700F19B64 /* Classes */,
 				F4B8887120AAB7540056666B /* VideoEditorViewController.swift */,
 				F4B8887520AABD9D0056666B /* VideoEditor+Controls.swift */,
 				F4164F3B20AC40530066DD97 /* VideoEditor+Trimmer.swift */,
@@ -2301,20 +2286,6 @@
 				F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */,
 			);
 			path = RefreshControls;
-			sourceTree = "<group>";
-		};
-		F4EB7C7620BC067700F19B64 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				F4EB7C7720BC067700F19B64 /* YGCAddImageForVideo.swift */,
-				F4EB7C7820BC067700F19B64 /* YGCAddTextOnVideo.swift */,
-				F4EB7C7920BC067700F19B64 /* YGCCutVideoTime.swift */,
-				F4EB7C7A20BC067700F19B64 /* YGCRepeatSegment.swift */,
-				F4EB7C7B20BC067700F19B64 /* YGCResizeVideo.swift */,
-				F4EB7C7C20BC067700F19B64 /* YGCSlowMotion.swift */,
-				F4EB7C7D20BC067700F19B64 /* YGCVideoHelper.swift */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		F4F18E791FBF192E00E746A8 /* ParralaxHeader */ = {
@@ -2974,7 +2945,6 @@
 				F43612F31FD69B3200788FFE /* AGBrightnessFilter.swift in Sources */,
 				F401DFB21FE2964B00BD7DDA /* LinkViewController.swift in Sources */,
 				F4164F3E20AC6B620066DD97 /* VideoEditor+Resolution.swift in Sources */,
-				F4EB7C8420BC067800F19B64 /* YGCVideoHelper.swift in Sources */,
 				F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */,
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F4C2103D209B366B0094A7FC /* ACEDrawingToolState.m in Sources */,
@@ -2993,7 +2963,6 @@
 				F4B4560E20B2C8EE007E4753 /* VideoEditor+PlayRate.swift in Sources */,
 				F4C20FE9209AE4E80094A7FC /* FilterGradientCell.swift in Sources */,
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
-				F4EB7C8220BC067800F19B64 /* YGCResizeVideo.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
 				F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */,
@@ -3027,7 +2996,6 @@
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
-				F4EB7C8320BC067800F19B64 /* YGCSlowMotion.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */,
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
@@ -3063,7 +3031,6 @@
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
 				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
 				F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */,
-				F4EB7C7F20BC067800F19B64 /* YGCAddTextOnVideo.swift in Sources */,
 				F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */,
 				F404C0711FDA997500E8ACC2 /* AddContentCell.swift in Sources */,
 				F46AC6E22043E92E00B71102 /* TLAlbumPopView.swift in Sources */,
@@ -3120,7 +3087,6 @@
 				337B52E71FBC168F00CEC0EB /* Validator.swift in Sources */,
 				F43649CA2015CEA5004FBEE2 /* ImageCell.swift in Sources */,
 				F4B8887A20AB045D0056666B /* FilterManager.swift in Sources */,
-				F4EB7C7E20BC067800F19B64 /* YGCAddImageForVideo.swift in Sources */,
 				F42217C12007521A002D4E4E /* TPKeyboardAvoidingTableView.m in Sources */,
 				F4C20FEB209AE4E80094A7FC /* PhotoEditor+FilterControls.swift in Sources */,
 				C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */,
@@ -3149,7 +3115,6 @@
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
 				33DAB2FD1FC6B9AC0053AC23 /* FSPageViewLayout.swift in Sources */,
 				F46AC6E02043E92E00B71102 /* TLCollectionTableViewCell.swift in Sources */,
-				F4EB7C8020BC067800F19B64 /* YGCCutVideoTime.swift in Sources */,
 				F40557CD20AEB50C00A28F51 /* CountryDAO.swift in Sources */,
 				F425C63A2056646F002536E1 /* ASCollectionViewLayout.swift in Sources */,
 				33DAB2FA1FC6B9AC0053AC23 /* FSPagerView.swift in Sources */,
@@ -3183,7 +3148,6 @@
 				337B52E91FBC177F00CEC0EB /* Extensions.swift in Sources */,
 				33BCB09F1FBB353E004FF634 /* ViewController.swift in Sources */,
 				F403765C1FDE9F830007C696 /* Durations.swift in Sources */,
-				F4EB7C8120BC067800F19B64 /* YGCRepeatSegment.swift in Sources */,
 				F4522CA21FCBFC2B0021562D /* CircleMenuControls.swift in Sources */,
 				F4522CA41FCC1AA50021562D /* Animation.swift in Sources */,
 				33BCB09B1FBB353E004FF634 /* SignInViewController.swift in Sources */,
