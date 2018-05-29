@@ -2462,7 +2462,7 @@
                                             <constraint firstAttribute="height" constant="40" id="bN5-8P-Lpj"/>
                                         </constraints>
                                         <state key="normal" image="button:KJZ-CM-7cq:image"/>
-                                        <state key="selected" image="559BBE6B-F053-43A2-896F-743E0EB256DE"/>
+                                        <state key="selected" image="98282D26-4AE1-4ECE-9BD9-0D4A8CFD3DCD"/>
                                         <connections>
                                             <action selector="btnSearchAction:" destination="yPI-rI-brd" eventType="touchUpInside" id="6qg-Si-L1X"/>
                                         </connections>
@@ -3271,7 +3271,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="nBT-XO-ZYI" firstAttribute="leading" secondItem="fof-IP-Iy3" secondAttribute="trailing" constant="18" id="9vA-m2-fN7"/>
                                     <constraint firstItem="fof-IP-Iy3" firstAttribute="leading" secondItem="akC-iF-VMQ" secondAttribute="leading" constant="15" id="RGx-qm-Wjs"/>
@@ -3459,6 +3459,13 @@
                                     <action selector="btnPlayAction:" destination="JCt-KR-SyY" eventType="touchUpInside" id="tyB-jN-mEx"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jbb-Om-UUD" customClass="URLEmbeddedView" customModule="URLEmbeddedView">
+                                <rect key="frame" x="2" y="299" width="371" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="uva-wx-2dd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -3466,8 +3473,11 @@
                             <constraint firstItem="8o4-3k-8xV" firstAttribute="leading" secondItem="QMl-B2-q6o" secondAttribute="leading" id="97K-QH-40L"/>
                             <constraint firstItem="JpS-bb-0Ec" firstAttribute="bottom" secondItem="QMl-B2-q6o" secondAttribute="bottom" id="Amo-Og-OO1"/>
                             <constraint firstItem="akC-iF-VMQ" firstAttribute="trailing" secondItem="QMl-B2-q6o" secondAttribute="trailing" id="BO3-ri-ESl"/>
+                            <constraint firstItem="Jbb-Om-UUD" firstAttribute="leading" secondItem="QMl-B2-q6o" secondAttribute="leading" constant="2" id="DkG-bE-0sp"/>
                             <constraint firstItem="gsN-bM-3J6" firstAttribute="leading" secondItem="QMl-B2-q6o" secondAttribute="leading" id="IZz-mf-8Va"/>
+                            <constraint firstItem="akC-iF-VMQ" firstAttribute="top" secondItem="Jbb-Om-UUD" secondAttribute="bottom" constant="2" id="IaG-hY-MZl"/>
                             <constraint firstItem="Oxa-lZ-wHX" firstAttribute="leading" secondItem="QMl-B2-q6o" secondAttribute="leading" id="JcS-Y3-1sx"/>
+                            <constraint firstItem="QMl-B2-q6o" firstAttribute="trailing" secondItem="Jbb-Om-UUD" secondAttribute="trailing" constant="2" id="MHn-hU-YN6"/>
                             <constraint firstItem="Jbw-oF-FfB" firstAttribute="centerX" secondItem="Oxa-lZ-wHX" secondAttribute="centerX" id="Mjg-q6-dUK"/>
                             <constraint firstItem="gsN-bM-3J6" firstAttribute="top" secondItem="8o4-3k-8xV" secondAttribute="bottom" id="Tbp-im-ddd"/>
                             <constraint firstItem="akC-iF-VMQ" firstAttribute="leading" secondItem="QMl-B2-q6o" secondAttribute="leading" id="Wnt-8p-4JO"/>
@@ -3500,6 +3510,7 @@
                         <outlet property="previewCollection" destination="yYt-iR-zoN" id="I7T-n4-pv2"/>
                         <outlet property="txtDescription" destination="rSv-IR-6Up" id="J5P-Pp-3X3"/>
                         <outlet property="txtTitleImage" destination="fof-IP-Iy3" id="brx-ub-mCK"/>
+                        <outlet property="viewLinkPreview" destination="Jbb-Om-UUD" id="wfd-T2-dGD"/>
                         <outlet property="viewOptions" destination="DUc-4G-NEa" id="rvr-Ie-GEv"/>
                     </connections>
                 </viewController>
@@ -3509,7 +3520,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="559BBE6B-F053-43A2-896F-743E0EB256DE" width="17" height="17">
+        <image name="98282D26-4AE1-4ECE-9BD9-0D4A8CFD3DCD" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
 ExQZHh8jJCsuMTtDR0tPUlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdz

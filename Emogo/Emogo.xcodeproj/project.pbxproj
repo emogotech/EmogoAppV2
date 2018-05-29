@@ -55,7 +55,6 @@
 		330FEB891FC4132C00552260 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49023C41FC4010A004F3C90 /* Reachability.swift */; };
 		332F441E1FCC13A800D24C01 /* ASToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4431AB21FC7044D00311C9A /* ASToast.swift */; };
 		335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A111FBB238A006DA9D9 /* AppDelegate.swift */; };
-		335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		335B1A1C1FBB238A006DA9D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A1A1FBB238A006DA9D9 /* LaunchScreen.storyboard */; };
 		335B1A271FBB238A006DA9D9 /* EmogoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A261FBB238A006DA9D9 /* EmogoTests.swift */; };
 		335B1A321FBB238B006DA9D9 /* EmogoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335B1A311FBB238B006DA9D9 /* EmogoUITests.swift */; };
@@ -430,6 +429,7 @@
 		F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824220905569005636FE /* EmogoContactViewCell.swift */; };
 		F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CF824320905569005636FE /* ContactsViewCell.swift */; };
 		F4D0DDCA1FE7CA1C004E7BE2 /* CameraDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42864371FC4A8C900E3549D /* CameraDAO.swift */; };
+		F4E4B48C20BD606E009CD301 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A151FBB238A006DA9D9 /* Main.storyboard */; };
 		F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */; };
 		F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */; };
 		F4E758791FD68242008DB12E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB771FC3F5F200552260 /* LoadingView.swift */; };
@@ -2533,6 +2533,7 @@
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */,
 				F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */,
+				F4E4B48C20BD606E009CD301 /* Main.storyboard in Resources */,
 				F40CA39620B581D5005EE0B0 /* silence.mp3 in Resources */,
 				F431186F202B88D2006139F7 /* filter_gradient_1_icon@3x.png in Resources */,
 				F4311872202B88D2006139F7 /* filter_gradient_4.png in Resources */,
@@ -2578,7 +2579,6 @@
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
 				F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */,
-				335B1A171FBB238A006DA9D9 /* Main.storyboard in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F41FD94920A9583F00FA8623 /* ColorCollectionViewCell.xib in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,

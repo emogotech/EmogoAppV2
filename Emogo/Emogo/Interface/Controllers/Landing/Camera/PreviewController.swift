@@ -9,6 +9,7 @@
 import UIKit
 import MessageUI
 import Messages
+import URLEmbeddedView
 
 class PreviewController: UIViewController {
     
@@ -29,7 +30,8 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnAddStream: UIButton!
     @IBOutlet weak var kWidth: NSLayoutConstraint!
     @IBOutlet weak var btnAddMore: UIButton!
-    
+    @IBOutlet weak var viewLinkPreview: URLEmbeddedView!
+
     
     // MARK: - Variables
     
@@ -96,6 +98,7 @@ class PreviewController: UIViewController {
         if selectedIndex == nil {
             selectedIndex = 0
         }
+        viewLinkPreview.isHidden = true
         self.view.backgroundColor = .black
         self.txtTitleImage.maxLength = 50
         txtDescription.delegate = self
@@ -417,7 +420,27 @@ class PreviewController: UIViewController {
         }
         self.changeButtonAccordingSwipe(selected: seletedImage)
         self.txtTitleImage.isHidden = true
-        
+        viewLinkPreview.isHidden = false
+        if self.seletedImage.type == .link {
+            if !self.seletedImage.coverImage.isEmpty {
+                
+                if let fontTitle = UIFont(name: kFontMedium, size: 12.0), let fontDescription = UIFont(name: kFontRegular, size: 10.0), let urlFont = UIFont(name: kFontRegular, size: 10.0) {
+                    
+                    self.viewLinkPreview.textProvider[.title].font = fontTitle
+                    viewLinkPreview.textProvider[.description].font = fontDescription
+                    viewLinkPreview.textProvider[.domain].font = urlFont
+                }
+                viewLinkPreview.isHidden = false
+                 viewLinkPreview.borderColor = UIColor(r: 0, g: 122, b: 255)
+                viewLinkPreview.textProvider[.title].fontColor = UIColor(r: 74, g: 74, b: 74)
+                viewLinkPreview.textProvider[.description].fontColor = UIColor(r: 74, g: 74, b: 74)
+                viewLinkPreview.textProvider[.domain].fontColor = UIColor(r: 0, g: 122, b: 255)
+                viewLinkPreview.textProvider[.title].numberOfLines = 2
+                viewLinkPreview.textProvider[.description].numberOfLines = 5
+                viewLinkPreview.loadURL(self.seletedImage.coverImage)
+                
+            }
+        }
      }
     
     
