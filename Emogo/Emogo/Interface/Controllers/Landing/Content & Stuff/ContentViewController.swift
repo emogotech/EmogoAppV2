@@ -893,6 +893,7 @@ class ContentViewController: UIViewController {
             }
         }else if seletedImage.type == .video {
             let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
+            objVideoEditor.delegate = self
             objVideoEditor.seletedImage = self.seletedImage
             self.navigationController?.pushAsPresent(viewController: objVideoEditor)
         }
@@ -1244,6 +1245,9 @@ extension ContentViewController:VideoEditorDelegate
     func saveEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
+        if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent [index] = seletedImage
+        }
         self.updateContent()
     }
     

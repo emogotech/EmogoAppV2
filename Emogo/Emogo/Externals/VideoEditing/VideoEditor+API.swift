@@ -30,7 +30,7 @@ extension VideoEditorViewController {
             let content = ContentDAO(contentData: [:])
             content.type = .video
             content.isUploaded = false
-            
+            content.contentID = seletedImage.contentID
             content.imgPreview = image.resize(to: CGSize(width: seletedImage.width, height: seletedImage.height))
             content.fileName = self.localFileURl!.absoluteString.getName()
             content.fileUrl = self.localFileURl!

@@ -608,7 +608,7 @@
                                                 </connections>
                                             </textView>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="Ahy-8K-DbQ" firstAttribute="leading" secondItem="ME3-BQ-vsz" secondAttribute="leading" constant="25" id="24S-gZ-g9b"/>
                                             <constraint firstItem="taY-33-ivc" firstAttribute="leading" secondItem="ME3-BQ-vsz" secondAttribute="leading" constant="25" id="Ado-36-KYo"/>

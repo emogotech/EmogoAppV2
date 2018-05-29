@@ -17,6 +17,9 @@ extension VideoEditorViewController {
              HUDManager.sharedInstance.showHUD()
         
             if self.isForEditOnly == false {
+                if let editedFileURL = editedFileURL {
+                    self.localFileURl = editedFileURL
+                }
                 self.uploadFile()
             }else {
                 self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
