@@ -41,7 +41,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         pagerView.deselectItem(at: index, animated: false)
         if(lastIndex != index){
             let last = lastIndex
-          
+            
             lastIndex = index
             
             self.navigateToSelectedItem(index:index,isSelect:true)
@@ -87,40 +87,40 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
                     if(sender == (sel as! FSPagerViewCell).imageView?.tag){
                         (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
                         (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
-                         menu = self.menu.arrayMenu[indexPath.row]
+                        menu = self.menu.arrayMenu[indexPath.row]
                         (sel as! FSPagerViewCell).imageView?.image =  menu.iconSelected
                         (sel as! FSPagerViewCell).addLayerInImageView(isTrue : true)
                     } else {
                         (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 65, height: 65)
                         (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
-                         menu = self.menu.arrayMenu[indexPath.row]
+                        menu = self.menu.arrayMenu[indexPath.row]
                         (sel as! FSPagerViewCell).imageView?.image =  menu.icon
                     }
                     (sel as! FSPagerViewCell).imageView?.layer.cornerRadius = ((sel as! FSPagerViewCell).imageView?.frame.size.width)!/2
                 }
             }
         }
-         menu  = self.menu.arrayMenu[sender]
-         pagerView.lblCurrentType.text = menu.iconName
-//        let when = DispatchTime.now() + 0.3
-//        DispatchQueue.main.asyncAfter(deadline: when) {
-//            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
-//        }
+        menu  = self.menu.arrayMenu[sender]
+        pagerView.lblCurrentType.text = menu.iconName
+        //        let when = DispatchTime.now() + 0.3
+        //        DispatchQueue.main.asyncAfter(deadline: when) {
+        //            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
+        //        }
     }
     
     func navigateToSelectedItem(index:Int, isSelect:Bool){
-//        self.menuView.isHidden = true
-//        self.viewMenu.isHidden = false
-//       if isSelect == true {
-//            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
-//        }
-//        isMenuOpen = false
+        //        self.menuView.isHidden = true
+        //        self.viewMenu.isHidden = false
+        //       if isSelect == true {
+        //            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
+        //        }
+        //        isMenuOpen = false
         switch index {
         case 0:
-            currentStreamType  =  StreamType.populer
+            currentStreamType =  StreamType.myStream
             break
         case 1:
-            currentStreamType =  StreamType.myStream
+            currentStreamType  =  StreamType.populer
             break
         case 2:
             currentStreamType =  StreamType.featured
@@ -130,10 +130,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             break
         case 4:
             currentStreamType   =   StreamType.Liked
-//            currentStreamType = StreamType.People
-//            collectionLayout.columnCount = 3
-//            self.lblNoResult.text = kAlert_No_User_Record_Found
-         //   self.actionForPeopleList()
+            //            currentStreamType = StreamType.People
+            //            collectionLayout.columnCount = 3
+            //            self.lblNoResult.text = kAlert_No_User_Record_Found
+            //   self.actionForPeopleList()
             break
             
         case 5:
@@ -143,12 +143,12 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             break
         }
         print("currrent index--->\(index)")
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            collectionLayout.columnCount = 2
-            self.lblNoResult.text = kAlert_No_Stream_found
-            isPeopleList = false
-          //  HUDManager.sharedInstance.showHUD()
-          //  self.getStreamList(type:.start,filter: currentStreamType)
+        StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+        collectionLayout.columnCount = 2
+        self.lblNoResult.text = kAlert_No_Stream_found
+        isPeopleList = false
+        //  HUDManager.sharedInstance.showHUD()
+        //  self.getStreamList(type:.start,filter: currentStreamType)
         self.streamCollectionView.es.resetNoMoreData()
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
@@ -199,7 +199,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     
     func btnActionForMyStuff(){
         ContentList.sharedInstance.objStream = nil
-       let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
         self.navigationController?.push(viewController: controller)
     }
     
@@ -282,11 +282,12 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func previewScreenNavigated(){
-      
+        
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
             self.navigationController?.pushNormal(viewController: objPreview)
         }
     }
-
+    
 }
+

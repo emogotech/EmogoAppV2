@@ -18,21 +18,21 @@ class MenuDAO {
     
     private func prepareData(){
         arrayMenu.removeAll()
-        let menu1 = Menu(icon: #imageLiteral(resourceName: "PopularDeselected"), name: "Popular")
-        menu1.iconSelected = #imageLiteral(resourceName: "Popular")
-        arrayMenu.append(menu1)
         let menu2 = Menu(icon: #imageLiteral(resourceName: "MyStreamsDeselected"), name: "My Streams")
         menu2.iconSelected = #imageLiteral(resourceName: "My Streams")
         arrayMenu.append(menu2)
+        let menu1 = Menu(icon: #imageLiteral(resourceName: "PopularDeselected"), name: "Popular")
+        menu1.iconSelected = #imageLiteral(resourceName: "Popular")
+        arrayMenu.append(menu1)
         let menu3 = Menu(icon: #imageLiteral(resourceName: "featutreDeselected"), name: "Featured")
         menu3.iconSelected = #imageLiteral(resourceName: "Featured")
         arrayMenu.append(menu3)
         let menu4 = Menu(icon:#imageLiteral(resourceName: "emogoDeselected"), name: "Emogo Streams")
         menu4.iconSelected = #imageLiteral(resourceName: "Emogo Streams")
         arrayMenu.append(menu4)
-//        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "People")
-//        menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
-//        arrayMenu.append(menu6)
+        //        let menu6 = Menu(icon: #imageLiteral(resourceName: "PeopleDeselect"), name: "People")
+        //        menu6.iconSelected = #imageLiteral(resourceName: "Peoples")
+        //        arrayMenu.append(menu6)
         
         let menuLiked   =   Menu(icon: #imageLiteral(resourceName: "liked-icon"), name: "Liked Streams")
         menuLiked.iconSelected  =   #imageLiteral(resourceName: "liked-selected-icon")
@@ -48,9 +48,10 @@ class Menu {
     var icon:UIImage!
     var iconName:String! = ""
     var iconSelected:UIImage!
-
+    
     init(icon:UIImage, name:String) {
         self.icon = icon
         self.iconName = name.uppercased()
     }
 }
+
