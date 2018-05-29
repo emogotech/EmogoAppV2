@@ -282,7 +282,7 @@ class StreamViewDAO{
                     if colab.userImage.isEmpty {
                         self.colabImageFirst =  colab.name
                     }else {
-                      self.colabImageFirst = colab.userImage
+                        self.colabImageFirst =  colab.userImage
                     }
                 }else if index == 1 {
                     if colab.userImage.isEmpty{

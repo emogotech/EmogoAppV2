@@ -108,7 +108,7 @@ class MyStreamViewController: UIViewController {
         
         // Segment control Configure
         
-        self.stretchyHeader.segmentControl.sectionTitles = ["Emogo", "Collabs"]
+        self.stretchyHeader.segmentControl.sectionTitles = ["Emogos", "Collabs"]
         self.stretchyHeader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
@@ -440,6 +440,12 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
                     }else {
                         (cell as! MyStreamCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
                     }
+                    if  let index = self.arraySelected.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                        self.arraySelected.remove(at: index)
+                    }else {
+                        self.arraySelected.insert(stream, at: 0)
+                    }
+
                 }
             }else {
                 if let cell = self.myStreamCollectionView.cellForItem(at: indexPath) {
@@ -459,6 +465,12 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
                             self.myStreamCollectionView.reloadItems(at: [lastSelectedIndex!])
                         }
                     }
+                    if  let index = self.arraySelected.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                        self.arraySelected.remove(at: index)
+                    }else {
+                        self.arraySelected.insert(stream, at: 0)
+                    }
+
                     lastSelectedIndex = indexPath
                 }
             }

@@ -129,7 +129,7 @@
                             </userDefinedRuntimeAttributes>
                         </button>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8r-np-uiY">
-                            <rect key="frame" x="12" y="170" width="296" height="36"/>
+                            <rect key="frame" x="12" y="170" width="260" height="36"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number_of_views_icon" translatesAutoresizingMaskIntoConstraints="NO" id="cQc-ew-sdY">
                                     <rect key="frame" x="12" y="5" width="29" height="27"/>
@@ -139,9 +139,9 @@
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkA-h6-Q6s">
-                                    <rect key="frame" x="49" y="8" width="89" height="21"/>
+                                    <rect key="frame" x="49" y="8" width="60" height="21"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="89" id="bJ5-HS-Kv2"/>
+                                        <constraint firstAttribute="width" constant="60" id="bJ5-HS-Kv2"/>
                                         <constraint firstAttribute="height" constant="21" id="j5M-8Z-fLV"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="15"/>
@@ -149,16 +149,16 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="number_of_likes_icon" translatesAutoresizingMaskIntoConstraints="NO" id="yzL-YP-gdX">
-                                    <rect key="frame" x="157" y="5" width="29" height="27"/>
+                                    <rect key="frame" x="128" y="5" width="29" height="27"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="27" id="0Ec-83-3Py"/>
                                         <constraint firstAttribute="width" constant="29" id="QTR-aQ-8dD"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sTx-Fg-fSL">
-                                    <rect key="frame" x="194" y="7" width="89" height="21"/>
+                                    <rect key="frame" x="165" y="7" width="60" height="21"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" constant="89" id="vPE-3b-2zS"/>
+                                        <constraint firstAttribute="width" constant="60" id="vPE-3b-2zS"/>
                                         <constraint firstAttribute="height" constant="21" id="vvz-dp-A0O"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Medium" family="SF Pro Display" pointSize="15"/>
@@ -166,7 +166,6 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="vkA-h6-Q6s" firstAttribute="centerY" secondItem="cQc-ew-sdY" secondAttribute="centerY" id="2yg-t1-9Jb"/>
                                 <constraint firstAttribute="bottom" secondItem="vkA-h6-Q6s" secondAttribute="bottom" constant="7" id="5e9-C9-NEt"/>
@@ -183,14 +182,26 @@
                                 <constraint firstItem="yzL-YP-gdX" firstAttribute="leading" secondItem="vkA-h6-Q6s" secondAttribute="trailing" constant="19" id="pWl-kd-brI"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0b3-4v-bVQ">
+                            <rect key="frame" x="274" y="170" width="34" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="34" id="KsS-Ug-Nob"/>
+                                <constraint firstAttribute="height" constant="36" id="w5D-VP-lzE"/>
+                            </constraints>
+                            <state key="normal" image="send_icon"/>
+                            <connections>
+                                <action selector="btnShareAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="LdL-vO-DMP"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="2Kv-N8-M7k" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="2ck-6C-Bvg"/>
                         <constraint firstAttribute="trailing" secondItem="OoM-EK-BMI" secondAttribute="trailing" constant="8" id="48T-ds-3JD"/>
+                        <constraint firstAttribute="trailing" secondItem="0b3-4v-bVQ" secondAttribute="trailing" constant="12" id="4xn-ks-rzq"/>
                         <constraint firstAttribute="trailing" secondItem="ibH-2l-PEN" secondAttribute="trailing" constant="8" id="51s-GG-4ZZ"/>
                         <constraint firstItem="u6H-Pb-Fpo" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="8bQ-s6-mCG"/>
-                        <constraint firstAttribute="trailing" secondItem="u8r-np-uiY" secondAttribute="trailing" constant="12" id="AAk-Kb-zVo"/>
+                        <constraint firstAttribute="trailing" secondItem="u8r-np-uiY" secondAttribute="trailing" constant="48" id="AAk-Kb-zVo"/>
                         <constraint firstAttribute="trailing" secondItem="6gJ-DM-QZF" secondAttribute="trailing" constant="8" id="BbC-D7-bmo"/>
                         <constraint firstItem="OoM-EK-BMI" firstAttribute="top" secondItem="ibH-2l-PEN" secondAttribute="bottom" constant="7" id="FPb-ZF-LAN"/>
                         <constraint firstItem="g4V-5K-llI" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="7" id="I47-WD-eqk"/>
@@ -206,6 +217,7 @@
                         <constraint firstItem="ibH-2l-PEN" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="8" id="g3o-hd-EKJ"/>
                         <constraint firstItem="fhf-Q4-Z9P" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="bottom" constant="7" id="h0V-oB-TEu"/>
                         <constraint firstItem="g4V-5K-llI" firstAttribute="leading" secondItem="HR2-Gh-htd" secondAttribute="leading" constant="8" id="hsA-59-het"/>
+                        <constraint firstItem="0b3-4v-bVQ" firstAttribute="centerY" secondItem="u8r-np-uiY" secondAttribute="centerY" id="hy8-J4-hzx"/>
                         <constraint firstAttribute="trailing" secondItem="7hR-WH-JyQ" secondAttribute="trailing" id="nYV-pD-Kku"/>
                         <constraint firstItem="Mlf-s9-RF9" firstAttribute="top" secondItem="HR2-Gh-htd" secondAttribute="top" constant="6" id="nzB-Xo-mWW"/>
                         <constraint firstItem="7hR-WH-JyQ" firstAttribute="top" secondItem="i1b-sa-qbQ" secondAttribute="bottom" id="oh1-BL-cfS"/>
@@ -239,6 +251,7 @@
                 <outlet property="btnDelete" destination="OoM-EK-BMI" id="2It-tu-54q"/>
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
                 <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
+                <outlet property="btnShare" destination="0b3-4v-bVQ" id="w9N-kO-tKm"/>
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="heightEdit" destination="AAY-6I-n3U" id="sMl-xM-IiT"/>
                 <outlet property="heigtDelete" destination="bQo-aO-iIZ" id="jkX-TO-g0v"/>
@@ -263,6 +276,7 @@
         <image name="edit_icon" width="34" height="34"/>
         <image name="number_of_likes_icon" width="29" height="27"/>
         <image name="number_of_views_icon" width="30" height="24"/>
+        <image name="send_icon" width="34" height="36"/>
         <image name="stream-card-placeholder" width="145" height="145"/>
     </resources>
 </document>
