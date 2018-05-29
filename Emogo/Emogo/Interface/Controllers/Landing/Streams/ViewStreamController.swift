@@ -854,6 +854,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             ContentList.sharedInstance.arrayContent = array
             ContentList.sharedInstance.objStream = objStream?.streamID
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+             objPreview.isViewCount = "TRUE"
             if (self.objStream?.canAddContent)! {
                 objPreview.currentIndex = indexPath.row - 1
             }else {

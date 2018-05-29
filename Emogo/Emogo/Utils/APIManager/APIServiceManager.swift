@@ -2181,5 +2181,31 @@ class APIServiceManager: NSObject {
             
         }
     }
+    
+    func apiForIncreaseStreamViewCount(streamID:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        
+        let params:[String:Any] = ["stream":streamID]
+        APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAPIIncreaseViewCount, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    
 }
 

@@ -47,6 +47,7 @@ class ContentViewController: UIViewController {
     var isFromAll:String?
     var isMoreTapped:Bool! = false
     var photoEditor:PhotoEditorViewController!
+    var isViewCount:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,7 +156,6 @@ class ContentViewController: UIViewController {
             self.btnFlagIcon.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
         }
-        
         
     }
     
@@ -409,7 +409,9 @@ class ContentViewController: UIViewController {
         
         txtDescription.isUserInteractionEnabled = false
         txtTitleImage.isUserInteractionEnabled = false
-
+        if isViewCount != nil {
+            apiForIncreaseViewCount()
+        }
     }
     
     
@@ -1154,6 +1156,15 @@ class ContentViewController: UIViewController {
                 self.showToast(strMSG: errorMsg!)
             }
         }
+    }
+    
+    func apiForIncreaseViewCount(){
+        if let streamID = ContentList.sharedInstance.objStream {
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
+                
+            }
+        }
+       
     }
     //MARK:- Save Content to My Stuff
     
