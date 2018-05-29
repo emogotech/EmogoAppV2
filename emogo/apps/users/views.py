@@ -413,7 +413,10 @@ class UserLikedSteams(ListAPIView):
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            )).order_by('-upd')
+            ))
+        queryset = list(queryset)
+        stream_ids_list = list(stream_ids_list)
+        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -422,6 +425,7 @@ class UserLikedSteams(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)

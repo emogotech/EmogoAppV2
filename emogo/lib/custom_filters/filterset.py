@@ -157,7 +157,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_follower_stream(self, qs, name, value):
-        follower_ids = UserFollow.objects.filter(following=self.request.user).values_list('follower_id', flat=True)
+        follower_ids = UserFollow.objects.filter(following=self.request.user).values_list('follower_id', flat=True).order_by('-follow_time')
         # 1. Get user as collaborator in streams created by follower's.
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
                                                  stream__type='Private', created_by_id__in=follower_ids).values_list(
