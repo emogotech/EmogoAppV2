@@ -407,7 +407,7 @@ class UserLikedSteams(ListAPIView):
         method if you want to apply the configured filtering backend to the
         default queryset.
         """
-        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True)
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True).order_by('-view_date')
         queryset = queryset.filter(id__in=stream_ids_list).select_related('created_by__user_data').prefetch_related(
             Prefetch(
                 'stream_user_view_status',
