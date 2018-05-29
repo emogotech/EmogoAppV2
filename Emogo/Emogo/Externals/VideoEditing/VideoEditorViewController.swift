@@ -92,7 +92,9 @@ class VideoEditorViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        Document.deleteFile(name: self.fileLocalPath.getName())
+        if self.fileLocalPath != nil {
+            Document.deleteFile(name: self.fileLocalPath.getName())
+        }
     }
     
     func prepareLayout(){
@@ -204,6 +206,10 @@ class VideoEditorViewController: UIViewController {
                 self.openPlayer(videoUrl: fileURL!)
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
+                guard let edgeMenu = self.edgeMenu else { return }
+                if edgeMenu.opened  == false{
+                    edgeMenu.open()
+                }
             }
         }else {
             let when = DispatchTime.now() + 1.5
@@ -213,6 +219,10 @@ class VideoEditorViewController: UIViewController {
                 self.originalFileURl = self.seletedImage.fileUrl
                 self.originalFile = self.seletedImage.fileUrl?.absoluteString
                 self.openPlayer(videoUrl: self.seletedImage.fileUrl!)
+                guard let edgeMenu = self.edgeMenu else { return }
+                if edgeMenu.opened  == false{
+                    edgeMenu.open()
+                }
             }
         }
        
@@ -229,10 +239,7 @@ class VideoEditorViewController: UIViewController {
         let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))
         self.navigationItem.leftBarButtonItem = btnback
         self.navigationItem.rightBarButtonItem = btnSave
-        guard let edgeMenu = self.edgeMenu else { return }
-        if edgeMenu.opened  == false{
-            edgeMenu.open()
-        }
+       
     }
     
     

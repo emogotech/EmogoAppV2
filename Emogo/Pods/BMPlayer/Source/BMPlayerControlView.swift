@@ -588,6 +588,7 @@ open class BMPlayerControlView: UIView {
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapGestureTapped(_:)))
         addGestureRecognizer(tapGesture)
+        backButton.isHidden = true
     }
     
     func addSnapKitConstraint() {

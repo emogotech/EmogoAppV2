@@ -25,7 +25,7 @@ extension VideoEditorViewController {
     
     func uploadFile(){
         // Create a object array to upload file to AWS
-        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:self.localFileURl!,isSave:true) {
+        if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:self.localFileURl!,isSave:false) {
             self.deleteFileFromAWS(content: self.seletedImage)
             let content = ContentDAO(contentData: [:])
             content.type = .video

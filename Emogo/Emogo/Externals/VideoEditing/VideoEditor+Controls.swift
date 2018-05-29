@@ -15,7 +15,7 @@ extension VideoEditorViewController {
     @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
         
         if self.isEdit != nil {
-            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:localFileURl!,isSave:true) {
+            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:localFileURl!,isSave:false) {
                 let camera = ContentDAO(contentData: [:])
                 camera.type = .video
                 camera.imgPreview = image
@@ -45,6 +45,9 @@ extension VideoEditorViewController {
     }
     
     @objc func actionForRightMenu(sender:UIButton) {
+        if self.localFileURl == nil {
+            return
+        }
         self.viewDescription.isHidden = true
         switch sender.tag {
         case 101:
@@ -80,11 +83,8 @@ extension VideoEditorViewController {
     
     
     @objc func btnSaveAction(){
-        if let editedFileURL = editedFileURL {
-            self.localFileURl = editedFileURL
-            self.isForEditOnly = false
+        if let _ = SharedData.sharedInstance.videoPreviewImage(moviePath:self.localFileURl!,isSave:true) {
         }
-        self.viewDescription.isHidden = false
     }
     
     @objc func buttonBackAction(){
