@@ -682,6 +682,7 @@
                     </view>
                     <connections>
                         <outlet property="activity" destination="5MR-Zc-rUw" id="t3c-kc-hih"/>
+                        <outlet property="btnSave" destination="4r7-A4-U1g" id="uDJ-qk-9dY"/>
                         <outlet property="canvasImageView" destination="jSQ-zb-a9d" id="OOj-YQ-Jfw"/>
                         <outlet property="colorPickerView" destination="vMC-uu-6hj" id="6pa-U0-9ug"/>
                         <outlet property="colorPickerViewBottomConstraint" destination="1bz-eb-5xs" id="wY8-2D-dIT"/>

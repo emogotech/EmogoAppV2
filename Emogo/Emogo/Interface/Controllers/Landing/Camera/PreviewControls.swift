@@ -191,13 +191,25 @@ extension PreviewController:PhotoEditorDelegate
         self.previewCollection.reloadData()
     }
     
-    
-    
-    
     func canceledEditing() {
         print("Canceled")
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
+}
+extension PreviewController:VideoEditorDelegate
+{
+    func cancelEditing() {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+    }
+    
+    func saveEditing(image: ContentDAO) {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = image
+        ContentList.sharedInstance.arrayContent[selectedIndex] = image
+        self.preparePreview(index: selectedIndex)
+        self.previewCollection.reloadData()
+    }
+    
 }
 
 

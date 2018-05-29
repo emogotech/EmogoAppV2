@@ -14,8 +14,24 @@ extension VideoEditorViewController {
     
     @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
         
-             HUDManager.sharedInstance.showHUD()
-        
+        if self.isEdit != nil {
+            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:localFileURl!,isSave:true) {
+                let camera = ContentDAO(contentData: [:])
+                camera.type = .video
+                camera.imgPreview = image
+                camera.fileName = self.localFileURl?.absoluteString.getName()
+                camera.fileUrl = localFileURl
+                camera.isUploaded = false
+                camera.name = txtTitleImage.text
+                camera.description = txtDescription.text
+                if self.delegate != nil {
+                    self.delegate?.saveEditing(image: camera)
+                }
+                self.navigationController?.popViewAsDismiss()
+            }
+        }else {
+            HUDManager.sharedInstance.showHUD()
+            
             if self.isForEditOnly == false {
                 if let editedFileURL = editedFileURL {
                     self.localFileURl = editedFileURL
@@ -24,6 +40,7 @@ extension VideoEditorViewController {
             }else {
                 self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
             }
+        }
         
     }
     

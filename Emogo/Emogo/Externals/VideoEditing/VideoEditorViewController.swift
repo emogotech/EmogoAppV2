@@ -37,6 +37,7 @@ class VideoEditorViewController: UIViewController {
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
     @IBOutlet weak var txtTitleImage: UITextField!
+    @IBOutlet weak var btnSave: UIButton!
 
     var player = BMPlayer()
     var seletedImage:ContentDAO!
@@ -67,6 +68,8 @@ class VideoEditorViewController: UIViewController {
     let shapes = ShapeDAO()
     var textColor: UIColor = UIColor.white
     var delegate:VideoEditorDelegate?
+    var isEdit:Bool!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +85,10 @@ class VideoEditorViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.viewDescription.addBlurView()
+        self.txtTitleImage.addShadow()
+        self.txtDescription.addShadow()
+        self.btnSave.addShadow()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -184,18 +191,31 @@ class VideoEditorViewController: UIViewController {
     
 
     func getVideo(){
-        activity.startAnimating()
-        activity.isHidden = false
-        let strvideo = self.seletedImage.coverImage.trim()
-        self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
-            self.fileLocalPath = filePath
-            self.localFileURl = fileURL
-            self.originalFileURl = fileURL
-            self.originalFile = filePath
-            self.openPlayer(videoUrl: fileURL!)
-            self.activity.stopAnimating()
-            self.activity.isHidden = true
+    
+        if self.seletedImage.isUploaded {
+            activity.startAnimating()
+            activity.isHidden = false
+            let strvideo = self.seletedImage.coverImage.trim()
+            self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
+                self.fileLocalPath = filePath
+                self.localFileURl = fileURL
+                self.originalFileURl = fileURL
+                self.originalFile = filePath
+                self.openPlayer(videoUrl: fileURL!)
+                self.activity.stopAnimating()
+                self.activity.isHidden = true
+            }
+        }else {
+            let when = DispatchTime.now() + 1.5
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.fileLocalPath = self.seletedImage.fileUrl?.absoluteString
+                self.localFileURl = self.seletedImage.fileUrl
+                self.originalFileURl = self.seletedImage.fileUrl
+                self.originalFile = self.seletedImage.fileUrl?.absoluteString
+                self.openPlayer(videoUrl: self.seletedImage.fileUrl!)
+            }
         }
+       
     }
     
     

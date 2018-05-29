@@ -279,7 +279,7 @@ class PreviewController: UIViewController {
         
         if selected.isUploaded == false {
 
-            if selected.type == .image {
+            if selected.type == .image || selected.type == .video {
                 arrButtons.append(btnEdit)
             }else if selected.type == .link {
 //                imgEdit = #imageLiteral(resourceName: "change_link")
@@ -476,6 +476,14 @@ class PreviewController: UIViewController {
                     return
                 }
                 self.openURL(url: url)
+            }else if seletedImage.type == .video {
+                let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
+                  if self.seletedImage.isUploaded == false{
+                      objVideoEditor.isEdit = true
+                   }
+                objVideoEditor.delegate = self
+                objVideoEditor.seletedImage = self.seletedImage
+                self.navigationController?.pushAsPresent(viewController: objVideoEditor)
             }
         }else {
             self.showToast(type: .error, strMSG: kAlert_Edit_Image)
