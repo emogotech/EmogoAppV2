@@ -42,6 +42,7 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
     
     @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
         self.colorPickerView.isHidden = true
+        self.colorsCollectionView.isHidden = true
         self.view.endEditing(true)
         let pinchGesture = recognizer
         
@@ -99,6 +100,7 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
         
         if let view = recognizer.view {
             self.colorPickerView.isHidden = true
+            self.colorsCollectionView.isHidden = true
             if view is UITextView {
                 let viewSub = recognizer.view?.superview
                 if viewSub?.tag  == 2001{

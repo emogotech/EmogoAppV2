@@ -15,7 +15,8 @@ extension VideoEditorViewController {
     @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
         
         if self.isEdit != nil {
-            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:localFileURl!,isSave:false) {
+            if let url = self.localFileURl {
+            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
                 let camera = ContentDAO(contentData: [:])
                 camera.type = .video
                 camera.imgPreview = image
@@ -29,14 +30,15 @@ extension VideoEditorViewController {
                 }
                 self.navigationController?.popViewAsDismiss()
             }
+            }
         }else {
             HUDManager.sharedInstance.showHUD()
             
             if self.isForEditOnly == false {
                 if let editedFileURL = editedFileURL {
                     self.localFileURl = editedFileURL
+                    self.uploadFile()
                 }
-                self.uploadFile()
             }else {
                 self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
             }
@@ -47,6 +49,9 @@ extension VideoEditorViewController {
     @objc func actionForRightMenu(sender:UIButton) {
         if self.localFileURl == nil {
             return
+        }
+        if stickersVCIsVisible {
+            removeStickersView()
         }
         self.viewDescription.isHidden = true
         switch sender.tag {
@@ -83,7 +88,9 @@ extension VideoEditorViewController {
     
     
     @objc func btnSaveAction(){
-        if let _ = SharedData.sharedInstance.videoPreviewImage(moviePath:self.localFileURl!,isSave:true) {
+        if let url = self.localFileURl {
+            if let _ = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:true) {
+            }
         }
     }
     
@@ -95,8 +102,12 @@ extension VideoEditorViewController {
     }
     @objc func btnTextEditingDone(){
         self.view.endEditing(true)
+        self.colorPickerViewBottomConstraint?.constant = 0.0
         self.colorPickerView.isHidden = true
+        self.colorsCollectionView.isHidden = true
         self.canvasImageView.isUserInteractionEnabled = true
+        self.player.isUserInteractionEnabled = true
+        self.playerContainerView.isUserInteractionEnabled = true
         configureNavigationForEditing()
     }
     

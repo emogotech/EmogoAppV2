@@ -11,7 +11,6 @@ import AVFoundation
 
 extension VideoEditorViewController  {
     
-    
     func addStickersViewController() {
         
         stickersVCIsVisible = true
@@ -50,10 +49,15 @@ extension VideoEditorViewController  {
            }
            self.showActivity()
           let subview = self.canvasImageView.subviews
+          if subview.count == 0 {
+            self.canvasImageView.isHidden = true
+            return
+          }
           let view = subview[0]
           let frontImage = UIImage.image(view)
+           let resizeImage = frontImage.resize(to: view.bounds.size)
           let backGround = UIImage.imageWithColor(tintColor: .clear)
-          let image = backGround.mergedImageWith(frontImage: frontImage, frame: view.frame)
+          let image = backGround.mergedImageWith(frontImage: resizeImage, frame: view.frame)
           let imageResize = UIImageView(image: image)
            if let videoSize = self.resolutionSizeForLocalVideo(url: self.localFileURl!) {
             imageResize.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
@@ -72,7 +76,6 @@ extension VideoEditorViewController  {
             }
         }
     }
-    
     
     func resolutionSizeForLocalVideo(url:URL) -> CGSize? {
         

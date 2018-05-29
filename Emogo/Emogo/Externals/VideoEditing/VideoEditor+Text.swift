@@ -24,10 +24,16 @@ extension VideoEditorViewController  {
         textView.layer.backgroundColor = UIColor.clear.cgColor
         textView.autocorrectionType = .no
         textView.isScrollEnabled = false
+        textView.keyboardAppearance = .dark
         textView.delegate = self
         self.canvasImageView.addSubview(textView)
         addGestures(view: textView)
         textView.becomeFirstResponder()
+        self.player.isUserInteractionEnabled = false
+        self.playerContainerView.isUserInteractionEnabled = false
+        if self.player.isPlaying {
+            self.player.pause()
+        }
     }
     
     func keyboardSetup(){
@@ -37,5 +43,39 @@ extension VideoEditorViewController  {
                                                name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillChangeFrame(_:)),
                                                name: .UIKeyboardWillChangeFrame, object: nil)
+    }
+    
+    
+    func addTextonvideo(){
+        if self.player.isPlaying {
+            self.player.pause()
+        }
+        self.showActivity()
+        let subview = self.canvasImageView.subviews
+        let view = subview[0]
+        if subview.count == 0 {
+            self.canvasImageView.isHidden = true
+            return
+        }
+        let frontImage = UIImage.image(view)
+        let backGround = UIImage.imageWithColor(tintColor: .clear)
+        let image = backGround.mergedImageWith(frontImage: frontImage, frame: view.frame)
+        let imageResize = UIImageView(image: image)
+        if let videoSize = self.resolutionSizeForLocalVideo(url: self.localFileURl!) {
+            imageResize.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
+            imageResize.backgroundColor = .clear
+        }
+        self.canvasImageView.isHidden = true
+        self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: imageResize.bounds.size, contents: [imageResize], progress: {(progress, strProgress) in
+        }) { (fileURL, error) in
+            
+            if let fileURL = fileURL {
+                DispatchQueue.main.async {
+                    self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
+                    self.hideActivity()
+                    self.updatePlayerAsset(videURl: fileURL)
+                }
+            }
+        }
     }
 }

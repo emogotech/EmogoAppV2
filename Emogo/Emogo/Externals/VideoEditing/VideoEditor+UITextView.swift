@@ -77,33 +77,17 @@ extension VideoEditorViewController: UITextViewDelegate {
         return true
     }
     
+}
+
+extension VideoEditorViewController:UITextFieldDelegate {
     
-    func addTextonvideo(){
-        if self.player.isPlaying {
-            self.player.pause()
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == txtTitleImage {
+            txtDescription.becomeFirstResponder()
+        }else {
+            textField.resignFirstResponder()
         }
-        self.showActivity()
-        let subview = self.canvasImageView.subviews
-        let view = subview[0]
-        let frontImage = UIImage.image(view)
-        let backGround = UIImage.imageWithColor(tintColor: .clear)
-        let image = backGround.mergedImageWith(frontImage: frontImage, frame: view.frame)
-        let imageResize = UIImageView(image: image)
-        if let videoSize = self.resolutionSizeForLocalVideo(url: self.localFileURl!) {
-            imageResize.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
-            imageResize.backgroundColor = .clear
-        }
-        self.canvasImageView.isHidden = true
-        self.editManager.addContentToVideo(path: self.localFileURl!, boundingSize: imageResize.bounds.size, contents: [imageResize], progress: {(progress, strProgress) in
-        }) { (fileURL, error) in
-            
-            if let fileURL = fileURL {
-                DispatchQueue.main.async {
-                    self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
-                    self.hideActivity()
-                    self.updatePlayerAsset(videURl: fileURL)
-                }
-            }
-        }
+        return true
     }
+    
 }

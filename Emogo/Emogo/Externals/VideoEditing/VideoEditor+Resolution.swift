@@ -45,7 +45,7 @@ extension VideoEditorViewController {
 //        }
         
         let cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel) { (action) in
-            alert.dismiss(animated: true, completion: nil)
+            self.viewDescription.isHidden = false
             self.configureNavigationButtons()
         }
         alert.addAction(low)

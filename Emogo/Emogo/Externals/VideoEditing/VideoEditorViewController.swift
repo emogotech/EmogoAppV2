@@ -182,7 +182,7 @@ class VideoEditorViewController: UIViewController {
         btnText.isExclusiveTouch = true
         btnText.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
         
-        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate,btnText],
+        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate],
                                    animationDuration: 0.8, menuPosition: .right)
         guard let edgeMenu = self.edgeMenu else { return }
         edgeMenu.backgroundColor = UIColor.clear
@@ -230,7 +230,7 @@ class VideoEditorViewController: UIViewController {
     
     
     func configureNavigationButtons(){
-        
+        self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.rightBarButtonItem = nil
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
@@ -239,7 +239,10 @@ class VideoEditorViewController: UIViewController {
         let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))
         self.navigationItem.leftBarButtonItem = btnback
         self.navigationItem.rightBarButtonItem = btnSave
-       
+        guard let edgeMenu = self.edgeMenu else { return }
+        if edgeMenu.opened  == false{
+            edgeMenu.open()
+        }
     }
     
     

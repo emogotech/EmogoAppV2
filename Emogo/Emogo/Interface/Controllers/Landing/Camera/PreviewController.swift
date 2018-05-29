@@ -31,6 +31,7 @@ class PreviewController: UIViewController {
     @IBOutlet weak var kWidth: NSLayoutConstraint!
     @IBOutlet weak var btnAddMore: UIButton!
     @IBOutlet weak var viewLinkPreview: URLEmbeddedView!
+    @IBOutlet weak var kLinkPreviewHieght: NSLayoutConstraint!
 
     
     // MARK: - Variables
@@ -206,6 +207,7 @@ class PreviewController: UIViewController {
         self.imgPreview.contentMode = .scaleAspectFit
         self.btnShareAction.isHidden = true
         kWidth.constant = 0.0
+        kLinkPreviewHieght.constant = 0.0
         if self.isShowRetake != nil  {
             self.btnShareAction.isHidden = false
             kWidth.constant = 50.0
@@ -421,9 +423,10 @@ class PreviewController: UIViewController {
         self.changeButtonAccordingSwipe(selected: seletedImage)
         self.txtTitleImage.isHidden = true
         viewLinkPreview.isHidden = false
+        kLinkPreviewHieght.constant = 0.0
         if self.seletedImage.type == .link {
             if !self.seletedImage.coverImage.isEmpty {
-                
+                kLinkPreviewHieght.constant = 120.0
                 if let fontTitle = UIFont(name: kFontMedium, size: 12.0), let fontDescription = UIFont(name: kFontRegular, size: 10.0), let urlFont = UIFont(name: kFontRegular, size: 10.0) {
                     
                     self.viewLinkPreview.textProvider[.title].font = fontTitle

@@ -79,7 +79,6 @@ extension VideoEditorViewController {
     }
     
     func stopPlaybackTimeChecker() {
-        
         playbackTimeCheckerTimer?.invalidate()
         playbackTimeCheckerTimer = nil
     }
@@ -98,6 +97,7 @@ extension VideoEditorViewController {
         layer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerView.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
         playerView.layer.addSublayer(layer)
+        self.avPlayer?.play()
     }
     
     

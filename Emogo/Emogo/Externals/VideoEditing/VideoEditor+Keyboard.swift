@@ -15,11 +15,16 @@ extension VideoEditorViewController {
    @objc func keyboardDidShow(notification: NSNotification) {
         if isTyping {
             colorPickerView.isHidden = false
+            colorsCollectionView.isHidden = false
+
         }
     }
     
    @objc func keyboardWillHide(notification: NSNotification) {
-        isTyping = false
+     isTyping = false
+    colorPickerView.isHidden = true
+     colorsCollectionView.isHidden = true
+       // self.btnTextEditingDone()
     }
     
    @objc func keyboardWillChangeFrame(_ notification: NSNotification) {
@@ -30,7 +35,7 @@ extension VideoEditorViewController {
             let animationCurveRaw = animationCurveRawNSN?.uintValue ?? UIViewAnimationOptions.curveEaseInOut.rawValue
             let animationCurve:UIViewAnimationOptions = UIViewAnimationOptions(rawValue: animationCurveRaw)
             if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
-                self.colorPickerViewBottomConstraint?.constant = 0.0
+                    self.colorPickerViewBottomConstraint?.constant = 0.0
             } else {
                 self.colorPickerViewBottomConstraint?.constant = endFrame?.size.height ?? 0.0
             }

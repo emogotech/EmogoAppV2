@@ -35,6 +35,7 @@ extension VideoEditorViewController: TrimmerViewDelegate {
 extension VideoEditorViewController: ColorDelegate {
     
     func didSelectColor(color: UIColor){
+        print(activeTextView)
         activeTextView?.textColor = color
         textColor = color
     }
