@@ -21,7 +21,8 @@ enum VideoEditorFeature {
 }
 
 protocol VideoEditorDelegate {
-    func doneEditing(image: ContentDAO)
+    func saveEditing(image: ContentDAO)
+    func cancelEditing()
 }
 class VideoEditorViewController: UIViewController {
 

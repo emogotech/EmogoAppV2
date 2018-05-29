@@ -1235,6 +1235,21 @@ extension ContentViewController:PhotoEditorDelegate
     }
 }
 
+extension ContentViewController:VideoEditorDelegate
+{
+    func cancelEditing() {
+     AppDelegate.appDelegate.keyboardResign(isActive: true)
+     }
+    
+    func saveEditing(image: ContentDAO) {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = image
+        self.updateContent()
+    }
+    
+}
+
+
 extension ContentViewController:UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

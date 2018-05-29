@@ -68,6 +68,9 @@ extension VideoEditorViewController {
     }
     
     @objc func buttonBackAction(){
+        if self.delegate != nil {
+            self.delegate?.cancelEditing()
+        }
         self.navigationController?.popViewAsDismiss()
     }
     @objc func btnTextEditingDone(){

@@ -49,7 +49,6 @@ extension VideoEditorViewController {
         }
     }
     
-    
     func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
         APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: (txtTitleImage.text?.trim())!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
@@ -60,10 +59,9 @@ extension VideoEditorViewController {
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
                 if self.delegate != nil {
-                    self.delegate?.doneEditing(image: self.seletedImage)
+                    self.delegate?.saveEditing(image: self.seletedImage)
                 }
                 self.navigationController?.popViewAsDismiss()
-                // update data after saving and navigate back
                 
             }else {
                 self.showToast(strMSG: errorMsg!)
