@@ -637,7 +637,8 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         extra_kwargs = {'stream': {'required': True}}
 
     def get_total_view_count(self, obj):
-        return StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
+        new_view_count = StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
+        return new_view_count + obj.get('stream').view_count
 
     def create(self, validated_data):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)

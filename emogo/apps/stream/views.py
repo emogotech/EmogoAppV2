@@ -643,7 +643,7 @@ class IncreaseStreamViewCount(CreateAPIView):
     Like Dislike CRUD API
     """
     serializer_class = StreamUserViewStatusSerializer
-    queryset = StreamUserViewStatus.objects.all()
+    queryset = StreamUserViewStatus.objects.all().select_related('stream')
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
