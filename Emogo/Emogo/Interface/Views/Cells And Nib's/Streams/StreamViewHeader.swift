@@ -34,6 +34,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var imgCollabOne: NZCircularImageView!
     @IBOutlet weak var imgUser: NZCircularImageView!
     
+    @IBOutlet weak var btnShare: UIButton!
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     
@@ -120,7 +121,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
               self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
           
         }else{
-            self.imgCollabTwo.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+             self.imgCollabTwo.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
         }
         // For  Now
        // btnEdit.isHidden = false
@@ -142,6 +143,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
     }
     
+    @IBAction func btnShareAction(_ sender: Any) {
+    }
     @objc func showPreview(){
         
         if self.streamDelegate != nil {
