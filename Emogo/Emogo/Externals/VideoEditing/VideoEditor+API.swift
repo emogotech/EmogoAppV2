@@ -30,13 +30,20 @@ extension VideoEditorViewController {
             let content = ContentDAO(contentData: [:])
             content.type = .video
             content.isUploaded = false
-            content.imgPreview = image
+            
+            content.imgPreview = image.resize(to: CGSize(width: seletedImage.width, height: seletedImage.height))
             content.fileName = self.localFileURl!.absoluteString.getName()
             content.fileUrl = self.localFileURl!
             self.seletedImage = content
             AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, thumbImage: seletedImage.imgPreview, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
                 if error == nil {
-                    
+                    DispatchQueue.main.async {
+                        self.seletedImage.coverImage = strVideo
+                        self.seletedImage.coverImageVideo = strThumb
+                        self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
+                            , height: Int((self.seletedImage.imgPreview?.size.height)!))
+                        self.seletedImage.imgPreview = nil
+                    }
                 }
             })
         }
@@ -44,7 +51,7 @@ extension VideoEditorViewController {
     
     
     func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: self.seletedImage.name, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: (txtTitleImage.text?.trim())!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 
@@ -52,7 +59,9 @@ extension VideoEditorViewController {
                     self.seletedImage = content
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
-              //  self.photoEditorDelegate?.doneEditing(image: self.seletedImage)
+                if self.delegate != nil {
+                    self.delegate?.doneEditing(image: self.seletedImage)
+                }
                 self.navigationController?.popViewAsDismiss()
                 // update data after saving and navigate back
                 

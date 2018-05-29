@@ -571,7 +571,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ME3-BQ-vsz">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                                         <subviews>
-                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="taY-33-ivc">
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="taY-33-ivc">
                                                 <rect key="frame" x="25" y="1" width="324" height="24"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -603,6 +603,9 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="yNd-HX-RbZ" id="B0W-18-i3A"/>
+                                                </connections>
                                             </textView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -687,6 +690,7 @@
                         <outlet property="playerContainerView" destination="c5g-qy-GzR" id="p4f-FO-hqe"/>
                         <outlet property="trimmerView" destination="mdI-SW-eah" id="0cE-ST-mHf"/>
                         <outlet property="txtDescription" destination="Ahy-8K-DbQ" id="GBV-bT-CXB"/>
+                        <outlet property="txtTitleImage" destination="taY-33-ivc" id="mjY-i3-EcQ"/>
                         <outlet property="viewDescription" destination="fSk-va-djo" id="3oY-nT-J0N"/>
                     </connections>
                 </viewController>

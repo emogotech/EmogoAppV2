@@ -20,6 +20,9 @@ enum VideoEditorFeature {
     case none
 }
 
+protocol VideoEditorDelegate {
+    func doneEditing(image: ContentDAO)
+}
 class VideoEditorViewController: UIViewController {
 
     @IBOutlet weak var playerContainerView: UIView!
@@ -32,6 +35,8 @@ class VideoEditorViewController: UIViewController {
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
+    @IBOutlet weak var txtTitleImage: UITextField!
+
     var player = BMPlayer()
     var seletedImage:ContentDAO!
     var edgeMenu: DPEdgeMenu?
@@ -57,9 +62,10 @@ class VideoEditorViewController: UIViewController {
     var stickers : [UIImage] = []
     var colors  : [UIColor] = []
     var isTyping: Bool = false
-    var isForEditOnly: Bool? = nil
+    var isForEditOnly: Bool? = true
     let shapes = ShapeDAO()
     var textColor: UIColor = UIColor.white
+    var delegate:VideoEditorDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,7 +99,24 @@ class VideoEditorViewController: UIViewController {
         edgePan.edges = .bottom
         edgePan.delegate = self
         self.view.addGestureRecognizer(edgePan)
+        self.txtDescription.text = ""
+        self.txtDescription.placeholder = "Description"
+        self.txtDescription.placeholderColor = .white
         self.keyboardSetup()
+        
+        if !seletedImage.description.isEmpty {
+            var description  = seletedImage.description.trim()
+            if seletedImage.description.count > 250 {
+                description = seletedImage.description.trim(count: 250)
+            }
+            self.txtDescription.text = description
+        }else{
+            self.txtDescription.text = ""
+        }
+        self.txtTitleImage.maxLength = 50
+        self.txtTitleImage.text = self.seletedImage.name.trim()
+        txtDescription.isUserInteractionEnabled = true
+        txtTitleImage.isUserInteractionEnabled = true
     }
     
 

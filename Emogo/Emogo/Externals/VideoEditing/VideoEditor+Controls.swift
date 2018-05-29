@@ -14,9 +14,6 @@ extension VideoEditorViewController {
     
     @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
         
-           if self.isForEditOnly == nil {
-            return
-           }
              HUDManager.sharedInstance.showHUD()
         
             if self.isForEditOnly == false {
@@ -81,7 +78,7 @@ extension VideoEditorViewController {
     }
     
     @objc func btnCancelAction(){
-        self.isForEditOnly = nil
+        self.isForEditOnly = true
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false {
             edgeMenu.open()
@@ -104,7 +101,7 @@ extension VideoEditorViewController {
     }
     
     @objc func btnApplyFeatureAction(){
-        
+        self.isForEditOnly = false
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false {
             edgeMenu.open()
@@ -117,6 +114,7 @@ extension VideoEditorViewController {
         }else if self.selectedFeature == .text {
             addTextonvideo()
         }
+        self.viewDescription.isHidden = false
     }
     
     func trimVideo(){

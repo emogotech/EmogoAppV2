@@ -58,11 +58,11 @@ extension VideoEditorViewController: UITextViewDelegate {
                         textView.center = self.lastTextViewTransCenter!
         }, completion: nil)
         }else {
-            if  txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
-                self.isForEditOnly = true
-            }else{
-                isForEditOnly = nil
-            }
+//            if  txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
+//                self.isForEditOnly = true
+//            }else{
+//                isForEditOnly = nil
+//            }
         }
     }
     
