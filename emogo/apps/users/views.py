@@ -241,7 +241,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
-class UserSteams(ListAPIView):
+class UserStearms(ListAPIView):
     """
     User Streams API
     """
