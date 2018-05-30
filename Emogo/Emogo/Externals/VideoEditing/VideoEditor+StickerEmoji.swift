@@ -11,8 +11,6 @@ import AVFoundation
 
 extension VideoEditorViewController  {
     
-    
-    
     func addStickersViewController() {
         
         stickersVCIsVisible = true

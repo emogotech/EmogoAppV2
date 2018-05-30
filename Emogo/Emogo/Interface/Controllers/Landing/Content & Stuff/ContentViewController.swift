@@ -18,17 +18,14 @@ class ContentViewController: UIViewController {
     
     // MARK: - UI Elements
     @IBOutlet weak var imgCover: FLAnimatedImageView!
-    
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var imgUser: NZCircularImageView!
-    @IBOutlet weak var txtTitleImage: UITextField!
     @IBOutlet weak var lblTitleImage: UILabel!
-    @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
+    @IBOutlet weak var lblImageDescription: UILabel!
     @IBOutlet weak var btnShareAction: UIButton!
     @IBOutlet weak var btnPlayIcon: UIButton!
     @IBOutlet weak var btnFlagIcon: UIButton!
     @IBOutlet weak var btnAddToStream: UIButton!
-    @IBOutlet weak var btnDone: UIButton!
     @IBOutlet weak var kHeight: NSLayoutConstraint!
     @IBOutlet weak var viewOption: UIView!
     @IBOutlet weak var btnSave: UIButton!
@@ -101,7 +98,6 @@ class ContentViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
             self.showToast(strMSG: "Please while wait content is upload...")
-            self.btnDone.isHidden = true
             SharedData.sharedInstance.deepLinkType = ""
         }
         
@@ -133,13 +129,11 @@ class ContentViewController: UIViewController {
         }else {
             self.btnAddToStream.isHidden = true
         }
-        self.txtTitleImage.maxLength = 50
         
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
-        txtDescription.delegate = self
         
         if self.currentIndex != nil{
             let temp = ContentList.sharedInstance.arrayContent[self.currentIndex]
@@ -149,7 +143,6 @@ class ContentViewController: UIViewController {
             }
         }
         
-        txtTitleImage.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
         self.updateContent()
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             self.btnAddToStream.isHidden = true
@@ -162,16 +155,12 @@ class ContentViewController: UIViewController {
     @objc func lblTapAction(recognizer: UITapGestureRecognizer) {
         if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.lblTitleImage.isHidden = true
-            self.txtTitleImage.isHidden = false
-            self.txtTitleImage.becomeFirstResponder()
         }
     }
     
     
-    @objc func   imgTap(recognizer: UITapGestureRecognizer){
-        self.lblTitleImage.text = self.txtTitleImage.text?.trim()
+    @objc func imgTap(recognizer: UITapGestureRecognizer){
         self.lblTitleImage.isHidden = false
-        self.txtTitleImage.isHidden = true
         self.view.endEditing(true)
     }
     
@@ -216,40 +205,12 @@ class ContentViewController: UIViewController {
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
-        self.txtTitleImage.isHidden = true
-        self.lblTitleImage.isHidden = true
-        self.txtTitleImage.text = ""
-        self.txtDescription.text = ""
         self.lblTitleImage.text = ""
-        self.txtDescription.placeholder = "Description"
-        self.txtDescription.placeholderColor = .white
-        
+        self.lblImageDescription.text = ""
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }
         
-        self.txtDescription.isHidden = true
-        if !seletedImage.name.isEmpty {
-            self.txtTitleImage.text = seletedImage.name.trim()
-            self.lblTitleImage.text = seletedImage.name.trim()
-            self.lblTitleImage.isHidden = false
-        } else {
-            if self.seletedImage?.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                self.txtTitleImage.isHidden = false
-            }
-            else {
-                self.lblTitleImage.isHidden = false
-            }
-        }
-        if !seletedImage.description.isEmpty {
-            var description  = seletedImage.description.trim()
-            if seletedImage.description.count > 250 {
-                description = seletedImage.description.trim(count: 250)
-            }
-            self.txtDescription.text = description
-        }else{
-            self.txtDescription.text = ""
-        }
         
         if seletedImage.type == .image || seletedImage.type == .gif {
             self.btnPlayIcon.isHidden = true
@@ -260,10 +221,7 @@ class ContentViewController: UIViewController {
             self.imgCover.image = seletedImage.imgPreview
             seletedImage.imgPreview?.getColors({ (colors) in
                 self.imgCover.backgroundColor = colors.primary
-                self.txtTitleImage.textColor = .white//colors.secondary
-                self.lblTitleImage.textColor = .white
-                self.txtDescription.textColor = .white//colors.secondary
-                self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
+                
             })
         }else {
             if seletedImage.type == .image {
@@ -273,11 +231,6 @@ class ContentViewController: UIViewController {
                     
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.lblTitleImage.textColor = .white
-                        
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 
@@ -287,10 +240,6 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.lblTitleImage.textColor = .white
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
                 self.btnPlayIcon.isHidden = false
@@ -300,10 +249,6 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.lblTitleImage.textColor = .white
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
             }else {
@@ -312,31 +257,14 @@ class ContentViewController: UIViewController {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgCover.backgroundColor = colors.primary
-                        self.txtTitleImage.textColor = .white//colors.secondary
-                        self.lblTitleImage.textColor = .white
-                        self.txtDescription.textColor = .white//colors.secondary
-                        self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
                     })
                 })
-                
             }
         }
         
         if self.seletedImage.isEdit == false {
-            if self.seletedImage.description.trim().isEmpty {
-                self.txtDescription.isHidden = true
-            }else{
-                self.txtDescription.isHidden = false
-            }
             self.btnFlagIcon.isHidden = false
         }else {
-            if isEditngContent {
-                self.btnDone.isHidden = false
-            }
-            else{
-                self.btnDone.isHidden = true
-            }
-            self.txtDescription.isHidden = false
             self.btnFlagIcon.isHidden = true
         }
         
@@ -373,18 +301,9 @@ class ContentViewController: UIViewController {
         }else{
             self.btnFlagIcon.isHidden = false
         }
-        //     self.btnShareAction.isHidden = false
-        //         if ContentList.sharedInstance.objStream == nil {
-        //            self.btnShareAction.isHidden = true
-        //        }
-        
-        // image aspect ratio----
         self.imgCover.contentMode = .scaleAspectFit
-        self.txtTitleImage.addShadow()
-        self.txtDescription.addShadow()
         self.btnFlagIcon.isHidden = true
         self.changeButtonAccordingSwipe(selected: seletedImage)
-        
         if !seletedImage.createrImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(seletedImage.createrImage.trim())
         }
@@ -392,26 +311,40 @@ class ContentViewController: UIViewController {
             self.imgUser.setImage(string:seletedImage.fullname.trim(), color: UIColor.colorHash(name:seletedImage.fullname.trim() ), circular: true)
         }
         self.imgUser.isHidden = true
-        self.btnMore.isHidden = true
         // disable Like Unlike and save icon
         self.btnLikeDislike.isHidden = true
         self.btnSave.isHidden = true
-        kTitleHeight.constant = 24
-        if self.seletedImage.isEdit == false {
-            if (self.lblTitleImage.text?.trim().isEmpty)! {
-                kTitleHeight.constant = 0
-            }
-        }else {
-            self.txtDescription.isHidden = false
-            self.txtTitleImage.isHidden = false
-            self.lblTitleImage.isHidden = true
-        }
         
-        txtDescription.isUserInteractionEnabled = false
-        txtTitleImage.isUserInteractionEnabled = false
         if isViewCount != nil {
             apiForIncreaseViewCount()
         }
+        self.lblTitleImage.addShadow()
+        self.lblImageDescription.addShadow()
+        self.kTitleHeight.constant = 24.0
+        self.lblImageDescription.isHidden = false
+        self.lblTitleImage.isHidden = false
+        if seletedImage.name.trim().isEmpty {
+            self.kTitleHeight.constant = 0.0
+            self.lblTitleImage.isHidden = true
+        
+        }else {
+            self.lblTitleImage.text = seletedImage.name.trim()
+        }
+        if seletedImage.description.trim().isEmpty {
+            self.lblImageDescription.isHidden = true
+        }else {
+            self.lblImageDescription.numberOfLines = 0
+
+           self.lblImageDescription.text = seletedImage.description.trim()
+            let lines = self.lblImageDescription.numberOfVisibleLines
+            if lines > 2 {
+                self.btnMore.isHidden = false
+            }else {
+                self.btnMore.isHidden = true
+            }
+            self.lblImageDescription.numberOfLines = 2
+        }
+        
     }
     
     
@@ -610,9 +543,9 @@ class ContentViewController: UIViewController {
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         
-        layout.caption = txtTitleImage.text!
+        layout.caption = lblTitleImage.text!
         layout.image  = imgCover.image
-        layout.subcaption = txtDescription.text
+        layout.subcaption = lblImageDescription.text
         
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
@@ -628,45 +561,12 @@ class ContentViewController: UIViewController {
     
     
     @IBAction func btnActionAddStream(_ sender: Any) {
-        
-        if isEditngContent {
-            
-            let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Stream_Add_Edited_Content, preferredStyle: .alert)
-            let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-                self.txtTitleImage.text = self.seletedImage.name
-                self.txtDescription.text = self.seletedImage.description
-                let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-                obj.objContent = self.seletedImage
-                self.navigationController?.push(viewController: obj)
-                self.isEditngContent = false
-            }
-            let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
-                alert.dismiss(animated: true, completion: nil)
-            }
-            alert.addAction(yes)
-            alert.addAction(no)
-            present(alert, animated: true, completion: nil)
-            
-        }
-        else{
-            let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
-            obj.objContent = seletedImage
-            
-            obj.streamID =  ContentList.sharedInstance.objStream
-            self.navigationController?.push(viewController: obj)
-        }
+        let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+        obj.objContent = seletedImage
+        obj.streamID =  ContentList.sharedInstance.objStream
+        self.navigationController?.push(viewController: obj)
     }
     
-    @IBAction func btnDoneAction(_ sender: Any) {
-        // Update Content
-        HUDManager.sharedInstance.showHUD()
-        if self.seletedImage.imgPreview != nil {
-            self.uploadFile()
-        }else {
-            //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
-            self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
-        }
-    }
     
     @IBAction func btnPlayAction(_ sender: Any) {
         self.openFullView()
@@ -700,13 +600,13 @@ class ContentViewController: UIViewController {
     @IBAction func btnMoreAction(_ sender: Any) {
         isMoreTapped = !isMoreTapped
         if isMoreTapped {
-            txtDescription.textContainer.maximumNumberOfLines = 3
+            self.lblImageDescription.text = self.seletedImage.description.trim()
+            self.lblImageDescription.numberOfLines = 0
         }else {
-            txtDescription.textContainer.maximumNumberOfLines = 3
-            
+            self.lblImageDescription.text = self.seletedImage.description.trim()
+            self.lblImageDescription.numberOfLines = 3
         }
     }
-    
     
     
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
@@ -715,6 +615,7 @@ class ContentViewController: UIViewController {
     
     //MARK:- Video Download
     @objc func videoDownload(){
+        
         
         APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
             if let fileURL = fileURL {
@@ -729,16 +630,6 @@ class ContentViewController: UIViewController {
             }
         }
         
-    }
-    
-    @objc func textFieldDidChange(textfield:UITextField) {
-        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
-            isEditngContent = true
-            self.btnDone.isHidden = false
-        }else{
-            isEditngContent = true
-            self.btnDone.isHidden = false
-        }
     }
     
     
@@ -1113,33 +1004,6 @@ class ContentViewController: UIViewController {
         }
     }
     
-    func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: txtTitleImage.text!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
-            if (errorMsg?.isEmpty)! {
-                content?.isShowAddStream = self.isAddStream
-                if self.isEdit == nil {
-                    ContentList.sharedInstance.arrayContent[self.currentIndex] = content!
-                }else {
-                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
-                        
-                        ContentList.sharedInstance.arrayContent[index] = content!
-                    }
-                    self.seletedImage = content
-                    self.btnDone.isHidden = true
-                    if self.isForEditOnly != nil {
-                        self.navigationController?.pop()
-                    }
-                    
-                }
-                self.updateContent()
-                self.isEditngContent = false
-            }else {
-                self.showToast(strMSG: errorMsg!)
-            }
-        }
-    }
-    
     //MARK:- Like Dislike Content
     
     func likeDislikeContent(){
@@ -1166,7 +1030,7 @@ class ContentViewController: UIViewController {
                 
             }
         }
-       
+        
     }
     //MARK:- Save Content to My Stuff
     
@@ -1191,23 +1055,6 @@ class ContentViewController: UIViewController {
         }
     }
     
-    func uploadFile(){
-        // Create a object array to upload file to AWS
-        self.deleteFileFromAWS(content: self.seletedImage)
-        let fileName = NSUUID().uuidString + ".png"
-        AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: fileName) { (imageURL, error) in
-            if error == nil {
-                DispatchQueue.main.async { // Correct
-                    self.seletedImage.coverImage = imageURL
-                    self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
-                        , height: Int((self.seletedImage.imgPreview?.size.height)!))
-                    self.seletedImage.imgPreview = nil
-                }
-            }else {
-                HUDManager.sharedInstance.hideHUD()
-            }
-        }
-    }
     
     /*
      // MARK: - Navigation
@@ -1227,6 +1074,9 @@ extension ContentViewController:PhotoEditorDelegate
     func doneEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
+        if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent [index] = seletedImage
+        }
         self.updateContent()
     }
     
@@ -1240,8 +1090,8 @@ extension ContentViewController:PhotoEditorDelegate
 extension ContentViewController:VideoEditorDelegate
 {
     func cancelEditing() {
-     AppDelegate.appDelegate.keyboardResign(isActive: true)
-     }
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+    }
     
     func saveEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
@@ -1250,57 +1100,6 @@ extension ContentViewController:VideoEditorDelegate
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }
         self.updateContent()
-    }
-    
-}
-
-
-extension ContentViewController:UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == txtTitleImage {
-            txtDescription.becomeFirstResponder()
-        }else {
-            textField.resignFirstResponder()
-        }
-        
-        self.txtTitleImage.isHidden = true
-        self.lblTitleImage.text = self.txtTitleImage.text?.trim()
-        self.lblTitleImage.isHidden = false
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
-            isEditngContent = true
-            self.btnDone.isHidden = false
-        }else{
-            isEditngContent = true
-            self.btnDone.isHidden = false
-        }
-    }
-    
-}
-
-extension ContentViewController:UITextViewDelegate {
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if txtTitleImage.text?.trim().lowercased() != seletedImage.name.trim().lowercased() || txtDescription.text.trim().lowercased() != seletedImage.description.trim().lowercased() {
-            isEditngContent = true
-            self.btnDone.isHidden = false
-        }else{
-            isEditngContent = false
-            self.btnDone.isHidden = true
-        }
-    }
-    
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if(text == "\n") {
-            txtDescription.resignFirstResponder()
-            return false
-        }
-        return textView.text.length + (text.length - range.length) <= 250
     }
     
 }
