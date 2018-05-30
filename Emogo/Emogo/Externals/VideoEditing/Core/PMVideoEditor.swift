@@ -446,7 +446,7 @@ class PMVideoEditor: NSObject {
         let newSize = CGSize(width: forView.bounds.width * sizeScale.width, height: forView.bounds.height * sizeScale.height)
         var newOrigin = CGPoint(x: (sizeScale.width * forView.center.x) - (newSize.width / 2), y: (sizeScale.height * forView.center.y) - (newSize.height / 2))
         newOrigin.y = video_rect.height - newOrigin.y -  newSize.height
-        return CGRect(origin: newOrigin, size: newSize)
+        return CGRect(origin: CGPoint(x: 0, y: 0), size: newSize)
     }
     private func getVideoRect() -> CGRect {
         var video_rect = CGRect(origin: CGPoint(x: 0, y: 0), size: video_Track.naturalSize)
@@ -455,12 +455,63 @@ class PMVideoEditor: NSObject {
         }
         return video_rect
     }
+    
     private func getImageLayer(imgView: UIImageView, size: CGSize) -> CALayer {
         let imglayer = CALayer()
         imglayer.backgroundColor = imgView.backgroundColor?.cgColor
         imglayer.contents = imgView.image?.cgImage
-        print(imgView)
-        imglayer.frame = imgView.frame
+        imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
+        imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
+        switch imgView.contentMode {
+        case .bottom:
+            imglayer.contentsGravity = kCAGravityBottom
+            break
+        case .top:
+            imglayer.contentsGravity = kCAGravityTop
+            break
+        case .topLeft:
+            imglayer.contentsGravity = kCAGravityTopLeft
+            break
+        case .topRight:
+            imglayer.contentsGravity = kCAGravityTopRight
+            break
+        case .scaleToFill:
+            imglayer.contentsGravity = kCAGravityResizeAspectFill
+            break
+        case .scaleAspectFit:
+            imglayer.contentsGravity = kCAGravityResize
+            break
+        case .center:
+            imglayer.contentsGravity = kCAGravityCenter
+            break
+        case .left:
+            imglayer.contentsGravity = kCAGravityLeft
+            break
+        case .bottomLeft:
+            imglayer.contentsGravity = kCAGravityBottomLeft
+            break
+        case .bottomRight:
+            imglayer.contentsGravity = kCAGravityBottomRight
+            break
+        case .right:
+            imglayer.contentsGravity = kCAGravityRight
+            break
+        case .redraw:
+            imglayer.contentsGravity = kCAGravityResize
+            break
+        case .scaleAspectFill:
+            imglayer.contentsGravity = kCAGravityResizeAspectFill
+            break
+        }
+        return imglayer
+    }
+    /*
+    private func getImageLayer(imgView: UIImageView, size: CGSize) -> CALayer {
+        let imglayer = CALayer()
+        imglayer.backgroundColor = imgView.backgroundColor?.cgColor
+        imglayer.contents = imgView.image?.cgImage
+        imglayer.frame = CGRect(x: 0, y: 0, width: size.width*2, height: size.height*2)
+        imglayer.opacity = 1.0
        //  imglayer.frame = self.getTransformedRect(fromSize: size, forView: imgView)
      //   imglayer.transform =  CATransform3DMakeAffineTransform(imgView.transform.inverted())
         print(imglayer.frame)
@@ -510,6 +561,7 @@ class PMVideoEditor: NSObject {
         */
         return imglayer
     }
+ */
     private func getFullURL(fnam: String) -> URL? {
         var path = NSTemporaryDirectory()
         path.append("/" + fnam)

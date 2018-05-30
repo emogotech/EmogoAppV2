@@ -182,7 +182,7 @@ class VideoEditorViewController: UIViewController {
         btnText.isExclusiveTouch = true
         btnText.addTarget(self, action: #selector(self.actionForRightMenu(sender:)), for: .touchUpInside)
         
-        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate],
+        self.edgeMenu = DPEdgeMenu(items: [btnTrim, btnAddText, btnResoultion,btnRate,btnText],
                                    animationDuration: 0.8, menuPosition: .right)
         guard let edgeMenu = self.edgeMenu else { return }
         edgeMenu.backgroundColor = UIColor.clear
@@ -199,11 +199,13 @@ class VideoEditorViewController: UIViewController {
             activity.isHidden = false
             let strvideo = self.seletedImage.coverImage.trim()
             self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
-                self.fileLocalPath = filePath
-                self.localFileURl = fileURL
-                self.originalFileURl = fileURL
-                self.originalFile = filePath
-                self.openPlayer(videoUrl: fileURL!)
+                if let filePath = filePath, let fileURL = fileURL {
+                    self.fileLocalPath = filePath
+                    self.localFileURl = fileURL
+                    self.originalFileURl = fileURL
+                    self.originalFile = filePath
+                    self.openPlayer(videoUrl: fileURL)
+                }
                 self.activity.stopAnimating()
                 self.activity.isHidden = true
                 guard let edgeMenu = self.edgeMenu else { return }
@@ -347,9 +349,7 @@ class VideoEditorViewController: UIViewController {
     
     func getLocalPath(strURl: String,handler:@escaping (_ filePath: String?, _ fileURL:URL?)-> Void){
         APIManager.sharedInstance.download(strFile: strURl) { (filePath,fileURL) in
-            if let filePath = filePath {
                 handler(filePath,fileURL)
-            }
         }
     }
     

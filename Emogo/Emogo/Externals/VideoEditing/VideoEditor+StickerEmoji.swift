@@ -39,7 +39,7 @@ extension VideoEditorViewController  {
         }, completion: { (finished) -> Void in
             self.stickersViewController.view.removeFromSuperview()
             self.stickersViewController.removeFromParentViewController()
-            
+            self.stickersVCIsVisible = false
         })
     }
     
@@ -53,6 +53,8 @@ extension VideoEditorViewController  {
             self.canvasImageView.isHidden = true
             return
           }
+     //   let temp = UIImage.image(self.canvasImageView)
+
           let view = subview[0]
           let frontImage = UIImage.image(view)
           let backGround = UIImage.imageWithColor(tintColor: .clear)
@@ -70,6 +72,7 @@ extension VideoEditorViewController  {
                 DispatchQueue.main.async {
                     self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
                      self.hideActivity()
+                    self.localFileURl = fileURL
                     self.updatePlayerAsset(videURl: fileURL)
                 }
             }

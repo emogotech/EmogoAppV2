@@ -53,14 +53,18 @@ extension VideoEditorViewController  {
         self.showActivity()
         let subview = self.canvasImageView.subviews
         let view = subview[0]
+        let frame = self.view.convert(view.frame, from: self.canvasImageView)
+        print(frame)
         if subview.count == 0 {
             self.canvasImageView.isHidden = true
             return
         }
-        let frontImage = UIImage.image(view)
-        let backGround = UIImage.imageWithColor(tintColor: .clear)
-        let image = backGround.mergedImageWith(frontImage: frontImage, frame: view.frame)
-        let imageResize = UIImageView(image: image)
+        let temp = UIImage.image(self.canvasImageView)
+       // let frontImage = UIImage.image(view)
+        
+      //  let backGround = UIImage.imageWithColor(tintColor: .clear)
+    //    let image = backGround.mergedImageWith(frontImage: frontImage, frame: frame)
+        let imageResize = UIImageView(image: temp)
         if let videoSize = self.resolutionSizeForLocalVideo(url: self.localFileURl!) {
             imageResize.frame = CGRect(x: 0, y: 0, width: videoSize.width, height: videoSize.height)
             imageResize.backgroundColor = .clear
@@ -73,6 +77,7 @@ extension VideoEditorViewController  {
                 DispatchQueue.main.async {
                     self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
                     self.hideActivity()
+                    self.localFileURl = fileURL
                     self.updatePlayerAsset(videURl: fileURL)
                 }
             }

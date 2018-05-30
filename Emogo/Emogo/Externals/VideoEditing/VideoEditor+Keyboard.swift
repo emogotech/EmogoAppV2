@@ -22,9 +22,8 @@ extension VideoEditorViewController {
     
    @objc func keyboardWillHide(notification: NSNotification) {
      isTyping = false
-    colorPickerView.isHidden = true
+     colorPickerView.isHidden = true
      colorsCollectionView.isHidden = true
-       // self.btnTextEditingDone()
     }
     
    @objc func keyboardWillChangeFrame(_ notification: NSNotification) {

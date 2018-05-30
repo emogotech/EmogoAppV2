@@ -421,7 +421,6 @@ class PreviewController: UIViewController {
             }
         }
         self.changeButtonAccordingSwipe(selected: seletedImage)
-        self.txtTitleImage.isHidden = true
         viewLinkPreview.isHidden = false
         kLinkPreviewHieght.constant = 0.0
         if self.seletedImage.type == .link {
@@ -503,6 +502,7 @@ class PreviewController: UIViewController {
                 }
                 self.openURL(url: url)
             }else if seletedImage.type == .video {
+                AppDelegate.appDelegate.keyboardResign(isActive: false)
                 let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
                   if self.seletedImage.isUploaded == false{
                       objVideoEditor.isEdit = true

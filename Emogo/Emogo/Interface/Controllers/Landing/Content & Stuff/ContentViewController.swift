@@ -892,6 +892,7 @@ class ContentViewController: UIViewController {
                 self.openEditor(image:seletedImage.imgPreview!)
             }
         }else if seletedImage.type == .video {
+            AppDelegate.appDelegate.keyboardResign(isActive: false)
             let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
             objVideoEditor.delegate = self
             objVideoEditor.seletedImage = self.seletedImage

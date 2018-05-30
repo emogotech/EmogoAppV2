@@ -44,11 +44,8 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
         self.colorPickerView.isHidden = true
         self.colorsCollectionView.isHidden = true
         self.view.endEditing(true)
-        let pinchGesture = recognizer
-        
         if let view = recognizer.view {
             if view is UITextView {
-                print("textview")
                 let textView = view as! UITextView
                 
                 if textView.font!.pointSize * recognizer.scale < 90 {
@@ -63,30 +60,12 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
                                                                  height:CGFloat.greatestFiniteMagnitude))
                     textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
                                                   height: sizeToFit.height)
-                    
                 }
+                
                 
                 textView.setNeedsDisplay()
             } else {
-                
-                var currentScale:Float = 0.0
-                if .began == pinchGesture.state || .changed == pinchGesture.state {
-                    if let value =  pinchGesture.view?.layer.value(forKeyPath: "transform.scale.x") {
-                        let num:NSNumber = value as! NSNumber
-                        
-                        currentScale = Float(truncating: num)
-                    }
-                    let minScale: Float = 1.0
-                    let maxScale: Float = 4.0
-                    //  let zoomSpeed: Float = 0.1
-                    var deltaScale = Float(pinchGesture.scale )
-                    //deltaScale = ((deltaScale - 1) * zoomSpeed) + 1
-                    deltaScale = min(deltaScale, maxScale / currentScale)
-                    deltaScale = max(deltaScale, minScale / currentScale)
-                    let zoomTransform: CGAffineTransform = (pinchGesture.view?.transform.scaledBy(x: CGFloat(deltaScale), y: CGFloat(deltaScale)))!
-                    pinchGesture.view?.transform = zoomTransform
-                    pinchGesture.scale = 1
-                }
+                view.transform = view.transform.scaledBy(x: recognizer.scale, y: recognizer.scale)
             }
             recognizer.scale = 1
         }
@@ -97,22 +76,11 @@ extension VideoEditorViewController:UIGestureRecognizerDelegate  {
      */
     @objc func rotationGesture(_ recognizer: UIRotationGestureRecognizer) {
         self.view.endEditing(true)
-        
+        self.colorPickerView.isHidden = true
+        self.colorsCollectionView.isHidden = true
         if let view = recognizer.view {
-            self.colorPickerView.isHidden = true
-            self.colorsCollectionView.isHidden = true
-            if view is UITextView {
-                let viewSub = recognizer.view?.superview
-                if viewSub?.tag  == 2001{
-                    viewSub?.transform = (viewSub?.transform.rotated(by: recognizer.rotation))!
-                    recognizer.rotation = 0
-                }
-            }else{
-                
-                view.transform = view.transform.rotated(by: recognizer.rotation)
-                recognizer.rotation = 0
-            }
-            
+            view.transform = view.transform.rotated(by: recognizer.rotation)
+            recognizer.rotation = 0
         }
     }
     
