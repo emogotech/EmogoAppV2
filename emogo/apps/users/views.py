@@ -241,7 +241,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
         return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.data)
 
 
-class UserSteams(ListAPIView):
+class UserStearms(ListAPIView):
     """
     User Streams API
     """
@@ -407,13 +407,16 @@ class UserLikedSteams(ListAPIView):
         method if you want to apply the configured filtering backend to the
         default queryset.
         """
-        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True)
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.request.user, status=1).values_list('stream', flat=True).order_by('-view_date')
         queryset = queryset.filter(id__in=stream_ids_list).select_related('created_by__user_data').prefetch_related(
             Prefetch(
                 'stream_user_view_status',
                 queryset=StreamUserViewStatus.objects.all(),
                 to_attr='total_view_count'
-            )).order_by('-upd')
+            ))
+        queryset = list(queryset)
+        stream_ids_list = list(stream_ids_list)
+        queryset.sort(key=lambda t: stream_ids_list.index(t.pk))
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -422,6 +425,7 @@ class UserLikedSteams(ListAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width')
+
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True, fields=fields)
