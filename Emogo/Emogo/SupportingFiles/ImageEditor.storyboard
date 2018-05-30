@@ -640,7 +640,7 @@
                             <view hidden="YES" contentMode="scaleToFill" layoutMarginsFollowReadableWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vMC-uu-6hj" userLabel="Color Picker">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EVP-Zq-3b5">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="EVP-Zq-3b5">
                                         <rect key="frame" x="4" y="5" width="367" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mRH-cc-R59">
@@ -652,7 +652,7 @@
                                         <cells/>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="EVP-Zq-3b5" secondAttribute="bottom" constant="5" id="6wA-xk-uh0"/>
                                     <constraint firstItem="EVP-Zq-3b5" firstAttribute="top" secondItem="vMC-uu-6hj" secondAttribute="top" constant="5" id="BeZ-KQ-vYa"/>

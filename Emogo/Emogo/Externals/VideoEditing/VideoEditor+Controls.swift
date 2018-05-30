@@ -102,7 +102,6 @@ extension VideoEditorViewController {
     }
     @objc func btnTextEditingDone(){
         self.view.endEditing(true)
-        self.colorPickerViewBottomConstraint?.constant = 0.0
         self.colorPickerView.isHidden = true
         self.colorsCollectionView.isHidden = true
         self.canvasImageView.isUserInteractionEnabled = true
@@ -116,6 +115,12 @@ extension VideoEditorViewController {
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false {
             edgeMenu.open()
+        }
+          let subview = self.canvasImageView.subviews
+        if subview.count != 0 {
+            for obj in self.canvasImageView.subviews {
+                obj.removeFromSuperview()
+            }
         }
         configureNavigationButtons()
         if self.selectedFeature == VideoEditorFeature.sticker {

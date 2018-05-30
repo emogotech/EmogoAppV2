@@ -121,10 +121,8 @@ class APIManager: NSObject {
             case .failure(let encodingError):
                 print(encodingError)
             }
-            
         }
     }
-    
     
     // Post Param as Array
     
@@ -164,10 +162,7 @@ class APIManager: NSObject {
         }
     }
     
-    
-    
     // MARK: - GET REQUEST
-
     
     func GETRequestWithHeader(strURL: String, callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
@@ -221,11 +216,8 @@ class APIManager: NSObject {
                 }
                 callback!(.error(error))
             }
-            
         }
     }
-    
-    
     
     func getCountryCode(completionHandler:@escaping (_ strCode:String?)->Void){
         
@@ -251,9 +243,7 @@ class APIManager: NSObject {
                 completionHandler("")
             }
         }
-        
     }
-    
     
     
     // MARK: - PUT REQUEST
@@ -294,7 +284,6 @@ class APIManager: NSObject {
         let url = "\(kBaseURL)\(strURL)".trim()
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
         print(url)
-        print(Param)
         Alamofire.request(url, method: .delete, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
@@ -406,8 +395,5 @@ class APIManager: NSObject {
 //                print(imagePath)
 //            }
         }
-        
-        
     }
-    
 }

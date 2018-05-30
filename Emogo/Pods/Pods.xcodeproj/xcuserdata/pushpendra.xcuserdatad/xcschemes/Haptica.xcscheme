@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB8507A23B50F69E794381526D71A304"
-               BlueprintName = "SwiftLinkPreview"
+               BlueprintIdentifier = "4E121B7515710262E2739C9A7F066EFF"
+               BlueprintName = "Haptica"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "SwiftLinkPreview.framework">
+               BuildableName = "Haptica.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

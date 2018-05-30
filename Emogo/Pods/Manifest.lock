@@ -20,6 +20,7 @@ PODS:
   - Fabric (1.7.2)
   - GiphyCoreSDK (1.0.1)
   - GSKStretchyHeaderView (1.0.3)
+  - Haptica (2.0.1)
   - Hue (3.0.1)
   - iCarousel (1.8.3)
   - Imaginary (3.0.2):
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - Fabric
   - GiphyCoreSDK
   - GSKStretchyHeaderView
+  - Haptica
   - IQKeyboardManagerSwift
   - Lightbox
   - Presentr
@@ -81,6 +83,7 @@ SPEC CHECKSUMS:
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   GiphyCoreSDK: 8671cc9be3debd6c653cacf17240b1959bf0d5c4
   GSKStretchyHeaderView: 05afeffceced344c52334626a3b861e58dd82857
+  Haptica: 8dbc771b1eb764454ce66092c4cfc6b29dcb6cb7
   Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
   iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   Imaginary: d675200546110e305d6a26db6267c0622ffe5e6b
@@ -98,6 +101,6 @@ SPEC CHECKSUMS:
   URLEmbeddedView: 5d9f710ca0a923534ea87ab66843f6305f2ba309
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 49f1f8483bafc18918f98a8bc775d83e13317c99
+PODFILE CHECKSUM: ceb626083f77c8e5a3828c85a087eaf92b8c20e1
 
 COCOAPODS: 1.4.0

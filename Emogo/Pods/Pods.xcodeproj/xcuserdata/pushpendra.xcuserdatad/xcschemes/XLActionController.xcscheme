@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E52202BEFC8369D0296C4C5FCD4BCC80"
+               BlueprintIdentifier = "017965A8E11523DC6AC82A98241FF761"
                BlueprintName = "XLActionController"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "XLActionController.framework">

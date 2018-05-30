@@ -35,6 +35,7 @@ target 'Emogo' do
   pod 'PryntTrimmerView'
 pod 'BMPlayer'
   pod "URLEmbeddedView"
+pod "Haptica"
 
 
     
