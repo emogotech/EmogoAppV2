@@ -91,7 +91,9 @@ extension VideoEditorViewController {
     @objc func btnSaveAction(){
         if let url = self.localFileURl {
             if let _ = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:true) {
+                self.showToast(type: .error, strMSG: kAlert_Save_Video)
             }
+            
         }
     }
     

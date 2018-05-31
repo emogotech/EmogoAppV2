@@ -38,6 +38,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
    
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
+    let kImageFormat = "http"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -56,6 +57,9 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     }
     
     func prepareLayout(stream:StreamViewDAO?){
+        imgCollabTwo.isHidden = false
+        imgCollabOne.isHidden = false
+
         self.viewContainerTitle.layer.contents = UIImage(named: "gradient")?.cgImage
         btnEdit.isHidden = true
         btnDelete.isHidden = true
@@ -108,21 +112,32 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         else {
             self.imgUser.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
-            
         }
      
         if !objStream.colabImageFirst.trim().isEmpty {
-            self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+           
+            if  objStream.colabImageFirst.contains(kImageFormat) {
+        self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+
+            }else {
+                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.colorHash(name:objStream.colabImageFirst.trim()), circular: true)
+
+            }
            
         }else{
-             self.imgCollabOne.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+            self.imgCollabOne.isHidden = true
         }
         
         if !objStream.colabImageSecond.trim().isEmpty {
-              self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
-          
+            
+            if  objStream.colabImageSecond.contains(kImageFormat) {
+        self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+            }else {
+                self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.colorHash(name:objStream.colabImageSecond.trim()), circular: true)
+
+            }
         }else{
-             self.imgCollabTwo.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+            self.imgCollabTwo.isHidden = true
         }
         // For  Now
        // btnEdit.isHidden = false

@@ -217,8 +217,12 @@ class ViewStreamController: UIViewController {
         else {
             if StreamList.sharedInstance.arrayViewStream.count != 0 {
                 if currentIndex != nil {
-                    let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
-                    StreamList.sharedInstance.selectedStream = stream
+                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
+                    if isIndexValid {
+                        let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                        StreamList.sharedInstance.selectedStream = stream
+                    }
+                    }
                 }
                 if StreamList.sharedInstance.selectedStream != nil {
                     self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
@@ -230,7 +234,6 @@ class ViewStreamController: UIViewController {
                 }
             }
         }
-    }
     
     func prepareActions(isCreator:Bool) {
 

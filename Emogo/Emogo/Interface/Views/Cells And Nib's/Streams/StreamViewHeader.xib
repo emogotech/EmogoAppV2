@@ -95,21 +95,21 @@
                             </constraints>
                             <state key="normal" image="Unlike_icon"/>
                         </button>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-Pb-Fpo" customClass="NZCircularImageView">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6H-Pb-Fpo" customClass="NZCircularImageView">
                             <rect key="frame" x="25" y="6" width="56" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="56" id="NR5-Om-Xls"/>
                                 <constraint firstAttribute="height" constant="56" id="xUt-JU-CEF"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="Mlf-s9-RF9" customClass="NZCircularImageView">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Mlf-s9-RF9" customClass="NZCircularImageView">
                             <rect key="frame" x="17" y="6" width="56" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="56" id="2xB-q4-49x"/>
                                 <constraint firstAttribute="height" constant="56" id="C75-Kg-FHN"/>
                             </constraints>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="demo_images" translatesAutoresizingMaskIntoConstraints="NO" id="2Kv-N8-M7k" customClass="NZCircularImageView">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Kv-N8-M7k" customClass="NZCircularImageView">
                             <rect key="frame" x="8" y="6" width="56" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="56" id="hpR-cd-HH7"/>
@@ -269,7 +269,6 @@
     <resources>
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="delete-stream" width="31" height="34"/>
-        <image name="demo_images" width="48" height="48"/>
         <image name="edit_icon" width="34" height="34"/>
         <image name="number_of_likes_icon" width="29" height="27"/>
         <image name="number_of_views_icon" width="30" height="24"/>

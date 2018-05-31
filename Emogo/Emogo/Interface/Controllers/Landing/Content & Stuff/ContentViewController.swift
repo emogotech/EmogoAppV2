@@ -314,7 +314,7 @@ class ContentViewController: UIViewController {
         // disable Like Unlike and save icon
         self.btnLikeDislike.isHidden = true
         self.btnSave.isHidden = true
-        
+        self.btnMore.isHidden = true
         if isViewCount != nil {
             apiForIncreaseViewCount()
         }
