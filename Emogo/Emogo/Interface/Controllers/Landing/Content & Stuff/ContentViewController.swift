@@ -737,12 +737,13 @@ class ContentViewController: UIViewController {
         if seletedImage.type == .image {
             if self.seletedImage.imgPreview == nil {
                 HUDManager.sharedInstance.showHUD()
-                SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     HUDManager.sharedInstance.hideHUD()
                     if image != nil {
                         self.openEditor(image:image!)
                     }
                 })
+              
             }else {
                 self.openEditor(image:seletedImage.imgPreview!)
             }
@@ -761,8 +762,6 @@ class ContentViewController: UIViewController {
                     self.openEditor(image:image!)
                 }
             })
-            
-          
         }
     }
     

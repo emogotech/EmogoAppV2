@@ -32,6 +32,8 @@ enum EditingFeature {
     @IBOutlet weak var deleteView: UIView!
     @IBOutlet weak var viewDescription: UIView!
     @IBOutlet weak var txtDescription: MBAutoGrowingTextView!
+    @IBOutlet weak var txtTitle: UITextField!
+
     var isForEditOnly:Bool!
     
     public var image: UIImage?
@@ -113,7 +115,7 @@ enum EditingFeature {
         self.txtDescription.placeholder = "Description"
         self.txtDescription.placeholderColor = .white
         txtDescription.delegate = self
-        
+        txtTitle.delegate = self
         if !seletedImage.description.isEmpty {
             var description  = seletedImage.description.trim()
             if seletedImage.description.count > 250 {
@@ -124,6 +126,15 @@ enum EditingFeature {
             self.txtDescription.text = ""
         }
         
+        if !seletedImage.name.isEmpty {
+            var name  = seletedImage.name.trim()
+            if seletedImage.name.count > 75 {
+                name = seletedImage.name.trim(count: 75)
+            }
+            self.txtTitle.text = name
+        }else{
+            self.txtTitle.text = ""
+        }
         
     }
     
@@ -143,7 +154,10 @@ enum EditingFeature {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewDescription.addBlurView()
+        self.viewDescription.addShadow()
+        self.txtTitle.addShadow()
+        self.txtDescription.addShadow()
+      //  self.viewDescription.addBlurView()
     }
     
     func configureCollectionView() {

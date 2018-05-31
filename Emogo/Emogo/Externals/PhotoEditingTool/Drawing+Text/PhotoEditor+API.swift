@@ -42,7 +42,7 @@ extension PhotoEditorViewController {
     
     
     func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: self.seletedImage.name, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: (txtTitle.text?.trim())!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
                 

@@ -100,3 +100,16 @@ extension PhotoEditorViewController: UITextViewDelegate {
     }
     
 }
+
+extension PhotoEditorViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == txtTitle {
+            txtDescription.becomeFirstResponder()
+        }else {
+            textField.resignFirstResponder()
+        }
+        return true
+    }
+    
+}
