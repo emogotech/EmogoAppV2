@@ -8,6 +8,7 @@
 
 import UIKit
 import XLActionController
+import Haptica
 
 class StreamListViewController: UIViewController {
     
@@ -84,6 +85,8 @@ class StreamListViewController: UIViewController {
         setupAnchor()
         prepareLayouts()
         txtSearch.delegate = self
+    
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -292,6 +295,7 @@ class StreamListViewController: UIViewController {
         self.btnPeopleSearch.isUserInteractionEnabled = true
         lblSearch.layer.cornerRadius = 20.0
         lblSearch.clipsToBounds = true
+        
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -539,6 +543,10 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
+        
+        self.btnAdd.isHaptic = true
+        self.btnAdd.hapticType = .impact(.light)
+        
         if self.timer != nil {
             self.timer?.invalidate()
             self.timer = nil
@@ -581,6 +589,13 @@ class StreamListViewController: UIViewController {
     }
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.btnMenu.isHaptic = true
+            self.btnMenu.hapticType = .impact(.light)
+        }else{
+            
+        }
         self.viewMenu.isHidden = true
         isMenuOpen = true
         self.menuView.isHidden = false

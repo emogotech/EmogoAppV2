@@ -8,6 +8,7 @@
 
 import UIKit
 import GSKStretchyHeaderView
+import Haptica
 
 protocol MyStreamHeaderViewDelegate {
     func selected(index:Int)
@@ -157,6 +158,8 @@ class MyStreamCell:UICollectionViewCell {
         if stream.isAdd {
             imgAdd.isHidden = false
             cardView.isHidden = true
+            
+            
         }else {
             self.imgCover.contentMode = .scaleAspectFill
             imgAdd.isHidden = true

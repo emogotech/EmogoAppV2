@@ -8,6 +8,8 @@
 
 import UIKit
 import QuartzCore
+import Haptica
+
 class Animation: NSObject {
 
     
@@ -24,6 +26,7 @@ class Animation: NSObject {
         var transition: CATransition? = nil
         transition = CATransition()
         transition!.duration = 0.5
+    
         transition!.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         transition!.type = kCATransitionPush
         transition!.subtype = kCATransitionFromLeft
@@ -54,11 +57,17 @@ class Animation: NSObject {
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = kCATransitionPush
+        
         transition.subtype = kCATransitionFromRight
         imgV.layer.add(transition, forKey: kCATransition)
     }
     
     class func addRightTransitionCollection(imgV:UICollectionView){
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = kCATransitionPush
@@ -67,6 +76,11 @@ class Animation: NSObject {
     }
     
     class func addLeftTransitionCollection(imgV:UICollectionView){
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = kCATransitionPush

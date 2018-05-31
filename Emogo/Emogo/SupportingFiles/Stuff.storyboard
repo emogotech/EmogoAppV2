@@ -3338,7 +3338,7 @@ Cg
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add Collaborators" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOf-aM-puh">
-                                        <rect key="frame" x="105" y="26" width="167.5" height="22"/>
+                                        <rect key="frame" x="104" y="26" width="167.5" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="m4m-CX-C6C"/>
                                         </constraints>
@@ -3519,13 +3519,13 @@ Cg
                                 <constraints>
                                     <constraint firstItem="zeO-yI-4mv" firstAttribute="top" secondItem="O7g-G5-kIJ" secondAttribute="top" constant="24" id="0gq-pD-658"/>
                                     <constraint firstAttribute="trailing" secondItem="FMd-e9-TiZ" secondAttribute="trailing" constant="8" id="1Pl-xH-WAX"/>
+                                    <constraint firstItem="CeN-jd-wDP" firstAttribute="top" secondItem="O7g-G5-kIJ" secondAttribute="top" constant="76" id="6Cc-Z3-sRD"/>
                                     <constraint firstItem="CeN-jd-wDP" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="8" id="6de-qV-p2I"/>
                                     <constraint firstAttribute="height" constant="180" id="78d-Mg-t2E"/>
                                     <constraint firstItem="ISP-Ea-KGw" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="1" id="Cs2-jn-mew"/>
                                     <constraint firstAttribute="trailing" secondItem="CeN-jd-wDP" secondAttribute="trailing" constant="8" id="HYx-HH-gal"/>
                                     <constraint firstAttribute="trailing" secondItem="ISP-Ea-KGw" secondAttribute="trailing" constant="1" id="XYy-lX-cHd"/>
                                     <constraint firstItem="zeO-yI-4mv" firstAttribute="leading" secondItem="O7g-G5-kIJ" secondAttribute="leading" constant="8" id="bYr-As-fmc"/>
-                                    <constraint firstItem="CeN-jd-wDP" firstAttribute="top" secondItem="ISP-Ea-KGw" secondAttribute="bottom" constant="12" id="gST-OS-xic"/>
                                     <constraint firstItem="FMd-e9-TiZ" firstAttribute="centerY" secondItem="zeO-yI-4mv" secondAttribute="centerY" id="gg2-VJ-n9n"/>
                                     <constraint firstItem="ISP-Ea-KGw" firstAttribute="top" secondItem="zeO-yI-4mv" secondAttribute="bottom" constant="18" id="z5e-mN-FN8"/>
                                 </constraints>
@@ -3542,7 +3542,11 @@ Cg
                     </view>
                     <connections>
                         <outlet property="btnLogout" destination="CeN-jd-wDP" id="6ml-Ug-NI7"/>
+                        <outlet property="cons_top_logout" destination="6Cc-Z3-sRD" id="cWr-lZ-wvR"/>
+                        <outlet property="lblSeprator" destination="ISP-Ea-KGw" id="M5w-rj-T58"/>
+                        <outlet property="lblTitleHaptic" destination="zeO-yI-4mv" id="KHB-v8-wi5"/>
                         <outlet property="switchForEffect" destination="FMd-e9-TiZ" id="H05-0C-Gbe"/>
+                        <outlet property="switchHaptic" destination="FMd-e9-TiZ" id="sDP-bw-PKa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cVa-zB-Dw6" userLabel="First Responder" sceneMemberID="firstResponder"/>

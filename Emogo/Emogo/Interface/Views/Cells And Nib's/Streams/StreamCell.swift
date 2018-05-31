@@ -27,15 +27,15 @@ class StreamCell: UICollectionViewCell {
     // MARK: - Prepare Layouts
     func prepareLayouts(stream:StreamDAO){
         
-        self.imgCover.contentMode = .scaleAspectFill
+         self.imgCover.contentMode = .scaleAspectFill
         
      //   self.imgCover.backgroundColor = .black
-        self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
+         self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
          self.lblTitle.text = stream.Title.trim().capitalized
-        self.lblTitle.minimumScaleFactor = 1.0
-        self.accessibilityLabel =   stream.Title.trim()
+         self.lblTitle.minimumScaleFactor = 1.0
+         self.accessibilityLabel =   stream.Title.trim()
          self.lblName.text =  "by \(stream.Author.trim().capitalized)"
-        self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
+         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
     }
    
 }

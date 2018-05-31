@@ -189,9 +189,6 @@
                                 <constraint firstAttribute="height" constant="36" id="w5D-VP-lzE"/>
                             </constraints>
                             <state key="normal" image="send_icon"/>
-                            <connections>
-                                <action selector="btnShareAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="LdL-vO-DMP"/>
-                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.98471659420000002" green="0.56708717350000004" blue="0.32810726759999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

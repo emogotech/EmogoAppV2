@@ -9,6 +9,7 @@
 import UIKit
 import Lightbox
 import GSKStretchyHeaderView
+import Haptica
 
 var isAssignProfile:String? = nil
 
@@ -91,8 +92,11 @@ class MyStreamViewController: UIViewController {
             }
             self.configureStrechyHeader()
         }
+        
+       
       
     }
+   
     
     func configureStrechyHeader(){
         let nibViews = Bundle.main.loadNibNamed("MyStreamHeaderView", owner: self, options: nil)
@@ -105,6 +109,7 @@ class MyStreamViewController: UIViewController {
         }
         self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
         self.stretchyHeader.sliderDelegate = self
+      
         
         // Segment control Configure
         
@@ -382,6 +387,12 @@ class MyStreamViewController: UIViewController {
     }
     
     func actionForAddStream(){
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
          obj.isAddContent = true
         self.navigationController?.push(viewController: obj)
@@ -415,6 +426,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
+        
         return cell
     }
     

@@ -13,6 +13,14 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var btnShareProfile: UIButton!
     @IBOutlet weak var btnLogout: UIButton!
     @IBOutlet weak var switchForEffect: UISwitch!
+    @IBOutlet weak var switchHaptic: UISwitch!
+    @IBOutlet weak var lblSeprator: UILabel!
+    @IBOutlet weak var lblTitleHaptic: UILabel!
+    
+    @IBOutlet weak var cons_top_logout: NSLayoutConstraint!
+    //Variables
+    
+    var isHapticFeedback:Bool! =  true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +47,24 @@ class SettingViewController: UIViewController {
     func prepareLayout() {
         btnLogout.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         switchForEffect.tintColor = UIColor(hex: "00ADF3")
+        
+        if deviceType.iPhone4 || deviceType.iPhone5_5s || deviceType.iPhone6P_6sP{
+           switchHaptic.isHidden = true
+           lblSeprator.isHidden = true
+           lblTitleHaptic.isHidden = true
+           cons_top_logout.constant = 0
+        }else {
+           switchHaptic.isHidden = false
+           lblSeprator.isHidden = false
+           lblTitleHaptic.isHidden = false
+           cons_top_logout.constant = 76
+            
+        }
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            switchHaptic.isOn = true
+        }else{
+            switchHaptic.isOn = false
+        }
     }
     
     //MARK:- prepare Navigation
@@ -74,6 +100,18 @@ class SettingViewController: UIViewController {
         self.btnLogoutAction()
     }
     
+    @IBAction func switchHapticAction(_ sender: Any) {
+        
+        if switchHaptic.isOn == true {
+            self.isHapticFeedback = true
+            kDefault?.set(true, forKey: kHapticFeedback)
+        }else{
+            switchHaptic.isOn = false
+            self.isHapticFeedback = false
+            kDefault?.set(false, forKey: kHapticFeedback)
+        }
+        
+    }
     //MARK:- button share action
     
 //    @IBAction func btnShareProfile(_ sender: Any) {

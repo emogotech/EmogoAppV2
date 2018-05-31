@@ -9,7 +9,7 @@
 import UIKit
 import XLActionController
 import Social
-
+import Haptica
 
 enum ProfileMenu:String{
     case stream = "1"
@@ -176,8 +176,9 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
      
         // Segment control Configure
-        
+        Haptic.impact(.heavy).generate()
         segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
+        
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
@@ -337,24 +338,59 @@ class ProfileViewController: UIViewController {
     func updateStuffList(index:Int){
         switch index {
         case 0:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = .All
             break
         case 1:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = StuffType.Picture
             break
         case 2:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = StuffType.Video
             break
         case 3:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = StuffType.Links
             break
         case 4:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = StuffType.Notes
             break
         case 5:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = StuffType.Giphy
             break
         default:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedType = .All
         }
         ContentList.sharedInstance.arrayContent.removeAll()

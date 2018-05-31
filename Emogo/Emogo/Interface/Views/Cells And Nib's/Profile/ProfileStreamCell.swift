@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Haptica
 
 class ProfileStreamCell: UICollectionViewCell {
     
@@ -26,6 +27,8 @@ class ProfileStreamCell: UICollectionViewCell {
         if stream.isAdd {
             self.cardView.isHidden =  true
             self.imgAdd.isHidden =  false
+            //self.imgAdd.isHaptic =  true
+           // self.imgAdd.hapticType = .impact(.light)
         }else {
             self.imgCover.contentMode = .scaleAspectFill
             self.cardView.isHidden =  false

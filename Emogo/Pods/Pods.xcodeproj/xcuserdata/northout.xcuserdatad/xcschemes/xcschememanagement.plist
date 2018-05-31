@@ -54,105 +54,115 @@
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
-		<key>Hue.xcscheme</key>
+		<key>Haptica.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>13</integer>
 		</dict>
+		<key>Hue.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>IQKeyboardManagerSwift.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>16</integer>
-		</dict>
-		<key>Imaginary.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
-		</dict>
-		<key>Lightbox.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>17</integer>
 		</dict>
-		<key>NVActivityIndicatorView.xcscheme</key>
+		<key>Imaginary.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
+		<key>Lightbox.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>18</integer>
 		</dict>
-		<key>Pods-Emogo.xcscheme</key>
+		<key>NVActivityIndicatorView.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>19</integer>
 		</dict>
-		<key>Pods-EmogoTests.xcscheme</key>
+		<key>Pods-Emogo.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>20</integer>
 		</dict>
-		<key>Pods-EmogoUITests.xcscheme</key>
+		<key>Pods-EmogoTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>21</integer>
 		</dict>
-		<key>Pods-ShareExt.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>23</integer>
-		</dict>
-		<key>Pods-iMessageExt.xcscheme</key>
+		<key>Pods-EmogoUITests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>22</integer>
 		</dict>
-		<key>Presentr.xcscheme</key>
+		<key>Pods-ShareExt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>24</integer>
 		</dict>
-		<key>PryntTrimmerView.xcscheme</key>
+		<key>Pods-iMessageExt.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>23</integer>
+		</dict>
+		<key>Presentr.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>25</integer>
 		</dict>
-		<key>RS3DSegmentedControl.xcscheme</key>
+		<key>PryntTrimmerView.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>26</integer>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>RS3DSegmentedControl.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>27</integer>
 		</dict>
-		<key>SnapKit.xcscheme</key>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>28</integer>
 		</dict>
-		<key>SwiftLinkPreview.xcscheme</key>
+		<key>SnapKit.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>29</integer>
 		</dict>
-		<key>SwiftyCam.xcscheme</key>
+		<key>SwiftLinkPreview.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>30</integer>
 		</dict>
-		<key>SwiftyJSON.xcscheme</key>
+		<key>SwiftyCam.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>31</integer>
 		</dict>
-		<key>XLActionController.xcscheme</key>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>32</integer>
 		</dict>
+		<key>URLEmbeddedView.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>33</integer>
+		</dict>
+		<key>XLActionController.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>34</integer>
+		</dict>
 		<key>iCarousel.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>15</integer>
 		</dict>
 	</dict>
 </dict>

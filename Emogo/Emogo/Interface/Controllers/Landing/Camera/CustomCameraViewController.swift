@@ -299,6 +299,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.btnCamera.isHaptic = true
+            self.btnCamera.hapticType = .impact(.light)
+        }else{
+            self.btnCamera.isHaptic = false
+        }
+        
         if isCaptureMode == true {
             self.performCamera(action: .capture)
         }else {
