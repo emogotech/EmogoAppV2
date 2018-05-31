@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import Haptica
 
 extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     func numberOfItems(in pagerView: FSPagerView) -> Int {
@@ -57,6 +57,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
             })
         }
         pagerView.scrollToItem(at: index, animated: true)
+        
     }
     
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
@@ -102,6 +103,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
         menu  = self.menu.arrayMenu[sender]
         pagerView.lblCurrentType.text = menu.iconName
+        
         //        let when = DispatchTime.now() + 0.3
         //        DispatchQueue.main.asyncAfter(deadline: when) {
         //            self.navigateToSelectedItem(index:sender,isSelect:isSelect)
@@ -142,6 +144,13 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         default:
             break
         }
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
+       
         print("currrent index--->\(index)")
         StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
         collectionLayout.columnCount = 2

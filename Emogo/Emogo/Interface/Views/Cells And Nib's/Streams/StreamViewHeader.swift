@@ -23,6 +23,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnLike: UIButton!
+    @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var heightConstant: NSLayoutConstraint!
@@ -34,7 +35,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var imgCollabOne: NZCircularImageView!
     @IBOutlet weak var imgUser: NZCircularImageView!
     
-    @IBOutlet weak var btnShare: UIButton!
+   
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     
@@ -143,8 +144,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
     }
     
-    @IBAction func btnShareAction(_ sender: Any) {
-    }
+   
     @objc func showPreview(){
         
         if self.streamDelegate != nil {

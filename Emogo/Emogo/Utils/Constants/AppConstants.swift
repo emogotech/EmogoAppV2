@@ -147,6 +147,7 @@ let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
 let kRetakeIndex = "indexRetake"
 let kBounceAnimation = "ActiveBounceAnimation"
+let kHapticFeedback = "hapticFeedback"
 
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
@@ -356,6 +357,24 @@ let kAlert_ProfileStreamAdded                                  = "Your Profile S
 let kAlert_Select_Stream_For_Assign                                                  = "Please select a stream to assign as Profile Stream."
 let kAlert_UnFollow_a_User            = "Do you really want to unfollow %@?"
 
+
+struct screenSize  {
+    static let Width         = UIScreen.main.bounds.size.width
+    static let Height        = UIScreen.main.bounds.size.height
+    static let Max_Length    = max(screenSize.Width, screenSize.Height)
+    static let Min_Length    = min(screenSize.Width, screenSize.Height)
+}
+
+struct deviceType {
+    static let iPhone4  = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length < 568.0
+    static let iPhone5_5s  = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 568.0
+    static let iPhone6_6s = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 667.0
+    static let iPhone6P_6sP = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 736.0
+    static let iPhone6_6s_7 = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 667.0
+    static let iPhone6P_6sP_7P = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 736.0
+    static let iPhoneX = UIDevice.current.userInterfaceIdiom == .phone && screenSize.Max_Length == 812.0
+    static let iPad = UIDevice.current.userInterfaceIdiom == .pad && screenSize.Max_Length == 1024.0
+}
 
 
 

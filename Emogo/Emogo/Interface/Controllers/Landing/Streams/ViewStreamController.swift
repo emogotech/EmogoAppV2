@@ -9,11 +9,11 @@
 import UIKit
 import Lightbox
 import XLActionController
-
+import MessageUI
+import Messages
 
 class ViewStreamController: UIViewController {
    
-    
     
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
@@ -112,7 +112,6 @@ class ViewStreamController: UIViewController {
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
         stretchyHeader.streamDelegate = self
         
-        
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
         }else{
@@ -123,6 +122,8 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
+        stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside
+      )
     }
     
     func prepareHeaderData(){
@@ -253,6 +254,8 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnEdit.isHidden = true
 
         }
+        
+     stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
         // removed for now
         stretchyHeader.btnLike.isHidden = false
        // stretchyHeader.btnContainer.isHidden = false
@@ -319,7 +322,15 @@ class ViewStreamController: UIViewController {
     
     @objc func likeStreamAction(sender:UIButton){
        print("Like Action")
-     
+        
+        if  kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.stretchyHeader.btnLike.isHaptic = true
+            self.stretchyHeader.btnLike.hapticType = .impact(.light)
+        }else{
+             self.stretchyHeader.btnLike.isHaptic = false
+        }
+        
+        
         if self.objStream?.likeStatus == "0" {
             self.objStream?.likeStatus = "1"
         }else{
@@ -327,8 +338,26 @@ class ViewStreamController: UIViewController {
         }
         self.likeDislikeStream()
     }
-    
-    
+ 
+    @objc func shareStreamAction(sender:UIButton){
+        print("Share Action")
+        
+        if  kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.stretchyHeader.btnShare.isHaptic = true
+            self.stretchyHeader.btnShare.hapticType = .impact(.light)
+        }else{
+            self.stretchyHeader.btnShare.isHaptic = false
+        }
+        
+        /*
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self
+            self.present(composeVC, animated: true, completion: nil)
+        }*/
+    }
     @objc  func btnCancelAction(){
         if viewStream == nil {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
@@ -404,6 +433,28 @@ class ViewStreamController: UIViewController {
         }
     }
     
+   
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+//        layout.caption = txtTitleImage.text!
+//        layout.image  = imgCover.image
+//        layout.subcaption = txtDescription.text
+        
+        message.layout = layout
+       let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = String(format: "%@/%@", kNavigation_Stream,selectedImage.CoverImage)
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = String(format: "%@/%@/%@", kNavigation_Stream,selectedImage.CoverImage,ContentList.sharedInstance.objStream!)
+            message.url = URL(string: strURl)
+        }
+        
+        return message
+    }
       //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
@@ -897,11 +948,17 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
 
 }
 
-extension ViewStreamController:StreamViewHeaderDelegate  {
+extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate  {
+    
     func showPreview() {
         self.openFullView(index: nil)
     }
-    
+   
+        
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+            controller.dismiss(animated: true, completion: nil)
+    }
+   
    
 }
 
