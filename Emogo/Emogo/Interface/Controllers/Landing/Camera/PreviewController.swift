@@ -207,11 +207,11 @@ class PreviewController: UIViewController {
         
         self.imgPreview.contentMode = .scaleAspectFit
         self.btnShareAction.isHidden = true
-        kWidth.constant = 0.0
+       // kWidth.constant = 0.0
         kLinkPreviewHieght.constant = 0.0
         if self.isShowRetake != nil  {
             self.btnShareAction.isHidden = false
-            kWidth.constant = 50.0
+          //  kWidth.constant = 50.0
         }
       
     }
@@ -422,11 +422,12 @@ class PreviewController: UIViewController {
             }
         }
         self.changeButtonAccordingSwipe(selected: seletedImage)
-        viewLinkPreview.isHidden = false
-        kLinkPreviewHieght.constant = 0.0
+        viewLinkPreview.isHidden = true
+         kLinkPreviewHieght.constant = 0.0
         if self.seletedImage.type == .link {
             if !self.seletedImage.coverImage.isEmpty {
-                kLinkPreviewHieght.constant = 120.0
+                print(self.seletedImage.coverImage)
+                 kLinkPreviewHieght.constant = 120.0
                 if let fontTitle = UIFont(name: kFontMedium, size: 12.0), let fontDescription = UIFont(name: kFontRegular, size: 10.0), let urlFont = UIFont(name: kFontRegular, size: 10.0) {
                     
                     self.viewLinkPreview.textProvider[.title].font = fontTitle
@@ -434,6 +435,7 @@ class PreviewController: UIViewController {
                     viewLinkPreview.textProvider[.domain].font = urlFont
                 }
                 viewLinkPreview.isHidden = false
+                viewLinkPreview.borderWidth = 0.5
                  viewLinkPreview.borderColor = UIColor(r: 0, g: 122, b: 255)
                 viewLinkPreview.textProvider[.title].fontColor = UIColor(r: 74, g: 74, b: 74)
                 viewLinkPreview.textProvider[.description].fontColor = UIColor(r: 74, g: 74, b: 74)

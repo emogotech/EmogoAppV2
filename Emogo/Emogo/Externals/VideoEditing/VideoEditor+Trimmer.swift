@@ -15,20 +15,20 @@ extension VideoEditorViewController {
     
     
     func loadAssest(){
-        self.kTrimmerHeight.constant = 60.0
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-            print(self.trimmerView)
-            let strvideo = self.fileLocalPath
-            let videoUrl = URL(fileURLWithPath: strvideo!)
-            let asset = AVAsset(url: videoUrl)
-            self.trimmerView.delegate = self
-            self.trimmerView.asset = asset
-            if self.player.isPlaying {
-                self.player.pause()
+        if let url = self.localFileURl {
+            self.kTrimmerHeight.constant = 60.0
+            UIView.animate(withDuration: 0.3) {
+                self.view.layoutIfNeeded()
+                print(self.trimmerView)
+                let asset = AVAsset(url: url)
+                self.trimmerView.delegate = self
+                self.trimmerView.asset = asset
+                if self.player.isPlaying {
+                    self.player.pause()
+                }
+                self.player.removeFromSuperview()
+                self.addVideoPlayer(with: asset, playerView: self.playerContainerView)
             }
-            self.player.removeFromSuperview()
-            self.addVideoPlayer(with: asset, playerView: self.playerContainerView)
         }
     }
     
@@ -42,6 +42,7 @@ extension VideoEditorViewController {
         }
         self.hideActivity()
         self.editedFileURL = videoUrl
+        self.localFileURl = videoUrl
         self.openPlayer(videoUrl: videoUrl)
     }
     
@@ -98,6 +99,22 @@ extension VideoEditorViewController {
         playerView.layer.sublayers?.forEach({$0.removeFromSuperlayer()})
         playerView.layer.addSublayer(layer)
         self.avPlayer?.play()
+    }
+    
+    
+    func trimVideo(){
+        self.showActivity()
+        self.editManager.trimVideo(path: self.localFileURl!, begin: self.trimmerView.startTime!, end: self.trimmerView.endTime!, progress: { (progress, strProgress) in
+            print("progrss---->\(progress)")
+            print("strProgress---->\(progress)")
+            
+        }, finish: { (fileUrl, error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.updateAsset(videoUrl: fileUrl!, type: self.selectedFeature)
+                }
+            }
+        })
     }
     
     

@@ -44,12 +44,10 @@ class VideoEditorViewController: UIViewController {
     var edgeMenu: DPEdgeMenu?
     var playbackTimeCheckerTimer: Timer?
     var trimmerPositionChangedTimer: Timer?
-    var fileLocalPath:String! = ""
     var avPlayer: AVPlayer?
     var selectedFeature:VideoEditorFeature! = .none
     var editManager = PMVideoEditor()
     var localFileURl:URL?
-    var originalFile:String! = ""
     var originalFileURl:URL?
     var editedFileURL:URL?
     var stickersViewController: StickersViewController!
@@ -92,8 +90,15 @@ class VideoEditorViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if self.fileLocalPath != nil {
-            Document.deleteFile(name: self.fileLocalPath.getName())
+        if player.isPlaying {
+            player.pause()
+            player.removeFromSuperview()
+        }else {
+            player.removeFromSuperview()
+        }
+        if self.localFileURl != nil {
+            Document.deleteFile(name: (self.localFileURl?.absoluteString.getName())!)
+            
         }
     }
     
@@ -199,11 +204,9 @@ class VideoEditorViewController: UIViewController {
             activity.isHidden = false
             let strvideo = self.seletedImage.coverImage.trim()
             self.getLocalPath(strURl: strvideo) { (filePath,fileURL) in
-                if let filePath = filePath, let fileURL = fileURL {
-                    self.fileLocalPath = filePath
+            if  let fileURL = fileURL {
                     self.localFileURl = fileURL
                     self.originalFileURl = fileURL
-                    self.originalFile = filePath
                     self.openPlayer(videoUrl: fileURL)
                 }
                 self.activity.stopAnimating()
@@ -216,10 +219,9 @@ class VideoEditorViewController: UIViewController {
         }else {
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
-                self.fileLocalPath = self.seletedImage.fileUrl?.absoluteString
+                print(self.seletedImage.fileUrl)
                 self.localFileURl = self.seletedImage.fileUrl
                 self.originalFileURl = self.seletedImage.fileUrl
-                self.originalFile = self.seletedImage.fileUrl?.absoluteString
                 self.openPlayer(videoUrl: self.seletedImage.fileUrl!)
                 guard let edgeMenu = self.edgeMenu else { return }
                 if edgeMenu.opened  == false{
@@ -354,12 +356,12 @@ class VideoEditorViewController: UIViewController {
     }
     
     func showActivity(){
-        self.activity.isHidden = false
-        self.activity.startAnimating()
+        //self.activity.startAnimating()
+        HUDManager.sharedInstance.showHUD()
     }
     func hideActivity(){
-        self.activity.stopAnimating()
-        self.activity.isHidden = true
+        //self.activity.isHidden = true
+        HUDManager.sharedInstance.hideHUD()
     }
     
     

@@ -15,21 +15,22 @@ extension VideoEditorViewController {
     @IBAction func saveEditedVideoButtonTapped(_ sender: Any) {
         
         if self.isEdit != nil {
-            if let url = self.localFileURl {
-            if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:url,isSave:false) {
-                let camera = ContentDAO(contentData: [:])
-                camera.type = .video
-                camera.imgPreview = image
-                camera.fileName = self.localFileURl?.absoluteString.getName()
-                camera.fileUrl = localFileURl
-                camera.isUploaded = false
-                camera.name = txtTitleImage.text
-                camera.description = txtDescription.text
-                if self.delegate != nil {
-                    self.delegate?.saveEditing(image: camera)
-                }
-                self.navigationController?.popViewAsDismiss()
-            }
+            if let editedFileURL = editedFileURL {
+                     self.localFileURl = editedFileURL
+                    if let image = SharedData.sharedInstance.videoPreviewImage(moviePath:editedFileURL,isSave:false) {
+                        let camera = ContentDAO(contentData: [:])
+                        camera.type = .video
+                        camera.imgPreview = image
+                        camera.fileName = self.localFileURl?.absoluteString.getName()
+                        camera.fileUrl = localFileURl
+                        camera.isUploaded = false
+                        camera.name = txtTitleImage.text
+                        camera.description = txtDescription.text
+                        if self.delegate != nil {
+                            self.delegate?.saveEditing(image: camera)
+                        }
+                        self.navigationController?.popViewAsDismiss()
+                    }
             }
         }else {
             HUDManager.sharedInstance.showHUD()
@@ -147,28 +148,20 @@ extension VideoEditorViewController {
         }
         configureNavigationButtons()
         if self.selectedFeature == .trimer {
-          trimVideo()
+             trimVideo()
+             closePreview()
         }else if self.selectedFeature == .sticker {
             addStickerOnvideo()
         }else if self.selectedFeature == .text {
             addTextonvideo()
+        }else if self.selectedFeature == .resolution {
+            if let editedFileURL = editedFileURL {
+                self.localFileURl = editedFileURL
+            }
         }
         self.viewDescription.isHidden = false
     }
     
-    func trimVideo(){
-        self.showActivity()
-        self.editManager.trimVideo(path: self.localFileURl!, begin: self.trimmerView.startTime!, end: self.trimmerView.endTime!, progress: { (progress, strProgress) in
-            print("progrss---->\(progress)")
-            print("strProgress---->\(progress)")
-            
-        }, finish: { (fileUrl, error) in
-            if error == nil {
-                DispatchQueue.main.async {
-                    self.updateAsset(videoUrl: fileUrl!, type: self.selectedFeature)
-                }
-            }
-        })
-    }
+   
     
 }

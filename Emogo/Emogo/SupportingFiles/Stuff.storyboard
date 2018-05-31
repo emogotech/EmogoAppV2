@@ -3338,7 +3338,7 @@ Cg
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add Collaborators" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOf-aM-puh">
-                                        <rect key="frame" x="104" y="26" width="167.5" height="22"/>
+                                        <rect key="frame" x="105" y="26" width="167.5" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="22" id="m4m-CX-C6C"/>
                                         </constraints>

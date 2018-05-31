@@ -80,6 +80,9 @@ extension VideoEditorViewController {
             self.player.pause()
         }
         self.editedFileURL = videURl
+        if self.selectedFeature != VideoEditorFeature.resolution {
+            self.localFileURl = videURl
+        }
         self.hideActivity()
         let asset = BMPlayerResource(url: videURl)
         player.setVideo(resource: asset)

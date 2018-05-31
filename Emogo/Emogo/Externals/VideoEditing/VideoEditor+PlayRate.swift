@@ -42,6 +42,7 @@ extension VideoEditorViewController  {
     func applySelected(rate:Float){
         let (start,end) = self.editManager.getFileDuration(file: self.localFileURl!)
         if let start = start ,let end = end {
+            self.showActivity()
             self.editManager.setVideoRate(path: self.localFileURl!, rate: rate, begin: Float64(start), end: end, progress: { (progress, strprogress) in
                 
             }, finish: { (fileURL, error) in

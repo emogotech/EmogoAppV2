@@ -357,19 +357,13 @@ class ContentViewController: UIViewController {
         
         if selected.isUploaded {
             if selected.isEdit {
-                if selected.type == .image ||  selected.type == .video {
+                if selected.type == .image ||  selected.type == .video ||  selected.type == .link  {
                     let buttonEdit = self.getShadowButton(Alignment: 1)
                     buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
                     buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
                     let btnEdit = UIBarButtonItem.init(customView: buttonEdit)
                     
                     arrButtons.append(btnEdit)
-                    
-                    if seletedImage.likeStatus == 0{
-                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
-                    }else{
-                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                    }
                     
                 }
             }else {
@@ -380,34 +374,10 @@ class ContentViewController: UIViewController {
                     let btnFlag = UIBarButtonItem.init(customView: buttonFlag)
                     arrButtons.append(btnFlag)
                     
-                    if seletedImage.likeStatus == 0{
-                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
-                    }else{
-                        self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                    }
-                    
                 }
             }
             
-            if selected.type == .link {
-                //                imgEdit = #imageLiteral(resourceName: "change_link")
-                //                let btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
-                
-                
-                let buttonLink = self.getShadowButton(Alignment: 1)
-                buttonLink.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
-                buttonLink.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-                let btnLink = UIBarButtonItem.init(customView: buttonLink)
-                
-                arrButtons.append(btnLink)
-                
-                if seletedImage.likeStatus == 0{
-                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
-                }else{
-                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                }
-            }
-            
+           
             
             if selected.isDelete {
                 //                let imgDelete = #imageLiteral(resourceName: "delete_icon-cover_image")
@@ -420,11 +390,11 @@ class ContentViewController: UIViewController {
                 let btnDelete = UIBarButtonItem.init(customView: buttonLink)
                 arrButtons.append(btnDelete)
                 
-                if seletedImage.likeStatus == 0{
-                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
-                }else{
-                    self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-                }
+            }
+            if seletedImage.likeStatus == 0{
+                self.btnLikeDislike.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
+            }else{
+                self.btnLikeDislike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }
         }
         
@@ -505,13 +475,7 @@ class ContentViewController: UIViewController {
     
     @IBAction func btnEditAction(_ sender: Any) {
         if self.seletedImage != nil {
-            if self.seletedImage.type == .link {
-                guard let url = URL(string: self.seletedImage.coverImage) else {
-                    return
-                }
-                self.openURL(url: url)
-                return
-            }else if self.seletedImage.type == .image  || self.seletedImage.type == .video {
+           if self.seletedImage.type == .image  || self.seletedImage.type == .video || self.seletedImage.type == .link {
                 if isEdit != nil {
                     performEdit()
                 }else {
@@ -788,6 +752,17 @@ class ContentViewController: UIViewController {
             objVideoEditor.delegate = self
             objVideoEditor.seletedImage = self.seletedImage
             self.navigationController?.pushAsPresent(viewController: objVideoEditor)
+        }else if seletedImage.type == .link {
+            HUDManager.sharedInstance.showHUD()
+            print(self.seletedImage.coverImageVideo)
+            SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                HUDManager.sharedInstance.hideHUD()
+                if image != nil {
+                    self.openEditor(image:image!)
+                }
+            })
+            
+          
         }
     }
     

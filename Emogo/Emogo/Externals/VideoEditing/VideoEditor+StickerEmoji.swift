@@ -72,7 +72,6 @@ extension VideoEditorViewController  {
                 DispatchQueue.main.async {
                     self.canvasImageView.subviews.forEach({ $0.removeFromSuperview() })
                      self.hideActivity()
-                    self.localFileURl = fileURL
                     self.updatePlayerAsset(videURl: fileURL)
                 }
             }
