@@ -29,7 +29,11 @@ extension PhotoEditorViewController {
         AWSRequestManager.sharedInstance.imageUpload(image: self.seletedImage.imgPreview!, name: fileName) { (imageURL, error) in
             if error == nil {
                 DispatchQueue.main.async { // Correct
-                    self.seletedImage.coverImage = imageURL
+                    if self.seletedImage.type == .image {
+                        self.seletedImage.coverImage = imageURL
+                    }else if self.seletedImage.type == .link {
+                        self.seletedImage.coverImageVideo = imageURL
+                    }
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width:Int((self.seletedImage.imgPreview?.size.width)!)
                         , height: Int((self.seletedImage.imgPreview?.size.height)!))
                     self.seletedImage.imgPreview = nil
@@ -61,13 +65,16 @@ extension PhotoEditorViewController {
     }
     
     func deleteFileFromAWS(content:ContentDAO){
-        if !content.coverImage.isEmpty {
-            AWSManager.sharedInstance.removeFile(name: content.coverImage.getName(), completion: { (isDeleted, error) in
-            })
-        }
-        if !content.coverImageVideo.isEmpty {
-            AWSManager.sharedInstance.removeFile(name: content.coverImageVideo.getName(), completion: { (isDeleted, error) in
-            })
+        if content.type == .link {
+            if !content.coverImageVideo.isEmpty {
+                AWSManager.sharedInstance.removeFile(name: content.coverImageVideo.getName(), completion: { (isDeleted, error) in
+                })
+            }
+        }else if content.type == .image {
+            if !content.coverImage.isEmpty {
+                AWSManager.sharedInstance.removeFile(name: content.coverImage.getName(), completion: { (isDeleted, error) in
+                })
+            }
         }
     }
     

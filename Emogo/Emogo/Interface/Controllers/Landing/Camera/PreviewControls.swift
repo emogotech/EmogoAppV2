@@ -186,6 +186,7 @@ extension PreviewController:PhotoEditorDelegate
 {
     func doneEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = image
         ContentList.sharedInstance.arrayContent[selectedIndex] = image
         self.preparePreview(index: selectedIndex)
         self.previewCollection.reloadData()

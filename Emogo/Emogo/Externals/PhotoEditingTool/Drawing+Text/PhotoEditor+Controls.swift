@@ -25,25 +25,22 @@ extension PhotoEditorViewController {
     
     //MARK: Top Toolbar
     @IBAction func saveEditedImageButtonTapped(_ sender: Any) {
-        if isForEditOnly == false{
+        if self.seletedImage.isUploaded {
+                HUDManager.sharedInstance.showHUD()
+                if self.seletedImage.imgPreview != nil {
+                    self.uploadFile()
+                }else {
+                    //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
+                    self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
+                }
+        }else {
             seletedImage.imgPreview = image
             seletedImage.description = txtDescription.text.trim()
             seletedImage.fileName = NSUUID().uuidString + ".png"
             seletedImage.isUploaded = false
-            seletedImage.type = PreviewType.image
             self.photoEditorDelegate?.doneEditing(image: self.seletedImage!)
             self.navigationController?.popViewAsDismiss()
-        }else {
-            HUDManager.sharedInstance.showHUD()
-            if self.seletedImage.imgPreview != nil {
-                self.uploadFile()
-            }else {
-                //   self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: "", type: self.seletedImage.type.rawValue)
-                self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
-            }
         }
-      
-
     }
     
     
@@ -106,8 +103,13 @@ extension PhotoEditorViewController {
     }
     
     @objc func buttonBackAction(){
-        photoEditorDelegate?.canceledEditing()
         self.navigationController?.popViewAsDismiss()
+        if self.initContent.isUploaded {
+            self.initContent.imgPreview = nil
+        }else {
+            self.initContent.imgPreview = initImage
+        }
+        photoEditorDelegate?.doneEditing(image: self.initContent)
     }
     
     @objc func btnCancelAction(){

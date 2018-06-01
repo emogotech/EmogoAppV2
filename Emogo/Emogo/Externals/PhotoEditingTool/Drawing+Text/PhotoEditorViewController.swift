@@ -25,7 +25,8 @@ enum EditingFeature {
     //To hold the drawings and stickers
     @IBOutlet weak var canvasImageView: UIImageView!
     @IBOutlet weak var gradientImageView: UIImageView!
-    
+    @IBOutlet weak var animatedImageView: FLAnimatedImageView!
+
     @IBOutlet weak var colorsCollectionView: UICollectionView!
     @IBOutlet weak var colorPickerView: UIView!
     @IBOutlet weak var colorPickerViewBottomConstraint: NSLayoutConstraint!
@@ -81,6 +82,8 @@ enum EditingFeature {
     var selectedFeature:EditingFeature! = .none
     
     var seletedImage:ContentDAO!
+    var initContent:ContentDAO!
+    var initImage:UIImage?
 
     //Register Custom font before we load XIB
     public override func loadView() {
@@ -92,7 +95,8 @@ enum EditingFeature {
         super.viewDidLoad()
     
         self.setImageView(image: image!)
-        
+        initContent = self.seletedImage
+        initImage = image
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.screenEdgeSwiped(_:)))
         edgePan.edges = .bottom
         edgePan.delegate = self
@@ -181,7 +185,8 @@ enum EditingFeature {
     }
     
     func prepareRightSideMenu(){
-        
+        if self.seletedImage.type != .gif {
+
         let btnText = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 52))
         btnText.setImage(#imageLiteral(resourceName: "add_text"), for: .normal)
         btnText.setBackgroundImage(#imageLiteral(resourceName: "rectangle_up"), for: .normal)
@@ -222,8 +227,9 @@ enum EditingFeature {
         //            let strongSelf = weakSelf
         //            strongSelf!.updateSideBar()
         //        }
-        self.view.addSubview(edgeMenu)
-        edgeMenu.open()
+            self.view.addSubview(edgeMenu)
+            edgeMenu.open()
+        }
 
     }
     
@@ -259,11 +265,28 @@ enum EditingFeature {
     
     func setImageView(image: UIImage) {
         //imageView.image = image
-        self.canvasImageView.image = image
-        let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
-        imageViewHeightConstraint.constant = (size?.height)!
+        if self.seletedImage.type != .gif {
+            self.animatedImageView.isHidden = true
+            self.canvasView.isHidden = false
+            self.canvasImageView.image = image
+            let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
+            imageViewHeightConstraint.constant = (size?.height)!
+        }else {
+            prepareGifView()
+        }
     }
     
+    func prepareGifView(){
+        self.canvasView.isHidden = true
+        self.animatedImageView.isHidden = false
+        self.animatedImageView.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
+        SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+            image?.getColors({ (colors) in
+                self.animatedImageView.backgroundColor = colors.primary
+            })
+        })
+        self.animatedImageView.contentMode = .scaleAspectFit
+    }
     func hideToolbar(hide: Bool?) {
         if hide == nil {
             configureNavigationButtons()

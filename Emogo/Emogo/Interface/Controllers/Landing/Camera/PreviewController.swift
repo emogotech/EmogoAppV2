@@ -284,34 +284,19 @@ class PreviewController: UIViewController {
         
         
         if selected.isUploaded == false {
-
-            if selected.type == .image || selected.type == .video {
-                arrButtons.append(btnEdit)
-            }else if selected.type == .link {
-//                imgEdit = #imageLiteral(resourceName: "change_link")
-//                btnEdit = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnEditAction(_:)))
-
-                let buttonDel = self.getShadowButton(Alignment: 1)
-                buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
-                buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-                let btnEdit = UIBarButtonItem.init(customView: buttonDel)
-                
-                arrButtons.append(btnEdit)
-            }
+            arrButtons.append(btnEdit)
             arrButtons.append(btnDelete)
         }else{
             if selected.isEdit == true {
-                if selected.type == .image {
                     arrButtons.append(btnEdit)
-                }
-                if selected.type == .link {
-
-                    let buttonDel = self.getShadowButton(Alignment: 1)
-                    buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
-                    buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
-                    let btnEdit = UIBarButtonItem.init(customView: buttonDel)
-                    arrButtons.append(btnEdit)
-                }
+//                if selected.type == .link {
+//
+//                    let buttonDel = self.getShadowButton(Alignment: 1)
+//                    buttonDel.setImage(#imageLiteral(resourceName: "change_link"), for: .normal)
+//                    buttonDel.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
+//                    let btnEdit = UIBarButtonItem.init(customView: buttonDel)
+//                    arrButtons.append(btnEdit)
+//                }
                 
                 if selected.isDelete == true {
                     arrButtons.append(btnDelete)
@@ -489,21 +474,27 @@ class PreviewController: UIViewController {
     @IBAction func btnEditAction(_ sender: Any) {
         if   ContentList.sharedInstance.arrayContent.count != 0 {
             if seletedImage.type == .image {
-                if seletedImage.isUploaded {
-                    isEditingContent = true
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.seletedImage = seletedImage
-                    objPreview.isEdit = true
-                    objPreview.isForEditOnly = true
-                    self.navigationController?.push(viewController: objPreview)
-                }else{
+                if self.seletedImage.imgPreview == nil {
+                    HUDManager.sharedInstance.showHUD()
+                    SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
+                        HUDManager.sharedInstance.hideHUD()
+                        if image != nil {
+                            self.openEditor(image:image!)
+                        }
+                    })
+                    
+                }else {
                     self.openEditor(image:seletedImage.imgPreview!)
                 }
             }else if seletedImage.type == .link {
-                guard let url = URL(string: self.seletedImage.coverImage) else {
-                    return
-                }
-                self.openURL(url: url)
+                HUDManager.sharedInstance.showHUD()
+                SharedData.sharedInstance.downloadImage(url: seletedImage.coverImageVideo, handler: { (image) in
+                    HUDManager.sharedInstance.hideHUD()
+                    if image != nil {
+                        self.openEditor(image:image!)
+                    }
+                })
+              
             }else if seletedImage.type == .video {
                 AppDelegate.appDelegate.keyboardResign(isActive: false)
                 let objVideoEditor:VideoEditorViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_VideoEditorView) as! VideoEditorViewController
@@ -513,6 +504,8 @@ class PreviewController: UIViewController {
                 objVideoEditor.delegate = self
                 objVideoEditor.seletedImage = self.seletedImage
                 self.navigationController?.pushAsPresent(viewController: objVideoEditor)
+            }else {
+                self.openEditor(image:imgPreview.image!)
             }
         }else {
             self.showToast(type: .error, strMSG: kAlert_Edit_Image)
@@ -722,9 +715,9 @@ class PreviewController: UIViewController {
     private func openEditor(image:UIImage){
         AppDelegate.appDelegate.keyboardResign(isActive: false)
         photoEditor = PhotoEditorViewController(nibName:"PhotoEditorViewController",bundle: Bundle(for: PhotoEditorViewController.self))
+        photoEditor.seletedImage = self.seletedImage
         photoEditor.image = image
         photoEditor.isForEditOnly = false
-        photoEditor.seletedImage = self.seletedImage
         //PhotoEditorDelegate
         photoEditor.photoEditorDelegate = self
         photoEditor.hiddenControls = [.share]

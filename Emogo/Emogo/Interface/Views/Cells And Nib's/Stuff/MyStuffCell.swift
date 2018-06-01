@@ -51,6 +51,7 @@ class MyStuffCell: UICollectionViewCell {
             self.imgCover.setForAnimatedImage(strImage:content.coverImageVideo)
             self.btnPlay.isHidden = true
         }else {
+            self.btnPlay.isHidden = true
             self.imgCover.setForAnimatedImage(strImage:content.coverImage)
         }
     }
