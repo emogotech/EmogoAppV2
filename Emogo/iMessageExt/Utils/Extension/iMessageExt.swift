@@ -48,6 +48,45 @@ extension UIImageView {
     
     
 }
+// MARK: - UIView
+extension UIView {
+    
+    func addBlurView(){
+        self.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = CGRect.zero
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.tag = 828748374
+        if let viewWithTag = self.viewWithTag(828748374) {
+            viewWithTag.removeFromSuperview()
+        }
+        self.insertSubview(blurView, at: 0)
+        
+        blurView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        blurView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        blurView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        //        blurView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        //        blurView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        
+    }
+    
+    func setTopCurve(){
+        let offset = CGFloat(self.frame.size.height/4)
+        let bounds = self.bounds
+        let rectBounds = CGRect(x: bounds.origin.x, y: bounds.origin.y + bounds.size.height/2  , width:  bounds.size.width, height: bounds.size.height / 2)
+        let rectPath = UIBezierPath(rect: rectBounds)
+        let ovalBounds = CGRect(x: bounds.origin.x - offset / 2, y: bounds.origin.y, width: bounds.size.width + offset, height: bounds.size.height)
+        let ovalPath = UIBezierPath(ovalIn: ovalBounds)
+        rectPath.append(ovalPath)
+        
+        let maskLayer = CAShapeLayer.init()
+        maskLayer.frame = bounds
+        maskLayer.path = rectPath.cgPath
+        self.layer.mask = maskLayer
+    }
+}
 
 let imageCaches = NSCache<AnyObject, AnyObject>()
 typealias CompletionHandlers = (_ success:Bool, _ image:FLAnimatedImage?) -> Void

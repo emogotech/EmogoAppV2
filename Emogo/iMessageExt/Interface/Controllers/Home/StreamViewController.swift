@@ -92,6 +92,10 @@ class StreamViewController: MSMessagesAppViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         imgGuesture.addGestureRecognizer(swipeLeft)
         
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        imgGuesture.addGestureRecognizer(swipeDown)
+        
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         imgGuesture.addGestureRecognizer(tapRecognizer)
         
@@ -171,7 +175,10 @@ class StreamViewController: MSMessagesAppViewController {
                     }
                 }
                 break
-                
+            case UISwipeGestureRecognizerDirection.down:
+                self.dismiss(animated: true, completion: nil)
+        
+                break
             default:
                 break
             }

@@ -20,6 +20,11 @@ class MessagesViewController: MSMessagesAppViewController {
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delay(0.4) {
+           
+        }
+   
         // SharedData.sharedInstance.resetAllData()
         setupLoader()
         prepareLayout()
@@ -57,6 +62,13 @@ class MessagesViewController: MSMessagesAppViewController {
                 self.view.frame.origin.y = 0
             })
         }
+    }
+    
+    
+    func delay(_ delay:Double, closure:@escaping ()->()) {
+        let when = DispatchTime.now() + delay
+        DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+       
     }
     
     // MARK:- LoaderSetup

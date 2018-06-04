@@ -48,7 +48,7 @@ class LoadingView: UIView {
         load?.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
         
         loaderImage = UIImageView(frame:  CGRect.zero)
-        loaderImage?.image = #imageLiteral(resourceName: "loader")
+        loaderImage?.image = #imageLiteral(resourceName: "loader") 
         
         self.addSubview(loaderImage!)
         loaderImage?.translatesAutoresizingMaskIntoConstraints = false

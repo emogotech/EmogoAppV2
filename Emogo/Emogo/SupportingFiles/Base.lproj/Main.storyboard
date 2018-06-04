@@ -2462,7 +2462,7 @@
                                             <constraint firstAttribute="height" constant="40" id="bN5-8P-Lpj"/>
                                         </constraints>
                                         <state key="normal" image="button:KJZ-CM-7cq:image"/>
-                                        <state key="selected" image="65D42F88-E461-4576-A07B-F55FDB3C96C7"/>
+                                        <state key="selected" image="D2849865-721D-467D-84C2-F3F7AC3EEF1F"/>
                                         <connections>
                                             <action selector="btnSearchAction:" destination="yPI-rI-brd" eventType="touchUpInside" id="6qg-Si-L1X"/>
                                         </connections>
@@ -3522,7 +3522,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="65D42F88-E461-4576-A07B-F55FDB3C96C7" width="17" height="17">
+        <image name="D2849865-721D-467D-84C2-F3F7AC3EEF1F" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
 ExQZHh8jJCsuMTtDR0tPUlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdz

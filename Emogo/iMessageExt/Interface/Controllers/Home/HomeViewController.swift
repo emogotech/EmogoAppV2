@@ -52,8 +52,10 @@ class HomeViewController: MSMessagesAppViewController {
     var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     var arrayToShow = [StreamDAO]()
     
-    fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect"]
-    fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
+   // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
+   // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
+    fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
+    fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
     
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
@@ -171,6 +173,7 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
         pagerView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
         pagerView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
+       
         pagerView.currentIndex = 2
         lastIndex = 2
         pagerView.itemSize = CGSize(width: 120, height: 100)
@@ -180,7 +183,22 @@ class HomeViewController: MSMessagesAppViewController {
         pagerView.isHidden = false
         pagerView.isAddBackground = false
         pagerView.isAddTitle = false
-        pagerView.layer.contents = UIImage(named: "grad-bottom")?.cgImage
+        pagerView.layer.contents = UIImage(named: "home_gradient")?.cgImage
+       
+        let blurEffect = UIBlurEffect(style: .light)
+        // 3
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        // 4
+        var blurFrame = pagerView.bounds
+        let blurHeight = (blurFrame.size.height / 2)
+        blurFrame.size.height    =  blurHeight
+        blurFrame.origin.y      =   blurHeight + 10
+        blurView.frame = blurFrame
+        blurView.setTopCurve()
+        pagerView.insertSubview(blurView, at: 0)
+        print(blurView)
+        
+        
         if SharedData.sharedInstance.isMessageWindowExpand {
             if SharedData.sharedInstance.isPortrate {
                 pagerContent.isHidden = false
@@ -191,6 +209,7 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
     }
+  
     
     // MARK:- pull to refresh LoaderSetup
     func setupRefreshLoader() {
@@ -221,23 +240,23 @@ class HomeViewController: MSMessagesAppViewController {
     func setupCollectionProperties() {
         
         
-        
         if self.isSearch == false {
-            if currentStreamType == .People {
-                layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-                layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
-                layout.minimumInteritemSpacing = 8
-                layout.minimumLineSpacing = 8
-                collectionStream!.collectionViewLayout = layout
-            }
-            else {
+            
+//            if currentStreamType == .People {
+//                layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+//                layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
+//                layout.minimumInteritemSpacing = 8
+//                layout.minimumLineSpacing = 8
+//                collectionStream!.collectionViewLayout = layout
+//            }
+//            else {
                 layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
                 
-            }
+           // }
         }
         else {
             if isSearch && !isStreamEnable {
@@ -269,13 +288,14 @@ class HomeViewController: MSMessagesAppViewController {
             layout.minimumLineSpacing = 8
             collectionStream!.collectionViewLayout = layout
         }
+            /*
         else  if (btnFeature.titleLabel?.text == "PEOPLE"){
             layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/3 - 12.0, height: self.collectionStream.frame.size.width/3 )
             layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 8
             collectionStream!.collectionViewLayout = layout
-        }
+        }*/
         else  {
             layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
             layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
@@ -364,13 +384,13 @@ class HomeViewController: MSMessagesAppViewController {
         self.collectionStream.isUserInteractionEnabled = false
         
         if self.isSearch == false {
-            if currentStreamType == .People {
-                self.view.isUserInteractionEnabled = false
-                self.getUsersList(type: .up)
-            }else {
+//            if currentStreamType == .People {
+//                self.view.isUserInteractionEnabled = false
+//                self.getUsersList(type: .up)
+//            }else {
                  self.view.isUserInteractionEnabled = false
                 self.getStreamList(type: .up, filter: currentStreamType)
-            }
+            //}
         }
         else {
             if isSearch && !isStreamEnable {
@@ -457,21 +477,21 @@ class HomeViewController: MSMessagesAppViewController {
                 isSearch = true
                 self.hudView.startLoaderWithAnimation()
                 StreamList.sharedInstance.requestURl = ""
-                if btnFeature.titleLabel?.text == "PEOPLE" {
-                    isStreamEnable = false
-                    self.btnStreamSearch.isUserInteractionEnabled = true
-                    self.btnPeopleSearch.isUserInteractionEnabled = false
-                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-
-                    PeopleList.sharedInstance.arrayPeople.removeAll()
-                    collectionStream.reloadData()
-                    self.collectionStream.isHidden = true
-                    StreamList.sharedInstance.requestURl = ""
-                    PeopleList.sharedInstance.requestURl = ""
-                    SharedData.sharedInstance.isMoreContentAvailable = false
-                    self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
-                }else{
+//                if btnFeature.titleLabel?.text == "PEOPLE" {
+//                    isStreamEnable = false
+//                    self.btnStreamSearch.isUserInteractionEnabled = true
+//                    self.btnPeopleSearch.isUserInteractionEnabled = false
+//                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//
+//                    PeopleList.sharedInstance.arrayPeople.removeAll()
+//                    collectionStream.reloadData()
+//                    self.collectionStream.isHidden = true
+//                    StreamList.sharedInstance.requestURl = ""
+//                    PeopleList.sharedInstance.requestURl = ""
+//                    SharedData.sharedInstance.isMoreContentAvailable = false
+//                    self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
+//                }else{
                     isStreamEnable = true
                     lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                     lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
@@ -484,7 +504,7 @@ class HomeViewController: MSMessagesAppViewController {
                     PeopleList.sharedInstance.requestURl = ""
                     SharedData.sharedInstance.isMoreContentAvailable = false
                     self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
-                }
+              //  }
                 self.getStreamGlobleSearch(searchText:self.searchText.text!, type: .start )
             }
         }
@@ -1214,20 +1234,20 @@ extension HomeViewController : UITextFieldDelegate {
             btnSearchHeader.tag = 1
             self.searchText.resignFirstResponder()
             
-            if btnFeature.titleLabel?.text == "PEOPLE" {
-                isStreamEnable = false
-                self.btnStreamSearch.isUserInteractionEnabled = true
-                self.btnPeopleSearch.isUserInteractionEnabled = false
-                PeopleList.sharedInstance.arrayPeople.removeAll()
-                collectionStream.reloadData()
-                StreamList.sharedInstance.requestURl = ""
-                PeopleList.sharedInstance.requestURl = ""
-                SharedData.sharedInstance.isMoreContentAvailable = false
-                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                //                self.setupCollectionProperties()
-                self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
-            }else{
+//            if btnFeature.titleLabel?.text == "PEOPLE" {
+//                isStreamEnable = false
+//                self.btnStreamSearch.isUserInteractionEnabled = true
+//                self.btnPeopleSearch.isUserInteractionEnabled = false
+//                PeopleList.sharedInstance.arrayPeople.removeAll()
+//                collectionStream.reloadData()
+//                StreamList.sharedInstance.requestURl = ""
+//                PeopleList.sharedInstance.requestURl = ""
+//                SharedData.sharedInstance.isMoreContentAvailable = false
+//                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//                //                self.setupCollectionProperties()
+//                self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
+//            }else{
                 isStreamEnable = true
                 lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
@@ -1240,7 +1260,7 @@ extension HomeViewController : UITextFieldDelegate {
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.setupCollectionProperties()
                 self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
-            }
+           // }
             
             pagerContent.isHidden = true
             btnFeature.tag = 0
@@ -1372,8 +1392,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 4:
                 showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 break
-                
+           /*
             case 5:
+               
                 lastIndex = index
                 currentStreamType = StreamType.People
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
@@ -1385,7 +1406,32 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 }
                 self.changePager()
                 break
-                
+            */
+            case 5:
+                lastIndex = index
+                currentStreamType = StreamType.Liked
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
+                self.changePager()
+                break
+            case 6:
+                lastIndex = index
+                currentStreamType = StreamType.Following
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
+                self.changePager()
+                break
+          
             default :
                 break
             }
@@ -1462,7 +1508,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 4:
                 showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 break
-                
+            /*
             case 5:
                 lastIndex = pagerView.currentIndex
                 currentStreamType = StreamType.People
@@ -1475,7 +1521,31 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 }
                 self.changePager()
                 break
-                
+            */
+            case 5:
+                lastIndex = pagerView.currentIndex
+                currentStreamType = StreamType.Liked
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
+                self.changePager()
+                break
+            case 6 :
+                lastIndex = pagerView.currentIndex
+                currentStreamType = StreamType.Following
+                StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+                if last > pagerView.currentIndex {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
+                self.changePager()
+                break
             default :
                 break
             }
@@ -1544,10 +1614,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             switch action.style{
             case .default:
                 UIView.animate(withDuration: 0.7, animations: {
-                    pagerView.currentIndex = self.lastIndex
-                    let strLbl = "\(self.arrImagesSelected[pagerView.currentIndex])"
-                    pagerView.lblCurrentType.text = strLbl.uppercased()
-                    self.btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
+//                    pagerView.currentIndex = self.lastIndex
+//                    let strLbl = "\(self.arrImagesSelected[pagerView.currentIndex])"
+//                    pagerView.lblCurrentType.text = strLbl.uppercased()
+//                    self.btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
                     pagerView.reloadData()
                 })
                 break
@@ -1566,13 +1636,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                     let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
                     SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                     break
-                case 5:
-                    self.lastIndex = index
-                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
-                    let userInfo = self.arrayToShow[selectedIndex]
-                    let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
-                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
-                    break
+//                case 5:
+//                    self.lastIndex = index
+//                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
+//                    let userInfo = self.arrayToShow[selectedIndex]
+//                    let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
+//                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
+//                    break
                     
                 default:
                     break
@@ -1641,13 +1711,13 @@ extension HomeViewController : UIScrollViewDelegate {
                 self.footerView?.loadingView.startLoaderWithAnimation()
                 self.collectionStream.reloadData()
                 if self.isSearch == false {
-                    if currentStreamType == .People {
+//                    if currentStreamType == .People {
+//                         self.view.isUserInteractionEnabled = false
+//                        self.getUsersList(type: .down)
+//                    }else {
                          self.view.isUserInteractionEnabled = false
-                        self.getUsersList(type: .down)
-                    }else {
-                         self.view.isUserInteractionEnabled = false
-                        self.getStreamList(type: .down, filter: currentStreamType)
-                    }
+                         self.getStreamList(type: .down, filter: currentStreamType)
+                    //}
                 }
                 else {
                     if isSearch && !isStreamEnable {
