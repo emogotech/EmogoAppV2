@@ -866,7 +866,9 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             return
         }
         btnCamera.forceShrinkButton()
-        timer.invalidate()
+        if timer != nil {
+            timer.invalidate()
+        }
         self.lblRecordTimer.isHidden = true
         self.btnFlash.alpha = 1.0
         self.btnTimer.alpha = 1.0
