@@ -131,7 +131,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if !objStream.colabImageSecond.trim().isEmpty {
             
             if  objStream.colabImageSecond.contains(kImageFormat) {
-        self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+            self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
+                
             }else {
                 self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.colorHash(name:objStream.colabImageSecond.trim()), circular: true)
 

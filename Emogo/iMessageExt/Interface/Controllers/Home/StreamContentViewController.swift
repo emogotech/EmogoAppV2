@@ -25,6 +25,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     @IBOutlet weak var viewAction           : UIView!
     
+    @IBOutlet weak var btnLike: UIButton!
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
     @IBOutlet weak var btnPlay: UIButton!
@@ -37,6 +38,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     var currentStreamTitle                     : String?
     var arrContentData                      = [ContentDAO]()
     var hudView                             : LoadingView!
+    var objStream                           : StreamViewDAO?
+
+    
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +57,16 @@ class StreamContentViewController: MSMessagesAppViewController {
         requestMessageScreenChangeSize()
         
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super .viewWillAppear(true)
+        let content = self.arrContentData[currentContentIndex]
+        if content.likeStatus == 0 {
+            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
@@ -83,6 +96,16 @@ class StreamContentViewController: MSMessagesAppViewController {
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
+    @IBAction func btnLikeAction(_ sender: Any) {
+        let content = self.arrContentData[currentContentIndex]
+        if  content.likeStatus == 0 {
+            content.likeStatus = 1
+        }else{
+            content.likeStatus = 0
+        }
+        self.likeDislikeContent()
+    }
+    
     // MARK: - PrepareLayout
     @objc func prepareLayout(){
         DispatchQueue.main.async {
@@ -110,6 +133,8 @@ class StreamContentViewController: MSMessagesAppViewController {
         
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
         imgStream.addGestureRecognizer(tapRecognizer)
+        
+     
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -208,6 +233,13 @@ class StreamContentViewController: MSMessagesAppViewController {
             }else {
                 self.btnPlay.isHidden = true
             }
+            
+            if content.likeStatus == 0 {
+                self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                
+            }else{
+                self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            }
         }
         
         lblStreamDesc.text = content.description.trim().capitalized
@@ -227,7 +259,26 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
         }
     }
+    //MARK:- Like Dislike Stream
     
+    func likeDislikeContent(){
+        
+        let content = self.arrContentData[currentContentIndex]
+        APIServiceManager.sharedInstance.apiForLikeDislikeContent(content: content.contentID, status:content.likeStatus)  { (isSuccess, errorMsg) in
+          
+            if isSuccess == true {
+                if content.likeStatus == 0 {
+                    self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                    
+                }else{
+                    self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
+            }else{
+                
+                 self.showToastIMsg(type: .error, strMSG: errorMsg!)
+            }
+        }
+    }
     //MARK: - Action Methods
     @IBAction func btnAddStreamContent(_ sender:UIButton){
         let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"

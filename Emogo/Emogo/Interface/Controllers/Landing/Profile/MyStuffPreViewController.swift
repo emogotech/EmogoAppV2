@@ -65,8 +65,7 @@ class MyStuffPreViewController: UIViewController {
                 self.title = selectedType.rawValue + "s"
             }
         }
-        
-        
+      
         
     }
     

@@ -92,8 +92,6 @@ class MyStreamViewController: UIViewController {
             }
             self.configureStrechyHeader()
         }
-        
-       
       
     }
    

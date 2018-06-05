@@ -23,23 +23,28 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnCollaborator      : UIButton!
     @IBOutlet weak var btnEdit              : UIButton!
     @IBOutlet weak var btnDelete            : UIButton!
-    @IBOutlet weak var btnExpandDesc            : UIButton!
+    @IBOutlet weak var btnExpandDesc        : UIButton!
+    @IBOutlet weak var btnLike              : UIButton!
     
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
     @IBOutlet weak var imgGuesture          : UIImageView!
     
     @IBOutlet weak var collectionStreams    : UICollectionView!
-    
-    @IBOutlet weak var viewStream    : UIView!
+    @IBOutlet weak var lbl_LikeCount        : UILabel!
+    @IBOutlet weak var lbl_ViewCount        : UILabel!
+    @IBOutlet weak var heightbtnDelete      : NSLayoutConstraint!
+    @IBOutlet weak var viewStream           : UIView!
+    @IBOutlet weak var btnContainerLikeView : UIView!
     
     // MARK: - Variables
     var lblCount                            : UILabel!
     var arrStream                           = [StreamDAO]()
-    
+    var objStream                           : StreamViewDAO?
+    var currentIndex                        : Int!
     var currentStreamIndex                  : Int!
     var hudView                             : LoadingView!
-    var objStream                           :StreamViewDAO?
+    var isViewCount                         : String?
     
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
@@ -52,7 +57,6 @@ class StreamViewController: MSMessagesAppViewController {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
-
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
@@ -78,6 +82,11 @@ class StreamViewController: MSMessagesAppViewController {
             self.dismiss(animated: false, completion: nil)
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }else{
+            if objStream?.likeStatus == "0" {
+                self.btnLike.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            }else{
+                self.btnLike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            }
             self.getStream()
         }
     }
@@ -104,9 +113,11 @@ class StreamViewController: MSMessagesAppViewController {
         
         if currentStreamIndex == 0 {
             btnPreviousStream.isEnabled = false
+            
         }
         if currentStreamIndex == arrStream.count-1 {
             btnNextStream.isEnabled = false
+           
         }
         setupLoader()
         self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
@@ -117,8 +128,26 @@ class StreamViewController: MSMessagesAppViewController {
         }
         self.perform(#selector(getStream), with: nil, afterDelay: 0.01)
         self.lblStreamDesc.numberOfLines = 2
+        
+        if self.objStream?.likeStatus == "0" {
+            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
+        if isViewCount != nil {
+            apiForIncreaseViewCount()
+        }
+       
     }
-    
+    func apiForIncreaseViewCount(){
+        if let streamID = ContentList.sharedInstance.objStream {
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
+                
+            }
+        }
+        
+    }
     @objc func setupLabelInCollaboratorButton() {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2
@@ -161,6 +190,12 @@ class StreamViewController: MSMessagesAppViewController {
                 if currentStreamIndex !=  arrStream.count-1 {
                     if Reachability.isNetworkAvailable() {
                         self.nextImageLoad()
+                        if self.objStream?.likeStatus == "0" {
+                            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                            
+                        }else{
+                            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                        }
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
                     }
@@ -170,6 +205,12 @@ class StreamViewController: MSMessagesAppViewController {
                 if currentStreamIndex != 0 {
                     if Reachability.isNetworkAvailable() {
                         self.previousImageLoad()
+                        if self.objStream?.likeStatus == "0" {
+                            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                            
+                        }else{
+                            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                        }
                     } else {
                         self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
                     }
@@ -205,12 +246,14 @@ class StreamViewController: MSMessagesAppViewController {
             self.lblStreamName.minimumScaleFactor = 1.0
             self.lblStreamTitle.minimumScaleFactor = 1.0
         }
-        
+        self.lbl_LikeCount.text = objStream?.totalLikeCount.trim()
+        self.lbl_ViewCount.text = objStream?.viewCount.trim()
         lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
         lblCount.isHidden = true
         btnEdit.isHidden = true
         btnDelete.isHidden = true
+        heightbtnDelete.constant = 0
         if objStream?.arrayColab.count != 0 {
             lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
             btnCollaborator.isUserInteractionEnabled = true
@@ -220,9 +263,17 @@ class StreamViewController: MSMessagesAppViewController {
         else {
             btnCollaborator.isHidden = true
         }
+      
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
             btnEdit.isHidden = false
             btnDelete.isHidden = false
+            heightbtnDelete.constant = 29
+            btnContainerLikeView.isHidden = false
+            
+        }
+      else{
+            btnContainerLikeView.isHidden = true
+            
         }
     }
     
@@ -238,6 +289,34 @@ class StreamViewController: MSMessagesAppViewController {
                 self.btnExpandDesc.isHidden = true
             }else{
                 self.btnExpandDesc.isHidden = false
+            }
+        }
+    }
+    //MARK:- Like Dislike Stream
+    
+    func likeDislikeStream(){
+        let stream = self.arrStream[self.currentStreamIndex]
+    
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (stream.ID)!, status: (self.objStream?.likeStatus)!) {(count,status, error) in
+           
+            if (error?.isEmpty)! {
+                self.objStream?.likeStatus = status
+                self.objStream?.totalLiked = count
+                if status == "0" {
+                   if let totalLike = self.objStream?.totalLiked.trim(){
+                    self.lbl_LikeCount.text = "\(totalLike)"
+                   }
+                    self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                }else{
+                   if let totalLike = self.objStream?.totalLiked.trim(){
+                    self.lbl_LikeCount.text = "\(totalLike)"
+                    }
+                    self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                }
+                
+            }else{
+                self.showToastIMsg(type: .success, strMSG: error!)
+                
             }
         }
     }
@@ -261,6 +340,22 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Action Methods
     @IBAction func btnNextAction(_ sender:UIButton) {
         nextImageLoad()
+        if self.objStream?.likeStatus == "0" {
+            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
+    }
+    
+    @IBAction func btnLikeAction(_ sender: Any) {
+        
+        if self.objStream?.likeStatus == "0" {
+            self.objStream?.likeStatus = "1"
+        }else{
+            self.objStream?.likeStatus = "0"
+        }
+        self.likeDislikeStream()
     }
     
     @IBAction func btnCollapseExpand(_ sender:UIButton) {
@@ -324,6 +419,12 @@ class StreamViewController: MSMessagesAppViewController {
     
     @IBAction func btnPreviousAction(_ sender:UIButton) {
         previousImageLoad()
+        if self.objStream?.likeStatus == "0" {
+            self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
     }
     
     @IBAction func btnAddStreamContent(_ sender: UIButton) {
@@ -497,7 +598,11 @@ class StreamViewController: MSMessagesAppViewController {
                     }else{
                         self.lblNoContent.isHidden = true
                     }
-                    
+                    if self.objStream!.likeStatus == "0" {
+                        self.btnLike.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                    }else{
+                        self.btnLike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    }
                     self.loadViewForUI()
                     self.collectionStreams.reloadData()
                     if self.hudView != nil {
