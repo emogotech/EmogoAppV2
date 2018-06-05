@@ -212,6 +212,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         self.navigationController?.push(viewController: controller)
     }
     
+    func btnActionForNotes(){
+        let controller = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView)
+        self.navigationController?.push(viewController: controller)
+    }
     func btnImportAction(){
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets

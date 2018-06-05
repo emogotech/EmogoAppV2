@@ -92,6 +92,7 @@ let kStoryboardID_FilterView = "filterView"
 let kStoryboardID_SettingView = "settingView"
 let kStoryboardID_VideoEditorView = "videoEditorView"
 let kStoryboardID_CountryPickerView = "countryPickerView"
+let kStoryboardID_CreateNotesView = "createNotesView"
 
 
 

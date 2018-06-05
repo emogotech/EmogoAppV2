@@ -577,6 +577,9 @@ class StreamListViewController: UIViewController {
         actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
             self.btnActionForMyStuff()
         }))
+        actionController.addAction(Action(ActionData(title: "Notes", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
+            self.btnActionForNotes()
+        }))
         
         
         //        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in

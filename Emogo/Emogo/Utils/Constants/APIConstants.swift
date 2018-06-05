@@ -29,10 +29,10 @@ let kRegion = AWSRegionType.USEast1
 // MARK: -  API
 // base URL
 //DEV
-let kBaseURL                                         = "http://54.196.89.61/api/"
+//let kBaseURL                                         = "http://54.196.89.61/api/"
 
 //Stage
-//let kBaseURL                                       = "http://52.37.251.77/api/"
+let kBaseURL                                            = "http://35.153.168.16/api/"
 
 //Production
 
