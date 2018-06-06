@@ -126,6 +126,9 @@ class MyStuffViewController: UIViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 print("Swie Left")
+                if self.selectedType == .Giphy {
+                    return
+                }
                 Animation.addRightTransition(collection: self.stuffCollectionView)
                 let index = self.selectedType.hashValue + 1
                 self.segmentControl.selectedSegmentIndex = index
@@ -135,7 +138,9 @@ class MyStuffViewController: UIViewController {
                 
             case UISwipeGestureRecognizerDirection.right:
                 print("Swie Right")
-                
+                if self.selectedType == .All {
+                    return
+                }
                 Animation.addLeftTransition(collection: self.stuffCollectionView)
                 let index = self.selectedType.hashValue - 1
                 self.segmentControl.selectedSegmentIndex = index

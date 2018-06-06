@@ -717,7 +717,7 @@ class ProfileViewController: UIViewController {
     @objc func btnSettingAction() {
         
         let settingVC = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_SettingView)
-        self.navigationController?.push(viewController: settingVC)
+        self.navigationController?.pushAsPresent(viewController: settingVC)
         /*
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Logout, preferredStyle: .alert)
         let yes = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
