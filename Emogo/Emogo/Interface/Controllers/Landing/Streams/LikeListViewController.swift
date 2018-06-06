@@ -247,7 +247,7 @@ class LikeListViewController: UIViewController {
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_LikeListCell) as! LikeListCell
+            let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_likeListCell) as! LikeListCell
             
             
             cell.btnFollow.tag = indexPath.row

@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
     @IBOutlet weak var btnNext: UIButton!
+    @IBOutlet weak var btnAdd: UIButton!
 
 
     var arrayTopContent = [TopContent]()
@@ -116,6 +117,7 @@ class ProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Profile"
         self.btnNext.isHidden = true
+        self.btnAdd.isHidden = false
         ContentList.sharedInstance.arrayStuff.removeAll()
         StreamList.sharedInstance.arrayProfileStream.removeAll()
         StreamList.sharedInstance.arrayProfileColabStream.removeAll()
@@ -402,6 +404,7 @@ class ProfileViewController: UIViewController {
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNOResult.isHidden = true
         self.btnNext.isHidden = true
+        self.btnAdd.isHidden = false
         if array.count == 0  {
             self.lblNOResult.isHidden = false
             self.lblNOResult.text = "No Stuff Found"
@@ -636,8 +639,10 @@ class ProfileViewController: UIViewController {
         
         if contains {
             btnNext.isHidden = false
+            self.btnAdd.isHidden = true
         }else {
             btnNext.isHidden = true
+            self.btnAdd.isHidden = false
         }
         
     }
@@ -651,6 +656,7 @@ class ProfileViewController: UIViewController {
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .stream
             self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
 
             break
         case 102:
@@ -659,6 +665,7 @@ class ProfileViewController: UIViewController {
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
             self.currentMenu = .colabs
             self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
 
             break
         case 103:
@@ -667,6 +674,7 @@ class ProfileViewController: UIViewController {
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
             self.currentMenu = .stuff
             self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
             break
         default:
             break
@@ -779,7 +787,7 @@ class ProfileViewController: UIViewController {
     @objc func btnPlayAction(sender:UIButton){
         let content = ContentList.sharedInstance.arrayStuff[sender.tag]
         if content.isAdd {
-            btnActionForAddContent()
+        //    btnActionForAddContent()
         }else {
             isEdited = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
@@ -880,6 +888,7 @@ class ProfileViewController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.lblNOResult.isHidden = true
                 self.btnNext.isHidden = true
+                self.btnAdd.isHidden = false
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
                     self.lblNOResult.text  = "No Stuff Found"
@@ -922,6 +931,7 @@ class ProfileViewController: UIViewController {
             
             self.lblNOResult.isHidden = true
             self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"
@@ -984,35 +994,50 @@ class ProfileViewController: UIViewController {
     
     
     
-    func btnActionForAddContent(){
-        let actionController = ActionSheetController()
+    @IBAction func btnActionAdd(_ sender: Any) {
+        
+        self.btnAdd.isHaptic = true
+        self.btnAdd.hapticType = .impact(.light)
+      
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
-        kContainerNav = ""
-        kNavForProfile = "1"
-        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "1", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
+        let actionController = ActionSheetController()
+        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()
         }))
-        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "1", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
             
             self.actionForCamera()
             
         }))
-        actionController.addAction(Action(ActionData(title: "Link", subtitle: "1", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Link", subtitle: "", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
             
             self.btnActionForLink()
         }))
         
-        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "1", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
+        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
             
             self.btnActionForGiphy()
         }))
         
+        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
+            self.btnActionForMyStuff()
+        }))
+        actionController.addAction(Action(ActionData(title: "Notes", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
+          //  self.btnActionForNotes()
+        }))
         
-        actionController.headerData = "ADD ITEM"
-        actionController.shouldShowAddButton    =   false
+        
+        //        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
+        //             self.actionForAddStream()
+        //        }))
+        actionController.shouldShowAddButton    =   true
+        actionController.headerData = "ADD FROM"
+        actionController.delegate   =   self
         present(actionController, animated: true, completion: nil)
+        
     }
+    
     
     
     func actionForCamera(){
@@ -1258,7 +1283,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             if content.isAdd {
-                btnActionForAddContent()
+             //   btnActionForAddContent()
             }else {
                 isEdited = true
                 ContentList.sharedInstance.arrayContent = array
@@ -1343,5 +1368,11 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         obj.viewStream = "fromProfile"
         ContentList.sharedInstance.objStream = nil
         self.navigationController?.push(viewController: obj)
+    }
+}
+
+extension ProfileViewController : ActionSheetControllerHeaderActionDelegate {
+    func actionSheetControllerHeaderButtonAction() {
+        self.actionForAddStream()
     }
 }

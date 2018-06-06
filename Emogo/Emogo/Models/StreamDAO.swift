@@ -316,11 +316,11 @@ class StreamViewDAO{
                 }
                 self.arrayContent.append(conent)
             }
-            if self.canAddContent == true {
-                let content = ContentDAO(contentData: [:])
-                content.isAdd = true
-                self.arrayContent.insert(content, at: 0)
-            }
+//            if self.canAddContent == true {
+//                let content = ContentDAO(contentData: [:])
+//                content.isAdd = true
+//                self.arrayContent.insert(content, at: 0)
+//            }
         }
         if let obj  = streamData["description"] {
             self.description = obj as! String
