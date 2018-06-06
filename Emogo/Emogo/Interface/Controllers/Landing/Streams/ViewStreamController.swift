@@ -243,6 +243,7 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon_stream"), for: .normal)
             stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
+            stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
             stretchyHeader.btnContainer.isHidden = false
 
         }else {
@@ -258,7 +259,7 @@ class ViewStreamController: UIViewController {
 
         }
         
-     stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
+      stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
         // removed for now
         stretchyHeader.btnLike.isHidden = false
        // stretchyHeader.btnContainer.isHidden = false
@@ -360,6 +361,12 @@ class ViewStreamController: UIViewController {
             composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
         }*/
+    }
+    
+    @objc func showLikeList(sender:UIButton){
+        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
+        
+        self.navigationController?.push(viewController: obj)
     }
     @objc  func btnCancelAction(){
         if viewStream == nil {

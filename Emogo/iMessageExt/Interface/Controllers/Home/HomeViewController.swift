@@ -54,8 +54,8 @@ class HomeViewController: MSMessagesAppViewController {
     
    // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
    // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
-    fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
-    fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
+    fileprivate let arrImages = ["MyStreamsDeselected","PopularDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
+    fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
     
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
@@ -1454,8 +1454,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             
             switch  pagerView.currentIndex {
             case 0:
+                
                 lastIndex = pagerView.currentIndex
-                currentStreamType  =  StreamType.populer
+                currentStreamType =  StreamType.myStream
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 if last > pagerView.currentIndex {
                     self.addLeftTransitionCollection(imgV: self.collectionStream)
@@ -1466,9 +1467,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 self.changePager()
                 break
                 
+                
             case 1:
                 lastIndex = pagerView.currentIndex
-                currentStreamType =  StreamType.myStream
+                currentStreamType  =  StreamType.populer
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 if last > pagerView.currentIndex {
                     self.addLeftTransitionCollection(imgV: self.collectionStream)

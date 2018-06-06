@@ -85,7 +85,7 @@ open class LightboxController: UIViewController {
     didSet {
       currentPage = min(numberOfPages - 1, max(0, currentPage))
       footerView.updatePage(currentPage + 1, numberOfPages)
-     // footerView.updateText(pageViews[currentPage].image.text)
+      footerView.updateText(pageViews[currentPage].image.text)
 
       if currentPage == numberOfPages - 1 {
         seen = true

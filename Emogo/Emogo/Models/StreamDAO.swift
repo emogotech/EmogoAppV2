@@ -195,7 +195,10 @@ class StreamViewDAO{
     var userImage:String! = ""
     var colabImageFirst:String! = ""
     var colabImageSecond:String! = ""
-
+    var stream :StreamDAO?
+    var likedUserName:String! = ""
+    var likeUserImage:String! = ""
+    
     init(streamData:[String:Any]) {
         
         if let obj  = streamData["created_by"] {
@@ -342,6 +345,16 @@ class StreamViewDAO{
         }
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
+        }
+        if let obj = streamData["user_liked"] {
+            if obj is [String:Any] {
+                self.stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                let dict:[String:Any] = obj as! [String:Any]
+                if let obj = dict["name"] {
+                    self.likedUserName = "\(obj)"
+                }
+                
+            }
         }
        
         if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {

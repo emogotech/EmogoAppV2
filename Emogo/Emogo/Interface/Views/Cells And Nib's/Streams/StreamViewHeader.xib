@@ -165,6 +165,13 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6r7-Op-MWl">
+                                    <rect key="frame" x="117" y="5" width="108" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="30" id="IE5-HF-GIW"/>
+                                        <constraint firstAttribute="width" constant="108" id="dXX-ls-HEu"/>
+                                    </constraints>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="vkA-h6-Q6s" firstAttribute="centerY" secondItem="cQc-ew-sdY" secondAttribute="centerY" id="2yg-t1-9Jb"/>
@@ -179,7 +186,9 @@
                                 <constraint firstItem="yzL-YP-gdX" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="top" constant="5" id="XaI-rR-g5b"/>
                                 <constraint firstItem="sTx-Fg-fSL" firstAttribute="top" secondItem="u8r-np-uiY" secondAttribute="top" constant="7" id="eXv-Zs-ebR"/>
                                 <constraint firstItem="sTx-Fg-fSL" firstAttribute="leading" secondItem="yzL-YP-gdX" secondAttribute="trailing" constant="8" id="leM-vi-1hm"/>
+                                <constraint firstItem="6r7-Op-MWl" firstAttribute="leading" secondItem="vkA-h6-Q6s" secondAttribute="trailing" constant="8" id="mdU-Nx-PTb"/>
                                 <constraint firstItem="yzL-YP-gdX" firstAttribute="leading" secondItem="vkA-h6-Q6s" secondAttribute="trailing" constant="19" id="pWl-kd-brI"/>
+                                <constraint firstItem="6r7-Op-MWl" firstAttribute="top" secondItem="yzL-YP-gdX" secondAttribute="top" id="vQm-2w-7Zr"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0b3-4v-bVQ">
@@ -248,6 +257,7 @@
                 <outlet property="btnDelete" destination="OoM-EK-BMI" id="2It-tu-54q"/>
                 <outlet property="btnEdit" destination="ibH-2l-PEN" id="rTf-4x-hO1"/>
                 <outlet property="btnLike" destination="6gJ-DM-QZF" id="gee-ZA-4ID"/>
+                <outlet property="btnLikeList" destination="6r7-Op-MWl" id="I0I-KP-6LT"/>
                 <outlet property="btnShare" destination="0b3-4v-bVQ" id="w9N-kO-tKm"/>
                 <outlet property="heightConstant" destination="qhp-56-FFI" id="VaK-Fi-dRd"/>
                 <outlet property="heightEdit" destination="AAY-6I-n3U" id="sMl-xM-IiT"/>

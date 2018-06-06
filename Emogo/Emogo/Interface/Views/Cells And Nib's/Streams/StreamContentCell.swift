@@ -9,6 +9,7 @@
 import UIKit
 
 class StreamContentCell: UICollectionViewCell {
+    
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgCover: FLAnimatedImageView!
     @IBOutlet weak var btnPlay: UIButton!

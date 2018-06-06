@@ -34,8 +34,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var imgCollabTwo: NZCircularImageView!
     @IBOutlet weak var imgCollabOne: NZCircularImageView!
     @IBOutlet weak var imgUser: NZCircularImageView!
+    @IBOutlet weak var btnLikeList: UIButton!
     
-   
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     let kImageFormat = "http"
@@ -117,7 +117,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if !objStream.colabImageFirst.trim().isEmpty {
            
             if  objStream.colabImageFirst.contains(kImageFormat) {
-        self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
+                self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
 
             }else {
                 self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.colorHash(name:objStream.colabImageFirst.trim()), circular: true)
@@ -142,7 +142,6 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }
         // For  Now
        // btnEdit.isHidden = false
-      
       
         
     }

@@ -9,6 +9,7 @@
 import UIKit
 
 class AddCollaboratorsViewCell: UICollectionViewCell {
+    
     @IBOutlet weak var imgCover: NZCircularImageView!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var imgSelect: NZCircularImageView!
