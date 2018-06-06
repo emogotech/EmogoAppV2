@@ -48,12 +48,16 @@ class SettingViewController: UIViewController {
         btnLogout.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
         switchForEffect.tintColor = UIColor(hex: "00ADF3")
         
+        print(UIDevice.current.modelName)
+        
         if deviceType.iPhone4 || deviceType.iPhone5_5s || deviceType.iPhone6P_6sP{
            switchHaptic.isHidden = true
            lblSeprator.isHidden = true
            lblTitleHaptic.isHidden = true
            cons_top_logout.constant = 0
-        }else {
+        }
+      
+        else {
            switchHaptic.isHidden = false
            lblSeprator.isHidden = false
            lblTitleHaptic.isHidden = false

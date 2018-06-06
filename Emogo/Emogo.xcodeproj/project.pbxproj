@@ -115,6 +115,8 @@
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
+		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
+		F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */; };
 		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
 		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
 		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
@@ -586,6 +588,8 @@
 		F040CC892050231600224035 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
 		F06256D6209C2A0700AE0558 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListViewController.swift; sourceTree = "<group>"; };
+		F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
 		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
 		F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffViewController.swift; sourceTree = "<group>"; };
@@ -1660,6 +1664,7 @@
 		F4148A191FBD7C3000081900 /* Streams */ = {
 			isa = PBXGroup;
 			children = (
+				F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */,
 				F4148A201FBD7C7C00081900 /* StreamCell.swift */,
 				F404C0701FDA997500E8ACC2 /* AddContentCell.swift */,
 				F404C0721FDA998500E8ACC2 /* StreamContentCell.swift */,
@@ -2059,6 +2064,7 @@
 				F497B3B11FD7EA38006614F2 /* PeopleListViewController.swift */,
 				F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */,
 				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
+				F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -3088,6 +3094,7 @@
 				F4731FBA1FC2B83300AA68D8 /* IOStickyHeaderFlowLayoutAttributes.swift in Sources */,
 				F41FD96820A970E800FA8623 /* PhotoEditor+API.swift in Sources */,
 				F4A69BA61FC45DCC008F9534 /* CameraViewControls.swift in Sources */,
+				F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */,
 				F43612DF1FD69B0E00788FFE /* AGImageChain.swift in Sources */,
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
@@ -3168,6 +3175,7 @@
 				F41FD95420A9583F00FA8623 /* PhotoEditor+Keyboard.swift in Sources */,
 				F4522CA81FCC46D20021562D /* PMSwitch.swift in Sources */,
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
+				F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */,
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
