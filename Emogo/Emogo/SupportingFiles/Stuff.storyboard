@@ -668,15 +668,8 @@
                                                                 <constraint firstAttribute="height" constant="100" id="rPw-6a-AGt"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="edit avtar icon" translatesAutoresizingMaskIntoConstraints="NO" id="eiI-wj-ZrK">
-                                                            <rect key="frame" x="125" y="61" width="29" height="27"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" constant="29" id="4vk-fl-ZVp"/>
-                                                                <constraint firstAttribute="height" constant="27" id="WBC-UR-fVK"/>
-                                                            </constraints>
-                                                        </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Profile Photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8us-6r-fVA">
-                                                            <rect key="frame" x="167" y="28" width="200" height="21"/>
+                                                            <rect key="frame" x="130" y="28" width="240" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="3FE-ct-qBw"/>
                                                             </constraints>
@@ -698,7 +691,7 @@
                                                             </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Assign Profile Stream" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rNr-Be-AHQ">
-                                                            <rect key="frame" x="167" y="65" width="200" height="21"/>
+                                                            <rect key="frame" x="130" y="65" width="237" height="21"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="21" id="xmp-A1-3ga"/>
                                                             </constraints>
@@ -707,7 +700,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76F-6c-tNU">
-                                                            <rect key="frame" x="167" y="59" width="208" height="32"/>
+                                                            <rect key="frame" x="132" y="59" width="243" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="32" id="v9r-mu-c74"/>
                                                             </constraints>
@@ -722,20 +715,18 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="8us-6r-fVA" secondAttribute="trailing" constant="8" id="5Mw-AK-CMP"/>
+                                                        <constraint firstAttribute="trailing" secondItem="8us-6r-fVA" secondAttribute="trailing" constant="5" id="5Mw-AK-CMP"/>
                                                         <constraint firstItem="8us-6r-fVA" firstAttribute="top" secondItem="y5o-88-xQj" secondAttribute="top" constant="28" id="7Me-Bn-x0f"/>
                                                         <constraint firstAttribute="trailing" secondItem="Cr1-Ju-6B4" secondAttribute="trailing" constant="17" id="7Om-yA-RcD"/>
                                                         <constraint firstItem="76F-6c-tNU" firstAttribute="top" secondItem="Cr1-Ju-6B4" secondAttribute="bottom" constant="6" id="8J7-En-Jxd"/>
-                                                        <constraint firstItem="76F-6c-tNU" firstAttribute="leading" secondItem="eiI-wj-ZrK" secondAttribute="trailing" constant="13" id="D31-BF-TCV"/>
-                                                        <constraint firstItem="rNr-Be-AHQ" firstAttribute="leading" secondItem="eiI-wj-ZrK" secondAttribute="trailing" constant="13" id="NW0-0S-1vY"/>
+                                                        <constraint firstItem="rNr-Be-AHQ" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="6" id="JNu-Qo-iw1"/>
                                                         <constraint firstAttribute="trailing" secondItem="rNr-Be-AHQ" secondAttribute="trailing" constant="8" id="WGB-La-Od7"/>
+                                                        <constraint firstItem="76F-6c-tNU" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="8" id="cSj-zn-LWG"/>
                                                         <constraint firstItem="rNr-Be-AHQ" firstAttribute="top" secondItem="Cr1-Ju-6B4" secondAttribute="bottom" constant="12" id="f3r-5B-YqM"/>
-                                                        <constraint firstItem="eiI-wj-ZrK" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="1" id="jbF-3Z-Mpm"/>
                                                         <constraint firstAttribute="trailing" secondItem="76F-6c-tNU" secondAttribute="trailing" id="lSN-c8-Hkh"/>
-                                                        <constraint firstItem="eiI-wj-ZrK" firstAttribute="centerY" secondItem="3bL-4r-Wd0" secondAttribute="centerY" id="mH8-7k-yId"/>
                                                         <constraint firstItem="Cr1-Ju-6B4" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="1" id="o2d-NP-Lh0"/>
                                                         <constraint firstItem="3bL-4r-Wd0" firstAttribute="leading" secondItem="y5o-88-xQj" secondAttribute="leading" constant="24" id="qAy-Mn-g1m"/>
-                                                        <constraint firstItem="8us-6r-fVA" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="43" id="zBh-9Q-OVV"/>
+                                                        <constraint firstItem="8us-6r-fVA" firstAttribute="leading" secondItem="3bL-4r-Wd0" secondAttribute="trailing" constant="6" id="zBh-9Q-OVV"/>
                                                         <constraint firstItem="Cr1-Ju-6B4" firstAttribute="top" secondItem="y5o-88-xQj" secondAttribute="top" constant="21" id="zLT-P5-ivV"/>
                                                         <constraint firstItem="3bL-4r-Wd0" firstAttribute="top" secondItem="y5o-88-xQj" secondAttribute="top" constant="25" id="zWn-8c-M7w"/>
                                                     </constraints>
@@ -1165,7 +1156,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kYp-of-DQE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="454" y="-536"/>
+            <point key="canvasLocation" x="453.60000000000002" y="-536.58170914542734"/>
         </scene>
         <!--Show Preview View Controller-->
         <scene sceneID="ekJ-ZU-3eP">
@@ -3782,7 +3773,7 @@ Cg
                                 <rect key="frame" x="0.0" y="39" width="375" height="628"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="likeCell" rowHeight="70" id="v79-IV-byf" customClass="LikeListCell" customModule="Emogo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="likeListCell" rowHeight="70" id="v79-IV-byf" customClass="LikeListCell" customModule="Emogo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="v79-IV-byf" id="XU2-la-z1X">
@@ -3904,7 +3895,6 @@ Cg
         <image name="collabs_icon" width="41" height="35"/>
         <image name="content_next_btn" width="160" height="53"/>
         <image name="demo_images" width="48" height="48"/>
-        <image name="edit avtar icon" width="29" height="27"/>
         <image name="editProfile" width="128" height="28"/>
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="follow_btn" width="100" height="30"/>

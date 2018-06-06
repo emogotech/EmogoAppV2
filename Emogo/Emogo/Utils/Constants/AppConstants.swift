@@ -93,6 +93,7 @@ let kStoryboardID_SettingView = "settingView"
 let kStoryboardID_VideoEditorView = "videoEditorView"
 let kStoryboardID_CountryPickerView = "countryPickerView"
 let kStoryboardID_CreateNotesView = "createNotesView"
+let kStoryboardID_LikeListView = "likeListView"
 
 
 
@@ -136,7 +137,7 @@ let kHeader_ProfileHeaderView = "profileHeaderView"
 let kCell_MyStuffCollectionCell = "myStuffCollectionCell"
 let kHeader_ProfileStreamView = "profileStreamView"
 let kCell_FollowerCell = "followerCell"
-
+let kCell_likeListCell = "likeListCell"
 
 let kCell_ProfileStreamCell = "profileStreamCell"
 let kSegue_AddCollaboratorsView = "addColabSegue"
