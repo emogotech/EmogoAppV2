@@ -261,7 +261,8 @@ class ViewStreamSerializer(StreamSerializer):
 
     def get_user_liked(self, obj):
         try:
-            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image,
+                     'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
