@@ -34,6 +34,7 @@ PODS:
   - NVActivityIndicatorView/Presenter (4.0.1)
   - Presentr (1.3.2)
   - PryntTrimmerView (2.0.0)
+  - RichEditorView (5.0.0)
   - RS3DSegmentedControl (0.2.7):
     - iCarousel
   - SDWebImage (4.2.3):
@@ -63,6 +64,7 @@ DEPENDENCIES:
   - Lightbox
   - Presentr
   - PryntTrimmerView
+  - RichEditorView
   - RS3DSegmentedControl
   - SDWebImage
   - SwiftLinkPreview
@@ -92,6 +94,7 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: 77ed6d7b571643e24899e7858bf9ae2ee4c21f31
   Presentr: 797ae6ec8904eaba4ec58a4c2065bd66e31569ea
   PryntTrimmerView: 3af9f84875d347b9a131501b3695abf94b02a7bb
+  RichEditorView: 1bbb07b87ca2d479ac29a6877014b38b8df233ef
   RS3DSegmentedControl: 686b5bc9e3080a6b7b902ba4e04735a90c52dc6d
   SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
@@ -101,6 +104,6 @@ SPEC CHECKSUMS:
   URLEmbeddedView: 5d9f710ca0a923534ea87ab66843f6305f2ba309
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: ceb626083f77c8e5a3828c85a087eaf92b8c20e1
+PODFILE CHECKSUM: e8392181ac686e1f247efef9c21fcedbb5e51168
 
 COCOAPODS: 1.4.0

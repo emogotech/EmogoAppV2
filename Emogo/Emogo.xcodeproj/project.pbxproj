@@ -249,6 +249,7 @@
 		F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F4311869202B88C2006139F7 /* filter_gradient_2.png */; };
 		F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186A202B88C7006139F7 /* filter_gradient_1.png */; };
 		F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186B202B88CD006139F7 /* filter_gradient_5.png */; };
+		F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431E3B720C693F8008D425B /* CreateNotesViewController.swift */; };
 		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
 		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
@@ -728,6 +729,7 @@
 		F4311869202B88C2006139F7 /* filter_gradient_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_2.png; sourceTree = "<group>"; };
 		F431186A202B88C7006139F7 /* filter_gradient_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_1.png; sourceTree = "<group>"; };
 		F431186B202B88CD006139F7 /* filter_gradient_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_5.png; sourceTree = "<group>"; };
+		F431E3B720C693F8008D425B /* CreateNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNotesViewController.swift; sourceTree = "<group>"; };
 		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F433EDA320174160004FEB93 /* StreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamViewHeader.xib; sourceTree = "<group>"; };
@@ -1290,6 +1292,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F431E3B620C693C3008D425B /* TextEditor */,
 				F40557C720AEB36500A28F51 /* CountryCodePicker */,
 				F4B8887020AAB7430056666B /* VideoEditing */,
 				F4086D8B206E2378005C7318 /* PulseView */,
@@ -1889,6 +1892,14 @@
 				F4311867202B88BA006139F7 /* filter_gradient_7.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		F431E3B620C693C3008D425B /* TextEditor */ = {
+			isa = PBXGroup;
+			children = (
+				F431E3B720C693F8008D425B /* CreateNotesViewController.swift */,
+			);
+			path = TextEditor;
 			sourceTree = "<group>";
 		};
 		F43612D91FD69AC700788FFE /* ImageFilter */ = {
@@ -2862,6 +2873,7 @@
 				"${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework",
 				"${BUILT_PRODUCTS_DIR}/PryntTrimmerView/PryntTrimmerView.framework",
 				"${BUILT_PRODUCTS_DIR}/RS3DSegmentedControl/RS3DSegmentedControl.framework",
+				"${BUILT_PRODUCTS_DIR}/RichEditorView/RichEditorView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftLinkPreview/SwiftLinkPreview.framework",
@@ -2891,6 +2903,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Presentr.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PryntTrimmerView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RS3DSegmentedControl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RichEditorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftLinkPreview.framework",
@@ -3228,6 +3241,7 @@
 				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F43649C72015CEA5004FBEE2 /* VolumeControl.swift in Sources */,
+				F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */,
 				F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -36,7 +36,8 @@ target 'Emogo' do
     pod 'BMPlayer'
     pod "URLEmbeddedView"
     pod "Haptica"
-    
+    pod "RichEditorView"
+
     
     
     
