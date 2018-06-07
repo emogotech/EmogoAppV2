@@ -439,6 +439,7 @@
 		F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330FEB751FC3F5CC00552260 /* KDLoadingView.swift */; };
 		F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
 		F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */; };
+		F4F0BE2E20C90617009C003A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F0BE2D20C90617009C003A /* SplashViewController.swift */; };
 		F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */; };
 		F4F2A0DC2057A50C00ED76D7 /* MyStuffPreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */; };
 		F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */; };
@@ -941,6 +942,7 @@
 		F4E758751FD68197008DB12E /* RefreshHeaderAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshHeaderAnimator.swift; sourceTree = "<group>"; };
 		F4E758771FD681B1008DB12E /* RefreshFooterAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshFooterAnimator.swift; sourceTree = "<group>"; };
 		F4F0422020455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Reorder+CHTCollectionLayout.swift"; sourceTree = "<group>"; };
+		F4F0BE2D20C90617009C003A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		F4F2A0DB2057A50C00ED76D7 /* MyStuffPreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffPreViewController.swift; sourceTree = "<group>"; };
 		F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkDAO.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1176,6 +1178,7 @@
 			isa = PBXGroup;
 			children = (
 				337B8F781FBEECBD00CFACE3 /* SignInViewController.swift */,
+				F4F0BE2D20C90617009C003A /* SplashViewController.swift */,
 				337B8F7A1FBEECBD00CFACE3 /* SignUpNameViewController.swift */,
 				337B8F791FBEECBD00CFACE3 /* SignUpMobileViewController.swift */,
 				337B8F7B1FBEECBD00CFACE3 /* SignUpSelectedViewController.swift */,
@@ -3319,6 +3322,7 @@
 				F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */,
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
+				F4F0BE2E20C90617009C003A /* SplashViewController.swift in Sources */,
 				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,
 				F406FD0120878D25006192B4 /* FollowerDAO.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
