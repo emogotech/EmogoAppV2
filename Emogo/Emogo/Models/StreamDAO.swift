@@ -366,7 +366,7 @@ class StreamViewDAO{
 
 
 class LikedUser{
-    
+
     var userID:String! = ""
     var userProfileID:String! = ""
     var name:String! = ""

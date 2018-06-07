@@ -65,6 +65,7 @@ class ViewStreamController: UIViewController {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
     }
+    
     // MARK: - Prepare Layouts
     func prepareLayouts(){
         self.lblNoContent.isHidden = true
@@ -374,6 +375,7 @@ class ViewStreamController: UIViewController {
     
     @objc func showLikeList(sender:UIButton){
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
+        obj.objStream = self.objStream
         self.navigationController?.push(viewController: obj)
     }
     @objc  func btnCancelAction(){

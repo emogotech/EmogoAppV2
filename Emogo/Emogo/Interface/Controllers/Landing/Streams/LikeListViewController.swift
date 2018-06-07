@@ -40,8 +40,17 @@ class LikeListViewController: UIViewController {
     }
     //MARK:- prepare Layout
     func prepareLayout() {
+        
         self.tblLikeList.tableFooterView = UIView()
         
+        if objStream?.arrayLikedUsers == nil {
+            
+            self.lblNoResult.isHidden = false
+            self.lblNoResult.text = "No User Found"
+            
+        }else{
+            self.lblNoResult.isHidden = true
+        }
     }
     
     //MARK:- prepare Navigation
@@ -249,7 +258,7 @@ class LikeListViewController: UIViewController {
     }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-           
+        
             let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_likeListCell) as! LikeListCell
             let dict = objStream!.arrayLikedUsers[indexPath.row]
             cell.prepareLayout(like:dict)

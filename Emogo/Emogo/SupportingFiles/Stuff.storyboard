@@ -518,7 +518,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCU-ce-M64">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Emogo Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCU-ce-M64">
                                 <rect key="frame" x="43.5" y="323" width="288" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="LtO-C3-yuQ"/>
@@ -1583,7 +1583,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Streams Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fok-zi-ulg">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Emogo Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Fok-zi-ulg">
                                 <rect key="frame" x="120" y="363" width="134" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="134" id="1H0-nV-WS3"/>
@@ -3784,7 +3784,7 @@ Cg
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1gF-ta-ebm">
-                                <rect key="frame" x="0.0" y="39" width="375" height="628"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="likeListCell" rowHeight="70" id="v79-IV-byf" customClass="LikeListCell" customModule="Emogo" customModuleProvider="target">
@@ -3836,6 +3836,7 @@ Cg
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="jT6-AQ-rhO" secondAttribute="bottom" constant="15" id="1XB-5M-cYw"/>
                                                         <constraint firstItem="cpT-YG-sUc" firstAttribute="centerY" secondItem="g8B-MR-eBX" secondAttribute="centerY" id="5F9-ih-yNY"/>
                                                         <constraint firstAttribute="trailing" secondItem="gTV-Ed-8d7" secondAttribute="trailing" constant="8" id="Jec-Qr-bqc"/>
                                                         <constraint firstItem="gTV-Ed-8d7" firstAttribute="leading" secondItem="TWn-vX-LLU" secondAttribute="trailing" constant="15" id="KaN-Ep-AVg"/>
@@ -3859,7 +3860,8 @@ Cg
                                         <connections>
                                             <outlet property="btnFollow" destination="gTV-Ed-8d7" id="PrV-Zz-LvP"/>
                                             <outlet property="imgUser" destination="cpT-YG-sUc" id="Byb-rk-u3E"/>
-                                            <outlet property="lblUserName" destination="TWn-vX-LLU" id="T9x-4T-sCw"/>
+                                            <outlet property="lblDisplayname" destination="TWn-vX-LLU" id="9ct-Bi-wc6"/>
+                                            <outlet property="lblUserName" destination="jT6-AQ-rhO" id="40f-Fw-NTh"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -3869,10 +3871,10 @@ Cg
                                 </connections>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Users Found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="Usg-Th-bJr">
-                                <rect key="frame" x="57" y="410.5" width="261" height="21"/>
+                                <rect key="frame" x="127" y="323" width="122" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="0QU-Ba-AwC"/>
-                                    <constraint firstAttribute="width" constant="261" id="Cs5-Zk-ywZ"/>
+                                    <constraint firstAttribute="width" constant="122" id="gto-gW-xJt"/>
+                                    <constraint firstAttribute="height" constant="21" id="v1U-ef-2aD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="18"/>
                                 <color key="textColor" red="0.54444624350000004" green="0.52743229840000005" blue="0.52743229840000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3881,12 +3883,14 @@ Cg
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="1gF-ta-ebm" firstAttribute="top" secondItem="XeD-cg-0bO" secondAttribute="top" id="0FW-6W-rTN"/>
+                            <constraint firstItem="Usg-Th-bJr" firstAttribute="centerY" secondItem="XeD-cg-0bO" secondAttribute="centerY" id="C6Z-Lp-FUK"/>
                             <constraint firstItem="1gF-ta-ebm" firstAttribute="bottom" secondItem="vyg-XG-kn8" secondAttribute="bottom" id="EkP-gY-aJe"/>
                             <constraint firstItem="1gF-ta-ebm" firstAttribute="leading" secondItem="vyg-XG-kn8" secondAttribute="leading" id="JD2-Z7-Xx5"/>
                             <constraint firstItem="1gF-ta-ebm" firstAttribute="trailing" secondItem="vyg-XG-kn8" secondAttribute="trailing" id="LUn-f6-oQr"/>
-                            <constraint firstItem="Usg-Th-bJr" firstAttribute="centerX" secondItem="1gF-ta-ebm" secondAttribute="centerX" id="m0f-uM-jJk"/>
-                            <constraint firstItem="Usg-Th-bJr" firstAttribute="centerY" secondItem="1gF-ta-ebm" secondAttribute="centerY" constant="68" id="rPa-Ia-jAq"/>
-                            <constraint firstItem="1gF-ta-ebm" firstAttribute="top" secondItem="vyg-XG-kn8" secondAttribute="top" constant="19" id="y38-rl-xMT"/>
+                            <constraint firstItem="1gF-ta-ebm" firstAttribute="centerY" secondItem="XeD-cg-0bO" secondAttribute="centerY" id="TBW-Dn-1vv"/>
+                            <constraint firstItem="Usg-Th-bJr" firstAttribute="centerX" secondItem="XeD-cg-0bO" secondAttribute="centerX" id="gkA-CY-XwQ"/>
+                            <constraint firstItem="1gF-ta-ebm" firstAttribute="centerX" secondItem="XeD-cg-0bO" secondAttribute="centerX" id="rVj-QS-iMc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vyg-XG-kn8"/>
                     </view>

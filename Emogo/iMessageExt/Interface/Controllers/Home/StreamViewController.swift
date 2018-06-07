@@ -65,7 +65,11 @@ class StreamViewController: MSMessagesAppViewController {
         
         self.prepareLayout()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super .viewWillAppear(true)
+         self.apiForIncreaseViewCount()
+        
+    }
     // MARK:- Selector Methods
     @objc func requestMessageScreenChangeSize() {
         if(SharedData.sharedInstance.isMessageWindowExpand == false){
@@ -88,6 +92,7 @@ class StreamViewController: MSMessagesAppViewController {
                 self.btnLike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             }
             self.getStream()
+           
         }
     }
     
@@ -135,9 +140,9 @@ class StreamViewController: MSMessagesAppViewController {
         }else{
             self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
-        if isViewCount != nil {
-            apiForIncreaseViewCount()
-        }
+       // if isViewCount != nil {
+        
+        //}
        
     }
     func apiForIncreaseViewCount(){

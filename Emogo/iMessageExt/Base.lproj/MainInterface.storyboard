@@ -1693,7 +1693,7 @@
                                             <outlet property="delegate" destination="VaB-LN-Ug2" id="sIR-Ue-vsj"/>
                                         </connections>
                                     </collectionView>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Stream Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvI-tI-alG">
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Emogo Available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvI-tI-alG">
                                         <rect key="frame" x="113" y="279" width="149" height="39"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="39" id="3Hx-5Y-wFL"/>
