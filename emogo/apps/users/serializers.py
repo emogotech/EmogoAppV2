@@ -446,6 +446,8 @@ class GetTopStreamSerializer(serializers.Serializer):
     popular = serializers.SerializerMethodField()
     my_stream = serializers.SerializerMethodField()
     people = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
+    following_stream = serializers.SerializerMethodField()
     collaborator_qs = Collaborator.actives.all()
 
     def use_fields(self):
@@ -506,6 +508,33 @@ class GetTopStreamSerializer(serializers.Serializer):
         qs = UserProfile.actives.all().exclude(user=self.context.user).order_by('full_name')
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
+
+    def get_liked(self, obj):
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.context.user, status=1).values_list('stream',
+                                                                                                         flat=True)
+        result_list = self.qs.filter(id__in=stream_ids_list).order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+
+    def get_following_stream(self, obj):
+        # 1. Get user as collaborator in streams created by following's
+        stream_ids = Collaborator.actives.filter(phone_number=self.context.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by_id__in=UserFollow.objects.filter(
+                follower=self.context.user).values_list('following_id', flat=True)).values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        stream_as_collabs = self.qs.filter(id__in=stream_ids)
+
+        # 3. Get main stream created by requested user and stream type is Public.
+        main_qs = self.qs.filter(
+            created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True),
+            type='Public').order_by('-upd')
+        result_list = main_qs | stream_as_collabs
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
 
 class UserFollowSerializer(DynamicFieldsModelSerializer):
