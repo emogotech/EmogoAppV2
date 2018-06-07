@@ -19,6 +19,8 @@ enum StreamType:String {
     case Following  =   "Following"
     case Emogo = "Emogo"
     case Collab = "Collab"
+    case profile = "profile"
+
 }
 
 enum DeviceType:String {
@@ -160,6 +162,8 @@ class StreamList{
             break
         case .Collab:
             self.requestURl =  kMyStreamCollabListAPI + "collab=True"
+            break
+        case .profile:
             break
         }
     }

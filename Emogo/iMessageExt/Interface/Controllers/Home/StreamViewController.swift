@@ -45,7 +45,8 @@ class StreamViewController: MSMessagesAppViewController {
     var currentStreamIndex                  : Int!
     var hudView                             : LoadingView!
     var isViewCount                         : String?
-    
+    var isFromWelcome                       : String?
+
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var selectedIndex:IndexPath?
@@ -83,8 +84,14 @@ class StreamViewController: MSMessagesAppViewController {
     @objc func updateTblData() {
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
         if objStream!.arrayContent.count == 0{
+            if self.isFromWelcome != nil {
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.present(vc, animated: true, completion: nil)
+            }else {
             self.dismiss(animated: false, completion: nil)
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+            }
         }else{
             if objStream?.likeStatus == "0" {
                 self.btnLike.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -222,8 +229,13 @@ class StreamViewController: MSMessagesAppViewController {
                 }
                 break
             case UISwipeGestureRecognizerDirection.down:
-                self.dismiss(animated: true, completion: nil)
-        
+//                if self.isFromWelcome != nil {
+//                    let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+//                    self.present(vc, animated: true, completion: nil)
+//                }else {
+//                    self.dismiss(animated: true, completion: nil)
+//                }
+                
                 break
             default:
                 break
@@ -237,6 +249,12 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Load Data in UI
     func loadViewForUI() {
         self.imgStream.setImageWithURL(strImage: (self.objStream?.coverImage.trim())!, placeholder: kPlaceholderImage)
+        self.imgStream.contentMode = .scaleAspectFit
+        SharedData.sharedInstance.downloadImage(url: (self.objStream?.coverImage.trim())!, handler: { (image) in
+            image?.getColors({ (colors) in
+                self.imgStream.backgroundColor = colors.primary
+            })
+        })
         self.lblStreamTitle.text = ""
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
@@ -383,9 +401,15 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnClose(_ sender:UIButton) {
-        self.dismiss(animated: true, completion: nil)
-        SharedData.sharedInstance.iMessageNavigation = ""
-        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+        if self.isFromWelcome != nil {
+            let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            self.present(vc, animated: true, completion: nil)
+        }else {
+            self.dismiss(animated: true, completion: nil)
+            SharedData.sharedInstance.iMessageNavigation = ""
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+        }
+       
     }
     
     func nextImageLoad() {
@@ -478,8 +502,15 @@ class StreamViewController: MSMessagesAppViewController {
                     self.arrStream.remove(at: self.currentStreamIndex)
                     StreamList.sharedInstance.arrayStream.remove(at:self.currentStreamIndex)
                     if(self.arrStream.count == 0){
+                        if self.isFromWelcome != nil {
+                            
+                            let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                            self.present(vc, animated: true, completion: nil)
+                        }else {
+                            
                         self.dismiss(animated: true, completion: nil)
                         NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+                        }
                         return
                     }
                     if(self.currentStreamIndex != 0){
@@ -610,12 +641,21 @@ class StreamViewController: MSMessagesAppViewController {
                     }
                     self.loadViewForUI()
                     self.collectionStreams.reloadData()
-                    if self.hudView != nil {
-                        self.hudView.stopLoaderWithAnimation()
-                    }
+                }
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
                 }
                 else if errorMsg == APIStatus.NotFound.rawValue{
                     self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
+                    if self.isFromWelcome != nil {
+                        
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                        self.present(vc, animated: true, completion: nil)
+                    }else {
+                        
+                        self.dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+                    }
                 }else{
                     self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }

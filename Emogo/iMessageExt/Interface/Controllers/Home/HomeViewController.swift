@@ -1390,7 +1390,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
+                
                 showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
+                self.changePager()
                 break
            /*
             case 5:
@@ -1508,7 +1510,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 break
                 
             case 4:
+                currentStreamType = StreamType.profile
                 showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
+                self.changePager()
+
                 break
             /*
             case 5:
@@ -1616,10 +1621,10 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             switch action.style{
             case .default:
                 UIView.animate(withDuration: 0.7, animations: {
-//                    pagerView.currentIndex = self.lastIndex
-//                    let strLbl = "\(self.arrImagesSelected[pagerView.currentIndex])"
-//                    pagerView.lblCurrentType.text = strLbl.uppercased()
-//                    self.btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
+                    pagerView.currentIndex = self.lastIndex
+                    let strLbl = "\(self.arrImagesSelected[pagerView.currentIndex])"
+                    pagerView.lblCurrentType.text = strLbl.uppercased()
+                    self.btnFeature.setTitle(pagerView.lblCurrentType.text, for: .normal)
                     pagerView.reloadData()
                 })
                 break
@@ -1638,13 +1643,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                     let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
                     SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
                     break
-//                case 5:
-//                    self.lastIndex = index
-//                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
-//                    let userInfo = self.arrayToShow[selectedIndex]
-//                    let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
-//                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
-//                    break
+                case 5:
+                    self.lastIndex = index
+                    let strUrl = "\(kDeepLinkURL)\(self.arrImagesSelected[self.lastIndex])"
+                    let userInfo = self.arrayToShow[selectedIndex]
+                    let str = self.createURLWithComponents(userInfo: userInfo, urlString: strUrl)
+                    SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: str!)
+                    break
                     
                 default:
                     break

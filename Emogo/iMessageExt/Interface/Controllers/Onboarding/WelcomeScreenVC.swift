@@ -24,7 +24,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     @IBOutlet weak var viewTutorialClosed                 : KASlideShow!
     @IBOutlet weak var pageControllerClosed                : HHPageView!
 
-    
+    @IBOutlet weak var viewSplash  : UIView!
+
     
     var images = [UIImage]()
     
@@ -35,6 +36,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.viewSplash.isHidden = false
         pageController.delegate = self
         pageControllerClosed.delegate = self
         // SharedData.sharedInstance.resetAllData()
@@ -103,20 +105,18 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     
     // MARK:- LoaderSetup
     func setupLoader() {
-        hudView  = LoadingView.init(frame: view.frame)
-        view.addSubview(hudView)
-        hudView.translatesAutoresizingMaskIntoConstraints = false
-        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
-        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
-        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        self.viewSplash.isHidden = false
         
         self.perform(#selector(self.isUserLogedIn), with: nil, afterDelay: 2.0)
     }
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-            self.hudView.startLoaderWithAnimation()
+            if self.hudView != nil {
+                self.hudView.startLoaderWithAnimation()
+            }
         }
         
         if  SharedData.sharedInstance.isMessageWindowExpand {
@@ -181,6 +181,17 @@ class WelcomeScreenVC: MSMessagesAppViewController {
        // self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
     }
     
+    func prepareLoader(){
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
+        hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+    }
+    
     @objc func showFullView(){
         if self.presentationStyle == MSMessagesAppPresentationStyle.compact {
             self.requestPresentationStyle(MSMessagesAppPresentationStyle.expanded)
@@ -188,17 +199,16 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     }
     @objc func isUserLogedIn() {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
-            if self.hudView != nil {
-                self.hudView.stopLoaderWithAnimation()
-            }
-            self.hudView.removeFromSuperview()
             UserDAO.sharedInstance.parseUserInfo()
             if SharedData.sharedInstance.tempViewController == nil {
                 NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
                 NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
 
-                let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-                self.present(vc, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                    self.present(vc, animated: true, completion: nil)
+                }
+               // self.viewSplash.isHidden = true
                 // edit by Pushpendra
                // self.addChildViewController(vc)
 //                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height);
@@ -209,10 +219,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             }
         }
         else {
-                            if self.hudView != nil {
-                                self.hudView.stopLoaderWithAnimation()
-                            }
-                            self.hudView.removeFromSuperview()
+            self.viewSplash.isHidden = true
 //            self.container.isHidden = true
         }
     }
@@ -249,13 +256,14 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             if !(code?.isEmpty)! {
                 let code = "+\(SharedData.sharedInstance.getCountryCallingCode(countryRegionCode: code!))"
                 SharedData.sharedInstance.countryCode = code
-                if self.hudView != nil {
-                    self.hudView.stopLoaderWithAnimation()
-                }
+               
             }else {
                  SharedData.sharedInstance.countryCode = SharedData.sharedInstance.getLocaleCountryCode()
             }
-            self.hudView.removeFromSuperview()
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
+                self.hudView.removeFromSuperview()
+            }
 
         }
     }
@@ -385,10 +393,11 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                     SharedData.sharedInstance.iMessageNavigationCurrentStreamID = ""
                     SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
                 }
+
             }
-            
             if SharedData.sharedInstance.tempViewController == nil {
-//                SharedData.sharedInstance.iMessageNavigation = splitArr[0]
+              SharedData.sharedInstance.iMessageNavigation = splitArr[0]
+
 //                let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
 //                self.addChildViewController(vc)
 //                vc.view.frame = CGRect(x:0, y:0, width:self.container.frame.size.width,height: self.container.frame.size.height)
@@ -401,7 +410,9 @@ class WelcomeScreenVC: MSMessagesAppViewController {
 //                self.container.isHidden = false
             }
             else {
+                
                 if (SharedData.sharedInstance.tempViewController?.isKind(of: HomeViewController.self))!{
+
                     self.dismiss(animated: false, completion: nil)
                     navigateControllerAfterMessageSelected(type: splitArr[0])
                 }
@@ -409,6 +420,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                     self.dismiss(animated: false, completion: nil)
                     self.dismiss(animated: false, completion: nil)
                     navigateControllerAfterMessageSelected(type: splitArr[0])
+
                 }
             }
         }
@@ -417,6 +429,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     func navigateControllerAfterMessageSelected(type:String){
         SharedData.sharedInstance.iMessageNavigation = type
         let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+        obj.isFromWelcome = "TRUE"
         if type == kNavigation_Stream {
             var arrayTempStream  = [StreamDAO]()
             arrayTempStream.append(SharedData.sharedInstance.streamContent!)

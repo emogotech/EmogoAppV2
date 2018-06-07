@@ -298,7 +298,6 @@ class MessagesViewController: MSMessagesAppViewController {
                 }
                 else if (SharedData.sharedInstance.tempViewController?.isKind(of: StreamContentViewController.self))!{
                     self.dismiss(animated: false, completion: nil)
-                    self.dismiss(animated: false, completion: nil)
                     navigateControllerAfterMessageSelected(type: splitArr[0])
                 }
             }
