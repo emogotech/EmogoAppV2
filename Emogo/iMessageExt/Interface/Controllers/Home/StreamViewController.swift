@@ -143,18 +143,11 @@ class StreamViewController: MSMessagesAppViewController {
             self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
         if isViewCount != nil {
-            apiForIncreaseViewCount()
+           // apiForIncreaseViewCount()
         }
        
     }
-    func apiForIncreaseViewCount(){
-        if let streamID = ContentList.sharedInstance.objStream {
-            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
-                
-            }
-        }
-        
-    }
+   
     @objc func setupLabelInCollaboratorButton() {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
         lblCount.layer.cornerRadius = lblCount.frame.size.width/2

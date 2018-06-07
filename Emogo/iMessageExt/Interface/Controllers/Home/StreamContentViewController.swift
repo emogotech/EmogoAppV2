@@ -55,6 +55,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
+        apiForIncreaseViewCount()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -441,6 +442,14 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.view.isUserInteractionEnabled = true
     }
     
+    func apiForIncreaseViewCount(){
+        
+        if let streamID = objStream {
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID.streamID) { (_, _) in
+            }
+        }
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

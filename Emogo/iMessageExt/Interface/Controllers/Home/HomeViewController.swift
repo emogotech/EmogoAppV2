@@ -55,7 +55,7 @@ class HomeViewController: MSMessagesAppViewController {
    // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
    // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     fileprivate let arrImages = ["MyStreamsDeselected","PopularDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
-    fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
+    fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked", "Following"]
     
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
@@ -454,8 +454,6 @@ class HomeViewController: MSMessagesAppViewController {
             self.collectionStream.reloadData()
         }
         
-        
-        
     }
     
     func checkIsAvailableFilter() -> Bool {
@@ -547,6 +545,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnFeaturedTap(_ sender: UIButton) {
+        isSearch = false
         if(btnFeature.tag == 1) {
             pagerContent.isHidden = true
             btnFeature.tag = 0
