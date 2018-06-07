@@ -39,7 +39,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     var arrContentData                      = [ContentDAO]()
     var hudView                             : LoadingView!
     var objStream                           : StreamViewDAO?
-
+    var isViewCount                         : String?
     
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
         ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
-        apiForIncreaseViewCount()
+        //apiForIncreaseViewCount()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -135,7 +135,9 @@ class StreamContentViewController: MSMessagesAppViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
         imgStream.addGestureRecognizer(tapRecognizer)
         
-     
+        if isViewCount == "TRUE" {
+             apiForIncreaseViewCount()
+        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -444,8 +446,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     func apiForIncreaseViewCount(){
         
-        if let streamID = objStream {
-            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID.streamID) { (_, _) in
+        if let streamID = self.currentStreamID {
+            print(streamID)
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
             }
         }
         

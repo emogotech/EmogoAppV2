@@ -44,7 +44,7 @@ class StreamViewController: MSMessagesAppViewController {
     var currentIndex                        : Int!
     var currentStreamIndex                  : Int!
     var hudView                             : LoadingView!
-    var isViewCount                         : String?
+   
     var isFromWelcome                       : String?
 
     var getImageData : NSMutableArray = NSMutableArray()
@@ -61,7 +61,7 @@ class StreamViewController: MSMessagesAppViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
-        
+       
         requestMessageScreenChangeSize()
         
         self.prepareLayout()
@@ -87,6 +87,7 @@ class StreamViewController: MSMessagesAppViewController {
             }else {
             self.dismiss(animated: false, completion: nil)
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+           
             }
         }else{
             if objStream?.likeStatus == "0" {
@@ -96,6 +97,12 @@ class StreamViewController: MSMessagesAppViewController {
             }
             self.getStream()
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+          self.getStream()
+        
+        
     }
     
     // MARK: - PrepareLayout
@@ -126,6 +133,7 @@ class StreamViewController: MSMessagesAppViewController {
             btnNextStream.isEnabled = false
            
         }
+          self.lbl_ViewCount.text = objStream?.viewCount.trim()
         setupLoader()
         self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
@@ -142,9 +150,7 @@ class StreamViewController: MSMessagesAppViewController {
         }else{
             self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
-        if isViewCount != nil {
-           // apiForIncreaseViewCount()
-        }
+       
        
     }
    
@@ -721,7 +727,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         
         obj.arrContentData = (objStream?.arrayContent)!
-        
+        obj.isViewCount = "TRUE"
         self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row
