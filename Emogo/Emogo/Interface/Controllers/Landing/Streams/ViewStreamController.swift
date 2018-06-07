@@ -18,7 +18,8 @@ class ViewStreamController: UIViewController {
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoContent: UILabel!
-    
+    @IBOutlet weak var btnAddContent: UIButton!
+
     // Varibales
     var streamType:String!
     var objStream:StreamViewDAO?
@@ -259,6 +260,10 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnEdit.isHidden = true
 
         }
+        self.btnAddContent.isHidden = true
+        if self.objStream?.canAddContent == true {
+            self.btnAddContent.isHidden = false
+        }
         
       stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
         // removed for now
@@ -272,6 +277,9 @@ class ViewStreamController: UIViewController {
         }
     }
     
+    @IBAction func btnActionForAddContent(_ sender:UIButton) {
+        btnActionForAddContent()
+    }
     @objc func showReportList(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
@@ -509,6 +517,7 @@ class ViewStreamController: UIViewController {
     
     func next() {
         self.lblNoContent.isHidden = true
+        self.btnAddContent.isHidden = true
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
             currentIndex = currentIndex + 1
@@ -519,6 +528,7 @@ class ViewStreamController: UIViewController {
     }
     
     func previous() {
+        self.btnAddContent.isHidden = true
         stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
         self.lblNoContent.isHidden = true
         if currentIndex != 0{
@@ -810,7 +820,7 @@ class ViewStreamController: UIViewController {
                     self.updateData(content: camera)
                     group.leave()
                 }
-                else {
+                else { 
                     obj.cloudImageDownload(progressBlock: { (progress) in
                     }, completionBlock: { (image) in
                         if let img = image {
@@ -893,10 +903,9 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                          sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
 
         let content = objStream?.arrayContent[indexPath.row]
-        if content?.isAdd == true {
-            return CGSize(width: #imageLiteral(resourceName: "add_content_icon").size.width, height: #imageLiteral(resourceName: "add_content_icon").size.height)
-        }
+       
         if selectedIndex != nil {
+            
             let tempContent = objStream?.arrayContent[self.selectedIndex!.row]
             return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
         }
@@ -917,7 +926,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
              objPreview.isViewCount = "TRUE"
             if (self.objStream?.canAddContent)! {
-                objPreview.currentIndex = indexPath.row - 1
+                objPreview.currentIndex = indexPath.row
             }else {
                 objPreview.currentIndex = indexPath.row
             }
@@ -930,9 +939,9 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         
     }
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        if destinationIndexPath.row == 0 {
-            return
-        }
+//        if destinationIndexPath.row == 0 {
+//            return
+//        }
         let contentDest = objStream?.arrayContent[sourceIndexPath.row]
         objStream?.arrayContent.remove(at: sourceIndexPath.row)
         objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
@@ -943,7 +952,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                 self.reorderContent(orderArray: (self.objStream?.arrayContent)!)
             }
     }
-    
+    /*
     func collectionView(_ collectionView: UICollectionView, targetIndexPathForMoveFromItemAt originalIndexPath: IndexPath, toProposedIndexPath proposedIndexPath: IndexPath) -> IndexPath {
      //   print("next---->\(proposedIndexPath.row)")
        // print("cuurent---->\(originalIndexPath.row)")
@@ -955,6 +964,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             return proposedIndexPath
         }
     }
+ */
 
 }
 

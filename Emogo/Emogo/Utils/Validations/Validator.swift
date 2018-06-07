@@ -208,7 +208,7 @@ extension String {
         let str = self
       
         var result : URL?
-        var trimmedStr : NSString
+        var trimmedStr : NSString! = ""
         var schemeMarkerRange : NSRange
         var scheme  :   NSString
      

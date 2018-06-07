@@ -2118,6 +2118,17 @@
                                     <action selector="btnActionNext:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="oVF-bm-ajP"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4m-dR-bpM">
+                                <rect key="frame" x="159" y="592" width="56" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="Rrp-qB-b5p"/>
+                                    <constraint firstAttribute="width" constant="56" id="ee5-9I-KMw"/>
+                                </constraints>
+                                <state key="normal" image="add_icon_home"/>
+                                <connections>
+                                    <action selector="btnActionAdd:" destination="sfA-Aq-ZOY" eventType="touchUpInside" id="Uam-Iq-YgP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -2125,9 +2136,11 @@
                             <constraint firstItem="BDV-2p-4nw" firstAttribute="leading" secondItem="0Cd-sv-Je0" secondAttribute="leading" id="FSM-SZ-TWy"/>
                             <constraint firstItem="XCC-8d-Hvm" firstAttribute="trailing" secondItem="0Cd-sv-Je0" secondAttribute="trailing" id="JoB-aG-uJt"/>
                             <constraint firstItem="0Cd-sv-Je0" firstAttribute="bottom" secondItem="RXz-EW-JHy" secondAttribute="bottom" constant="20" id="Zwd-ge-nKn"/>
+                            <constraint firstItem="s4m-dR-bpM" firstAttribute="centerX" secondItem="I4C-uM-Zu4" secondAttribute="centerX" id="aMd-Rh-c4Y"/>
                             <constraint firstItem="XCC-8d-Hvm" firstAttribute="bottom" secondItem="0Cd-sv-Je0" secondAttribute="bottom" id="bE8-Do-Ovq"/>
                             <constraint firstItem="RXz-EW-JHy" firstAttribute="centerX" secondItem="I4C-uM-Zu4" secondAttribute="centerX" id="eWT-8K-hvU"/>
                             <constraint firstItem="FNa-yo-fkQ" firstAttribute="leading" secondItem="0Cd-sv-Je0" secondAttribute="leading" id="f0Z-IF-nFr"/>
+                            <constraint firstItem="0Cd-sv-Je0" firstAttribute="bottom" secondItem="s4m-dR-bpM" secondAttribute="bottom" constant="19" id="lbe-Up-Krg"/>
                             <constraint firstItem="FNa-yo-fkQ" firstAttribute="top" secondItem="BDV-2p-4nw" secondAttribute="bottom" id="luG-UT-kzD"/>
                             <constraint firstItem="XCC-8d-Hvm" firstAttribute="top" secondItem="FNa-yo-fkQ" secondAttribute="bottom" id="rQK-W7-oTf"/>
                             <constraint firstItem="XCC-8d-Hvm" firstAttribute="leading" secondItem="0Cd-sv-Je0" secondAttribute="leading" id="vfx-D7-Uba"/>
@@ -2138,6 +2151,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="WDe-DW-fKM"/>
                     <connections>
+                        <outlet property="btnAdd" destination="s4m-dR-bpM" id="aOC-uD-LQ2"/>
                         <outlet property="btnColab" destination="yqs-I5-SlS" id="eOJ-Vn-rGT"/>
                         <outlet property="btnContainer" destination="FNa-yo-fkQ" id="yFx-rQ-exb"/>
                         <outlet property="btnNext" destination="RXz-EW-JHy" id="QX0-4C-PTx"/>
@@ -3891,6 +3905,7 @@ Cg
         <image name="Unlike_icon" width="41" height="36"/>
         <image name="add to emogo btn" width="114" height="30"/>
         <image name="add_content_icon" width="147" height="147"/>
+        <image name="add_icon_home" width="56" height="56"/>
         <image name="closeButton" width="44" height="44"/>
         <image name="collabs_icon" width="41" height="35"/>
         <image name="content_next_btn" width="160" height="53"/>

@@ -60,6 +60,16 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         
     }
     
+    func pagerView(_ pagerView: FSPagerView, willDisplay cell: FSPagerViewCell, forItemAt index: Int) {
+        
+        if pagerView.panGestureRecognizer.translation(in: pagerView.superview).x > 0 {
+            print("left")
+        } else {
+            print("right")
+        }
+        
+    }
+    
     func pagerViewDidEndDecelerating(_ pagerView: FSPagerView) {
         if(lastIndex != pagerView.currentIndex) {
             let last = lastIndex
