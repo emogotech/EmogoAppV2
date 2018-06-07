@@ -122,8 +122,9 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
-        stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside
-      )
+        stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
+         stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
+     
     }
     
     func prepareHeaderData(){
@@ -365,7 +366,6 @@ class ViewStreamController: UIViewController {
     
     @objc func showLikeList(sender:UIButton){
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
-        
         self.navigationController?.push(viewController: obj)
     }
     @objc  func btnCancelAction(){

@@ -21,7 +21,15 @@ class LikeListCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    func prepareLayout(like:LikedUser){
+        self.lblUserName.text = like.name
 
+        if like.userImage.isEmpty {
+            self.imgUser.setImage(string: like.name, color: UIColor(r: 0, g: 173, b: 243), circular: true)
+        }else {
+            self.imgUser.setImageWithURL(strImage: like.userImage.trim(), placeholder: "")
+        }
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

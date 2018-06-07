@@ -82,14 +82,14 @@ class AddStreamViewController: UITableViewController {
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
-        self.title = "Create a Stream"
+        self.title = "Create a Emogo"
         self.configureNavigationWithTitle()
-        txtStreamName.placeholder = "Stream Name"
-        txtStreamName.title = "Stream Name"
-        txtStreamCaption.placeholder = "Stream Caption"
+        txtStreamName.placeholder = "Emogo Name"
+        txtStreamName.title = "Emogo Name"
+        txtStreamCaption.placeholder = "Emogo Caption"
         txtStreamCaption.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         txtStreamName.selectedLineColor = .clear
-        self.lblStreamDescPlaceHolder.text = "Stream Caption"
+        self.lblStreamDescPlaceHolder.text = "Emogo Caption"
         self.lblStreamDescPlaceHolder.font = UIFont.systemFont(ofSize: 13)
         if self.txtStreamCaption.text.count > 0 {
             self.lblStreamDescPlaceHolder.isHidden = false
@@ -359,11 +359,11 @@ class AddStreamViewController: UITableViewController {
     
     @objc func textFieldDidChange(_ textField: SkyFloatingLabelTextField) {
         if (txtStreamName.text?.trim().isEmpty)! {
-            txtStreamName.placeholder = "Stream Name"
+            txtStreamName.placeholder = "Emogo Name"
             txtStreamName.title = nil
         }else {
             txtStreamName.placeholder = nil
-            txtStreamName.title = "Stream Name"
+            txtStreamName.title = "Emogo Name"
         }
     }
     
@@ -384,7 +384,7 @@ class AddStreamViewController: UITableViewController {
             
         }))
         
-        actionController.headerData = "SELECT STREAM COVER"
+        actionController.headerData = "SELECT EMOGO COVER"
         actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
     }

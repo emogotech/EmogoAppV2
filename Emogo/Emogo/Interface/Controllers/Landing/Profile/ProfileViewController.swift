@@ -821,7 +821,7 @@ class ProfileViewController: UIViewController {
                 lblNOResult.isHidden = true
                 if arrayMyStreams.count == 0 {
                     self.layout.headerHeight = 0
-                    lblNOResult.text = "No Streams Found."
+                    lblNOResult.text = "No Emogo Found."
                     lblNOResult.isHidden = false
                 }
             }
@@ -830,7 +830,7 @@ class ProfileViewController: UIViewController {
         }else if self.currentMenu == .colabs {
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
-                self.lblNOResult.text  = "No Stream Found"
+                self.lblNOResult.text  = "No Emogo Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -860,7 +860,7 @@ class ProfileViewController: UIViewController {
             
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileStream.count == 0 {
-                self.lblNOResult.text  = "No Stream Found"
+                self.lblNOResult.text  = "No Emogo Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
@@ -956,7 +956,7 @@ class ProfileViewController: UIViewController {
             }
             self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayProfileColabStream.count == 0 {
-                self.lblNOResult.text  = "No Stream Found"
+                self.lblNOResult.text  = "No Emogo Found"
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }

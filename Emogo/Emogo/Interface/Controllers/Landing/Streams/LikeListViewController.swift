@@ -17,7 +17,8 @@ class LikeListViewController: UIViewController {
     
     var listType:FollowerType!
     var arraySearch = [FollowerDAO]()
-    var arrayLikeList = [StreamDAO]()
+    var arraylikeUser = [LikedUser]()
+    var objStream : StreamViewDAO?
     var isSearchEnable:Bool! = false
     var isEditingEnable:Bool! = true
     
@@ -25,6 +26,7 @@ class LikeListViewController: UIViewController {
         super.viewDidLoad()
         self.tblLikeList.delegate = self
         self.tblLikeList.dataSource = self
+        self.prepareLayout()
      
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -39,6 +41,7 @@ class LikeListViewController: UIViewController {
     //MARK:- prepare Layout
     func prepareLayout() {
         self.tblLikeList.tableFooterView = UIView()
+        
     }
     
     //MARK:- prepare Navigation
@@ -68,11 +71,6 @@ class LikeListViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    //MARK:- API method for get like list
-    func getLikeList(){
-        
-    }
-
     //MARK:- Action for followUser
     
     @objc func actionForFollowUser(sender:UIButton) {
@@ -243,13 +241,18 @@ class LikeListViewController: UIViewController {
         }
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
-        }
+             if objStream != nil {
+                return (objStream?.arrayLikedUsers.count)!
+             }else{
+                return 0
+            }
+    }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_LikeListCell) as! LikeListCell
-            
-            
+           
+            let cell: LikeListCell = tableView.dequeueReusableCell(withIdentifier: kCell_likeListCell) as! LikeListCell
+            let dict = objStream!.arrayLikedUsers[indexPath.row]
+            cell.prepareLayout(like:dict)
             cell.btnFollow.tag = indexPath.row
             cell.btnFollow.addTarget(self, action: #selector(actionForFollowUser(sender:)), for: .touchUpInside)
             return cell

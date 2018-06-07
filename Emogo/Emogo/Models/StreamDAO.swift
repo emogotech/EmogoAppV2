@@ -195,9 +195,7 @@ class StreamViewDAO{
     var userImage:String! = ""
     var colabImageFirst:String! = ""
     var colabImageSecond:String! = ""
-    var stream :StreamDAO?
-    var likedUserName:String! = ""
-    var likeUserImage:String! = ""
+    var arrayLikedUsers = [LikedUser]()
     
     init(streamData:[String:Any]) {
         
@@ -322,6 +320,16 @@ class StreamViewDAO{
                 self.arrayContent.insert(content, at: 0)
             }
         }
+        
+        if let obj = streamData["user_liked"] {
+            if obj is [Any] {
+                let array:[Any] = obj  as! [Any]
+                for value in array {
+                    let user = LikedUser(dictUser: (value as!  NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                    self.arrayLikedUsers.append(user)
+                }
+            }
+        }
         if let obj  = streamData["description"] {
             self.description = obj as! String
         }
@@ -346,16 +354,7 @@ class StreamViewDAO{
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
         }
-        if let obj = streamData["user_liked"] {
-            if obj is [String:Any] {
-                self.stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                let dict:[String:Any] = obj as! [String:Any]
-                if let obj = dict["name"] {
-                    self.likedUserName = "\(obj)"
-                }
-                
-            }
-        }
+      
        
         if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.canAddPeople = true
@@ -366,6 +365,30 @@ class StreamViewDAO{
 }
 
 
+class LikedUser{
+    
+    var userID:String! = ""
+    var userProfileID:String! = ""
+    var name:String! = ""
+    var userImage:String! = ""
+    var userDisplayName:String! = ""
+    
+    init(dictUser:[String:Any]) {
+        
+        if let obj  = dictUser["id"] {
+            self.userID = "\(obj)"
+        }
+        if let obj = dictUser["full_name"]{
+            self.name = obj as! String
+        }
+        if let obj = dictUser["display_name"]{
+            self.userDisplayName = obj as! String
+        }
+        if let obj = dictUser["user_image"]{
+            self.userImage = obj as! String
+        }
+    }
+}
 
 
 

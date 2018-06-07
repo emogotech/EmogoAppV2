@@ -885,12 +885,12 @@ class StreamListViewController: UIViewController {
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
                     self.lblPeopleSearch.text = "People"
-                    self.lblStreamSearch.text = "Stream"
+                    self.lblStreamSearch.text = "Emogo"
                 }else {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
                     self.lblPeopleSearch.text = "People \(count)"
-                    self.lblStreamSearch.text = "Stream"
+                    self.lblStreamSearch.text = "Emogo"
                 }
                 self.streamCollectionView.reloadData()
             }
@@ -977,13 +977,13 @@ class StreamListViewController: UIViewController {
                     self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
-                        self.lblStreamSearch.text = "Stream"
+                        self.lblStreamSearch.text = "Emogo"
                         self.lblPeopleSearch.text = "People"
 
                     }else {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"
-                        self.lblStreamSearch.text = "Stream \(count)"
+                        self.lblStreamSearch.text = "Emogo \(count)"
                         self.lblPeopleSearch.text = "People"
 
                     }

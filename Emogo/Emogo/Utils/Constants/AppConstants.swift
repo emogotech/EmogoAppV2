@@ -279,22 +279,22 @@ let kAlertTitle_Unfollow =  "Unfollow"
 
 //Alert Messagage
 let kAlert_Phone_Number_Length_Msg                                          = "Phone Number must be 10 digits."
-let kAlert_Verification_Length_Msg                                         = "Verification Code must be 5 digits."
+let kAlert_Verification_Length_Msg                                          = "Verification Code must be 5 digits."
 let kAlert_Invalid_User_Name_Msg                                            = "Username limit is 3-30 characters."
-let kAlert_User_Name_Alreay_Exists_Msg                                       = "This username already exists, please enter a different name."
-let kAlert_Network_ErrorMsg                                               = "We are unable to connect. Please check your internet connection!"
-let kAlert_Stream_Added_Success                                            = "Stream added successfully."
-let kAlert_Stream_Cover_Empty                                              = "Please select an image to be your stream cover."
-let kAlert_Stream_Deleted_Success                           =           "Stream Deleted Successfully!"
+let kAlert_User_Name_Alreay_Exists_Msg                                      = "This username already exists, please enter a different name."
+let kAlert_Network_ErrorMsg                                                 = "We are unable to connect. Please check your internet connection!"
+let kAlert_Stream_Added_Success                                            = "Emogo added successfully."
+let kAlert_Stream_Cover_Empty                                              = "Please select an image to be your emogo cover."
+let kAlert_Stream_Deleted_Success                                          = "Emogo Deleted Successfully!"
 let kAlert_Stream_Colab_Empty                                              = "Please select at least one collaborator."
 let kAlert_Invalid_User_Space_Msg                                           = "Usernames can't contain spaces. Sorry!"
-let kAlert_Terms_Condition_Msg                                           = "Accept Terms And Condition."
-let kAlert_OTP_Msg                                       = "One time Password sent on your number Successfully."
+let kAlert_Terms_Condition_Msg                                              = "Accept Terms And Condition."
+let kAlert_OTP_Msg                                                           = "One time Password sent on your number Successfully."
 
 let kAlert_Content_Added                                                  = "Content Created Successfully."
-let kAlert_Content_Associated_To_Stream                                     = "Content added to your stream."
-let kAlert_Select_Stream                                                  = "Please select at least one stream to add content."
-let kAlert_Stream_Edited_Success                                           = "Stream Updated Successfully."
+let kAlert_Content_Associated_To_Stream                                     = "Content added to your emogo."
+let kAlert_Select_Stream                                                  = "Please select at least one emogo to add content."
+let kAlert_Stream_Edited_Success                                           = "Emogo Updated Successfully."
 let kNotification_Update_Filter                                           = "updateFilterAfterCreateStream"
 let kNotification_Update_Image_Cover                                       = "Cover image updated successfully"
 let kAlert_Upload_Wait_Msg                                                 = "We are uploading your content... give us just a minute"
@@ -306,7 +306,7 @@ let kAlert_Confirmation_Description_For_Profile                         = "We ne
 let kAlert_Confirmation_Description_For_People                         = "We need to redirect you to the Emogo App to access User Profile. Are you ready?"
 
 
-let kAlert_Confirmation_Description_For_Edit_Stream                      = "We need to redirect you to the Emogo App so you can edit your stream. Are you ready?"
+let kAlert_Confirmation_Description_For_Edit_Stream                      = "We need to redirect you to the Emogo App so you can edit your emogo. Are you ready?"
 
 let kAlert_Confirmation_For_Edit_Stream_Content                      = "Please first done edit contents"
 
@@ -324,10 +324,10 @@ let kAlert_Save_Image_MyStuff                                             = "Ima
 let kAlert_Save_Video_MyStuff                                                   = "Video successfully saved to My Stuff"
 let kAlert_Save_GIF_MyStuff                                                     = "GIF successfully saved to My Stuff"
 let kAlert_Save_Link_MyStuff                                                     = "Link successfully saved to My Stuff"
-let kAlert_Delete_Stream_Msg                                              = "Are you sure you want to delete this Stream?"
+let kAlert_Delete_Stream_Msg                                              = "Are you sure you want to delete this Emogo?"
 let kAlert_Delete_Content_Msg                                             = "Are you sure you want to delete this Content?"
 let kAlert_Logout                                                       = "Are you sure you want to logout?"
-let kAlert_Stream_Not_Found                                               = "The stream you requested does not exist."
+let kAlert_Stream_Not_Found                                               = "The emogo you requested does not exist."
 let kAlert_Content_Not_Found                                              = "The content you requested does not exist."
 let kAlert_Stream_Add_Edited_Content = "If you proceed further without saving changes, recent changes will not appear later.Do you still want to continue?"
 let kAlert_Progress                                                     = "Sharing content to iMessage..."
@@ -337,17 +337,17 @@ let kAlert_contenAddedToStream                                          = "Conte
 let kAlert_contentSelect                                          = "Select something to proceed."
 
 let kAlert_Success_Report_User = "You have successfully reported this user."
-let kAlert_Success_Report_Stream = "You have successfully reported this stream."
+let kAlert_Success_Report_Stream = "You have successfully reported this emogo."
 let kAlert_Success_Report_Content = "You have successfully reported this content."
 
 let kAlert_Capture_Limit_Exceeded = "You can select only 10 images at once."
-let kAlert_Stream_Deleted = "This Stream has been deleted by its author!"
+let kAlert_Stream_Deleted = "This Emogo has been deleted by its author!"
 
-let kAlert_Stream_Title_Empty                                              =  "Title your stream."
+let kAlert_Stream_Title_Empty                                              =  "Title your emogo."
 
 let kName_Report_Inappropriate = "Inappropriate"
 let kName_Report_Spam = "Spam"
-let kAlert_No_Stream_found                                          = "No Stream found"
+let kAlert_No_Stream_found                                          = "No Emogo found"
 
 let kAlert_No_User_Record_Found                                          = "No User found"
 
@@ -355,8 +355,8 @@ let kAlert_RemoveProfile                                         = "Remove"
 let kAlert_UpateProfile                                         = "Update"
 let kAlert_ValidWebsite                                         = "Please Enter Valid URL."
 
-let kAlert_ProfileStreamAdded                                  = "Your Profile Stream is Updated."
-let kAlert_Select_Stream_For_Assign                                                  = "Please select a stream to assign as Profile Stream."
+let kAlert_ProfileStreamAdded                                  = "Your Profile Emogo is Updated."
+let kAlert_Select_Stream_For_Assign                                                  = "Please select a emogo to assign as Profile Emogo."
 let kAlert_UnFollow_a_User            = "Do you really want to unfollow %@?"
 
 
