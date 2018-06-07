@@ -16,6 +16,7 @@ class LikeListCell: UITableViewCell {
     @IBOutlet weak var lblUserName: UILabel!
     @IBOutlet weak var btnFollow: UIButton!
     
+    @IBOutlet weak var lblDisplayname: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +24,7 @@ class LikeListCell: UITableViewCell {
     }
     func prepareLayout(like:LikedUser){
         self.lblUserName.text = like.name
+        self.lblDisplayname.text = like.userDisplayName
 
         if like.userImage.isEmpty {
             self.imgUser.setImage(string: like.name, color: UIColor(r: 0, g: 173, b: 243), circular: true)
