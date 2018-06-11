@@ -12,7 +12,7 @@ import RichEditorView
 class CreateNotesViewController: UIViewController {
 
     @IBOutlet var editorView: RichEditorView!
-    @IBOutlet var viewEditOption: UIView!
+    @IBOutlet var viewEditOption: UIStackView!
     @IBOutlet var btnCommand: UIButton!
     @IBOutlet var btnText: UIButton!
     @IBOutlet var btnHorizontal: UIButton!
@@ -41,6 +41,12 @@ class CreateNotesViewController: UIViewController {
         editorView.inputAccessoryView = nil
         self.viewContainer.isHidden = true
         editorView.placeholder = "TYPE SOMETHING"
+        btnText.contentMode = .scaleAspectFit
+        btnAlignment.contentMode = .scaleAspectFit
+        btnHorizontal.contentMode = .scaleAspectFit
+        btnPhoto.contentMode = .scaleAspectFit
+        btnLink.contentMode = .scaleAspectFit
+        btnColor.contentMode = .scaleAspectFit
     }
     
     
@@ -188,6 +194,16 @@ extension CreateNotesViewController:RichEditorDelegate {
         }
         print(content)
     }
+    func richEditorDidLoad(_ editor: RichEditorView) {
+        
+    }
+    func richEditorLostFocus(_ editor: RichEditorView) {
+        
+    }
+    func richEditorTookFocus(_ editor: RichEditorView) {
+        self.viewContainer.isHidden = true
+    }
+    
 }
 extension CreateNotesViewController:TextEditorViewDelegate {
 
