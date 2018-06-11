@@ -97,7 +97,7 @@ class HomeViewController: MSMessagesAppViewController {
     @objc func reloadStreamData(){
         if !isSearch {
             
-            //            self.getStreamList(type:.start,filter:self.streamType)
+            //self.getStreamList(type:.start,filter:self.streamType)
             self.changePager()
         }
     }
@@ -117,9 +117,7 @@ class HomeViewController: MSMessagesAppViewController {
         self.searchView.clipsToBounds = true
         
         currentStreamType =  StreamType.featured
-        
-        
-        
+      
         //        streamType = StreamType.featured
         //        self.getStreamList(type:.start,filter:.featured)
         self.collectionStream.register(UINib(nibName: iMgsSegue_HomeCollectionReusableV, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: iMgsSegue_HomeCollectionReusableV)

@@ -117,7 +117,7 @@ class StreamList{
     var selectedStream:StreamDAO!
     var requestURlSearch:String! = ""
     var arrayProfileColabStream:[StreamDAO]!
-
+    var objStream:String?
 
     class var sharedInstance: StreamList {
         struct Static {

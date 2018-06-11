@@ -363,14 +363,14 @@ class ViewStreamController: UIViewController {
             self.stretchyHeader.btnShare.isHaptic = false
         }
         
-        /*
+      
         if MFMessageComposeViewController.canSendAttachments(){
             let composeVC = MFMessageComposeViewController()
             composeVC.recipients = []
             composeVC.message = composeMessage()
             composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
-        }*/
+        }
     }
     
     @objc func showLikeList(sender:UIButton){
@@ -459,17 +459,17 @@ class ViewStreamController: UIViewController {
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         
-//        layout.caption = txtTitleImage.text!
-//        layout.image  = imgCover.image
-//        layout.subcaption = txtDescription.text
+        layout.caption = stretchyHeader.lblName.text!
+        layout.image  = stretchyHeader.imgCover.image
+        layout.subcaption = stretchyHeader.lblDescription.text!
         
         message.layout = layout
-       let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
-        if ContentList.sharedInstance.objStream == nil {
-            let strURl = String(format: "%@/%@", kNavigation_Stream,selectedImage.CoverImage)
+        //let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
+        if StreamList.sharedInstance.objStream == nil {
+            let strURl = String(format: "%@/%@", kNavigation_Stream,self.objStream!.streamID)
             message.url = URL(string: strURl)
         }else {
-            let strURl = String(format: "%@/%@/%@", kNavigation_Stream,selectedImage.CoverImage,ContentList.sharedInstance.objStream!)
+            let strURl = String(format: "%@/%@/%@", kNavigation_Stream,self.objStream!.streamID,StreamList.sharedInstance.objStream!)
             message.url = URL(string: strURl)
         }
         

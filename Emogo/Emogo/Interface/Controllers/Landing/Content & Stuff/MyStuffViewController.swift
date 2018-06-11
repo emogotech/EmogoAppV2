@@ -18,9 +18,13 @@ class MyStuffViewController: UIViewController {
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var segmentControl: HMSegmentedControl!
     @IBOutlet weak var lblNoResult: UILabel!
+    
+   
+    
     // MARK: - Variables
     
-    
+  //  var currentIndex:Int!
+    var seletedImage:ContentDAO!
     var selectedType:StuffType! = StuffType.All
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
     
@@ -71,7 +75,7 @@ class MyStuffViewController: UIViewController {
         
         // Add the waterfall layout to your collection view
         self.stuffCollectionView.collectionViewLayout = layout
-        
+      
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -194,7 +198,11 @@ class MyStuffViewController: UIViewController {
     
     // MARK: - Class Methods
     func openFullView(index:Int){
+        /*
         var arrayContents = [LightboxImage]()
+        self.currentIndex = index
+         self.seletedImage = ContentList.sharedInstance.arrayStuff[self.currentIndex]
+        
         for obj in ContentList.sharedInstance.arrayStuff {
             var image:LightboxImage!
             let text = obj.name + "\n" +  obj.description
@@ -218,13 +226,66 @@ class MyStuffViewController: UIViewController {
             }
             if image != nil {
                 arrayContents.append(image)
+                
+                if obj.contentID == seletedImage.contentID {
+                    print(self.currentIndex)
+                }
             }
+           
         }
-        
-        let controller = LightboxController(images: arrayContents, startIndex: index)
+        print(self.currentIndex)
+        let controller = LightboxController(images: arrayContents, startIndex:   self.currentIndex)
         controller.dynamicBackground = true
         if arrayContents.count != 0 {
             self.present(controller, animated: true, completion: nil)
+        }*/
+        
+        
+        var arrayContents = [LightboxImage]()
+        //var index:Int! = 0
+        var arrayTemp = [ContentDAO]()
+        self.seletedImage = ContentList.sharedInstance.arrayStuff[index]
+       
+        arrayTemp.append(seletedImage)
+      
+        for obj  in arrayTemp {
+            var image:LightboxImage!
+            let text = obj.name + "\n" +  obj.description
+            
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
+                }else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImageVideo)
+                    let videoUrl = URL(string: obj.coverImage)
+                    if let url = url, let videoUrl = videoUrl {
+                        image = LightboxImage(imageURL: url, text: text.trim(), videoURL: videoUrl)
+                    }
+                    
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+                if obj.contentID == seletedImage.contentID {
+               // index = arrayContents.count - 1
+                }
+            }
+        }
+    
+            let controller = LightboxController(images: arrayContents, startIndex: index)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            
         }
     }
     
@@ -429,7 +490,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index       =   indexPath.row
+        let index =   indexPath.row
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         let content = array[indexPath.row]
         if content.type == .link{
@@ -448,6 +509,13 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }
         else{
+//            ContentList.sharedInstance.arrayContent = array
+//            if ContentList.sharedInstance.arrayContent.count != 0 {
+//                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+//                objPreview.currentIndex = indexPath.row
+//                self.navigationController?.push(viewController: objPreview)
+//            }
+         
             self.openFullView(index: index)
         }
         

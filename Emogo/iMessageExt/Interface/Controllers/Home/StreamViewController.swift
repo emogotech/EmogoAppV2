@@ -61,6 +61,8 @@ class StreamViewController: MSMessagesAppViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        
+           NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
        
         requestMessageScreenChangeSize()
         
@@ -618,9 +620,12 @@ class StreamViewController: MSMessagesAppViewController {
                         }
                         
                     }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
+                       
                         var arrayTempStream  = [StreamDAO]()
-                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                       arrayTempStream.append(SharedData.sharedInstance.streamContent!)
                         self.arrStream = arrayTempStream
+                        
+                       
                     }
                     
                     if self.objStream!.arrayContent.count == 0 {
