@@ -25,7 +25,6 @@ class StreamListViewController: UIViewController {
     var lastIndex             : Int = 2
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
-    
     var btnAddFrame   : CGRect!
 
     //Search
@@ -91,6 +90,7 @@ class StreamListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+     
         self.configureLandingNavigation()
         menuView.isHidden = true
         kShowOnlyMyStream = ""
@@ -313,8 +313,11 @@ class StreamListViewController: UIViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
         
+    
         
     }
+    
+   
     
     @objc func startAnimation(){
         print("Called")
@@ -322,12 +325,17 @@ class StreamListViewController: UIViewController {
         UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
             
             self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+           
+            
         }, completion: {(_ finished: Bool) -> Void in
             UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
                 self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+               
+                
             }, completion: {(_ finished: Bool) -> Void in
                 UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
                     self.btnAdd.transform = .identity
+                   
                 })
             })
         })
@@ -347,6 +355,8 @@ class StreamListViewController: UIViewController {
 //            self.btnAdd.animation.moveY(self.btnAddFrame.origin.y - 10).makeY(self.btnAddFrame.origin.y + 10).animateWithCompletion(0.5, { (_) in
 //            })
     }
+    
+    
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -538,6 +548,7 @@ class StreamListViewController: UIViewController {
     
     override func btnMyProfileAction() {
         isUpdateList = true
+      
         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.pushViewController(obj, animated: false)
