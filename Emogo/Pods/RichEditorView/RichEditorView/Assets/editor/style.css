@@ -47,7 +47,7 @@ div {
     content: attr(placeholder);
     position: absolute;
     top: 0px;
-    color: #cccccc;
+    color: #4a4a4a;
 }
 
 #editor {
@@ -55,7 +55,7 @@ div {
     height: 100%;
     overflow: auto;
     display: block;
-    font-family: 'HelveticaNeue';
-    color:#666666;
+    font-family: 'SFProDisplay';
+    color:#4a4a4a;
     font-size: 12pt;
 }

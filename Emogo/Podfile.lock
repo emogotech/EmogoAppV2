@@ -17,6 +17,7 @@ PODS:
   - Crashlytics (3.9.3):
     - Fabric (~> 1.7.2)
   - CropViewController (2.3.6)
+  - DropDown (2.3.1)
   - Fabric (1.7.2)
   - GiphyCoreSDK (1.0.1)
   - GSKStretchyHeaderView (1.0.3)
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - Branch
   - Crashlytics
   - CropViewController
+  - DropDown
   - Fabric
   - GiphyCoreSDK
   - GSKStretchyHeaderView
@@ -82,6 +84,7 @@ SPEC CHECKSUMS:
   Cache: bd0233fc688b5e83a27bcd87807db7e6f23adcc5
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   CropViewController: e6d4bd512d15a1709e9ddf71fe7d98ffd05dda0f
+  DropDown: 20499c7b2731b0d21609af924e47c7677a2be50d
   Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   GiphyCoreSDK: 8671cc9be3debd6c653cacf17240b1959bf0d5c4
   GSKStretchyHeaderView: 05afeffceced344c52334626a3b861e58dd82857
@@ -104,6 +107,6 @@ SPEC CHECKSUMS:
   URLEmbeddedView: 5d9f710ca0a923534ea87ab66843f6305f2ba309
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: e8392181ac686e1f247efef9c21fcedbb5e51168
+PODFILE CHECKSUM: 91317284defa4604e086164e3a9eb8474ed50fc5
 
 COCOAPODS: 1.4.0

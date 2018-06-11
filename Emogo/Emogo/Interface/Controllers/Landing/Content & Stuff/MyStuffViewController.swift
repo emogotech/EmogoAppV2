@@ -490,8 +490,14 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let index =   indexPath.row
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        ContentList.sharedInstance.arrayContent = array
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+        objPreview.currentIndex = indexPath.row
+        self.navigationController?.push(viewController: objPreview)
+        }
+        /*
         let content = array[indexPath.row]
         if content.type == .link{
             guard let url = URL(string: content.coverImage) else {
@@ -509,12 +515,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }
         else{
-//            ContentList.sharedInstance.arrayContent = array
-//            if ContentList.sharedInstance.arrayContent.count != 0 {
-//                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-//                objPreview.currentIndex = indexPath.row
-//                self.navigationController?.push(viewController: objPreview)
-//            }
+
          
             self.openFullView(index: index)
         }
@@ -530,6 +531,7 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         //            }
         //            self.updateSelected(obj: content)
         //        }
+ */
     }
     
     @objc func btnSelectAction(button : UIButton)  {

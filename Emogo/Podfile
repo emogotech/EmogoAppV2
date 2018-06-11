@@ -37,6 +37,7 @@ target 'Emogo' do
     pod "URLEmbeddedView"
     pod "Haptica"
     pod "RichEditorView"
+pod 'DropDown'
 
     
     

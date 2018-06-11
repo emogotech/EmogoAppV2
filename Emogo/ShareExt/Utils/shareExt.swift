@@ -33,6 +33,7 @@ public extension URL {
             if let urlResponse = response as? HTTPURLResponse {
                 if urlResponse.statusCode >= 200 && urlResponse.statusCode < 400 {
                     if let data = data {
+                        print(data)
                         /*
                         if let doc = Kanna.HTML(html: data, encoding: String.Encoding.utf8) {
                             let title = doc.title
