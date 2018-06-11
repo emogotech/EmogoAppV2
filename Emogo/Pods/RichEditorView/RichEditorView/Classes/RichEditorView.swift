@@ -229,6 +229,10 @@ import UIKit
         runJS("RE.removeFormat();")
     }
     
+    public func setFontFamily(_ family: String) {
+        runJS("RE.setFontFamily('\(family)');")
+    }
+    
     public func setFontSize(_ size: Int) {
         runJS("RE.setFontSize('\(size)px');")
     }

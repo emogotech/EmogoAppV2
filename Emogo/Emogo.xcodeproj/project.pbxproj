@@ -153,6 +153,13 @@
 		F40CA39420B5814F005EE0B0 /* PMVideoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */; };
 		F40CA39620B581D5005EE0B0 /* silence.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F40CA39520B581D5005EE0B0 /* silence.mp3 */; };
 		F40CA39920B583C4005EE0B0 /* black.mov in Resources */ = {isa = PBXBuildFile; fileRef = F40CA39820B583C3005EE0B0 /* black.mov */; };
+		F40D3E6120CE5B9F008ED566 /* ColorPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F40D3E5B20CE5B9C008ED566 /* ColorPickerView.xib */; };
+		F40D3E6220CE5B9F008ED566 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D3E5C20CE5B9D008ED566 /* ColorPickerView.swift */; };
+		F40D3E6320CE5B9F008ED566 /* TextEditorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F40D3E5D20CE5B9E008ED566 /* TextEditorView.xib */; };
+		F40D3E6420CE5B9F008ED566 /* LinkPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D3E5E20CE5B9E008ED566 /* LinkPickerView.swift */; };
+		F40D3E6520CE5B9F008ED566 /* LinkPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F40D3E5F20CE5B9F008ED566 /* LinkPickerView.xib */; };
+		F40D3E6620CE5B9F008ED566 /* TextEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D3E6020CE5B9F008ED566 /* TextEditorView.swift */; };
+		F40D3E6920CE6A16008ED566 /* PMColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40D3E6820CE6A16008ED566 /* PMColorPickerView.swift */; };
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
@@ -627,6 +634,13 @@
 		F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMVideoManager.swift; sourceTree = "<group>"; };
 		F40CA39520B581D5005EE0B0 /* silence.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = silence.mp3; sourceTree = "<group>"; };
 		F40CA39820B583C3005EE0B0 /* black.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = black.mov; sourceTree = "<group>"; };
+		F40D3E5B20CE5B9C008ED566 /* ColorPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorPickerView.xib; sourceTree = "<group>"; };
+		F40D3E5C20CE5B9D008ED566 /* ColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
+		F40D3E5D20CE5B9E008ED566 /* TextEditorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextEditorView.xib; sourceTree = "<group>"; };
+		F40D3E5E20CE5B9E008ED566 /* LinkPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPickerView.swift; sourceTree = "<group>"; };
+		F40D3E5F20CE5B9F008ED566 /* LinkPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinkPickerView.xib; sourceTree = "<group>"; };
+		F40D3E6020CE5B9F008ED566 /* TextEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
+		F40D3E6820CE6A16008ED566 /* PMColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMColorPickerView.swift; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
 		F4148A201FBD7C7C00081900 /* StreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCell.swift; sourceTree = "<group>"; };
@@ -1331,6 +1345,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F40D3E6720CE6A08008ED566 /* ColorPicker */,
 				F4C2102B209B362C0094A7FC /* ImageDrawing */,
 				F42DCD372098406100078969 /* SideMenu */,
 				F4838AD42084B7AF0034F2B4 /* Segment Control */,
@@ -1362,6 +1377,7 @@
 		33BCB0431FBB353E004FF634 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */,
 				F45AAE7320849A0A00C452DE /* SF-UI-Display-Medium.otf */,
 				F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */,
 				F4DAE8F2205BC58B00B5A892 /* SF-UI-Display-Regular.otf */,
@@ -1369,7 +1385,6 @@
 				F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */,
 				F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */,
 				F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */,
-				F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */,
 				F454308F1FBD6E8700DE80E6 /* SF-Pro-Display-Black.otf */,
 				F45430901FBD6E8700DE80E6 /* SF-Pro-Display-Bold.otf */,
 				F45430911FBD6E8800DE80E6 /* SF-Pro-Display-Heavy.otf */,
@@ -1623,6 +1638,27 @@
 				F40CA39320B5814F005EE0B0 /* PMVideoManager.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		F40D3E5A20CE5B87008ED566 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				F40D3E5C20CE5B9D008ED566 /* ColorPickerView.swift */,
+				F40D3E5B20CE5B9C008ED566 /* ColorPickerView.xib */,
+				F40D3E5E20CE5B9E008ED566 /* LinkPickerView.swift */,
+				F40D3E5F20CE5B9F008ED566 /* LinkPickerView.xib */,
+				F40D3E6020CE5B9F008ED566 /* TextEditorView.swift */,
+				F40D3E5D20CE5B9E008ED566 /* TextEditorView.xib */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		F40D3E6720CE6A08008ED566 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				F40D3E6820CE6A16008ED566 /* PMColorPickerView.swift */,
+			);
+			path = ColorPicker;
 			sourceTree = "<group>";
 		};
 		F4110B531FBEDD1D00BC2A8A /* Dictionary */ = {
@@ -1901,6 +1937,7 @@
 			isa = PBXGroup;
 			children = (
 				F431E3B720C693F8008D425B /* CreateNotesViewController.swift */,
+				F40D3E5A20CE5B87008ED566 /* Utils */,
 			);
 			path = TextEditor;
 			sourceTree = "<group>";
@@ -2534,6 +2571,7 @@
 			files = (
 				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
 				F41FD94F20A9583F00FA8623 /* EmojiCollectionViewCell.xib in Resources */,
+				F40D3E6320CE5B9F008ED566 /* TextEditorView.xib in Resources */,
 				F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */,
 				F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */,
 				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
@@ -2544,6 +2582,7 @@
 				F4C20FCF209ADFD30094A7FC /* ImageEditor.storyboard in Resources */,
 				F431186E202B88D2006139F7 /* filter_gradient_6.png in Resources */,
 				F41FD94C20A9583F00FA8623 /* FilterCell.xib in Resources */,
+				F40D3E6120CE5B9F008ED566 /* ColorPickerView.xib in Resources */,
 				F406FCFE20877B79006192B4 /* FollowHeader.xib in Resources */,
 				F4311871202B88D2006139F7 /* filter_gradient_3_icon@3x.png in Resources */,
 				F4311870202B88D2006139F7 /* filter_gradient_2_icon@3x.png in Resources */,
@@ -2601,6 +2640,7 @@
 				F41FD96520A9583F00FA8623 /* StickerCollectionViewCell.xib in Resources */,
 				330FEB811FC3F68E00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F41FD94920A9583F00FA8623 /* ColorCollectionViewCell.xib in Resources */,
+				F40D3E6520CE5B9F008ED566 /* LinkPickerView.xib in Resources */,
 				F43649CF2015CEA5004FBEE2 /* ConfirmViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2865,6 +2905,7 @@
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/CropViewController/CropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
 				"${BUILT_PRODUCTS_DIR}/GiphyCoreSDK/GiphyCoreSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
@@ -2895,6 +2936,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiphyCoreSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
@@ -3037,6 +3079,7 @@
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
 				F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */,
 				F436C997204D434500EE4254 /* PMReorderCollectionView.swift in Sources */,
+				F40D3E6620CE5B9F008ED566 /* TextEditorView.swift in Sources */,
 				F4266EFE1FF67CDA0075BFD7 /* ProfileDAO.swift in Sources */,
 				F45A78741FBC64DB003FD6AB /* APIServiceManager.swift in Sources */,
 				F433EDA62017421D004FEB93 /* StreamViewHeader.swift in Sources */,
@@ -3060,6 +3103,7 @@
 				F41FD95620A9583F00FA8623 /* PhotoEditorViewController.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
+				F40D3E6920CE6A16008ED566 /* PMColorPickerView.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
 				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
@@ -3152,6 +3196,7 @@
 				F43649C22015CEA5004FBEE2 /* SingleImageFetcher.swift in Sources */,
 				F43649C32015CEA5004FBEE2 /* SingleImageSaver.swift in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
+				F40D3E6420CE5B9F008ED566 /* LinkPickerView.swift in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
 				F4731FBB1FC2B83300AA68D8 /* IOStickyHeaderFlowLayout.swift in Sources */,
 				F4CF824520905569005636FE /* ContactsViewCell.swift in Sources */,
@@ -3180,6 +3225,7 @@
 				C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */,
 				F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */,
 				F46AC6E12043E92E00B71102 /* TLBundle.swift in Sources */,
+				F40D3E6220CE5B9F008ED566 /* ColorPickerView.swift in Sources */,
 				F49D74921FBC2E650096A0CC /* HUDManager.swift in Sources */,
 				F4F0422120455D94009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				F421E87820B400C9003DB600 /* VideoEditor+StickerEmoji.swift in Sources */,

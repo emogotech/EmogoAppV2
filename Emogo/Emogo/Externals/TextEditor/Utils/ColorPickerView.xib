@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJc-Fa-NkW">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Su-6K-wrL">
+                            <rect key="frame" x="21" y="10" width="333" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="ZQ0-48-X7B"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view tag="787822" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-hd-Pxl" customClass="PMColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+                            <rect key="frame" x="66" y="39" width="288" height="76"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="backgroud Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYv-Ca-z5C">
+                            <rect key="frame" x="21" y="125" width="333" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="hbX-KO-uT2"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEE-ys-7hD" customClass="PMColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+                            <rect key="frame" x="66" y="154" width="288" height="76"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.92144894600000005" green="0.92063152790000002" blue="0.94577074049999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="UEE-ys-7hD" firstAttribute="leading" secondItem="nJc-Fa-NkW" secondAttribute="leading" constant="66" id="AgA-M7-1iU"/>
+                        <constraint firstAttribute="trailing" secondItem="LCE-hd-Pxl" secondAttribute="trailing" constant="21" id="CDo-IB-fgH"/>
+                        <constraint firstAttribute="trailing" secondItem="XYv-Ca-z5C" secondAttribute="trailing" constant="21" id="GSH-l4-PQU"/>
+                        <constraint firstItem="8Su-6K-wrL" firstAttribute="top" secondItem="nJc-Fa-NkW" secondAttribute="top" constant="10" id="POJ-K6-fEq"/>
+                        <constraint firstAttribute="bottom" secondItem="UEE-ys-7hD" secondAttribute="bottom" constant="10" id="STo-XQ-Ci2"/>
+                        <constraint firstItem="UEE-ys-7hD" firstAttribute="width" secondItem="LCE-hd-Pxl" secondAttribute="width" id="VMM-gm-j1L"/>
+                        <constraint firstItem="XYv-Ca-z5C" firstAttribute="leading" secondItem="nJc-Fa-NkW" secondAttribute="leading" constant="21" id="WiV-lW-Q4B"/>
+                        <constraint firstItem="UEE-ys-7hD" firstAttribute="top" secondItem="XYv-Ca-z5C" secondAttribute="bottom" constant="8" id="Wof-g9-Yc3"/>
+                        <constraint firstItem="LCE-hd-Pxl" firstAttribute="leading" secondItem="nJc-Fa-NkW" secondAttribute="leading" constant="66" id="aQY-Hm-tFI"/>
+                        <constraint firstItem="LCE-hd-Pxl" firstAttribute="top" secondItem="8Su-6K-wrL" secondAttribute="bottom" constant="8" id="b31-o6-Zaz"/>
+                        <constraint firstItem="8Su-6K-wrL" firstAttribute="leading" secondItem="nJc-Fa-NkW" secondAttribute="leading" constant="21" id="h4Y-Td-3Mg"/>
+                        <constraint firstAttribute="trailing" secondItem="UEE-ys-7hD" secondAttribute="trailing" constant="21" id="hGh-Fl-D55"/>
+                        <constraint firstAttribute="trailing" secondItem="8Su-6K-wrL" secondAttribute="trailing" constant="21" id="smH-mx-sj2"/>
+                        <constraint firstItem="XYv-Ca-z5C" firstAttribute="top" secondItem="LCE-hd-Pxl" secondAttribute="bottom" constant="10" id="syk-0m-805"/>
+                        <constraint firstItem="UEE-ys-7hD" firstAttribute="height" secondItem="LCE-hd-Pxl" secondAttribute="height" id="w9X-Jz-PGf"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="nJc-Fa-NkW" secondAttribute="trailing" id="430-rG-1QQ"/>
+                <constraint firstItem="nJc-Fa-NkW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jLO-8H-T1e"/>
+                <constraint firstAttribute="bottom" secondItem="nJc-Fa-NkW" secondAttribute="bottom" id="lLz-x4-HUf"/>
+                <constraint firstItem="nJc-Fa-NkW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="oBn-AQ-sW8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="pickerBackground" destination="UEE-ys-7hD" id="Syb-E4-MQx"/>
+                <outlet property="pickerText" destination="LCE-hd-Pxl" id="tT1-rK-1gW"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="-160"/>
+        </view>
+    </objects>
+</document>
