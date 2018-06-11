@@ -63,6 +63,7 @@ class ProfileViewController: UIViewController {
     var imageToUpload:UIImage!
     var fileName:String! = ""
     var selectedIndex:IndexPath?
+    var timer:Timer?
     
     let color = UIColor(r: 155, g: 155, b: 155)
     let colorSelected = UIColor.black
@@ -104,6 +105,20 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if kDefault?.bool(forKey: kBounceAnimation) == false {
+            if timer == nil {
+                timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.startAnimation), userInfo: nil, repeats: true)
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.timer != nil {
+            self.timer?.invalidate()
+            self.timer = nil
+        }
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -998,6 +1013,7 @@ class ProfileViewController: UIViewController {
         
         self.btnAdd.isHaptic = true
         self.btnAdd.hapticType = .impact(.light)
+        kDefault?.setValue(true, forKey: kBounceAnimation)
       
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
@@ -1151,7 +1167,28 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    
+    @objc func startAnimation(){
+        print("Called")
+        
+        UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
+            
+            self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            
+            
+        }, completion: {(_ finished: Bool) -> Void in
+            UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                self.btnAdd.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+                
+                
+            }, completion: {(_ finished: Bool) -> Void in
+                UIView.animate(withDuration: TimeInterval(0.3 / 2), animations: {() -> Void in
+                    self.btnAdd.transform = .identity
+                    
+                })
+            })
+        })
+        
+    }
     /*
      // MARK: - Navigation
      
