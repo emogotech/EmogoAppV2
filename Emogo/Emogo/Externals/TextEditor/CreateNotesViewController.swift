@@ -50,14 +50,48 @@ class CreateNotesViewController: UIViewController {
         configureNaviationBar()
     }
     func configureNaviationBar(){
+        //0,122,255
         self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         let rightButon = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.doneButtonAction))
         navigationItem.rightBarButtonItem  = rightButon
+        editorView.inputAccessoryView = self.prepareToolBar()
+
+    }
+    
+    func prepareToolBar() -> UIToolbar{
+        
+      let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50))
+        var barButtons = [UIBarButtonItem]()
+        // Options
+        
+        let btnColor = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnColor.setImage(#imageLiteral(resourceName: "color_box_active"), for: .normal)
+        btnColor.tag  = 106
+        btnColor.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let colorBtn = UIBarButtonItem(customView: btnColor)
+        barButtons.append(colorBtn)
+        
+        
+        toolbar.items = barButtons
+        return toolbar
     }
     
     @objc func doneButtonAction(){
-        
+         let image = self.editorView.toImage()
+        let name = NSUUID().uuidString + ".png"
+         let content = ContentDAO(contentData: [:])
+         content.imgPreview = image
+        content.type = PreviewType.notes
+        content.isUploaded = false
+        content.fileName  = name
+        ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
+        let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+        objPreview.isShowRetake = false
+        objPreview.selectedIndex = 0
+        self.navigationController?.pushNormal(viewController: objPreview)
     }
     
     
@@ -219,12 +253,20 @@ class CreateNotesViewController: UIViewController {
     
     func uploadImage(image:UIImage){
         let name = NSUUID().uuidString + ".png"
-        AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
-            if let fileURL = fileURL {
+        AWSRequestManager.sharedInstance.imageUpload(image: image.resize(to: CGSize(width: 300, height: 300)), name: name) { (fileURL, errorMSG) in
+            if let fileURL = fileURL { 
                 print(fileURL)
+                DispatchQueue.main.async {
+                    _ =  self.editorView.becomeFirstResponder()
+                    self.editorView.insertImage(fileURL, alt: "attachment")
+                }
             }
         }
     }
+    
+    
+    
+    
     /*
     // MARK: - Navigation
 
@@ -299,7 +341,6 @@ extension CreateNotesViewController:TextEditorViewDelegate {
         _ =  self.editorView.becomeFirstResponder()
         self.editorView.removeFormat()
         let  value = editorView.contentHTML
-        print(value)
         editorView.html = value + "<div><br></div>"
         self.editorView.focus()
     }

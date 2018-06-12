@@ -714,7 +714,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="74S-WI-aQm" customClass="RichEditorView" customModule="RichEditorView">
                                         <rect key="frame" x="8" y="8" width="307" height="379"/>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-nM-vht">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwM-nM-vht">
                                         <rect key="frame" x="323" y="0.0" width="51" height="395"/>
                                         <subviews>
                                             <button hidden="YES" opaque="NO" tag="106" contentMode="scaleAspectFit" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWL-2I-PMc">
@@ -751,7 +751,7 @@
                                             </button>
                                             <button hidden="YES" opaque="NO" tag="102" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gpb-Qv-tZa">
                                                 <rect key="frame" x="6" y="197" width="40" height="43"/>
-                                                <state key="normal" backgroundImage="icon_list"/>
+                                                <state key="normal" image="icon_list"/>
                                                 <state key="selected" image="icon_list_active"/>
                                                 <connections>
                                                     <action selector="btnActionForEditOptions:" destination="bZt-6g-AOS" eventType="touchUpInside" id="NLL-ck-YIF"/>
@@ -760,7 +760,7 @@
                                             <button hidden="YES" opaque="NO" tag="107" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbR-un-Lyk">
                                                 <rect key="frame" x="6" y="246" width="40" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <state key="normal" backgroundImage="icon_sentence"/>
+                                                <state key="normal" image="icon_sentence"/>
                                                 <state key="selected" image="Group 6"/>
                                                 <connections>
                                                     <action selector="btnActionForEditOptions:" destination="bZt-6g-AOS" eventType="touchUpInside" id="2fC-YY-gaL"/>
@@ -769,7 +769,7 @@
                                             <button hidden="YES" opaque="NO" tag="101" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x1O-4A-TdR">
                                                 <rect key="frame" x="6" y="295" width="40" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <state key="normal" backgroundImage="icon_sentence"/>
+                                                <state key="normal" image="icon_sentence"/>
                                                 <state key="selected" image="Group 6"/>
                                                 <connections>
                                                     <action selector="btnActionForEditOptions:" destination="bZt-6g-AOS" eventType="touchUpInside" id="FOY-ZA-Ogd"/>
@@ -815,6 +815,7 @@
                                             <constraint firstItem="VbR-un-Lyk" firstAttribute="top" secondItem="Gpb-Qv-tZa" secondAttribute="bottom" constant="6" id="Z9b-aO-JXk"/>
                                             <constraint firstAttribute="bottom" secondItem="EAi-yM-ONj" secondAttribute="bottom" constant="1" id="dHa-sS-sed"/>
                                             <constraint firstAttribute="trailing" secondItem="X1i-R2-gPW" secondAttribute="trailing" constant="5" id="gXa-fS-lGV"/>
+                                            <constraint firstAttribute="width" constant="51" id="hvX-fb-7qa"/>
                                             <constraint firstAttribute="trailing" secondItem="IWL-2I-PMc" secondAttribute="trailing" constant="5" id="lXh-Db-e93"/>
                                             <constraint firstAttribute="trailing" secondItem="Gpb-Qv-tZa" secondAttribute="trailing" constant="5" id="ljf-Mf-MBD"/>
                                             <constraint firstItem="VbR-un-Lyk" firstAttribute="leading" secondItem="cwM-nM-vht" secondAttribute="leading" constant="6" id="ogK-SJ-ppO"/>
@@ -840,8 +841,8 @@
                                     <constraint firstAttribute="bottom" secondItem="74S-WI-aQm" secondAttribute="bottom" constant="8" id="s8F-qM-caa"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="96H-dJ-eHZ" customClass="CardView" customModule="Emogo" customModuleProvider="target">
-                                <rect key="frame" x="63" y="331" width="250" height="62"/>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="96H-dJ-eHZ" customClass="CardView" customModule="Emogo" customModuleProvider="target">
+                                <rect key="frame" x="62" y="331" width="250" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="paste from clipboard" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDn-vi-3cw">
