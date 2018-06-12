@@ -30,6 +30,7 @@ class AddStreamViewController: UITableViewController {
     @IBOutlet weak var switchAddCollaborators: PMSwitch!
     @IBOutlet weak var btnCamera: UIButton!
     @IBOutlet weak var lblStreamDescPlaceHolder : UILabel!
+     var delegate:CustomCameraViewControllerDelegate?
     
     @IBOutlet weak var switchAddContent: PMSwitch!
     // Varibales
@@ -753,10 +754,23 @@ extension AddStreamViewController:CustomCameraViewControllerDelegate {
 extension AddStreamViewController:CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         self.dismiss(animated: true, completion: nil)
+        if self.delegate != nil {
+            self.dismiss(animated: true, completion: {
+                self.delegate?.dismissWith(image: image)
+            })
+        }
         self.setCoverImage(image: image)
     }
     
     func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+         self.dismiss(animated: true, completion: nil)
+        if self.delegate != nil {
+           
+            self.dismiss(animated: true, completion: {
+                //  self.delegate?.dismissWith(image: cropViewController.image)
+            })
+        }
+
     }
 }
 

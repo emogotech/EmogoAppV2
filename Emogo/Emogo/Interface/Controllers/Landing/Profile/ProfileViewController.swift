@@ -112,14 +112,6 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if self.timer != nil {
-            self.timer?.invalidate()
-            self.timer = nil
-        }
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -341,7 +333,7 @@ class ProfileViewController: UIViewController {
 //                    obj.isSelected = false
 //                    ContentList.sharedInstance.arrayStuff[i] = obj
 //                }
-            //    self.getMyStuff(type: .start)
+               // self.getMyStuff(type: .start)
             }else if self.currentMenu == .stream{
                 HUDManager.sharedInstance.showHUD()
                 self.getStreamList(type:.start,filter: .myStream)
