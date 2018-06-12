@@ -12,7 +12,6 @@ import RichEditorView
 class CreateNotesViewController: UIViewController {
 
     @IBOutlet var editorView: RichEditorView!
-    @IBOutlet var viewEditOption: UIStackView!
     @IBOutlet var btnCommand: UIButton!
     @IBOutlet var btnText: UIButton!
     @IBOutlet var btnHorizontal: UIButton!
@@ -21,6 +20,7 @@ class CreateNotesViewController: UIViewController {
     @IBOutlet var btnLink: UIButton!
     @IBOutlet var btnColor: UIButton!
     @IBOutlet var viewContainer: UIView!
+    @IBOutlet var optionButtons : [UIButton]!
 
     var isCommandTapped:Bool! = false
 
@@ -47,6 +47,17 @@ class CreateNotesViewController: UIViewController {
         btnPhoto.contentMode = .scaleAspectFit
         btnLink.contentMode = .scaleAspectFit
         btnColor.contentMode = .scaleAspectFit
+        configureNaviationBar()
+    }
+    func configureNaviationBar(){
+        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
+        let rightButon = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.doneButtonAction))
+        navigationItem.rightBarButtonItem  = rightButon
+    }
+    
+    @objc func doneButtonAction(){
+        
     }
     
     
@@ -59,10 +70,12 @@ class CreateNotesViewController: UIViewController {
     @IBAction func btnActionForCommand(_ sender: Any) {
         isCommandTapped = !isCommandTapped
         if isCommandTapped {
-            self.viewEditOption.isHidden = false
+        //    self.viewEditOption.isHidden = false
+            self.setView(hidden: false)
             self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-multiply"), for: .normal)
         }else {
-            self.viewEditOption.isHidden = true
+          //  self.viewEditOption.isHidden = true
+            self.setView(hidden: true)
             self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-command"), for: .normal)
         }
     }
@@ -114,6 +127,7 @@ class CreateNotesViewController: UIViewController {
             btnPhoto.isSelected = true
             btnLink.isSelected = false
             btnColor.isSelected = false
+            openCamera()
             break
         case 105:
             
@@ -123,7 +137,6 @@ class CreateNotesViewController: UIViewController {
             btnPhoto.isSelected = false
             btnLink.isSelected = true
             btnColor.isSelected = false
-            
             break
         case 106:
             self.view.endEditing(true)
@@ -141,8 +154,27 @@ class CreateNotesViewController: UIViewController {
             }
             self.viewContainer.isHidden = false
             break
+        case 107:
+                btnText.isSelected = false
+                btnAlignment.isSelected = true
+                btnHorizontal.isSelected = false
+                btnPhoto.isSelected = false
+                btnLink.isSelected = false
+                btnColor.isSelected = false
+                self.editorView.unorderedList()
+            break
         default:
             break
+        }
+    }
+    
+    
+    
+    func setView(hidden: Bool) {
+        for obj in self.optionButtons {
+            UIView.transition(with: obj, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                obj.isHidden = hidden
+            })
         }
     }
     
@@ -175,6 +207,24 @@ class CreateNotesViewController: UIViewController {
             ])
     }
 
+    func openCamera(){
+        let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        cameraViewController.isDismiss = true
+        cameraViewController.delegate = self
+        cameraViewController.isForImageOnly = true
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let nav = UINavigationController(rootViewController: cameraViewController)
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    func uploadImage(image:UIImage){
+        let name = NSUUID().uuidString + ".png"
+        AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
+            if let fileURL = fileURL {
+                print(fileURL)
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -268,3 +318,12 @@ extension CreateNotesViewController:ColorPickerViewDelegate {
     
     
 }
+
+extension CreateNotesViewController:CustomCameraViewControllerDelegate {
+    func dismissWith(image: UIImage?) {
+        if let img = image {
+            self.uploadImage(image: img)
+        }
+    }
+}
+
