@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Views/Cells And Nib&apos;s/Streams/StreamViewHeader.swift"
-            timestampString = "550394662.463625"
+            timestampString = "550501722.094751"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -609,6 +609,38 @@
             endingLineNumber = "493"
             landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Emogo.MyStuffViewController.collectionView(__ObjC.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Interface/Controllers/Landing/Content%20&amp;%20Stuff/MyStuffViewController.swift"
+                  timestampString = "550488867.225323"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "493"
+                  endingLineNumber = "493"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Emogo.ContentDAO) -&gt; Swift.Bool in Emogo.MyStuffViewController.collectionView(__ObjC.UICollectionView, didSelectItemAt: Foundation.IndexPath) -&gt; ()"
+                  moduleName = "Emogo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/Macintosh%20HD/Northout/Source_Git/Emogo%20V2/Emogo/Emogo/Interface/Controllers/Landing/Content%20&amp;%20Stuff/MyStuffViewController.swift"
+                  timestampString = "550488867.2280689"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "493"
+                  endingLineNumber = "493"
+                  offsetFromSymbolStart = "18">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -618,11 +650,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550418889.845323"
+            timestampString = "550501913.238863"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "selectFontFamily(family:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
+            timestampString = "550501913.238961"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
             landmarkName = "selectHeader(tag:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -634,12 +682,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550418889.846112"
+            timestampString = "550501913.239035"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
-            landmarkName = "selectBold()"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "btnActionForEditOptions(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
+            timestampString = "550501913.2391061"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "prepareToolBar()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
