@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Regular.ttf">
+        <array key="Montserrat-Regular.otf">
             <string>Montserrat-Regular</string>
         </array>
         <array key="SF-Pro-Display-Regular.otf">
@@ -841,7 +841,7 @@
                                     <constraint firstAttribute="bottom" secondItem="74S-WI-aQm" secondAttribute="bottom" constant="8" id="s8F-qM-caa"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="96H-dJ-eHZ" customClass="CardView" customModule="Emogo" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="96H-dJ-eHZ" customClass="CardView" customModule="Emogo" customModuleProvider="target">
                                 <rect key="frame" x="62" y="331" width="250" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>

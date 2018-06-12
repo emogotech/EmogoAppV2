@@ -73,6 +73,51 @@ class CreateNotesViewController: UIViewController {
         let colorBtn = UIBarButtonItem(customView: btnColor)
         barButtons.append(colorBtn)
         
+        let btnLink = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnLink.setImage(#imageLiteral(resourceName: "link_block"), for: .normal)
+        btnLink.tag  = 105
+        btnLink.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let linkBtn = UIBarButtonItem(customView: btnLink)
+        barButtons.append(linkBtn)
+        
+        let btnPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnPhoto.setImage(#imageLiteral(resourceName: "photo_video_active"), for: .normal)
+        btnPhoto.tag  = 104
+        btnPhoto.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let photoBtn = UIBarButtonItem(customView: btnPhoto)
+        barButtons.append(photoBtn)
+        
+        let btnHorizontal = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnHorizontal.setImage(#imageLiteral(resourceName: "horizontal"), for: .normal)
+        btnHorizontal.tag  = 103
+        btnHorizontal.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let horizontalBtn = UIBarButtonItem(customView: btnHorizontal)
+        barButtons.append(horizontalBtn)
+        
+        let btnAlignment = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnAlignment.setImage(#imageLiteral(resourceName: "icon_list"), for: .normal)
+        btnAlignment.tag  = 102
+        btnAlignment.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let allignBtn = UIBarButtonItem(customView: btnAlignment)
+        barButtons.append(allignBtn)
+        
+        let btnNoBullet = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnNoBullet.setImage(#imageLiteral(resourceName: "icon_list"), for: .normal)
+        btnNoBullet.tag  = 107
+        btnNoBullet.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let bulletBtn = UIBarButtonItem(customView: btnNoBullet)
+        barButtons.append(bulletBtn)
+        
+        let btnText = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        btnText.setImage(#imageLiteral(resourceName: "icon_sentence"), for: .normal)
+        btnText.tag  = 101
+        btnText.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
+        let textBtn = UIBarButtonItem(customView: btnText)
+        barButtons.append(textBtn)
+    
+        
+        
+        
         
         toolbar.items = barButtons
         return toolbar
