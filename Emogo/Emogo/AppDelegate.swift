@@ -202,7 +202,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         kDefault?.removeObject(forKey: kRetakeIndex)
         // If User already logged in
        self.performLogin()
-        self.keyboardToolBar(disable:false)
+       self.keyboardToolBar(disable:false)
         
         // Logout User if Token Is Expired
        

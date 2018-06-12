@@ -28,6 +28,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     var arrayContent = [Any]()
     var arrayContents = [ContentDAO]()
     var sliderDelegate:MyStreamHeaderViewDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

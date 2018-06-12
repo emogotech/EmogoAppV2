@@ -23,6 +23,7 @@ class ViewStreamController: UIViewController {
     // Varibales
     var streamType:String!
     var objStream:StreamViewDAO?
+
     var currentIndex:Int!
     var currentCount:Int!
     var viewStream:String?
@@ -922,16 +923,20 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         }
         else {
             ContentList.sharedInstance.arrayContent.removeAll()
-            let array = objStream?.arrayContent.filter { $0.isAdd == false }
+            let content = ContentDAO(contentData: [:])
+            content.coverImage = objStream?.coverImage
+            content.isUploaded = true
+            content.type = .image
+            content.fileName = "SreamCover"
+            content.name = objStream?.title
+            content.description = objStream?.description
+            var array = objStream?.arrayContent.filter { $0.isAdd == false }
+            array?.insert(content, at: 0)
             ContentList.sharedInstance.arrayContent = array
             ContentList.sharedInstance.objStream = objStream?.streamID
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-             objPreview.isViewCount = "TRUE"
-            if (self.objStream?.canAddContent)! {
-                objPreview.currentIndex = indexPath.row
-            }else {
-                objPreview.currentIndex = indexPath.row
-            }
+              objPreview.isViewCount = "TRUE"
+              objPreview.currentIndex = indexPath.row + 1
             self.navigationController?.push(viewController: objPreview)
         }
     }

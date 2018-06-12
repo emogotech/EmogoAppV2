@@ -34,8 +34,11 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var viewContainer: UIView!
     @IBOutlet weak var kTitleHeight: NSLayoutConstraint!
     
+   
+    
     var currentIndex:Int!
     var seletedImage:ContentDAO!
+    var objstream:StreamViewDAO!
     let shapes = ShapeDAO()
     var isEdit:Bool!
     var isAddStream:Bool! = false
@@ -45,6 +48,8 @@ class ContentViewController: UIViewController {
     var isMoreTapped:Bool! = false
     var photoEditor:PhotoEditorViewController!
     var isViewCount:String?
+    var stretchyHeader: StreamViewHeader!
+    var streamDelegate:StreamViewHeaderDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,6 +207,7 @@ class ContentViewController: UIViewController {
         
         self.imgCover.image = nil
         self.imgCover.animatedImage = nil
+        print(currentIndex)
         if self.isEdit == nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
@@ -619,6 +625,7 @@ class ContentViewController: UIViewController {
                 break
                 
             case .right:
+    
                 if currentIndex != 0 {
                     if !self.isEditngContent {
                         self.previous()
