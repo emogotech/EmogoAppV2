@@ -54,5 +54,8 @@ class MyStuffCell: UICollectionViewCell {
             self.btnPlay.isHidden = true
             self.imgCover.setForAnimatedImage(strImage:content.coverImage)
         }
+        if content.type == .notes {
+            self.lblDescription.text = ""
+        }
     }
 }

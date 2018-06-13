@@ -8,30 +8,82 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-UI-Display-Light.otf">
+            <string>SFUIDisplay-Light</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LinkPickerView" customModule="RichTextEditor" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LinkPickerView" customModule="Emogo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="357"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hPf-84-Tft">
-                    <rect key="frame" x="8" y="8" width="359" height="341"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qBr-vS-9lo">
+                    <rect key="frame" x="0.0" y="3" width="375" height="30"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Link_ActSheet" translatesAutoresizingMaskIntoConstraints="NO" id="Cjd-Wi-GBS">
+                            <rect key="frame" x="13" y="2" width="25" height="25"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="25" id="H8x-Ho-6oa"/>
+                                <constraint firstAttribute="width" constant="25" id="bvb-da-YfL"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Links" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rnf-x1-TPj">
+                            <rect key="frame" x="48" y="4" width="253" height="21"/>
+                            <fontDescription key="fontDescription" name="SFUIDisplay-Light" family="SF UI Display" pointSize="14"/>
+                            <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                </tableView>
+                    <constraints>
+                        <constraint firstItem="rnf-x1-TPj" firstAttribute="top" secondItem="qBr-vS-9lo" secondAttribute="top" constant="4" id="5q6-Wn-XQH"/>
+                        <constraint firstItem="rnf-x1-TPj" firstAttribute="leading" secondItem="Cjd-Wi-GBS" secondAttribute="trailing" constant="10" id="6wn-Gz-Jmi"/>
+                        <constraint firstAttribute="height" constant="30" id="NLo-2j-fKr"/>
+                        <constraint firstAttribute="bottom" secondItem="rnf-x1-TPj" secondAttribute="bottom" constant="5" id="OlB-b7-n3L"/>
+                        <constraint firstItem="Cjd-Wi-GBS" firstAttribute="top" secondItem="qBr-vS-9lo" secondAttribute="top" constant="2" id="Rvy-i8-KcZ"/>
+                        <constraint firstAttribute="trailing" secondItem="rnf-x1-TPj" secondAttribute="trailing" constant="74" id="rZD-FU-suA"/>
+                        <constraint firstItem="Cjd-Wi-GBS" firstAttribute="leading" secondItem="qBr-vS-9lo" secondAttribute="leading" constant="13" id="uhp-cD-0uE"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Iwg-Xl-y8y">
+                    <rect key="frame" x="0.0" y="34" width="375" height="323"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kb2-ne-Xga">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Mzy-0P-XIk">
+                    <rect key="frame" x="169" y="177" width="37" height="37"/>
+                    <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="hPf-84-Tft" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="5WZ-Dk-17c"/>
-                <constraint firstAttribute="trailing" secondItem="hPf-84-Tft" secondAttribute="trailing" constant="8" id="6FZ-t5-mnc"/>
-                <constraint firstAttribute="bottom" secondItem="hPf-84-Tft" secondAttribute="bottom" constant="8" id="G9g-Mu-sGl"/>
-                <constraint firstItem="hPf-84-Tft" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="WBP-4u-KNg"/>
+                <constraint firstItem="Mzy-0P-XIk" firstAttribute="centerX" secondItem="Iwg-Xl-y8y" secondAttribute="centerX" id="0Eg-5I-Wzp"/>
+                <constraint firstItem="Iwg-Xl-y8y" firstAttribute="top" secondItem="qBr-vS-9lo" secondAttribute="bottom" constant="1" id="BDY-zD-qkk"/>
+                <constraint firstItem="Mzy-0P-XIk" firstAttribute="centerY" secondItem="Iwg-Xl-y8y" secondAttribute="centerY" id="Cam-4y-nd2"/>
+                <constraint firstItem="qBr-vS-9lo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="3" id="IGt-aU-sXM"/>
+                <constraint firstAttribute="trailing" secondItem="qBr-vS-9lo" secondAttribute="trailing" id="QpJ-mK-pux"/>
+                <constraint firstAttribute="bottom" secondItem="Iwg-Xl-y8y" secondAttribute="bottom" id="YW7-gl-Bg7"/>
+                <constraint firstAttribute="trailing" secondItem="Iwg-Xl-y8y" secondAttribute="trailing" id="bW3-YY-AtH"/>
+                <constraint firstItem="Iwg-Xl-y8y" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jhV-dl-kx1"/>
+                <constraint firstItem="qBr-vS-9lo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tFm-a1-vvi"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="tblLink" destination="hPf-84-Tft" id="jNH-SE-ORm"/>
+                <outlet property="activity" destination="Mzy-0P-XIk" id="aBD-aA-acb"/>
+                <outlet property="linkCollectionView" destination="Iwg-Xl-y8y" id="eFb-Xt-3jU"/>
             </connections>
             <point key="canvasLocation" x="39.5" y="-101.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="Link_ActSheet" width="25" height="25"/>
+    </resources>
 </document>

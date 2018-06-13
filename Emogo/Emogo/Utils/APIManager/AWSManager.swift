@@ -274,7 +274,7 @@ class AWSRequestManager:NSObject {
         for obj in array {
             dispatchGroup.enter()
            if obj.isUploaded == false  {
-                if obj.type == .image {
+                if obj.type == .image || obj.type == .notes {
                     self.imageUpload(image: obj.imgPreview!, name: obj.fileName, completion: { (imageUrl,error) in
                         if error == nil {
                             let ext = imageUrl?.getName()
