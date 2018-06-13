@@ -39,7 +39,7 @@ class ActionSheetViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func actionForCreateEmogo(_ sender: Any) {
-        self.actionForAddStream()
+      //  self.actionForAddStream()
     }
 }
     //MARK:- tableview delegate & datasource
@@ -61,19 +61,19 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      let title = self.arrTitle[indexPath.row]
-        if title == "Photo/Videos" {
-            self.btnImportAction()
-        }else if title == "Camera" {
-            self.actionForCamera()
-        }else if title == "Link" {
-            self.btnActionForLink()
-        }else if title == "Note" {
-            self.btnActionForNotes()
-        }else if title == "Gif" {
-            self.btnActionForGiphy()
-        }else if title == "My Stuff" {
-            self.btnActionForMyStuff()
-        }
+//        if title == "Photo/Videos" {
+//            self.btnImportAction()
+//        }else if title == "Camera" {
+//            self.actionForCamera()
+//        }else if title == "Link" {
+//            self.btnActionForLink()
+//        }else if title == "Note" {
+//            self.btnActionForNotes()
+//        }else if title == "Gif" {
+//            self.btnActionForGiphy()
+//        }else if title == "My Stuff" {
+//            self.btnActionForMyStuff()
+//        }
     }
     
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

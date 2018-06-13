@@ -144,7 +144,7 @@ class CreateNotesViewController: UIViewController {
             if let url = URL(string: self.txtURL.text) {
                 _ =  self.editorView.becomeFirstResponder()
                 let  value = editorView.contentHTML
-                editorView.html = value + "<a href=\(url.absoluteString)></a>"
+                editorView.html = value + "<a href=\(url.absoluteString)>\(url.absoluteString)</a>"
              //   self.editorView.focus()
                // self.editorView.insertLink(url.absoluteString, title: "AttachmentURL")
                // self.editorView.focus()

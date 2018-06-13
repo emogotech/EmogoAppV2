@@ -353,7 +353,7 @@ class PreviewController: UIViewController {
                 self.txtTitleImage.placeholderColor(text:"Title",color: .white)//colors.secondary
             })
         }else {
-            if seletedImage.type == .image  {
+            if seletedImage.type == .image  || seletedImage.type == .notes {
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
                     image?.getColors({ (colors) in
                         self.imgPreview.backgroundColor = colors.primary
@@ -430,6 +430,10 @@ class PreviewController: UIViewController {
                 viewLinkPreview.loadURL(self.seletedImage.coverImage)
                 
             }
+        }
+        if self.seletedImage.type == .notes {
+            self.txtTitleImage.isHidden = true
+            self.txtDescription.isHidden = true
         }
      }
     

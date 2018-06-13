@@ -205,20 +205,20 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
 }
-extension ActionSheetViewController {
+extension StreamListViewController {
     
-    func actionForAddStream(){
-        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-        self.navigationController?.push(viewController: obj)
-    }
-    
-    func actionForCamera(){
-        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.objStream = nil
-        kContainerNav = ""
-        self.navigationController?.pushNormal(viewController: obj)
-    }
+//    func actionForAddStream(){
+//        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+//        self.navigationController?.push(viewController: obj)
+//    }
+//
+//    func actionForCamera(){
+//        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+//        ContentList.sharedInstance.arrayContent.removeAll()
+//        ContentList.sharedInstance.objStream = nil
+//        kContainerNav = ""
+//        self.navigationController?.pushNormal(viewController: obj)
+//    }
     
     func btnActionForLink(){
         ContentList.sharedInstance.objStream = nil
@@ -240,7 +240,9 @@ extension ActionSheetViewController {
     }
     
     func btnActionForNotes(){
-        let controller = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView)
+        ContentList.sharedInstance.objStream = nil
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
         self.navigationController?.push(viewController: controller)
     }
     

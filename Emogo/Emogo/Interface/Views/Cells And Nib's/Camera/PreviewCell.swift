@@ -23,7 +23,7 @@ class PreviewCell: UICollectionViewCell {
                 self.previewImage.image = image
             }
         }else {
-            if content.type == .image {
+            if content.type == .image ||  content.type == .notes {
                     self.previewImage.setForAnimatedImage(strImage:content.coverImage)
             }else if content.type == .gif {
                 self.previewImage.setForAnimatedImage(strImage:content.coverImage)

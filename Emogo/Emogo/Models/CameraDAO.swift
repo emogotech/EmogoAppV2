@@ -163,6 +163,8 @@ class ContentDAO{
                 self.type = .video
             }else if strType.lowercased() == "link"{
                 self.type = .link
+            }else if strType.lowercased() == "note"{
+                self.type = .notes
             }else {
                 self.type = .gif
             }

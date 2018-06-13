@@ -596,8 +596,7 @@ class StreamListViewController: UIViewController {
             self.timer = nil
         }
      // let nav = UINavigationController(rootViewController: popupViewController)
-      customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
-        /*
+   //   customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
         kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
@@ -635,7 +634,6 @@ class StreamListViewController: UIViewController {
         actionController.headerData = "ADD FROM"
         actionController.delegate   =   self
         present(actionController, animated: true, completion: nil)
-        */
     }
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {
