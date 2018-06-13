@@ -2476,7 +2476,7 @@
                                             <constraint firstAttribute="height" constant="40" id="bN5-8P-Lpj"/>
                                         </constraints>
                                         <state key="normal" image="button:KJZ-CM-7cq:image"/>
-                                        <state key="selected" image="B6FE02CD-9514-4455-95FB-74F324EB3051"/>
+                                        <state key="selected" image="DA1929B2-BE1A-4281-A7AC-DB0A31517948"/>
                                         <connections>
                                             <action selector="btnSearchAction:" destination="yPI-rI-brd" eventType="touchUpInside" id="6qg-Si-L1X"/>
                                         </connections>
@@ -2832,10 +2832,10 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igk-7A-ZUu">
-                                        <rect key="frame" x="16" y="5" width="344" height="50.5"/>
+                                        <rect key="frame" x="16" y="5" width="344" height="45"/>
                                         <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50.5" id="jMd-ow-bcd"/>
+                                            <constraint firstAttribute="height" constant="45" id="jMd-ow-bcd"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
                                         <state key="normal" title="Create New Emogo">
@@ -2846,18 +2846,18 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add From" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ej0-ZM-BdR">
-                                        <rect key="frame" x="152" y="70.5" width="71" height="20"/>
+                                        <rect key="frame" x="152" y="58" width="71" height="18"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="KRA-5Q-xcn"/>
+                                            <constraint firstAttribute="height" constant="18" id="KRA-5Q-xcn"/>
                                             <constraint firstAttribute="width" constant="71" id="WhE-l8-szm"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="actionsheetView" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="caA-Sm-Dg3">
-                                        <rect key="frame" x="16" y="105.5" width="344" height="489.5"/>
-                                        <color key="backgroundColor" red="1" green="0.2527923882" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="actionsheetView" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="caA-Sm-Dg3">
+                                        <rect key="frame" x="16" y="84" width="344" height="528"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="actionSheetCell" id="4eL-Uh-7dY" customClass="ActionSheetViewCell" customModule="Emogo" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="344" height="44"/>
@@ -2903,12 +2903,12 @@
                                         </connections>
                                     </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Iu-oH-XMk">
-                                        <rect key="frame" x="172" y="610" width="31" height="32"/>
+                                        <rect key="frame" x="172" y="617" width="25" height="25"/>
+                                        <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="Jlz-5h-vuJ"/>
-                                            <constraint firstAttribute="width" constant="31" id="cxa-uV-8Em"/>
+                                            <constraint firstAttribute="height" constant="25" id="Jlz-5h-vuJ"/>
+                                            <constraint firstAttribute="width" constant="25" id="cxa-uV-8Em"/>
                                         </constraints>
-                                        <state key="normal" image="cross-icon"/>
                                         <connections>
                                             <action selector="btnClose:" destination="Y2r-58-wJR" eventType="touchUpInside" id="MFn-Hy-8dx"/>
                                         </connections>
@@ -2916,14 +2916,14 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Ej0-ZM-BdR" firstAttribute="top" secondItem="Igk-7A-ZUu" secondAttribute="bottom" constant="15" id="2OT-Cq-rxd"/>
+                                    <constraint firstItem="Ej0-ZM-BdR" firstAttribute="top" secondItem="Igk-7A-ZUu" secondAttribute="bottom" constant="8" id="2OT-Cq-rxd"/>
                                     <constraint firstItem="Igk-7A-ZUu" firstAttribute="top" secondItem="MD2-rh-hj6" secondAttribute="top" constant="5" id="8ye-PU-G0c"/>
                                     <constraint firstItem="caA-Sm-Dg3" firstAttribute="leading" secondItem="MD2-rh-hj6" secondAttribute="leading" constant="16" id="Ak3-Yc-7Bk"/>
                                     <constraint firstAttribute="trailing" secondItem="Igk-7A-ZUu" secondAttribute="trailing" constant="15" id="FlG-Uc-P5D"/>
-                                    <constraint firstItem="0Iu-oH-XMk" firstAttribute="top" secondItem="caA-Sm-Dg3" secondAttribute="bottom" constant="15" id="Obu-tk-H1B"/>
+                                    <constraint firstItem="0Iu-oH-XMk" firstAttribute="top" secondItem="caA-Sm-Dg3" secondAttribute="bottom" constant="5" id="Obu-tk-H1B"/>
                                     <constraint firstAttribute="trailing" secondItem="caA-Sm-Dg3" secondAttribute="trailing" constant="15" id="m5e-o4-QFx"/>
-                                    <constraint firstItem="0Iu-oH-XMk" firstAttribute="centerX" secondItem="MD2-rh-hj6" secondAttribute="centerX" id="nxU-Hz-j8a"/>
-                                    <constraint firstItem="caA-Sm-Dg3" firstAttribute="top" secondItem="Ej0-ZM-BdR" secondAttribute="bottom" constant="15" id="r3q-og-Mo0"/>
+                                    <constraint firstItem="0Iu-oH-XMk" firstAttribute="centerX" secondItem="MD2-rh-hj6" secondAttribute="centerX" constant="-3" id="nxU-Hz-j8a"/>
+                                    <constraint firstItem="caA-Sm-Dg3" firstAttribute="top" secondItem="Ej0-ZM-BdR" secondAttribute="bottom" constant="8" id="r3q-og-Mo0"/>
                                     <constraint firstItem="Ej0-ZM-BdR" firstAttribute="centerX" secondItem="Igk-7A-ZUu" secondAttribute="centerX" id="sXL-Og-Cwf"/>
                                     <constraint firstItem="Igk-7A-ZUu" firstAttribute="leading" secondItem="MD2-rh-hj6" secondAttribute="leading" constant="16" id="ssg-Gl-r8k"/>
                                     <constraint firstAttribute="bottom" secondItem="0Iu-oH-XMk" secondAttribute="bottom" constant="5" id="vEA-38-24Q"/>
@@ -3665,7 +3665,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="B6FE02CD-9514-4455-95FB-74F324EB3051" width="17" height="17">
+        <image name="DA1929B2-BE1A-4281-A7AC-DB0A31517948" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
 ExQZHh8jJCsuMTtDR0tPUlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdz

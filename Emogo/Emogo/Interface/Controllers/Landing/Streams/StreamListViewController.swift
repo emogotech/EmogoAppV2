@@ -27,7 +27,7 @@ class StreamListViewController: UIViewController {
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
     var btnAddFrame   : CGRect!
-
+  
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewSearch: UIView!
@@ -92,7 +92,7 @@ class StreamListViewController: UIViewController {
         customPresenter.transitionType = .coverVertical
         customPresenter.dismissTransitionType = .crossDissolve
         customPresenter.roundCorners = true
-        customPresenter.cornerRadius = 5.0
+        customPresenter.cornerRadius = 15.0
         customPresenter.backgroundOpacity = 1.0
         customPresenter.dismissOnSwipe = true
         customPresenter.blurBackground = true
@@ -595,7 +595,7 @@ class StreamListViewController: UIViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
-     // let nav = UINavigationController(rootViewController: popupViewController)
+    // let nav = UINavigationController(rootViewController: popupViewController)
       customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
         /*
         kDefault?.set(true, forKey: kBounceAnimation)
@@ -1407,5 +1407,15 @@ extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
     func actionSheetControllerHeaderButtonAction() {
         self.actionForAddStream()
     }
+}
+
+extension StreamListViewController : ActionSheetViewControllerDelegate {
+ 
+    func btnActionForMyStuff() {
+       
+//        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+//        self.navigationController?.push(viewController: controller)
+    }
+   
 }
 

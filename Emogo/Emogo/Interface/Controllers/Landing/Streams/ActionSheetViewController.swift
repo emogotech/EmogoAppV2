@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol ActionSheetViewControllerDelegate {
+   
+    func btnActionForMyStuff()
+
+}
 class ActionSheetViewController: UIViewController {
     
     //MARK:- IBOutlet Connections
@@ -15,6 +20,8 @@ class ActionSheetViewController: UIViewController {
     @IBOutlet weak var btnCreateNewEmogo: UIButton!
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var tblOptions: UITableView!
+    
+    var delegate : ActionSheetViewControllerDelegate!
     
     let fontSelected = UIFont(name: "SFProDisplay-Regular", size: 12.0)
     
@@ -28,18 +35,23 @@ class ActionSheetViewController: UIViewController {
        self.tblOptions.dataSource = self
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tblOptions.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+ 
     //MARK:- Button Action
     
     @IBAction func btnClose(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func actionForCreateEmogo(_ sender: Any) {
-        self.actionForAddStream()
+      // self.actionForAddStream()
     }
 }
     //MARK:- tableview delegate & datasource
@@ -62,24 +74,25 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      let title = self.arrTitle[indexPath.row]
         if title == "Photo/Videos" {
-            self.btnImportAction()
+           // self.delegate.actionForAddStream()
         }else if title == "Camera" {
-            self.actionForCamera()
+          // self.delegate.actionForCamera()
         }else if title == "Link" {
-            self.btnActionForLink()
+          //  self.btnActionForLink()
         }else if title == "Note" {
-            self.btnActionForNotes()
+           // self.btnActionForNotes()
         }else if title == "Gif" {
-            self.btnActionForGiphy()
+          //  self.btnActionForGiphy()
         }else if title == "My Stuff" {
-            self.btnActionForMyStuff()
+          //self.delegate.btnActionForMyStuff()
         }
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-////        let tableHeight =  tblOptions.contentSize.height
-////        let cellHeight  =  tableHeight/6
-////        return cellHeight
-//    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let tableHeight =  tblOptions.bounds.size.height
+        let cellHeight  =  tableHeight/6
+        return cellHeight
+    }
    
 }
