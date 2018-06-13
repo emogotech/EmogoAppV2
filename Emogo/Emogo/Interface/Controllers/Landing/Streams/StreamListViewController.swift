@@ -9,6 +9,7 @@
 import UIKit
 import XLActionController
 import Haptica
+import Presentr
 
 class StreamListViewController: UIViewController {
     
@@ -50,6 +51,7 @@ class StreamListViewController: UIViewController {
     var searchStr : String!
     var heightPeople                            : NSLayoutConstraint?
     var heightStream                            : NSLayoutConstraint?
+    
     //-=-------------------------
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -75,6 +77,36 @@ class StreamListViewController: UIViewController {
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var arrayToShow = [StreamDAO]()
     var timer:Timer?
+    
+    
+    let customOrientationPresenter: Presentr = {
+        
+        //let width = ModalSize.full
+        //let height = ModalSize.custom(size: 550)
+       // let height = ModalSize.fluid(percentage: 0.50)
+        //let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 300))
+      //  let customType = PresentationType.custom(width: width, height: height, center: center)
+       
+        let customType = PresentationType.bottomHalf
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 5.0
+        customPresenter.backgroundOpacity = 1.0
+        customPresenter.dismissOnSwipe = true
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = UIBlurEffectStyle.light
+        
+       
+        return customPresenter
+    }()
+    
+    lazy var popupViewController: ActionSheetViewController = {
+        let popupViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet)
+        
+        return popupViewController as! ActionSheetViewController
+    }()
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -563,6 +595,9 @@ class StreamListViewController: UIViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
+     // let nav = UINavigationController(rootViewController: popupViewController)
+      customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+        /*
         kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
@@ -600,7 +635,7 @@ class StreamListViewController: UIViewController {
         actionController.headerData = "ADD FROM"
         actionController.delegate   =   self
         present(actionController, animated: true, completion: nil)
-        
+        */
     }
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {

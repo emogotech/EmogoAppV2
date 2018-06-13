@@ -113,6 +113,8 @@
 		C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8AC34202895E70023ECD3 /* SwiftyRecordButton.swift */; };
 		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
+		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
+		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
 		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
@@ -590,6 +592,8 @@
 		C8FBD7302015FE7C007C7C1B /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
+		F009A93620D0F88E00051547 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
+		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
 		F040CC852050034900224035 /* HHPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPageView.m; sourceTree = "<group>"; };
@@ -1709,6 +1713,7 @@
 		F4148A191FBD7C3000081900 /* Streams */ = {
 			isa = PBXGroup;
 			children = (
+				F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */,
 				F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */,
 				F4148A201FBD7C7C00081900 /* StreamCell.swift */,
 				F404C0701FDA997500E8ACC2 /* AddContentCell.swift */,
@@ -2111,6 +2116,7 @@
 				F404C0741FDAA02100E8ACC2 /* ViewStreamController.swift */,
 				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
 				F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */,
+				F009A93620D0F88E00051547 /* ActionSheetViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -3065,6 +3071,7 @@
 				F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
 				F4148A391FBDB5CE00081900 /* SHSFlagAccessoryView.m in Sources */,
+				F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */,
 				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */,
 				F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */,
@@ -3274,6 +3281,7 @@
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
 				F4E7587A1FD68501008DB12E /* KDLoadingView.swift in Sources */,
+				F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */,
 				F404C0731FDA998500E8ACC2 /* StreamContentCell.swift in Sources */,
 				F46AC6DD2043E92E00B71102 /* TLPhotosPickerViewController.swift in Sources */,
 				F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */,

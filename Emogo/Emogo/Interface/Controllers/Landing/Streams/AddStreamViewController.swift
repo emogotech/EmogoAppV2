@@ -373,7 +373,7 @@ class AddStreamViewController: UITableViewController {
     // MARK: - CLASS FUNCTION
     // MARK: - Expand Collapse Row
     
-    
+    /*
     func actionForUploadCover(){
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos", subtitle: "1", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
@@ -388,8 +388,33 @@ class AddStreamViewController: UITableViewController {
         actionController.headerData = "SELECT EMOGO COVER"
         actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
-    }
+    }*/
     
+    func actionForUploadCover(){
+    
+//        let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController()
+        let takePhotoAction = UIAlertAction(title: kAlertSheet_TakePhoto, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.actionForCamera()
+            
+        })
+        
+        let selectFromCameraRollAction = UIAlertAction(title: kAlertSheet_SelectFromCameraRoll, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.btnImportAction()
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(takePhotoAction)
+        optionMenu.addAction(selectFromCameraRollAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+   
     func btnImportAction(){
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets

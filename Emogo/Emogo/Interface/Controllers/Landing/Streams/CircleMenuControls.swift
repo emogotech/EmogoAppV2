@@ -190,6 +190,23 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         HUDManager.sharedInstance.showHUD()
         self.getUsersList(type:.start)
     }
+    
+    func actionForAddStream(){
+        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+        self.navigationController?.push(viewController: obj)
+    }
+    
+    func actionForCamera(){
+        let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        ContentList.sharedInstance.arrayContent.removeAll()
+        ContentList.sharedInstance.objStream = nil
+        kContainerNav = ""
+        self.navigationController?.pushNormal(viewController: obj)
+    }
+    
+}
+extension ActionSheetViewController {
+    
     func actionForAddStream(){
         let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
         self.navigationController?.push(viewController: obj)
@@ -226,6 +243,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         let controller = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView)
         self.navigationController?.push(viewController: controller)
     }
+    
+
     func btnImportAction(){
         let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
             //     self?.selectedAssets = assets
