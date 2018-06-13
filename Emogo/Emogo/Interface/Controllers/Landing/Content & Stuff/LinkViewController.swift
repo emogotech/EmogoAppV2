@@ -40,6 +40,7 @@ class LinkViewController: UIViewController {
     
     func prepareLayouts(){
         // Attach datasource and delegate
+        
         self.linkCollectionView.dataSource  = self
         self.linkCollectionView.delegate = self
         linkCollectionView.alwaysBounceVertical = true

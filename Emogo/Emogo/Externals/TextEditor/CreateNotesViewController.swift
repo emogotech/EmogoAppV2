@@ -21,8 +21,17 @@ class CreateNotesViewController: UIViewController {
     @IBOutlet var btnColor: UIButton!
     @IBOutlet var viewContainer: UIView!
     @IBOutlet var optionButtons : [UIButton]!
+    @IBOutlet var viewEditOptions: UIView!
+    @IBOutlet var kWidthConstant: NSLayoutConstraint!
+    @IBOutlet var linkContainerView: UIView!
+    @IBOutlet var viewPreview: UIView!
+    @IBOutlet var kPreviewHeight: NSLayoutConstraint!
+    @IBOutlet var lblPreviewLink: UILabel!
+    @IBOutlet var txtURL: UITextView!
+    @IBOutlet var viewURL: UIView!
 
     var isCommandTapped:Bool! = false
+    var isLinkSelected:Bool! = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +56,6 @@ class CreateNotesViewController: UIViewController {
         btnPhoto.contentMode = .scaleAspectFit
         btnLink.contentMode = .scaleAspectFit
         btnColor.contentMode = .scaleAspectFit
-        configureNaviationBar()
     }
     func configureNaviationBar(){
         //0,122,255
@@ -55,16 +63,27 @@ class CreateNotesViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         let rightButon = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.doneButtonAction))
-        navigationItem.rightBarButtonItem  = rightButon
-        editorView.inputAccessoryView = self.prepareToolBar()
-
+         navigationItem.rightBarButtonItem  = rightButon
+        self.viewEditOptions.isHidden = false
+        if UIDevice.current.modelName.lowercased().contains("iphone 5")  {
+            self.viewEditOptions.isHidden = true
+            self.kWidthConstant.constant = 0
+            editorView.inputAccessoryView = self.prepareToolBar()
+        }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNaviationBar()
+    }
     func prepareToolBar() -> UIToolbar{
         
-      let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50))
+      //let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50))
+   //     let toolbarScroll = UIScrollView()
+         let toolbar = UIToolbar()
+    //    let  backgroundToolbar = UIToolbar()
+        
         var barButtons = [UIBarButtonItem]()
-        // Options
         
         let btnColor = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         btnColor.setImage(#imageLiteral(resourceName: "color_box_active"), for: .normal)
@@ -114,29 +133,36 @@ class CreateNotesViewController: UIViewController {
         btnText.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
         let textBtn = UIBarButtonItem(customView: btnText)
         barButtons.append(textBtn)
-    
         
+       
         
-        
-        
-        toolbar.items = barButtons
         return toolbar
     }
     
     @objc func doneButtonAction(){
-         let image = self.editorView.toImage()
-        let name = NSUUID().uuidString + ".png"
-         let content = ContentDAO(contentData: [:])
-         content.imgPreview = image
-        content.type = PreviewType.notes
-        content.isUploaded = false
-        content.fileName  = name
-        ContentList.sharedInstance.arrayContent.removeAll()
-        ContentList.sharedInstance.arrayContent.insert(content, at: 0)
-        let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-        objPreview.isShowRetake = false
-        objPreview.selectedIndex = 0
-        self.navigationController?.pushNormal(viewController: objPreview)
+        if isLinkSelected {
+            if let url = URL(string: self.txtURL.text) {
+                _ =  self.editorView.becomeFirstResponder()
+                let  value = editorView.contentHTML
+                editorView.html = value + "<a href=\(url.absoluteString)></a>"
+             //   self.editorView.focus()
+               // self.editorView.insertLink(url.absoluteString, title: "AttachmentURL")
+               // self.editorView.focus()
+                self.linkContainerView.isHidden = true
+            }
+        }else {
+            let image = self.editorView.toImage()
+            HUDManager.sharedInstance.showHUD()
+            let name = NSUUID().uuidString + ".png"
+            AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
+                
+                if let fileURL = fileURL {
+                    self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                }else {
+                    HUDManager.sharedInstance.hideHUD()
+                }
+            }
+        }
     }
     
     
@@ -161,6 +187,8 @@ class CreateNotesViewController: UIViewController {
     
     
     @IBAction func btnActionForEditOptions(_ sender: UIButton) {
+        self.linkContainerView.isHidden = true
+        isLinkSelected = false
         switch sender.tag {
         case 101:
             self.view.endEditing(true)
@@ -209,13 +237,15 @@ class CreateNotesViewController: UIViewController {
             openCamera()
             break
         case 105:
-            
             btnText.isSelected = false
             btnAlignment.isSelected = false
             btnHorizontal.isSelected = false
             btnPhoto.isSelected = false
             btnLink.isSelected = true
             btnColor.isSelected = false
+            viewContainer.isHidden = false
+            isLinkSelected = true
+            self.showLinkView()
             break
         case 106:
             self.view.endEditing(true)
@@ -245,6 +275,46 @@ class CreateNotesViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    func showLinkView(){
+        let linkView = LinkPickerView.instanceFromNib()
+        linkView.delegate = self
+        self.presentView(view: linkView)
+        self.linkContainerView.isHidden = true
+        if let myString = UIPasteboard.general.string {
+            var URL:String! = ""
+            
+            let linkDetector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+            let matches = linkDetector?.matches(in: myString, options: [], range: NSRange(location: 0, length: myString.count))
+            for match: NSTextCheckingResult? in matches ?? [NSTextCheckingResult?]() {
+                if match?.resultType == .link {
+                    let url: URL? = match?.url
+                    if let anUrl = url {
+                        print("found URL: \(anUrl)")
+                        URL = anUrl.absoluteString
+                    }
+                }
+            }
+            
+            if !URL.isEmpty {
+                lblPreviewLink.text = URL
+                self.viewPreview.isHidden = false
+                self.kPreviewHeight.constant = 62.0
+            }else {
+                self.viewPreview.isHidden = true
+                self.kPreviewHeight.constant = 0.0
+            }
+        }else {
+            self.viewPreview.isHidden = true
+            self.kPreviewHeight.constant = 0.0
+        }
+        viewPreview.layer.borderWidth = 1.0
+        viewPreview.layer.borderColor = #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)
+        viewPreview.layer.cornerRadius = 5.0
+        viewURL.layer.borderWidth = 1.0
+        viewURL.layer.borderColor = #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)
+        viewURL.layer.cornerRadius = 5.0
     }
     
     
@@ -310,8 +380,19 @@ class CreateNotesViewController: UIViewController {
     }
     
     
-    
-    
+    func createContentAPI(imageURl:String,width:Int,height:Int){
+        APIServiceManager.sharedInstance.apiForCreateContent(contentName: "", contentDescription: self.editorView.contentHTML, coverImage: imageURl, coverImageVideo: "", coverType: PreviewType.notes.rawValue, width: width, height: height) { (contents, errorMSG) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMSG?.isEmpty)! {
+                for obj in contents! {
+                    ContentList.sharedInstance.arrayContent.append(obj)
+                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                    objPreview.isShowRetake = true
+                    self.navigationController?.pushNormal(viewController: objPreview)
+                }
+            }
+        }
+    }
     /*
     // MARK: - Navigation
 
@@ -335,10 +416,15 @@ extension CreateNotesViewController:RichEditorDelegate {
         
     }
     func richEditorLostFocus(_ editor: RichEditorView) {
-        
+        print("focus Lost")
     }
     func richEditorTookFocus(_ editor: RichEditorView) {
         self.viewContainer.isHidden = true
+        print("focus Recieved")
+    }
+    
+    func richEditor(_ editor: RichEditorView, handle action: String) {
+   
     }
     
 }
@@ -391,7 +477,7 @@ extension CreateNotesViewController:TextEditorViewDelegate {
     }
 }
 
-extension CreateNotesViewController:ColorPickerViewDelegate {
+extension CreateNotesViewController:ColorPickerViewDelegate,LinkPickerViewDelegate {
     func selectedBackgroundColor(color: UIColor) {
         _ =  self.editorView.becomeFirstResponder()
         self.editorView.setTextBackgroundColor(color)
@@ -402,7 +488,13 @@ extension CreateNotesViewController:ColorPickerViewDelegate {
         self.editorView.setTextColor(color)
     }
     
-    
+    func selectedContent(content:ContentDAO){
+        
+        if self.editorView.hasRangeSelection == true {
+            self.editorView.insertLink(content.coverImage, title: content.name)
+        }
+    }
+
 }
 
 extension CreateNotesViewController:CustomCameraViewControllerDelegate {

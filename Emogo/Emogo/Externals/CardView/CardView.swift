@@ -6,7 +6,7 @@ import UIKit
 class CardView: UIView {
 
     @IBInspectable var cRadius: CGFloat = 2
-
+    @IBInspectable var borderColor: UIColor = UIColor.clear
     @IBInspectable var shadowOffsetWidth: Int = 0
     @IBInspectable var shadowOffsetHeight: Int = 3
     @IBInspectable var shadowColorr: UIColor? = UIColor.black
@@ -21,6 +21,7 @@ class CardView: UIView {
         layer.shadowOffset = CGSize(width: shadowOffsetWidth, height: shadowOffsetHeight);
         layer.shadowOpacity = shadowOpacityy
         layer.shadowPath = shadowPath.cgPath
+        layer.borderColor = borderColor.cgColor
     }
 
 }

@@ -367,6 +367,8 @@
 		F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */; };
 		F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */; };
 		F4731FE61FC31EA100AA68D8 /* PreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */; };
+		F480777B20D0EFCA008E5BDA /* LinkPickerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F480777920D0EFCA008E5BDA /* LinkPickerViewCell.swift */; };
+		F480777C20D0EFCA008E5BDA /* LinkPickerViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F480777A20D0EFCA008E5BDA /* LinkPickerViewCell.xib */; };
 		F4838AD72084B7BA0034F2B4 /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
 		F4838ADA2084CE840034F2B4 /* ProfileStreamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */; };
 		F4838ADB2084CE840034F2B4 /* ProfileStreamView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4838AD92084CE840034F2B4 /* ProfileStreamView.xib */; };
@@ -868,6 +870,8 @@
 		F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamSearchCell.xib; sourceTree = "<group>"; };
 		F4731FCA1FC301BD00AA68D8 /* VKExpandableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VKExpandableButton.swift; sourceTree = "<group>"; };
 		F4731FE51FC31EA100AA68D8 /* PreviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCell.swift; sourceTree = "<group>"; };
+		F480777920D0EFCA008E5BDA /* LinkPickerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPickerViewCell.swift; sourceTree = "<group>"; };
+		F480777A20D0EFCA008E5BDA /* LinkPickerViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LinkPickerViewCell.xib; sourceTree = "<group>"; };
 		F4838AD52084B7BA0034F2B4 /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
 		F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
 		F4838AD82084CE840034F2B4 /* ProfileStreamView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStreamView.swift; sourceTree = "<group>"; };
@@ -1644,6 +1648,8 @@
 			isa = PBXGroup;
 			children = (
 				F40D3E5C20CE5B9D008ED566 /* ColorPickerView.swift */,
+				F480777920D0EFCA008E5BDA /* LinkPickerViewCell.swift */,
+				F480777A20D0EFCA008E5BDA /* LinkPickerViewCell.xib */,
 				F40D3E5B20CE5B9C008ED566 /* ColorPickerView.xib */,
 				F40D3E5E20CE5B9E008ED566 /* LinkPickerView.swift */,
 				F40D3E5F20CE5B9F008ED566 /* LinkPickerView.xib */,
@@ -2575,6 +2581,7 @@
 				F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */,
 				F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */,
 				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
+				F480777C20D0EFCA008E5BDA /* LinkPickerViewCell.xib in Resources */,
 				F4C21041209B366B0094A7FC /* sticker_resize.png in Resources */,
 				F4C20FEA209AE4E80094A7FC /* FilterGradientCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
@@ -3150,6 +3157,7 @@
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */,
 				F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */,
+				F480777B20D0EFCA008E5BDA /* LinkPickerViewCell.swift in Sources */,
 				F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
