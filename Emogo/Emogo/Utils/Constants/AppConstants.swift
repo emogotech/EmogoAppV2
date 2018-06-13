@@ -94,6 +94,7 @@ let kStoryboardID_VideoEditorView = "videoEditorView"
 let kStoryboardID_CountryPickerView = "countryPickerView"
 let kStoryboardID_CreateNotesView = "createNotesView"
 let kStoryboardID_LikeListView = "likeListView"
+let kStoryboardID_ActionSheet = "actionsheetView"
 
 
 
@@ -138,7 +139,7 @@ let kCell_MyStuffCollectionCell = "myStuffCollectionCell"
 let kHeader_ProfileStreamView = "profileStreamView"
 let kCell_FollowerCell = "followerCell"
 let kCell_likeListCell = "likeListCell"
-
+let kCell_ActionSheetCell = "actionSheetCell"
 let kCell_ProfileStreamCell = "profileStreamCell"
 let kSegue_AddCollaboratorsView = "addColabSegue"
 let kSegue_ContainerSegue = "containerSegue"
@@ -229,6 +230,8 @@ let kAlertSheet_Spam = "It's Spam"
 let kAlertSheet_Inappropiate = "It's inappropiate"
 let kAlertSheet_SaveToGallery = "Save To Gallery"
 let kAlertSheet_SaveToMyStuff = "Save To MyStuff"
+let kAlertSheet_TakePhoto = "Take Photo"
+let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
 
 
 //Notification Name`

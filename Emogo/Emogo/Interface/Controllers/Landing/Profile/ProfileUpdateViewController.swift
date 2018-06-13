@@ -8,6 +8,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import CropViewController
 
 class ProfileUpdateViewController: UITableViewController {
     
@@ -22,6 +23,7 @@ class ProfileUpdateViewController: UITableViewController {
 
     var imageToUpload:UIImage!
     var fileName:String! = ""
+    var delegate:CustomCameraViewControllerDelegate?
     
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
@@ -125,6 +127,34 @@ class ProfileUpdateViewController: UITableViewController {
     
     @objc func profilepicUpload() {
         
+        let optionMenu = UIAlertController()
+        let takePhotoAction = UIAlertAction(title: kAlertSheet_TakePhoto, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.actionForCamera()
+            
+        })
+        
+        let selectFromCameraRollAction = UIAlertAction(title: kAlertSheet_SelectFromCameraRoll, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.btnImportAction()
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(takePhotoAction)
+        optionMenu.addAction(selectFromCameraRollAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+        
+    
+    }
+    @objc func btnCloseAction(){
+        self.navigationController?.popViewAsDismiss()
+    }
+    
+    func actionForCamera(){
         let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
         cameraViewController.isDismiss = true
         cameraViewController.delegate = self
@@ -132,10 +162,51 @@ class ProfileUpdateViewController: UITableViewController {
         ContentList.sharedInstance.arrayContent.removeAll()
         let nav = UINavigationController(rootViewController: cameraViewController)
         self.present(nav, animated: true, completion: nil)
-        
     }
-    @objc func btnCloseAction(){
-        self.navigationController?.popViewAsDismiss()
+    
+    func btnImportAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            if assets.count != 0 {
+                self?.prepareCoverImage(asset:assets[0])
+            }
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = [TLPHAsset]()
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 1
+        configure.muteAudio = true
+        configure.usedCameraButton = false
+        configure.allowedVideo = false
+        configure.usedPrefetch = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func prepareCoverImage(asset:TLPHAsset){
+        if let image = asset.fullResolutionImage {
+            self.presentCropperWithImage(image: image)
+            return
+        }
+        asset.cloudImageDownload(progressBlock: { (_) in
+        }, completionBlock: { (image) in
+            if let image = image {
+                self.presentCropperWithImage(image: image)
+            }
+        })
+    }
+    
+    func presentCropperWithImage(image:UIImage){
+        let croppingStyle = CropViewCroppingStyle.default
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
+        cropController.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // your code here
+            self.present(cropController, animated: true, completion: nil)
+        }
     }
 
     func datePickerTapped() {
@@ -245,7 +316,31 @@ extension ProfileUpdateViewController:UITextViewDelegate {
         }
         return true
     }
-    
+}
+
+extension ProfileUpdateViewController:CropViewControllerDelegate {
+        func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+            self.dismiss(animated: true, completion: nil)
+            if self.delegate != nil {
+                self.dismiss(animated: true, completion: {
+                    self.delegate?.dismissWith(image: image)
+                })
+            }
+            self.setCoverImage(image: image)
+        }
+        
+        func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+            self.dismiss(animated: true, completion: nil)
+            if self.delegate != nil {
+                
+                self.dismiss(animated: true, completion: {
+                    //  self.delegate?.dismissWith(image: cropViewController.image)
+                })
+            }
+            
+        }
+    }
+
 //    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 //        if (text == "\n") {
 //            if textView == txtBio {
@@ -261,5 +356,5 @@ extension ProfileUpdateViewController:UITextViewDelegate {
 //        return true
 //    }
 
-}
+
 
