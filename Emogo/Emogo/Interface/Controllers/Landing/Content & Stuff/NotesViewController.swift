@@ -30,6 +30,8 @@ class NotesViewController: UIViewController {
         super.viewWillAppear(animated)
         self.configureNavigationWithTitle()
         let addNote = UIBarButtonItem(title: "ADD NEW", style: .plain, target: self, action: #selector(self.btnActionForAddNew))
+        self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
+        self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationItem.rightBarButtonItem = addNote
     }
     
