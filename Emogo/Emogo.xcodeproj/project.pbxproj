@@ -119,6 +119,9 @@
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
 		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
 		F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */; };
+		F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */; };
+		F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */; };
+		F0FDA21220D26C56006BA09A /* PresenterNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA21120D26C56006BA09A /* PresenterNew.swift */; };
 		F401DFAC1FE2893100BD7DDA /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */; };
 		F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */; };
 		F401DFB01FE28DCC00BD7DDA /* MyStuffViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */; };
@@ -605,6 +608,9 @@
 		F06256D6209C2A0700AE0558 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListViewController.swift; sourceTree = "<group>"; };
 		F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
+		F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStreamController.swift; sourceTree = "<group>"; };
+		F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStreamController.swift; sourceTree = "<group>"; };
+		F0FDA21120D26C56006BA09A /* PresenterNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterNew.swift; sourceTree = "<group>"; };
 		F401DFAB1FE2893100BD7DDA /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		F401DFAD1FE28A6200BD7DDA /* Stuff.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Stuff.storyboard; sourceTree = "<group>"; };
 		F401DFAF1FE28DCC00BD7DDA /* MyStuffViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStuffViewController.swift; sourceTree = "<group>"; };
@@ -1260,6 +1266,7 @@
 		33BCB0321FBB353E004FF634 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F0FDA20E20D26AD5006BA09A /* Presenter */,
 				33BCB0331FBB353E004FF634 /* APIManager */,
 				33BCB0351FBB353E004FF634 /* Constants */,
 				33BCB0381FBB353E004FF634 /* Core */,
@@ -1498,6 +1505,14 @@
 				F040CC852050034900224035 /* HHPageView.m */,
 			);
 			path = PageController;
+			sourceTree = "<group>";
+		};
+		F0FDA20E20D26AD5006BA09A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F0FDA21120D26C56006BA09A /* PresenterNew.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		F401DFAA1FE2890F00BD7DDA /* Content & Stuff */ = {
@@ -2120,6 +2135,8 @@
 				F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */,
 				F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */,
 				F009A93620D0F88E00051547 /* ActionSheetViewController.swift */,
+				F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */,
+				F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -3127,6 +3144,7 @@
 				F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */,
 				F41FD95A20A9583F00FA8623 /* ColorsCollectionViewDelegate.swift in Sources */,
 				F43612F51FD69B3200788FFE /* AGSaturationFilter.metal in Sources */,
+				F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */,
 				F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */,
 				F4402F751FCD918400152D01 /* UITextField+fixCaretPosition.swift in Sources */,
 				F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */,
@@ -3174,6 +3192,7 @@
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */,
 				F40CA39420B5814F005EE0B0 /* PMVideoManager.swift in Sources */,
+				F0FDA21220D26C56006BA09A /* PresenterNew.swift in Sources */,
 				F4402F731FCD918400152D01 /* SkyFloatingLabelTextField.swift in Sources */,
 				F49DF30D20060E05009A2D3A /* FLAnimatedImageView+WebCache.m in Sources */,
 				F4402F681FCD403400152D01 /* AddCollaboratorsViewController.swift in Sources */,
@@ -3233,6 +3252,7 @@
 				F41FD95120A9583F00FA8623 /* CropRectView.swift in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
+				F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */,
 				F040CC872050034B00224035 /* HHPageView.m in Sources */,
 				33DAB2FB1FC6B9AC0053AC23 /* FSPagerViewCell.swift in Sources */,
 				F42217C32007521A002D4E4E /* TPKeyboardAvoidingCollectionView.m in Sources */,

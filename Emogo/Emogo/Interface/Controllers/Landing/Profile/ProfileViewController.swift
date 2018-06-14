@@ -767,6 +767,8 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         isEdited = true
+        
+      
         let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
             let stream = self.arrayMyStreams[sender.tag]
             obj.streamID = stream.ID
@@ -775,9 +777,11 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForHeaderEdit(sender:UIButton) {
         isEdited = true
-        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
-            self.navigationController?.push(viewController: obj)
+        let dynamicVC = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView)
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: dynamicVC, animated: true, completion: nil)
+//        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+//            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
+//            self.navigationController?.push(viewController: obj)
     }
     
     

@@ -1411,11 +1411,11 @@ extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
 
 extension StreamListViewController : ActionSheetViewControllerDelegate {
  
-    func btnActionForMyStuff() {
+  //  func btnActionForMyStuff() {
        
 //        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
 //        self.navigationController?.push(viewController: controller)
-    }
+   // }
    
 }
 
