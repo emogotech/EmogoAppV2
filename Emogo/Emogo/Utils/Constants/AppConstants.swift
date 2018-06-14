@@ -96,6 +96,8 @@ let kStoryboardID_CreateNotesView = "createNotesView"
 let kStoryboardID_LikeListView = "likeListView"
 let kStoryboardID_ActionSheet = "actionsheetView"
 let kStoryboardID_NotesView = "notesView"
+let kStoryboardID_CreateStreamView = "createStreamView"
+let kStoryboardID_EditStreamView = "editStreamView"
 
 
 let iMsgSegue_Root                              = "MessagesViewController"

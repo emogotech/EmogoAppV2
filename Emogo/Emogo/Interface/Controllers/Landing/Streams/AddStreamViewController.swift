@@ -105,7 +105,7 @@ class AddStreamViewController: UITableViewController {
         
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
-            self.getStream()
+           self.getStream()
         }else {
             isPerform = true
             self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
