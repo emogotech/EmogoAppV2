@@ -885,8 +885,8 @@
                                             </button>
                                             <button hidden="YES" opaque="NO" tag="102" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gpb-Qv-tZa">
                                                 <rect key="frame" x="6" y="197" width="40" height="43"/>
-                                                <state key="normal" image="icon_list"/>
-                                                <state key="selected" image="icon_list_active"/>
+                                                <state key="normal" image="numberBullet-icon"/>
+                                                <state key="selected" image="number-bullet-selected"/>
                                                 <connections>
                                                     <action selector="btnActionForEditOptions:" destination="bZt-6g-AOS" eventType="touchUpInside" id="NLL-ck-YIF"/>
                                                 </connections>
@@ -894,8 +894,8 @@
                                             <button hidden="YES" opaque="NO" tag="107" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VbR-un-Lyk">
                                                 <rect key="frame" x="6" y="246" width="40" height="43"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                <state key="normal" image="icon_sentence"/>
-                                                <state key="selected" image="Group 6"/>
+                                                <state key="normal" image="icon_list"/>
+                                                <state key="selected" image="icon_list_active"/>
                                                 <connections>
                                                     <action selector="btnActionForEditOptions:" destination="bZt-6g-AOS" eventType="touchUpInside" id="2fC-YY-gaL"/>
                                                 </connections>
@@ -1081,6 +1081,8 @@
         <image name="link_block" width="40" height="43"/>
         <image name="link_block_active" width="40" height="43"/>
         <image name="next_icon" width="12" height="20"/>
+        <image name="number-bullet-selected" width="42" height="45"/>
+        <image name="numberBullet-icon" width="40" height="43"/>
         <image name="photo_video" width="40" height="43"/>
         <image name="photo_video_active" width="40" height="43"/>
         <image name="transparentBG" width="375" height="665"/>

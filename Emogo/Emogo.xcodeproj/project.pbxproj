@@ -461,6 +461,8 @@
 		F4F2A0DF2057D37000ED76D7 /* DeeplinkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */; };
 		F4FC55F420D241B3006C22E1 /* ActionSheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F320D241B3006C22E1 /* ActionSheetModel.swift */; };
 		F4FC55F620D25D7A006C22E1 /* NotesPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */; };
+		F4FC55F820D2721D006C22E1 /* ContentCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */; };
+		F4FC55FA20D27DAE006C22E1 /* ContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -979,6 +981,8 @@
 		F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkDAO.swift; sourceTree = "<group>"; };
 		F4FC55F320D241B3006C22E1 /* ActionSheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetModel.swift; sourceTree = "<group>"; };
 		F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesPreviewViewController.swift; sourceTree = "<group>"; };
+		F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewController.swift; sourceTree = "<group>"; };
+		F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewCell.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1531,6 +1535,7 @@
 				F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */,
 				F480778020D1441B008E5BDA /* NotesViewController.swift */,
 				F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */,
+				F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */,
 			);
 			path = "Content & Stuff";
 			sourceTree = "<group>";
@@ -1749,6 +1754,7 @@
 				F433EDA320174160004FEB93 /* StreamViewHeader.xib */,
 				F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
+				F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -3188,6 +3194,7 @@
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
+				F4FC55F820D2721D006C22E1 /* ContentCollectionViewController.swift in Sources */,
 				F46AB0C920BC2C3300229031 /* VideoEditor+Keyboard.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */,
@@ -3258,6 +3265,7 @@
 				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				F41FD95120A9583F00FA8623 /* CropRectView.swift in Sources */,
 				F44FFCA01FD0396E00F14469 /* ShapeDAO.swift in Sources */,
+				F4FC55FA20D27DAE006C22E1 /* ContentViewCell.swift in Sources */,
 				F403765A1FDE9F830007C696 /* NotificationCenter+ObserveOnce.swift in Sources */,
 				F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */,
 				F040CC872050034B00224035 /* HHPageView.m in Sources */,

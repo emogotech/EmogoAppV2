@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "550661035.498493"
+            timestampString = "550668166.761181"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1068"
@@ -650,12 +650,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550661035.499437"
+            timestampString = "550668166.761966"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "420"
             endingLineNumber = "420"
-            landmarkName = "presentView(view:)"
+            landmarkName = "openCamera()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -666,12 +666,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550661035.499519"
+            timestampString = "550668166.762058"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "425"
             endingLineNumber = "425"
-            landmarkName = "presentView(view:)"
+            landmarkName = "uploadImage(image:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -714,12 +714,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550661035.499594"
+            timestampString = "550668166.762143"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "442"
             endingLineNumber = "442"
-            landmarkName = "uploadImage(image:)"
+            landmarkName = "createContentAPI(imageURl:width:height:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -730,12 +730,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Externals/TextEditor/CreateNotesViewController.swift"
-            timestampString = "550661035.499667"
+            timestampString = "550668166.762228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "440"
             endingLineNumber = "440"
-            landmarkName = "uploadImage(image:)"
+            landmarkName = "createContentAPI(imageURl:width:height:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

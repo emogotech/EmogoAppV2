@@ -142,7 +142,7 @@ class CreateNotesViewController: UIViewController {
         barButtons.append(horizontalBtn)
         
         let btnAlignment = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnAlignment.setImage(#imageLiteral(resourceName: "icon_list"), for: .normal)
+        btnAlignment.setImage(#imageLiteral(resourceName: "numberBullet-icon"), for: .normal)
         btnAlignment.tag  = 102
         btnAlignment.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
         let allignBtn = UIBarButtonItem(customView: btnAlignment)
