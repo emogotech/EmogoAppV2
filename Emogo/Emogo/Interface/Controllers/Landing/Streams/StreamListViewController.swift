@@ -595,12 +595,13 @@ class StreamListViewController: UIViewController {
             self.timer?.invalidate()
             self.timer = nil
         }
-    // let nav = UINavigationController(rootViewController: popupViewController)
-      customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
-        /*
         kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
+        popupViewController.delegate = self
+        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+        /*
+       
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()
@@ -1409,13 +1410,5 @@ extension StreamListViewController : ActionSheetControllerHeaderActionDelegate {
     }
 }
 
-extension StreamListViewController : ActionSheetViewControllerDelegate {
- 
-  //  func btnActionForMyStuff() {
-       
-//        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
-//        self.navigationController?.push(viewController: controller)
-   // }
-   
-}
+
 
