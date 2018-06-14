@@ -76,7 +76,7 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-     let title = self.menuItems.arrayActions[indexPath.row].iconName.capitalized
+     let title = self.menuItems.arrayActions[indexPath.row].iconName
         var strType:String! = ""
         if title == "Photo/Videos" {
             strType = "1"

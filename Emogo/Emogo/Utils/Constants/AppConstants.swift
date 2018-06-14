@@ -232,7 +232,7 @@ let kAlertSheet_Spam = "It's Spam"
 let kAlertSheet_Inappropiate = "It's inappropiate"
 let kAlertSheet_SaveToGallery = "Save To Gallery"
 let kAlertSheet_SaveToMyStuff = "Save To MyStuff"
-let kAlertSheet_TakePhoto = "Take Photo"
+let kAlertSheet_TakePhoto = "Take photo"
 let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
 
 

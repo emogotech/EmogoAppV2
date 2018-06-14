@@ -767,10 +767,10 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         isEdited = true
-        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
         let stream = self.arrayMyStreams[sender.tag]
-        createVC.streamID = stream.ID
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: createVC, animated: true, completion: nil)
+        editVC.streamID = stream.ID
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
       
 //        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
 //            let stream = self.arrayMyStreams[sender.tag]
@@ -780,8 +780,10 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForHeaderEdit(sender:UIButton) {
         isEdited = true
-        let dynamicVC = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView)
-        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: dynamicVC, animated: true, completion: nil)
+        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+         editVC.streamID = UserDAO.sharedInstance.user.stream?.ID
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
+        
 //        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
 //            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
 //            self.navigationController?.push(viewController: obj)
@@ -1016,8 +1018,11 @@ class ProfileViewController: UIViewController {
       
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
-     
+        let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
+        actionVC.delegate = self
+        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
         
+        /*
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()
@@ -1052,7 +1057,7 @@ class ProfileViewController: UIViewController {
         actionController.headerData = "ADD FROM"
         actionController.delegate   =   self
         present(actionController, animated: true, completion: nil)
-        
+        */
     }
     
     
@@ -1079,8 +1084,10 @@ class ProfileViewController: UIViewController {
     }
     
     func actionForAddStream(){
-        let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
-        self.navigationController?.push(viewController: controller)
+        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
+//        let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
+//        self.navigationController?.push(viewController: controller)
     }
     
     func btnImportAction(){

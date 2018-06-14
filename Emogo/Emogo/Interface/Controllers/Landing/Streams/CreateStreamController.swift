@@ -420,3 +420,48 @@ extension CreateStreamController:CropViewControllerDelegate {
         }
     }
 }
+
+extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == tfDescription {
+            tfDescription.becomeFirstResponder()
+        }else{
+            tfEmogoTitle.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        self.lblCaption.isHidden = textView.text.isEmpty
+        
+        if self.tfDescription.contentSize.height > contentRowHeight {
+            contentRowHeight = self.tfDescription.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            tfDescription.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+    }
+}
+extension CreateStreamController {
+    
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if self.isExpandRow  && indexPath.row == 3{
+            return 340.0
+        }else if indexPath.row == 1 {
+            return contentRowHeight  + 30
+        }else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
+        }
+    }
+}

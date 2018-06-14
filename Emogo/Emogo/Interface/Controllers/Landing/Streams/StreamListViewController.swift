@@ -78,7 +78,7 @@ class StreamListViewController: UIViewController {
     var arrayToShow = [StreamDAO]()
     var timer:Timer?
     
-    
+    /*
     let customOrientationPresenter: Presentr = {
         
         //let width = ModalSize.full
@@ -106,7 +106,7 @@ class StreamListViewController: UIViewController {
         let popupViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet)
         
         return popupViewController as! ActionSheetViewController
-    }()
+    }()*/
     
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -598,8 +598,13 @@ class StreamListViewController: UIViewController {
         kDefault?.set(true, forKey: kBounceAnimation)
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
-        popupViewController.delegate = self
-        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+        
+        let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
+        actionVC.delegate = self
+        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
+        
+//        popupViewController.delegate = self
+//        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
         /*
        
         let actionController = ActionSheetController()

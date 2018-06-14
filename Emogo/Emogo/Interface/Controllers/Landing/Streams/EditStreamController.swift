@@ -59,6 +59,7 @@ class EditStreamController: UITableViewController {
         self.switchEmogoPrivate.onImage = UIImage(named: "unlockSwitch")
         self.switchMakeEmogoGlobal.onImage = UIImage(named: "unlockSwitch")
         self.switchAddContent.onImage = UIImage(named: "unlockSwitch")
+        self.prepareLayouts()
        
     }
 
@@ -67,6 +68,47 @@ class EditStreamController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Prepare Layouts
+    
+    private func prepareLayouts(){
+        
+        tfEmogoTitle.placeholder = "Emogo Title"
+        tfEmogoTitle.title = "Emogo Title"
+        tfDescription.placeholder = "CAPTION(OPTIONAL)"
+        tfDescription.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        tfEmogoTitle.selectedLineColor = .clear
+        self.lblCaption.text = "CAPTION(OPTIONAL)"
+        self.lblCaption.font = UIFont.systemFont(ofSize: 13)
+        if self.tfDescription.text.count > 0 {
+            self.lblCaption.isHidden = false
+        }else{
+            self.lblCaption.isHidden = true
+        }
+        self.tableView.tableFooterView = UIView()
+       
+        tfEmogoTitle.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        self.tfEmogoTitle.maxLength = 50
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 60
+        
+        self.imgCover.contentMode = .scaleAspectFill
+        if self.streamID != nil {
+            self.getStream()
+        }else {
+            isPerform = true
+            //           self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            //            self.tableView.reloadData()
+        }
+        self.imgCover.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
+        tap.numberOfTapsRequired = 1
+        self.imgCover.addGestureRecognizer(tap)
+        // If Stream is public
+        //self.rowHieght.constant = 0.0
+        self.isExpandRow = false
+        
+        
+    }
     //MARK:- Action For Buttons
     
     @IBAction func switchActionForAddContent(_ sender: PMSwitch) {
@@ -114,11 +156,108 @@ class EditStreamController: UITableViewController {
         }
     }
     
+    
+    func prepareForEditStream(){
+        if self.objStream != nil {
+            self.title =  self.objStream?.title.trim()
+            tfEmogoTitle.text = self.objStream?.title.trim()
+            tfDescription.text = self.objStream?.description.trim()
+            if !(objStream?.coverImage.trim().isEmpty)!  {
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, handler: { (image, _) in
+                    // self.imgCover.image = image
+                    self.imgCover.backgroundColor = image?.getColors().background
+                })
+                self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
+                self.strCoverImage = objStream?.coverImage
+            }
+           
+            if self.objStream?.type.lowercased() == "public"{
+                self.switchEmogoPrivate.isOn = false
+            }else {
+                self.switchEmogoPrivate.isOn = true
+                streamType = "Private"
+            }
+            
+            // If Editor is Creator
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                self.prepareEdit(isEnable: true)
+                 if !self.switchEmogoPrivate.isOn {
+                      
+                    }
+                    self.selectedCollaborators = (self.objStream?.arrayColab)!
+                    if self.selectedCollaborators.count != 0 {
+                       
+                        self.isExpandRow = true
+                      
+                    }
+                
+            }else {
+                // Colab is Logged in as Editor
+                self.prepareEdit(isEnable: false)
+               
+                if self.switchAddPeople.isOn == true {
+                    self.switchAddPeople.isUserInteractionEnabled  = true
+                }else {
+                    self.switchAddPeople.isUserInteractionEnabled  = false
+                }
+                
+                if self.switchAddContent.isOn == true {
+                    self.switchAddContent.isUserInteractionEnabled  = true
+                }else {
+                    self.switchAddContent.isUserInteractionEnabled  = false
+                }
+                if self.selectedCollaborators.count != 0 {
+                   // self.rowHieght.constant = 325.0
+                    self.isExpandRow = true
+                  
+                }
+                
+            }
+            
+            isPerform = true
+           // self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+        }
+        
+        if self.tfDescription.text.count > 0 {
+            self.lblCaption.isHidden = false
+        }else{
+            self.lblCaption.isHidden = true
+        }
+        
+        if self.tfDescription.contentSize.height > contentRowHeight {
+            contentRowHeight = self.tfDescription.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
+        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
+        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
+        
+        self.tableView.reloadData()
+    }
+    
+    func prepareEdit(isEnable:Bool) {
+        self.tfEmogoTitle.isUserInteractionEnabled = isEnable
+        self.tfDescription.isUserInteractionEnabled = isEnable
+        self.btnChangeCover.isUserInteractionEnabled = isEnable
+       switchEmogoPrivate.isUserInteractionEnabled = isEnable
+       
+    }
     func configureCollaboatorsRowExpandCollapse() {
         self.reloadIndex(index: 3)
     }
     
-    
+    func getStream(){
+        HUDManager.sharedInstance.showHUD()
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: self.streamID) { (stream, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                self.objStream = stream
+                self.prepareForEditStream()
+            }else {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     func reloadIndex(index:Int) {
                 self.tableView.beginUpdates()
                 let index = IndexPath(row: index, section: 0)
@@ -317,6 +456,51 @@ extension EditStreamController: CropViewControllerDelegate {
             self.dismiss(animated: true, completion: {
                 //  self.delegate?.dismissWith(image: cropViewController.image)
             })
+        }
+    }
+}
+
+extension EditStreamController :UITextViewDelegate, UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == tfDescription {
+            tfDescription.becomeFirstResponder()
+        }else{
+            tfEmogoTitle.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        self.lblCaption.isHidden = textView.text.isEmpty
+        
+        if self.tfDescription.contentSize.height > contentRowHeight {
+            contentRowHeight = self.tfDescription.contentSize.height
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            tfDescription.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+    }
+}
+extension EditStreamController {
+    
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if self.isExpandRow  && indexPath.row == 3{
+            return 340.0
+        }else if indexPath.row == 1 {
+            return contentRowHeight  + 30
+        }else {
+            return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
 }
