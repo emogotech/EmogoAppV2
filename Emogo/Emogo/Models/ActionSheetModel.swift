@@ -26,7 +26,7 @@ class  ActionSheetModel {
         menu = Menu(icon: UIImage(named: "action_link_icon")!, name: "Link")
         arrayActions.append(menu)
         
-        menu = Menu(icon: UIImage(named: "action_link_icon")!, name: "Note")
+        menu = Menu(icon: UIImage(named: "note_icon")!, name: "Note")
         arrayActions.append(menu)
         
         menu = Menu(icon: UIImage(named: "action_giphy_icon")!, name: "Gif")

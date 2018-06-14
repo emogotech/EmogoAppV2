@@ -55,7 +55,10 @@ class EditStreamController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.switchAddPeople.onImage = UIImage(named: "unlockSwitch")
+        self.switchEmogoPrivate.onImage = UIImage(named: "unlockSwitch")
+        self.switchMakeEmogoGlobal.onImage = UIImage(named: "unlockSwitch")
+        self.switchAddContent.onImage = UIImage(named: "unlockSwitch")
        
     }
 
@@ -63,23 +66,37 @@ class EditStreamController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK:- Action For Buttons
     
-    @IBAction func switchActionForAddContent(_ sender: Any) {
+    @IBAction func switchActionForAddContent(_ sender: PMSwitch) {
+        self.switchAddContent.isOn = sender.isOn
+        self.switchAddContent.onImage = UIImage(named: "lockSwitch")
+        print(self.switchAddContent.isOn)
+    }
+    
+    @IBAction func switchActionForAddPeople(_ sender: PMSwitch) {
+        self.switchAddPeople.isOn = sender.isOn
+        self.switchAddPeople.onImage = UIImage(named: "lockSwitch")
         
     }
     @IBAction func btnChangeCover(_ sender: Any) {
         actionForUploadCover()
     }
-    @IBAction func switchActionForEmogoGlobal(_ sender: Any) {
+    @IBAction func switchActionForEmogoGlobal(_ sender: PMSwitch) {
+        sender.isOn = !sender.isOn
+        if self.switchMakeEmogoGlobal.isOn {
+            streamType = "Public"
+            self.switchMakeEmogoGlobal.onImage = UIImage(named: "lockSwitch")
+        }
     }
-    @IBAction func switchActionForAddPeople(_ sender: Any) {
-    }
+   
     
     @IBAction func switchActionForEmogoPrivate(_ sender: PMSwitch) {
         
         sender.isOn = !sender.isOn
         if self.switchEmogoPrivate.isOn {
+            self.switchEmogoPrivate.onImage = UIImage(named: "lockSwitch")
             streamType = "Private"
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false
@@ -88,8 +105,6 @@ class EditStreamController: UITableViewController {
            
         }else{
             streamType = "Public"
-         
-            
             self.isExpandRow = false
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false

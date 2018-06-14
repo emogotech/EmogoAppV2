@@ -19,8 +19,34 @@ class PresenterNew: NSObject {
     //MARK:- All Presenter
     
     static let CreateStreamPresenter: Presentr = {
+        let size = UIScreen.main.bounds.size.height - 657
+        let width = ModalSize.full
+        let height = ModalSize.custom(size: 667)
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+       
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 15.0
+        customPresenter.backgroundOpacity = 1.0
+        customPresenter.dismissOnSwipe = true
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = UIBlurEffectStyle.light
         
-        let customType = PresentationType.bottomHalf
+        
+        return customPresenter
+    }()
+    
+    
+    static let EditStreamPresenter: Presentr = {
+        let size = UIScreen.main.bounds.size.height - 657
+        let width = ModalSize.full
+        let height = ModalSize.custom(size: 667)
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
         customPresenter.dismissTransitionType = .crossDissolve

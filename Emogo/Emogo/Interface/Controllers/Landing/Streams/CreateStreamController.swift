@@ -56,13 +56,7 @@ class CreateStreamController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.tableFooterView = UIView()
-
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        tfEmogoTitle.resignFirstResponder()
-        
+        tfEmogoTitle.becomeFirstResponder()
         let keyboardToolBar = UIToolbar()
         keyboardToolBar.sizeToFit()
         
@@ -75,6 +69,11 @@ class CreateStreamController: UITableViewController {
         
         tfEmogoTitle.inputAccessoryView = keyboardToolBar
         tfDescription.inputAccessoryView = keyboardToolBar
+        self.prepareLayouts()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+       
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,6 +84,8 @@ class CreateStreamController: UITableViewController {
     @objc func doneClicked() {
         view.endEditing(true)
     }
+   
+    
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
@@ -101,7 +102,8 @@ class CreateStreamController: UITableViewController {
         }else{
             self.lblCaption.isHidden = true
         }
-        
+        self.tableView.tableFooterView = UIView()
+        self.switchForEmogoPrivate.offImage = UIImage(named: "unlockSwitch")
         tfEmogoTitle.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.tfEmogoTitle.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -112,8 +114,8 @@ class CreateStreamController: UITableViewController {
             //self.getStream()
         }else {
             isPerform = true
-            self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
-            self.tableView.reloadData()
+//           self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+//            self.tableView.reloadData()
         }
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
@@ -122,18 +124,24 @@ class CreateStreamController: UITableViewController {
         // If Stream is public
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
+        
+   
     }
     //MARK:- action for buttons
     
     @IBAction func btnActionForAddCoverImage(_ sender: Any) {
         self.actionForUploadCover()
     }
-    @IBAction func switchActionForEmogoPrivate(_ sender: Any) {
+    @IBAction func switchActionForEmogoPrivate(_ sender: PMSwitch) {
+        sender.isOn = !sender.isOn
+        if self.switchForEmogoPrivate.isOn {
+            self.switchForEmogoPrivate.onImage = UIImage(named: "lockSwitch")
+            streamType = "Private"
+        }
     }
     
-    
     func configureCollaboatorsRowExpandCollapse() {
-        self.reloadIndex(index: 3)
+        self.reloadIndex(index: 2)
     }
     func reloadIndex(index:Int) {
         self.tableView.beginUpdates()

@@ -328,11 +328,15 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func editStreamAction(sender:UIButton){
-        if self.objStream != nil {
-            let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-            obj.streamID = self.objStream?.streamID
-            self.navigationController?.push(viewController: obj)
-        }
+       if self.objStream != nil {
+        
+        let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+        editVC.streamID = self.objStream?.streamID
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
+//            let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+//            obj.streamID = self.objStream?.streamID
+//            self.navigationController?.push(viewController: obj)
+       }
     }
     
     @objc func likeStreamAction(sender:UIButton){

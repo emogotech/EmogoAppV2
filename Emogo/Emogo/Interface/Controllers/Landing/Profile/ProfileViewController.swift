@@ -767,12 +767,15 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         isEdited = true
-        
+        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        let stream = self.arrayMyStreams[sender.tag]
+        createVC.streamID = stream.ID
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: createVC, animated: true, completion: nil)
       
-        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-            let stream = self.arrayMyStreams[sender.tag]
-            obj.streamID = stream.ID
-            self.navigationController?.push(viewController: obj)
+//        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+//            let stream = self.arrayMyStreams[sender.tag]
+//            obj.streamID = stream.ID
+//            self.navigationController?.push(viewController: obj)
     }
     
     @objc func btnActionForHeaderEdit(sender:UIButton) {
@@ -1013,6 +1016,8 @@ class ProfileViewController: UIViewController {
       
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
+     
+        
         let actionController = ActionSheetController()
         actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
             self.btnImportAction()
