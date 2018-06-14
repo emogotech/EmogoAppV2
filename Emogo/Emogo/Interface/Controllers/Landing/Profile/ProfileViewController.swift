@@ -1318,8 +1318,10 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 isEdited = true
                 ContentList.sharedInstance.arrayContent = array
                 if ContentList.sharedInstance.arrayContent.count != 0 {
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.currentIndex = indexPath.row
+                    //
+                   // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    let objPreview = kStoryboardStuff.instantiateViewController(withIdentifier: "contentCollectionView")
+                //    objPreview.currentIndex = indexPath.row
                     self.navigationController?.push(viewController: objPreview)
                 }
             }
