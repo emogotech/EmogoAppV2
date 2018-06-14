@@ -335,3 +335,33 @@ extension StreamListViewController {
     
 }
 
+extension StreamListViewController : ActionSheetViewControllerDelegate {
+    func didSelectAction(type:String) {
+        switch type {
+        case "1":
+            self.btnImportAction()
+            break
+        case "2":
+            self.btnCameraAction()
+            break
+        case "3":
+            self.btnActionForLink()
+            break
+        case "4":
+            self.btnActionForNotes()
+            break
+        case "5":
+            self.btnActionForGiphy()
+            break
+        case "6":
+            self.btnActionForMyStuff()
+            break
+        case "7":
+            self.actionForAddStream()
+            break
+        default:
+            break
+        }
+    }
+}
+

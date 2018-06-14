@@ -9,6 +9,10 @@
 import UIKit
 import RichEditorView
 
+protocol CreateNotesViewControllerDelegate {
+    func updatedNotes(content:ContentDAO)
+}
+
 class CreateNotesViewController: UIViewController {
 
     @IBOutlet var editorView: RichEditorView!
@@ -29,10 +33,14 @@ class CreateNotesViewController: UIViewController {
     @IBOutlet var lblPreviewLink: UILabel!
     @IBOutlet var txtURL: UITextView!
     @IBOutlet var viewURL: UIView!
+    @IBOutlet var txtURLTitle: UITextField!
 
     var isCommandTapped:Bool! = false
     var isLinkSelected:Bool! = false
 
+    var contentDAO:ContentDAO?
+    var delegate:CreateNotesViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +64,9 @@ class CreateNotesViewController: UIViewController {
         btnPhoto.contentMode = .scaleAspectFit
         btnLink.contentMode = .scaleAspectFit
         btnColor.contentMode = .scaleAspectFit
+        if let content = contentDAO {
+            self.editorView.html = content.description
+        }
     }
     func configureNaviationBar(){
         //0,122,255
@@ -69,24 +80,41 @@ class CreateNotesViewController: UIViewController {
             self.viewEditOptions.isHidden = true
             self.kWidthConstant.constant = 0
             editorView.inputAccessoryView = self.prepareToolBar()
-        }
+       }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNaviationBar()
     }
-    func prepareToolBar() -> UIToolbar{
+    func prepareToolBar() -> UIView{
         
-      //let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50))
-   //     let toolbarScroll = UIScrollView()
-         let toolbar = UIToolbar()
-    //    let  backgroundToolbar = UIToolbar()
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50.0))
+ 
+       let toolbarScroll = UIScrollView()
+       let toolbar = UIToolbar()
+       let backgroundToolbar = UIToolbar()
+        view.autoresizingMask = .flexibleWidth
+        view.backgroundColor = .clear
+        backgroundToolbar.frame = view.bounds
+        backgroundToolbar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        toolbar.autoresizingMask = .flexibleWidth
+        toolbar.backgroundColor = .clear
+        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
+        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
+        toolbarScroll.frame = view.bounds
+        toolbarScroll.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        toolbarScroll.showsHorizontalScrollIndicator = false
+        toolbarScroll.showsVerticalScrollIndicator = false
+        toolbarScroll.backgroundColor = .clear
+        toolbarScroll.addSubview(toolbar)
+        view.addSubview(backgroundToolbar)
+        view.addSubview(toolbarScroll)
         
         var barButtons = [UIBarButtonItem]()
         
         let btnColor = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnColor.setImage(#imageLiteral(resourceName: "color_box_active"), for: .normal)
+        btnColor.setImage(#imageLiteral(resourceName: "color_box"), for: .normal)
         btnColor.tag  = 106
         btnColor.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
         let colorBtn = UIBarButtonItem(customView: btnColor)
@@ -100,7 +128,7 @@ class CreateNotesViewController: UIViewController {
         barButtons.append(linkBtn)
         
         let btnPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnPhoto.setImage(#imageLiteral(resourceName: "photo_video_active"), for: .normal)
+        btnPhoto.setImage(#imageLiteral(resourceName: "photo_video"), for: .normal)
         btnPhoto.tag  = 104
         btnPhoto.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
         let photoBtn = UIBarButtonItem(customView: btnPhoto)
@@ -134,9 +162,26 @@ class CreateNotesViewController: UIViewController {
         let textBtn = UIBarButtonItem(customView: btnText)
         barButtons.append(textBtn)
         
-       
+        toolbar.items = barButtons
         
-        return toolbar
+        let defaultIconWidth: CGFloat = 50
+        let barButtonItemMargin: CGFloat = 11
+        let width: CGFloat = barButtons.reduce(0) {sofar, new in
+            if let tempView = new.value(forKey: "view") as? UIView {
+                return sofar + tempView.frame.size.width + barButtonItemMargin
+            } else {
+                return sofar + (defaultIconWidth + barButtonItemMargin)
+            }
+        }
+        
+        if width < view.frame.size.width {
+            toolbar.frame.size.width = view.frame.size.width
+        } else {
+            toolbar.frame.size.width = width - 45
+        }
+        toolbar.frame.size.height = 50
+        toolbarScroll.contentSize.width = width
+        return view
     }
     
     @objc func doneButtonAction(){
@@ -144,20 +189,29 @@ class CreateNotesViewController: UIViewController {
             if let url = URL(string: self.txtURL.text) {
                 _ =  self.editorView.becomeFirstResponder()
                 let  value = editorView.contentHTML
-                editorView.html = value + "<a href=\(url.absoluteString)>\(url.absoluteString)</a>"
-             //   self.editorView.focus()
+                let strTitle:String = (txtURLTitle.text?.trim())!
+                editorView.html = value + "<a href=\(url.absoluteString)>\(strTitle)</a>"
+                  self.editorView.focus()
                // self.editorView.insertLink(url.absoluteString, title: "AttachmentURL")
                // self.editorView.focus()
                 self.linkContainerView.isHidden = true
             }
         }else {
+            
+            self.view.endEditing(true)
+           
             let image = self.editorView.toImage()
             HUDManager.sharedInstance.showHUD()
             let name = NSUUID().uuidString + ".png"
             AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
                 
                 if let fileURL = fileURL {
-                    self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                    if self.contentDAO == nil {
+                         self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                    }else {
+                        self.updateContent(coverImage: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                    }
+                   
                 }else {
                     HUDManager.sharedInstance.hideHUD()
                 }
@@ -281,7 +335,7 @@ class CreateNotesViewController: UIViewController {
         let linkView = LinkPickerView.instanceFromNib()
         linkView.delegate = self
         self.presentView(view: linkView)
-        self.linkContainerView.isHidden = true
+        self.linkContainerView.isHidden = false
         if let myString = UIPasteboard.general.string {
             var URL:String! = ""
             
@@ -310,10 +364,10 @@ class CreateNotesViewController: UIViewController {
             self.kPreviewHeight.constant = 0.0
         }
         viewPreview.layer.borderWidth = 1.0
-        viewPreview.layer.borderColor = #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)
+        viewPreview.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
         viewPreview.layer.cornerRadius = 5.0
         viewURL.layer.borderWidth = 1.0
-        viewURL.layer.borderColor = #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)
+        viewURL.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
         viewURL.layer.cornerRadius = 5.0
     }
     
@@ -387,12 +441,31 @@ class CreateNotesViewController: UIViewController {
                 for obj in contents! {
                     ContentList.sharedInstance.arrayContent.append(obj)
                     let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    objPreview.isShowRetake = true
+                    objPreview.isShowRetake = false
+                    objPreview.isFromNotes = true
                     self.navigationController?.pushNormal(viewController: objPreview)
                 }
             }
         }
     }
+    
+    
+    func updateContent(coverImage:String ,width:Int,height:Int){
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: (self.contentDAO?.contentID)!, contentName: "", contentDescription: "", coverImage: coverImage, coverImageVideo: "", coverType: (self.contentDAO?.type.rawValue)!, width: width, height: height) { (content, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                if self.delegate != nil {
+                    self.delegate?.updatedNotes(content: content!)
+                }
+                self.navigationController?.popViewAsDismiss()
+                
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    
     /*
     // MARK: - Navigation
 
@@ -504,4 +577,23 @@ extension CreateNotesViewController:CustomCameraViewControllerDelegate {
         }
     }
 }
+
+
+extension CreateNotesViewController:UITextFieldDelegate,UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == txtURL {
+            txtURL.becomeFirstResponder()
+        }
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            txtURL.resignFirstResponder()
+            return false
+        }
+        return textView.text.length + (text.length - range.length) <= 250
+    }
+}
+
 

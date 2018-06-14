@@ -45,7 +45,8 @@ class PreviewController: UIViewController {
     var strPresented:String!
     var isEditingContent:Bool! = false
     var isShowRetake:Bool?
-    
+    var isFromNotes:Bool?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -451,6 +452,11 @@ class PreviewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
    @objc func btnBack() {
+    if self.isFromNotes != nil{
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
+        self.navigationController?.popToViewController(vc: controller)
+        return
+    }
         if self.strPresented == nil {
             self.imgPreview.image = nil
             self.navigationController?.popNormal()

@@ -230,7 +230,7 @@ class ContentViewController: UIViewController {
                 
             })
         }else {
-            if seletedImage.type == .image {
+            if seletedImage.type == .image || seletedImage.type == .notes {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImage)
                 
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
@@ -327,7 +327,7 @@ class ContentViewController: UIViewController {
         self.kTitleHeight.constant = 24.0
         self.lblImageDescription.isHidden = false
         self.lblTitleImage.isHidden = false
-        if seletedImage.name.trim().isEmpty {
+         if seletedImage.name.trim().isEmpty {
             self.kTitleHeight.constant = 0.0
             self.lblTitleImage.isHidden = true
         
@@ -349,6 +349,9 @@ class ContentViewController: UIViewController {
             self.lblImageDescription.numberOfLines = 2
         }
         
+        if self.seletedImage.type == .notes {
+            self.lblImageDescription.text = ""
+        }
     }
     
     
@@ -361,7 +364,7 @@ class ContentViewController: UIViewController {
         
         if selected.isUploaded {
             if selected.isEdit {
-                if selected.type == .image ||  selected.type == .video ||  selected.type == .link  {
+                if selected.type == .image ||  selected.type == .video ||  selected.type == .link  || selected.type == .notes{
                     let buttonEdit = self.getShadowButton(Alignment: 1)
                     buttonEdit.setImage(#imageLiteral(resourceName: "edit icon_new"), for: .normal)
                     buttonEdit.addTarget(self, action: #selector(self.btnEditAction(_:)), for: .touchUpInside)
@@ -767,6 +770,11 @@ class ContentViewController: UIViewController {
                     self.openEditor(image:image!)
                 }
             })
+        }else if seletedImage.type == .notes {
+            let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+            controller.contentDAO = self.seletedImage
+            controller.delegate = self
+            self.navigationController?.pushNormal(viewController: controller)
         }
     }
     
@@ -829,6 +837,11 @@ class ContentViewController: UIViewController {
                 return //be safe
             }
             self.openURL(url: url)
+            return
+        }
+        
+        if self.seletedImage.type == .notes {
+            self.notePreview()
             return
         }
         var arrayContents = [LightboxImage]()
@@ -900,6 +913,14 @@ class ContentViewController: UIViewController {
         obj.objContent = self.seletedImage
         self.present(obj, animated: false, completion: nil)
     }
+    
+    func notePreview(){
+        let obj:NotesPreviewViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: "notesPreviewView") as! NotesPreviewViewController
+        obj.contentDAO = self.seletedImage
+        self.navigationController?.pushAsPresent(viewController: obj)
+    }
+    
+    
     func deleteContent(){
         HUDManager.sharedInstance.showHUD()
         let content = [seletedImage.contentID.trim()]
@@ -1075,6 +1096,20 @@ extension ContentViewController:VideoEditorDelegate
     func saveEditing(image: ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
         self.seletedImage = image
+        if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent [index] = seletedImage
+        }
+        self.updateContent()
+    }
+    
+}
+
+extension ContentViewController:CreateNotesViewControllerDelegate
+{
+    
+    func updatedNotes(content:ContentDAO) {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = content
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }

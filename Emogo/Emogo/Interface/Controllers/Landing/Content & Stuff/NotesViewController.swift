@@ -217,4 +217,10 @@ extension NotesViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
         return CGSize(width: content.width, height: content.height)
 }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let content = ContentList.sharedInstance.arrayStuff[indexPath.row]
+        let obj:NotesPreviewViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: "notesPreviewView") as! NotesPreviewViewController
+        obj.contentDAO = content
+        self.navigationController?.pushAsPresent(viewController: obj)
+    }
 }
