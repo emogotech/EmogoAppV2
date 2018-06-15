@@ -16,30 +16,28 @@ protocol CreateNotesViewControllerDelegate {
 class CreateNotesViewController: UIViewController {
 
     @IBOutlet var editorView: RichEditorView!
-    @IBOutlet var btnCommand: UIButton!
-    @IBOutlet var btnText: UIButton!
-    @IBOutlet var btnHorizontal: UIButton!
-    @IBOutlet var btnAlignment: UIButton!
-    @IBOutlet var btnPhoto: UIButton!
-    @IBOutlet var btnLink: UIButton!
-    @IBOutlet var btnColor: UIButton!
     @IBOutlet var viewContainer: UIView!
-    @IBOutlet var optionButtons : [UIButton]!
-    @IBOutlet var viewEditOptions: UIView!
-    @IBOutlet var kWidthConstant: NSLayoutConstraint!
     @IBOutlet var linkContainerView: UIView!
     @IBOutlet var viewPreview: UIView!
-    @IBOutlet var kPreviewHeight: NSLayoutConstraint!
     @IBOutlet var lblPreviewLink: UILabel!
     @IBOutlet var txtURL: UITextView!
     @IBOutlet var viewURL: UIView!
     @IBOutlet var txtURLTitle: UITextField!
+    @IBOutlet var kPreviewHeight: NSLayoutConstraint!
+
 
     var isCommandTapped:Bool! = false
     var isLinkSelected:Bool! = false
 
     var contentDAO:ContentDAO?
     var delegate:CreateNotesViewControllerDelegate?
+    
+    lazy var toolbar: RichEditorToolbar = {
+        let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
+        
+        return toolbar
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,20 +52,14 @@ class CreateNotesViewController: UIViewController {
     }
     
     func prepareLayout(){
-        editorView.delegate = self
-        editorView.inputAccessoryView = nil
+        prepareEditiorView()
         self.viewContainer.isHidden = true
-        editorView.placeholder = "TYPE SOMETHING"
-        btnText.contentMode = .scaleAspectFit
-        btnAlignment.contentMode = .scaleAspectFit
-        btnHorizontal.contentMode = .scaleAspectFit
-        btnPhoto.contentMode = .scaleAspectFit
-        btnLink.contentMode = .scaleAspectFit
-        btnColor.contentMode = .scaleAspectFit
         if let content = contentDAO {
             self.editorView.html = content.description
         }
     }
+    
+    
     func configureNaviationBar(){
         //0,122,255
         self.navigationController?.isNavigationBarHidden = false
@@ -75,114 +67,97 @@ class CreateNotesViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         let rightButon = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.doneButtonAction))
          navigationItem.rightBarButtonItem  = rightButon
-        self.viewEditOptions.isHidden = false
-        if UIDevice.current.modelName.lowercased().contains("iphone 5")  {
-            self.viewEditOptions.isHidden = true
-            self.kWidthConstant.constant = 0
-            editorView.inputAccessoryView = self.prepareToolBar()
-       }
     }
     
+   
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNaviationBar()
     }
-    func prepareToolBar() -> UIView{
-        
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: kFrame.size.width, height: 50.0))
- 
-       let toolbarScroll = UIScrollView()
-       let toolbar = UIToolbar()
-       let backgroundToolbar = UIToolbar()
-        view.autoresizingMask = .flexibleWidth
-        view.backgroundColor = .clear
-        backgroundToolbar.frame = view.bounds
-        backgroundToolbar.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        toolbar.autoresizingMask = .flexibleWidth
-        toolbar.backgroundColor = .clear
-        toolbar.setBackgroundImage(UIImage(), forToolbarPosition: .any, barMetrics: .default)
-        toolbar.setShadowImage(UIImage(), forToolbarPosition: .any)
-        toolbarScroll.frame = view.bounds
-        toolbarScroll.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        toolbarScroll.showsHorizontalScrollIndicator = false
-        toolbarScroll.showsVerticalScrollIndicator = false
-        toolbarScroll.backgroundColor = .clear
-        toolbarScroll.addSubview(toolbar)
-        view.addSubview(backgroundToolbar)
-        view.addSubview(toolbarScroll)
-        
-        var barButtons = [UIBarButtonItem]()
-        
-        let btnColor = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnColor.setImage(#imageLiteral(resourceName: "color_box"), for: .normal)
-        btnColor.tag  = 106
-        btnColor.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let colorBtn = UIBarButtonItem(customView: btnColor)
-        barButtons.append(colorBtn)
-        
-        let btnLink = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnLink.setImage(#imageLiteral(resourceName: "link_block"), for: .normal)
-        btnLink.tag  = 105
-        btnLink.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let linkBtn = UIBarButtonItem(customView: btnLink)
-        barButtons.append(linkBtn)
-        
-        let btnPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnPhoto.setImage(#imageLiteral(resourceName: "photo_video"), for: .normal)
-        btnPhoto.tag  = 104
-        btnPhoto.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let photoBtn = UIBarButtonItem(customView: btnPhoto)
-        barButtons.append(photoBtn)
-        
-        let btnHorizontal = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnHorizontal.setImage(#imageLiteral(resourceName: "horizontal"), for: .normal)
-        btnHorizontal.tag  = 103
-        btnHorizontal.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let horizontalBtn = UIBarButtonItem(customView: btnHorizontal)
-        barButtons.append(horizontalBtn)
-        
-        let btnAlignment = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnAlignment.setImage(#imageLiteral(resourceName: "numberBullet-icon"), for: .normal)
-        btnAlignment.tag  = 102
-        btnAlignment.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let allignBtn = UIBarButtonItem(customView: btnAlignment)
-        barButtons.append(allignBtn)
-        
-        let btnNoBullet = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnNoBullet.setImage(#imageLiteral(resourceName: "icon_list"), for: .normal)
-        btnNoBullet.tag  = 107
-        btnNoBullet.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let bulletBtn = UIBarButtonItem(customView: btnNoBullet)
-        barButtons.append(bulletBtn)
-        
-        let btnText = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        btnText.setImage(#imageLiteral(resourceName: "icon_sentence"), for: .normal)
-        btnText.tag  = 101
-        btnText.addTarget(self, action: #selector(self.btnActionForEditOptions(_:)), for: .touchUpInside)
-        let textBtn = UIBarButtonItem(customView: btnText)
-        barButtons.append(textBtn)
-        
-        toolbar.items = barButtons
-        
-        let defaultIconWidth: CGFloat = 50
-        let barButtonItemMargin: CGFloat = 11
-        let width: CGFloat = barButtons.reduce(0) {sofar, new in
-            if let tempView = new.value(forKey: "view") as? UIView {
-                return sofar + tempView.frame.size.width + barButtonItemMargin
-            } else {
-                return sofar + (defaultIconWidth + barButtonItemMargin)
-            }
-        }
-        
-        if width < view.frame.size.width {
-            toolbar.frame.size.width = view.frame.size.width
-        } else {
-            toolbar.frame.size.width = width - 45
-        }
-        toolbar.frame.size.height = 50
-        toolbarScroll.contentSize.width = width
-        return view
+    
+    func prepareEditiorView(){
+        editorView.delegate = self
+        // editorView.inputAccessoryView = toolbar
+        editorView.placeholder = "Type some text..."
+        editorView.inputAccessoryView = toolbar
+        toolbar.delegate = self
+        toolbar.editor = editorView
+        prepareToolBar()
+    
+        UITextField.appearance().keyboardAppearance = .dark
     }
+    
+    
+    func prepareToolBar(){
+        var options = toolbar.options
+
+        let blank = RichEditorOptionItem(image: nil, title: "") { (toolbar) in
+        }
+        options.append(blank)
+
+        let itemText = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_sentence"), title: "") { (toolbar) in
+          
+            self.view.endEditing(true)
+            let textView = TextEditorView.instanceFromNib()
+            textView.delegate = self
+            self.presentView(view: textView)
+            self.viewContainer.isHidden = false
+        }
+        options.append(itemText)
+        
+        let itemOrder = RichEditorOptionItem(image: #imageLiteral(resourceName: "numberBullet-icon"), title: "") { (toolbar) in
+            
+            toolbar.editor?.orderedList()
+        }
+        
+        options.append(itemOrder)
+
+        let itemBullet = RichEditorOptionItem(image: #imageLiteral(resourceName: "icon_list"), title: "") { (toolbar) in
+           
+            toolbar.editor?.unorderedList()
+        }
+        options.append(itemBullet)
+
+        
+        let itemHorizontal = RichEditorOptionItem(image: #imageLiteral(resourceName: "horizontal"), title: "") { (toolbar) in
+            let  value = toolbar.editor?.contentHTML
+            print(value)
+            toolbar.editor?.html = value! + "<div><hr/><br></div>"
+            toolbar.editor?.focus()
+        }
+        options.append(itemHorizontal)
+
+        
+        let itemPhoto = RichEditorOptionItem(image: #imageLiteral(resourceName: "photo_video"), title: "") { (toolbar) in
+            self.openCamera()
+        }
+        options.append(itemPhoto)
+
+        let itemLink = RichEditorOptionItem(image: #imageLiteral(resourceName: "link_block"), title: "") { (toolbar) in
+            self.isLinkSelected = true
+            self.view.endEditing(true)
+            self.showLinkView()
+        }
+        options.append(itemLink)
+
+        let itemColor = RichEditorOptionItem(image: #imageLiteral(resourceName: "color_box"), title: "") { (toolbar) in
+           
+            self.view.endEditing(true)
+            let colorPicker = ColorPickerView.instanceFromNib()
+            colorPicker.delegate = self
+            self.presentView(view: colorPicker)
+            DispatchQueue.main.async {
+                colorPicker.prepareView()
+            }
+            self.viewContainer.isHidden = false
+            
+        }
+        options.append(itemColor)
+
+        
+        toolbar.options = options
+    }
+   
     
     @objc func doneButtonAction(){
         if isLinkSelected {
@@ -198,6 +173,10 @@ class CreateNotesViewController: UIViewController {
             }
         }else {
             
+            if self.editorView.contentHTML.isEmpty {
+                self.showAlert(strMessage: "Unable to save blank note.")
+                return
+            }
             self.view.endEditing(true)
            
             let image = self.editorView.toImage()
@@ -222,36 +201,31 @@ class CreateNotesViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
+        self.viewContainer.layer.borderWidth = 1.0
+        self.viewContainer.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
     }
 
     
     @IBAction func btnActionForCommand(_ sender: Any) {
-        isCommandTapped = !isCommandTapped
-        if isCommandTapped {
-        //    self.viewEditOption.isHidden = false
-            self.setView(hidden: false)
-            self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-multiply"), for: .normal)
-        }else {
-          //  self.viewEditOption.isHidden = true
-            self.setView(hidden: true)
-            self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-command"), for: .normal)
-        }
+//        isCommandTapped = !isCommandTapped
+//        if isCommandTapped {
+//        //    self.viewEditOption.isHidden = false
+//            self.setView(hidden: false)
+//            self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-multiply"), for: .normal)
+//        }else {
+//          //  self.viewEditOption.isHidden = true
+//            self.setView(hidden: true)
+//            self.btnCommand.setImage(#imageLiteral(resourceName: "icons8-command"), for: .normal)
+//        }
     }
     
     
-    @IBAction func btnActionForEditOptions(_ sender: UIButton) {
+    func btnActionForEditOptions(_ tag: Int) {
         self.linkContainerView.isHidden = true
         isLinkSelected = false
-        switch sender.tag {
+        switch tag {
         case 101:
             self.view.endEditing(true)
-            btnText.isSelected = true
-            btnAlignment.isSelected = false
-            btnHorizontal.isSelected = false
-            btnPhoto.isSelected = false
-            btnLink.isSelected = false
-            btnColor.isSelected = false
             let textView = TextEditorView.instanceFromNib()
             textView.delegate = self
             self.presentView(view: textView)
@@ -261,54 +235,27 @@ class CreateNotesViewController: UIViewController {
             viewContainer.isHidden = false
             break
         case 102:
-            btnText.isSelected = false
-            btnAlignment.isSelected = true
-            btnHorizontal.isSelected = false
-            btnPhoto.isSelected = false
-            btnLink.isSelected = false
-            btnColor.isSelected = false
+           
             self.editorView.orderedList()
             break
         case 103:
-            btnText.isSelected = false
-            btnAlignment.isSelected = false
-            btnHorizontal.isSelected = true
-            btnPhoto.isSelected = false
-            btnLink.isSelected = false
-            btnColor.isSelected = false
             let  value = editorView.contentHTML
             print(value)
             editorView.html = value + "<div><hr/><br></div>"
             self.editorView.focus()
             break
         case 104:
-            btnText.isSelected = false
-            btnAlignment.isSelected = false
-            btnHorizontal.isSelected = false
-            btnPhoto.isSelected = true
-            btnLink.isSelected = false
-            btnColor.isSelected = false
+           
             openCamera()
             break
         case 105:
-            btnText.isSelected = false
-            btnAlignment.isSelected = false
-            btnHorizontal.isSelected = false
-            btnPhoto.isSelected = false
-            btnLink.isSelected = true
-            btnColor.isSelected = false
-            viewContainer.isHidden = false
+           
             isLinkSelected = true
             self.showLinkView()
             break
         case 106:
             self.view.endEditing(true)
-            btnText.isSelected = false
-            btnAlignment.isSelected = false
-            btnHorizontal.isSelected = false
-            btnPhoto.isSelected = false
-            btnLink.isSelected = false
-            btnColor.isSelected = true
+           
             let colorPicker = ColorPickerView.instanceFromNib()
             colorPicker.delegate = self
             self.presentView(view: colorPicker)
@@ -318,12 +265,6 @@ class CreateNotesViewController: UIViewController {
             self.viewContainer.isHidden = false
             break
         case 107:
-                btnText.isSelected = false
-                btnAlignment.isSelected = true
-                btnHorizontal.isSelected = false
-                btnPhoto.isSelected = false
-                btnLink.isSelected = false
-                btnColor.isSelected = false
                 self.editorView.unorderedList()
             break
         default:
@@ -371,17 +312,6 @@ class CreateNotesViewController: UIViewController {
         viewURL.layer.cornerRadius = 5.0
     }
     
-    
-    
-    func setView(hidden: Bool) {
-        for obj in self.optionButtons {
-            UIView.transition(with: obj, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                obj.isHidden = hidden
-            })
-        }
-    }
-    
-    
     func addView() -> UIView {
         if let viewWithTag = self.view.viewWithTag(43934398) {
             viewWithTag.removeFromSuperview()
@@ -401,6 +331,9 @@ class CreateNotesViewController: UIViewController {
     func presentView(view: UIView) {
         // Remove any child view controllers that have been presented.
         view.translatesAutoresizingMaskIntoConstraints = false
+        for subview in viewContainer.subviews {
+            subview.removeFromSuperview()
+        }
         viewContainer.addSubview(view)
         NSLayoutConstraint.activate([
             view.leftAnchor.constraint(equalTo: viewContainer.leftAnchor),
@@ -408,6 +341,7 @@ class CreateNotesViewController: UIViewController {
             view.topAnchor.constraint(equalTo: viewContainer.topAnchor),
             view.bottomAnchor.constraint(equalTo: viewContainer.bottomAnchor),
             ])
+        viewContainer.isHidden = false
     }
 
     func openCamera(){
@@ -562,10 +496,16 @@ extension CreateNotesViewController:ColorPickerViewDelegate,LinkPickerViewDelega
     }
     
     func selectedContent(content:ContentDAO){
-        
-        if self.editorView.hasRangeSelection == true {
-            self.editorView.insertLink(content.coverImage, title: content.name)
+        _ =  self.editorView.becomeFirstResponder()
+        let  value = editorView.contentHTML
+        var strTitle:String = content.name
+        let url:String = content.coverImage
+        if strTitle.isEmpty {
+            strTitle = url
         }
+        editorView.html = value + "<a href=\(url)>\(strTitle)</a>"
+        self.editorView.focus()
+        self.linkContainerView.isHidden = true
     }
 
 }
@@ -594,6 +534,10 @@ extension CreateNotesViewController:UITextFieldDelegate,UITextViewDelegate {
         }
         return textView.text.length + (text.length - range.length) <= 250
     }
+}
+
+extension CreateNotesViewController: RichEditorToolbarDelegate {
+    
 }
 
 

@@ -244,7 +244,7 @@ extension StreamListViewController {
     func btnActionForNotes(){
         ContentList.sharedInstance.objStream = nil
         ContentList.sharedInstance.arrayContent.removeAll()
-        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
+        let controller = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView)
         self.navigationController?.push(viewController: controller)
     }
     
