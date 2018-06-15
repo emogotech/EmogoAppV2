@@ -135,6 +135,39 @@ class ViewStreamController: UIViewController {
             stretchyHeader.prepareLayout(stream:self.objStream)
         }
     }
+    /*
+    func configureNewNavigation(){
+        var myAttribute2:[NSAttributedStringKey:Any]!
+        if let font = UIFont(name: kFontBold, size: 20.0) {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
+        }else {
+            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
+        }
+        
+        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.isNavigationBarHidden = false
+//        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
+
+       //self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        
+        let img = UIImage(named: "back_icon_New")
+        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
+        self.navigationItem.leftBarButtonItem = btnback
+        
+        let imgReport = UIImage(named: "stream_flag")
+        let rightReportBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgReport, style: .plain, target: self, action: #selector(self.btnBackAction))
+        
+        let imgEdit = UIImage(named: "edit_icon")
+        let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnBackAction))
+        
+        let imgDownload = UIImage(named: "share_icon")
+        let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.btnBackAction))
+        
+        let imgAddCollab = UIImage(named: "add_collaborators_icon")
+        let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnBackAction))
+    self.navigationItem.setRightBarButtonItems([rightReportBarButtonItem,rightEditBarButtonItem,rightDownloadBarButtonItem,rightAddCollabBarButtonItem], animated: true)
+    }*/
     
     func prepareNavigation(){
         
@@ -143,9 +176,9 @@ class ViewStreamController: UIViewController {
             ContentList.sharedInstance.mainStreamIndex = nil
         }
 
-     
+       // self.configureNewNavigation()
         self.configureNavigationTite()
-        let imgP = UIImage(named: "back_icon")
+        let imgP = UIImage(named: "back_icon_New")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
@@ -739,6 +772,11 @@ class ViewStreamController: UIViewController {
     
     func btnActionForAddContent() {
         
+        let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
+        actionVC.delegate = self
+        actionVC.fromViewStream = true
+        customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
+        /*
         let actionController = ActionSheetController()
         
         ContentList.sharedInstance.arrayContent.removeAll()
@@ -766,6 +804,8 @@ class ViewStreamController: UIViewController {
         actionController.headerData = "ADD ITEM"
         actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
+ 
+         */
     }
     
     func actionForCamera(){

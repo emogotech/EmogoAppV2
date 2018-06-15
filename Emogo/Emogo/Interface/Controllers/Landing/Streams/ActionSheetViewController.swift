@@ -24,7 +24,7 @@ class ActionSheetViewController: UIViewController {
     var delegate : ActionSheetViewControllerDelegate!
     
     let fontSelected = UIFont(name: "SFProDisplay-Regular", size: 12.0)
-    
+    var fromViewStream =  false
     var menuItems = ActionSheetModel()
     
     override func viewDidLoad() {
@@ -32,6 +32,12 @@ class ActionSheetViewController: UIViewController {
     
        self.tblOptions.delegate = self
        self.tblOptions.dataSource = self
+        
+        if fromViewStream == true {
+            self.kCreateEmogoConstraints.constant = 0
+        }else{
+            self.kCreateEmogoConstraints.constant = 60
+        }
         
     }
     override func viewDidAppear(_ animated: Bool) {

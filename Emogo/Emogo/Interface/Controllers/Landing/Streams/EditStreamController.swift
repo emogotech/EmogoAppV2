@@ -29,6 +29,7 @@ class EditStreamController: UITableViewController {
     @IBOutlet weak var switchMakeEmogoGlobal: PMSwitch!
     @IBOutlet weak var lblCaption: UILabel!
     
+    @IBOutlet weak var btnAddCollab: UIButton!
     var delegate:CustomCameraViewControllerDelegate?
     var isExpandRow: Bool = false {
         didSet {
@@ -68,6 +69,7 @@ class EditStreamController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
@@ -111,6 +113,12 @@ class EditStreamController: UITableViewController {
     }
     //MARK:- Action For Buttons
     
+    @IBAction func btnActionAddCollab(_ sender: Any) {
+        
+        let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
+        customPresentViewController(PresenterNew.AddCollabPresenter, viewController: actionVC, animated: true, completion: nil)
+        
+    }
     @IBAction func switchActionForAddContent(_ sender: PMSwitch) {
         self.switchAddContent.isOn = sender.isOn
         self.switchAddContent.onImage = UIImage(named: "lockSwitch")
@@ -127,9 +135,18 @@ class EditStreamController: UITableViewController {
     }
     @IBAction func switchActionForEmogoGlobal(_ sender: PMSwitch) {
         sender.isOn = !sender.isOn
-        if self.switchMakeEmogoGlobal.isOn {
-            streamType = "Public"
-            self.switchMakeEmogoGlobal.onImage = UIImage(named: "lockSwitch")
+        self.switchMakeEmogoGlobal.isOn = sender.isOn
+        if self.switchMakeEmogoGlobal.isOn == true {
+            self.switchAddContent.isOn = false
+            self.switchAddPeople.isOn = false
+            self.switchAddContent.isUserInteractionEnabled = false
+            self.switchAddPeople.isUserInteractionEnabled = false
+           // self.switchAddCollaborators.isOn = false
+           // self.switchAddCollaborators.isUserInteractionEnabled = false
+           // self.rowHieght.constant = 0.0
+            self.isExpandRow = false
+        }else {
+            //self.switchAddCollaborators.isUserInteractionEnabled = true
         }
     }
    
@@ -140,6 +157,8 @@ class EditStreamController: UITableViewController {
         if self.switchEmogoPrivate.isOn {
             self.switchEmogoPrivate.onImage = UIImage(named: "lockSwitch")
             streamType = "Private"
+            self.switchMakeEmogoGlobal.isOn = false
+            self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isOn = false
@@ -148,6 +167,8 @@ class EditStreamController: UITableViewController {
         }else{
             streamType = "Public"
             self.isExpandRow = false
+            self.switchMakeEmogoGlobal.isOn = false
+            self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
             self.switchAddPeople.isUserInteractionEnabled = false
             self.switchAddContent.isUserInteractionEnabled = false
             self.switchAddPeople.isOn = false
@@ -170,7 +191,9 @@ class EditStreamController: UITableViewController {
                 self.imgCover.setImageWithURL(strImage: (objStream?.coverImage)!, placeholder: "add-stream-cover-image-placeholder")
                 self.strCoverImage = objStream?.coverImage
             }
-           
+            
+            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
+            
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.isOn = false
             }else {
@@ -181,20 +204,49 @@ class EditStreamController: UITableViewController {
             // If Editor is Creator
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.prepareEdit(isEnable: true)
-                 if !self.switchEmogoPrivate.isOn {
-                      
+                
+                if self.switchMakeEmogoGlobal.isOn == true {
+                    //self.rowHieght.constant = 0.0
+                    self.isExpandRow = false
+                    //self.switchAddCollaborators.isOn = false
+                   // self.switchAddCollaborators.isUserInteractionEnabled = false
+                    self.switchAddContent.isUserInteractionEnabled = false
+                    self.switchAddPeople.isUserInteractionEnabled  = false
+                    self.switchAddPeople.isOn       = false
+                    self.switchAddContent.isOn      = false
+                }else {
+                    
+                    
+                 //   self.switchAddCollaborators.isUserInteractionEnabled = true
+                    self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
+                    self.switchMakeEmogoGlobal.isOn = false
+                    if !self.switchEmogoPrivate.isOn {
+                        self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
                     }
                     self.selectedCollaborators = (self.objStream?.arrayColab)!
                     if self.selectedCollaborators.count != 0 {
-                       
+                        //self.rowHieght.constant = 325.0
                         self.isExpandRow = true
-                      
+                        //self.switchAddCollaborators.isOn = true
                     }
+                    
+//                    if self.switchAddCollaborators.isOn == false{
+//                        self.switchAddContent.isUserInteractionEnabled = false
+//                        self.switchAddPeople.isUserInteractionEnabled  = false
+//                        self.switchAddPeople.isOn       = false
+//                        self.switchAddContent.isOn      = false
+//                    }else{
+//                        self.switchAddContent.isUserInteractionEnabled = true
+//                        self.switchAddPeople.isUserInteractionEnabled  = true
+//                        self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
+//                        self.switchAddContent.isOn = (self.objStream?.canAddContent)!
+//                    }
+                }
                 
             }else {
                 // Colab is Logged in as Editor
                 self.prepareEdit(isEnable: false)
-               
+              //  self.switchAddCollaborators.isUserInteractionEnabled = true
                 if self.switchAddPeople.isOn == true {
                     self.switchAddPeople.isUserInteractionEnabled  = true
                 }else {
@@ -207,15 +259,15 @@ class EditStreamController: UITableViewController {
                     self.switchAddContent.isUserInteractionEnabled  = false
                 }
                 if self.selectedCollaborators.count != 0 {
-                   // self.rowHieght.constant = 325.0
+                  //  self.rowHieght.constant = 325.0
                     self.isExpandRow = true
-                  
+                   // self.switchAddCollaborators.isOn = true
                 }
                 
             }
             
             isPerform = true
-           // self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
+            //self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
         }
         
         if self.tfDescription.text.count > 0 {
@@ -239,7 +291,8 @@ class EditStreamController: UITableViewController {
         self.tfEmogoTitle.isUserInteractionEnabled = isEnable
         self.tfDescription.isUserInteractionEnabled = isEnable
         self.btnChangeCover.isUserInteractionEnabled = isEnable
-       switchEmogoPrivate.isUserInteractionEnabled = isEnable
+        self.switchMakeEmogoGlobal.isUserInteractionEnabled = isEnable
+        switchEmogoPrivate.isUserInteractionEnabled = isEnable
        
     }
     func configureCollaboatorsRowExpandCollapse() {
@@ -322,7 +375,7 @@ class EditStreamController: UITableViewController {
         }
     }
     private func editStream(cover:String,width:Int,hieght:Int){
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)

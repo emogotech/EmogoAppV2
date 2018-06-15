@@ -19,10 +19,10 @@ class PresenterNew: NSObject {
     //MARK:- All Presenter
     
     static let CreateStreamPresenter: Presentr = {
-        let size = UIScreen.main.bounds.size.height - 657
+        let size = UIScreen.main.bounds.size.height - 637
         print(size)
         let width = ModalSize.full
-        let height = ModalSize.custom(size: 667)
+        let height = ModalSize.custom(size: Float(size))
         let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
         let customType = PresentationType.custom(width: width, height: height, center: center)
        
@@ -78,5 +78,25 @@ class PresenterNew: NSObject {
         
         return customPresenter
     }()
+    
+    static let AddCollabPresenter: Presentr = {
+        
+        
+        let customType = PresentationType.bottomHalf
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.cornerRadius = 15.0
+        customPresenter.backgroundOpacity = 1.0
+        customPresenter.dismissOnSwipe = true
+        customPresenter.blurBackground = true
+        customPresenter.blurStyle = UIBlurEffectStyle.light
+        
+        
+        return customPresenter
+    }()
+    
+    
     
 }
