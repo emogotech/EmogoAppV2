@@ -119,6 +119,10 @@
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
 		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
 		F0875C3820C6BD2B00CCBBBA /* LikeListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */; };
+		F0B866DC20D3DF74005F2C55 /* NewStreamViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B866DA20D3DF74005F2C55 /* NewStreamViewHeader.swift */; };
+		F0B866DD20D3DF74005F2C55 /* NewStreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0B866DB20D3DF74005F2C55 /* NewStreamViewHeader.xib */; };
+		F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */; };
+		F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */; };
 		F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */; };
 		F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */; };
 		F0FDA21220D26C56006BA09A /* PresenterNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA21120D26C56006BA09A /* PresenterNew.swift */; };
@@ -612,6 +616,10 @@
 		F06256D6209C2A0700AE0558 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListViewController.swift; sourceTree = "<group>"; };
 		F0875C3720C6BD2B00CCBBBA /* LikeListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeListCell.swift; sourceTree = "<group>"; };
+		F0B866DA20D3DF74005F2C55 /* NewStreamViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStreamViewHeader.swift; sourceTree = "<group>"; };
+		F0B866DB20D3DF74005F2C55 /* NewStreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewStreamViewHeader.xib; sourceTree = "<group>"; };
+		F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabViewController.swift; sourceTree = "<group>"; };
+		F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabCell.swift; sourceTree = "<group>"; };
 		F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStreamController.swift; sourceTree = "<group>"; };
 		F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStreamController.swift; sourceTree = "<group>"; };
 		F0FDA21120D26C56006BA09A /* PresenterNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterNew.swift; sourceTree = "<group>"; };
@@ -1755,6 +1763,9 @@
 				F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */,
 				F4731FC11FC2C9F500AA68D8 /* StreamSearchCell.xib */,
 				F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */,
+				F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */,
+				F0B866DA20D3DF74005F2C55 /* NewStreamViewHeader.swift */,
+				F0B866DB20D3DF74005F2C55 /* NewStreamViewHeader.xib */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -2148,6 +2159,7 @@
 				F009A93620D0F88E00051547 /* ActionSheetViewController.swift */,
 				F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */,
 				F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */,
+				F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -2636,6 +2648,7 @@
 				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */,
+				F0B866DD20D3DF74005F2C55 /* NewStreamViewHeader.xib in Resources */,
 				F425C63D20567E88002536E1 /* ProfileHeaderView.xib in Resources */,
 				F4E4B48C20BD606E009CD301 /* Main.storyboard in Resources */,
 				F40CA39620B581D5005EE0B0 /* silence.mp3 in Resources */,
@@ -3147,6 +3160,7 @@
 				F4148A381FBDB5CE00081900 /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F41FD96320A9583F00FA8623 /* PhotoEditor+Font.swift in Sources */,
 				F41FD95620A9583F00FA8623 /* PhotoEditorViewController.swift in Sources */,
+				F0B866DC20D3DF74005F2C55 /* NewStreamViewHeader.swift in Sources */,
 				F4A69BA21FC4515D008F9534 /* Sound.swift in Sources */,
 				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F40D3E6920CE6A16008ED566 /* PMColorPickerView.swift in Sources */,
@@ -3202,6 +3216,7 @@
 				F480777B20D0EFCA008E5BDA /* LinkPickerViewCell.swift in Sources */,
 				F4CA097A2052A6D2004EEFCE /* ProfileHeaderView.swift in Sources */,
 				F404C0751FDAA02100E8ACC2 /* ViewStreamController.swift in Sources */,
+				F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */,
 				F4266EF71FF66F7B0075BFD7 /* ProfileStreamCell.swift in Sources */,
 				F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */,
 				F4C9554E20A31DA00065D1C8 /* Gram+UIImage.swift in Sources */,
@@ -3297,6 +3312,7 @@
 				F439CE471FE8F51E00CC0E14 /* PreviewControls.swift in Sources */,
 				F44939EA1FEADCA700AE2FCA /* Operation.swift in Sources */,
 				F4086D8E206E2F16005C7318 /* UIView+YGPulseView.m in Sources */,
+				F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */,
 				F41FD95C20A9583F00FA8623 /* PhotoEditor+Gestures.swift in Sources */,
 				F4FC55F620D25D7A006C22E1 /* NotesPreviewViewController.swift in Sources */,
 				F44939E61FEA567800AE2FCA /* ES.swift in Sources */,

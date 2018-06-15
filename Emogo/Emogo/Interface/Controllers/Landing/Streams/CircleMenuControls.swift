@@ -402,4 +402,36 @@ extension ProfileViewController : ActionSheetViewControllerDelegate {
         self.navigationController?.push(viewController: controller)
     }
 }
+extension ViewStreamController : ActionSheetViewControllerDelegate {
+    func didSelectAction(type:String) {
+        switch type {
+        case "1":
+            self.btnImportAction()
+            break
+        case "2":
+            self.btnCameraAction()
+            break
+        case "3":
+            self.btnActionForLink()
+            break
+        case "4":
+            self.btnActionForNotes()
+            break
+        case "5":
+            self.btnActionForGiphy()
+            break
+        case "6":
+            self.btnActionForMyStuff()
+            break
+        default:
+            break
+        }
+    }
+    func btnActionForNotes(){
+        ContentList.sharedInstance.objStream = nil
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
+        self.navigationController?.push(viewController: controller)
+    }
+}
 
