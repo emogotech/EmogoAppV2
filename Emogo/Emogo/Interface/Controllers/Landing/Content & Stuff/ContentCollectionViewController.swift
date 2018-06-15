@@ -21,10 +21,13 @@ class ContentCollectionViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.prepareNavBarButtons()
+        self.hideStatusBar()
         self.collectionView.reloadData()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         self.collectionView.reloadData()
     }
 
@@ -33,6 +36,24 @@ class ContentCollectionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func prepareNavBarButtons(){
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clear
+        self.navigationController?.navigationBar.tintColor = .white
+        let button = self.getShadowButton(Alignment: 0)
+        button.setImage(#imageLiteral(resourceName: "back icon_shadow"), for: .normal)
+        button.addTarget(self, action: #selector(self.closePreviewAction), for: .touchUpInside)
+        let btnBack = UIBarButtonItem.init(customView: button)
+        self.navigationItem.leftBarButtonItem = btnBack
+    }
+    
+    @objc func closePreviewAction(){
+    ContentList.sharedInstance.objStream = nil
+    self.navigationController?.pop()
+    }
 
     /*
     // MARK: - Navigation
@@ -46,7 +67,7 @@ class ContentCollectionViewController: UIViewController {
 
 }
 
-extension ContentCollectionViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+extension ContentCollectionViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -62,5 +83,18 @@ extension ContentCollectionViewController:UICollectionViewDelegate,UICollectionV
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        var visibleRect = CGRect()
+        
+        visibleRect.origin = collectionView.contentOffset
+        visibleRect.size = collectionView.bounds.size
+        
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        
+        guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
+        
+        print(indexPath)
     }
 }
