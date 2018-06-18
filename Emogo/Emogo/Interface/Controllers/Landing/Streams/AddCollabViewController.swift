@@ -299,8 +299,17 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         let cell:AddCollabCell = tableView.dequeueReusableCell(withIdentifier: kCell_AddCollabView) as! AddCollabCell
         let array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
         let dictColabContact = array[indexPath.row]
-        cell.lblDisplayName.text = dictColabContact.name
-        cell.lbluserName.isHidden = true
+        
+        let attrs1:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font : UIFont(name: kFontMedium, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 36, g: 36, b: 36)]
+        
+        let attrs2:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font :  UIFont(name: kFontRegular, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 74, g: 74, b: 74)]
+        
+        let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
+            
+            let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
+            attributedString1.append(attributedString2)
+            cell.lblDisplayName.attributedText = attributedString1
+        
         // cell.imgProfile.image = UIImage(named: "demo_images")
         if dictColabContact.imgUser.isEmpty {
             

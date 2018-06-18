@@ -39,6 +39,7 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        deeplinkHandle()
         updateContent()
         
         if self.currentIndex != nil{
@@ -98,6 +99,39 @@ class ContentViewController: UIViewController {
         
         if isViewCount != nil {
             apiForIncreaseViewCount()
+        }
+    }
+    
+    func deeplinkHandle(){
+        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            ContentList.sharedInstance.objStream = nil
+            SharedData.sharedInstance.contentList.objStream = nil
+            let conten = ContentList.sharedInstance.arrayContent[0]
+            
+            if conten.name.count > 75 {
+                conten.name = conten.name.trim(count: 75)
+            }
+            if conten.description.count > 250 {
+                conten.description = conten.description.trim(count: 250)
+            }
+            
+            self.seletedImage = SharedData.sharedInstance.contentList.arrayContent[0]
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent.append(conten)
+            let arrayC = [String]()
+            let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
+            AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            SharedData.sharedInstance.deepLinkType = ""
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
+            self.showToast(strMSG: "Please while wait content is upload...")
+            SharedData.sharedInstance.deepLinkType = ""
+        }
+        self.updateContent()
+        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
+            self.btnAddToEmogo.isHidden = true
+            SharedData.sharedInstance.deepLinkType = ""
         }
     }
     
