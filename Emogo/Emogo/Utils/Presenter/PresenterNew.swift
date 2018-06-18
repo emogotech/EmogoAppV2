@@ -81,7 +81,6 @@ class PresenterNew: NSObject {
     
     static let AddCollabPresenter: Presentr = {
         
-        
         let customType = PresentationType.bottomHalf
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
@@ -93,10 +92,24 @@ class PresenterNew: NSObject {
         customPresenter.blurBackground = true
         customPresenter.blurStyle = UIBlurEffectStyle.light
         
-        
         return customPresenter
     }()
     
     
+    let contentContainer: Presentr = {
+        let width = ModalSize.full
+        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
+        let customType = PresentationType.custom(width: width, height: height, center: center)
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVerticalFromTop
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.blurBackground = false
+        customPresenter.backgroundOpacity = 1.0
+        customPresenter.backgroundColor = UIColor.black
+        customPresenter.dismissOnSwipe = true
+        return customPresenter
+    }()
     
 }

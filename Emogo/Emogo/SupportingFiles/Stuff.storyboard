@@ -4225,7 +4225,7 @@ Cg
                                         <state key="normal" image="send_icon"/>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="34n-aY-FDS"/>
                                     <constraint firstAttribute="bottom" secondItem="UNG-uS-dSk" secondAttribute="bottom" id="3Em-ep-hoB"/>
@@ -4248,6 +4248,46 @@ Cg
                                     <constraint firstItem="o69-p3-Ckf" firstAttribute="leading" secondItem="zE0-mB-eUK" secondAttribute="trailing" constant="25" id="xCF-zN-3WO"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gHr-cV-s6R">
+                                <rect key="frame" x="0.0" y="20" width="375" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tjh-CY-3ah">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="Pfn-nw-mIY"/>
+                                            <constraint firstAttribute="width" constant="60" id="ccO-WG-Ppu"/>
+                                        </constraints>
+                                        <state key="normal" image="cross-gradient"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9R-JP-0A0">
+                                        <rect key="frame" x="250" y="0.0" width="60" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="45" id="wML-KF-c24"/>
+                                            <constraint firstAttribute="width" constant="60" id="xRn-Hf-tDA"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" image="edit icon_new"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJE-oX-oIa">
+                                        <rect key="frame" x="315" y="0.0" width="60" height="45"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="3EJ-rF-zsd"/>
+                                            <constraint firstAttribute="height" constant="45" id="41S-EL-GAR"/>
+                                        </constraints>
+                                        <state key="normal" image="more icon"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="T9R-JP-0A0" firstAttribute="top" secondItem="gHr-cV-s6R" secondAttribute="top" id="1NF-ZJ-lpq"/>
+                                    <constraint firstItem="UJE-oX-oIa" firstAttribute="leading" secondItem="T9R-JP-0A0" secondAttribute="trailing" constant="5" id="IMe-Ov-cJn"/>
+                                    <constraint firstAttribute="trailing" secondItem="UJE-oX-oIa" secondAttribute="trailing" id="O6m-tS-1eB"/>
+                                    <constraint firstAttribute="height" constant="45" id="PCe-Zo-3dY"/>
+                                    <constraint firstItem="UJE-oX-oIa" firstAttribute="top" secondItem="gHr-cV-s6R" secondAttribute="top" id="bgm-VR-wZT"/>
+                                    <constraint firstItem="Tjh-CY-3ah" firstAttribute="leading" secondItem="gHr-cV-s6R" secondAttribute="leading" id="ewu-rC-8EH"/>
+                                    <constraint firstItem="Tjh-CY-3ah" firstAttribute="top" secondItem="gHr-cV-s6R" secondAttribute="top" id="vDE-2u-l0X"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -4255,9 +4295,12 @@ Cg
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="bottom" secondItem="qkU-x5-PGe" secondAttribute="bottom" id="7oH-S8-YIa"/>
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="A7P-3j-WZj"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="BKP-dC-Rcq"/>
+                            <constraint firstItem="gHr-cV-s6R" firstAttribute="top" secondItem="qkU-x5-PGe" secondAttribute="top" id="F5l-Pw-aXV"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="bottom" secondItem="qkU-x5-PGe" secondAttribute="bottom" id="cHq-gO-DHU"/>
                             <constraint firstItem="IiW-oU-7kt" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="cf1-vy-Yyd"/>
+                            <constraint firstItem="gHr-cV-s6R" firstAttribute="trailing" secondItem="qkU-x5-PGe" secondAttribute="trailing" id="hoh-5G-hTf"/>
                             <constraint firstItem="Wpd-Re-J64" firstAttribute="top" secondItem="qkU-x5-PGe" secondAttribute="top" id="kAf-Ur-6tF"/>
+                            <constraint firstItem="gHr-cV-s6R" firstAttribute="leading" secondItem="qkU-x5-PGe" secondAttribute="leading" id="mAT-bz-LGe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qkU-x5-PGe"/>
                     </view>
@@ -4280,7 +4323,9 @@ Cg
         <image name="closeButton" width="44" height="44"/>
         <image name="collabs_icon" width="41" height="35"/>
         <image name="content_next_btn" width="160" height="53"/>
+        <image name="cross-gradient" width="25" height="25"/>
         <image name="demo_images" width="48" height="48"/>
+        <image name="edit icon_new" width="34" height="34"/>
         <image name="editProfile" width="128" height="28"/>
         <image name="edit_icon_card" width="21" height="21"/>
         <image name="follow_btn" width="100" height="30"/>

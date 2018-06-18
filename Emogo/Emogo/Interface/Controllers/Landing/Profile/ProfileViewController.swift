@@ -10,6 +10,7 @@ import UIKit
 import XLActionController
 import Social
 import Haptica
+import Presentr
 
 enum ProfileMenu:String{
     case stream = "1"
@@ -1336,9 +1337,13 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 if ContentList.sharedInstance.arrayContent.count != 0 {
                     //
                    // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    
                     let objPreview = kStoryboardStuff.instantiateViewController(withIdentifier: "contentCollectionView")
                 //    objPreview.currentIndex = indexPath.row
-                    self.navigationController?.push(viewController: objPreview)
+                   
+               customPresentViewController( PresenterNew.instance.contentContainer, viewController: objPreview, animated: true)
+                    
+                  //  self.navigationController?.push(viewController: objPreview)
                 }
             }
         }else {
