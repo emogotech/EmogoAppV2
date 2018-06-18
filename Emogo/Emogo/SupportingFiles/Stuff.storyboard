@@ -3564,7 +3564,7 @@ Cg
         <!--Content View Controller-->
         <scene sceneID="kBC-eq-WRN">
             <objects>
-                <viewController storyboardIdentifier="contentView" id="0SD-UD-P56" customClass="ContentViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="0SD-UD-P56" customClass="ContentViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="ghN-dM-d4a">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4091,10 +4091,10 @@ Cg
             </objects>
             <point key="canvasLocation" x="3501.5999999999999" y="-456.52173913043481"/>
         </scene>
-        <!--Content Collection View Controller-->
+        <!--Content View Controller-->
         <scene sceneID="2tY-3W-BeX">
             <objects>
-                <viewController storyboardIdentifier="contentCollectionView" id="8u2-JM-Q4L" customClass="ContentCollectionViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="contentView" id="8u2-JM-Q4L" customClass="ContentViewController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleAspectFit" id="B9n-MX-HfQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -4208,10 +4208,16 @@ Cg
                                             <constraint firstAttribute="height" constant="50" id="YAP-cL-hWm"/>
                                         </constraints>
                                         <state key="normal" image="icon-download"/>
+                                        <connections>
+                                            <action selector="btnSaveAction:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="5pZ-mo-iWa"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o69-p3-Ckf">
                                         <rect key="frame" x="90" y="0.0" width="50" height="50"/>
                                         <state key="normal" image="Unlike_icon"/>
+                                        <connections>
+                                            <action selector="btnLikeDislikeAction:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="xQ5-mJ-jgZ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNG-uS-dSk">
                                         <rect key="frame" x="165" y="0.0" width="120" height="50"/>
@@ -4219,10 +4225,16 @@ Cg
                                             <constraint firstAttribute="width" constant="120" id="Nur-ik-F2V"/>
                                         </constraints>
                                         <state key="normal" image="add to emogo btn"/>
+                                        <connections>
+                                            <action selector="btnActionAddStream:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="ots-Ko-bHP"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0S-4V-P0P">
                                         <rect key="frame" x="310" y="0.0" width="50" height="50"/>
                                         <state key="normal" image="send_icon"/>
+                                        <connections>
+                                            <action selector="btnActionShare:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="sDU-kR-GwE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4258,6 +4270,9 @@ Cg
                                             <constraint firstAttribute="width" constant="60" id="ccO-WG-Ppu"/>
                                         </constraints>
                                         <state key="normal" image="cross-gradient"/>
+                                        <connections>
+                                            <action selector="btnBackAction:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="1QL-Yd-wzz"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9R-JP-0A0">
                                         <rect key="frame" x="250" y="0.0" width="60" height="45"/>
@@ -4267,6 +4282,9 @@ Cg
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="edit icon_new"/>
+                                        <connections>
+                                            <action selector="btnEditAction:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="7Ma-Xf-foj"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJE-oX-oIa">
                                         <rect key="frame" x="315" y="0.0" width="60" height="45"/>
@@ -4275,6 +4293,9 @@ Cg
                                             <constraint firstAttribute="height" constant="45" id="41S-EL-GAR"/>
                                         </constraints>
                                         <state key="normal" image="more icon"/>
+                                        <connections>
+                                            <action selector="btnShowReportListAction:" destination="8u2-JM-Q4L" eventType="touchUpInside" id="yWa-0x-Lkr"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4306,7 +4327,13 @@ Cg
                     </view>
                     <connections>
                         <outlet property="bottomToolBarView" destination="IiW-oU-7kt" id="zeY-Hg-PjL"/>
+                        <outlet property="btnAddToEmogo" destination="UNG-uS-dSk" id="3VK-oZ-JEo"/>
+                        <outlet property="btnEdit" destination="T9R-JP-0A0" id="AKa-QB-eli"/>
+                        <outlet property="btnLikeDislike" destination="o69-p3-Ckf" id="Imi-bO-eUc"/>
+                        <outlet property="btnSave" destination="zE0-mB-eUK" id="pR9-qc-fCy"/>
+                        <outlet property="btnShare" destination="y0S-4V-P0P" id="REL-jm-BUO"/>
                         <outlet property="collectionView" destination="Wpd-Re-J64" id="WYf-rP-vsV"/>
+                        <outlet property="kEditWidthConstraint" destination="xRn-Hf-tDA" id="yAE-Sd-niL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RmZ-9a-VI4" userLabel="First Responder" sceneMemberID="firstResponder"/>

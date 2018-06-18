@@ -232,6 +232,7 @@ let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 
 //Action sheet constant
 let kAlertSheet_Spam = "It's Spam"
+let kAlertDelete_Content = "Delete"
 let kAlertSheet_Inappropiate = "It's inappropiate"
 let kAlertSheet_SaveToGallery = "Save To Gallery"
 let kAlertSheet_SaveToMyStuff = "Save To MyStuff"
@@ -274,6 +275,7 @@ let kAlert_Title_Confirmation                                            = "Conf
 let kAlert_Confirmation_Button_Title                                      = "Continue"
 let kAlert_Cancel_Title                                                  = "Cancel"
 let kAlert_Title_ActionSheet                                                  =     "Report"
+
 let kAlert_Select_Time                                                   = "Select Time"
 let kAlertTitle_Emogo                                                   = "Emogo"
 let kAlert_Capture_Title                                               = "Capture limit exceeded!"

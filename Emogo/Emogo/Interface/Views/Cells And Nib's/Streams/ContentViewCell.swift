@@ -66,11 +66,7 @@ class ContentViewCell: UICollectionViewCell {
             
         }
         
-        if seletedImage.type == .image || seletedImage.type == .gif {
-           // self.btnPlayIcon.isHidden = true
-        }else {
-           // self.btnPlayIcon.isHidden = true
-        }
+        self.btnPlayIcon.isHidden = true
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
             self.loadDynamicBackground("", image: seletedImage.imgPreview)
@@ -82,9 +78,8 @@ class ContentViewCell: UICollectionViewCell {
             }else   if seletedImage.type == .video {
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 self.loadDynamicBackground(seletedImage.coverImageVideo)
-              //  self.btnPlayIcon.isHidden = false
+                 self.btnPlayIcon.isHidden = false
             }else if seletedImage.type == .link {
-                //self.btnPlayIcon.isHidden = true
                 self.imgCover.setForAnimatedImage(strImage:seletedImage.coverImageVideo)
                 self.loadDynamicBackground(seletedImage.coverImageVideo)
             }else {

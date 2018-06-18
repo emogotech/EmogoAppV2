@@ -289,7 +289,6 @@
 		F43612FB1FD69BFE00788FFE /* PMPhotoEditingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FA1FD69BFE00788FFE /* PMPhotoEditingManager.swift */; };
 		F43613001FD6A95D00788FFE /* PMEditingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */; };
 		F4361D3B1FF226FD00553E8E /* KASlideShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F4361D391FF226F800553E8E /* KASlideShow.m */; };
-		F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */; };
 		F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */ = {isa = PBXBuildFile; fileRef = F43649A32015CE96004FBEE2 /* CameraView.strings */; };
 		F43649BD2015CEA5004FBEE2 /* CameraGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A52015CE9B004FBEE2 /* CameraGlobals.swift */; };
 		F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = F43649A62015CE9B004FBEE2 /* CameraShot.swift */; };
@@ -465,7 +464,7 @@
 		F4F2A0DF2057D37000ED76D7 /* DeeplinkDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */; };
 		F4FC55F420D241B3006C22E1 /* ActionSheetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F320D241B3006C22E1 /* ActionSheetModel.swift */; };
 		F4FC55F620D25D7A006C22E1 /* NotesPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */; };
-		F4FC55F820D2721D006C22E1 /* ContentCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */; };
+		F4FC55F820D2721D006C22E1 /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F720D2721D006C22E1 /* ContentViewController.swift */; };
 		F4FC55FA20D27DAE006C22E1 /* ContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -794,7 +793,6 @@
 		F43612FF1FD6A95D00788FFE /* PMEditingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMEditingModel.swift; sourceTree = "<group>"; };
 		F4361D391FF226F800553E8E /* KASlideShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KASlideShow.m; sourceTree = "<group>"; };
 		F4361D3A1FF226FA00553E8E /* KASlideShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KASlideShow.h; sourceTree = "<group>"; };
-		F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		F43649A32015CE96004FBEE2 /* CameraView.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CameraView.strings; sourceTree = "<group>"; };
 		F43649A52015CE9B004FBEE2 /* CameraGlobals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraGlobals.swift; sourceTree = "<group>"; };
 		F43649A62015CE9B004FBEE2 /* CameraShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraShot.swift; sourceTree = "<group>"; };
@@ -989,7 +987,7 @@
 		F4F2A0DD2057D20100ED76D7 /* DeeplinkDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeeplinkDAO.swift; sourceTree = "<group>"; };
 		F4FC55F320D241B3006C22E1 /* ActionSheetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetModel.swift; sourceTree = "<group>"; };
 		F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesPreviewViewController.swift; sourceTree = "<group>"; };
-		F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCollectionViewController.swift; sourceTree = "<group>"; };
+		F4FC55F720D2721D006C22E1 /* ContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
 		F4FC55F920D27DAE006C22E1 /* ContentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewCell.swift; sourceTree = "<group>"; };
 		FED11246402A3CB76E85A261 /* Pods-iMessageExt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMessageExt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1539,11 +1537,10 @@
 				F401DFB11FE2964B00BD7DDA /* LinkViewController.swift */,
 				F401DFB31FE2966B00BD7DDA /* GiphyViewController.swift */,
 				F401DFB51FE2967B00BD7DDA /* ImportViewController.swift */,
-				F4361D3C1FF24FEA00553E8E /* ContentViewController.swift */,
 				F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */,
 				F480778020D1441B008E5BDA /* NotesViewController.swift */,
 				F4FC55F520D25D7A006C22E1 /* NotesPreviewViewController.swift */,
-				F4FC55F720D2721D006C22E1 /* ContentCollectionViewController.swift */,
+				F4FC55F720D2721D006C22E1 /* ContentViewController.swift */,
 			);
 			path = "Content & Stuff";
 			sourceTree = "<group>";
@@ -3165,7 +3162,6 @@
 				F46AC6E42043E92E00B71102 /* TLPhotoCollectionViewCell.swift in Sources */,
 				F40D3E6920CE6A16008ED566 /* PMColorPickerView.swift in Sources */,
 				F4731FCB1FC301BE00AA68D8 /* VKExpandableButton.swift in Sources */,
-				F4361D3D1FF24FEB00553E8E /* ContentViewController.swift in Sources */,
 				F4647C051FFE133800CCEDA3 /* UIFloatLabelTextView.m in Sources */,
 				F43649D02015CEA5004FBEE2 /* PhotoLibraryViewController.swift in Sources */,
 				F41FD95A20A9583F00FA8623 /* ColorsCollectionViewDelegate.swift in Sources */,
@@ -3208,7 +3204,7 @@
 				F43649BE2015CEA5004FBEE2 /* CameraShot.swift in Sources */,
 				F41FD96620A9583F00FA8623 /* StickersViewController.swift in Sources */,
 				F46AC6E52043E92E00B71102 /* TLAssetsCollection.swift in Sources */,
-				F4FC55F820D2721D006C22E1 /* ContentCollectionViewController.swift in Sources */,
+				F4FC55F820D2721D006C22E1 /* ContentViewController.swift in Sources */,
 				F46AB0C920BC2C3300229031 /* VideoEditor+Keyboard.swift in Sources */,
 				F497B3B41FD7EB43006614F2 /* PeopleDAO.swift in Sources */,
 				F41FD94720A9583F00FA8623 /* PhotoEditor+StickersViewController.swift in Sources */,

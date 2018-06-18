@@ -812,7 +812,8 @@ class ProfileViewController: UIViewController {
             if ContentList.sharedInstance.arrayContent.count != 0 {
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = sender.tag
-                self.navigationController?.push(viewController: objPreview)
+                let nav = UINavigationController(rootViewController: objPreview)
+            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             }
         }
     }
@@ -1022,43 +1023,6 @@ class ProfileViewController: UIViewController {
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
         customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
-        
-        /*
-        let actionController = ActionSheetController()
-        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
-            self.btnImportAction()
-        }))
-        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
-            
-            self.actionForCamera()
-            
-        }))
-        actionController.addAction(Action(ActionData(title: "Link", subtitle: "", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
-            
-            self.btnActionForLink()
-        }))
-        
-        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
-            
-            self.btnActionForGiphy()
-        }))
-        
-        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            self.btnActionForMyStuff()
-        }))
-        actionController.addAction(Action(ActionData(title: "Notes", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-          //  self.btnActionForNotes()
-        }))
-        
-        
-        //        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
-        //             self.actionForAddStream()
-        //        }))
-        actionController.shouldShowAddButton    =   true
-        actionController.headerData = "ADD FROM"
-        actionController.delegate   =   self
-        present(actionController, animated: true, completion: nil)
-        */
     }
     
     
@@ -1338,10 +1302,10 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     //
                    // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                     
-                    let objPreview = kStoryboardStuff.instantiateViewController(withIdentifier: "contentCollectionView")
-                //    objPreview.currentIndex = indexPath.row
-                   
-               customPresentViewController( PresenterNew.instance.contentContainer, viewController: objPreview, animated: true)
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                      objPreview.currentIndex = indexPath.row
+                   let nav = UINavigationController(rootViewController: objPreview)
+               customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
                     
                   //  self.navigationController?.push(viewController: objPreview)
                 }
