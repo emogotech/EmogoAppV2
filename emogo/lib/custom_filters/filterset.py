@@ -36,8 +36,11 @@ class StreamFilter(django_filters.FilterSet):
         return qs.filter(created_by=self.request.user).order_by('-upd')
 
     def filter_self_created(self, qs, name, value):
-        # Get self created streams
-        return qs.filter(created_by=self.request.user).order_by('-upd')
+        # Fetch all self created streams
+        stream_ids = self.collaborator_qs.filter(created_by_id=self.request.user.id).values_list( 'stream', flat=True)
+
+        # 2. Fetch and return stream Queryset objects without collaborators.
+        return qs.exclude(id__in=stream_ids).filter(created_by=self.request.user).order_by('-upd')
 
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')
