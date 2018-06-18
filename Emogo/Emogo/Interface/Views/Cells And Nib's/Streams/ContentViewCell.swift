@@ -15,7 +15,11 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var lblTitleImage: UILabel!
     @IBOutlet weak var lblImageDescription: UILabel!
     @IBOutlet weak var btnPlayIcon: UIButton!
-    
+    @IBOutlet weak var kLinkPreviewHieght: NSLayoutConstraint!
+    @IBOutlet weak var linkPreviewView: UIView!
+    @IBOutlet weak var lblLinkDescription: UILabel!
+    @IBOutlet weak var lblLink: UILabel!
+
 
     lazy var effectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
@@ -63,9 +67,15 @@ class ContentViewCell: UICollectionViewCell {
         self.lblImageDescription.text = ""
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
-            
         }
-        
+        if seletedImage.type == .link {
+            linkPreviewView.isHidden = false
+            kLinkPreviewHieght.constant = 80.0
+            
+        }else {
+            kLinkPreviewHieght.constant = 0.0
+            linkPreviewView.isHidden = true
+        }
         self.btnPlayIcon.isHidden = true
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -120,6 +130,8 @@ class ContentViewCell: UICollectionViewCell {
         if seletedImage.type == .notes {
             self.lblImageDescription.text = ""
         }
+        self.lblLink.text = seletedImage.coverImage.trim()
+        self.lblLinkDescription.text = seletedImage.name.trim()
     }
     
     fileprivate func loadDynamicBackground(_ imageURL: String,image:UIImage? = nil) {

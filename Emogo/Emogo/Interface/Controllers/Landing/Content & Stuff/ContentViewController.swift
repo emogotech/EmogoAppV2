@@ -55,6 +55,10 @@ class ContentViewController: UIViewController {
         self.hideStatusBar()
         self.navigationController?.isNavigationBarHidden = true
         self.collectionView.reloadData()
+        bottomToolBarView.backgroundColor = UIColor.clear
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            bottomToolBarView.backgroundColor = UIColor.black
+        }
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -79,6 +83,22 @@ class ContentViewController: UIViewController {
             self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
         self.collectionView.reloadData()
+        btnAddToEmogo.isHidden = true
+        btnShare.isHidden = true
+        btnSave.isHidden = true
+        if self.seletedImage.isShowAddStream {
+            btnAddToEmogo.isHidden = false
+            btnShare.isHidden = false
+            btnSave.isHidden = false
+        }
+        self.btnEdit.isHidden = true
+        if seletedImage.isEdit {
+            self.btnEdit.isHidden = false
+        }
+        
+        if isViewCount != nil {
+            apiForIncreaseViewCount()
+        }
     }
     
     func updateCollectionView(){
@@ -216,7 +236,7 @@ class ContentViewController: UIViewController {
     }
     
     func showDelete(){
-        let optionMenu = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
         {
@@ -580,6 +600,7 @@ class ContentViewController: UIViewController {
             
         }else{
             let controller = LightboxController(images: arrayContents, startIndex: index)
+            controller.pageDelegate = self
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
@@ -703,6 +724,14 @@ extension ContentViewController:CreateNotesViewControllerDelegate
     
 }
 
+extension ContentViewController:LightboxControllerPageDelegate {
+    
+    func lightboxController(_ controller: LightboxController, didMoveToPage page: Int){
+     //  self.currentIndex = controller.currentPage
+         print(page)
+        //updateCollectionView()
+    }
+}
 
 extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
     

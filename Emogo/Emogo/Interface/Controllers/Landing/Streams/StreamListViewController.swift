@@ -259,7 +259,9 @@ class StreamListViewController: UIViewController {
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
             objPreview.currentIndex = 0
-            self.navigationController?.push(viewController: objPreview)
+            let nav = UINavigationController(rootViewController: objPreview)
+            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+            
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeeplinkOpenUserProfile {
@@ -834,7 +836,9 @@ class StreamListViewController: UIViewController {
                             if data.contentID ==  currentConytentID {
                                 objPreview.seletedImage = data
                                 objPreview.isEdit = true
-                                self.navigationController?.push(viewController: objPreview)
+                                let nav = UINavigationController(rootViewController: objPreview)
+                                self.customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+                                
                                 break
                             }
                         }

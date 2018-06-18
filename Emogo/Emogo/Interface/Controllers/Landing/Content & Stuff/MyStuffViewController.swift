@@ -495,7 +495,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if ContentList.sharedInstance.arrayContent.count != 0 {
         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
         objPreview.currentIndex = indexPath.row
-        self.navigationController?.push(viewController: objPreview)
+        let nav = UINavigationController(rootViewController: objPreview)
+        customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+            
         }
         /*
         let content = array[indexPath.row]

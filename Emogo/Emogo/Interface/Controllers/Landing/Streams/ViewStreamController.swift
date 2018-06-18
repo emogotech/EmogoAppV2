@@ -981,7 +981,8 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
               objPreview.isViewCount = "TRUE"
               objPreview.currentIndex = indexPath.row + 1
-            self.navigationController?.push(viewController: objPreview)
+            let nav = UINavigationController(rootViewController: objPreview)
+            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
         }
     }
     
