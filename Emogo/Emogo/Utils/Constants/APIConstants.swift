@@ -84,6 +84,8 @@ let kLikeDislikeContentAPI                           = "like_dislike_content/"
 let kMyStreamListAPI                                 = "user_streams?public_stream="
 let kMyStreamCollabListAPI                           = "user_streams?collab_stream="
 let kAPIIncreaseViewCount                            = "increase_view_count/"
+let kAPICheckEmogoUser                               = "check_contact_in_emogo_user/"
+
 
 
 // MARK: -  API STATUS CODE

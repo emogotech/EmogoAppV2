@@ -116,7 +116,8 @@ class EditStreamController: UITableViewController {
     @IBAction func btnActionAddCollab(_ sender: Any) {
         
         let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
-        customPresentViewController(PresenterNew.AddCollabPresenter, viewController: actionVC, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: actionVC)
+        customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         
     }
     @IBAction func switchActionForAddContent(_ sender: PMSwitch) {
