@@ -121,6 +121,7 @@ class ViewStreamController: UIViewController {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             
         }
+      
         stretchyHeader.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
@@ -282,6 +283,7 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
             stretchyHeader.btnContainer.isHidden = false
+            
 
         }else {
             stretchyHeader.btnDelete.isHidden = true
@@ -293,6 +295,7 @@ class ViewStreamController: UIViewController {
             stretchyHeader.btnContainer.isHidden = true
             // removed for now
             stretchyHeader.btnEdit.isHidden = true
+          
 
         }
         self.btnAddContent.isHidden = true

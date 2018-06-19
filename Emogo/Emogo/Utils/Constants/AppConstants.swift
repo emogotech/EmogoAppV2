@@ -148,6 +148,7 @@ let kCell_ProfileStreamCell = "profileStreamCell"
 let kSegue_AddCollaboratorsView = "addColabSegue"
 let kSegue_ContainerSegue = "containerSegue"
 let kCell_AddCollabView = "addCollabCell"
+let kCell_StreamContent = "streamContent"
 
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"

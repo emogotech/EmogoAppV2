@@ -135,7 +135,7 @@ class StreamViewController: MSMessagesAppViewController {
             btnNextStream.isEnabled = false
            
         }
-          self.lbl_ViewCount.text = objStream?.viewCount.trim()
+         // self.lbl_ViewCount.text = objStream?.viewCount.trim()
         setupLoader()
         self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
@@ -155,6 +155,8 @@ class StreamViewController: MSMessagesAppViewController {
        
        
     }
+    
+  
    
     @objc func setupLabelInCollaboratorButton() {
         lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
@@ -238,9 +240,11 @@ class StreamViewController: MSMessagesAppViewController {
             }
         }
         else {
-            self.openFullView()
+            self.openFullView(index: self.currentIndex)
         }
     }
+    
+   
     
     // MARK: - Load Data in UI
     func loadViewForUI() {
@@ -314,10 +318,12 @@ class StreamViewController: MSMessagesAppViewController {
     //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
+        self.hudView.startLoaderWithAnimation()
         let stream = self.arrStream[self.currentStreamIndex]
     
         APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (stream.ID)!, status: (self.objStream?.likeStatus)!) {(count,status, error) in
-           
+               self.hudView.stopLoaderWithAnimation()
+            
             if (error?.isEmpty)! {
                 self.objStream?.likeStatus = status
                 self.objStream?.totalLiked = count
@@ -584,6 +590,68 @@ class StreamViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
     
+    func openFullView(index:Int?){
+        var arrayContents = [LightboxImage]()
+        var startIndex = 0
+        if self.objStream == nil {
+            return
+        }
+        if (self.objStream?.canAddContent)! {
+            if index != nil {
+                startIndex = index!
+            }
+        }
+        else {
+            if index != nil {
+                startIndex = 1 + index!
+            }
+        }
+        
+        let url = URL(string: (self.objStream?.coverImage)!)
+        if url != nil {
+            let text = (self.objStream?.title!)! + "\n" +  (self.objStream?.description!)!
+            let image = LightboxImage(imageURL: url!, text:text, videoURL: nil)
+            arrayContents.append(image)
+        }
+        
+        let array = objStream?.arrayContent.filter { $0.isAdd == false }
+        for obj in array! {
+            var image:LightboxImage!
+            let text = obj.name + "\n" +  obj.description
+            if obj.type == .image {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: nil)
+                }
+                else{
+                    let url = URL(string: obj.coverImage)
+                    if url != nil {
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: nil)
+                    }
+                }
+            }
+            else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    image = LightboxImage(image: obj.imgPreview!, text: text.trim(), videoURL: obj.fileUrl)
+                }else {
+                    let url = URL(string: obj.coverImageVideo)
+                    let videoUrl = URL(string: obj.coverImage)
+                    if url == nil {
+                        image = LightboxImage(image: #imageLiteral(resourceName: "stream-card-placeholder"), text: text.trim(), videoURL: videoUrl)
+                    }else{
+                        image = LightboxImage(imageURL: url!, text: text.trim(), videoURL: videoUrl!)
+                    }
+                }
+            }
+            if image != nil {
+                arrayContents.append(image)
+            }
+        }
+        let controller = LightboxController(images: arrayContents, startIndex: startIndex)
+        controller.dynamicBackground = true
+        if arrayContents.count != 0 {
+            present(controller, animated: true, completion: nil)
+        }
+    }
     //MARK:- calling webservice
     @objc func getStream() {
         if Reachability.isNetworkAvailable() {
@@ -728,14 +796,25 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
-        
+        let content = ContentDAO(contentData: [:])
+        content.coverImage = objStream?.coverImage
+        content.isUploaded = true
+        content.type = .image
+        content.fileName = "SreamCover"
+        content.name = objStream?.title
+        content.description = objStream?.description
+        var array = objStream?.arrayContent.filter { $0.isAdd == false }
+        array?.insert(content, at: 0)
+        ContentList.sharedInstance.arrayContent = array
+        ContentList.sharedInstance.objStream = objStream?.streamID
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
-        
+      
         obj.arrContentData = (objStream?.arrayContent)!
         obj.isViewCount = "TRUE"
         self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
-        obj.currentContentIndex  = indexPath.row
+        obj.currentContentIndex  = indexPath.row 
+        print(obj.currentContentIndex)
         obj.currentStreamTitle = lblStreamTitle.text
         self.present(obj, animated: false, completion: nil)
     }
@@ -788,49 +867,6 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         
     }
     
-    func openFullView(index:Int?){
-        var arrayContents = [LightboxImage]()
-     
-            let array = objStream?.arrayContent.filter { $0.isAdd == false }
-            for obj in array! {
-                var image:LightboxImage!
-                if obj.type == .image {
-                    if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: nil)
-                    }else{
-                        let url = URL(string: obj.coverImage)
-                        if url != nil {
-                            image = LightboxImage(imageURL: url!, text: obj.name, videoURL: nil)
-                        }
-                    }
-                }else if obj.type == .video {
-                    if obj.imgPreview != nil {
-                        image = LightboxImage(image: obj.imgPreview!, text: obj.name, videoURL: obj.fileUrl)
-                    }else {
-                        let url = URL(string: obj.coverImage)
-                        let videoUrl = URL(string: obj.coverImage)
-                        image = LightboxImage(imageURL: url!, text: obj.name, videoURL: videoUrl!)
-                    }
-                }
-                if image != nil {
-                    arrayContents.append(image)
-                }
-            }
-        
-        
-        if (self.objStream?.canAddContent)! {
-            let controller = LightboxController(images: arrayContents, startIndex: index! - 1)
-            controller.dynamicBackground = true
-            if arrayContents.count != 0 {
-                present(controller, animated: true, completion: nil)
-            }
-        }else {
-            let controller = LightboxController(images: arrayContents, startIndex: index!)
-            controller.dynamicBackground = true
-            if arrayContents.count != 0 {
-                present(controller, animated: true, completion: nil)
-            }
-        }
-    }
+  
 }
 
