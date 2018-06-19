@@ -556,4 +556,7 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
 
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
-        return {contact: (True if contact in users else False) for contact in self.validated_data.get('contact_list')}
+        # Find User profile for contact list
+        fields = ('user_profile_id', 'full_name', 'user_image', 'display_name')
+        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
+                    if contact in users else False) for contact in self.validated_data.get('contact_list') }
