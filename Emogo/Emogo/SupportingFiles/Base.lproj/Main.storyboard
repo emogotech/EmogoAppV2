@@ -2482,7 +2482,7 @@
                                             <constraint firstAttribute="height" constant="40" id="bN5-8P-Lpj"/>
                                         </constraints>
                                         <state key="normal" image="button:KJZ-CM-7cq:image"/>
-                                        <state key="selected" image="839FDEB7-6CE2-43C5-A233-4B4AA1FFB088"/>
+                                        <state key="selected" image="D3B31732-099C-43A1-A3C8-3741F16DBBCE"/>
                                         <connections>
                                             <action selector="btnSearchAction:" destination="yPI-rI-brd" eventType="touchUpInside" id="6qg-Si-L1X"/>
                                         </connections>
@@ -3304,9 +3304,7 @@
                                                                 <constraint firstAttribute="width" constant="104" id="RlJ-CM-bKw"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
-                                                            <inset key="titleEdgeInsets" minX="-34" minY="-41" maxX="0.0" maxY="-4"/>
-                                                            <inset key="imageEdgeInsets" minX="33" minY="0.0" maxX="0.0" maxY="-14"/>
-                                                            <state key="normal" title="CHANGE COVER" image="camera_retake_icon">
+                                                            <state key="normal" image="Stream-change-cover">
                                                                 <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </state>
                                                             <connections>
@@ -4668,7 +4666,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="839FDEB7-6CE2-43C5-A233-4B4AA1FFB088" width="17" height="17">
+        <image name="Add_cover_image_icon" width="30" height="25"/>
+        <image name="D3B31732-099C-43A1-A3C8-3741F16DBBCE" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
 ExQZHh8jJCsuMTtDR0tPUlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdz
@@ -4817,9 +4816,9 @@ DyB7IH0ggiCQIJQgmyCgIK0gsCC9IMIgyiDNINIg2iDdIO8g8iD3AAAAAAAAAgEAAAAAAAAAWQAAAAAA
 AAAAAAAAAAAAIPk
 </mutableData>
         </image>
-        <image name="Add_cover_image_icon" width="30" height="25"/>
         <image name="Rectangle 2" width="522" height="66"/>
         <image name="Save" width="17" height="23"/>
+        <image name="Stream-change-cover" width="110" height="43"/>
         <image name="add to emogo btn" width="114" height="30"/>
         <image name="add-stream-cover-image-placeholder" width="375" height="179"/>
         <image name="addCollab_uncheck" width="30" height="30"/>

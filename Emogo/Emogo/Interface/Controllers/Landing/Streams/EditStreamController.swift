@@ -131,6 +131,8 @@ class EditStreamController: UITableViewController {
     @IBAction func btnActionAddCollab(_ sender: Any) {
         
         let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
+        actionVC.delegate = self
+        actionVC.arraySelected = self.selectedCollaborators
         let nav = UINavigationController(rootViewController: actionVC)
         customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         
@@ -332,10 +334,7 @@ class EditStreamController: UITableViewController {
         }
     }
     
-    func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(self.selectedCollaborators)
-        self.selectedCollaborators = colabs
-    }
+   
     func actionForUploadCover(){
         
         //        let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
@@ -557,3 +556,8 @@ extension EditStreamController :PMSwitcherChangeValueDelegate{
     
 }
 
+extension EditStreamController :AddCollabViewControllerDelegate{
+    func selectedColabs(arrayColab: [CollaboratorDAO]) {
+        self.selectedCollaborators = arrayColab
+    }
+}
