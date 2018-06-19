@@ -608,6 +608,6 @@ class CheckContactInEmogo(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             data = serializer.find_contact_list()
-            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
+            return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:
-            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.errors)
