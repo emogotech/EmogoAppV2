@@ -10,40 +10,40 @@ import UIKit
 import Contacts
 
 class AddCollabViewController: UIViewController {
-
+    
     
     //MARK:- IBOutlets Connection
     
     @IBOutlet weak var tblAddCollab: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
-    @IBOutlet weak var lblSearch: UILabel!
     @IBOutlet weak var tfSearch: UITextField!
     @IBOutlet weak var viewSearch: UIView!
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
-
+    var arraySearch = [Any]()
+    
     // Varibales
     var arrayCollaborators = [CollaboratorDAO]()
     var arraySelected:[CollaboratorDAO]?
     var isChecked: Bool! = false
-    var rowsWhichAreChecked = [IndexPath]()
     let checkedImage = UIImage(named: "addCollab_check")! as UIImage
     let uncheckedImage = UIImage(named: "addCollab_uncheck")! as UIImage
     let kCell_AddCollabView = "addCollabCell"
     var selectedRows = [IndexPath]()
-
+    var isSearchEnable: Bool! = false
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tblAddCollab.delegate = self
         self.tblAddCollab.dataSource = self
         tblAddCollab.sectionIndexColor = UIColor.lightGray
-       // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
-      //  self.tblAddCollab.estimatedRowHeight = 250
+        // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
+        //  self.tblAddCollab.estimatedRowHeight = 250
         self.prepareLayouts()
-       
+        
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
         self.tblAddCollab.reloadData()
@@ -53,17 +53,16 @@ class AddCollabViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-   
+    
     func prepareLayouts(){
         if self.arraySelected != nil {
-                self.arrayCollaborators = self.arraySelected!
+            self.arrayCollaborators = self.arraySelected!
         }
-         self.tblAddCollab.separatorStyle = .none
-         self.btnAdd.isHidden = true
-         lblSearch.layer.cornerRadius = 20.0
-         lblSearch.clipsToBounds = true
-         self.getContacts()
+        self.tblAddCollab.separatorStyle = .none
+        self.btnAdd.isHidden = true
+        self.getContacts()
         prepareNavBarButtons()
+        tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
     }
     
     func prepareNavBarButtons(){
@@ -90,7 +89,15 @@ class AddCollabViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = btnInvite
         
-       self.title = "Add Collaborators"
+        self.title = "Add Collaborators"
+    }
+    
+    @objc func textFieldEditingChange(sender:UITextField) {
+        
+        self.isSearchEnable = true
+        self.arraySearch.removeAll()
+        self.tblAddCollab.reloadData()
+        self.performSearch(text: (sender.text?.trim())!)
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
@@ -143,8 +150,8 @@ class AddCollabViewController: UIViewController {
             self.btnAdd.isHidden = false
         }
     }
-  
-
+    
+    
     // MARK: - Class Methods
     
     func getContacts() {
@@ -231,21 +238,21 @@ class AddCollabViewController: UIViewController {
             self.arrayCollaborators = unique
             
             for obj in self.arrIndexSection {
-            let result = self.arrayCollaborators
+                let result = self.arrayCollaborators
                     .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
                 let dict:[String:Any] = ["key":obj,"value":result]
                 self.arrayToShow.append(dict)
             }
             self.checkContact()
-//            self.arrayCollaborators.sort {
-//                $0.name.lowercased() < $1.name.lowercased()
-//            }
+            //            self.arrayCollaborators.sort {
+            //                $0.name.lowercased() < $1.name.lowercased()
+            //            }
             self.tblAddCollab.reloadData()
         }
         
     }
     
-
+    
     
     func showPermissionAlert(strMessage:String) {
         
@@ -268,13 +275,39 @@ class AddCollabViewController: UIViewController {
     }
     
     func checkContact(){
-     var arrayNumber = [String]()
+        var arrayNumber = [String]()
         for obj in arrayCollaborators {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-            
+            print(results)
+            if (errorMSG?.isEmpty)! {
+                let arrayKey = results?.keys
+                for (index,obj) in (arrayKey?.enumerated())! {
+                    let strPhone:String! = obj
+                    if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim() == strPhone.trim() }) {
+                        if let value = results![obj] {
+                            if value is [String:Any] {
+                                let collaborator = CollaboratorDAO(colabData: value as! [String : Any])
+                                self.arrayCollaborators[mainIndex] = collaborator
+                            }
+                        }
+                    }
+                    print("iter \(index)")
+                }
+            }
         }
+    }
+    
+    func performSearch(text:String) {
+        let result = self.arrayCollaborators
+            .filter { $0.name.lowercased().contains(text.lowercased()) }
+        print(result)
+        //        for obj in self.arrIndexSection {
+        //
+        //            let dict:[String:Any] = ["key":obj,"value":result]
+        //            self.arrayToShow.append(dict)
+        //        }
     }
     
 }
@@ -292,7 +325,7 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         }
         let array:[CollaboratorDAO] = (self.arrayToShow[section] as! [String:Any])["value"] as! [CollaboratorDAO]
-       return array.count
+        return array.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -305,10 +338,10 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         let attrs2:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font :  UIFont(name: kFontRegular, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 74, g: 74, b: 74)]
         
         let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
-            
-            let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
-            attributedString1.append(attributedString2)
-            cell.lblDisplayName.attributedText = attributedString1
+        
+        let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
+        attributedString1.append(attributedString2)
+        cell.lblDisplayName.attributedText = attributedString1
         
         // cell.imgProfile.image = UIImage(named: "demo_images")
         if dictColabContact.imgUser.isEmpty {
@@ -334,7 +367,7 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       
+        
         return 70
     }
     
