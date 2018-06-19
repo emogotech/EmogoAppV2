@@ -30,7 +30,7 @@ from autofixtures import UserAutoFixture
 from django.http import HttpResponse
 from django.http import Http404
 from django.db.models import Prefetch, Count
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Q
 
 
 class Signup(APIView):
@@ -497,7 +497,12 @@ class UserCollaborators(ListAPIView):
         #  Override serializer class : ViewStreamSerializer
         # self.request.user
         self.serializer_class = ViewStreamSerializer
-        queryset = self.filter_queryset(self.get_queryset())
+        # Fetch all self created streams
+        stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) | 
+                                                    Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
+        # # 2. Fetch  stream Queryset objects as collaborators.
+        queryset =  self.queryset.filter(id__in=stream_ids)
+
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type')
         page = self.paginate_queryset(queryset)
@@ -603,6 +608,6 @@ class CheckContactInEmogo(APIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(raise_exception=True):
             data = serializer.find_contact_list()
-            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=data)
+            return custom_render_response(status_code=status.HTTP_200_OK, data=data)
         else:
-            return custom_render_response(status_code=status.HTTP_204_NO_CONTENT, data=serializer.errors)
+            return custom_render_response(status_code=status.HTTP_200_OK, data=serializer.errors)
