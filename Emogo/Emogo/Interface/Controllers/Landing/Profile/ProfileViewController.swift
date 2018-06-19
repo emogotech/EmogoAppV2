@@ -545,9 +545,8 @@ class ProfileViewController: UIViewController {
     
     @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
         
-        if self.selectedType != .All {
-            return
-        }
+        if self.selectedType == .All && self.currentMenu == .stuff {
+
         switch(gesture.state) {
             
         case UIGestureRecognizerState.began:
@@ -565,6 +564,7 @@ class ProfileViewController: UIViewController {
         default:
             profileCollectionView.cancelInteractiveMovement()
             selectedIndex = nil
+        }
         }
     }
     @objc func handleTapGesture(_ gesture: UITapGestureRecognizer) {
@@ -1265,7 +1265,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             fatalError("Unexpected element kind")
         }
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         if currentMenu == .stuff {
@@ -1285,7 +1284,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let itemWidth = collectionView.bounds.size.width/2.0
             return CGSize(width: itemWidth, height: itemWidth - 40)
         }
-       
+        
     }
         
     
@@ -1336,26 +1335,29 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }
     
-      func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
-        let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
-        ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
-        ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
-        DispatchQueue.main.async {
-            self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
-            HUDManager.sharedInstance.showHUD()
-            self.reorderContent(orderArray:ContentList.sharedInstance.arrayStuff)
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if self.selectedType == .All && self.currentMenu == .stuff {
+            
+            let contentDest = ContentList.sharedInstance.arrayStuff[sourceIndexPath.row]
+            ContentList.sharedInstance.arrayStuff.remove(at: sourceIndexPath.row)
+            ContentList.sharedInstance.arrayStuff.insert(contentDest, at: destinationIndexPath.row)
+            DispatchQueue.main.async {
+                self.profileCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
+                HUDManager.sharedInstance.showHUD()
+                self.reorderContent(orderArray:ContentList.sharedInstance.arrayStuff)
+            }
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
-        if selectedType == .All {
+        if self.selectedType == .All && self.currentMenu == .stuff {
             return true
         }else {
             return false
         }
     }
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
