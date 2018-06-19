@@ -9,41 +9,47 @@
 import UIKit
 import Contacts
 
-class AddCollabViewController: UIViewController {
+protocol AddCollabViewControllerDelegate {
+    func selectedColabs(arrayColab:[CollaboratorDAO])
+}
 
+class AddCollabViewController: UIViewController {
+    
     
     //MARK:- IBOutlets Connection
     
     @IBOutlet weak var tblAddCollab: UITableView!
     @IBOutlet weak var btnAdd: UIButton!
-    @IBOutlet weak var lblSearch: UILabel!
     @IBOutlet weak var tfSearch: UITextField!
     @IBOutlet weak var viewSearch: UIView!
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
-
+    var arraySearch = [Any]()
+    
     // Varibales
     var arrayCollaborators = [CollaboratorDAO]()
     var arraySelected:[CollaboratorDAO]?
     var isChecked: Bool! = false
-    var rowsWhichAreChecked = [IndexPath]()
     let checkedImage = UIImage(named: "addCollab_check")! as UIImage
     let uncheckedImage = UIImage(named: "addCollab_uncheck")! as UIImage
     let kCell_AddCollabView = "addCollabCell"
     var selectedRows = [IndexPath]()
+    var isSearchEnable: Bool! = false
+    var delegate:AddCollabViewControllerDelegate?
+    var arrayTempSelected = [CollaboratorDAO]()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tblAddCollab.delegate = self
+        tfSearch.delegate = self
         self.tblAddCollab.dataSource = self
         tblAddCollab.sectionIndexColor = UIColor.lightGray
-       // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
-      //  self.tblAddCollab.estimatedRowHeight = 250
+        // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
+        //  self.tblAddCollab.estimatedRowHeight = 250
         self.prepareLayouts()
-       
+        
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
         self.tblAddCollab.reloadData()
@@ -53,17 +59,16 @@ class AddCollabViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-   
+    
     func prepareLayouts(){
         if self.arraySelected != nil {
-                self.arrayCollaborators = self.arraySelected!
+            self.arrayCollaborators = self.arraySelected!
         }
-         self.tblAddCollab.separatorStyle = .none
-         self.btnAdd.isHidden = true
-         lblSearch.layer.cornerRadius = 20.0
-         lblSearch.clipsToBounds = true
-         self.getContacts()
+        self.tblAddCollab.separatorStyle = .none
+        self.btnAdd.isHidden = true
+        self.getContacts()
         prepareNavBarButtons()
+        tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
     }
     
     func prepareNavBarButtons(){
@@ -90,11 +95,26 @@ class AddCollabViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = btnInvite
         
-       self.title = "Add Collaborators"
+        self.title = "Add Collaborators"
+    }
+    
+    @objc func textFieldEditingChange(sender:UITextField) {
+        
+        self.isSearchEnable = true
+        self.arraySearch.removeAll()
+        self.tblAddCollab.reloadData()
+        self.performSearch(text: (sender.text?.trim())!)
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-        
+       
+        if self.arrayTempSelected.count != 0 {
+            print(arrayTempSelected)
+            if self.delegate != nil {
+                self.delegate?.selectedColabs(arrayColab: arrayTempSelected)
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     //MARK:- Selector Methods
@@ -121,30 +141,43 @@ class AddCollabViewController: UIViewController {
         guard let indexPath = self.tblAddCollab.indexPath(for: sender.superview?.superview?.superview as! AddCollabCell) else {
             return
         }
-        var array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
-        let dictColabContact = array[indexPath.row]
-        dictColabContact.isSelected = !dictColabContact.isSelected
-        array[indexPath.row] = dictColabContact
-        if let name =  (self.arrayToShow[indexPath.section] as! [String:Any])["key"] {
-            let key:String! = name as! String
-            self.arrayToShow[indexPath.section] = ["key":key,"value":array]
-        }
-        self.tblAddCollab.reloadData()
-        if self.selectedRows.contains(indexPath) {
-            if let index =  self.selectedRows.index(of: indexPath){
-                self.selectedRows.remove(at: index)
-            }
+        
+        var dictColabContact:CollaboratorDAO!
+        if self.isSearchEnable {
+            var array:[CollaboratorDAO] = (self.arraySearch[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            dictColabContact = array[indexPath.row]
         }else {
-            self.selectedRows.append(indexPath)
+            var array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            dictColabContact = array[indexPath.row]
         }
-        if self.selectedRows.count == 0 {
+        
+        if dictColabContact != nil {
+            dictColabContact.isSelected = !dictColabContact.isSelected
+            if self.arrayTempSelected.contains(where: {$0.phone.trim() == dictColabContact.phone.trim()}) {
+                if let mainIndex =  self.arrayTempSelected.index(where: {$0.phone.trim() == dictColabContact.phone.trim()}) {
+                    self.arrayTempSelected.remove(at: mainIndex)
+                }
+                if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim() == dictColabContact.phone.trim()}) {
+                    self.arrayCollaborators[mainIndex] = dictColabContact
+                }
+            }else  {
+                self.arrayTempSelected.append(dictColabContact)
+                if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim() == dictColabContact.phone.trim()}) {
+                    self.arrayCollaborators[mainIndex] = dictColabContact
+                }
+            }
+            
+        }
+       
+        self.updateList(arrayColabs: self.arrayCollaborators)
+        print(self.arrayTempSelected)
+        if self.arrayTempSelected.count == 0 {
             self.btnAdd.isHidden = true
         }else {
             self.btnAdd.isHidden = false
         }
     }
-  
-
+    
     // MARK: - Class Methods
     
     func getContacts() {
@@ -209,13 +242,13 @@ class AddCollabViewController: UIViewController {
                 let collaborator = CollaboratorDAO(colabData: dict)
                 if self.arraySelected != nil {
                     if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim() && $0.addedByMe == true }))! {
-                        
                         collaborator.isSelected = true
+                        self.arrayTempSelected.append(collaborator)
                     }
                 }
                 self.arrayCollaborators.append(collaborator)
             }
-            
+
         }
         DispatchQueue.main.async {
             
@@ -229,23 +262,20 @@ class AddCollabViewController: UIViewController {
                 }
             }
             self.arrayCollaborators = unique
-            
-            for obj in self.arrIndexSection {
-            let result = self.arrayCollaborators
-                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
-                let dict:[String:Any] = ["key":obj,"value":result]
-                self.arrayToShow.append(dict)
-            }
-            self.checkContact()
-//            self.arrayCollaborators.sort {
-//                $0.name.lowercased() < $1.name.lowercased()
+//            for obj in self.arrayCollaborators {
+//                if obj.isSelected == true {
+//                    self.arrayTempSelected.append(obj)
+//                }
 //            }
-            self.tblAddCollab.reloadData()
+            self.checkContact()
+            //            self.arrayCollaborators.sort {
+            //                $0.name.lowercased() < $1.name.lowercased()
+            //            }
         }
         
     }
     
-
+    
     
     func showPermissionAlert(strMessage:String) {
         
@@ -268,13 +298,69 @@ class AddCollabViewController: UIViewController {
     }
     
     func checkContact(){
-     var arrayNumber = [String]()
+        var arrayNumber = [String]()
         for obj in arrayCollaborators {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-            
+            print(results)
+            if (errorMSG?.isEmpty)! {
+                let arrayKey = results?.keys
+                for (index,obj) in (arrayKey?.enumerated())! {
+                    let strPhone:String! = obj
+                    if let mainIndex =  self.arrayCollaborators.index(where: {$0.phone.trim() == strPhone.trim() }) {
+                        if let value = results![obj] {
+                            if value is [String:Any] {
+                                let temp = self.arrayCollaborators[mainIndex]
+                                let collaborator = CollaboratorDAO(colabData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                collaborator.isSelected = temp.isSelected
+                                collaborator.phone = strPhone
+                                if temp.userID.trim().isEmpty {
+                                    self.arrayCollaborators[mainIndex] = collaborator
+                                }
+                                print("replaced Data")
+
+                            }
+                        }
+                    }
+                    print("iter \(index)")
+                }
+                if self.arrayTempSelected.count != 0 {
+                    self.btnAdd.isHidden = false
+                }
+                self.updateList(arrayColabs:self.arrayCollaborators)
+            }
         }
+    }
+    
+    func updateList(arrayColabs:[CollaboratorDAO]){
+        if self.isSearchEnable {
+            self.arraySearch.removeAll()
+            for obj in self.arrIndexSection {
+                let result = arrayColabs
+                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
+                let dict:[String:Any] = ["key":obj,"value":result]
+                self.arraySearch.append(dict)
+            }
+        }else {
+            self.arrayToShow.removeAll()
+            for obj in self.arrIndexSection {
+                let result = arrayColabs
+                    .filter { $0.name.lowercased().hasPrefix(obj.lowercased()) }
+                let dict:[String:Any] = ["key":obj,"value":result]
+                
+                self.arrayToShow.append(dict)
+            }
+        }
+       
+        self.tblAddCollab.reloadData()
+    }
+    
+    func performSearch(text:String) {
+        let result = self.arrayCollaborators
+            .filter { $0.name.lowercased().contains(text.lowercased()) }
+        print(result)
+        self.updateList(arrayColabs:result)
     }
     
 }
@@ -288,31 +374,43 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearchEnable == true {
+            if self.arraySearch.count == 0 {
+                return 0
+            }
+            let array:[CollaboratorDAO] = (self.arraySearch[section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            return array.count
+        }
         if self.arrayToShow.count == 0 {
             return 0
         }
         let array:[CollaboratorDAO] = (self.arrayToShow[section] as! [String:Any])["value"] as! [CollaboratorDAO]
-       return array.count
+        return array.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:AddCollabCell = tableView.dequeueReusableCell(withIdentifier: kCell_AddCollabView) as! AddCollabCell
-        let array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
-        let dictColabContact = array[indexPath.row]
+        var dictColabContact:CollaboratorDAO!
+        if isSearchEnable == true {
+            let array:[CollaboratorDAO] = (self.arraySearch[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            dictColabContact = array[indexPath.row]
+        }else {
+            let array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            dictColabContact = array[indexPath.row]
+        }
         
         let attrs1:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font : UIFont(name: kFontMedium, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 36, g: 36, b: 36)]
         
         let attrs2:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font :  UIFont(name: kFontRegular, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 74, g: 74, b: 74)]
         
         let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
-            
-            let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
-            attributedString1.append(attributedString2)
-            cell.lblDisplayName.attributedText = attributedString1
+        
+        let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
+        attributedString1.append(attributedString2)
+        cell.lblDisplayName.attributedText = attributedString1
         
         // cell.imgProfile.image = UIImage(named: "demo_images")
         if dictColabContact.imgUser.isEmpty {
-            
             cell.imgProfile.setImage(string: dictColabContact.name,color:UIColor.colorHash(name: dictColabContact.name),circular: true)
         }else{
             cell.imgProfile.setImageWithResizeURL(dictColabContact.imgUser)
@@ -334,8 +432,18 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       
         return 70
     }
     
+}
+
+extension AddCollabViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if (textField.text?.trim().isEmpty)!  {
+            self.isSearchEnable = false
+            self.tblAddCollab.reloadData()
+        }
+        return true
+    }
 }

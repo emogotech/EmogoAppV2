@@ -20,14 +20,16 @@ class CreateStreamController: UITableViewController {
     
     //MARK:- IBOutlet Connections
     
-    @IBOutlet weak var btnAddCoverImage: UIButton!
+    @IBOutlet weak var viewAddCoverImage: UIView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
-    @IBOutlet weak var switchForEmogoPrivate: PMSwitch!
+    @IBOutlet weak var switchForEmogoPrivate: PMAnimatedSwitch!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var lblAddCoverImage: UILabel!
-    
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var viewTitle: UIView!
+
     var delegate:CustomCameraViewControllerDelegate?
     var isExpandRow: Bool = false {
         
@@ -56,23 +58,11 @@ class CreateStreamController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tfEmogoTitle.becomeFirstResponder()
-        let keyboardToolBar = UIToolbar()
-        keyboardToolBar.sizeToFit()
         
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem:
-            UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(barButtonSystemItem:
-            UIBarButtonSystemItem.done, target: self, action: #selector(self.doneClicked) )
-        
-        keyboardToolBar.setItems([flexibleSpace, doneButton], animated: true)
-        
-        tfEmogoTitle.inputAccessoryView = keyboardToolBar
-        tfDescription.inputAccessoryView = keyboardToolBar
         self.prepareLayouts()
     }
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
        
     }
 
@@ -84,12 +74,13 @@ class CreateStreamController: UITableViewController {
     @objc func doneClicked() {
         view.endEditing(true)
     }
-   
     
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
-       
+        tfEmogoTitle.becomeFirstResponder()
+        tfEmogoTitle.inputAccessoryView = toolBar
+        tfDescription.inputAccessoryView = toolBar
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
         tfDescription.placeholder = "Caption(Optional)"
@@ -103,7 +94,7 @@ class CreateStreamController: UITableViewController {
             self.lblCaption.isHidden = true
         }
         self.tableView.tableFooterView = UIView()
-        self.switchForEmogoPrivate.offImage = UIImage(named: "unlockSwitch")
+        AppDelegate.appDelegate.keyboardResign(isActive: false)
         tfEmogoTitle.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.tfEmogoTitle.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -124,21 +115,37 @@ class CreateStreamController: UITableViewController {
         // If Stream is public
         //self.rowHieght.constant = 0.0
         self.isExpandRow = false
-        
-   
+        switchForEmogoPrivate.delegate = self
+        switchForEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
+        switchForEmogoPrivate.layer.borderWidth = 1.0
+        switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
     }
+    
+
     //MARK:- action for buttons
     
+    @IBAction func btnCloseAction(_ sender: Any) {
+        self.view.endEditing(true)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func btnDoneAction(_ sender: Any) {
+        if coverImage == nil {
+            self.showToastOnWindow(strMSG: kAlert_Stream_Cover_Empty)
+        }
+        else if (self.tfEmogoTitle.text?.trim().isEmpty)! {
+            tfEmogoTitle.shake()
+            self.showToastOnWindow(strMSG: kAlert_Stream_Title_Empty)
+        } else {
+            self.view.endEditing(true)
+            self.showToastOnWindow(strMSG: kAlert_Upload_Wait_Msg)
+                self.uploadCoverImage()
+        }
+    }
     @IBAction func btnActionForAddCoverImage(_ sender: Any) {
         self.actionForUploadCover()
     }
-    @IBAction func switchActionForEmogoPrivate(_ sender: PMSwitch) {
-        sender.isOn = !sender.isOn
-        if self.switchForEmogoPrivate.isOn {
-            self.switchForEmogoPrivate.onImage = UIImage(named: "lockSwitch")
-            streamType = "Private"
-        }
-    }
+  
     
     func configureCollaboatorsRowExpandCollapse() {
         self.reloadIndex(index: 2)
@@ -159,9 +166,8 @@ class CreateStreamController: UITableViewController {
         self.strCoverImage = ""
         self.imgCover.contentMode = .scaleAspectFit
         self.imgCover.backgroundColor = image.getColors().background
-        self.btnAddCoverImage.isHidden = true
+        self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
-        
         print(self.fileName)
     }
     
@@ -424,10 +430,11 @@ extension CreateStreamController:CropViewControllerDelegate {
 extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == tfDescription {
+        if textField == tfEmogoTitle {
+            tfEmogoTitle.resignFirstResponder()
             tfDescription.becomeFirstResponder()
         }else{
-            tfEmogoTitle.becomeFirstResponder()
+            tfEmogoTitle.resignFirstResponder()
         }
         return true
     }
@@ -455,13 +462,22 @@ extension CreateStreamController {
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if self.isExpandRow  && indexPath.row == 3{
-            return 340.0
-        }else if indexPath.row == 1 {
+    
+        if indexPath.row == 1 {
             return contentRowHeight  + 30
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
+}
+extension CreateStreamController :PMSwitcherChangeValueDelegate{
+    func switcherDidChangeValue(switcher: PMAnimatedSwitch, value: Bool) {
+        if value {
+            streamType = "Private"
+        }else {
+            streamType = "Public"
+        }
+    }
+    
+  
 }

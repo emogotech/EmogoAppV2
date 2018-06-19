@@ -267,6 +267,7 @@
 		F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186A202B88C7006139F7 /* filter_gradient_1.png */; };
 		F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F431186B202B88CD006139F7 /* filter_gradient_5.png */; };
 		F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F431E3B720C693F8008D425B /* CreateNotesViewController.swift */; };
+		F4334A7B20D8F8570026C778 /* PMAnimatedSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4334A7A20D8F8570026C778 /* PMAnimatedSwitch.swift */; };
 		F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */; };
 		F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */; };
 		F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
@@ -771,6 +772,7 @@
 		F431186A202B88C7006139F7 /* filter_gradient_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_1.png; sourceTree = "<group>"; };
 		F431186B202B88CD006139F7 /* filter_gradient_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_gradient_5.png; sourceTree = "<group>"; };
 		F431E3B720C693F8008D425B /* CreateNotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNotesViewController.swift; sourceTree = "<group>"; };
+		F4334A7A20D8F8570026C778 /* PMAnimatedSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PMAnimatedSwitch.swift; sourceTree = "<group>"; };
 		F433ED9F201739E8004FEB93 /* MyStreamHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamHeaderView.swift; sourceTree = "<group>"; };
 		F433EDA120173A53004FEB93 /* MyStreamHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamHeaderView.xib; sourceTree = "<group>"; };
 		F433EDA320174160004FEB93 /* StreamViewHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StreamViewHeader.xib; sourceTree = "<group>"; };
@@ -1391,6 +1393,7 @@
 				F403764A1FDE9F6B0007C696 /* Progress Bar */,
 				F4402F6F1FCD917900152D01 /* TextField */,
 				33BCB0401FBB353E004FF634 /* PMButton.swift */,
+				F4334A7A20D8F8570026C778 /* PMAnimatedSwitch.swift */,
 				F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */,
 				F4402F6B1FCD606B00152D01 /* UIImageView+Letters.swift */,
 				F4522CA71FCC46D20021562D /* PMSwitch.swift */,
@@ -3353,6 +3356,7 @@
 				F4E758781FD681B1008DB12E /* RefreshFooterAnimator.swift in Sources */,
 				F409FC681FE3B1220093E0E7 /* ImportCell.swift in Sources */,
 				F41FD95720A9583F00FA8623 /* CropView.swift in Sources */,
+				F4334A7B20D8F8570026C778 /* PMAnimatedSwitch.swift in Sources */,
 				F497B3B61FD7EC8D006614F2 /* PeopleCell.swift in Sources */,
 				F403765B1FDE9F830007C696 /* UIColor+Initializers.swift in Sources */,
 				F43612E31FD69B0E00788FFE /* AGImageFilter.swift in Sources */,

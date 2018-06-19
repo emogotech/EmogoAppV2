@@ -22,20 +22,14 @@ class EditStreamController: UITableViewController {
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var tfDescription: MBAutoGrowingTextView!
     @IBOutlet weak var tfEmogoTitle: SkyFloatingLabelTextField!
-    @IBOutlet weak var switchAddPeople: PMSwitch!
+    @IBOutlet weak var switchAddPeople: PMAnimatedSwitch!
     @IBOutlet weak var btnChangeCover: UIButton!
-    @IBOutlet weak var switchEmogoPrivate: PMSwitch!
-    @IBOutlet weak var switchAddContent: PMSwitch!
-    @IBOutlet weak var switchMakeEmogoGlobal: PMSwitch!
+    @IBOutlet weak var switchEmogoPrivate: PMAnimatedSwitch!
+    @IBOutlet weak var switchAddContent: PMAnimatedSwitch!
+    @IBOutlet weak var switchMakeEmogoGlobal: PMAnimatedSwitch!
     @IBOutlet weak var lblCaption: UILabel!
-    
     @IBOutlet weak var btnAddCollab: UIButton!
     var delegate:CustomCameraViewControllerDelegate?
-    var isExpandRow: Bool = false {
-        didSet {
-            self.configureCollaboatorsRowExpandCollapse()
-        }
-    }
     var coverImage:UIImage!
     var fileName:String! = ""
     var selectedCollaborators = [CollaboratorDAO]()
@@ -43,7 +37,6 @@ class EditStreamController: UITableViewController {
     var streamID:String!
     var objStream:StreamViewDAO?
     var strCoverImage:String! = ""
-    var isPerform:Bool! = false
     var isAddContent:Bool!
     var minimumSize: CGSize = CGSize.zero
     
@@ -53,23 +46,23 @@ class EditStreamController: UITableViewController {
     var croppingParameters: CroppingParameters {
         return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: minimumSize)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.switchAddPeople.onImage = UIImage(named: "unlockSwitch")
-        self.switchEmogoPrivate.onImage = UIImage(named: "unlockSwitch")
-        self.switchMakeEmogoGlobal.onImage = UIImage(named: "unlockSwitch")
-        self.switchAddContent.onImage = UIImage(named: "unlockSwitch")
+        
         self.prepareLayouts()
-       
+        
     }
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        prepareSwitches()
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
@@ -87,7 +80,7 @@ class EditStreamController: UITableViewController {
             self.lblCaption.isHidden = true
         }
         self.tableView.tableFooterView = UIView()
-       
+        
         tfEmogoTitle.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.tfEmogoTitle.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -96,19 +89,41 @@ class EditStreamController: UITableViewController {
         self.imgCover.contentMode = .scaleAspectFill
         if self.streamID != nil {
             self.getStream()
-        }else {
-            isPerform = true
-            //           self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
-            //            self.tableView.reloadData()
         }
         self.imgCover.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.openFullView))
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
-        // If Stream is public
-        //self.rowHieght.constant = 0.0
-        self.isExpandRow = false
+      
+    }
+    
+    
+    func prepareSwitches(){
+        switchEmogoPrivate.tag = 101
+        switchEmogoPrivate.delegate = self
+        switchEmogoPrivate.setImages(onImage: #imageLiteral(resourceName: "lockSwitch"), offImage: #imageLiteral(resourceName: "unlockSwitch"))
+        switchEmogoPrivate.layer.borderWidth = 1.0
+        switchEmogoPrivate.layer.borderColor = UIColor.black.cgColor
         
+        switchAddContent.tag = 102
+        switchAddContent.delegate = self
+        switchAddContent.isRoundButton = true
+        switchAddContent.layer.borderWidth = 1.0
+        switchAddContent.layer.borderColor = UIColor.black.cgColor
+        
+        
+        switchAddPeople.tag = 103
+        switchAddPeople.delegate = self
+        switchAddPeople.isRoundButton = true
+        switchAddPeople.layer.borderWidth = 1.0
+        switchAddPeople.layer.borderColor = UIColor.black.cgColor
+        
+        
+        switchMakeEmogoGlobal.tag = 104
+        switchMakeEmogoGlobal.delegate = self
+        switchMakeEmogoGlobal.isRoundButton = true
+        switchMakeEmogoGlobal.layer.borderWidth = 1.0
+        switchMakeEmogoGlobal.layer.borderColor = UIColor.black.cgColor
         
     }
     //MARK:- Action For Buttons
@@ -116,69 +131,18 @@ class EditStreamController: UITableViewController {
     @IBAction func btnActionAddCollab(_ sender: Any) {
         
         let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
+        actionVC.delegate = self
+        actionVC.arraySelected = self.selectedCollaborators
         let nav = UINavigationController(rootViewController: actionVC)
         customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         
     }
-    @IBAction func switchActionForAddContent(_ sender: PMSwitch) {
-        self.switchAddContent.isOn = sender.isOn
-        self.switchAddContent.onImage = UIImage(named: "lockSwitch")
-        print(self.switchAddContent.isOn)
-    }
-    
-    @IBAction func switchActionForAddPeople(_ sender: PMSwitch) {
-        self.switchAddPeople.isOn = sender.isOn
-        self.switchAddPeople.onImage = UIImage(named: "lockSwitch")
-        
-    }
+   
     @IBAction func btnChangeCover(_ sender: Any) {
         actionForUploadCover()
     }
-    @IBAction func switchActionForEmogoGlobal(_ sender: PMSwitch) {
-        sender.isOn = !sender.isOn
-        self.switchMakeEmogoGlobal.isOn = sender.isOn
-        if self.switchMakeEmogoGlobal.isOn == true {
-            self.switchAddContent.isOn = false
-            self.switchAddPeople.isOn = false
-            self.switchAddContent.isUserInteractionEnabled = false
-            self.switchAddPeople.isUserInteractionEnabled = false
-           // self.switchAddCollaborators.isOn = false
-           // self.switchAddCollaborators.isUserInteractionEnabled = false
-           // self.rowHieght.constant = 0.0
-            self.isExpandRow = false
-        }else {
-            //self.switchAddCollaborators.isUserInteractionEnabled = true
-        }
-    }
-   
-    
-    @IBAction func switchActionForEmogoPrivate(_ sender: PMSwitch) {
-        
-        sender.isOn = !sender.isOn
-        if self.switchEmogoPrivate.isOn {
-            self.switchEmogoPrivate.onImage = UIImage(named: "lockSwitch")
-            streamType = "Private"
-            self.switchMakeEmogoGlobal.isOn = false
-            self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
-            self.switchAddPeople.isUserInteractionEnabled = false
-            self.switchAddContent.isUserInteractionEnabled = false
-            self.switchAddPeople.isOn = false
-            self.switchAddContent.isOn = false
-           
-        }else{
-            streamType = "Public"
-            self.isExpandRow = false
-            self.switchMakeEmogoGlobal.isOn = false
-            self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
-            self.switchAddPeople.isUserInteractionEnabled = false
-            self.switchAddContent.isUserInteractionEnabled = false
-            self.switchAddPeople.isOn = false
-            self.switchAddContent.isOn = false
-            
-        }
-    }
-    
-    
+  
+
     func prepareForEditStream(){
         if self.objStream != nil {
             self.title =  self.objStream?.title.trim()
@@ -193,12 +157,12 @@ class EditStreamController: UITableViewController {
                 self.strCoverImage = objStream?.coverImage
             }
             
-            self.switchMakeEmogoGlobal.isOn = (self.objStream?.anyOneCanEdit)!
+            self.switchMakeEmogoGlobal.on = (self.objStream?.anyOneCanEdit)!
             
             if self.objStream?.type.lowercased() == "public"{
-                self.switchEmogoPrivate.isOn = false
+                self.switchEmogoPrivate.on = false
             }else {
-                self.switchEmogoPrivate.isOn = true
+                self.switchEmogoPrivate.on = true
                 streamType = "Private"
             }
             
@@ -206,69 +170,49 @@ class EditStreamController: UITableViewController {
             if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
                 self.prepareEdit(isEnable: true)
                 
-                if self.switchMakeEmogoGlobal.isOn == true {
-                    //self.rowHieght.constant = 0.0
-                    self.isExpandRow = false
-                    //self.switchAddCollaborators.isOn = false
-                   // self.switchAddCollaborators.isUserInteractionEnabled = false
+                if self.switchMakeEmogoGlobal.on == true {
+                    
                     self.switchAddContent.isUserInteractionEnabled = false
                     self.switchAddPeople.isUserInteractionEnabled  = false
-                    self.switchAddPeople.isOn       = false
-                    self.switchAddContent.isOn      = false
+                    self.switchAddPeople.on       = false
+                    self.switchAddContent.on      = false
                 }else {
                     
                     
-                 //   self.switchAddCollaborators.isUserInteractionEnabled = true
+                    //   self.switchAddCollaborators.isUserInteractionEnabled = true
                     self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
-                    self.switchMakeEmogoGlobal.isOn = false
-                    if !self.switchEmogoPrivate.isOn {
+                    self.switchMakeEmogoGlobal.on = false
+                    if !self.switchEmogoPrivate.on {
                         self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
                     }
                     self.selectedCollaborators = (self.objStream?.arrayColab)!
                     if self.selectedCollaborators.count != 0 {
-                        //self.rowHieght.constant = 325.0
-                        self.isExpandRow = true
-                        //self.switchAddCollaborators.isOn = true
+                        
                     }
                     
-//                    if self.switchAddCollaborators.isOn == false{
-//                        self.switchAddContent.isUserInteractionEnabled = false
-//                        self.switchAddPeople.isUserInteractionEnabled  = false
-//                        self.switchAddPeople.isOn       = false
-//                        self.switchAddContent.isOn      = false
-//                    }else{
-//                        self.switchAddContent.isUserInteractionEnabled = true
-//                        self.switchAddPeople.isUserInteractionEnabled  = true
-//                        self.switchAddPeople.isOn = (self.objStream?.canAddPeople)!
-//                        self.switchAddContent.isOn = (self.objStream?.canAddContent)!
-//                    }
                 }
                 
             }else {
                 // Colab is Logged in as Editor
                 self.prepareEdit(isEnable: false)
-              //  self.switchAddCollaborators.isUserInteractionEnabled = true
-                if self.switchAddPeople.isOn == true {
+                //  self.switchAddCollaborators.isUserInteractionEnabled = true
+                if self.switchAddPeople.on == true {
                     self.switchAddPeople.isUserInteractionEnabled  = true
                 }else {
                     self.switchAddPeople.isUserInteractionEnabled  = false
                 }
                 
-                if self.switchAddContent.isOn == true {
+                if self.switchAddContent.on == true {
                     self.switchAddContent.isUserInteractionEnabled  = true
                 }else {
                     self.switchAddContent.isUserInteractionEnabled  = false
                 }
                 if self.selectedCollaborators.count != 0 {
-                  //  self.rowHieght.constant = 325.0
-                    self.isExpandRow = true
-                   // self.switchAddCollaborators.isOn = true
+                    
                 }
                 
             }
             
-            isPerform = true
-            //self.performSegue(withIdentifier: kSegue_AddCollaboratorsView, sender: self)
         }
         
         if self.tfDescription.text.count > 0 {
@@ -282,8 +226,8 @@ class EditStreamController: UITableViewController {
             self.tableView.beginUpdates()
             self.tableView.endUpdates()
         }
-        self.switchAddPeople.isOn = (self.objStream?.userCanAddPeople)!
-        self.switchAddContent.isOn = (self.objStream?.userCanAddContent)!
+        self.switchAddPeople.on = (self.objStream?.userCanAddPeople)!
+        self.switchAddContent.on = (self.objStream?.userCanAddContent)!
         
         self.tableView.reloadData()
     }
@@ -294,7 +238,7 @@ class EditStreamController: UITableViewController {
         self.btnChangeCover.isUserInteractionEnabled = isEnable
         self.switchMakeEmogoGlobal.isUserInteractionEnabled = isEnable
         switchEmogoPrivate.isUserInteractionEnabled = isEnable
-       
+        
     }
     func configureCollaboatorsRowExpandCollapse() {
         self.reloadIndex(index: 3)
@@ -313,11 +257,11 @@ class EditStreamController: UITableViewController {
         }
     }
     func reloadIndex(index:Int) {
-                self.tableView.beginUpdates()
-                let index = IndexPath(row: index, section: 0)
-                self.tableView.reloadRows(at: [index], with: .automatic)
-                self.tableView.endUpdates()
-                self.tableView.reloadData()
+        self.tableView.beginUpdates()
+        let index = IndexPath(row: index, section: 0)
+        self.tableView.reloadRows(at: [index], with: .automatic)
+        self.tableView.endUpdates()
+        self.tableView.reloadData()
     }
     
     // MARK: - Set Cover Image
@@ -376,7 +320,7 @@ class EditStreamController: UITableViewController {
         }
     }
     private func editStream(cover:String,width:Int,hieght:Int){
-        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.isOn, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.isOn, canAddPeople: self.switchAddPeople.isOn,height:hieght,width:width) { (isSuccess, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditStream(streamID:self.streamID!,streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: self.switchMakeEmogoGlobal.on, collaborator: self.selectedCollaborators, canAddContent: self.switchAddContent.on, canAddPeople: self.switchAddPeople.on,height:hieght,width:width) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Edited_Success)
@@ -390,10 +334,7 @@ class EditStreamController: UITableViewController {
         }
     }
     
-    func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(self.selectedCollaborators)
-        self.selectedCollaborators = colabs
-    }
+   
     func actionForUploadCover(){
         
         //        let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
@@ -548,15 +489,75 @@ extension EditStreamController {
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if self.isExpandRow  && indexPath.row == 3{
-            return 340.0
-        }else if indexPath.row == 1 {
+        if indexPath.row == 1 {
             return contentRowHeight  + 30
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }
     }
 }
+extension EditStreamController :PMSwitcherChangeValueDelegate{
+    func switcherDidChangeValue(switcher: PMAnimatedSwitch, value: Bool) {
+        
+        switch switcher.tag {
+        case 101:
+            if value {
+                streamType = "Private"
+                self.switchMakeEmogoGlobal.on = false
+                self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled = false
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.on = false
+                self.switchAddContent.on = false
+                
+            }else{
+                streamType = "Public"
+                self.switchMakeEmogoGlobal.on = false
+                self.switchMakeEmogoGlobal.isUserInteractionEnabled = true
+                self.switchAddPeople.isUserInteractionEnabled = false
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.on = false
+                self.switchAddContent.on = false
+            }
+            break
+        case 102:
+            if value {
+                print("102 on")
+            }else {
+                print("102 off")
+            }
+            break
+        case 103:
+            if value {
+                print("103 on")
+            }else {
+                print("103 off")
+            }
+            break
+        case 104:
+            if value {
+                self.switchAddContent.on = false
+                self.switchAddPeople.on = false
+                self.switchAddContent.isUserInteractionEnabled = false
+                self.switchAddPeople.isUserInteractionEnabled = false
+            }else {
+                
+            }
+            
+            break
+            
+        default:
+            break
+        }
+        
+        
+    }
+    
+    
+}
 
-
+extension EditStreamController :AddCollabViewControllerDelegate{
+    func selectedColabs(arrayColab: [CollaboratorDAO]) {
+        self.selectedCollaborators = arrayColab
+    }
+}

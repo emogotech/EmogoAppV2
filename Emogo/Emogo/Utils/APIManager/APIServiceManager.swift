@@ -2206,25 +2206,29 @@ class APIServiceManager: NSObject {
         
     }
   
-    func apiForValidate(contacts:[String], completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForValidate(contacts:[String], completionHandler:@escaping (_ result:[String:Any]?, _ strError:String?)->Void){
         
         let params:[String:Any] = ["contact_list":contacts]
+        var dictResult = [String:Any]()
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAPICheckEmogoUser, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
+                    print(value)
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"")
+                        if let dictValue = (value as! [String:Any])["data"] {
+                            dictResult = dictValue as! [String : Any]
+                        }
+                        completionHandler(dictResult,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(false,errorMessage)
+                        completionHandler(dictResult,errorMessage)
                     }
                 }
             case .error(let error):
                 print(error.localizedDescription)
-                completionHandler(false,error.localizedDescription)
+                completionHandler(dictResult,error.localizedDescription)
             }
         }
         

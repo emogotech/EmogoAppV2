@@ -19,13 +19,10 @@ class PresenterNew: NSObject {
     //MARK:- All Presenter
     
     static let CreateStreamPresenter: Presentr = {
-        let size = UIScreen.main.bounds.size.height - 637
-        print(size)
         let width = ModalSize.full
-        let height = ModalSize.custom(size: Float(size))
-        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
+        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 60), sizeLandscape: Float(kFrame.size.width - 60))
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 60))
         let customType = PresentationType.custom(width: width, height: height, center: center)
-       
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
         customPresenter.dismissTransitionType = .crossDissolve
@@ -35,8 +32,6 @@ class PresenterNew: NSObject {
         customPresenter.dismissOnSwipe = true
         customPresenter.blurBackground = true
         customPresenter.blurStyle = UIBlurEffectStyle.light
-        
-        
         return customPresenter
     }()
     
@@ -47,7 +42,6 @@ class PresenterNew: NSObject {
         let height = ModalSize.custom(size: 667)
         let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
         let customType = PresentationType.custom(width: width, height: height, center: center)
-        
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
         customPresenter.dismissTransitionType = .crossDissolve

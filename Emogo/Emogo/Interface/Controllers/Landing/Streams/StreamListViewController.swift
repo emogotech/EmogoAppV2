@@ -604,46 +604,6 @@ class StreamListViewController: UIViewController {
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
         customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
-        
-//        popupViewController.delegate = self
-//        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
-        /*
-       
-        let actionController = ActionSheetController()
-        actionController.addAction(Action(ActionData(title: "Photos & Videos", subtitle: "", image: #imageLiteral(resourceName: "action_photo_video")), style: .default, handler: { action in
-            self.btnImportAction()
-        }))
-        actionController.addAction(Action(ActionData(title: "Camera", subtitle: "", image: #imageLiteral(resourceName: "action_camera_icon")), style: .default, handler: { action in
-            
-            self.actionForCamera()
-            
-        }))
-        actionController.addAction(Action(ActionData(title: "Link", subtitle: "", image: #imageLiteral(resourceName: "action_link_icon")), style: .default, handler: { action in
-            
-            self.btnActionForLink()
-        }))
-        
-        actionController.addAction(Action(ActionData(title: "Gif", subtitle: "", image: #imageLiteral(resourceName: "action_giphy_icon")), style: .default, handler: { action in
-            
-            self.btnActionForGiphy()
-        }))
-        
-        actionController.addAction(Action(ActionData(title: "My Stuff", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            self.btnActionForMyStuff()
-        }))
-        actionController.addAction(Action(ActionData(title: "Notes", subtitle: "", image: #imageLiteral(resourceName: "action_my_stuff")), style: .default, handler: { action in
-            self.btnActionForNotes()
-        }))
-        
-        
-        //        actionController.addAction(Action(ActionData(title: "Create New Stream", subtitle: "", image: #imageLiteral(resourceName: "action_stream_add_icon")), style: .default, handler: { action in
-        //             self.actionForAddStream()
-        //        }))
-        actionController.shouldShowAddButton    =   true
-        actionController.headerData = "ADD FROM"
-        actionController.delegate   =   self
-        present(actionController, animated: true, completion: nil)
-        */
     }
     
     @IBAction func btnActionOpenMenu(_ sender: Any) {
