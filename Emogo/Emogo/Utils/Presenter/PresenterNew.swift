@@ -47,8 +47,9 @@ class PresenterNew: NSObject {
         customPresenter.dismissTransitionType = .crossDissolve
         customPresenter.roundCorners = true
         customPresenter.cornerRadius = 15.0
-        customPresenter.backgroundOpacity = 1.0
-        customPresenter.dismissOnSwipe = true
+        customPresenter.backgroundColor = UIColor.clear
+        customPresenter.backgroundOpacity = 0.8
+        customPresenter.dismissOnSwipe = false
         customPresenter.blurBackground = true
         customPresenter.blurStyle = UIBlurEffectStyle.light
         

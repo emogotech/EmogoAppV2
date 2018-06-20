@@ -356,6 +356,50 @@ class APIServiceManager: NSObject {
         
     }
     
+    func apiForEditStreamColabs(streamID:String,collaborator:[CollaboratorDAO],completionHandler:@escaping (_ result:StreamViewDAO?, _ strError:String?)->Void){
+     
+        var jsonCollaborator = [[String:Any]]()
+        for obj in collaborator {
+            let value = ["name":obj.name.trim(),"phone_number":obj.phone.trim()]
+            jsonCollaborator.append(value)
+        }
+       let params = [
+            "collaborator":jsonCollaborator
+        ]
+        
+        print(params)
+        let url = kStreamViewAPI + "\(streamID)/"
+        APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
+            switch(result){
+            case .success(let value):
+                print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                            for i in 0..<StreamList.sharedInstance.arrayStream.count {
+                                let oldData = StreamList.sharedInstance.arrayStream[i]
+                                if oldData.ID == stream.ID {
+                                    print(oldData.selectionType)
+                                    stream.selectionType = oldData.selectionType
+                                    StreamList.sharedInstance.arrayStream[i] = stream
+                                }
+                            }
+                        }
+                        completionHandler(nil,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+        
+    }
     
     // MARK: - Get All Stream API
     
