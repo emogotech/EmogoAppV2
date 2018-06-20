@@ -107,7 +107,7 @@ class MyStreamViewController: UIViewController {
         }
         self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
         self.stretchyHeader.sliderDelegate = self
-      
+       
         
         // Segment control Configure
         

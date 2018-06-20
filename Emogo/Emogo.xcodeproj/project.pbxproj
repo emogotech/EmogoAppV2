@@ -115,6 +115,7 @@
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
+		F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
 		F0875C3620C6BD0400CCBBBA /* LikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0875C3520C6BD0400CCBBBA /* LikeListViewController.swift */; };
@@ -608,6 +609,7 @@
 		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentViewCell.swift; sourceTree = "<group>"; };
 		F040CC852050034900224035 /* HHPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPageView.m; sourceTree = "<group>"; };
 		F040CC862050034A00224035 /* HHPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPageView.h; sourceTree = "<group>"; };
 		F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
@@ -1069,6 +1071,7 @@
 			isa = PBXGroup;
 			children = (
 				2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */,
+				F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */,
 			);
 			path = StreamCollectionCell;
 			sourceTree = "<group>";
@@ -3439,6 +3442,7 @@
 				F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */,
 				F4266EFF1FF6808D0075BFD7 /* ProfileDAO.swift in Sources */,
 				33DAB2F51FC6B9020053AC23 /* FSPagerViewCell.swift in Sources */,
+				F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */,
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				F4F0BE2E20C90617009C003A /* SplashViewController.swift in Sources */,
 				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,
