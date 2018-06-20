@@ -111,8 +111,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def create_collaborator(self, stream):
         """
         :param stream: The stream object
+        :Call owner stream for adding Stream's Owner as collaborators in collaborators list ..
         :return: Add Stream collaborators.
         """
+        self.owner_collaborator(stream)
         collaborator_list = self.initial_data.get('collaborator')
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
@@ -185,6 +187,22 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             stream.any_one_can_edit = self.validated_data.get('any_one_can_edit', False)
             stream.save()
         return stream
+
+    def owner_collaborator(self, stream):
+        # Adding and update the streams as collaborator..
+        # Check Owner is present or stream have any collabrators or not.
+        if stream.collaborator_list.filter().__len__() < 1 :
+            user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
+            collaborator, created = Collaborator.objects.get_or_create(
+                phone_number=user_qs[0].get('username'),
+                stream=stream
+            )
+            collaborator.name = user_qs[0].get('user_data__full_name')
+            collaborator.can_add_content = True
+            collaborator.can_add_people = True
+            collaborator.created_by = self.context.get('request').user
+            collaborator.save()
+            return collaborator
 
 
 class ViewStreamSerializer(StreamSerializer):
@@ -410,7 +428,6 @@ class ContentBulkDeleteSerializer(DynamicFieldsModelSerializer):
     """
     Collaborator model Serializer
     """
-    # streams = CustomListField(child=serializers.IntegerField())
     content_list = CustomListField(child=serializers.IntegerField(min_value=1), min_length=1)
 
     class Meta:
