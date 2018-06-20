@@ -11,6 +11,7 @@ from datetime import datetime
 STREAM_TYPE = (
     ('Private', 'Private'),
     ('Public', 'Public'),
+    ('Global', 'Global'),
 )
 
 CONTENT_TYPE = (

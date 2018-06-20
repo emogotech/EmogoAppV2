@@ -7,6 +7,10 @@ from django.db import models
 from emogo.apps.stream.models import Stream
 from emogo.lib.default_models.models import DefaultStatusModel
 
+DELETED_TYPE = (
+    ('User', 'User'),
+    ('Stream', 'Stream'),
+)
 
 class Collaborator(DefaultStatusModel):
     name = models.CharField(max_length=45, null=True, blank=True)
@@ -16,6 +20,9 @@ class Collaborator(DefaultStatusModel):
     can_add_people = models.BooleanField(default=False)
     image = models.CharField(max_length=200, null=True, blank=True, default="")
     created_by = models.ForeignKey(User, null=True, blank=True)
+    deleted_by = models.CharField(max_length=15, choices=DELETED_TYPE, default=DELETED_TYPE[0][0])
+
 
     class Meta:
         db_table = 'collaborator'
+
