@@ -37,10 +37,9 @@ class PresenterNew: NSObject {
     
     
     static let EditStreamPresenter: Presentr = {
-        let size = UIScreen.main.bounds.size.height - 657
         let width = ModalSize.full
-        let height = ModalSize.custom(size: 667)
-        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: size ))
+        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 60), sizeLandscape: Float(kFrame.size.width - 60))
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 60))
         let customType = PresentationType.custom(width: width, height: height, center: center)
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
@@ -52,26 +51,42 @@ class PresenterNew: NSObject {
         customPresenter.dismissOnSwipe = false
         customPresenter.blurBackground = true
         customPresenter.blurStyle = UIBlurEffectStyle.light
-        
-        
         return customPresenter
     }()
     
     static let ActionSheetPresenter: Presentr = {
         
-        let customType = PresentationType.bottomHalf
-        let customPresenter = Presentr(presentationType: customType)
-        customPresenter.transitionType = .coverVertical
-        customPresenter.dismissTransitionType = .crossDissolve
-        customPresenter.roundCorners = true
-        customPresenter.cornerRadius = 15.0
-        customPresenter.backgroundOpacity = 1.0
-        customPresenter.dismissOnSwipe = true
-        customPresenter.blurBackground = true
-        customPresenter.blurStyle = UIBlurEffectStyle.light
-        
-        
-        return customPresenter
+        if UIDevice.current.modelName.lowercased().contains("iphone5") || UIDevice.current.modelName.lowercased().contains("iphone 5") {
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height -  150.0), sizeLandscape: Float(kFrame.size.width - 150.0))
+            let cennterY = kFrame.size.height - (kFrame.size.height -  150.0)
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .crossDissolve
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 15.0
+            customPresenter.backgroundOpacity = 1.0
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = true
+            customPresenter.blurStyle = UIBlurEffectStyle.light
+            return customPresenter
+        }else {
+            let customType = PresentationType.bottomHalf
+            let customPresenter = Presentr(presentationType: customType)
+            customPresenter.transitionType = .coverVertical
+            customPresenter.dismissTransitionType = .crossDissolve
+            customPresenter.roundCorners = true
+            customPresenter.cornerRadius = 15.0
+            customPresenter.backgroundOpacity = 1.0
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = true
+            customPresenter.blurStyle = UIBlurEffectStyle.light
+            
+            return customPresenter
+        }
+       
     }()
     
     static let AddCollabPresenter: Presentr = {

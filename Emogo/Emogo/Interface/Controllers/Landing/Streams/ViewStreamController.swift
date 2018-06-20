@@ -58,6 +58,7 @@ class ViewStreamController: UIViewController {
         self.title = nil
        
         self.prepareNavigation()
+        self.navigationItem.hidesBackButton = true
         
     }
     
@@ -121,12 +122,8 @@ class ViewStreamController: UIViewController {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
             
         }
-      
-        stretchyHeader.btnDelete.addTarget(self, action: #selector(self.deleteStreamAction(sender:)), for: .touchUpInside)
-        stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
-        stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
          stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
      
     }
@@ -136,39 +133,67 @@ class ViewStreamController: UIViewController {
             stretchyHeader.prepareLayout(stream:self.objStream)
         }
     }
-    /*
     func configureNewNavigation(){
-        var myAttribute2:[NSAttributedStringKey:Any]!
-        if let font = UIFont(name: kFontBold, size: 20.0) {
-            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
-        }else {
-            myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20.0)]
-        }
         
-        self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
-        self.navigationController?.navigationBar.isTranslucent = false
-        self.navigationController?.isNavigationBarHidden = false
-//        self.navigationController?.navigationBar.tintColor = UIColor(red: 0.0, green: 122.0/255.0, blue: 1.0, alpha: 1.0)
-
-       //self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        var arrayButtons = [UIBarButtonItem]()
         
-        let img = UIImage(named: "back_icon_New")
-        let btnback = UIBarButtonItem(image: img, style: .plain, target: self, action: #selector(self.btnBackAction))
+        let imgP = UIImage(named: "back_icon_stream")
+        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         
-        let imgReport = UIImage(named: "stream_flag")
-        let rightReportBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgReport, style: .plain, target: self, action: #selector(self.btnBackAction))
+        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
+        arrayButtons.insert(btnRightBar, at: 0)
         
-        let imgEdit = UIImage(named: "edit_icon")
-        let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.btnBackAction))
         
-        let imgDownload = UIImage(named: "share_icon")
-        let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.btnBackAction))
+        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            
+            let imgEdit = UIImage(named: "edit_icon_stream")
+            let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
+            arrayButtons.append(rightEditBarButtonItem)
+            
+            let imgDownload = UIImage(named: "share_icon")
+            let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
+            arrayButtons.append(rightDownloadBarButtonItem)
+            
+            let imgAddCollab = UIImage(named: "add_collaborators_icon")
+            let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
+            arrayButtons.append(rightAddCollabBarButtonItem)
+            
+        }else {
+            
+            if self.objStream?.userCanAddContent == true {
+                self.btnAddContent.isHidden = false
+            }
+            
+            if self.objStream?.userCanAddPeople == true {
+                let imgEdit = UIImage(named: "edit_icon_stream")
+                let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
+                arrayButtons.append(rightEditBarButtonItem)
+                
+                let imgAddCollab = UIImage(named: "add_collaborators_icon")
+                let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
+                arrayButtons.append(rightAddCollabBarButtonItem)
+            }
+            
+            if self.objStream?.userCanAddContent == true  || self.objStream?.userCanAddPeople == true {
+                let imgDownload = UIImage(named: "share_icon")
+                let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
+                arrayButtons.append(rightDownloadBarButtonItem)
+            }
+            
+        }
+      
+      
+        self.navigationItem.rightBarButtonItems = arrayButtons
         
-        let imgAddCollab = UIImage(named: "add_collaborators_icon")
-        let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnBackAction))
-    self.navigationItem.setRightBarButtonItems([rightReportBarButtonItem,rightEditBarButtonItem,rightDownloadBarButtonItem,rightAddCollabBarButtonItem], animated: true)
-    }*/
+        if self.objStream?.likeStatus == "0" {
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            
+        }else{
+            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+        }
+        self.stretchyHeader.btnLike.isHidden = false
+    }
     
     func prepareNavigation(){
         
@@ -176,12 +201,7 @@ class ViewStreamController: UIViewController {
             self.currentIndex = ContentList.sharedInstance.mainStreamIndex
             ContentList.sharedInstance.mainStreamIndex = nil
         }
-
-       // self.configureNewNavigation()
         self.configureNavigationTite()
-        let imgP = UIImage(named: "back_icon_New")
-        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
-        self.navigationItem.leftBarButtonItem = btnback
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
@@ -276,49 +296,51 @@ class ViewStreamController: UIViewController {
     func prepareActions(isCreator:Bool) {
 
         if isCreator {
-            stretchyHeader.btnDelete.isHidden = false
-            stretchyHeader.btnEdit.isHidden = false
-            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon_stream"), for: .normal)
-            stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
-            stretchyHeader.btnEdit.addTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
-            stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
-            stretchyHeader.btnContainer.isHidden = false
-            
+         //   stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
+        
 
         }else {
-            stretchyHeader.btnDelete.isHidden = true
             stretchyHeader.btnLike.isHidden = false
-            stretchyHeader.btnEdit.isHidden = false
-            stretchyHeader.btnEdit.setImage(#imageLiteral(resourceName: "Unlike_icon"), for: .normal)
-            stretchyHeader.btnEdit.removeTarget(self, action: #selector(self.editStreamAction(sender:)), for: .touchUpInside)
-            stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
+         //   stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
             stretchyHeader.btnContainer.isHidden = true
             // removed for now
-            stretchyHeader.btnEdit.isHidden = true
-          
-
         }
         self.btnAddContent.isHidden = true
         if self.objStream?.canAddContent == true {
             self.btnAddContent.isHidden = false
         }
         
-      stretchyHeader.btnShare.addTarget(self, action: #selector(self.shareStreamAction(sender:)), for: .touchUpInside)
-        // removed for now
+       // removed for now
         stretchyHeader.btnLike.isHidden = false
        // stretchyHeader.btnContainer.isHidden = false
-        if self.objStream?.likeStatus == "0" {
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            
-        }else{
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-        }
+      
     }
     
     @IBAction func btnActionForAddContent(_ sender:UIButton) {
         btnActionForAddContent()
     }
     @objc func showReportList(){
+        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            showDelete()
+        }else {
+            showReport()
+        }
+    }
+    
+    @objc func btnActionaddCollaborator(){
+        
+        if self.objStream != nil {
+            let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
+          //  actionVC.delegate = self
+            actionVC.arraySelected = self.objStream?.arrayColab
+            actionVC.streamID = self.objStream?.streamID
+            let nav = UINavigationController(rootViewController: actionVC)
+            customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
+        }
+       
+    }
+    
+    func showReport(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
             (alert: UIAlertAction!) -> Void in
@@ -348,6 +370,25 @@ class ViewStreamController: UIViewController {
         self.present(optionMenu, animated: true, completion: nil)
     }
     
+    func showDelete(){
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            self.deleteStream()
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            
+        })
+        
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
     // MARK: -  Action Methods And Selector
     @objc func deleteStreamAction(sender:UIButton){
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
@@ -365,13 +406,10 @@ class ViewStreamController: UIViewController {
     
     @objc func editStreamAction(sender:UIButton){
        if self.objStream != nil {
-        
         let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
         editVC.streamID = self.objStream?.streamID
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
-//            let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-//            obj.streamID = self.objStream?.streamID
-//            self.navigationController?.push(viewController: obj)
+        let nav = UINavigationController(rootViewController: editVC)
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
        }
     }
     
@@ -397,12 +435,12 @@ class ViewStreamController: UIViewController {
     @objc func shareStreamAction(sender:UIButton){
         print("Share Action")
         
-        if  kDefault?.bool(forKey: kHapticFeedback) == true {
-            self.stretchyHeader.btnShare.isHaptic = true
-            self.stretchyHeader.btnShare.hapticType = .impact(.light)
-        }else{
-            self.stretchyHeader.btnShare.isHaptic = false
-        }
+//        if  kDefault?.bool(forKey: kHapticFeedback) == true {
+//            self.stretchyHeader.btnShare.isHaptic = true
+//            self.stretchyHeader.btnShare.hapticType = .impact(.light)
+//        }else{
+//            self.stretchyHeader.btnShare.isHaptic = false
+//        }
         
       
         if MFMessageComposeViewController.canSendAttachments(){
@@ -680,18 +718,12 @@ class ViewStreamController: UIViewController {
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.prepareHeaderData()
-                if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                    self.navigationItem.rightBarButtonItem = nil
-                    self.prepareActions(isCreator: true)
-                }
-                else {
-                    let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
-                    self.navigationItem.rightBarButtonItem = btnRightBar
+                if self.objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
                     if self.objStream?.arrayContent.count == 0 {
                         self.lblNoContent.isHidden = false
                     }
-                    self.prepareActions(isCreator: false)
                 }
+               self.configureNewNavigation()
                 // Get All Heights
                 var arrayHeights = [Int]()
                 

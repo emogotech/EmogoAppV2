@@ -18,24 +18,19 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var viewContainer: UIView!
-    @IBOutlet weak var viewContainerTitle: UIView!
     @IBOutlet weak var imgCover: UIImageView!
-    @IBOutlet weak var btnEdit: UIButton!
-    @IBOutlet weak var btnDelete: UIButton!
     @IBOutlet weak var btnLike: UIButton!
-    @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
     @IBOutlet weak var btnContainer: UIView!
-    @IBOutlet weak var heightConstant: NSLayoutConstraint!
     @IBOutlet weak var lblViewCount: UILabel!
     @IBOutlet weak var lblLikeCount: UILabel!
-    @IBOutlet weak var heigtDelete: NSLayoutConstraint!
-    @IBOutlet weak var heightEdit: NSLayoutConstraint!
     @IBOutlet weak var imgCollabTwo: NZCircularImageView!
     @IBOutlet weak var imgCollabOne: NZCircularImageView!
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnLikeList: UIButton!
-    
+    @IBOutlet weak var viewTop: UIView!
+    @IBOutlet weak var lblColabLabel: UILabel!
+
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
     let kImageFormat = "http"
@@ -60,9 +55,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         imgCollabTwo.isHidden = false
         imgCollabOne.isHidden = false
 
-        self.viewContainerTitle.layer.contents = UIImage(named: "gradient")?.cgImage
-        btnEdit.isHidden = true
-        btnDelete.isHidden = true
+        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
+        self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
         guard let objStream = stream  else {
             return
         }
@@ -79,34 +73,32 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         self.lblName.shadow()
         self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
-        self.lblDescription.minimumScaleFactor = 1.0
+        self.lblDescription.shadow()
+
+        self.lblDescription.numberOfLines = 0
+      //  self.lblDescription.minimumScaleFactor = 1.0
         self.lblLikeCount.text = objStream.totalLikeCount.trim()
         self.lblViewCount.text = objStream.viewCount.trim()
         self.imgCover.setOriginalImage(strImage: objStream.coverImage, placeholder: kPlaceholderImage)
-        if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            btnEdit.isHidden = false
-            btnDelete.isHidden = false
-            btnContainer.isHidden = false
-            heightEdit.constant = 40
-            heigtDelete.constant = 40
-        }else{
-            btnContainer.isHidden = true
-            heightEdit.constant = 0
-            heigtDelete.constant = 0 
-        }
+//        if objStream.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+//            btnEdit.isHidden = false
+//            btnDelete.isHidden = false
+//            btnContainer.isHidden = false
+//            heightEdit.constant = 40
+//            heigtDelete.constant = 40
+//        }else{
+//            btnContainer.isHidden = true
+//            heightEdit.constant = 0
+//            heigtDelete.constant = 0
+//        }
         if objStream.anyOneCanEdit == true {
             btnCollab.isHidden = true
         }
         if  objStream.canAddPeople == true {
-            btnEdit.isHidden = false
+           // btnEdit.isHidden = false
         }
          btnCollab.isHidden = false
-        if objStream.description.trim().isEmpty {
-            self.heightConstant.constant = 0
-        }else {
-            let height = objStream.description.trim().height(withConstrainedWidth: self.lblDescription.bounds.size.width, font: self.lblDescription.font)
-            self.heightConstant.constant = height + 10
-        }
+    
         if !objStream.userImage.trim().isEmpty {
             self.imgUser.setImageWithResizeURL(objStream.userImage.trim())
         }
@@ -128,6 +120,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgCollabOne.isHidden = true
         }
         
+        
         if !objStream.colabImageSecond.trim().isEmpty {
             
             if  objStream.colabImageSecond.contains(kImageFormat) {
@@ -139,6 +132,11 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             }
         }else{
             self.imgCollabTwo.isHidden = true
+        }
+        if objStream.arrayColab.count == 0 {
+            self.lblColabLabel.text =  "by " + objStream.author.capitalized
+        }else {
+            self.lblColabLabel.text = "by " +  objStream.author.capitalized + " \(objStream.arrayColab.count) other"
         }
         // For  Now
        // btnEdit.isHidden = false

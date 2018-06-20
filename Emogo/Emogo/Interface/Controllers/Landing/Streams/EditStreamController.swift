@@ -53,6 +53,11 @@ class EditStreamController: UITableViewController {
         self.prepareLayouts()
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.configureNavigationTite(color:UIColor.white)
+        prepareNavigationbarButtons()
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         prepareSwitches()
@@ -95,6 +100,17 @@ class EditStreamController: UITableViewController {
         tap.numberOfTapsRequired = 1
         self.imgCover.addGestureRecognizer(tap)
       
+    }
+    
+    func prepareNavigationbarButtons(){
+        
+        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCancelAction(_:)))
+        btnBack.tintColor = UIColor.lightGray
+        self.navigationItem.leftBarButtonItem = btnBack
+        
+        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+        self.navigationItem.rightBarButtonItem = btnDone
+        self.title = "Edit Emogo"
     }
     
     

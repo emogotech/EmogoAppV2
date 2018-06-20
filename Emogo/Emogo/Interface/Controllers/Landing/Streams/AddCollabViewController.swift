@@ -368,8 +368,8 @@ class AddCollabViewController: UIViewController {
             if (errorMSG?.isEmpty)! {
                 if self.delegate != nil {
                     self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
-                    self.dismiss(animated: true, completion: nil)
                 }
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
