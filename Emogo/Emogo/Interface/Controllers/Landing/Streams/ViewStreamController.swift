@@ -146,7 +146,8 @@ class ViewStreamController: UIViewController {
         
         
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            
+            stretchyHeader.btnContainer.isHidden = false
+
             let imgEdit = UIImage(named: "edit_icon_stream")
             let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
             arrayButtons.append(rightEditBarButtonItem)
@@ -180,9 +181,9 @@ class ViewStreamController: UIViewController {
                 let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
                 arrayButtons.append(rightDownloadBarButtonItem)
             }
-            
+            stretchyHeader.btnContainer.isHidden = true
+
         }
-      
       
         self.navigationItem.rightBarButtonItems = arrayButtons
         
@@ -193,6 +194,7 @@ class ViewStreamController: UIViewController {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
         self.stretchyHeader.btnLike.isHidden = false
+
     }
     
     func prepareNavigation(){
@@ -302,7 +304,6 @@ class ViewStreamController: UIViewController {
         }else {
             stretchyHeader.btnLike.isHidden = false
          //   stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
-            stretchyHeader.btnContainer.isHidden = true
             // removed for now
         }
         self.btnAddContent.isHidden = true
