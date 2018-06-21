@@ -32,6 +32,8 @@ class PMAnimatedSwitch: UIView {
     
     private var offCenterPosition: CGFloat!
     private var onCenterPosition: CGFloat!
+    @IBInspectable var isShadowOn: Bool = false
+
     
     init(frame: CGRect, on: Bool) {
         super.init(frame: frame)
@@ -120,19 +122,24 @@ class PMAnimatedSwitch: UIView {
                 self.layoutIfNeeded()
                 self.button.backgroundColor = self.selectedColor
             }, completion: { (finish:Bool) -> Void in
-                self.button.layer.shadowOffset = CGSize(width: 0, height: 0.2)
-                self.button.layer.shadowOpacity = 0.3
-                self.button.layer.shadowRadius = self.offCenterPosition
-                self.button.layer.cornerRadius = self.button.frame.height / 2
-                self.button.layer.shadowPath = UIBezierPath(roundedRect: self.button.layer.bounds, cornerRadius: self.button.frame.height / 2).cgPath
+                if self.isShadowOn {
+                    self.button.layer.shadowOffset = CGSize(width: 0, height: 0.2)
+                    self.button.layer.shadowOpacity = 0.3
+                    self.button.layer.shadowRadius = self.offCenterPosition
+                    self.button.layer.cornerRadius = self.button.frame.height / 2
+                    self.button.layer.shadowPath = UIBezierPath(roundedRect: self.button.layer.bounds, cornerRadius: self.button.frame.height / 2).cgPath
+                }
+              
             })
         } else {
             // Clear Shadow
-            self.button.layer.shadowOffset = CGSize.zero
-            self.button.layer.shadowOpacity = 0
-            self.button.layer.shadowRadius = self.button.frame.height / 2
-            self.button.layer.cornerRadius = self.button.frame.height / 2
-            self.button.layer.shadowPath = nil
+            if self.isShadowOn {
+                self.button.layer.shadowOffset = CGSize.zero
+                self.button.layer.shadowOpacity = 0
+                self.button.layer.shadowRadius = self.button.frame.height / 2
+                self.button.layer.cornerRadius = self.button.frame.height / 2
+                self.button.layer.shadowPath = nil
+            }
             
             // Rotate animation
             let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")

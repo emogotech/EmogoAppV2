@@ -37,6 +37,7 @@ class AddCollabViewController: UIViewController {
     var isSearchEnable: Bool! = false
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
+    var streamID:String!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,11 +62,12 @@ class AddCollabViewController: UIViewController {
     
     
     func prepareLayouts(){
+        self.btnAdd.isHidden = true
         if self.arraySelected != nil {
             self.arrayCollaborators = self.arraySelected!
+            self.btnAdd.isHidden = false
         }
         self.tblAddCollab.separatorStyle = .none
-        self.btnAdd.isHidden = true
         self.getContacts()
         prepareNavBarButtons()
         tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
@@ -110,10 +112,7 @@ class AddCollabViewController: UIViewController {
        
         if self.arrayTempSelected.count != 0 {
             print(arrayTempSelected)
-            if self.delegate != nil {
-                self.delegate?.selectedColabs(arrayColab: arrayTempSelected)
-            }
-            self.dismiss(animated: true, completion: nil)
+            self.updateColabs()
         }
     }
     
@@ -361,6 +360,18 @@ class AddCollabViewController: UIViewController {
             .filter { $0.name.lowercased().contains(text.lowercased()) }
         print(result)
         self.updateList(arrayColabs:result)
+    }
+    
+    func updateColabs(){
+        
+        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: self.streamID, collaborator: arrayTempSelected) { (result, errorMSG) in
+            if (errorMSG?.isEmpty)! {
+                if self.delegate != nil {
+                    self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
+                }
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
 }

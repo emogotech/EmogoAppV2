@@ -29,6 +29,7 @@ class CreateStreamController: UITableViewController {
     @IBOutlet weak var lblAddCoverImage: UILabel!
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var viewTitle: UIView!
+    @IBOutlet weak var textFieldNext: UITextField!
 
     var delegate:CustomCameraViewControllerDelegate?
     var isExpandRow: Bool = false {
@@ -80,6 +81,7 @@ class CreateStreamController: UITableViewController {
     private func prepareLayouts(){
         tfEmogoTitle.becomeFirstResponder()
         tfEmogoTitle.inputAccessoryView = toolBar
+        textFieldNext.inputAccessoryView = toolBar
         tfDescription.inputAccessoryView = toolBar
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
@@ -452,7 +454,8 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if(text == "\n") {
-            tfDescription.resignFirstResponder()
+            //tfDescription.resignFirstResponder()
+            textFieldNext.becomeFirstResponder()
             return false
         }
         return textView.text.length + (text.length - range.length) <= 250

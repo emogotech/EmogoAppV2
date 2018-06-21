@@ -29,9 +29,9 @@ extension UIColor {
 // MARK: - UIView
 extension UIView {
     
-    func addBlurView(){
+    func addBlurView(style:UIBlurEffectStyle? = .dark){
         self.backgroundColor = .clear
-        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffect = UIBlurEffect(style: style!)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = CGRect.zero
         blurView.translatesAutoresizingMaskIntoConstraints = false
@@ -481,7 +481,7 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = btnback
     }
     
-    func configureNavigationTite(){
+    func configureNavigationTite(color:UIColor? = nil){
         var myAttribute2:[NSAttributedStringKey:Any]!
         if let font = UIFont(name: kFontBold, size: 20.0) {
             myAttribute2 = [ NSAttributedStringKey.foregroundColor: UIColor.black ,NSAttributedStringKey.font: font]
@@ -492,7 +492,11 @@ extension UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = myAttribute2
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        if color != nil {
+            self.navigationController?.navigationBar.barTintColor = color
+        }else {
+            self.navigationController?.navigationBar.barTintColor = kNavigationColor
+        }
     }
     
     
