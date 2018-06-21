@@ -30,7 +30,6 @@ class StreamListViewController: UIViewController {
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewCollection: UIView!
-    @IBOutlet weak var lblSearch          : UILabel!
     @IBOutlet weak var btnSearch          : UIButton!
     @IBOutlet weak var btnPeopleSearch          : UIButton!
     @IBOutlet weak var btnStreamSearch          : UIButton!
@@ -326,9 +325,6 @@ class StreamListViewController: UIViewController {
         
         self.btnStreamSearch.isUserInteractionEnabled = false
         self.btnPeopleSearch.isUserInteractionEnabled = true
-        lblSearch.layer.cornerRadius = 20.0
-        lblSearch.clipsToBounds = true
-        
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -345,9 +341,7 @@ class StreamListViewController: UIViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
-        
-    
-        
+
     }
     
    
@@ -596,7 +590,7 @@ class StreamListViewController: UIViewController {
         if btnSearch.tag == 1 {
             self.view.endEditing(true)
             txtSearch.text = ""
-            btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
+           // btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
             isUpdateList = true
             self.viewMenu.isHidden = false
@@ -623,7 +617,7 @@ class StreamListViewController: UIViewController {
         }else{
             if txtSearch.text?.trim() != "" {
                 btnSearch.tag = 1
-                btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
+             //   btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
                 self.didTapActionSearch(searchString: (txtSearch.text?.trim())!)
                 self.viewMenu.isHidden = true
                 isSearch = true
@@ -1274,7 +1268,7 @@ extension StreamListViewController : UITextFieldDelegate {
     
 
     func didTapActionSearch(searchString: String) {
-        btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
+       // btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnSearch.tag = 1
         searchStr = searchString
         self.viewSearchButtons.isHidden = false
