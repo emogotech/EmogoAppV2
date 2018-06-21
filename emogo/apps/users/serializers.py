@@ -326,7 +326,7 @@ class UserLoginSerializer(UserSerializer):
                 user.user_data.otp = None
                 user.user_data.save()
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
-            body = "Emogo login OTP"
+            body = "Here is your emogo one time pass code."
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server.
             # print sent_otp
             # sent_otp = 12345
