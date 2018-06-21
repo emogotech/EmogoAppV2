@@ -196,6 +196,12 @@
 		F4173F6D1FFCE59E00EC897E /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4173F6C1FFCE59D00EC897E /* RecordButton.swift */; };
 		F41752E5201CB573005AFE4A /* TermsAndPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */; };
 		F41752E8201CB690005AFE4A /* Checkbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41752E7201CB690005AFE4A /* Checkbox.swift */; };
+		F41846F520DBBCAE0077CEAB /* ZoomTransitionDestinationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */; };
+		F41846F620DBBCAE0077CEAB /* ZoomTransitionSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */; };
+		F41846F720DBBCAE0077CEAB /* ZoomInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */; };
+		F41846F820DBBCAE0077CEAB /* ZoomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */; };
+		F41846F920DBBCAE0077CEAB /* ZoomNavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */; };
+		F41846FA20DBBCAE0077CEAB /* UIImageView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */; };
 		F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */; };
 		F41C3AE01FE13A96009CD942 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41FD91920A9582F00FA8623 /* GradientView.swift */; };
@@ -701,6 +707,13 @@
 		F4173F6C1FFCE59D00EC897E /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		F41752E4201CB573005AFE4A /* TermsAndPrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndPrivacyViewController.swift; sourceTree = "<group>"; };
 		F41752E7201CB690005AFE4A /* Checkbox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Checkbox.swift; sourceTree = "<group>"; };
+		F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionDestinationDelegate.swift; sourceTree = "<group>"; };
+		F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitionSourceDelegate.swift; sourceTree = "<group>"; };
+		F41846F020DBBC9E0077CEAB /* ZoomTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomTransitioning.h; sourceTree = "<group>"; };
+		F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomInteractiveTransition.swift; sourceTree = "<group>"; };
+		F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomTransitioning.swift; sourceTree = "<group>"; };
+		F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomNavigationControllerDelegate.swift; sourceTree = "<group>"; };
+		F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+extension.swift"; sourceTree = "<group>"; };
 		F41C3AD81FE1062C009CD942 /* MyStreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamViewController.swift; sourceTree = "<group>"; };
 		F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIBadgeButton.swift; sourceTree = "<group>"; };
 		F41FD91920A9582F00FA8623 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
@@ -1358,6 +1371,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F41846ED20DBBC900077CEAB /* ZoomTransition */,
 				F431E3B620C693C3008D425B /* TextEditor */,
 				F40557C720AEB36500A28F51 /* CountryCodePicker */,
 				F4B8887020AAB7430056666B /* VideoEditing */,
@@ -1820,6 +1834,20 @@
 				F41752E7201CB690005AFE4A /* Checkbox.swift */,
 			);
 			path = CheckBox;
+			sourceTree = "<group>";
+		};
+		F41846ED20DBBC900077CEAB /* ZoomTransition */ = {
+			isa = PBXGroup;
+			children = (
+				F41846F420DBBCA60077CEAB /* UIImageView+extension.swift */,
+				F41846F120DBBCA10077CEAB /* ZoomInteractiveTransition.swift */,
+				F41846F320DBBCA30077CEAB /* ZoomNavigationControllerDelegate.swift */,
+				F41846EE20DBBC990077CEAB /* ZoomTransitionDestinationDelegate.swift */,
+				F41846F020DBBC9E0077CEAB /* ZoomTransitioning.h */,
+				F41846F220DBBCA10077CEAB /* ZoomTransitioning.swift */,
+				F41846EF20DBBC9B0077CEAB /* ZoomTransitionSourceDelegate.swift */,
+			);
+			path = ZoomTransition;
 			sourceTree = "<group>";
 		};
 		F41C3ADE1FE13A90009CD942 /* BadgeButton */ = {
@@ -3124,8 +3152,10 @@
 				F4402F741FCD918400152D01 /* SkyFloatingLabelTextFieldWithIcon.swift in Sources */,
 				F4731FC21FC2C9F500AA68D8 /* StreamSearchCell.swift in Sources */,
 				F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */,
+				F41846F720DBBCAE0077CEAB /* ZoomInteractiveTransition.swift in Sources */,
 				F4B8887420AAB8CE0056666B /* PMVideoEditor.swift in Sources */,
 				F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */,
+				F41846F820DBBCAE0077CEAB /* ZoomTransitioning.swift in Sources */,
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
@@ -3153,6 +3183,7 @@
 				F40557CF20AEB90500A28F51 /* CountryCell.swift in Sources */,
 				F41FD95220A9583F00FA8623 /* PhotoEditor+Controls.swift in Sources */,
 				F4961E1B1FFE8CE700A406FF /* ViewProfileViewController.swift in Sources */,
+				F41846F520DBBCAE0077CEAB /* ZoomTransitionDestinationDelegate.swift in Sources */,
 				F46AC6DF2043E92E00B71102 /* TLPhotoLibrary.swift in Sources */,
 				F4C9554720A31D890065D1C8 /* FNSLaMuse.mlmodel in Sources */,
 				F4E758761FD68197008DB12E /* RefreshHeaderAnimator.swift in Sources */,
@@ -3344,6 +3375,7 @@
 				F4C9554D20A31DA00065D1C8 /* PMFilter.swift in Sources */,
 				F4148A361FBDB5CE00081900 /* SHSPhoneLogic.m in Sources */,
 				F41FD95820A9583F00FA8623 /* StickerCollectionViewCell.swift in Sources */,
+				F41846F920DBBCAE0077CEAB /* ZoomNavigationControllerDelegate.swift in Sources */,
 				F42217C02007521A002D4E4E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F4B2D2032011343400D66B56 /* ShowPreviewViewController.swift in Sources */,
 				F409FC6C1FE3D7AB0093E0E7 /* PMTextField.swift in Sources */,
@@ -3352,6 +3384,7 @@
 				F4A5F74D209C685100AC9AE1 /* FilterViewController+Controls.swift in Sources */,
 				F46AB0CB20BC37FA00229031 /* VideoEditor+API.swift in Sources */,
 				F425C6392056646F002536E1 /* ASCollectionView.swift in Sources */,
+				F41846FA20DBBCAE0077CEAB /* UIImageView+extension.swift in Sources */,
 				F49DF3042005F186009A2D3A /* FLAnimatedImageView+ImageURL.m in Sources */,
 				33DAB2FE1FC6B9AC0053AC23 /* FSPageViewTransformer.swift in Sources */,
 				337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */,
@@ -3382,6 +3415,7 @@
 				F43649CC2015CEA5004FBEE2 /* CameraViewController.swift in Sources */,
 				F42864321FC4A12500E3549D /* PreviewController.swift in Sources */,
 				F480778120D1441B008E5BDA /* NotesViewController.swift in Sources */,
+				F41846F620DBBCAE0077CEAB /* ZoomTransitionSourceDelegate.swift in Sources */,
 				F43649C72015CEA5004FBEE2 /* VolumeControl.swift in Sources */,
 				F431E3B820C693F8008D425B /* CreateNotesViewController.swift in Sources */,
 				F44939E71FEA567800AE2FCA /* ESPullToRefresh+Manager.swift in Sources */,

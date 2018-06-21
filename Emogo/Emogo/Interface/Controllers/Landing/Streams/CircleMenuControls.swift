@@ -132,9 +132,19 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         //            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         //        }
         //        isMenuOpen = false
+        if self.segmentheader != nil {
+            if self.segmentheader.superview != nil {
+            self.segmentheader.removeFromSuperview()
+            }
+            
+        }
+
         switch index {
         case 0:
-            currentStreamType =  StreamType.myStream
+            ShowSegmentControl()
+            currentStreamType = StreamType.Public
+            self.segmentheader.segmentControl.selectedSegmentIndex = 0
+        
             break
         case 1:
             currentStreamType  =  StreamType.populer
@@ -166,14 +176,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
             
         }
         
-        if index == 0{
-          
-            self.ShowSegmentControl()
-            
-        }else{
-            self.segmentheader.segmentControl.isHidden = true
-        }
-       
         print("currrent index--->\(index)")
         StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
         collectionLayout.columnCount = 2
@@ -197,7 +199,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
     func StreamSegmentView(){
     
         // Segment control Configure
-        self.segmentheader.segmentControl.isHidden = false
         self.segmentheader.segmentControl.sectionTitles = ["Public", "Private"]
         self.segmentheader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
@@ -376,27 +377,26 @@ extension StreamListViewController {
     func updateStreamSegment(index:Int){
         switch index {
         case 0:
-            self.selectedType = StreamType.Public
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+           currentStreamType = StreamType.Public
             break
         case 1:
-            self.selectedType = StreamType.Private
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+            currentStreamType = StreamType.Private
             break
             
         default:
-            self.selectedType = StreamType.Public
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+           break
         }
-        HUDManager.sharedInstance.hideHUD()
-        
-        
+        self.streamCollectionView.es.resetNoMoreData()
+        DispatchQueue.main.async {
+            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if self.arrayToShow.count == 0 {
+                self.lblNoResult.isHidden = false
+            }else {
+                self.lblNoResult.isHidden = true
+            }
+            self.streamCollectionView.reloadData()
+        }
+     //   self.getStreamList(type: .start, filter: currentStreamType)
     }
     
 }

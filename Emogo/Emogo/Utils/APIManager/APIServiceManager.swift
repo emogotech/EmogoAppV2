@@ -443,11 +443,18 @@ class APIServiceManager: NSObject {
                             
                             if let value = result["my_stream"] {
                                 let dict:[String:Any] = value as! [String : Any]
+                                print(dict)
                                 if let obj = dict["data"] {
                                     let array:[Any] = obj as! [Any]
                                     for obj in array {
                                         let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                        stream.selectionType = StreamType.myStream
+                                        if stream.streamType.lowercased() == "public" {
+                                            stream.selectionType = StreamType.Public
+
+                                        }else {
+                                            stream.selectionType = StreamType.Private
+
+                                        }
                                         objects.append(stream)
                                     }
                                 }
@@ -577,7 +584,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: StreamList.sharedInstance.requestURl) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
