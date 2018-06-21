@@ -144,6 +144,7 @@ class PresentrController: UIPresentationController, UIAdaptivePresentationContro
 
         if blurBackground {
             visualEffect = UIBlurEffect(style: blurStyle)
+            
         } else {
             chromeView.backgroundColor = backgroundColor.withAlphaComponent(CGFloat(backgroundOpacity))
         }
@@ -256,6 +257,7 @@ extension PresentrController {
         if visualEffect != nil {
             let view = UIVisualEffectView()
             view.frame = chromeView.bounds
+            view.alpha = 0.8
             view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             chromeView.insertSubview(view, at: 0)
             blurEffectView = view

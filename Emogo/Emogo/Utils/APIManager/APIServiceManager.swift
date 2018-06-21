@@ -1187,6 +1187,7 @@ class APIServiceManager: NSObject {
             
             switch(result){
             case .success(let value):
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {

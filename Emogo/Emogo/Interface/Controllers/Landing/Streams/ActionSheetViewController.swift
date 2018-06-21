@@ -82,7 +82,8 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-     let title = self.menuItems.arrayActions[indexPath.row].iconName
+    
+        let title = self.menuItems.arrayActions[indexPath.row].iconName
         var strType:String! = ""
         if title == "Photo/Videos" {
             strType = "1"
@@ -109,5 +110,8 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
         let cellHeight  =  tableHeight/6
         return cellHeight
     }
+    
+   
+
    
 }

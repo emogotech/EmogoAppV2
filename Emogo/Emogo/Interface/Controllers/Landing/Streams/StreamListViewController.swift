@@ -27,20 +27,17 @@ class StreamListViewController: UIViewController {
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
     var btnAddFrame   : CGRect!
-  
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
-    @IBOutlet weak var viewSearch: UIView!
     @IBOutlet weak var viewCollection: UIView!
-    @IBOutlet weak var viewPeople: UIView!
-    @IBOutlet weak var viewStream: UIView!
-    @IBOutlet weak var btnStreamSearch          : UIButton!
-    @IBOutlet weak var btnPeopleSearch          : UIButton!
-    @IBOutlet weak var lblStreamSearch          : UILabel!
-    @IBOutlet weak var lblPeopleSearch          : UILabel!
     @IBOutlet weak var lblSearch          : UILabel!
     @IBOutlet weak var btnSearch          : UIButton!
-    
+    @IBOutlet weak var btnPeopleSearch          : UIButton!
+    @IBOutlet weak var btnStreamSearch          : UIButton!
+    @IBOutlet weak var viewSearchButtons        : UIView!
+    @IBOutlet weak var kViewSearchButtonsHeight : NSLayoutConstraint!
+    @IBOutlet weak var kSearchViewHieght         : NSLayoutConstraint!
+
     var isAddButtonTapped   =   false
     var isDidLoadCalled : Bool  =   false
     
@@ -51,7 +48,8 @@ class StreamListViewController: UIViewController {
     var searchStr : String!
     var heightPeople                            : NSLayoutConstraint?
     var heightStream                            : NSLayoutConstraint?
-    
+    let kSearchHeight = 60.0
+
     //-=-------------------------
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -113,11 +111,11 @@ class StreamListViewController: UIViewController {
         super.viewDidLoad()
         
         self.streamCollectionView.accessibilityLabel = "StreamCollectionView"
-        setupAnchor()
-        prepareLayouts()
+          prepareLayouts()
         txtSearch.delegate = self
-    
-    
+        viewSearchButtons.isHidden = true
+        kViewSearchButtonsHeight.constant = 0.0
+        self.kSearchViewHieght.constant = 0.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,6 +123,7 @@ class StreamListViewController: UIViewController {
      
         self.configureLandingNavigation()
         menuView.isHidden = true
+        
         kShowOnlyMyStream = ""
         self.viewMenu.isHidden = false
         DispatchQueue.main.async {
@@ -431,30 +430,10 @@ class StreamListViewController: UIViewController {
     }
     
     
-    func setupAnchor(){
-        viewSearch.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0)
-        viewStream.translatesAutoresizingMaskIntoConstraints = false
-        viewPeople.translatesAutoresizingMaskIntoConstraints = false
-        heightStream = viewStream.heightAnchor.constraint(equalToConstant: 40)
-        heightStream?.isActive = false
-        viewStream.isHidden = false
-        viewPeople.isHidden = false
-        viewStream.topAnchor.constraint(equalTo: viewSearch.topAnchor).isActive = true
-        viewStream.leftAnchor.constraint(equalTo: viewSearch.leftAnchor).isActive = true
-        viewStream.rightAnchor.constraint(equalTo: viewSearch.rightAnchor).isActive = true
-        viewStream.bottomAnchor.constraint(equalTo: viewPeople.topAnchor).isActive = true
-        
-        viewPeople.bottomAnchor.constraint(equalTo: viewSearch.bottomAnchor).isActive = true
-        heightPeople = viewPeople.heightAnchor.constraint(equalToConstant: 40)
-        heightPeople?.isActive = true
-        viewPeople.leftAnchor.constraint(equalTo: viewSearch.leftAnchor).isActive = true
-        viewPeople.rightAnchor.constraint(equalTo: viewSearch.rightAnchor).isActive = true
-    }
+   
     
     func setViewSearchHeightFor_iPhoneX(){
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
-            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
-            self.viewSearch.frame.size.height = self.viewSearch.frame.size.height - extraBottomSpace!
         }
     }
     
@@ -480,14 +459,6 @@ class StreamListViewController: UIViewController {
         menuView.insertSubview(blurView, at: 0)
         print(blurView)
 
-        if isLoadFirst {
-            UIView.animate(withDuration: 0.1, animations: {
-                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height-(self.navigationController?.navigationBar.frame.size.height)!)
-                self.viewCollection.frame = self.viewSearch.frame
-                self.setViewSearchHeightFor_iPhoneX()
-            })
-            self.isLoadFirst = false
-        }
         /*
         if(SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople){
             pagerView(menuView, didSelectItemAt: 4)
@@ -628,11 +599,6 @@ class StreamListViewController: UIViewController {
             btnSearch.setImage(#imageLiteral(resourceName: "search_icon_iphone"), for: UIControlState.normal)
             btnSearch.tag = 0
             isUpdateList = true
-            UIView.animate(withDuration: 0.1, delay: 0.1, options: [.curveEaseOut], animations: {
-                self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
-                self.viewCollection.frame = self.viewSearch.frame
-                self.setViewSearchHeightFor_iPhoneX()
-            }, completion: nil)
             self.viewMenu.isHidden = false
             isSearch = false
             if currentStreamType == .People {
@@ -650,6 +616,9 @@ class StreamListViewController: UIViewController {
                     self.lblNoResult.isHidden = true
                 }
                 self.streamCollectionView.reloadData()
+                self.kSearchViewHieght.constant = 0.0
+                self.kViewSearchButtonsHeight.constant = 0.0
+                self.viewSearchButtons.isHidden = true
             }
         }else{
             if txtSearch.text?.trim() != "" {
@@ -673,10 +642,13 @@ class StreamListViewController: UIViewController {
         switch sender.tag {
             
         case 0:         //Stream
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            self.streamCollectionView.isHidden = true
+            self.isSearch = true
+            self.isTapPeople = false
+            self.isTapStream = true
+            self.streamCollectionView.isHidden = false
             PeopleList.sharedInstance.requestURl = ""
+            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
             StreamList.sharedInstance.requestURl = ""
             collectionLayout.columnCount = 2
             HUDManager.sharedInstance.showHUD()
@@ -684,10 +656,13 @@ class StreamListViewController: UIViewController {
             break
             
         case 1:         //People
+            self.isSearch = true
+            self.isTapPeople = true
+            self.isTapStream = false
+            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_active"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_inactive"), for: .normal)
             collectionLayout.columnCount = 3
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            self.streamCollectionView.isHidden = true
+            self.streamCollectionView.isHidden = false
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             HUDManager.sharedInstance.showHUD()
@@ -900,21 +875,15 @@ class StreamListViewController: UIViewController {
                 self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
-                    self.lblPeopleSearch.text = "People"
-                    self.lblStreamSearch.text = "Emogo"
                 }else {
                     self.lblNoResult.isHidden = true
-                    let count = "(\(self.arrayToShow.count))"
-                    self.lblPeopleSearch.text = "People \(count)"
-                    self.lblStreamSearch.text = "Emogo"
+                  
                 }
                 self.streamCollectionView.reloadData()
             }
             
             self.btnStreamSearch.isUserInteractionEnabled = true
             self.btnPeopleSearch.isUserInteractionEnabled = false
-            self.viewSearch.isHidden = false
-            self.expandPeopleHeight()
             
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -993,25 +962,18 @@ class StreamListViewController: UIViewController {
                     self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
-                        self.lblStreamSearch.text = "Emogo"
-                        self.lblPeopleSearch.text = "People"
-
+                      
                     }else {
+                       
                         self.lblNoResult.isHidden = true
-                        let count = "(\(self.arrayToShow.count))"
-                        self.lblStreamSearch.text = "Emogo \(count)"
-                        self.lblPeopleSearch.text = "People"
-
                     }
                     self.streamCollectionView.reloadData()
                 }
                 
                 self.viewMenu.isHidden = true
-                self.viewSearch.isHidden = false
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 
-                self.expandStreamHeight()
                 if !(errorMsg?.isEmpty)! {
                     self.showToast(type: .success, strMSG: errorMsg!)
                 }
@@ -1072,47 +1034,7 @@ class StreamListViewController: UIViewController {
  */
     }
     
-    
-    func expandPeopleHeight() {
-        self.streamCollectionView.isHidden = true
-        
-        UIView.animate(withDuration: 0.7, animations: {
-            self.heightStream?.isActive = true
-            self.heightPeople?.isActive = false
-        }) { (finished) in
-            self.isTapStream = false
-            self.isTapPeople = true
-            self.isSearch = true
-            
-            self.viewCollection.frame = CGRect(x: self.viewCollection.frame.origin.x, y: self.viewSearchMain.frame.origin.y + self.viewSearchMain.frame.size.height + 80, width: self.viewStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
-            self.streamCollectionView.isHidden = false
-            self.streamCollectionView.reloadData()
-            if PeopleList.sharedInstance.arrayPeople.count == 0 {
-                self.lblNoResult.isHidden = false
-            }
-        }
-    }
-  
-    
-    func expandStreamHeight(){
-        self.streamCollectionView.isHidden = true
-        UIView.animate(withDuration: 0.7, animations: {
-            self.heightStream?.isActive = false
-            self.heightPeople?.isActive = true
-        }) { (finished) in
-            self.isTapStream = true
-            self.isTapPeople = false
-            self.isSearch = true
-            self.streamCollectionView.isHidden = false
-            self.viewCollection.frame = CGRect(x: self.viewCollection.frame.origin.x, y: self.viewSearchMain.frame.origin.y + self.viewSearchMain.frame.size.height + 40, width: self.viewSearch.frame.size.width, height: self.viewStream.frame.size.height-40)
-                 self.streamCollectionView.reloadData()
-            //            if self.arrayStreams.count == 0 {
-            //                self.lblNoResult.isHidden = false
-            //            }
-        }
-    }
-    
-    /*
+        /*
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -1310,9 +1232,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         if (self.lastContentOffset > scrollView.contentOffset.y && !isSearch  ) {
             if  scrollView.contentOffset.y < -20 {
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseOut], animations: {
-                    self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y + self.viewSearchMain.frame.size.height, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y-self.viewSearchMain.frame.height)
-                    self.viewCollection.frame = self.viewSearch.frame
-                    self.setViewSearchHeightFor_iPhoneX()
+                 print("up View")
+                    self.kSearchViewHieght.constant = 52.0
                 }, completion: nil)
             }
         }
@@ -1322,9 +1243,8 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             if scrollView.contentOffset.y > 0.5 {
                 
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseIn], animations: {
-                    self.viewSearch.frame = CGRect(x: self.viewSearch.frame.origin.x, y: self.viewSearchMain.frame.origin.y, width: self.viewSearchMain.frame.size.width, height: self.view.frame.size.height-self.viewSearchMain.frame.origin.y)
-                    self.viewCollection.frame = self.viewSearch.frame
-                    self.setViewSearchHeightFor_iPhoneX()
+                    print("Down View")
+                    self.kSearchViewHieght.constant = 0.0
                 }, completion: nil)
             }
         }
@@ -1357,17 +1277,17 @@ extension StreamListViewController : UITextFieldDelegate {
         btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnSearch.tag = 1
         searchStr = searchString
+        self.viewSearchButtons.isHidden = false
+        self.kViewSearchButtonsHeight.constant = CGFloat(self.kSearchHeight)
         if isPeopleList {
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             collectionLayout.columnCount = 3
             HUDManager.sharedInstance.showHUD()
             self.getPeopleGlobalSearch(searchText: searchString, type: .start)
         }else{
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             collectionLayout.columnCount = 2
             HUDManager.sharedInstance.showHUD()
+            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
             self.getStreamGlobalSearch(searchText: searchString, type: .start)
         }
     }

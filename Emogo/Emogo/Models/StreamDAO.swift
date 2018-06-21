@@ -104,6 +104,8 @@ class StreamDAO {
             self.userImage = obj as! String
         }
         self.selectionType = .People
+    
+
     }
 }
 

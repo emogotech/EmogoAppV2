@@ -73,13 +73,19 @@ class PresenterNew: NSObject {
             customPresenter.blurStyle = UIBlurEffectStyle.light
             return customPresenter
         }else {
-            let customType = PresentationType.bottomHalf
+           
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  100.0), sizeLandscape: Float(kFrame.size.width/2.0 +  100.0))
+            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  100.0)
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
             let customPresenter = Presentr(presentationType: customType)
+
             customPresenter.transitionType = .coverVertical
             customPresenter.dismissTransitionType = .crossDissolve
             customPresenter.roundCorners = true
             customPresenter.cornerRadius = 15.0
-            customPresenter.backgroundOpacity = 1.0
+            customPresenter.backgroundOpacity = 0.8
             customPresenter.dismissOnSwipe = true
             customPresenter.blurBackground = true
             customPresenter.blurStyle = UIBlurEffectStyle.light
