@@ -75,6 +75,9 @@ class StreamListViewController: UIViewController {
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var arrayToShow = [StreamDAO]()
     var timer:Timer?
+    var segmentheader: SegmentHeaderViewCell!
+    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+
     
     /*
     let customOrientationPresenter: Presentr = {

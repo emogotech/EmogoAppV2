@@ -1359,7 +1359,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "602"
             endingLineNumber = "602"
-            landmarkName = "updateStreamSegment(index:)"
+            landmarkName = "btnSearchAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1375,7 +1375,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "606"
             endingLineNumber = "606"
-            landmarkName = "updateStreamSegment(index:)"
+            landmarkName = "btnSearchAction(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1391,7 +1391,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "771"
             endingLineNumber = "771"
-            landmarkName = "getMyStreamViewData(type:)"
+            landmarkName = "getStream(currentStreamID:currentConytentID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1407,7 +1407,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "786"
             endingLineNumber = "786"
-            landmarkName = "getMyStreamViewData(type:)"
+            landmarkName = "getStream(currentStreamID:currentConytentID:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1423,8 +1423,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "802"
             endingLineNumber = "802"
-            landmarkName = "getMyStreamViewData(type:)"
-            landmarkType = "7">
+            landmarkName = "StreamListViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
