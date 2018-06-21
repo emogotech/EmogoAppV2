@@ -20,6 +20,8 @@ enum StreamType:String {
     case Emogo = "Emogo"
     case Collab = "Collab"
     case profile = "profile"
+    case Public = "Public"
+    case Private = "Private"
 
 }
 
@@ -150,6 +152,12 @@ class StreamList{
             break
         case .People:
             PeopleList.sharedInstance.requestURl = kPeopleAPI
+            break
+        case .Public:
+            self.requestURl = kMyStreamListAPI + "public=True"
+            break
+        case .Private:
+            self.requestURl = kMyStreamListAPI + "private=True"
             break
         case .Liked:
             self.requestURl = "user_liked_streams/"

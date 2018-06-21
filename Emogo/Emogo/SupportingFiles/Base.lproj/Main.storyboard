@@ -2482,7 +2482,7 @@
                                             <constraint firstAttribute="height" constant="40" id="bN5-8P-Lpj"/>
                                         </constraints>
                                         <state key="normal" image="button:KJZ-CM-7cq:image"/>
-                                        <state key="selected" image="D3B31732-099C-43A1-A3C8-3741F16DBBCE"/>
+                                        <state key="selected" image="3148F099-BFC7-4875-8802-FA0E0CC3D2CC"/>
                                         <connections>
                                             <action selector="btnSearchAction:" destination="yPI-rI-brd" eventType="touchUpInside" id="6qg-Si-L1X"/>
                                         </connections>
@@ -3579,7 +3579,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="FjK-Mp-XtL">
-                                                    <rect key="frame" x="10" y="8" width="111.5" height="19"/>
+                                                    <rect key="frame" x="10" y="8" width="103" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="mRk-IV-WOt"/>
                                                     </constraints>
@@ -4666,8 +4666,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Add_cover_image_icon" width="30" height="25"/>
-        <image name="D3B31732-099C-43A1-A3C8-3741F16DBBCE" width="17" height="17">
+        <image name="3148F099-BFC7-4875-8802-FA0E0CC3D2CC" width="17" height="17">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGVVZYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK8QEgcI
 ExQZHh8jJCsuMTtDR0tPUlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdz
@@ -4816,6 +4815,7 @@ DyB7IH0ggiCQIJQgmyCgIK0gsCC9IMIgyiDNINIg2iDdIO8g8iD3AAAAAAAAAgEAAAAAAAAAWQAAAAAA
 AAAAAAAAAAAAIPk
 </mutableData>
         </image>
+        <image name="Add_cover_image_icon" width="30" height="25"/>
         <image name="Rectangle 2" width="522" height="66"/>
         <image name="Save" width="17" height="23"/>
         <image name="Stream-change-cover" width="110" height="43"/>

@@ -113,6 +113,10 @@
 		C8B8AC35202895E70023ECD3 /* SwiftyRecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8B8AC34202895E70023ECD3 /* SwiftyRecordButton.swift */; };
 		C8DBBCC11FD7E761004D33F7 /* EmogoSignUpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8DBBCC01FD7E761004D33F7 /* EmogoSignUpUITests.swift */; };
 		C8FBD7322015FE7C007C7C1B /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */; };
+		F005121520DA331F00EA4E50 /* SegmentHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */; };
+		F005121620DA331F00EA4E50 /* SegmentHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */; };
+		F005121720DA7D7D00EA4E50 /* NZCircularImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1E1FFE92C200A406FF /* NZCircularImageView.m */; };
+		F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
 		F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */; };
@@ -605,6 +609,8 @@
 		C8FBD7302015FE7C007C7C1B /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+Placeholder.h"; sourceTree = "<group>"; };
 		C8FBD7312015FE7C007C7C1B /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+Placeholder.m"; sourceTree = "<group>"; };
 		D48E56738A68BCE856154FE2 /* Pods-EmogoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EmogoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests.release.xcconfig"; sourceTree = "<group>"; };
+		F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentHeaderViewCell.swift; sourceTree = "<group>"; };
+		F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SegmentHeaderViewCell.xib; sourceTree = "<group>"; };
 		F009A93620D0F88E00051547 /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
@@ -1769,6 +1775,8 @@
 				F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */,
 				F0B866DA20D3DF74005F2C55 /* NewStreamViewHeader.swift */,
 				F0B866DB20D3DF74005F2C55 /* NewStreamViewHeader.xib */,
+				F005121320DA331F00EA4E50 /* SegmentHeaderViewCell.swift */,
+				F005121420DA331F00EA4E50 /* SegmentHeaderViewCell.xib */,
 			);
 			path = Streams;
 			sourceTree = "<group>";
@@ -2649,6 +2657,7 @@
 				F43649BC2015CEA5004FBEE2 /* CameraView.strings in Resources */,
 				F431186C202B88D2006139F7 /* filter_gradient_4_icon@3x.png in Resources */,
 				F4311878202B88D2006139F7 /* filter_gradient_1.png in Resources */,
+				F005121620DA331F00EA4E50 /* SegmentHeaderViewCell.xib in Resources */,
 				F433EDA220173A53004FEB93 /* MyStreamHeaderView.xib in Resources */,
 				F41FD95D20A9583F00FA8623 /* Montserrat-Regular.otf in Resources */,
 				F0B866DD20D3DF74005F2C55 /* NewStreamViewHeader.xib in Resources */,
@@ -3248,6 +3257,7 @@
 				F43E92D31FCEB43100AF3FAC /* Document.swift in Sources */,
 				F42217B220074D56002D4E4E /* BIZPopupViewController.m in Sources */,
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
+				F005121520DA331F00EA4E50 /* SegmentHeaderViewCell.swift in Sources */,
 				F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */,
 				F43649CE2015CEA5004FBEE2 /* ConfirmViewController.swift in Sources */,
 				F46AB0C720BC2BFC00229031 /* VideoEditor+UITextView.swift in Sources */,
@@ -3417,6 +3427,7 @@
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
 				33DAB2F41FC6B9020053AC23 /* FSPagerView.swift in Sources */,
+				F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				F4F0422220455FBA009FC2A8 /* Reorder+CHTCollectionLayout.swift in Sources */,
 				330FEB781FC3F5F200552260 /* LoadingView.swift in Sources */,
 				337B8F951FBEECBE00CFACE3 /* SignUpVerifyViewController.swift in Sources */,
@@ -3437,6 +3448,7 @@
 				337B8FB81FBEF48A00CFACE3 /* iMessageExt.swift in Sources */,
 				2BA0ECE72075FF6800A63688 /* WelcomeScreenVC.swift in Sources */,
 				330FEB761FC3F5CC00552260 /* KDLoadingView.swift in Sources */,
+				F005121720DA7D7D00EA4E50 /* NZCircularImageView.m in Sources */,
 				2B692C9E2076024B006C4691 /* KASlideShow.m in Sources */,
 				337B8F941FBEECBE00CFACE3 /* SignUpSelectedViewController.swift in Sources */,
 				F497B3B71FD7F44E006614F2 /* PeopleDAO.swift in Sources */,

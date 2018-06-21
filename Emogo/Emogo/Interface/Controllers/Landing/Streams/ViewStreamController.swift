@@ -30,6 +30,7 @@ class ViewStreamController: UIViewController {
     var isRefresh:Bool! = true
     var isUpload:Bool! = false
     var isbackFromDown:Bool! = false
+  
     
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
@@ -136,7 +137,7 @@ class ViewStreamController: UIViewController {
             stretchyHeader.prepareLayout(stream:self.objStream)
         }
     }
-    /*
+  /*
     func configureNewNavigation(){
         var myAttribute2:[NSAttributedStringKey:Any]!
         if let font = UIFont(name: kFontBold, size: 20.0) {
@@ -177,9 +178,9 @@ class ViewStreamController: UIViewController {
             ContentList.sharedInstance.mainStreamIndex = nil
         }
 
-       // self.configureNewNavigation()
+     //  self.configureNewNavigation()
         self.configureNavigationTite()
-        let imgP = UIImage(named: "back_icon_New")
+        let imgP = UIImage(named: "back_icon")
         let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
         self.navigationItem.leftBarButtonItem = btnback
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)

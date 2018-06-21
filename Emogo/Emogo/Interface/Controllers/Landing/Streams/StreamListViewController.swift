@@ -27,7 +27,10 @@ class StreamListViewController: UIViewController {
     var isPullToRefreshRemoved:Bool! = false
     private var lastContentOffset: CGFloat = 0
     var btnAddFrame   : CGRect!
-  
+    var segmentheader: SegmentHeaderViewCell!
+    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    var selectedType:StreamType! = StreamType.Public
+    
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewSearch: UIView!
@@ -78,6 +81,9 @@ class StreamListViewController: UIViewController {
     var arrayToShow = [StreamDAO]()
     var timer:Timer?
     
+ 
+    
+    
     /*
     let customOrientationPresenter: Presentr = {
         
@@ -116,7 +122,7 @@ class StreamListViewController: UIViewController {
         setupAnchor()
         prepareLayouts()
         txtSearch.delegate = self
-    
+       
     
     }
     
@@ -221,6 +227,17 @@ class StreamListViewController: UIViewController {
             self.timer = nil
         }
     }
+    
+    func configureStreamHeader() {
+    
+        let nibViews = Bundle.main.loadNibNamed("SegmentHeaderViewCell", owner: self, options: nil)
+        self.segmentheader = nibViews?.first as! SegmentHeaderViewCell
+        self.streamCollectionView.addSubview(self.segmentheader)
+        self.segmentheader.segmentDelegate = self
+       
+        segmentheader.segmentControl.isHidden = false
+        
+    }
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
             self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
@@ -294,6 +311,7 @@ class StreamListViewController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        
         // Logout User if Token Is Expired
         AppDelegate.appDelegate.removeOberserver()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil, queue: nil) { (notification) in
@@ -347,6 +365,11 @@ class StreamListViewController: UIViewController {
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
         
+//        if currentStreamType == .myStream {
+//            self.configureStreamHeader()
+//        }else{
+//
+//        }
     
         
     }
@@ -497,6 +520,7 @@ class StreamListViewController: UIViewController {
             SharedData.sharedInstance.deepLinkType = ""
         }
  */
+    
         if isSearch {
             self.viewMenu.isHidden = true
         }
@@ -569,6 +593,31 @@ class StreamListViewController: UIViewController {
         self.streamCollectionView.expiredTimeInterval = 15.0
     }
     
+    func updateStreamSegment(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+        case 1:
+            self.selectedType = StreamType.Private
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+            
+        default:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+        }
+        HUDManager.sharedInstance.hideHUD()
+        
+        
+    }
 
     // MARK: -  Action Methods And Selector
     
@@ -714,6 +763,50 @@ class StreamListViewController: UIViewController {
     
     // MARK: - API Methods
 
+    func getMyStreamViewData(type:RefreshType){
+        
+        if type == .start || type == .up {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: index)
+                    print("Removed")
+                }
+            }
+        }
+        APIServiceManager.sharedInstance.getMyStreamNewList(type: type) { (refreshType, errorMsg) in
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+            if refreshType == .end {
+                self.streamCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                //  UIApplication.shared.endIgnoringInteractionEvents()
+                self.streamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+              
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            self.lblNoResult.isHidden = true
+            self.lblNoResult.text = kAlert_No_Stream_found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.selectedType == .Public{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }else{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
+            }
+            self.streamCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     
     func getTopStreamList() {
         HUDManager.sharedInstance.showHUD()
@@ -1238,7 +1331,12 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
  */
     }
-   
+//    private func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+//
+//        header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "SegmentHeaderViewCell", for: indexPath as IndexPath) as? SegmentHeaderViewCell
+//
+//        return header!
+//    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if self.isSearch == false {
             if currentStreamType == .People {

@@ -9,4 +9,5 @@
 #import "FLAnimatedImage.h"
 #import "HHPageView.h"
 #import "KASlideShow.h"
+#import "NZCircularImageView.h"
 
