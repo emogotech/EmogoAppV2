@@ -85,6 +85,21 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             self.instance.stream_contents.all().delete()
             if contents.__len__() > 0:
                 self.create_content(self.instance)
+
+        #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
+        if self.instance.collaborator_list.all().__len__ > 0 :
+            stream_type = self.validated_data.get('type')
+            any_one_can_edit = self.validated_data.get('any_one_can_edit')
+
+            if stream_type == 'Public':
+                # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
+                status = 'Inactive' if any_one_can_edit else 'Active'
+            else:
+                # When Stream is (Global  -> Private), so collaboratopr status is Active 
+                status = 'Active'
+
+            if  not (any_one_can_edit == True  and stream_type == 'Private' ):
+                self.instance.collaborator_list.all().update(status=status)
         return kwargs
 
     def create(self, validated_data):
