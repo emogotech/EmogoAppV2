@@ -395,7 +395,7 @@ class UserResendOtpSerializer(UserProfileSerializer):
         setattr(self, 'user_pin', None)
         if User.objects.filter(username=validated_data.get('phone_number')).exists():
             # Todo : For now we have commented send_otp code for development purpose
-            body = "Emogo Resend OTP"
+            body = "Here is your emogo one time passcode"
             self.user_pin = send_otp(validated_data.get('phone_number'), body)
             user = User.objects.get(username=validated_data.get('phone_number'))
             user_profile = UserProfile.objects.get(user=user)
