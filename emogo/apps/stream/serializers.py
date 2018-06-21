@@ -85,6 +85,21 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             self.instance.stream_contents.all().delete()
             if contents.__len__() > 0:
                 self.create_content(self.instance)
+
+        #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
+        if self.instance.collaborator_list.all().__len__ > 0 :
+            stream_type = self.validated_data.get('type')
+            any_one_can_edit = self.validated_data.get('any_one_can_edit')
+
+            if stream_type == 'Public':
+                # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
+                status = 'Inactive' if any_one_can_edit else 'Active'
+            else:
+                # When Stream is (Global  -> Private), so collaboratopr status is Active 
+                status = 'Active'
+
+            if  not (any_one_can_edit == True  and stream_type == 'Private' ):
+                self.instance.collaborator_list.all().update(status=status)
         return kwargs
 
     def create(self, validated_data):
@@ -112,6 +127,7 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         """
         :param stream: The stream object
         :Add Stream's Owner as collaborators..
+        :Call owner stream for adding Stream's Owner as collaborators in collaborators list ..
         :return: Add Stream collaborators.
         """
         self.owner_collaborator(stream)
@@ -190,6 +206,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def owner_collaborator(self, stream):
         # Adding and update the streams as collaborator..
+<<<<<<< HEAD
+=======
+        # Check Owner is present or stream have any collabrators or not.
+>>>>>>> b90cf17a3c697a0891e3b19a6caffc1ac89afb9a
         if stream.collaborator_list.filter().__len__() < 1 :
             user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
             collaborator, created = Collaborator.objects.get_or_create(
