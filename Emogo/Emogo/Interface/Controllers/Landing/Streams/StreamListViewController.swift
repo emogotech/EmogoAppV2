@@ -76,6 +76,7 @@ class StreamListViewController: UIViewController {
     var timer:Timer?
     var segmentheader: SegmentHeaderViewCell!
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    var selectedType:StreamType! = StreamType.Public
 
     
     /*
@@ -347,6 +348,16 @@ class StreamListViewController: UIViewController {
 
     }
     
+    func configureStreamHeader() {
+        
+        let nibViews = Bundle.main.loadNibNamed("SegmentHeaderViewCell", owner: self, options: nil)
+        self.segmentheader = nibViews?.first as! SegmentHeaderViewCell
+        self.streamCollectionView.addSubview(self.segmentheader)
+        self.segmentheader.segmentDelegate = self
+        
+        segmentheader.segmentControl.isHidden = false
+        
+    }
    
     
     @objc func startAnimation(){
@@ -837,6 +848,50 @@ class StreamListViewController: UIViewController {
         }
     }
     
+    func getMyStreamViewData(type:RefreshType){
+        
+        if type == .start || type == .up {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: index)
+                    print("Removed")
+                }
+            }
+        }
+        APIServiceManager.sharedInstance.getMyStreamNewList(type: type) { (refreshType, errorMsg) in
+            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
+            if refreshType == .end {
+                self.streamCollectionView.es.noticeNoMoreData()
+            }
+            if type == .up {
+                //  UIApplication.shared.endIgnoringInteractionEvents()
+                self.streamCollectionView.es.stopPullToRefresh()
+            }else if type == .down {
+                
+                self.streamCollectionView.es.stopLoadingMore()
+            }
+            self.lblNoResult.isHidden = true
+            self.lblNoResult.text = kAlert_No_Stream_found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.selectedType == .Public{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }else{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.streamCollectionView.reloadData()
+            }
+            self.streamCollectionView.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToast(type: .success, strMSG: errorMsg!)
+            }
+        }
+    }
     
     
     // MARK: - Search API Methods

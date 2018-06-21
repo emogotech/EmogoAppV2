@@ -372,6 +372,33 @@ extension StreamListViewController {
         }
     }
     
+    
+    func updateStreamSegment(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+        case 1:
+            self.selectedType = StreamType.Private
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+            
+        default:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+        }
+        HUDManager.sharedInstance.hideHUD()
+        
+        
+    }
+    
 }
 
 extension StreamListViewController : ActionSheetViewControllerDelegate {

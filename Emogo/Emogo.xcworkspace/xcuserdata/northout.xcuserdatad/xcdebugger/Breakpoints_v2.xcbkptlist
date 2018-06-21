@@ -1423,8 +1423,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "802"
             endingLineNumber = "802"
-            landmarkName = "StreamListViewController"
-            landmarkType = "3">
+            landmarkName = "getStream(currentStreamID:currentConytentID:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
