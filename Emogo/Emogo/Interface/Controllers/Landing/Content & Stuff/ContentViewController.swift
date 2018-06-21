@@ -13,6 +13,7 @@ import Lightbox
 import Photos
 import IQKeyboardManagerSwift
 
+
 class ContentViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -33,6 +34,7 @@ class ContentViewController: UIViewController {
     var currentIndex:Int!
     var isViewCount:String?
     var isFromAll:String?
+    var isFromViewStream:Bool! = true
 
     
     override func viewDidLoad() {
@@ -40,6 +42,7 @@ class ContentViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         deeplinkHandle()
+        
         updateContent()
         
         if self.currentIndex != nil{
@@ -97,9 +100,12 @@ class ContentViewController: UIViewController {
             self.btnEdit.isHidden = false
         }
         
-        if isViewCount != nil {
-            apiForIncreaseViewCount()
+        if isFromViewStream == false {
+            if isViewCount != nil {
+                apiForIncreaseViewCount()
+            }
         }
+        isFromViewStream = false
     }
     
     func deeplinkHandle(){

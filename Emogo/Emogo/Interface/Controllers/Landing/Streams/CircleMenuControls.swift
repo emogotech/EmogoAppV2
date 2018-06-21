@@ -10,7 +10,12 @@ import Foundation
 import UIKit
 import Haptica
 
-extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
+extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,StreamSegmentHeaderDelegate {
+    func ShowSegmentControl() {
+        self.configureStreamHeader()
+        self.StreamSegmentView()
+    }
+    
     func numberOfItems(in pagerView: FSPagerView) -> Int {
         return menu.arrayMenu.count
     }
@@ -160,6 +165,14 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }else{
             
         }
+        
+        if index == 0{
+          
+            self.ShowSegmentControl()
+            
+        }else{
+            self.segmentheader.segmentControl.isHidden = true
+        }
        
         print("currrent index--->\(index)")
         StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
@@ -180,6 +193,30 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate {
         }
         
     }
+    
+    func StreamSegmentView(){
+    
+        // Segment control Configure
+        self.segmentheader.segmentControl.isHidden = false
+        self.segmentheader.segmentControl.sectionTitles = ["Public", "Private"]
+        self.segmentheader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+             self.updateStreamSegment(index: index)
+        }
+        self.segmentheader.segmentControl.selectionIndicatorHeight = 1.0
+        self.segmentheader.segmentControl.backgroundColor = UIColor.white
+        
+       self.segmentheader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+       // self.segmentheader.segmentControl.selectionIndicatorColor = UIColor(r: 155, g: 155, b: 155)
+         self.segmentheader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        self.segmentheader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.segmentheader.segmentControl.selectionStyle = .textWidthStripe
+        self.segmentheader.segmentControl.selectedSegmentIndex = 0
+        self.segmentheader.segmentControl.selectionIndicatorLocation = .down
+        self.segmentheader.segmentControl.shouldAnimateUserSelection = false
+        
+    }
+    
     
     func actionForPeopleList(){
         isPeopleList = true

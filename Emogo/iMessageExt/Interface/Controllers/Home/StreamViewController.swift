@@ -9,6 +9,9 @@
 import UIKit
 import Messages
 import Lightbox
+import MessageUI
+import Messages
+
 
 class StreamViewController: MSMessagesAppViewController {
     
@@ -16,7 +19,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var lblStreamTitle       : UILabel!
     @IBOutlet weak var lblStreamName        : UILabel!
     @IBOutlet weak var lblStreamDesc        : UILabel!
-    @IBOutlet weak var lblNoContent        : UILabel!
+    @IBOutlet weak var lblNoContent         : UILabel!
     
     @IBOutlet weak var btnNextStream        : UIButton!
     @IBOutlet weak var btnPreviousStream    : UIButton!
@@ -25,11 +28,20 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnDelete            : UIButton!
     @IBOutlet weak var btnExpandDesc        : UIButton!
     @IBOutlet weak var btnLike              : UIButton!
+    @IBOutlet weak var btnAddCollab         : UIButton!
+    @IBOutlet weak var btnReport            : UIButton!
+    @IBOutlet weak var btnShare              : UIButton!
     
     @IBOutlet weak var imgStream            : UIImageView!
     @IBOutlet weak var imgGradient          : UIImageView!
     @IBOutlet weak var imgGuesture          : UIImageView!
     
+    @IBOutlet weak var kEditWidth: NSLayoutConstraint!
+    @IBOutlet weak var imgUser: NZCircularImageView!
+    @IBOutlet weak var imgFirstCollab: NZCircularImageView!
+    @IBOutlet weak var imgSecondCollab: NZCircularImageView!
+    
+    @IBOutlet weak var lblCollabName: UILabel!
     @IBOutlet weak var collectionStreams    : UICollectionView!
     @IBOutlet weak var lbl_LikeCount        : UILabel!
     @IBOutlet weak var lbl_ViewCount        : UILabel!
@@ -44,7 +56,7 @@ class StreamViewController: MSMessagesAppViewController {
     var currentIndex                        : Int!
     var currentStreamIndex                  : Int!
     var hudView                             : LoadingView!
-   
+    let kImageFormat = "http"
     var isFromWelcome                       : String?
 
     var getImageData : NSMutableArray = NSMutableArray()
@@ -127,21 +139,21 @@ class StreamViewController: MSMessagesAppViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.collectionStreams.addGestureRecognizer(longPressGesture)
         
-        if currentStreamIndex == 0 {
-            btnPreviousStream.isEnabled = false
-            
-        }
-        if currentStreamIndex == arrStream.count-1 {
-            btnNextStream.isEnabled = false
-           
-        }
+//        if currentStreamIndex == 0 {
+//            btnPreviousStream.isEnabled = false
+//
+//        }
+//        if currentStreamIndex == arrStream.count-1 {
+//            btnNextStream.isEnabled = false
+//
+//        }
          // self.lbl_ViewCount.text = objStream?.viewCount.trim()
         setupLoader()
-        self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
+        //self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
         
         if SharedData.sharedInstance.iMessageNavigation != "" {
-            self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
+           // self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         }
         self.perform(#selector(getStream), with: nil, afterDelay: 0.01)
         self.lblStreamDesc.numberOfLines = 2
@@ -154,21 +166,22 @@ class StreamViewController: MSMessagesAppViewController {
         }
        
        
+       
     }
     
   
    
     @objc func setupLabelInCollaboratorButton() {
-        lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
-        lblCount.layer.cornerRadius = lblCount.frame.size.width/2
-        lblCount.clipsToBounds = true
-        lblCount.isHidden = true
-        lblCount.textAlignment = NSTextAlignment.center
-        lblCount.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        lblCount.font = UIFont.systemFont(ofSize: 10)
-        lblCount.text = ""
-        lblCount.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 0.9843137255, alpha: 0.9048360475)
-        self.btnCollaborator.addSubview(lblCount)
+//        lblCount = UILabel(frame: CGRect(x: btnCollaborator.frame.size.width-20, y: 0, width: 20, height: 20))
+//        lblCount.layer.cornerRadius = lblCount.frame.size.width/2
+//        lblCount.clipsToBounds = true
+//        lblCount.isHidden = true
+//        lblCount.textAlignment = NSTextAlignment.center
+//        lblCount.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+//        lblCount.font = UIFont.systemFont(ofSize: 10)
+//        lblCount.text = ""
+//        lblCount.backgroundColor = #colorLiteral(red: 0, green: 0.6784313725, blue: 0.9843137255, alpha: 0.9048360475)
+//        self.btnCollaborator.addSubview(lblCount)
     }
     
     @objc func setupCollectionProperties() {
@@ -249,13 +262,14 @@ class StreamViewController: MSMessagesAppViewController {
     // MARK: - Load Data in UI
     func loadViewForUI() {
         self.imgStream.setImageWithURL(strImage: (self.objStream?.coverImage.trim())!, placeholder: kPlaceholderImage)
-        self.imgStream.contentMode = .scaleAspectFit
+      //  self.imgStream.contentMode = .scaleAspectFit
+          self.imgStream.contentMode = .scaleAspectFill
         SharedData.sharedInstance.downloadImage(url: (self.objStream?.coverImage.trim())!, handler: { (image) in
             image?.getColors({ (colors) in
                 self.imgStream.backgroundColor = colors.primary
             })
         })
-        self.lblStreamTitle.text = ""
+      //  self.lblStreamTitle.text = ""
         self.lblStreamName.text = ""
         self.lblStreamDesc.text = ""
         self.lblStreamDesc.numberOfLines = 2
@@ -263,24 +277,25 @@ class StreamViewController: MSMessagesAppViewController {
         UIView.animate(withDuration: 0.0) {
             self.lblStreamDesc.text = self.objStream?.description
             self.lblStreamName.text = self.objStream?.title
-            self.lblStreamTitle.text = self.objStream?.title
+           // self.lblStreamTitle.text = self.objStream?.title
             self.perform(#selector(self.updateExpand), with: nil, afterDelay: 0.1)
             self.lblStreamDesc.minimumScaleFactor = 1.0
             self.lblStreamName.minimumScaleFactor = 1.0
-            self.lblStreamTitle.minimumScaleFactor = 1.0
+           // self.lblStreamTitle.minimumScaleFactor = 1.0
         }
         self.lbl_LikeCount.text = objStream?.totalLikeCount.trim()
         self.lbl_ViewCount.text = objStream?.viewCount.trim()
-        lblCount.text = ""
+     //   lblCount.text = ""
         btnCollaborator.isUserInteractionEnabled = false
-        lblCount.isHidden = true
+       // lblCount.isHidden = true
         btnEdit.isHidden = true
-        btnDelete.isHidden = true
-        heightbtnDelete.constant = 0
+        self.kEditWidth.constant = 0
+       // btnDelete.isHidden = true
+       // heightbtnDelete.constant = 0
         if objStream?.arrayColab.count != 0 {
-            lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
+           // lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
             btnCollaborator.isUserInteractionEnabled = true
-            lblCount.isHidden = false
+          //  lblCount.isHidden = false
             btnCollaborator.isHidden = false
         }
         else {
@@ -288,9 +303,10 @@ class StreamViewController: MSMessagesAppViewController {
         }
       
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
-            btnEdit.isHidden = false
-            btnDelete.isHidden = false
-            heightbtnDelete.constant = 29
+             btnEdit.isHidden = false
+             self.kEditWidth.constant = 40
+            //btnDelete.isHidden = false
+            //heightbtnDelete.constant = 29
             btnContainerLikeView.isHidden = false
             
         }
@@ -298,6 +314,7 @@ class StreamViewController: MSMessagesAppViewController {
             btnContainerLikeView.isHidden = true
             
         }
+        self.setCollabImage()
     }
     
     @objc func updateExpand(){
@@ -314,6 +331,50 @@ class StreamViewController: MSMessagesAppViewController {
                 self.btnExpandDesc.isHidden = false
             }
         }
+    }
+    
+    //MARK:- Share Stream
+    
+    func shareStreamAction(){
+        print("Share Action")
+        
+        if  kDefault?.bool(forKey: kHapticFeedback) == true {
+//            self.btnShare.isHaptic = true
+//            self.btnShare.hapticType = .impact(.light)
+        }else{
+            //self.btnShare.isHaptic = false
+            
+        }
+        
+        
+        if MFMessageComposeViewController.canSendAttachments(){
+            let composeVC = MFMessageComposeViewController()
+            composeVC.recipients = []
+            composeVC.message = composeMessage()
+            composeVC.messageComposeDelegate = self as? MFMessageComposeViewControllerDelegate
+            self.present(composeVC, animated: true, completion: nil)
+        }
+    }
+    func composeMessage() -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        
+        layout.caption = lblStreamName.text!
+        layout.image  = imgStream.image
+        layout.subcaption = lblStreamDesc.text!
+        
+        message.layout = layout
+        //let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
+        if StreamList.sharedInstance.objStream == nil {
+            let strURl = String(format: "%@/%@", kNavigation_Stream,self.objStream!.streamID)
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = String(format: "%@/%@/%@", kNavigation_Stream,self.objStream!.streamID,StreamList.sharedInstance.objStream!)
+            message.url = URL(string: strURl)
+        }
+        
+        return message
     }
     //MARK:- Like Dislike Stream
     
@@ -346,6 +407,47 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
     
+    
+    
+    //MARK: set Collaborator image
+    
+    func setCollabImage() {
+       
+        if (objStream?.userImage.trim().isEmpty)! {
+            self.imgUser.setImageWithResizeURL(objStream?.userImage.trim())
+        }
+        else {
+            self.imgUser.setImage(string:objStream?.author.trim(), color: UIColor.colorHash(name:objStream?.author.trim()), circular: true)
+        }
+
+        if (objStream?.colabImageFirst.trim().isEmpty)! {
+
+            if  (objStream?.colabImageFirst.contains(kImageFormat))! {
+                self.imgFirstCollab.setImageWithResizeURL(objStream?.colabImageFirst.trim())
+
+            }else {
+                self.imgFirstCollab.setImage(string:objStream?.colabImageFirst.trim(), color: UIColor.colorHash(name:objStream?.colabImageFirst.trim()), circular: true)
+            }
+
+        }else{
+           // self.imgFirstCollab.isHidden = true
+        }
+
+        if (objStream?.colabImageSecond.trim().isEmpty)! {
+
+            if  (objStream?.colabImageSecond.contains(kImageFormat))! {
+                self.imgSecondCollab.setImageWithResizeURL(objStream?.colabImageSecond.trim())
+
+            }else {
+                self.imgSecondCollab.setImage(string:objStream?.colabImageSecond.trim(), color: UIColor.colorHash(name:objStream?.colabImageSecond.trim()), circular: true)
+
+            }
+        }else{
+           // self.imgSecondCollab.isHidden = true
+       }
+    }
+    
+    
     // MARK: - Enable/Disable - Next/Previous Button
     func btnEnableDisable() {
         if currentStreamIndex ==  0 {
@@ -362,7 +464,19 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
     
+    
     // MARK: - Action Methods
+    
+ 
+    
+    @IBAction func btnReportAction(_ sender: Any) {
+        self.showReportList()
+    }
+    
+    @IBAction func btnShareAction(_ sender: Any) {
+        self.shareStreamAction()
+    }
+    
     @IBAction func btnNextAction(_ sender:UIButton) {
         nextImageLoad()
         if self.objStream?.likeStatus == "0" {
@@ -415,11 +529,12 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     func nextImageLoad() {
-        lblStreamTitle.text = ""
+       // lblStreamTitle.text = ""
         lblStreamName.text = ""
         lblStreamDesc.text = ""
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
+        self.kEditWidth.constant = 0
         
         imgStream.image = UIImage(named: kPlaceholderImage)
         
@@ -427,26 +542,28 @@ class StreamViewController: MSMessagesAppViewController {
             currentStreamIndex = currentStreamIndex + 1
         }
         
-        btnEnableDisable()
+       // btnEnableDisable()
         self.addRightTransitionImage(imgV: self.imgStream)
         getStream()
     }
     
     func previousImageLoad() {
-        lblStreamTitle.text = ""
+       // lblStreamTitle.text = ""
         lblStreamName.text = ""
         lblStreamDesc.text = ""
         btnEdit.isHidden = true
         btnCollaborator.isHidden = true
+        self.kEditWidth.constant = 0
         
         imgStream.image = UIImage(named: kPlaceholderImage)
         if currentStreamIndex != 0{
             currentStreamIndex =  currentStreamIndex - 1
         }
-        btnEnableDisable()
+       // btnEnableDisable()
         self.addLeftTransitionImage(imgV: self.imgStream)
         getStream()
     }
+    
     
     @IBAction func btnPreviousAction(_ sender:UIButton) {
         previousImageLoad()
@@ -531,7 +648,37 @@ class StreamViewController: MSMessagesAppViewController {
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
     }
-    
+    @objc func showReportList(){
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                    self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
+                
+                }
+            })
+        })
+        
+        let deleteAction = UIAlertAction(title: kAlertSheet_Inappropiate, style: .destructive, handler: {
+            (alert: UIAlertAction!) -> Void in
+            APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
+                if isSuccess! {
+                     self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
+                    
+                }
+            })
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
     @objc func openFullView(){
         var arrayContents = [LightboxImage]()
         let arrayTemp = [self.objStream]
@@ -815,7 +962,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row 
         print(obj.currentContentIndex)
-        obj.currentStreamTitle = lblStreamTitle.text
+      //  obj.currentStreamTitle = lblStreamTitle.text
         self.present(obj, animated: false, completion: nil)
     }
     

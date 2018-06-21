@@ -2279,5 +2279,48 @@ class APIServiceManager: NSObject {
         
     }
     
+    
+    //MARK:- myStream List New
+    
+    func getMyStreamNewList(type:RefreshType,completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void){
+        if type == .start || type == .up{
+            StreamList.sharedInstance.requestURl = kMyStreamListAPI
+        }
+        if StreamList.sharedInstance.requestURl.trim().isEmpty {
+            completionHandler(.end,"")
+            return
+        }
+        var objects = [StreamDAO]()
+        
+        APIManager.sharedInstance.GETRequestWithHeader(strURL: kMyStreamListAPI) { (result) in
+            switch(result){
+            case .success(let value):
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
+                        if let data = (value as! [String:Any])["data"] {
+                            let result:[Any] = data as! [Any]
+                            for obj in result {
+                                let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                stream.selectionType = StreamType.Public
+                                objects.append(stream)
+                            }
+                        }
+                        
+                        completionHandler(.end,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(nil,errorMessage)
+                    }
+                }
+            case .error(let error):
+                print(error.localizedDescription)
+                completionHandler(nil,error.localizedDescription)
+            }
+        }
+        
+        
+    }
+    
 }
 
