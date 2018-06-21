@@ -36,6 +36,8 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var viewSearchButtons        : UIView!
     @IBOutlet weak var kViewSearchButtonsHeight : NSLayoutConstraint!
     @IBOutlet weak var kSearchViewHieght         : NSLayoutConstraint!
+    @IBOutlet weak var kCancelWidthConstraint         : NSLayoutConstraint!
+    @IBOutlet weak var imgSearchIcon          : UIImageView!
 
     var isAddButtonTapped   =   false
     var isDidLoadCalled : Bool  =   false
@@ -45,9 +47,8 @@ class StreamListViewController: UIViewController {
     var isTapStream : Bool = false
     var isUpdateList:Bool! = false
     var searchStr : String!
-    var heightPeople                            : NSLayoutConstraint?
-    var heightStream                            : NSLayoutConstraint?
     let kSearchHeight = 60.0
+    let kButtonWidth = 65.0
 
     //-=-------------------------
     
@@ -119,6 +120,8 @@ class StreamListViewController: UIViewController {
         viewSearchButtons.isHidden = true
         kViewSearchButtonsHeight.constant = 0.0
         self.kSearchViewHieght.constant = 0.0
+        kCancelWidthConstraint.constant = 0.0
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -626,6 +629,7 @@ class StreamListViewController: UIViewController {
                 self.streamCollectionView.reloadData()
                 self.kSearchViewHieght.constant = 0.0
                 self.kViewSearchButtonsHeight.constant = 0.0
+                self.kCancelWidthConstraint.constant = 0.0
                 self.viewSearchButtons.isHidden = true
             }
         }else{
@@ -1286,6 +1290,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseOut], animations: {
                  print("up View")
                     self.kSearchViewHieght.constant = 52.0
+                    self.imgSearchIcon.isHidden = false
                 }, completion: nil)
             }
         }
@@ -1297,6 +1302,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseIn], animations: {
                     print("Down View")
                     self.kSearchViewHieght.constant = 0.0
+                    self.imgSearchIcon.isHidden = true
                 }, completion: nil)
             }
         }
@@ -1329,6 +1335,7 @@ extension StreamListViewController : UITextFieldDelegate {
        // btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnSearch.tag = 1
         searchStr = searchString
+        kCancelWidthConstraint.constant = 65.0
         self.viewSearchButtons.isHidden = false
         self.kViewSearchButtonsHeight.constant = CGFloat(self.kSearchHeight)
         if isPeopleList {

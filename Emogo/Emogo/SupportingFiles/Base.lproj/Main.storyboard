@@ -2767,6 +2767,8 @@
                         <outlet property="btnPeopleSearch" destination="bD0-VN-eeO" id="oCX-rp-Qqd"/>
                         <outlet property="btnSearch" destination="KJZ-CM-7cq" id="g0e-Oh-10v"/>
                         <outlet property="btnStreamSearch" destination="wCM-Er-V0k" id="Jpq-PR-Fpg"/>
+                        <outlet property="imgSearchIcon" destination="xaw-7r-oCT" id="vzy-J0-KAz"/>
+                        <outlet property="kCancelWidthConstraint" destination="E3e-Mo-yoY" id="tbz-Ez-bOL"/>
                         <outlet property="kSearchViewHieght" destination="LyL-wW-SDO" id="RXi-Y6-iUM"/>
                         <outlet property="kViewSearchButtonsHeight" destination="bvc-s1-4Kw" id="FR9-al-l1G"/>
                         <outlet property="lblNoResult" destination="JZx-76-xwV" id="cQ2-LC-c3N"/>

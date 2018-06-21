@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "551267749.856423"
+            timestampString = "551270867.546888"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "375"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/Presenter/PresenterNew.swift"
-            timestampString = "551267749.8565429"
+            timestampString = "551270867.546976"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "59"
@@ -74,13 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/StreamListViewController.swift"
-            timestampString = "551267749.8566459"
+            timestampString = "551270867.54705"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "841"
-            endingLineNumber = "841"
-            landmarkName = "StreamListViewController"
-            landmarkType = "3">
+            startingLineNumber = "845"
+            endingLineNumber = "845"
+            landmarkName = "getUsersList(type:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "551267749.857443"
+            timestampString = "551270867.547642"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1190"
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/StreamListViewController.swift"
-            timestampString = "551267749.857541"
+            timestampString = "551270867.547713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1075"
-            endingLineNumber = "1075"
-            landmarkName = "collectionView(_:cellForItemAt:)"
+            startingLineNumber = "1079"
+            endingLineNumber = "1079"
+            landmarkName = "getStreamGlobalSearch(searchText:type:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
