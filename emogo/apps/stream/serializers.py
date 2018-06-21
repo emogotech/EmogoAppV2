@@ -206,10 +206,6 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
     def owner_collaborator(self, stream):
         # Adding and update the streams as collaborator..
-<<<<<<< HEAD
-=======
-        # Check Owner is present or stream have any collabrators or not.
->>>>>>> b90cf17a3c697a0891e3b19a6caffc1ac89afb9a
         if stream.collaborator_list.filter().__len__() < 1 :
             user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
             collaborator, created = Collaborator.objects.get_or_create(
