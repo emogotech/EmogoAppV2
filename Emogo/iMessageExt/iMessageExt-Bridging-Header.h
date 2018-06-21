@@ -10,4 +10,5 @@
 #import "HHPageView.h"
 #import "KASlideShow.h"
 #import "NZCircularImageView.h"
+#import "HMSegmentedControl.h"
 

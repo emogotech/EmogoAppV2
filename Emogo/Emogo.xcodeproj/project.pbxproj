@@ -119,6 +119,9 @@
 		F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
+		F036D15520DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036D15320DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift */; };
+		F036D15620DB7CE3003ED5AD /* MyStreamSegmentHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F036D15420DB7CE3003ED5AD /* MyStreamSegmentHeaderView.xib */; };
+		F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
 		F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
@@ -615,6 +618,8 @@
 		F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewCell.swift; sourceTree = "<group>"; };
 		F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		F02C61A8204FF7420041CEE4 /* SF-Pro-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Semibold.otf"; sourceTree = "<group>"; };
+		F036D15320DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStreamSegmentHeaderView.swift; sourceTree = "<group>"; };
+		F036D15420DB7CE3003ED5AD /* MyStreamSegmentHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyStreamSegmentHeaderView.xib; sourceTree = "<group>"; };
 		F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamContentViewCell.swift; sourceTree = "<group>"; };
 		F040CC852050034900224035 /* HHPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHPageView.m; sourceTree = "<group>"; };
 		F040CC862050034A00224035 /* HHPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHPageView.h; sourceTree = "<group>"; };
@@ -1089,6 +1094,8 @@
 				2BDC4AA31FD1178C0018FC6E /* HomeCollectionViewCell.swift */,
 				2BDC4AAC1FD1188D0018FC6E /* HomeCollectionReusableView.swift */,
 				2BDC4AAD1FD1188D0018FC6E /* HomeCollectionReusableView.xib */,
+				F036D15320DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift */,
+				F036D15420DB7CE3003ED5AD /* MyStreamSegmentHeaderView.xib */,
 			);
 			path = HomeCollectionCell;
 			sourceTree = "<group>";
@@ -2755,6 +2762,7 @@
 				330FEB791FC3F68C00552260 /* SF-Pro-Display-Black.otf in Resources */,
 				F42FE28820970E8700CF3E24 /* Assets.xcassets in Resources */,
 				330FEB7D1FC3F68C00552260 /* SF-Pro-Display-Medium.otf in Resources */,
+				F036D15620DB7CE3003ED5AD /* MyStreamSegmentHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3468,6 +3476,7 @@
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */,
 				2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */,
+				F036D15520DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift in Sources */,
 				F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */,
 				33DAB2F71FC6B9020053AC23 /* FSPageViewLayout.swift in Sources */,
 				339518561FBF1B0000DCC085 /* HomeViewController.swift in Sources */,
@@ -3480,6 +3489,7 @@
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				337B8F921FBEECBE00CFACE3 /* SignUpMobileViewController.swift in Sources */,
 				2BFE0063200F84ED0086DEBF /* FLAnimatedImageView.m in Sources */,
+				F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

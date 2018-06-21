@@ -48,6 +48,7 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var heightbtnDelete      : NSLayoutConstraint!
     @IBOutlet weak var viewStream           : UIView!
     @IBOutlet weak var btnContainerLikeView : UIView!
+    @IBOutlet weak var viewTop: UIView!
     
     // MARK: - Variables
     var lblCount                            : UILabel!
@@ -121,6 +122,10 @@ class StreamViewController: MSMessagesAppViewController {
     
     // MARK: - PrepareLayout
     func prepareLayout() {
+        
+        imgFirstCollab.isHidden = false
+        imgSecondCollab.isHidden = false
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
         imgGuesture.addGestureRecognizer(swipeRight)
@@ -157,6 +162,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
         self.perform(#selector(getStream), with: nil, afterDelay: 0.01)
         self.lblStreamDesc.numberOfLines = 2
+        self.viewTop.addBlurView(style: UIBlurEffectStyle.dark)
         
         if self.objStream?.likeStatus == "0" {
             self.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -430,7 +436,7 @@ class StreamViewController: MSMessagesAppViewController {
             }
 
         }else{
-           // self.imgFirstCollab.isHidden = true
+            self.imgFirstCollab.isHidden = true
         }
 
         if (objStream?.colabImageSecond.trim().isEmpty)! {
@@ -443,8 +449,14 @@ class StreamViewController: MSMessagesAppViewController {
 
             }
         }else{
-           // self.imgSecondCollab.isHidden = true
+            self.imgSecondCollab.isHidden = true
        }
+        
+        if objStream?.arrayColab.count == 0 {
+            self.lblCollabName.text =  "by " + (objStream?.author.capitalized)!
+        }else {
+            self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " \(String(describing: objStream!.arrayColab.count)) other"
+        }
     }
     
     
@@ -612,9 +624,9 @@ class StreamViewController: MSMessagesAppViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func btnDeleteStream(_ sender:UIButton) {
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
-        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
+   func deleteStream() {
+//        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+//        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let stream = self.arrStream[self.currentStreamIndex]
             APIServiceManager.sharedInstance.apiForDeleteStream(streamID: (stream.ID)!) { (isSuccess, errorMsg) in
                 if (errorMsg?.isEmpty)! {
@@ -640,22 +652,30 @@ class StreamViewController: MSMessagesAppViewController {
                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
                 }
             }
-        }
-        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(yes)
-        alert.addAction(no)
-        present(alert, animated: true, completion: nil)
+ //       }
+//        let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
+//            alert.dismiss(animated: true, completion: nil)
+//        }
+//        alert.addAction(yes)
+//        alert.addAction(no)
+//        present(alert, animated: true, completion: nil)
     }
     @objc func showReportList(){
+        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            showDelete()
+        }else {
+            showReport()
+        }
+       
+    }
+    func showReport(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
             (alert: UIAlertAction!) -> Void in
             APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
                 if isSuccess! {
-                    self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
-                
+                      self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
+                   
                 }
             })
         })
@@ -664,8 +684,8 @@ class StreamViewController: MSMessagesAppViewController {
             (alert: UIAlertAction!) -> Void in
             APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Inappropriate, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
                 if isSuccess! {
-                     self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
-                    
+                      self.showToastIMsg(type: .success, strMSG: kAlert_Success_Report_Stream)
+                   
                 }
             })
         })
@@ -675,6 +695,26 @@ class StreamViewController: MSMessagesAppViewController {
         })
         
         optionMenu.addAction(deleteAction)
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    func showDelete(){
+        let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+        
+        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            self.deleteStream()
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            
+        })
+        
         optionMenu.addAction(saveAction)
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)

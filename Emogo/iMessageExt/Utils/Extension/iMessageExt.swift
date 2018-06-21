@@ -31,7 +31,14 @@ extension String {
     }
     
 }
-
+// MARK: - UIColor
+extension UIColor {
+    
+    convenience init (r : CGFloat , g : CGFloat , b : CGFloat ) {
+        self.init(red: r / 255.0 , green: g / 255.0 , blue: b / 255.0 , alpha: 1.0)
+    }
+    
+}
 // MARK: - UIImageView
 extension UIImageView {
     
@@ -51,6 +58,26 @@ extension UIImageView {
 // MARK: - UIView
 extension UIView {
     
+    func addBlurView(style:UIBlurEffectStyle? = .dark){
+        self.backgroundColor = .clear
+        let blurEffect = UIBlurEffect(style: style!)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = CGRect.zero
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.tag = 828748374
+        if let viewWithTag = self.viewWithTag(828748374) {
+            viewWithTag.removeFromSuperview()
+        }
+        self.insertSubview(blurView, at: 0)
+        
+        blurView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        blurView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        blurView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        blurView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        //        blurView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        //        blurView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        
+    }
     func addBlurView(){
         self.backgroundColor = .clear
         let blurEffect = UIBlurEffect(style: .dark)

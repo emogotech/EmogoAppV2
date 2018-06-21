@@ -3617,7 +3617,7 @@ Cg
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aYi-Hp-6ba" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1177" y="1670"/>
+            <point key="canvasLocation" x="1206" y="1469"/>
         </scene>
         <!--Stream Content View Controller-->
         <scene sceneID="Nu0-Qx-SpG">
@@ -4223,16 +4223,16 @@ Cg
                                                     <constraint firstItem="ks0-oz-Zux" firstAttribute="leading" secondItem="mto-Sq-07X" secondAttribute="trailing" constant="7" id="a8P-40-8RD"/>
                                                     <constraint firstItem="vtT-Gv-qyx" firstAttribute="top" secondItem="Nex-hX-cAp" secondAttribute="top" constant="5" id="elc-4v-7kp"/>
                                                     <constraint firstItem="gCd-U6-yrR" firstAttribute="leading" secondItem="vtT-Gv-qyx" secondAttribute="trailing" constant="7" id="fg2-ac-RBV"/>
+                                                    <constraint firstItem="gCd-U6-yrR" firstAttribute="centerY" secondItem="mto-Sq-07X" secondAttribute="centerY" id="iwG-n8-Ntt"/>
                                                     <constraint firstAttribute="height" constant="36" id="j6T-UY-aIh"/>
                                                     <constraint firstItem="mto-Sq-07X" firstAttribute="leading" secondItem="Nex-hX-cAp" secondAttribute="leading" constant="1" id="kPR-4n-GNi"/>
                                                     <constraint firstItem="vtT-Gv-qyx" firstAttribute="leading" secondItem="ks0-oz-Zux" secondAttribute="trailing" constant="7" id="pLv-Xw-So9"/>
                                                     <constraint firstItem="vtT-Gv-qyx" firstAttribute="centerY" secondItem="ks0-oz-Zux" secondAttribute="centerY" id="rDw-HE-B7g"/>
-                                                    <constraint firstItem="gCd-U6-yrR" firstAttribute="top" secondItem="Nex-hX-cAp" secondAttribute="top" constant="9" id="y8T-3V-0Sr"/>
                                                     <constraint firstItem="ks0-oz-Zux" firstAttribute="centerY" secondItem="mto-Sq-07X" secondAttribute="centerY" id="zKT-Yf-aa7"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.1583101455479452" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Fge-BQ-jSL"/>
                                             <constraint firstItem="Nex-hX-cAp" firstAttribute="top" secondItem="SLE-e7-gh1" secondAttribute="top" constant="8" id="GuL-Xd-D0A"/>
@@ -4372,6 +4372,7 @@ Cg
                         <outlet property="lbl_LikeCount" destination="gCd-U6-yrR" id="plf-jx-eMh"/>
                         <outlet property="lbl_ViewCount" destination="ks0-oz-Zux" id="SZf-m7-cLQ"/>
                         <outlet property="viewStream" destination="2lm-IU-nc2" id="Q04-mm-a8u"/>
+                        <outlet property="viewTop" destination="SLE-e7-gh1" id="313-k2-uMN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ewn-Of-N8B" userLabel="First Responder" sceneMemberID="firstResponder"/>

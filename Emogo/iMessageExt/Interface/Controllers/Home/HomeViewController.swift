@@ -52,6 +52,9 @@ class HomeViewController: MSMessagesAppViewController {
     var layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     var arrayToShow = [StreamDAO]()
     var lastSelectedType:StreamType! = StreamType.featured
+    var segmentHeader:MyStreamSegmentHeaderView!
+    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    var selectedType:StreamType! = StreamType.Public
     
    // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
    // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
@@ -101,8 +104,43 @@ class HomeViewController: MSMessagesAppViewController {
             self.changePager()
         }
     }
+    //MARK:- Configure Stream Header
     
+    func configureStreamHeader() {
+        
+        let nibViews = Bundle.main.loadNibNamed("MyStreamSegmentHeaderView", owner: self, options: nil)
+        self.segmentHeader = nibViews?.first as! MyStreamSegmentHeaderView 
+        self.collectionStream.addSubview(self.segmentHeader)
+        self.setSegmentControl()
+    
+    }
+    //MARK:- update segment
+    
+    func updateStreamSegment(index:Int){
+        switch index {
+        case 0:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+        case 1:
+            self.selectedType = StreamType.Private
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+            break
+            
+        default:
+            self.selectedType = StreamType.Public
+            currentStreamType = self.selectedType
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            self.getMyStreamViewData(type: .up)
+        }
+       
+    }
     // MARK:- prepareLayout
+    
     @objc func prepareLayout() {
         
         let sizeofTextField = self.searchText.font?.pointSize
@@ -130,6 +168,7 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     // MARK:- LoaderSetup
+    
     func setupLoader() {
         hudView  = LoadingView.init(frame: view.frame)
         view.addSubview(hudView)
@@ -211,6 +250,7 @@ class HomeViewController: MSMessagesAppViewController {
   
     
     // MARK:- pull to refresh LoaderSetup
+    
     func setupRefreshLoader() {
         if self.refresher == nil {
             self.refresher = UIRefreshControl.init(frame: CGRect(x: 0, y: 0, width: self.collectionStream.frame.size.width, height: 100))
@@ -237,7 +277,6 @@ class HomeViewController: MSMessagesAppViewController {
     }
     
     func setupCollectionProperties() {
-        
         
         if self.isSearch == false {
             
@@ -306,6 +345,7 @@ class HomeViewController: MSMessagesAppViewController {
     
     
     // MARK:- Selector Methods
+    
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isPortrate {
             
@@ -462,6 +502,26 @@ class HomeViewController: MSMessagesAppViewController {
             }
         }
         return false
+    }
+    //MARK:- Segment Control
+    
+    func setSegmentControl(){
+        // Segment control Configure
+        self.segmentHeader.segmentControl.isHidden = false
+        self.segmentHeader.segmentControl.sectionTitles = ["Public", "Private"]
+        self.segmentHeader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+            print("Selected index \(index) (via block)")
+           // self.updateStreamSegment(index: index)
+        }
+        self.segmentHeader.segmentControl.selectionIndicatorHeight = 1.0
+        self.segmentHeader.segmentControl.backgroundColor = UIColor.white
+        self.segmentHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.segmentHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        self.segmentHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+        self.segmentHeader.segmentControl.selectionStyle = .textWidthStripe
+        self.segmentHeader.segmentControl.selectedSegmentIndex = 0
+        self.segmentHeader.segmentControl.selectionIndicatorLocation = .down
+        self.segmentHeader.segmentControl.shouldAnimateUserSelection = false
     }
     
     // MARK:- Action methods
@@ -650,6 +710,7 @@ class HomeViewController: MSMessagesAppViewController {
         }
     }
     
+    
     // MARK: - API Methods
     
     func getTopStreamList() {
@@ -820,6 +881,39 @@ class HomeViewController: MSMessagesAppViewController {
             obj.currentStreamTitle = ""
             self.present(obj, animated: false, completion: nil)
     
+        }
+    }
+    func getMyStreamViewData(type:RefreshType){
+        if type == .start || type == .up {
+            for _ in StreamList.sharedInstance.arrayStream {
+                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
+                    StreamList.sharedInstance.arrayStream.remove(at: index)
+                    print("Removed")
+                }
+            }
+        }
+        APIServiceManager.sharedInstance.getMyStreamNewList(type: type) { (refreshType, errorMsg) in
+        
+            self.lblNoResult.isHidden = true
+            self.lblNoResult.text = kAlert_No_Stream_found
+            DispatchQueue.main.async {
+                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+                if self.selectedType == .Public{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }else{
+                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
+                }
+                if self.arrayToShow.count == 0 {
+                    self.lblNoResult.isHidden = false
+                }else {
+                    self.lblNoResult.isHidden = true
+                }
+                self.collectionStream.reloadData()
+            }
+            self.collectionStream.reloadData()
+            if !(errorMsg?.isEmpty)! {
+                self.showToastIMsg(type: .success, strMSG: errorMsg!)
+            }
         }
     }
     
@@ -1014,6 +1108,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         return 1
     }
     
+  
+    
     //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
     //
     //        if (isSearch == true && !isStreamEnable){
@@ -1096,6 +1192,7 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             return headerView
         }
     }
+   
     
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         if !fectchingStreamData {
@@ -1594,6 +1691,11 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     func changePager() {
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if  currentStreamType ==  .myStream  {
+                self.configureStreamHeader()
+            }else{
+                self.segmentHeader.segmentControl.isHidden = true
+            }
             if self.arrayToShow.count == 0 {
                 self.lblNoResult.isHidden = false
             }
