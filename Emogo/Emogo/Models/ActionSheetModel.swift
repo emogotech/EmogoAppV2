@@ -17,7 +17,7 @@ class  ActionSheetModel {
     func prepareActionSheet(){
   
         arrayActions.removeAll()
-        var menu = Menu(icon: UIImage(named: "action_photo_video")!, name: "Photo/Videos")
+        var menu = Menu(icon: UIImage(named: "action_photo_video")!, name: "Photos/Videos")
         arrayActions.append(menu)
         
         menu = Menu(icon: UIImage(named: "action_camera_icon")!, name: "Camera")

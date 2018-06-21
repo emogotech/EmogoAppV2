@@ -136,7 +136,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         if objStream.arrayColab.count == 0 {
             self.lblColabLabel.text =  "by " + objStream.author.capitalized
         }else {
-            self.lblColabLabel.text = "by " +  objStream.author.capitalized + " \(objStream.arrayColab.count) other"
+            self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count) other"
         }
         // For  Now
        // btnEdit.isHidden = false
