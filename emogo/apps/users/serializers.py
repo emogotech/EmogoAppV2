@@ -326,7 +326,7 @@ class UserLoginSerializer(UserSerializer):
                 user.user_data.otp = None
                 user.user_data.save()
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
-            body = "Here is your emogo one time pass code."
+            body = "Here is your emogo one time passcode"
             sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
             # print sent_otp
             sent_otp = 12345
@@ -395,7 +395,7 @@ class UserResendOtpSerializer(UserProfileSerializer):
         setattr(self, 'user_pin', None)
         if User.objects.filter(username=validated_data.get('phone_number')).exists():
             # Todo : For now we have commented send_otp code for development purpose
-            body = "Emogo Resend OTP"
+            body = "Here is your emogo one time passcode"
             self.user_pin = send_otp(validated_data.get('phone_number'), body)
             user = User.objects.get(username=validated_data.get('phone_number'))
             user_profile = UserProfile.objects.get(user=user)
