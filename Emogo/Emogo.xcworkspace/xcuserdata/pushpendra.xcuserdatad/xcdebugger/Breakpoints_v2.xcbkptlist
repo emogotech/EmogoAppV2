@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/StreamListViewController.swift"
-            timestampString = "551280642.166693"
+            timestampString = "551357408.87542"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "845"
-            endingLineNumber = "845"
+            startingLineNumber = "847"
+            endingLineNumber = "847"
             landmarkName = "getUsersList(type:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,28 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/StreamListViewController.swift"
-            timestampString = "551280642.166859"
+            timestampString = "551357408.87563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1035"
-            endingLineNumber = "1035"
+            startingLineNumber = "1037"
+            endingLineNumber = "1037"
             landmarkName = "getStreamGlobalSearch(searchText:type:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Utils/APIManager/APIServiceManager.swift"
-            timestampString = "551280642.166937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "445"
-            endingLineNumber = "445"
-            landmarkName = "apiForGetTopStreamList(completionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

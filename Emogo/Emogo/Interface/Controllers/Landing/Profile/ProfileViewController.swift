@@ -813,7 +813,14 @@ class ProfileViewController: UIViewController {
                 let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                 objPreview.currentIndex = sender.tag
                 let nav = UINavigationController(rootViewController: objPreview)
-            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    nav.cc_swipeBackDisabled = true
+                }
+//                self.present(nav, animated: true, completion: nil)
+//                let nav = UINavigationController(rootViewController: objPreview)
+//            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             }
         }
     }
@@ -1303,8 +1310,12 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
-                   let nav = UINavigationController(rootViewController: objPreview)
-               customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+                    let nav = UINavigationController(rootViewController: objPreview)
+                    if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                        nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                        nav.cc_swipeBackDisabled = true
+                    }
+                    self.present(nav, animated: true, completion: nil)
                     
                   //  self.navigationController?.push(viewController: objPreview)
                 }

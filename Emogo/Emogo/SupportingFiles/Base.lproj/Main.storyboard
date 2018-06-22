@@ -1093,7 +1093,7 @@
                                 </cells>
                             </collectionView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Content available." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vqO-xh-Pkz">
-                                <rect key="frame" x="107" y="497" width="161" height="21"/>
+                                <rect key="frame" x="107.5" y="497" width="161" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="IX5-3u-73f"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="161" id="x3t-o9-8wg"/>
@@ -1219,7 +1219,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Kbg-h1-zPB">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="pIR-sH-nhU" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="pIR-sH-nhU" customClass="PMNavigationController" customModule="Emogo" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dNC-Jb-RUM">
                         <autoresizingMask key="autoresizingMask"/>
@@ -3852,7 +3852,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add cover Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuT-8V-Thc">
-                                                    <rect key="frame" x="137.5" y="85" width="101" height="17"/>
+                                                    <rect key="frame" x="137" y="85" width="101" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>

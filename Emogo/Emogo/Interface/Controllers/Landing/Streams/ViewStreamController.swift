@@ -30,7 +30,8 @@ class ViewStreamController: UIViewController {
     var isRefresh:Bool! = true
     var isUpload:Bool! = false
     var isbackFromDown:Bool! = false
-    
+    var isDidLoad:Bool! = false
+
     // MARK: - Override Functions
     var stretchyHeader: StreamViewHeader!
     var longPressGesture:UILongPressGestureRecognizer!
@@ -103,7 +104,7 @@ class ViewStreamController: UIViewController {
             viewStreamCollectionView.addGestureRecognizer(swipeDown)
         }
         
-    longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
+     longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
        
@@ -125,7 +126,6 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
          stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
-     
     }
     
     func prepareHeaderData(){
@@ -707,7 +707,9 @@ class ViewStreamController: UIViewController {
     
     // MARK: - API Methods
     func getStream(currentStream:StreamDAO?, streamID:String? = nil){
-        HUDManager.sharedInstance.showHUD()
+        if isDidLoad == true {
+            HUDManager.sharedInstance.showHUD()
+        }
         var id:String! = ""
         if streamID != nil {
             id = streamID
@@ -715,7 +717,11 @@ class ViewStreamController: UIViewController {
             id = currentStream?.ID
         }
         APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
-            HUDManager.sharedInstance.hideHUD()
+            if  self.isDidLoad == true {
+                HUDManager.sharedInstance.hideHUD()
+            }
+             self.isDidLoad = true
+            
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.prepareHeaderData()
@@ -995,32 +1001,50 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
         let content = objStream?.arrayContent[indexPath.row]
-        if content?.isAdd == true {
-            btnActionForAddContent()
-        }
-        else {
-            ContentList.sharedInstance.arrayContent.removeAll()
-            let content = ContentDAO(contentData: [:])
-            content.coverImage = objStream?.coverImage
-            content.isUploaded = true
-            content.type = .image
-            content.fileName = "SreamCover"
-            content.name = objStream?.title
-            content.description = objStream?.description
-            var array = objStream?.arrayContent.filter { $0.isAdd == false }
-            array?.insert(content, at: 0)
-            ContentList.sharedInstance.arrayContent = array
-            ContentList.sharedInstance.objStream = objStream?.streamID
-            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-              objPreview.isViewCount = "TRUE"
-              objPreview.currentIndex = indexPath.row + 1
-            let nav = UINavigationController(rootViewController: objPreview)
-            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
-        }
+                if content?.isAdd == true {
+                    btnActionForAddContent()
+                }
+            else {
+                    ContentList.sharedInstance.arrayContent.removeAll()
+                    let content = ContentDAO(contentData: [:])
+                    content.coverImage = objStream?.coverImage
+                    content.isUploaded = true
+                    content.type = .image
+                    content.fileName = "SreamCover"
+                    content.name = objStream?.title
+                    content.description = objStream?.description
+                    var array = objStream?.arrayContent.filter { $0.isAdd == false }
+                    array?.insert(content, at: 0)
+                    ContentList.sharedInstance.arrayContent = array
+                    ContentList.sharedInstance.objStream = objStream?.streamID
+                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                    objPreview.isViewCount = "TRUE"
+                    objPreview.currentIndex = indexPath.row + 1
+                    let nav = UINavigationController(rootViewController: objPreview)
+                    if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                        nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                        nav.cc_swipeBackDisabled = true
+                    }
+                    self.present(nav, animated: true, completion: nil)
+        
+                }
+        
+     //   customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+        return true
     }
+
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let content = objStream?.arrayContent[indexPath.row]
+//        if content?.isAdd == true {
+//            btnActionForAddContent()
+//        }
+//        else {
+//
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
         return true

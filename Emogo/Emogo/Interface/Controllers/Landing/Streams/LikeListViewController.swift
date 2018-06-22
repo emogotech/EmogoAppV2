@@ -83,33 +83,22 @@ class LikeListViewController: UIViewController {
     //MARK:- Action for followUser
     
     @objc func actionForFollowUser(sender:UIButton) {
-        var obj:FollowerDAO!
-        if self.isSearchEnable {
-            obj = self.arraySearch[sender.tag]
+       let obj  = objStream?.arrayLikedUsers[sender.tag]
+        if (obj?.isFollowing)! {
+            self.unFollowUser(follow: obj!, index: sender.tag)
         }else {
-            obj = FollowList.sharedInstance.arrayFollowers[sender.tag]
+            self.followUser(userID: (obj?.userID)!, index: sender.tag)
         }
-        if obj != nil {
-            if listType == .Follower {
-                if obj.isFollowing {
-                    self.unFollowUser(follow: obj, index: sender.tag)
-                }else {
-                    self.followUser(userID: obj.userId, index: sender.tag)
-                }
-            }else {
-                self.unFollowUser(follow: obj, index: sender.tag)
-            }
-        }
-        
+
     }
-    func unFollowUser(follow:FollowerDAO,index:Int){
-        var name = follow.fullName
-        if !follow.displayName.trim().isEmpty {
-            name = follow.displayName.trim()
+    func unFollowUser(follow:LikedUser,index:Int){
+        var name = follow.name
+        if !follow.userDisplayName.trim().isEmpty {
+            name = follow.userDisplayName.trim()
         }
         let alert = UIAlertController(title: kAlert_Message, message: String(format: kAlert_UnFollow_a_User,name!), preferredStyle: .actionSheet)
         let yes = UIAlertAction(title: kAlertTitle_Unfollow, style: .default) { (action) in
-            self.unFollowUser(userID: follow.userId, index: index)
+            self.unFollowUser(userID: follow.userID, index: index)
         }
         let no = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
         }
@@ -118,80 +107,17 @@ class LikeListViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func getFollowers(type:RefreshType){
-        self.lblNoResult.isHidden = true
-        APIServiceManager.sharedInstance.apiForUserFollowerList(type: type) { (refreshType, errorMsg) in
-            
-            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
-            if refreshType == .end {
-                self.tblLikeList.es.noticeNoMoreData()
-            }
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
-            if type == .up {
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.tblLikeList.es.stopPullToRefresh()
-            }else if type == .down {
-                self.tblLikeList.es.stopLoadingMore()
-            }
-            DispatchQueue.main.async {
-                self.tblLikeList.reloadData()
-            }
-            
-            if !(errorMsg?.isEmpty)! {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-            
-        }
-    }
-    func getFollowing(type:RefreshType){
-        self.lblNoResult.isHidden = true
-        
-        APIServiceManager.sharedInstance.apiForUserFollowingList(type: type) { (refreshType, errorMsg) in
-            AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
-            if refreshType == .end {
-                self.tblLikeList.es.noticeNoMoreData()
-            }
-            if type == .start {
-                HUDManager.sharedInstance.hideHUD()
-            }
-            if type == .up {
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.tblLikeList.es.stopPullToRefresh()
-            }else if type == .down {
-                self.tblLikeList.es.stopLoadingMore()
-            }
-            DispatchQueue.main.async {
-                self.tblLikeList.reloadData()
-            }
-            if !(errorMsg?.isEmpty)! {
-                self.showToast(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
+
     
     func followUser(userID:String,index:Int){
         HUDManager.sharedInstance.showHUD()
         APIServiceManager.sharedInstance.apiForFollowUser(userID: userID) { (isSuccess, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
-                if self.isSearchEnable {
-                    let follow = self.arraySearch[index]
-                    follow.isFollowing = true
-                    self.arraySearch[index] = follow
-                    let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
-                    if indexTemp != nil {
-                        FollowList.sharedInstance.arrayFollowers[indexTemp!] = follow
-                    }
-                }else {
-                    let follow = FollowList.sharedInstance.arrayFollowers[index]
-                    follow.isFollowing = true
-                    FollowList.sharedInstance.arrayFollowers[index] = follow
-                }
-                
+                let follow = self.objStream?.arrayLikedUsers[index]
+                follow?.isFollowing = true
+                self.objStream?.arrayLikedUsers[index] = follow!
                 self.tblLikeList.reloadData()
-                NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
             }else {
                 self.showToast(strMSG: errorMSG!)
             }
@@ -202,38 +128,11 @@ class LikeListViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForUnFollowUser(userID: userID) { (isSuccess, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
-                if self.isSearchEnable {
-                    let follow =  self.arraySearch[index]
-                    if self.listType == FollowerType.Follower {
-                        follow.isFollowing = false
-                        self.arraySearch[index] = follow
-                        
-                        let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
-                        if indexTemp != nil {
-                            FollowList.sharedInstance.arrayFollowers[indexTemp!] = follow
-                        }
-                    }else {
-                        let indexTemp = FollowList.sharedInstance.arrayFollowers.index(where: {$0.userProfileID.trim() == follow.userProfileID})
-                        if indexTemp != nil {
-                            FollowList.sharedInstance.arrayFollowers.remove(at: indexTemp!)
-                        }
-                        
-                        self.arraySearch.remove(at: index)
-                    }
-                }else {
-                    if self.listType == FollowerType.Follower {
-                        let follow =  FollowList.sharedInstance.arrayFollowers[index]
-                        follow.isFollowing = false
-                        FollowList.sharedInstance.arrayFollowers[index] = follow
-                    }else {
-                        FollowList.sharedInstance.arrayFollowers.remove(at: index)
-                    }
-                }
+                let follow = self.objStream?.arrayLikedUsers[index]
+                follow?.isFollowing = false
+                self.objStream?.arrayLikedUsers[index] = follow!
                 self.tblLikeList.reloadData()
-                NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
-                if FollowList.sharedInstance.arrayFollowers.count == 0 {
-                    self.navigationController?.pop()
-                }
+                
             }else {
                 self.showToast(strMSG: errorMSG!)
             }
@@ -263,7 +162,7 @@ class LikeListViewController: UIViewController {
             let dict = objStream!.arrayLikedUsers[indexPath.row]
             cell.prepareLayout(like:dict)
             cell.btnFollow.tag = indexPath.row
-            cell.btnFollow.addTarget(self, action: #selector(actionForFollowUser(sender:)), for: .touchUpInside)
+            cell.btnFollow.addTarget(self, action: #selector(self.actionForFollowUser(sender:)), for: .touchUpInside)
             return cell
         }
     }

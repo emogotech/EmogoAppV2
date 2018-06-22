@@ -386,7 +386,8 @@ class LikedUser{
     var name:String! = ""
     var userImage:String! = ""
     var userDisplayName:String! = ""
-    
+    var isFollowing:Bool! = false
+
     init(dictUser:[String:Any]) {
         
         if let obj  = dictUser["id"] {
@@ -400,6 +401,12 @@ class LikedUser{
         }
         if let obj = dictUser["user_image"]{
             self.userImage = obj as! String
+        }
+        if let data = dictUser["is_following"]{
+            self.isFollowing = "\(data)".toBool()
+        }
+        if let obj = dictUser["user_profile_id"] {
+            self.userProfileID = "\(obj)"
         }
     }
 }

@@ -51,6 +51,7 @@ class StreamListViewController: UIViewController {
     let kButtonWidth = 65.0
     var isMyStreamPublic:Bool! = true
 
+    var selectedImageView:UIImageView?
     //-=-------------------------
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -119,6 +120,7 @@ class StreamListViewController: UIViewController {
         viewSearchButtons.isHidden = true
         kViewSearchButtonsHeight.constant = 0.0
         self.kSearchViewHieght.constant = 0.0
+    
         kCancelWidthConstraint.constant = 0.0
 
     }
@@ -1194,12 +1196,16 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     self.navigationController?.push(viewController: obj)
                 }
             }else {
+                
+                if let cell = collectionView.cellForItem(at: indexPath) {
+                    selectedImageView = (cell as! StreamCell).imgCover
+                }
                 StreamList.sharedInstance.arrayViewStream = self.arrayToShow
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
                 obj.streamType = currentStreamType.rawValue
                 ContentList.sharedInstance.objStream = nil
-                self.navigationController?.push(viewController: obj)
+                self.navigationController?.pushViewController(obj, animated: true)
             }
         }else {
             if isSearch && isTapPeople {
@@ -1222,12 +1228,15 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     self.navigationController?.push(viewController: obj)
                 }
             }else {
+                if let cell = collectionView.cellForItem(at: indexPath) {
+                    selectedImageView = (cell as! StreamCell).imgCover
+                }
                 StreamList.sharedInstance.arrayViewStream = self.arrayToShow
                 let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                 obj.currentIndex = indexPath.row
                 obj.streamType = currentStreamType.rawValue
                 ContentList.sharedInstance.objStream = nil
-                self.navigationController?.push(viewController: obj)
+                self.navigationController?.pushViewController(obj, animated: true)
             }
         }
        

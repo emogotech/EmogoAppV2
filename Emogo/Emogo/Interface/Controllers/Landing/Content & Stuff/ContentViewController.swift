@@ -41,6 +41,7 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.collectionView.isHidden = true
         deeplinkHandle()
         
         updateContent()
@@ -68,6 +69,7 @@ class ContentViewController: UIViewController {
         super.viewDidAppear(animated)
         self.collectionView.reloadData()
         updateCollectionView()
+        self.collectionView.isHidden = false
     }
 
     override func didReceiveMemoryWarning() {

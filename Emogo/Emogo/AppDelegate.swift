@@ -187,7 +187,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if kDefault?.bool(forKey: kUserLogggedIn) == true {
             let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
             self.window = UIWindow(frame:  UIScreen.main.bounds)
-            let navigation = UINavigationController(rootViewController: objHome)
+            let navigation = PMNavigationController(rootViewController: objHome)
             self.window?.rootViewController = navigation
             self.window?.makeKeyAndVisible()
         }
@@ -241,7 +241,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
    fileprivate func openLandingScreen(){
         self.window = UIWindow(frame:  UIScreen.main.bounds)
         let objHome = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
-        let navigation = UINavigationController(rootViewController: objHome)
+        let navigation = PMNavigationController(rootViewController: objHome)
         self.window?.rootViewController = navigation
         self.window?.makeKeyAndVisible()
     }

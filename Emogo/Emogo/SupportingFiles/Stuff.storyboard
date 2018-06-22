@@ -3832,9 +3832,6 @@ Cg
                                                                 <constraint firstAttribute="width" constant="100" id="VRR-rJ-8oO"/>
                                                             </constraints>
                                                             <state key="normal" image="following_button"/>
-                                                            <connections>
-                                                                <action selector="btnFollow:" destination="v79-IV-byf" eventType="touchUpInside" id="g0h-e8-TtJ"/>
-                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

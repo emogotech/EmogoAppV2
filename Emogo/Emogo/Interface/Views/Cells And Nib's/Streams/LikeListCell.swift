@@ -23,6 +23,11 @@ class LikeListCell: UITableViewCell {
         // Initialization code
     }
     func prepareLayout(like:LikedUser){
+        if like.isFollowing {
+            self.btnFollow.setImage(#imageLiteral(resourceName: "following_button"), for: .normal)
+        }else {
+            self.btnFollow.setImage(#imageLiteral(resourceName: "follow_button"), for: .normal)
+        }
         self.lblUserName.text = like.name
         self.lblDisplayname.text = like.userDisplayName
 
