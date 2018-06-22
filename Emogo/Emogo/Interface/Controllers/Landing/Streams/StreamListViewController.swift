@@ -325,6 +325,7 @@ class StreamListViewController: UIViewController {
         collectionLayout.minimumColumnSpacing = 8.0
         collectionLayout.minimumInteritemSpacing = 8.0
         collectionLayout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
+       
         collectionLayout.columnCount = 2
         // Collection view attributes
         self.streamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
@@ -359,8 +360,10 @@ class StreamListViewController: UIViewController {
         
         let nibViews = Bundle.main.loadNibNamed("SegmentHeaderViewCell", owner: self, options: nil)
         self.segmentheader = nibViews?.first as! SegmentHeaderViewCell
+//        self.segmentheader.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        collectionLayout.sectionInset = UIEdgeInsetsMake(38, 8, 0, 8)
+        self.segmentheader.frame = CGRect(x: self.segmentheader.frame.origin.x, y: self.segmentheader.frame.origin.y, width: kFrame.size.width, height: 33)
         self.streamCollectionView.addSubview(self.segmentheader)
-        self.segmentheader.segmentDelegate = self
         
     }
    
@@ -1174,6 +1177,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
  */
     }
+    
+   
+
    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if self.isSearch == false {
@@ -1241,6 +1247,14 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         }
        
     }
+    
+//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+//        if currentStreamType == .myStream {
+//            return UIEdgeInsets(top: 13, left: 8, bottom: 0, right: 8)
+//        }else{
+//            return UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 8)
+//        }
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isMenuOpen {

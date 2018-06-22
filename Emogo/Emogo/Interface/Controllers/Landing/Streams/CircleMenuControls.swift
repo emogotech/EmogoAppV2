@@ -205,10 +205,9 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
              self.updateStreamSegment(index: index)
         }
         self.segmentheader.segmentControl.selectionIndicatorHeight = 1.0
-        self.segmentheader.segmentControl.backgroundColor = UIColor.white
-        
-       self.segmentheader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
-       // self.segmentheader.segmentControl.selectionIndicatorColor = UIColor(r: 155, g: 155, b: 155)
+        self.segmentheader.segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+        self.segmentheader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
+       
          self.segmentheader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         self.segmentheader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         self.segmentheader.segmentControl.selectionStyle = .textWidthStripe

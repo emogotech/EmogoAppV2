@@ -175,6 +175,7 @@ class EditStreamController: UITableViewController {
         actionVC.delegate = self
         actionVC.arraySelected = self.selectedCollaborators
         actionVC.streamID = self.objStream?.streamID
+        actionVC.objStream = self.objStream
         let nav = UINavigationController(rootViewController: actionVC)
         customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         
