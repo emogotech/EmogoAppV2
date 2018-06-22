@@ -38,6 +38,7 @@ class AddCollabViewController: UIViewController {
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
     var streamID:String!
+    var objStream:StreamViewDAO?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -363,8 +364,8 @@ class AddCollabViewController: UIViewController {
     }
     
     func updateColabs(){
-        
-        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: self.streamID, collaborator: arrayTempSelected) { (result, errorMSG) in
+       
+        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: self.streamID,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.canAddContent)! , canAddPeople:(self.objStream?.canAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 if self.delegate != nil {
                     self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)

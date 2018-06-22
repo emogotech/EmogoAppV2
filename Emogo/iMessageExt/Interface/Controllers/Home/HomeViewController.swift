@@ -9,7 +9,7 @@
 import UIKit
 import Messages
 
-class HomeViewController: MSMessagesAppViewController {
+class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     
     // MARK:- UI Elements
     @IBOutlet weak var collectionStream         : UICollectionView!
@@ -23,18 +23,23 @@ class HomeViewController: MSMessagesAppViewController {
     @IBOutlet weak var viewCollections          : UIView!
     @IBOutlet weak var viewCollectionsMain      : UIView!
     
+    @IBOutlet weak var btnCancel: UIButton!
     @IBOutlet weak var searchText               : UITextField!
     
+    @IBOutlet weak var kSearchViewHeight: NSLayoutConstraint!
     @IBOutlet weak var btnFeature               : UIButton!
     @IBOutlet weak var btnSearchHeader          : UIButton!
     
     @IBOutlet weak var btnStreamSearch          : UIButton!
     @IBOutlet weak var btnPeopleSearch          : UIButton!
     
+    @IBOutlet weak var kViewSearchButtonHeight  : NSLayoutConstraint!
+    
     @IBOutlet weak var lblNoResult              : UILabel!
     @IBOutlet weak var lblStreamSearch          : UILabel!
     @IBOutlet weak var lblPeopleSearch          : UILabel!
-    
+    @IBOutlet weak var viewSearchButton         : UIView!
+    @IBOutlet weak var kWidthCancel: NSLayoutConstraint!
     // MARK: - Varibales
     var hudView                                 : LoadingView!
     var hudRefreshView                          : LoadingView!
@@ -55,6 +60,7 @@ class HomeViewController: MSMessagesAppViewController {
     var segmentHeader:MyStreamSegmentHeaderView!
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
     var selectedType:StreamType! = StreamType.Public
+    let kSearchHeight = 60.0
     
    // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
    // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
@@ -67,6 +73,13 @@ class HomeViewController: MSMessagesAppViewController {
         
         setupLoader()
         setupAnchor()
+        
+        viewSearchButton.isHidden = true
+        kSearchViewHeight.constant = 0.0
+        kViewSearchButtonHeight.constant = 0.0
+        self.kSearchViewHeight.constant = 0.0
+        kWidthCancel.constant = 0.0
+        
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -95,6 +108,8 @@ class HomeViewController: MSMessagesAppViewController {
             }
             
         }
+        btnStreamSearch.isUserInteractionEnabled = false
+        btnPeopleSearch.isUserInteractionEnabled = true
     }
     
     @objc func reloadStreamData(){
@@ -111,6 +126,9 @@ class HomeViewController: MSMessagesAppViewController {
         let nibViews = Bundle.main.loadNibNamed("MyStreamSegmentHeaderView", owner: self, options: nil)
         self.segmentHeader = nibViews?.first as! MyStreamSegmentHeaderView 
         self.collectionStream.addSubview(self.segmentHeader)
+        self.segmentHeader.segmentDelegate = self
+        self.segmentHeader.segmentControl.isHidden = false
+        self.segmentHeader.frame = CGRect(x: self.segmentHeader.frame.origin.x, y: self.segmentHeader.frame.origin.y, width: kFrame.size.width, height: 33)
         self.setSegmentControl()
     
     }
@@ -119,26 +137,30 @@ class HomeViewController: MSMessagesAppViewController {
     func updateStreamSegment(index:Int){
         switch index {
         case 0:
-            self.selectedType = StreamType.Public
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+            currentStreamType = StreamType.Public
             break
         case 1:
-            self.selectedType = StreamType.Private
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+            currentStreamType = StreamType.Private
             break
             
         default:
-            self.selectedType = StreamType.Public
-            currentStreamType = self.selectedType
-            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
-            self.getMyStreamViewData(type: .up)
+            break
         }
        
+        DispatchQueue.main.async {
+            self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
+            if self.arrayToShow.count == 0 {
+                self.lblNoResult.isHidden = false
+            }else {
+                self.lblNoResult.isHidden = true
+            }
+            self.collectionStream.reloadData()
+        }
+        //   self.getStreamList(type: .start, filter: currentStreamType)
     }
+    
+
+
     // MARK:- prepareLayout
     
     @objc func prepareLayout() {
@@ -151,8 +173,8 @@ class HomeViewController: MSMessagesAppViewController {
         
         lblStreamSearch.font = lblPeopleSearch.font
         
-        self.searchView.layer.cornerRadius = 18
-        self.searchView.clipsToBounds = true
+//        self.searchView.layer.cornerRadius = 18
+//        self.searchView.clipsToBounds = true
         
         currentStreamType =  StreamType.featured
       
@@ -160,9 +182,8 @@ class HomeViewController: MSMessagesAppViewController {
         //        self.getStreamList(type:.start,filter:.featured)
         self.collectionStream.register(UINib(nibName: iMgsSegue_HomeCollectionReusableV, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: iMgsSegue_HomeCollectionReusableV)
         
-        btnStreamSearch.isUserInteractionEnabled = false
-        btnPeopleSearch.isUserInteractionEnabled = true
-        
+     
+       
         viewCollections.isHidden = true
         //        streamType  = StreamType.featured
     }
@@ -287,14 +308,21 @@ class HomeViewController: MSMessagesAppViewController {
 //                layout.minimumLineSpacing = 8
 //                collectionStream!.collectionViewLayout = layout
 //            }
-//            else {
+            if currentStreamType == .myStream {
+                layout.sectionInset = UIEdgeInsets(top: 12, left: 8, bottom: 8, right: 8)
+                layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
+                layout.minimumInteritemSpacing = 8
+                layout.minimumLineSpacing = 8
+                collectionStream!.collectionViewLayout = layout
+            }
+           else {
                 layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
                 
-           // }
+           }
         }
         else {
             if isSearch && !isStreamEnable {
@@ -563,9 +591,20 @@ class HomeViewController: MSMessagesAppViewController {
                     self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
               //  }
                 self.getStreamGlobleSearch(searchText:self.searchText.text!, type: .start )
+            } else if searchText.text?.trim() != "" {
+                btnCancel.tag = 1
+                //   btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
+                self.didTapActionSearch(searchString: (searchText.text?.trim())!)
+                //self.viewMenu.isHidden = true
+                isSearch = true
             }
         }
         else {
+          
+            self.viewSearchButton.isHidden = true
+            self.kSearchViewHeight.constant = 0.0
+            self.kWidthCancel.constant = 0.0
+            self.kViewSearchButtonHeight.constant = 0.0
             sender.isSelected = false
             sender.tag = 0
             self.btnFeature.isUserInteractionEnabled = true
@@ -634,14 +673,18 @@ class HomeViewController: MSMessagesAppViewController {
         switch sender.tag {
             
         case 0:         //Stream
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+  
+            
+//            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
             self.hudView.startLoaderWithAnimation()
             self.isStreamEnable = true
             self.isSearch = true
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
             self.collectionStream.isHidden = true
+            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
             StreamList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.requestURl = ""
             SharedData.sharedInstance.isMoreContentAvailable = false
@@ -649,8 +692,9 @@ class HomeViewController: MSMessagesAppViewController {
             break
             
         case 1:         //People
-            lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-            lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+           // lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+            //lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+            
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
             self.collectionStream.isHidden = true
@@ -658,6 +702,8 @@ class HomeViewController: MSMessagesAppViewController {
             self.isSearch = true
             self.collectionStream.reloadData()
             self.setupCollectionProperties()
+            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_active"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_inactive"), for: .normal)
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             SharedData.sharedInstance.isMoreContentAvailable = false
@@ -979,6 +1025,9 @@ class HomeViewController: MSMessagesAppViewController {
     
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
         
+        
+      
+    
         lblNoResult.text = kAlert_No_User_Record_Found
         StreamList.sharedInstance.arrayMyStream.removeAll()
         self.arrayToShow.removeAll()
@@ -1009,7 +1058,7 @@ class HomeViewController: MSMessagesAppViewController {
             self.lblNoResult.isHidden = true
             self.btnStreamSearch.isUserInteractionEnabled = true
             self.btnPeopleSearch.isUserInteractionEnabled = false
-            self.viewCollections.isHidden = false
+            self.viewCollections.isHidden = true
             self.collectionStream.isUserInteractionEnabled = true
             self.setupCollectionProperties()
             self.expandPeopleHeight()
@@ -1028,6 +1077,7 @@ class HomeViewController: MSMessagesAppViewController {
                 }
                 self.collectionStream.reloadData()
             }
+           
             
         }
     }
@@ -1061,7 +1111,7 @@ class HomeViewController: MSMessagesAppViewController {
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.lblNoResult.isHidden = true
-                self.viewCollections.isHidden = false
+                self.viewCollections.isHidden = true
                 self.collectionStream.isUserInteractionEnabled = true
                 self.streaminputDataType(type: type)
                 self.setupCollectionProperties()
@@ -1098,6 +1148,19 @@ class HomeViewController: MSMessagesAppViewController {
         else{
             self.resignRefreshLoader()
         }
+    }
+    
+    func didTapActionSearch(searchString: String) {
+        // btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
+        btnCancel.tag = 1
+        self.searchText.text? = searchString
+        kWidthCancel.constant = 65.0
+        self.viewSearchButton.isHidden = false
+        self.kViewSearchButtonHeight.constant = CGFloat(self.kSearchHeight)
+        self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+        self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
+        self.getStreamGlobleSearch(searchText: searchString, type: .start)
+
     }
 }
 
@@ -1325,8 +1388,8 @@ extension HomeViewController : UITextFieldDelegate {
             self.hudView.startLoaderWithAnimation()
             isSearch = true
             isStreamEnable = true
-            btnSearchHeader.isSelected = true
-            btnSearchHeader.tag = 1
+          // btnSearchHeader.isSelected = true
+           // btnSearchHeader.tag = 1
             self.searchText.resignFirstResponder()
             
 //            if btnFeature.titleLabel?.text == "PEOPLE" {
@@ -1344,8 +1407,8 @@ extension HomeViewController : UITextFieldDelegate {
 //                self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
 //            }else{
                 isStreamEnable = true
-                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+//                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 PeopleList.sharedInstance.arrayPeople.removeAll()
                 collectionStream.reloadData()
                 StreamList.sharedInstance.requestURl = ""
@@ -1359,7 +1422,7 @@ extension HomeViewController : UITextFieldDelegate {
             
             pagerContent.isHidden = true
             btnFeature.tag = 0
-            
+            self.didTapActionSearch(searchString: (self.searchText.text!.trim()))
         }
         return true
     }
@@ -1448,7 +1511,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 1:
                 lastIndex = index
-                currentStreamType =  StreamType.myStream
+                currentStreamType = StreamType.Public
+                self.segmentHeader.segmentControl.selectedSegmentIndex = 0
+               // currentStreamType =  StreamType.myStream
                 lastSelectedType = currentStreamType
                 if last > index {
                     self.addLeftTransitionCollection(imgV: self.collectionStream)
@@ -1694,7 +1759,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             if  currentStreamType ==  .myStream  {
                 self.configureStreamHeader()
             }else{
-                self.segmentHeader.segmentControl.isHidden = true
+               // self.segmentHeader.segmentControl.isHidden = true
             }
             if self.arrayToShow.count == 0 {
                 self.lblNoResult.isHidden = false

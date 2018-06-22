@@ -356,7 +356,7 @@ class APIServiceManager: NSObject {
         
     }
     
-    func apiForEditStreamColabs(streamID:String,collaborator:[CollaboratorDAO],completionHandler:@escaping (_ result:StreamViewDAO?, _ strError:String?)->Void){
+    func apiForEditStreamColabs(streamID:String,streamType:String,anyOneCanEdit:Bool,canAddContent:Bool,canAddPeople:Bool,collaborator:[CollaboratorDAO],completionHandler:@escaping (_ result:StreamViewDAO?, _ strError:String?)->Void){
      
         var jsonCollaborator = [[String:Any]]()
         for obj in collaborator {
@@ -364,11 +364,17 @@ class APIServiceManager: NSObject {
             jsonCollaborator.append(value)
         }
        let params = [
-            "collaborator":jsonCollaborator
-        ]
+            "type":streamType,
+            "any_one_can_edit":anyOneCanEdit,
+            "collaborator":jsonCollaborator,
+            "collaborator_permission": [
+                "can_add_content" : true,
+                "can_add_people": false]
+        ] as [String : Any]
         
         print(params)
         let url = kStreamViewAPI + "\(streamID)/"
+        print(url)
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):

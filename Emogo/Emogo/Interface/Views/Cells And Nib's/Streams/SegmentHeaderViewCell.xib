@@ -20,39 +20,36 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Za9-eD-3qa">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="33"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OsQ-yl-sIt" customClass="HMSegmentedControl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="35" id="8za-Ig-zVv"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="33"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.96070033310000003" green="0.96083813910000004" blue="0.96067017320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="bottom" secondItem="ezg-6E-8Pi" secondAttribute="bottom" id="Qke-CZ-ET5"/>
-                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="leading" secondItem="ezg-6E-8Pi" secondAttribute="leading" id="ZDT-k4-ALc"/>
-                            <constraint firstAttribute="height" constant="35" id="dRE-rX-WWp"/>
-                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="top" secondItem="ezg-6E-8Pi" secondAttribute="top" id="ixi-Kr-9JW"/>
-                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="trailing" secondItem="ezg-6E-8Pi" secondAttribute="trailing" id="pq4-lQ-WsX"/>
+                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="top" secondItem="ezg-6E-8Pi" secondAttribute="top" id="0dV-BZ-Nbt"/>
+                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="leading" secondItem="ezg-6E-8Pi" secondAttribute="leading" id="tHM-y1-ANd"/>
+                            <constraint firstAttribute="bottom" secondItem="OsQ-yl-sIt" secondAttribute="bottom" id="vmK-je-xBb"/>
+                            <constraint firstItem="OsQ-yl-sIt" firstAttribute="trailing" secondItem="ezg-6E-8Pi" secondAttribute="trailing" id="wvP-JO-3TZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ezg-6E-8Pi"/>
                     </view>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Za9-eD-3qa" secondAttribute="trailing" id="oA1-ky-zrl"/>
-                <constraint firstItem="Za9-eD-3qa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="oep-2T-K0c"/>
-                <constraint firstItem="Za9-eD-3qa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ptQ-ZO-Zg5"/>
+                <constraint firstAttribute="bottom" secondItem="Za9-eD-3qa" secondAttribute="bottom" id="Apa-Bm-jFZ"/>
+                <constraint firstItem="Za9-eD-3qa" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="HtN-QV-HM9"/>
+                <constraint firstItem="Za9-eD-3qa" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="fW9-ap-U1Y"/>
+                <constraint firstAttribute="trailing" secondItem="Za9-eD-3qa" secondAttribute="trailing" id="gQc-1k-HBI"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="389" height="17"/>
             <connections>
                 <outlet property="segmentControl" destination="OsQ-yl-sIt" id="hKx-if-eZf"/>
             </connections>
-            <point key="canvasLocation" x="233.5" y="43.5"/>
+            <point key="canvasLocation" x="332" y="40"/>
         </collectionViewCell>
     </objects>
 </document>
