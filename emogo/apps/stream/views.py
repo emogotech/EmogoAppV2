@@ -17,6 +17,7 @@ from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
+from emogo.apps.users.models import UserFollow
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
@@ -51,7 +52,14 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             ),
             Prefetch(
                 'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                        Prefetch(
+                            "user__who_follows",                            
+                            queryset=UserFollow.objects.all(),
+                            to_attr='user_liked_followers'                                   
+                        ),
+
+                ),
                 to_attr='total_like_dislike_data'
             ),
         ).order_by('-stream_view_count')

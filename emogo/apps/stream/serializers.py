@@ -293,9 +293,10 @@ class ViewStreamSerializer(StreamSerializer):
         return False
 
     def get_user_liked(self, obj):
+        # Find the logged in user and fetch current user's followers 
+        user_id = self.context.get('request').user.id
         try:
-            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image,
-                     'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  map(lambda y: y.follower.id, x.user.user_liked_followers) else False } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
