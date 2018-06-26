@@ -329,22 +329,19 @@ class ViewStreamSerializer(StreamSerializer):
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             if user_qs.__len__() > 0:
-                # If some collaborator are registered
                 for user, instance in product(user_qs, instances):
-                    # print(user.get('username'), instance)
+                    # print(user.get('username'), instance.phone_number)
+                    # If some collaborator are registered
                     if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', user.get('user_data__full_name'))
                         setattr(instance, 'user_profile_id', user.get('user_data__id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
-                        list_of_instances.append(instance)
-
-                # If some collaborator are not registered.
-                for user in user_qs:
-                    if not user.get('username').endswith(instance.phone_number):
+                    # If some collaborator are not registered.
+                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
                         setattr(instance, 'user_image', None)
-                        list_of_instances.append(instance)
+                    list_of_instances.append(instance)
             # If any collaborator is not registered
             else:
                 for instance in instances:
