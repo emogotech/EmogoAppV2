@@ -262,9 +262,6 @@ class ViewStreamSerializer(StreamSerializer):
             return None
 
     def get_have_some_update(self, obj):
-        # 4. Return have_some_update is false when view stream
-        if self.context.get('request').resolver_match.view_name == 'view_stream':
-            return False
         # 1. Get last view date of user views Stream
         try:
             last_view_date = max(row.action_date for row in obj.total_view_count)
