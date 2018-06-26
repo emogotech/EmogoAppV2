@@ -465,7 +465,7 @@ class GetTopStreamSerializer(serializers.Serializer):
         return fields
 
     def get_featured(self, obj):
-        qs = self.qs.filter(featured=True)
+        qs = self.qs.filter(featured=True).order_by('-stream_view_count')
         return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
