@@ -100,6 +100,10 @@ class StreamSerializer(DynamicFieldsModelSerializer):
 
             if  not (any_one_can_edit == True  and stream_type == 'Private' ):
                 self.instance.collaborator_list.all().update(status=status)
+
+        # 4. Set have_some_update is true, when user edit the stream..
+        self.instance.have_some_update = True
+        self.instance.save()
         return kwargs
 
     def create(self, validated_data):
@@ -234,7 +238,7 @@ class ViewStreamSerializer(StreamSerializer):
     total_likes = serializers.SerializerMethodField()
     user_liked = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
-    have_some_update = serializers.SerializerMethodField()
+    # have_some_update = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
@@ -261,30 +265,30 @@ class ViewStreamSerializer(StreamSerializer):
         except AttributeError:
             return None
 
-    def get_have_some_update(self, obj):
-        # 1. Get last view date of user views Stream
-        try:
-            last_view_date = max(row.action_date for row in obj.total_view_count)
-        except ValueError:
-            return True
-        # 1. Get last date of add content to stream
-        if obj.content_list.__len__() > 0:
-            last_content_added_date = max(row.attached_date for row in obj.content_list)
-            if last_view_date < last_content_added_date:
-                return True
-        # 2. Get last date of modify content of stream
-        if obj.content_list.__len__() > 0:
-            last_content_modify_date = max(row.content.upd for row in obj.content_list)
-            if last_view_date < last_content_modify_date:
-                return True
-        # 3. Get last date of collaborator added in stream
-        if obj.stream_collaborator.__len__() > 0:
-            last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
-            if last_view_date < last_collaborator_added:
-                return True
-        if last_view_date < obj.upd:
-            return True
-        return False
+    # def get_have_some_update(self, obj):
+    #     # 1. Get last view date of user views Stream
+    #     try:
+    #         last_view_date = max(row.action_date for row in obj.total_view_count)
+    #     except ValueError:
+    #         return True
+    #     # 1. Get last date of add content to stream
+    #     if obj.content_list.__len__() > 0:
+    #         last_content_added_date = max(row.attached_date for row in obj.content_list)
+    #         if last_view_date < last_content_added_date:
+    #             return True
+    #     # 2. Get last date of modify content of stream
+    #     if obj.content_list.__len__() > 0:
+    #         last_content_modify_date = max(row.content.upd for row in obj.content_list)
+    #         if last_view_date < last_content_modify_date:
+    #             return True
+    #     # 3. Get last date of collaborator added in stream
+    #     if obj.stream_collaborator.__len__() > 0:
+    #         last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
+    #         if last_view_date < last_collaborator_added:
+    #             return True
+    #     if last_view_date < obj.upd:
+    #         return True
+    #     return False
 
     def get_liked(self, obj):
         for x in obj.total_like_dislike_data:
@@ -530,6 +534,10 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         # Create Stream and content
         StreamContent.objects.get_or_create(content=content, stream=stream)
+
+        # Set True in have_some_update field, When user move content to stream
+        stream.have_some_update = True
+        stream.save()
         return self.initial_data['contents']
 
 

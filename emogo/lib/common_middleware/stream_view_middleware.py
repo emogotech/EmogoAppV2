@@ -5,7 +5,7 @@ import logging
 from django.utils.deprecation import MiddlewareMixin
 from emogo import settings
 request_logger = logging.getLogger('api.request.logger')
-from emogo.apps.stream.models import StreamUserViewStatus
+from emogo.apps.stream.models import StreamUserViewStatus, Stream
 from django.db import connection
 
 class UpdateStreamViewCount(MiddlewareMixin):
@@ -28,11 +28,14 @@ class UpdateStreamViewCount(MiddlewareMixin):
         :param response:
         :return: The function will loges response content.
         """
-        # if request.resolver_match is not None:
+        if request.resolver_match is not None:
         #     # pass
-        #     if request.resolver_match.view_name == 'view_stream' and request.method =='GET' and request.resolver_match.kwargs.__len__() > 0 and response.status_code==200:
-        #         if response.data.get('data') is not None:
-        #             stream_id = response.data.get('data').get('id')
+            if request.resolver_match.view_name == 'view_stream' and request.method =='GET' and request.resolver_match.kwargs.__len__() > 0 and response.status_code==200:
+                if response.data.get('data') is not None:
+                    # Get stream Id
+                    stream_id = response.data.get('data').get('id')
+                    # Get stream object by stream id and After viewing this stream, update the have_some_field is false
+                    stream = Stream.objects.filter(id=stream_id).update(have_some_update = False)
         #             suvs = StreamUserViewStatus.objects.create(user=request.user, stream_id=stream_id)
         #             suvs.save()
                     # print('Counter Done')
