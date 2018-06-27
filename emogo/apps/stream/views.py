@@ -563,6 +563,10 @@ class StreamLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    def get_serializer_context(self):
+        followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
+        return {'request': self.request, 'followers':followers}
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -570,11 +574,10 @@ class StreamLikeDislikeAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Create Stream API.
         """
-        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         # To return created stream data
-        # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
 
@@ -595,6 +598,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Create Stream API.
         """
+
         serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)

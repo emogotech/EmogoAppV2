@@ -624,14 +624,26 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     """
     user = serializers.CharField(read_only=True)
     total_liked = serializers.SerializerMethodField()
+    user_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = LikeDislikeStream
-        fields = ['user', 'stream', 'status', 'total_liked']
+        fields = ['user', 'stream', 'status', 'total_liked', 'user_liked']
         extra_kwargs = {'status': {'required': True, 'allow_null': False}}
 
+    def liked(self, obj):
+        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream'))
+
     def get_total_liked(self, obj):
-        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream')).aggregate(total_liked=Count('id')).get('total_liked',0)
+
+        return self.liked(obj).aggregate(total_liked=Count('id')).get('total_liked',0)
+   
+    def get_user_liked(self, obj):
+        # Find the logged in user and fetch current user's followers 
+        try:
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if x.user.id in  self.context.get('followers') else False } for x in self.liked(obj) ]
+        except AttributeError:
+            return None
 
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
