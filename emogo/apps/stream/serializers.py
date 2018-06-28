@@ -63,6 +63,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         return attrs
 
     def save(self, **kwargs):
+        # Get variable any one can true
+        any_one_can_edit = self.validated_data.get('any_one_can_edit')
+            
+        # If any_one_can_edit variable is True, Set default stream's type is Public
+        if any_one_can_edit:
+            self.validated_data['type'] = 'Public'
+
         self.instance = self.update(self.instance, self.validated_data)
 
         # 1. Create Collaborator
@@ -89,17 +96,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
         if self.instance.collaborator_list.all().__len__ > 0 :
             stream_type = self.validated_data.get('type')
-            any_one_can_edit = self.validated_data.get('any_one_can_edit')
-
             if stream_type == 'Public':
                 # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
                 status = 'Inactive' if any_one_can_edit else 'Active'
             else:
                 # When Stream is (Global  -> Private), so collaboratopr status is Active 
                 status = 'Active'
-
-            if  not (any_one_can_edit == True  and stream_type == 'Private' ):
-                self.instance.collaborator_list.all().update(status=status)
+            self.instance.collaborator_list.all().update(status=status)
 
         # 4. Set have_some_update is true, when user edit the stream..
         self.instance.have_some_update = True
@@ -267,6 +270,7 @@ class ViewStreamSerializer(StreamSerializer):
             return None
 
     def get_is_collaborator(self, obj):
+        # check Profile stream have any collaborator available or not
         try:
             return True if obj.profile_stream_collaborator_list.__len__() > 0 else False
         except Exception:
