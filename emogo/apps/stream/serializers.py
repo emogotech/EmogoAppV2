@@ -240,6 +240,7 @@ class ViewStreamSerializer(StreamSerializer):
     liked = serializers.SerializerMethodField()
     # have_some_update = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
+    is_collaborator = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -264,6 +265,12 @@ class ViewStreamSerializer(StreamSerializer):
             return obj.total_like_dislike_data.__len__()
         except AttributeError:
             return None
+
+    def get_is_collaborator(self, obj):
+        try:
+            return True if obj.profile_stream_collaborator_list.__len__() > 0 else False
+        except Exception:
+            return '0'
 
     # def get_have_some_update(self, obj):
     #     # 1. Get last view date of user views Stream
@@ -332,6 +339,7 @@ class ViewStreamSerializer(StreamSerializer):
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+
             if user_qs.__len__() > 0:
                 for user, instance in product(user_qs, instances):
                     # print(user.get('username'), instance.phone_number)

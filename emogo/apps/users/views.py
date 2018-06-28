@@ -166,7 +166,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             ),
             Prefetch(
                 'profile_stream__collaborator_list',
-                queryset=Collaborator.objects.all(),
+                queryset=Collaborator.actives.all(),
                 to_attr='profile_stream_collaborator_list'
             ),
         )
