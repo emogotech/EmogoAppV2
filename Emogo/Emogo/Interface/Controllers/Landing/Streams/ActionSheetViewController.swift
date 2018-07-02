@@ -53,11 +53,13 @@ class ActionSheetViewController: UIViewController {
     //MARK:- Button Action
     
     @IBAction func btnClose(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismissWithAnimation {
+            
+        }
     }
     @IBAction func actionForCreateEmogo(_ sender: Any) {
       // self.actionForAddStream()
-        self.dismiss(animated: true) {
+        self.dismissWithAnimation {
             if self.delegate != nil {
                 self.delegate.didSelectAction(type: "7")
             }
@@ -85,7 +87,7 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     
         let title = self.menuItems.arrayActions[indexPath.row].iconName
         var strType:String! = ""
-        if title == "Photo/Videos" {
+        if title == "Photos/Videos" {
             strType = "1"
         }else if title == "Camera" {
             strType = "2"
@@ -98,7 +100,7 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
         }else if title == "My Stuff" {
             strType = "6"
         }
-        self.dismiss(animated: true) {
+        self.dismissWithAnimation {
             if self.delegate != nil {
                 self.delegate.didSelectAction(type: strType)
             }
@@ -111,7 +113,5 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
         return cellHeight
     }
     
-   
-
-   
+    
 }

@@ -13,7 +13,7 @@ import Presentr
 
 class StreamListViewController: UIViewController {
     
-    @IBOutlet weak var containerMenuView : UIStackView!
+    @IBOutlet weak var segmentContainerView : UIView!
     
     // MARK: - UI Elements
     @IBOutlet weak var streamCollectionView: UICollectionView!
@@ -38,6 +38,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var kSearchViewHieght         : NSLayoutConstraint!
     @IBOutlet weak var kCancelWidthConstraint         : NSLayoutConstraint!
     @IBOutlet weak var imgSearchIcon          : UIImageView!
+    @IBOutlet weak var kSegmentHeight         : NSLayoutConstraint!
 
     var isAddButtonTapped   =   false
     var isDidLoadCalled : Bool  =   false
@@ -122,7 +123,8 @@ class StreamListViewController: UIViewController {
         self.kSearchViewHieght.constant = 0.0
     
         kCancelWidthConstraint.constant = 0.0
-
+        self.segmentContainerView.isHidden = true
+        self.kSegmentHeight.constant = 0.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,9 +159,8 @@ class StreamListViewController: UIViewController {
             }else {
                 self.lblNoResult.isHidden = true
             }
-            print("index to change----->\(currentStreamType.hashValue)")
-            self.menuView.currentIndex = currentStreamType.hashValue
-            self.menuView.reloadData()
+            self.updateCircleMenu()
+         
             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.deepLinkType != "" {
@@ -232,11 +233,24 @@ class StreamListViewController: UIViewController {
             self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
         }
         
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkMyStreamView {
+               getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: SharedData.sharedInstance.contentID)
+//              let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
+//
+//             self.navigationController?.push(viewController: obj)
+        }
+        
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditStream{
-            let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-            obj.streamID = SharedData.sharedInstance.streamID
-            self.navigationController?.push(viewController: obj)
-            SharedData.sharedInstance.deepLinkType = ""
+            let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
+            editVC.streamID = SharedData.sharedInstance.streamID
+            let nav = UINavigationController(rootViewController: editVC)
+            customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
+         
+            
+            //let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
+//            obj.streamID = SharedData.sharedInstance.streamID
+//            self.navigationController?.push(viewController: obj)
+//            SharedData.sharedInstance.deepLinkType = ""
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
@@ -251,14 +265,17 @@ class StreamListViewController: UIViewController {
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeProfile {
+         
             let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
             self.navigationController?.push(viewController: obj)
-            SharedData.sharedInstance.deepLinkType = ""
+            SharedData.sharedInstance.deepLinkType = "updateProfile"
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+         
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
+           
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
@@ -266,7 +283,8 @@ class StreamListViewController: UIViewController {
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
             objPreview.currentIndex = 0
             let nav = UINavigationController(rootViewController: objPreview)
-            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+            
+             customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             
         }
         
@@ -308,13 +326,7 @@ class StreamListViewController: UIViewController {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_InitialView)
             self.navigationController?.reverseFlipPush(viewController: obj)
         }
-        if  currentStreamType == StreamType.Public ||  currentStreamType == StreamType.Private{
-            menuView.currentIndex = 0
-        }else {
-            menuView.currentIndex = currentStreamType.hashValue
-        }
-        print("current index ----\(currentStreamType)")
-        print("current index ----\(currentStreamType.hashValue)")
+        self.updateCircleMenu()
         self.getTopStreamList()
         // Attach datasource and delegate
         self.lblNoResult.isHidden = true
@@ -357,14 +369,50 @@ class StreamListViewController: UIViewController {
     }
     
     func configureStreamHeader() {
-        
+        self.segmentContainerView.isHidden = false
+        self.kSegmentHeight.constant = 33.0
         let nibViews = Bundle.main.loadNibNamed("SegmentHeaderViewCell", owner: self, options: nil)
         self.segmentheader = nibViews?.first as! SegmentHeaderViewCell
 //        self.segmentheader.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        collectionLayout.sectionInset = UIEdgeInsetsMake(38, 8, 0, 8)
+       // collectionLayout.sectionInset = UIEdgeInsetsMake(38, 8, 0, 8)
         self.segmentheader.frame = CGRect(x: self.segmentheader.frame.origin.x, y: self.segmentheader.frame.origin.y, width: kFrame.size.width, height: 33)
-        self.streamCollectionView.addSubview(self.segmentheader)
+        self.segmentContainerView.addSubview(self.segmentheader)
         
+    }
+    
+    func updateCircleMenu(){
+        print("index to change----->\(currentStreamType.hashValue)")
+        self.segmentContainerView.isHidden = true
+        self.kSegmentHeight.constant = 0.0
+        if  currentStreamType == StreamType.Public ||  currentStreamType == StreamType.Private{
+            self.menuView.currentIndex = 0
+            if self.segmentheader != nil {
+                if self.segmentheader.superview != nil {
+                    self.segmentheader.removeFromSuperview()
+                }
+            }
+            ShowSegmentControl()
+            if currentStreamType == StreamType.Public {
+                self.segmentheader.segmentControl.selectedSegmentIndex = 0
+            }else {
+                self.segmentheader.segmentControl.selectedSegmentIndex = 1
+            }
+        }else if currentStreamType == StreamType.populer {
+            self.menuView.currentIndex = 1
+        }else if currentStreamType == StreamType.featured {
+            self.menuView.currentIndex = 2
+        }else if currentStreamType == StreamType.emogoStreams {
+            self.menuView.currentIndex = 3
+        }else if currentStreamType == StreamType.Liked {
+            self.menuView.currentIndex = 4
+        }else if currentStreamType == StreamType.Following {
+            self.menuView.currentIndex = 5
+        }
+        if self.isSearch {
+            self.segmentContainerView.isHidden = true
+            self.kSegmentHeight.constant = 0.0
+        }
+        self.menuView.reloadData()
     }
    
     
@@ -459,6 +507,7 @@ class StreamListViewController: UIViewController {
        self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         menuView.isAddBackground = false
         menuView.isAddTitle = true
+        
         menuView.lblCurrentType.text = menu.arrayMenu[menuView.currentIndex].iconName
        // self.menuView.layer.contents = UIImage(named: "bottomPager")?.cgImage
         let blurEffect = UIBlurEffect(style: .light)
@@ -560,6 +609,7 @@ class StreamListViewController: UIViewController {
     // MARK: -  Action Methods And Selector
     
     override func btnCameraAction() {
+        self.view.endEditing(true)
         actionForCamera()
     }
     
@@ -569,7 +619,7 @@ class StreamListViewController: UIViewController {
     
     override func btnMyProfileAction() {
         isUpdateList = true
-      
+      self.view.endEditing(true)
         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
         self.addLeftTransitionView(subtype: kCATransitionFromLeft)
         self.navigationController?.pushViewController(obj, animated: false)
@@ -636,10 +686,13 @@ class StreamListViewController: UIViewController {
                 self.kViewSearchButtonsHeight.constant = 0.0
                 self.kCancelWidthConstraint.constant = 0.0
                 self.viewSearchButtons.isHidden = true
+                self.updateCircleMenu()
+                self.imgSearchIcon.isHidden = true
             }
         }else{
             if txtSearch.text?.trim() != "" {
                 btnSearch.tag = 1
+              
              //   btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
                 self.didTapActionSearch(searchString: (txtSearch.text?.trim())!)
                 self.viewMenu.isHidden = true
@@ -955,7 +1008,7 @@ class StreamListViewController: UIViewController {
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
              self.arrayToShow.removeAll()
-            self.streamCollectionView.reloadData()
+             self.streamCollectionView.reloadData()
         }
         if SharedData.sharedInstance.iMessageNavigation == "" {
             
@@ -1103,6 +1156,13 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 cell.isExclusiveTouch = true
                 let stream = self.arrayToShow[indexPath.row]
                 cell.prepareLayouts(stream: stream)
+                if stream.haveSomeUpdate {
+                    cell.layer.borderWidth = 1.0
+                    cell.layer.borderColor = kCardViewBordorColor.cgColor
+                }else {
+                    cell.layer.borderWidth = 0.0
+                    cell.layer.borderColor = UIColor.clear.cgColor
+                }
                 return cell
             }
         }else {
@@ -1119,13 +1179,20 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 cell.isExclusiveTouch = true
                 let stream = self.arrayToShow[indexPath.row]
                 cell.prepareLayouts(stream: stream)
+                if stream.haveSomeUpdate {
+                    cell.layer.borderWidth = 1.0
+                    cell.layer.borderColor = kCardViewBordorColor.cgColor
+                }else {
+                    cell.layer.borderWidth = 0.0
+                    cell.layer.borderColor = UIColor.clear.cgColor
+                }
                 return cell
             }
         }
 
         /*
        
-        else if isPeopleList {
+        if isPeopleList {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_PeopleCell, for: indexPath) as! PeopleCell
             let people = PeopleList.sharedInstance.arrayPeople[indexPath.row]
             cell.prepareData(people:people)
@@ -1248,13 +1315,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
        
     }
     
-//  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-//        if currentStreamType == .myStream {
-//            return UIEdgeInsets(top: 13, left: 8, bottom: 0, right: 8)
-//        }else{
-//            return UIEdgeInsets(top: 10, left: 8, bottom: 0, right: 8)
-//        }
-//    }
+
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if isMenuOpen {
@@ -1314,20 +1375,19 @@ extension StreamListViewController : UITextFieldDelegate {
        // btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnSearch.tag = 1
         searchStr = searchString
+        self.segmentContainerView.isHidden = true
+        self.kSegmentHeight.constant = 0.0
         kCancelWidthConstraint.constant = 65.0
         self.viewSearchButtons.isHidden = false
         self.kViewSearchButtonsHeight.constant = CGFloat(self.kSearchHeight)
-        if isPeopleList {
-            collectionLayout.columnCount = 3
-            HUDManager.sharedInstance.showHUD()
-            self.getPeopleGlobalSearch(searchText: searchString, type: .start)
-        }else{
-            collectionLayout.columnCount = 2
-            HUDManager.sharedInstance.showHUD()
-            self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
-            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
-            self.getStreamGlobalSearch(searchText: searchString, type: .start)
-        }
+        collectionLayout.columnCount = 2
+        HUDManager.sharedInstance.showHUD()
+        self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
+        self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
+        isSearch = true
+        isTapPeople = false
+        isTapStream = true
+        self.getStreamGlobalSearch(searchText: searchString, type: .start)
     }
 }
 

@@ -40,14 +40,16 @@ extension FilterViewController {
             break
         case 222:
             
-            if self.images.count == 0 || imageBuffer == nil {
-                self.showToast(type: .success, strMSG: "Please wait while we are loading.")
-                self.isFilterSelected = false
-                return
-            }
             isGradientFilter = true
             self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_active"), for: .normal)
             filterOptionUpdated()
+            break
+        case 333:
+            let obj:MLFiltersViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_MLFiltersView) as! MLFiltersViewController
+            obj.image = self.canvasImageView.image
+            obj.delegate = self
+            let nav  = UINavigationController(rootViewController: obj)
+            self.present(nav, animated: false, completion: nil)
             break
         default:
             break
@@ -248,4 +250,13 @@ extension FilterViewController {
     }
     
 
+}
+
+extension FilterViewController:MLFiltersViewControllerDelegate {
+    func selected(image: UIImage) {
+        self.image  = image
+        self.canvasImageView.image =  self.image
+        self.isFilterSelected = false
+    }
+    
 }

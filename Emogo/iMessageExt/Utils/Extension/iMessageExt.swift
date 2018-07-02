@@ -11,6 +11,7 @@ import CoreGraphics
 import UIKit
 import Messages
 import SDWebImage
+import SafariServices
 
 // MARK: - String
 extension String {
@@ -52,9 +53,113 @@ extension UIImageView {
         self.sd_setShowActivityIndicatorView(true)
         self.sd_setIndicatorStyle(.gray)
     }
-    
+    func setImageWithURL(strImage:String,handler : @escaping ((_ image : UIImage?, _ imageSize:CGSize?) -> Void)){
+        if strImage.isEmpty{
+            return
+        }
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        //self.sd_setImage(with: url)
+        self.sd_setImage(with: imgURL, placeholderImage: nil, options: .cacheMemoryOnly) { (image, _, _, _) in
+            if let img = image {
+                self.image = img
+                handler(img,img.size)
+            }
+        }
+        
+        //    self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+        
+    }
     
 }
+
+extension UIView {
+    
+    @discardableResult func addBorders(edges: UIRectEdge, color: UIColor = .green, thickness: CGFloat = 1.0) -> [UIView] {
+        
+        var borders = [UIView]()
+        
+        func border() -> UIView {
+            let border = UIView(frame: CGRect.zero)
+            border.backgroundColor = color
+            border.translatesAutoresizingMaskIntoConstraints = false
+            return border
+        }
+        
+        if edges.contains(.top) || edges.contains(.all) {
+            let top = border()
+            addSubview(top)
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[top(==thickness)]",
+                                               options: [],
+                                               metrics: ["thickness": thickness],
+                                               views: ["top": top]))
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[top]-(0)-|",
+                                               options: [],
+                                               metrics: nil,
+                                               views: ["top": top]))
+            borders.append(top)
+        }
+        
+        if edges.contains(.left) || edges.contains(.all) {
+            let left = border()
+            addSubview(left)
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[left(==thickness)]",
+                                               options: [],
+                                               metrics: ["thickness": thickness],
+                                               views: ["left": left]))
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[left]-(0)-|",
+                                               options: [],
+                                               metrics: nil,
+                                               views: ["left": left]))
+            borders.append(left)
+        }
+        
+        if edges.contains(.right) || edges.contains(.all) {
+            let right = border()
+            addSubview(right)
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:[right(==thickness)]-(0)-|",
+                                               options: [],
+                                               metrics: ["thickness": thickness],
+                                               views: ["right": right]))
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "V:|-(0)-[right]-(0)-|",
+                                               options: [],
+                                               metrics: nil,
+                                               views: ["right": right]))
+            borders.append(right)
+        }
+        
+        if edges.contains(.bottom) || edges.contains(.all) {
+            let bottom = border()
+            addSubview(bottom)
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "V:[bottom(==thickness)]-(0)-|",
+                                               options: [],
+                                               metrics: ["thickness": thickness],
+                                               views: ["bottom": bottom]))
+            addConstraints(
+                NSLayoutConstraint.constraints(withVisualFormat: "H:|-(0)-[bottom]-(0)-|",
+                                               options: [],
+                                               metrics: nil,
+                                               views: ["bottom": bottom]))
+            borders.append(bottom)
+        }
+        
+        return borders
+    }
+    
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+    }
+}
+
 // MARK: - UIView
 extension UIView {
     
@@ -280,6 +385,43 @@ extension UIApplication {
         }
         return nil
     }
+}
+
+extension UIViewController:SFSafariViewControllerDelegate {
+    
+    func canOpenURL(string: String?) -> Bool {
+        guard let urlString = string else {return false}
+        guard let url = NSURL(string: urlString) else {return false}
+        if !UIApplication.shared.canOpenURL(url as URL) {return false}
+        
+        //
+        let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[regEx])
+        return predicate.evaluate(with: string)
+    }
+    
+    func openURL(url:URL) {
+        
+        if ["http", "https"].contains(url.scheme?.lowercased() ?? "") {
+            
+            // Can open with SFSafariViewController
+            let safariController = SFSafariViewController(url: url as URL)
+            safariController.delegate = self
+            
+            let navigationController = UINavigationController(rootViewController: safariController)
+            navigationController.setNavigationBarHidden(true, animated: false)
+            self.present(navigationController, animated: true, completion: nil)
+            
+        } else {
+            // Scheme is not supported or no scheme is given, use openURL
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    @available(iOS 9.0, *)
+    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 

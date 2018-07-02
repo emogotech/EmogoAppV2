@@ -14,6 +14,10 @@ import Photos
 import IQKeyboardManagerSwift
 
 
+protocol ContentViewControllerDelegate {
+    func updateViewCount(count:String)
+}
+
 class ContentViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -24,6 +28,7 @@ class ContentViewController: UIViewController {
     @IBOutlet weak var btnAddToEmogo: UIButton!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var btnOther: UIButton!
 
     let cellIdentifier = "contentViewCell"
     var seletedImage:ContentDAO!
@@ -35,6 +40,8 @@ class ContentViewController: UIViewController {
     var isViewCount:String?
     var isFromAll:String?
     var isFromViewStream:Bool! = true
+    var delegate:ContentViewControllerDelegate?
+    var isProfile:String?
 
     
     override func viewDidLoad() {
@@ -54,10 +61,13 @@ class ContentViewController: UIViewController {
             }
         }
         
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        self.collectionView.addGestureRecognizer(swipeDown)
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.hideStatusBar()
         self.navigationController?.isNavigationBarHidden = true
         self.collectionView.reloadData()
         bottomToolBarView.backgroundColor = UIColor.clear
@@ -79,7 +89,9 @@ class ContentViewController: UIViewController {
     
     
     func updateContent(){
-        
+        btnOther.isHidden = false
+        self.btnLikeDislike.isHidden = false
+        btnOther.isHidden = false
         if currentIndex != nil {
             seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
         }
@@ -108,6 +120,11 @@ class ContentViewController: UIViewController {
             }
         }
         isFromViewStream = false
+     
+        if seletedImage.fileName == "SreamCover" {
+            self.btnLikeDislike.isHidden = true
+            btnOther.isHidden = true
+        }
     }
     
     func deeplinkHandle(){
@@ -151,34 +168,35 @@ class ContentViewController: UIViewController {
     
     
     @IBAction func btnShowReportListAction(_ sender: Any){
+        if seletedImage.isDelete {
+            self.showDelete()
+            return
+        }
         if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
             self.showReport()
-        }else {
-            if seletedImage.isDelete {
-                self.showDelete()
-            }
         }
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
         ContentList.sharedInstance.objStream = nil
+        if isProfile != nil  {
+            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
+            ContentList.sharedInstance.arrayContent = array
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func btnEditAction(_ sender: Any) {
         if self.seletedImage != nil {
-            if self.seletedImage.type == .image  || self.seletedImage.type == .video || self.seletedImage.type == .link {
-                if isEdit != nil {
+            if isEdit != nil {
+                performEdit()
+            }else {
+                if   ContentList.sharedInstance.arrayContent.count != 0 {
                     performEdit()
                 }else {
-                    if   ContentList.sharedInstance.arrayContent.count != 0 {
-                        performEdit()
-                    }else {
-                        self.showToast(type: .error, strMSG: kAlert_Edit_Image)
-                    }
+                    self.showToast(type: .error, strMSG: kAlert_Edit_Image)
                 }
             }
-            
         }
         
     }
@@ -206,6 +224,20 @@ class ContentViewController: UIViewController {
             self.present(composeVC, animated: true, completion: nil)
         }
     }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+                
+            case UISwipeGestureRecognizerDirection.down:
+              self.dismiss(animated: true, completion: nil)
+            break
+                
+            default:
+                break
+            }
+            }
+        }
     
     func composeMessage() -> MSMessage {
         let session = MSSession()
@@ -456,7 +488,7 @@ class ContentViewController: UIViewController {
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
                     if  ContentList.sharedInstance.arrayContent.count == 0 {
-                        self.navigationController?.pop()
+                        self.dismiss(animated: true, completion: nil)
                         return
                     }
                     self.currentIndex =  self.currentIndex - 1
@@ -464,10 +496,10 @@ class ContentViewController: UIViewController {
                 }else {
                     if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
                         ContentList.sharedInstance.arrayContent.remove(at: index)
-                        self.navigationController?.pop()
+                        self.dismiss(animated: true, completion: nil)
                     }
                     if self.isForEditOnly != nil {
-                        self.navigationController?.pop()
+                        self.dismiss(animated: true, completion: nil)
                     }
                 }
                 
@@ -484,26 +516,36 @@ class ContentViewController: UIViewController {
             if isSuccess == true {
                 if self.isEdit == nil {
                     ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
-                    if  ContentList.sharedInstance.arrayContent.count == 0 {
-                        self.navigationController?.pop()
-                        return
-                    }
+                   
                     self.currentIndex =  self.currentIndex - 1
+                    self.collectionView.reloadData()
                     self.updateCollectionView()
                 }else {
                     if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
                         ContentList.sharedInstance.arrayContent.remove(at: index)
-                        self.navigationController?.pop()
+                        self.dismiss(animated: true, completion: nil)
                     }
                     if self.isForEditOnly != nil {
-                        self.navigationController?.pop()
+                        self.dismiss(animated: true, completion: nil)
                     }
                     
                 }
                 
+               
+                if self.isViewCount != nil {
+                      NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+                }
+                
+                let array =  ContentList.sharedInstance.arrayContent.filter { $0.fileName != "SreamCover" }
+                
+                if  array.count == 0 {
+                    self.dismiss(animated: true, completion: nil)
+                }
+              
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
+
         }
     }
     
@@ -539,8 +581,10 @@ class ContentViewController: UIViewController {
     
     func apiForIncreaseViewCount(){
         if let streamID = ContentList.sharedInstance.objStream {
-            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
-                
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (count, _) in
+                if self.delegate != nil {
+                    self.delegate?.updateViewCount(count: count!)
+                }
             }
         }
         
@@ -687,6 +731,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
+       
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)

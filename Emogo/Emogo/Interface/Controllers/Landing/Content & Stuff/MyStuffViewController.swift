@@ -339,6 +339,8 @@ class MyStuffViewController: UIViewController {
                     print("Removed")
                 }
             }
+            ContentList.sharedInstance.arrayContent.removeAll()
+
             self.stuffCollectionView.reloadData()
         }
         
@@ -364,9 +366,10 @@ class MyStuffViewController: UIViewController {
                 self.lblNoResult.text  = "No Stuff Found"
                 self.lblNoResult.minimumScaleFactor = 1.0
                 self.lblNoResult.isHidden = false
-                self.btnNext.isHidden = true
             }
-            
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                self.btnNext.isHidden = false
+            }
             self.stuffCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -397,21 +400,26 @@ class MyStuffViewController: UIViewController {
         default:
             self.selectedType = .All
         }
+        stuffCollectionView.es.resetNoMoreData()
+        /*
+         // For Unselect Previous selected
         ContentList.sharedInstance.arrayContent.removeAll()
         for i in 0..<ContentList.sharedInstance.arrayStuff.count {
             let obj = ContentList.sharedInstance.arrayStuff[i]
             obj.isSelected = false
             ContentList.sharedInstance.arrayStuff[i] = obj
         }
+ */
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true
-        
+
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            self.btnNext.isHidden = false
+        }
         if array.count == 0  {
-            
             self.lblNoResult.isHidden = false
             self.lblNoResult.text = "No Stuff Found"
-            self.btnNext.isHidden = true
         }
         self.stuffCollectionView.reloadData()
     }
@@ -495,10 +503,15 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if ContentList.sharedInstance.arrayContent.count != 0 {
         let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
         objPreview.currentIndex = indexPath.row
-        let nav = UINavigationController(rootViewController: objPreview)
-        customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
-            
+            let nav = UINavigationController(rootViewController: objPreview)
+        let indexPath = IndexPath(row: indexPath.row, section: 0)
+        if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                nav.cc_swipeBackDisabled = true
+            }
+            self.present(nav, animated: true, completion: nil)
         }
+
         /*
         let content = array[indexPath.row]
         if content.type == .link{
@@ -568,6 +581,9 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }
         
+        let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+        ContentList.sharedInstance.arrayContent = tempArray
+        
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
@@ -575,8 +591,8 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }else {
             btnNext.isHidden = true
         }
-        
     }
+    
     
 }
 

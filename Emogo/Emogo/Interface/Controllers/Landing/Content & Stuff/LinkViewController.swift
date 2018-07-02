@@ -97,7 +97,7 @@ class LinkViewController: UIViewController {
     
     
     func smartURLFetchData(){
-        if let smartUrl = txtLink.text?.trim().smartURL() {
+        if let smartUrl = txtLink.text?.stringByAddingPercentEncodingForURLQueryParameter()?.trim().smartURL() {
             if Validator.verifyUrl(urlString: smartUrl.absoluteString) {
                 HUDManager.sharedInstance.showHUD()
                 let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
@@ -180,7 +180,7 @@ class LinkViewController: UIViewController {
                             onError: {
                                 error in print("\(error)")
                                 HUDManager.sharedInstance.hideHUD()
-                                self.showToast(strMSG: error.localizedDescription )
+                                self.showToast(strMSG: "Enter valid url.")
                 })
                 
             }else{
@@ -282,6 +282,8 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
         cell.prepareLayout(content:content)
+        cell.btnSelect.tag = indexPath.row
+        cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
         return cell
     }
     
@@ -293,21 +295,23 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let cell = self.linkCollectionView.cellForItem(at: indexPath) {
-            let content = ContentList.sharedInstance.arrayLink[indexPath.row]
-            content.isSelected = !content.isSelected
-            ContentList.sharedInstance.arrayLink[indexPath.row] = content
-            if content.isSelected {
-                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
-            }else {
-                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+        ContentList.sharedInstance.arrayContent = ContentList.sharedInstance.arrayLink
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            objPreview.currentIndex = indexPath.row
+            let nav = UINavigationController(rootViewController: objPreview)
+            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            if let imageCell = collectionView.cellForItem(at: indexPath) as? LinkListCell {
+                nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                nav.cc_swipeBackDisabled = true
             }
-            self.updateSelected(obj: content)
+            self.present(nav, animated: true, completion: nil)
         }
         
     }
     
     func updateSelected(obj:ContentDAO){
+        
         if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent.remove(at: index)
         }else {
@@ -315,7 +319,28 @@ extension LinkViewController:UICollectionViewDelegate,UICollectionViewDataSource
                 ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
             }
         }
+        
+        let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+        ContentList.sharedInstance.arrayContent = tempArray
+        
     }
+    
+    @objc func btnSelectAction(button : UIButton)  {
+        let index   =   button.tag
+        let indexPath   =   IndexPath(item: index, section: 0)
+        if let cell = self.linkCollectionView.cellForItem(at: indexPath) {
+            let content = ContentList.sharedInstance.arrayLink[indexPath.row]
+            content.isSelected = !content.isSelected
+            if content.isSelected {
+                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
+            }else {
+                (cell as! LinkListCell).imgSelect.image = #imageLiteral(resourceName: "select_unactive_icon")
+            }
+            self.updateSelected(obj: content)
+        }
+    }
+    
+    
     
 }
 

@@ -92,6 +92,7 @@ class SettingViewController: UIViewController {
         self.title = "Settings"
     }
     
+ 
     //MARK: button actions
     
     @objc func btnCloseAction(){
@@ -101,6 +102,7 @@ class SettingViewController: UIViewController {
     //MARK:- button logout action
     
     @IBAction func btnLogoutAction(_ sender: Any) {
+      
         self.btnLogoutAction()
     }
     
@@ -112,6 +114,7 @@ class SettingViewController: UIViewController {
         }else{
             switchHaptic.isOn = false
             self.isHapticFeedback = false
+          
             kDefault?.set(false, forKey: kHapticFeedback)
         }
         
@@ -134,6 +137,7 @@ class SettingViewController: UIViewController {
                     self.logout()
                 }else {
                     self.showToast(strMSG: errorMsg!)
+                 
                 }
             }
             

@@ -98,7 +98,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             else if splitArr.last == kDeepLinkTypeAddContent as String {
                  SharedData.sharedInstance.streamID = splitArr[3]
                 return setTypeOfViewController(objType: kDeepLinkTypeAddContent)
-            }else if splitArr.last == kDeepLinkTypeEditStream as String {
+            }
+            else if splitArr.last == kDeepLinkMyStreamView as String {
+                SharedData.sharedInstance.streamID = splitArr[3]
+                return setTypeOfViewController(objType: kDeepLinkMyStreamView)
+            }
+           else if splitArr.last == kDeepLinkTypeEditStream as String {
                 SharedData.sharedInstance.streamID = splitArr[3]
                 return setTypeOfViewController(objType: kDeepLinkTypeEditStream)
             } else if splitArr.last == kDeepLinkTypeEditContent as String{
@@ -134,6 +139,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeEditContent
         } else if objType == kDeepLinkTypeShareAddContent {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareAddContent
+        } else if objType == kDeepLinkMyStreamView {
+            SharedData.sharedInstance.deepLinkType = kDeepLinkMyStreamView
         }
         else if objType == kDeepLinkTypeShareMessage {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareMessage

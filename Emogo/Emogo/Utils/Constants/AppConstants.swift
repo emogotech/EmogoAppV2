@@ -27,6 +27,7 @@ let kStoryboardPhotoEditor               = UIStoryboard(name: "ImageEditor", bun
 let kPhoneFormat                         = "##########"
 
 let kNavigationColor = UIColor(red: 247.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+let kCardViewBordorColor = UIColor(red: 0.0/255.0, green: 122.0/255.0, blue: 255.0/255.0, alpha: 1.0)
 
 let kaddStreamSwitchOffColor = UIColor(red: 219.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
 let kaddStreamSwitchOnColor = UIColor(red: 0, green: 173/255.0, blue: 243/255.0, alpha: 1.0)
@@ -100,6 +101,9 @@ let kStoryboardID_NotesView = "notesView"
 let kStoryboardID_CreateStreamView = "createStreamView"
 let kStoryboardID_EditStreamView = "editStreamView"
 let kStoryboardID_AddCollabView = "addCollabView"
+let kStoryboardID_MLFiltersView = "mlFiltersView"
+
+
 
 
 let iMsgSegue_Root                              = "MessagesViewController"
@@ -116,10 +120,11 @@ let iMsgSegue_Collaborator                      = "CollaboratorViewController"
 let iMsgSegue_HomeCollection                    = "HomeCollectionViewCell"
 let iMgsSegue_StreamCollection                  = "StreamCollectionViewCell"
 let iMgsSegue_HomeCollectionReusableV           = "HomeCollectionReusableView"
-let iMgsSegue_CollaboratorCollectionCell          = "CollaboratorCollectionViewCell"
+let iMgsSegue_CollaboratorCollectionCell        = "CollaboratorCollectionViewCell"
 let iMsgSegue_HomeCollectionPeople              = "PeopleSearchCollectionViewCells"
 
-let iMsgSegue_CollectionReusable_Footer        = "CustomFooterView"
+let iMsgSegue_CollectionReusable_Footer         = "CustomFooterView"
+
 
 
 // MARK: - Cell's  and NIB's Identifier
@@ -149,6 +154,7 @@ let kSegue_AddCollaboratorsView = "addColabSegue"
 let kSegue_ContainerSegue = "containerSegue"
 let kCell_AddCollabView = "addCollabCell"
 let kCell_StreamContent = "streamContent"
+let kLikeStreamList_Cell = "likeStreamListCell"
 
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"
@@ -177,6 +183,7 @@ let kUserDefaltForContentData = "editContentData"
 let kSearchType = "PEOPLE"
 let kCollaobatorList = "Collaborator List"
 let kDeeplinkOpenUserProfile = "DeeplinkUserProfile"
+let kDeepLinkMyStreamView = "DeepLinkMyStream"
 
 // MARK: -  Enums Alert
 enum AlertType: String {
@@ -236,7 +243,7 @@ let kAlertSheet_Spam = "It's Spam"
 let kAlertDelete_Content = "Delete"
 let kAlertSheet_Inappropiate = "It's inappropiate"
 let kAlertSheet_SaveToGallery = "Save To Gallery"
-let kAlertSheet_SaveToMyStuff = "Save To MyStuff"
+let kAlertSheet_SaveToMyStuff = "Save to My stuff"
 let kAlertSheet_TakePhoto = "Take photo"
 let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
 

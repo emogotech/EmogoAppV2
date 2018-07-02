@@ -188,6 +188,53 @@ extension UIView {
     
 }
 
+extension UIView {
+    
+    // OUTPUT 1
+    func dropShadow(scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: -1, height: 1)
+        layer.shadowRadius = 1
+        
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+    
+    // OUTPUT 2
+    func dropShadow(color: UIColor, opacity: Float = 0.5, offSet: CGSize, radius: CGFloat = 1, scale: Bool = true) {
+        layer.masksToBounds = false
+        layer.shadowColor = color.cgColor
+        layer.shadowOpacity = opacity
+        layer.shadowOffset = offSet
+        layer.shadowRadius = radius
+        
+        layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+    }
+    
+    func updateShadow(){
+        self.layer.cornerRadius = 5.0
+        self.layer.borderColor  =  UIColor.clear.cgColor
+        self.layer.borderWidth = 5.0
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowColor =  kNavigationColor.cgColor
+        self.layer.shadowRadius = 5.0
+        self.layer.shadowOffset = CGSize(width:5, height: 5)
+        layer.masksToBounds = false
+    }
+    func removeShadow(){
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowColor = UIColor.clear.cgColor
+        layer.cornerRadius = 0.0
+        layer.shadowRadius = 0.0
+        layer.shadowOpacity = 0.0
+    }
+}
+
 // MARK: - String
 extension String {
     
@@ -396,9 +443,22 @@ extension UIButton {
     
 }
 
-// MARK: - UIButton
+// MARK: - UIViewController
 
 extension UIViewController {
+    
+    
+    func dismissWithAnimation(handler : @escaping (() -> Void)) {
+        let transition: CATransition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        transition.type = kCATransitionFade
+        transition.subtype = kCATransitionFromBottom
+        self.view.window!.layer.add(transition, forKey: nil)
+        self.dismiss(animated: false) {
+            handler()
+        }
+    }
     
     func hideStatusBar(){
         UIApplication.shared.isStatusBarHidden = true
@@ -790,6 +850,7 @@ extension UINavigationController {
         self.view.layer.add(animation, forKey: "AnimationFromBottomToTop")
         self.popViewController(animated: false)
     }
+   
 }
 
 
@@ -938,6 +999,19 @@ extension UIImage {
         //        let str = bcf.string(fromByteCount: Int64(data.count))
         //        print("formatted result: \(str)")
     }
+    
+    func fixOrientation() -> UIImage {
+        // No-op if the orientation is already correct
+        print(self.imageOrientation.rawValue)
+        var imageToDisplay  = self
+        if self.imageOrientation == UIImageOrientation.up {
+            print("UP")
+            return imageToDisplay
+        }
+        imageToDisplay = UIImage(cgImage: imageToDisplay.cgImage! , scale: imageToDisplay.scale, orientation: .up)
+        return imageToDisplay
+    }
+    
     
     func resize(targetSize:CGSize) -> UIImage {
         // Figure out what our orientation is, and use that to form the rectangle
@@ -1306,3 +1380,19 @@ public extension UIDevice {
 }
 
 
+extension UICollectionView {
+    func scrollToNextItem() {
+        let contentOffset = CGFloat(floor(self.contentOffset.x + self.bounds.size.width))
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+    
+    func scrollToPreviousItem() {
+        let contentOffset = CGFloat(floor(self.contentOffset.x - self.bounds.size.width))
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+    
+    func moveToFrame(contentOffset : CGFloat) {
+        let frame: CGRect = CGRect(x: contentOffset, y: self.contentOffset.y , width: self.frame.width, height: self.frame.height)
+        self.scrollRectToVisible(frame, animated: true)
+    }
+}

@@ -9,7 +9,7 @@
 import UIKit
 import MessageUI
 import Messages
-import URLEmbeddedView
+import SwiftLinkPreview
 
 class PreviewController: UIViewController {
     
@@ -30,8 +30,13 @@ class PreviewController: UIViewController {
     @IBOutlet weak var btnAddStream: UIButton!
     @IBOutlet weak var kWidth: NSLayoutConstraint!
     @IBOutlet weak var btnAddMore: UIButton!
-    @IBOutlet weak var viewLinkPreview: URLEmbeddedView!
+    @IBOutlet weak var viewLinkPreview: CardView!
     @IBOutlet weak var kLinkPreviewHieght: NSLayoutConstraint!
+    @IBOutlet weak var lblURL: UILabel!
+    @IBOutlet weak var lblLinkTitle: UILabel!
+    @IBOutlet weak var lblLinkDescription: UILabel!
+    @IBOutlet weak var imgLogo: FLAnimatedImageView!
+    @IBOutlet weak var kLinkLogoWidth: NSLayoutConstraint!
 
     
     // MARK: - Variables
@@ -81,6 +86,7 @@ class PreviewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.btnShareAction.addShadow()
+        self.viewLinkPreview.layer.borderWidth = 1.0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -201,19 +207,30 @@ class PreviewController: UIViewController {
         
         // Preview Footer
         self.previewCollection.reloadData()
-        self.btnDone.isHidden = false
         if ContentList.sharedInstance.objStream != nil {
             self.btnDone.isHidden = true
         }
         
         self.imgPreview.contentMode = .scaleAspectFit
-        self.btnShareAction.isHidden = true
        // kWidth.constant = 0.0
         kLinkPreviewHieght.constant = 0.0
+        /*
         if self.isShowRetake != nil  {
             self.btnShareAction.isHidden = false
           //  kWidth.constant = 50.0
         }
+        if self.seletedImage != nil {
+            if self.seletedImage.type == .link {
+                self.btnShareAction.isHidden = false
+                self.btnDone.isHidden = true
+            }else {
+                self.btnShareAction.isHidden = true
+                self.btnDone.isHidden = true
+            }
+        }
+         */
+
+      
       
     }
     
@@ -319,6 +336,7 @@ class PreviewController: UIViewController {
     }
     
     func preparePreview(index:Int) {
+        self.btnShareAction.isHidden = true
         self.txtTitleImage.text = ""
         txtDescription.text = ""
         self.selectedIndex = index
@@ -407,35 +425,37 @@ class PreviewController: UIViewController {
                 self.txtDescription.isHidden = true
             }
         }
+       
         self.changeButtonAccordingSwipe(selected: seletedImage)
         viewLinkPreview.isHidden = true
          kLinkPreviewHieght.constant = 0.0
         if self.seletedImage.type == .link {
             if !self.seletedImage.coverImage.isEmpty {
-                print(self.seletedImage.coverImage)
-                 kLinkPreviewHieght.constant = 120.0
-                if let fontTitle = UIFont(name: kFontMedium, size: 12.0), let fontDescription = UIFont(name: kFontRegular, size: 10.0), let urlFont = UIFont(name: kFontRegular, size: 10.0) {
-                    
-                    self.viewLinkPreview.textProvider[.title].font = fontTitle
-                    viewLinkPreview.textProvider[.description].font = fontDescription
-                    viewLinkPreview.textProvider[.domain].font = urlFont
-                }
-                viewLinkPreview.isHidden = false
-                viewLinkPreview.borderWidth = 0.5
-                 viewLinkPreview.borderColor = UIColor(r: 0, g: 122, b: 255)
-                viewLinkPreview.textProvider[.title].fontColor = UIColor(r: 74, g: 74, b: 74)
-                viewLinkPreview.textProvider[.description].fontColor = UIColor(r: 74, g: 74, b: 74)
-                viewLinkPreview.textProvider[.domain].fontColor = UIColor(r: 0, g: 122, b: 255)
-                viewLinkPreview.textProvider[.title].numberOfLines = 2
-                viewLinkPreview.textProvider[.description].numberOfLines = 5
-                viewLinkPreview.loadURL(self.seletedImage.coverImage)
-                
+                self.smartURLFetchData()
             }
         }
         if self.seletedImage.type == .notes {
             self.txtTitleImage.isHidden = true
             self.txtDescription.isHidden = true
         }
+        if self.seletedImage.isUploaded {
+            
+            self.btnShareAction.isHidden = true
+            self.btnDone.isHidden = true
+        }else {
+            self.btnAddStream.isHidden = false
+            self.btnDone.isHidden = false
+        }
+        if  self.seletedImage.type == .link {
+            self.btnShareAction.isHidden = false
+        }
+       
+        if self.seletedImage.type == .link && self.seletedImage.isUploaded && self.seletedImage.imgPreview != nil {
+            self.btnDone.isHidden = false
+            self.btnAddStream.isHidden = true
+        }
+        
+      
      }
     
     
@@ -473,7 +493,14 @@ class PreviewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+    @IBAction func linkPrevewAction(_ sender: Any) {
+        if seletedImage.type == .link {
+            guard let url = URL(string: seletedImage.coverImage) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+        }
+    }
     @IBAction func btnAddMoreAction(_ sender: Any) {
         
         kDefault?.removeObject(forKey: kRetakeIndex)
@@ -579,12 +606,19 @@ class PreviewController: UIViewController {
     @IBAction func btnDoneAction(_ sender: Any) {
         self.view.endEditing(true)
         btnAddStream.isUserInteractionEnabled = false
+        if self.seletedImage.type == .link && self.seletedImage.isUploaded && self.seletedImage.imgPreview != nil {
+            self.uploadFile()
+            return
+        }
+        
         if ContentList.sharedInstance.arrayContent.count != 0 {
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
-            HUDManager.sharedInstance.showProgress()
-            
-            let arrayC = [String]()
-            AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            if array.count != 0 {
+                HUDManager.sharedInstance.showProgress()
+                let arrayC = [String]()
+                AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
+            }
+        
             self.imgPreview.image = nil
             self.resetLayout()
             ContentList.sharedInstance.arrayContent.removeAll()
@@ -780,23 +814,20 @@ class PreviewController: UIViewController {
     
     func uploadFile(){
         // Create a object array to upload file to AWS
-        var type:String! = "Picture"
-        if !self.seletedImage.isUploaded  {
-            HUDManager.sharedInstance.showProgress()
-            if seletedImage.type == .video {
-                type = "Video"
-                AWSRequestManager.sharedInstance.prepareVideoToUpload(name: seletedImage.fileName, thumbImage: seletedImage.imgPreview, videoURL: seletedImage.fileUrl!, completion: { (strThumb,strVideo,error) in
-                    if error == nil {
-                        self.addContent(fileUrl: strVideo!, type: type, fileUrlVideo: strThumb!)
-                    }
-                })
-                
-            }else if seletedImage.type == .image {
+            if  seletedImage.type == .link {
+                HUDManager.sharedInstance.showHUD()
                 AWSRequestManager.sharedInstance.imageUpload(image: seletedImage.imgPreview!, name: seletedImage.fileName!, completion: { (fileURL, error) in
-                    self.addContent(fileUrl: fileURL!, type: type, fileUrlVideo:"")
+                    if let fileURL = fileURL {
+                        DispatchQueue.main.async {
+                             self.updateContent(coverImage: self.seletedImage.coverImage, coverVideo: fileURL, type: self.seletedImage.type.rawValue, width: Int((self.seletedImage.imgPreview?.size.width)!), height: Int((self.seletedImage.imgPreview?.size.height)!))
+                        }
+                       
+                    }else {
+                        HUDManager.sharedInstance.hideHUD()
+                    }
+                    
                 })
             }
-        }
     }
     
     func addContent(fileUrl:String,type:String,fileUrlVideo:String){
@@ -807,6 +838,23 @@ class PreviewController: UIViewController {
                     self.showToast(type: .success, strMSG: kAlert_Content_Added)
                 }
                 self.modifyObjects(contents: contents!)
+            }else {
+                self.showToast(strMSG: errorMsg!)
+            }
+        }
+    }
+    
+    func updateContent(coverImage:String,coverVideo:String, type:String,width:Int,height:Int){
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: self.seletedImage.contentID, contentName: (txtTitleImage.text?.trim())!, contentDescription: txtDescription.text!, coverImage: coverImage, coverImageVideo: coverVideo, coverType: type, width: width, height: height) { (content, errorMsg) in
+            HUDManager.sharedInstance.hideHUD()
+            if (errorMsg?.isEmpty)! {
+                
+                if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
+                    self.seletedImage = content
+                    ContentList.sharedInstance.arrayContent[index] = content!
+                }
+                self.btnAddStream.isHidden = false
+                self.btnDone.isHidden = true
             }else {
                 self.showToast(strMSG: errorMsg!)
             }
@@ -871,6 +919,76 @@ class PreviewController: UIViewController {
         //                }
         //            })
         //        }
+        
+    }
+    
+    func smartURLFetchData(){
+        let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: InMemoryCache.init())
+        
+        slp.preview(self.seletedImage.coverImage,
+                    onSuccess: { result in
+                        print(result)
+                        debugPrint(result)
+                        if let title = result[SwiftLinkResponseKey.title] {
+                            self.lblLinkTitle.text = title as? String
+                        }
+                        if let url = result[SwiftLinkResponseKey.canonicalUrl] {
+                            self.lblURL.text = url as? String
+                        }
+                        
+                        if let description = result[SwiftLinkResponseKey.description] {
+                            self.lblLinkDescription.text = description as? String
+                        }
+                        
+                        let imageUrl = result[SwiftLinkResponseKey.image]
+                        var imgUrl:String! = ""
+
+                        if let imageUrl = imageUrl {
+                            //                                    imgUrl = imageUrl as! String
+                            if let arrStr = imageUrl as? [String] {
+                                imgUrl = arrStr.first
+                            }else if let str = imageUrl as? String {
+                                imgUrl = str
+                            }
+                            
+                        }
+                        if imgUrl.isEmpty {
+                            let imageUrl1 = result[SwiftLinkResponseKey.icon]
+                            if let imageUrl = imageUrl1 {
+                                imgUrl = imageUrl as! String
+                            }
+                        }
+                        if imgUrl.isEmpty {
+                            let imageUrl1 = result[SwiftLinkResponseKey.images]
+                            if let imageUrl = imageUrl1 {
+                                let arrayImages:[Any] = imageUrl as! [Any]
+                                if arrayImages.count != 0 {
+                                    imgUrl = arrayImages[0] as! String
+                                }
+                            }
+                        }
+                        
+                        if imgUrl.isEmpty {
+                            let imageUrl1 = result[SwiftLinkResponseKey.finalUrl]
+                            let url:String = (imageUrl1 as! URL).absoluteString.trim().slice(from: "?imgurl=", to: "&imgrefurl")!
+                            //print(url)
+                            imgUrl = url
+                        }
+                        self.kLinkLogoWidth.constant = 120.0
+                        
+                        if imgUrl.isEmpty {
+                            self.kLinkLogoWidth.constant = 0.0
+                        }
+                        self.imgLogo.setForAnimatedImage(strImage: imgUrl)
+                        self.kLinkPreviewHieght.constant = 120.0
+                        self.viewLinkPreview.isHidden = false
+        },
+                    onError: {
+                        
+                        error in print("\(error)")
+                         self.kLinkPreviewHieght.constant = 0.0
+                        self.viewLinkPreview.isHidden = true
+        })
         
     }
     /*

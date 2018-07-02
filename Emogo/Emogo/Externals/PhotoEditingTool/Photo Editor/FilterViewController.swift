@@ -21,6 +21,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var filterViewButton: UIStackView!
     @IBOutlet weak var filterSlider: UISlider!
     @IBOutlet weak var gradientButton: UIButton!
+    @IBOutlet weak var btnMLEffects: UIButton!
     @IBOutlet weak var filterButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
     @IBOutlet weak var canvasView: UIView!
@@ -50,18 +51,7 @@ class FilterViewController: UIViewController {
     var filterDelegate:FilterViewControllerDelegate?
     var images = [Filter]()
     
-    
-    let filters: [PMFilter] = [
-        MosaicFilter(),
-        TheScreamFilter(),
-        LaMuseFilter(),
-        UdnieFilter(),
-        CandyFilter(),
-        FeathersFilter(),
-        ]
-    
-    var renderedFilterBuffer: [String: ImageBuffer] = [:]
-    var imageBuffer: ImageBuffer?
+  
     var isLoaded:String? = nil
     let deviceName = UIDevice.current.modelName
     
@@ -70,6 +60,7 @@ class FilterViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        self.prepareDummyDataForFilter()
         self.prepareLayout()
     }
     
@@ -84,13 +75,8 @@ class FilterViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    
         self.setImageView(image: image!)
-        if isLoaded != nil {
-            isLoaded = nil
-            self.perform(#selector(self.prepareDummyDataForFilter), with: self, afterDelay: 0.2)
-
-        }
+    
     }
     
     func prepareLayout(){
@@ -148,26 +134,7 @@ class FilterViewController: UIViewController {
         print(self.canvasView.frame)
     }
     
-    func prepareGradientFilter(){
-        if let image = self.imageToFilter {
-            let resizedImage = image.resize(to: CGSize(width: 720, height: 720))
-            imageBuffer = resizedImage.buffer()
-            loadRenderedImages()
-        }
-    }
-    
-    private func loadRenderedImages() {
-        renderedFilterBuffer.removeAll()
-        guard let buffer = imageBuffer else {
-            return
-        }
-        filters.forEach { (filter) in
-            if let filteredBuffer = filter.render(from: buffer) {
-                renderedFilterBuffer[filter.name] = filteredBuffer
-            }
-        }
-    }
-    
+  
     func updateImageView(image:UIImage?, index:Int? = nil) {
         if let index = index {
             DispatchQueue.global(qos: .default).async {
@@ -175,8 +142,6 @@ class FilterViewController: UIViewController {
                 let obj = self.images[index]
               
                 let value:String = obj.key
-                let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-                let hasNumbers = (numbersRange != nil)
                 if value.contains(".png") {
                     if let frontImage = UIImage(named: value) {
                         let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
@@ -189,26 +154,7 @@ class FilterViewController: UIViewController {
                             }
                         })
                     }
-                }else if hasNumbers {
-                    
-                    let filter = self.filters[index]
-                    print("Core Ml Images")
-                    if let buffer = self.renderedFilterBuffer[filter.name] {
-                        self.imageBuffer = buffer
-                    }
-                    if self.imageBuffer != nil {
-                        let filterImage = UIImage(imageBuffer: self.imageBuffer!)
-                        obj.icon = filterImage
-                        self.imageGradientFilter = filterImage
-                        DispatchQueue.main.async(execute: {() -> Void in
-                            self.images[index] = obj
-                            if let image = self.imageGradientFilter {
-                                self.canvasImageView.image = image.resize(to: (self.imageToFilter?.size)!)
-                            }
-                        })
-                    }
-                    
-                }else {
+                } else {
                     let filterImage  = self.image?.createFilteredImage(filterName: value)
                     obj.icon = filterImage
                     self.imageGradientFilter = filterImage
@@ -219,7 +165,6 @@ class FilterViewController: UIViewController {
                         }
                     })
                 }
-                
             }
         }
        
@@ -257,9 +202,7 @@ class FilterViewController: UIViewController {
         self.filterButton.setImage(#imageLiteral(resourceName: "image-effect-icon"), for: .normal)
         self.gradientButton.setImage(#imageLiteral(resourceName: "color_icon_inactive"), for: .normal)
         self.imageGradientFilter = nil
-        DispatchQueue.global(qos: .background).async {
-            self.prepareDummyDataForFilter()
-        }
+        self.prepareDummyDataForFilter()
     }
     @objc func actionForCancelButton() {
         self.isFilterSelected = false
@@ -288,10 +231,19 @@ class FilterViewController: UIViewController {
                             if let value = obj["value"], let name = obj["name"] {
                                 let filter = Filter(icon: nil, name: name)
                                 filter.key = value
+                                if value.contains(".png") {
+                                    if let frontImage = UIImage(named: value) {
+                                        let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
+                                        filter.icon = filterImage
+                                    }
+                                } else {
+                                    let filterImage  = self.image?.createFilteredImage(filterName: value)
+                                    filter.icon = filterImage
+                                }
+                                
                                 self.images.append(filter)
                             }
                         }
-                        self.prepareGradientFilter()
                         DispatchQueue.main.async {
                             self.gradientCollectionView.reloadData()
                         }
@@ -306,8 +258,6 @@ class FilterViewController: UIViewController {
             // Get Image
             var objFilter:Filter?
             let value:String = obj.key
-            let numbersRange = value.rangeOfCharacter(from: .decimalDigits)
-            let hasNumbers = (numbersRange != nil)
             if value.contains(".png") {
                 if let frontImage = UIImage(named: value) {
                     let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
@@ -315,20 +265,7 @@ class FilterViewController: UIViewController {
                       objFilter?.key = value
                     completionHandler(objFilter)
                 }
-            }else if hasNumbers {
-                
-                let filter = self.filters[index]
-                if let buffer = self.renderedFilterBuffer[filter.name] {
-                    self.imageBuffer = buffer
-                }
-                if self.imageBuffer != nil {
-                    let filterImage = UIImage(imageBuffer: self.imageBuffer!)
-                    objFilter = Filter(icon: filterImage, name: obj.iconName)
-                    objFilter?.key = value
-                    completionHandler(objFilter)
-                }
-                
-            }else {
+            } else {
                 let filterImage  = self.image?.createFilteredImage(filterName: value)
                  objFilter = Filter(icon: filterImage, name: obj.iconName)
                  objFilter?.key = value

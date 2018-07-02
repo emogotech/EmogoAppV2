@@ -25,13 +25,62 @@ extension StreamListViewController: ZoomTransitionSourceDelegate {
     }
     
     func transitionSourceDidEnd() {
-        selectedImageView?.isHidden = true
+        selectedImageView?.isHidden = false
     }
     
     func transitionSourceDidCancel() {
-        selectedImageView?.isHidden = true
+        selectedImageView?.isHidden = false
     }
 }
+
+extension ProfileViewController: ZoomTransitionSourceDelegate {
+    
+    func transitionSourceImageView() -> UIImageView {
+        return selectedImageView ?? UIImageView()
+    }
+    
+    func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
+        guard let selectedImageView = selectedImageView else { return CGRect.zero }
+        return selectedImageView.convert(selectedImageView.bounds, to: view)
+    }
+    
+    func transitionSourceWillBegin() {
+        selectedImageView?.isHidden = true
+    }
+    
+    func transitionSourceDidEnd() {
+        selectedImageView?.isHidden = false
+    }
+    
+    func transitionSourceDidCancel() {
+        selectedImageView?.isHidden = false
+    }
+}
+
+extension ViewProfileViewController: ZoomTransitionSourceDelegate {
+    
+    func transitionSourceImageView() -> UIImageView {
+        return selectedImageView ?? UIImageView()
+    }
+    
+    func transitionSourceImageViewFrame(forward: Bool) -> CGRect {
+        guard let selectedImageView = selectedImageView else { return CGRect.zero }
+        return selectedImageView.convert(selectedImageView.bounds, to: view)
+    }
+    
+    func transitionSourceWillBegin() {
+        selectedImageView?.isHidden = true
+    }
+    
+    func transitionSourceDidEnd() {
+        selectedImageView?.isHidden = false
+    }
+    
+    func transitionSourceDidCancel() {
+        selectedImageView?.isHidden = false
+    }
+}
+
 
 extension ViewStreamController: ZoomTransitionDestinationDelegate {
     

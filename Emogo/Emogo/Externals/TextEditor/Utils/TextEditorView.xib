@@ -29,7 +29,7 @@
                                         <constraint firstAttribute="height" constant="40" id="Pyf-b7-gWe"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="17"/>
-                                    <state key="normal" title="Select Font">
+                                    <state key="normal" title="SFProDisplay">
                                         <color key="titleColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
@@ -63,18 +63,30 @@
                                         <constraint firstAttribute="height" constant="11" id="Jp7-XL-OWt"/>
                                     </constraints>
                                 </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k99-4b-rkB">
+                                    <rect key="frame" x="275" y="0.0" width="92" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="isK-A8-GCf"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="btnActionForSelectFont:" destination="iN0-l3-epB" eventType="touchUpInside" id="fUl-tL-WDh"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="dGW-BJ-Wds" firstAttribute="centerX" secondItem="i7P-LS-5Df" secondAttribute="centerX" id="2BX-8b-c27"/>
                                 <constraint firstItem="dGW-BJ-Wds" firstAttribute="top" secondItem="i7P-LS-5Df" secondAttribute="top" id="708-w7-aH1"/>
+                                <constraint firstAttribute="trailing" secondItem="k99-4b-rkB" secondAttribute="trailing" constant="8" id="9zA-Ni-cFO"/>
                                 <constraint firstItem="jei-cv-PcY" firstAttribute="top" secondItem="i7P-LS-5Df" secondAttribute="top" constant="17" id="ATs-gE-Wwb"/>
                                 <constraint firstAttribute="height" constant="40" id="D4e-kb-Ds6"/>
                                 <constraint firstItem="qBH-gM-OAS" firstAttribute="top" secondItem="i7P-LS-5Df" secondAttribute="top" constant="11" id="Nj8-a6-oSs"/>
+                                <constraint firstItem="k99-4b-rkB" firstAttribute="leading" secondItem="dGW-BJ-Wds" secondAttribute="trailing" constant="8" id="TVq-hn-oEM"/>
                                 <constraint firstAttribute="trailing" secondItem="jei-cv-PcY" secondAttribute="trailing" constant="17" id="UIe-Vb-bZo"/>
                                 <constraint firstItem="2iV-lU-DVa" firstAttribute="leading" secondItem="qBH-gM-OAS" secondAttribute="leading" id="Yxg-BO-90W"/>
                                 <constraint firstItem="2iV-lU-DVa" firstAttribute="top" secondItem="qBH-gM-OAS" secondAttribute="bottom" id="ca4-Ye-m6d"/>
                                 <constraint firstItem="qBH-gM-OAS" firstAttribute="leading" secondItem="i7P-LS-5Df" secondAttribute="leading" constant="17" id="i41-kk-fJs"/>
+                                <constraint firstItem="k99-4b-rkB" firstAttribute="top" secondItem="i7P-LS-5Df" secondAttribute="top" id="qiO-lS-imb"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W1s-BR-f8r">

@@ -38,10 +38,10 @@ class ProfileStreamCell: UICollectionViewCell {
             self.imgAdd.isHidden =  true
             //   self.imgCover.backgroundColor = .black
             self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
-            self.lblTitle.text = stream.Title.trim().capitalized
+            self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
             self.accessibilityLabel =   stream.Title.trim()
-            self.lblName.text =  "by \(stream.Author.trim().capitalized)"
+            self.lblName.text =  "by \(stream.Author.trim())"
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
             btnEdit.isHidden = true
             if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {

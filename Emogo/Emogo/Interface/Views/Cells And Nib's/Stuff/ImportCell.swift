@@ -63,6 +63,7 @@ class GiphyCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
+    @IBOutlet weak var btnSelect: UIButton!
     
     override func prepareForReuse() {
         super.prepareForReuse()

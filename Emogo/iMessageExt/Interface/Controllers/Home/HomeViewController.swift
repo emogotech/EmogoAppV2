@@ -30,9 +30,11 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     @IBOutlet weak var btnFeature               : UIButton!
     @IBOutlet weak var btnSearchHeader          : UIButton!
     
+    @IBOutlet weak var kHeightViewSegment: NSLayoutConstraint!
     @IBOutlet weak var btnStreamSearch          : UIButton!
     @IBOutlet weak var btnPeopleSearch          : UIButton!
     
+    @IBOutlet weak var viewSegment: UIView!
     @IBOutlet weak var kViewSearchButtonHeight  : NSLayoutConstraint!
     
     @IBOutlet weak var lblNoResult              : UILabel!
@@ -40,6 +42,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     @IBOutlet weak var lblPeopleSearch          : UILabel!
     @IBOutlet weak var viewSearchButton         : UIView!
     @IBOutlet weak var kWidthCancel: NSLayoutConstraint!
+    
     // MARK: - Varibales
     var hudView                                 : LoadingView!
     var hudRefreshView                          : LoadingView!
@@ -59,26 +62,29 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     var lastSelectedType:StreamType! = StreamType.featured
     var segmentHeader:MyStreamSegmentHeaderView!
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
-    var selectedType:StreamType! = StreamType.Public
+  //  var selectedType:StreamType! = StreamType.Public
     let kSearchHeight = 60.0
     
    // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
    // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
     fileprivate let arrImages = ["MyStreamsDeselected","PopularDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
     fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
+
     
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupLoader()
-        setupAnchor()
+        //setupAnchor()
         
         viewSearchButton.isHidden = true
         kSearchViewHeight.constant = 0.0
         kViewSearchButtonHeight.constant = 0.0
         self.kSearchViewHeight.constant = 0.0
         kWidthCancel.constant = 0.0
+        self.viewSegment.isHidden = true
+        self.kHeightViewSegment.constant = 0.0
         
         SharedData.sharedInstance.tempViewController = self
         self.perform(#selector(prepareLayout), with: nil, afterDelay: 0.01)
@@ -114,22 +120,28 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     
     @objc func reloadStreamData(){
         if !isSearch {
-            
+            if SharedData.sharedInstance.iMessageNavigation == "viewStream" {
+                self.viewSegment.isHidden = false
+                self.kHeightViewSegment.constant =  33.0
+            }
+                self.changePager()
+          }
             //self.getStreamList(type:.start,filter:self.streamType)
-            self.changePager()
-        }
+        
     }
     //MARK:- Configure Stream Header
     
     func configureStreamHeader() {
-        
+        self.viewSegment.isHidden = false
+        self.kHeightViewSegment.constant = 33.0
         let nibViews = Bundle.main.loadNibNamed("MyStreamSegmentHeaderView", owner: self, options: nil)
         self.segmentHeader = nibViews?.first as! MyStreamSegmentHeaderView 
-        self.collectionStream.addSubview(self.segmentHeader)
+        self.viewSegment.addSubview(self.segmentHeader)
         self.segmentHeader.segmentDelegate = self
         self.segmentHeader.segmentControl.isHidden = false
         self.segmentHeader.frame = CGRect(x: self.segmentHeader.frame.origin.x, y: self.segmentHeader.frame.origin.y, width: kFrame.size.width, height: 33)
         self.setSegmentControl()
+    
     
     }
     //MARK:- update segment
@@ -146,7 +158,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         default:
             break
         }
-       
+      
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
             if self.arrayToShow.count == 0 {
@@ -156,7 +168,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             }
             self.collectionStream.reloadData()
         }
-        //   self.getStreamList(type: .start, filter: currentStreamType)
+          // self.getStreamList(type: .start, filter: currentStreamType)
     }
     
 
@@ -167,11 +179,11 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         
         let sizeofTextField = self.searchText.font?.pointSize
         self.searchText.minimumFontSize = sizeofTextField!
-        
+      
         collectionStream.delegate = self
         collectionStream.dataSource = self
         
-        lblStreamSearch.font = lblPeopleSearch.font
+      //  lblStreamSearch.font = lblPeopleSearch.font
         
 //        self.searchView.layer.cornerRadius = 18
 //        self.searchView.clipsToBounds = true
@@ -184,7 +196,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         
      
        
-        viewCollections.isHidden = true
+        //viewCollections.isHidden = true
         //        streamType  = StreamType.featured
     }
     
@@ -206,23 +218,23 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     }
     
     func setupAnchor(){
-        viewStream.translatesAutoresizingMaskIntoConstraints = false
-        viewPeople.translatesAutoresizingMaskIntoConstraints = false
-        
-        heightStream = viewStream.heightAnchor.constraint(equalToConstant: 40)
-        heightStream?.isActive = false
-        viewStream.isHidden = false
-        viewPeople.isHidden = false
-        viewStream.topAnchor.constraint(equalTo: viewCollections.topAnchor).isActive = true
-        viewStream.leftAnchor.constraint(equalTo: viewCollections.leftAnchor).isActive = true
-        viewStream.rightAnchor.constraint(equalTo: viewCollections.rightAnchor).isActive = true
-        viewStream.bottomAnchor.constraint(equalTo: viewPeople.topAnchor).isActive = true
-        
-        viewPeople.bottomAnchor.constraint(equalTo: viewCollections.bottomAnchor).isActive = true
-        heightPeople = viewPeople.heightAnchor.constraint(equalToConstant: 40)
-        heightPeople?.isActive = true
-        viewPeople.leftAnchor.constraint(equalTo: viewCollections.leftAnchor).isActive = true
-        viewPeople.rightAnchor.constraint(equalTo: viewCollections.rightAnchor).isActive = true
+//        viewStream.translatesAutoresizingMaskIntoConstraints = false
+//        viewPeople.translatesAutoresizingMaskIntoConstraints = false
+//
+//        heightStream = viewStream.heightAnchor.constraint(equalToConstant: 40)
+//        heightStream?.isActive = false
+//        viewStream.isHidden = false
+//        viewPeople.isHidden = false
+//        viewStream.topAnchor.constraint(equalTo: viewCollections.topAnchor).isActive = true
+//        viewStream.leftAnchor.constraint(equalTo: viewCollections.leftAnchor).isActive = true
+//        viewStream.rightAnchor.constraint(equalTo: viewCollections.rightAnchor).isActive = true
+//        viewStream.bottomAnchor.constraint(equalTo: viewPeople.topAnchor).isActive = true
+//
+//        viewPeople.bottomAnchor.constraint(equalTo: viewCollections.bottomAnchor).isActive = true
+//        heightPeople = viewPeople.heightAnchor.constraint(equalToConstant: 40)
+//        heightPeople?.isActive = true
+//        viewPeople.leftAnchor.constraint(equalTo: viewCollections.leftAnchor).isActive = true
+//        viewPeople.rightAnchor.constraint(equalTo: viewCollections.rightAnchor).isActive = true
     }
     
     func preparePagerFrame() {
@@ -292,8 +304,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.refresher?.tintColor = UIColor.clear
             self.refresher?.addTarget(self, action: #selector(pullToDownAction), for: .valueChanged)
             self.collectionStream!.addSubview(refresher!)
-            viewCollections.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
-            viewStream.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+           // viewCollections.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
+          //  viewStream.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         }
     }
     
@@ -308,19 +320,27 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
 //                layout.minimumLineSpacing = 8
 //                collectionStream!.collectionViewLayout = layout
 //            }
-            if currentStreamType == .myStream {
-                layout.sectionInset = UIEdgeInsets(top: 12, left: 8, bottom: 8, right: 8)
+            if currentStreamType == StreamType.Public {
+                layout.sectionInset = UIEdgeInsets(top:10, left: 8, bottom: 8, right: 8)
                 layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
             }
+//            }else if SharedData.sharedInstance.iMessageNavigation == "viewStream" {
+//                layout.sectionInset = UIEdgeInsets(top:40, left: 8, bottom: 8, right: 8)
+//                layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
+//                layout.minimumInteritemSpacing = 8
+//                layout.minimumLineSpacing = 8
+//                collectionStream!.collectionViewLayout = layout
+//            }
            else {
                 layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
                 layout.minimumLineSpacing = 8
                 collectionStream!.collectionViewLayout = layout
+               
                 
            }
         }
@@ -427,16 +447,16 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         if  self.isSearch == true && isStreamEnable{
             self.collectionStream.isHidden = true
             DispatchQueue.main.async {
-                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                self.setupCollectionProperties()
+//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+               // self.setupCollectionProperties()
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
             
         } else if  self.isSearch == true && !isStreamEnable{
             DispatchQueue.main.async {
-                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
-                self.setupCollectionProperties()
+//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.viewPeople.frame.size.width, height: self.viewPeople.frame.size.height-40)
+                //self.setupCollectionProperties()
                 self.collectionStream.isHidden = false
                 self.collectionStream.reloadData()
             }
@@ -494,7 +514,6 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         self.setupCollectionProperties()
         self.setupRefreshLoader()
         
-        
         if (isSearch  && !isStreamEnable){
             PeopleList.sharedInstance.arrayPeople.removeAll()
             StreamList.sharedInstance.requestURl = ""
@@ -506,9 +525,10 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             StreamList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.requestURl = ""
             self.getStreamGlobleSearch(searchText: searchText.text!, type: .start)
+        }else {
+            self.getTopStreamList()
         }
         
-        self.getTopStreamList()
         
         //Shobhit
         DispatchQueue.main.async {
@@ -539,10 +559,10 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         self.segmentHeader.segmentControl.sectionTitles = ["Public", "Private"]
         self.segmentHeader.segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
-           // self.updateStreamSegment(index: index)
+            self.updateStreamSegment(index: index)
         }
+        self.segmentHeader.segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         self.segmentHeader.segmentControl.selectionIndicatorHeight = 1.0
-        self.segmentHeader.segmentControl.backgroundColor = UIColor.white
         self.segmentHeader.segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 155, g: 155, b: 155),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
         self.segmentHeader.segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         self.segmentHeader.segmentControl.selectedTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 15.0)]
@@ -578,8 +598,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
 //                    self.getPeopleGlobleSearch(searchText: self.searchText.text!, type: .start)
 //                }else{
                     isStreamEnable = true
-                    lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
-                    lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                    //lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
+                  //  lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                     self.btnStreamSearch.isUserInteractionEnabled = false
                     self.btnPeopleSearch.isUserInteractionEnabled = true
                     PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -590,7 +610,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                     SharedData.sharedInstance.isMoreContentAvailable = false
                     self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
               //  }
-                self.getStreamGlobleSearch(searchText:self.searchText.text!, type: .start )
+              
             } else if searchText.text?.trim() != "" {
                 btnCancel.tag = 1
                 //   btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
@@ -602,7 +622,9 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         else {
           
             self.viewSearchButton.isHidden = true
+            self.viewSegment.isHidden = false
             self.kSearchViewHeight.constant = 0.0
+            self.kHeightViewSegment.constant = 33.0
             self.kWidthCancel.constant = 0.0
             self.kViewSearchButtonHeight.constant = 0.0
             sender.isSelected = false
@@ -611,7 +633,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.searchText.text = ""
             isSearch = false
             self.searchText.resignFirstResponder()
-            self.viewCollections.isHidden = true
+           // self.viewCollections.isHidden = true
             SharedData.sharedInstance.isMoreContentAvailable = false
             PeopleList.sharedInstance.requestURl = ""
             PeopleList.sharedInstance.arrayPeople.removeAll()
@@ -623,7 +645,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             //            }
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
-                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
+//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
                 self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
@@ -703,7 +725,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.collectionStream.reloadData()
             self.setupCollectionProperties()
             self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_active"), for: .normal)
-            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_inactive"), for: .normal)
+            self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogos_inactive_button"), for: .normal)
             PeopleList.sharedInstance.requestURl = ""
             StreamList.sharedInstance.requestURl = ""
             SharedData.sharedInstance.isMoreContentAvailable = false
@@ -729,10 +751,10 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.isSearch = true
             
             DispatchQueue.main.async {
-                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
-                self.collectionStream.isHidden = false
-                
-                self.setupCollectionProperties()
+//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewPeople.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewPeople.frame.size.height-40)
+             self.collectionStream.isHidden = false
+//
+//                self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
         }
@@ -749,8 +771,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.isSearch = true
             DispatchQueue.main.async {
                 self.collectionStream.isHidden = false
-                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
-                self.setupCollectionProperties()
+//                self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: self.viewStream.frame.origin.y+40, width: self.collectionStream.frame.size.width, height: self.viewStream.frame.size.height-40)
+//                self.setupCollectionProperties()
                 self.collectionStream.reloadData()
             }
         }
@@ -820,7 +842,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 
                 DispatchQueue.main.async {
                     self.collectionStream.isHidden = false
-                    self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
+//                    self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
                     self.setupCollectionProperties()
                     self.collectionStream.reloadData()
                 }
@@ -929,40 +951,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     
         }
     }
-    func getMyStreamViewData(type:RefreshType){
-        if type == .start || type == .up {
-            for _ in StreamList.sharedInstance.arrayStream {
-                if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
-                    StreamList.sharedInstance.arrayStream.remove(at: index)
-                    print("Removed")
-                }
-            }
-        }
-        APIServiceManager.sharedInstance.getMyStreamNewList(type: type) { (refreshType, errorMsg) in
-        
-            self.lblNoResult.isHidden = true
-            self.lblNoResult.text = kAlert_No_Stream_found
-            DispatchQueue.main.async {
-                self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-                if self.selectedType == .Public{
-                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
-                }else{
-                    self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType}
-                }
-                if self.arrayToShow.count == 0 {
-                    self.lblNoResult.isHidden = false
-                }else {
-                    self.lblNoResult.isHidden = true
-                }
-                self.collectionStream.reloadData()
-            }
-            self.collectionStream.reloadData()
-            if !(errorMsg?.isEmpty)! {
-                self.showToastIMsg(type: .success, strMSG: errorMsg!)
-            }
-        }
-    }
-    
+
     func getUsersList(type:RefreshType){
         lblNoResult.text = kAlert_No_User_Record_Found
         if SharedData.sharedInstance.iMessageNavigation == "" {
@@ -997,7 +986,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                     }
                     DispatchQueue.main.async {
                         self.collectionStream.isHidden = false
-                        self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
+//                        self.collectionStream.frame = CGRect(x: self.collectionStream.frame.origin.x, y: 0, width: self.collectionStream.frame.size.width, height: self.viewCollectionsMain.frame.height)
                         self.setupCollectionProperties()
                         self.collectionStream.isUserInteractionEnabled = true
                         self.collectionStream.reloadData()
@@ -1024,10 +1013,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     }
     
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
-        
-        
       
-    
         lblNoResult.text = kAlert_No_User_Record_Found
         StreamList.sharedInstance.arrayMyStream.removeAll()
         self.arrayToShow.removeAll()
@@ -1058,22 +1044,23 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.lblNoResult.isHidden = true
             self.btnStreamSearch.isUserInteractionEnabled = true
             self.btnPeopleSearch.isUserInteractionEnabled = false
-            self.viewCollections.isHidden = true
+          //  self.viewCollections.isHidden = true
             self.collectionStream.isUserInteractionEnabled = true
             self.setupCollectionProperties()
-            self.expandPeopleHeight()
+            //self.expandPeopleHeight()
             DispatchQueue.main.async {
                 self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                 if self.arrayToShow.count == 0 {
                     self.lblNoResult.isHidden = false
-                    self.lblPeopleSearch.text = "People"
-                    self.lblStreamSearch.text = "Stream"
+                    //self.lblPeopleSearch.text = "People"
+                   // self.lblStreamSearch.text = "Stream"
 
                 }else {
                     self.lblNoResult.isHidden = true
                     let count = "(\(self.arrayToShow.count))"
-                    self.lblPeopleSearch.text = "People \(count)"
-                    self.lblStreamSearch.text = "Stream"
+                    print(count)
+                   // self.lblPeopleSearch.text = "People \(count)"
+                   // self.lblStreamSearch.text = "Stream"
                 }
                 self.collectionStream.reloadData()
             }
@@ -1083,10 +1070,12 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     }
     
     func getStreamGlobleSearch(searchText:String, type:RefreshType){
+       
         lblNoResult.text = kAlert_No_Stream_found
         StreamList.sharedInstance.arrayMyStream.removeAll()
         self.arrayToShow.removeAll()
         self.collectionStream.reloadData()
+        
         if SharedData.sharedInstance.iMessageNavigation == "" {
             APIServiceManager.sharedInstance.apiForSearchStream(strSearch: searchText, type: type, completionHandler: { (refreshType, errorMsg) in
                 self.view.isUserInteractionEnabled = true
@@ -1111,22 +1100,23 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.lblNoResult.isHidden = true
-                self.viewCollections.isHidden = true
+             //   self.viewCollections.isHidden = true
                 self.collectionStream.isUserInteractionEnabled = true
                 self.streaminputDataType(type: type)
                 self.setupCollectionProperties()
-                self.expandStreamHeight()
+               // self.expandStreamHeight()
                 DispatchQueue.main.async {
                     self.arrayToShow = StreamList.sharedInstance.arrayMyStream
                     if self.arrayToShow.count == 0 {
                         self.lblNoResult.isHidden = false
-                        self.lblStreamSearch.text = "Stream"
-                        self.lblPeopleSearch.text = "People"
+                        //self.lblStreamSearch.text = "Stream"
+                       // self.lblPeopleSearch.text = "People"
                     }else {
                         self.lblNoResult.isHidden = true
                         let count = "(\(self.arrayToShow.count))"
-                        self.lblStreamSearch.text = "Stream \(count)"
-                        self.lblPeopleSearch.text = "People"
+                        print(count)
+                        //self.lblStreamSearch.text = "Stream \(count)"
+                        //self.lblPeopleSearch.text = "People"
 
                     }
                     self.collectionStream.reloadData()
@@ -1153,6 +1143,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     func didTapActionSearch(searchString: String) {
         // btnSearch.setImage(#imageLiteral(resourceName: "cross_search"), for: UIControlState.normal)
         btnCancel.tag = 1
+        self.viewSegment.isHidden = true
+        self.kHeightViewSegment.constant = 0.0
         self.searchText.text? = searchString
         kWidthCancel.constant = 65.0
         self.viewSearchButton.isHidden = false
@@ -1282,8 +1274,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
         //        StreamList.sharedInstance.arrayViewStream = self.arrayToShow
         
         obj.arrStream = self.arrayToShow
-        
         obj.currentStreamIndex = sender.tag
+        obj.strStream =  "viewStream"
         self.present(obj, animated: false, completion: nil)
         self.changeCellImageAnimation(sender.tag)
     }
@@ -1335,7 +1327,18 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
             if isSearch && !isStreamEnable {
                 for subV in pagerContent.subviews {
                     if subV.isKind(of: FSPagerView.self){
-                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
+                        let people = self.arrayToShow[indexPath.row]
+                        let objPeople = PeopleDAO(peopleData: [:])
+                        objPeople.fullName = people.fullName
+                        objPeople.userId = people.userId
+                        objPeople.userProfileID = people.userProfileId
+                        objPeople.userImage = people.userImage
+                        objPeople.phoneNumber = people.phoneNumber
+                        objPeople.userProfileID = people.userProfileId
+                        let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                        obj.objPeople = objPeople
+                        self.present(obj, animated: false, completion: nil)
+//                        showAlert(5, pagerView: (subV as! FSPagerView), alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_People, selectedIndex: indexPath.row)
                         return
                     }
                 }
@@ -1410,13 +1413,13 @@ extension HomeViewController : UITextFieldDelegate {
 //                lblStreamSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
 //                lblPeopleSearch.textColor = #colorLiteral(red: 0.2245908678, green: 0.6891257167, blue: 0.8883596063, alpha: 1)
                 PeopleList.sharedInstance.arrayPeople.removeAll()
-                collectionStream.reloadData()
+                //collectionStream.reloadData()
                 StreamList.sharedInstance.requestURl = ""
                 PeopleList.sharedInstance.requestURl = ""
                 SharedData.sharedInstance.isMoreContentAvailable = false
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
-                self.setupCollectionProperties()
+               // self.setupCollectionProperties()
                 self.getStreamGlobleSearch(searchText: self.searchText.text!, type: .start)
            // }
             
@@ -1491,7 +1494,8 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
-            self.viewCollections.isHidden = true
+           // self.viewCollections.isHidden = true
+           
             
             switch  index {
                 
@@ -1522,6 +1526,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
+            
                 self.changePager()
                 break
                 
@@ -1536,6 +1541,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+               
                 self.changePager()
                 break
                 
@@ -1550,12 +1556,24 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+               
                 self.changePager()
                 break
                 
             case 4:
+                lastIndex = index
                 currentStreamType = StreamType.profile
-                showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
+                lastSelectedType = currentStreamType
+                if last > index {
+                    self.addLeftTransitionCollection(imgV: self.collectionStream)
+                }
+                else{
+                    self.addRightTransitionCollection(imgV: self.collectionStream)
+                }
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.present(obj, animated: true, completion: nil)
+                
+              // showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 self.changePager()
 
                 break
@@ -1585,6 +1603,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+                
                 self.changePager()
                 break
             case 6:
@@ -1598,6 +1617,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+          
                 self.changePager()
                 break
           
@@ -1620,13 +1640,21 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
              let last = lastIndex
             self.btnStreamSearch.isUserInteractionEnabled = false
             self.btnPeopleSearch.isUserInteractionEnabled = true
-            self.viewCollections.isHidden = true
+          //  self.viewCollections.isHidden = true
+            if self.segmentHeader != nil {
+                if self.segmentHeader.superview != nil {
+                    self.segmentHeader.segmentView.isHidden = true
+                    self.segmentHeader.removeFromSuperview()
+                }
+            }
+
             
             switch  pagerView.currentIndex {
             case 0:
                 
                 lastIndex = pagerView.currentIndex
-                currentStreamType =  StreamType.myStream
+                currentStreamType = StreamType.Public
+              //  currentStreamType =  StreamType.myStream
                 lastSelectedType = currentStreamType
                 StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
                 if last > pagerView.currentIndex {
@@ -1650,6 +1678,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+                
                 self.changePager()
                 break
                 
@@ -1664,6 +1693,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+                
                 self.changePager()
                 break
                 
@@ -1678,12 +1708,16 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+                 
                 self.changePager()
                 break
                 
             case 4:
+                currentStreamType = StreamType.profile
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.present(obj, animated: true, completion: nil)
                  currentStreamType = StreamType.profile
-                showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
+               // showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                  self.changePager()
 
                 break
@@ -1754,12 +1788,25 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func changePager() {
+     
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
-            if  currentStreamType ==  .myStream  {
-                self.configureStreamHeader()
-            }else{
-               // self.segmentHeader.segmentControl.isHidden = true
+            self.viewSegment.isHidden = true
+            self.kHeightViewSegment.constant = 0.0
+            if  currentStreamType == StreamType.Public ||  currentStreamType == StreamType.Private{
+              
+                if self.segmentHeader != nil {
+                    if self.segmentHeader.superview != nil {
+                        self.segmentHeader.removeFromSuperview()
+                    }
+                }
+                 self.configureStreamHeader()
+                if currentStreamType == StreamType.Public {
+                    self.segmentHeader.segmentControl.selectedSegmentIndex = 0
+                }else {
+                    self.segmentHeader.segmentControl.selectedSegmentIndex = 1
+                }
+   
             }
             if self.arrayToShow.count == 0 {
                 self.lblNoResult.isHidden = false
@@ -1767,11 +1814,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             else {
                 self.lblNoResult.isHidden = true
             }
+            
             self.setupCollectionProperties()
             self.collectionStream.reloadData()
         }
     }
-    
+
     func changeCellImageAnimationt(_ sender : Int, pagerView: FSPagerView) {
         for row in 0 ..< pagerView.numberOfItems {
             let indexPath = NSIndexPath(row: row, section: 0)
@@ -1816,7 +1864,7 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                             strTitle = strLbl.replacingOccurrences(of: "Streams", with: "")
                         }
                         pagerView.lblCurrentType.text = strTitle.uppercased()
-                        self.btnFeature.setTitle(strTitle, for: .normal)
+                        self.btnFeature.setTitle(strTitle.uppercased(), for: .normal)
                         pagerView.reloadData()
                         currentStreamType = self.lastSelectedType
                         self.changePager()

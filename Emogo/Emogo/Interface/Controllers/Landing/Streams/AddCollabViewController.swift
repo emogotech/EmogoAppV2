@@ -37,7 +37,6 @@ class AddCollabViewController: UIViewController {
     var isSearchEnable: Bool! = false
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
-    var streamID:String!
     var objStream:StreamViewDAO?
 
     override func viewDidLoad() {
@@ -63,10 +62,10 @@ class AddCollabViewController: UIViewController {
     
     
     func prepareLayouts(){
-        self.btnAdd.isHidden = true
+      //  self.btnAdd.isHidden = true
         if self.arraySelected != nil {
             self.arrayCollaborators = self.arraySelected!
-            self.btnAdd.isHidden = false
+         //   self.btnAdd.isHidden = false
         }
         self.tblAddCollab.separatorStyle = .none
         self.getContacts()
@@ -110,11 +109,8 @@ class AddCollabViewController: UIViewController {
     }
     
     @IBAction func btnActionAdd(_ sender: Any) {
-       
-        if self.arrayTempSelected.count != 0 {
             print(arrayTempSelected)
             self.updateColabs()
-        }
     }
     
     //MARK:- Selector Methods
@@ -168,14 +164,26 @@ class AddCollabViewController: UIViewController {
             }
             
         }
-       
-        self.updateList(arrayColabs: self.arrayCollaborators)
-        print(self.arrayTempSelected)
-        if self.arrayTempSelected.count == 0 {
-            self.btnAdd.isHidden = true
-        }else {
-            self.btnAdd.isHidden = false
+        
+        var tempColabArray  = [CollaboratorDAO]()
+        if self.isSearchEnable {
+         for obj in self.arraySearch {
+            let array = (obj as! [String:Any])["value"] as! [CollaboratorDAO]
+            for colab in array {
+                tempColabArray.append(colab)
+            }
         }
+        }else {
+            tempColabArray = self.arrayCollaborators
+        }
+       
+        self.updateList(arrayColabs: tempColabArray)
+        print(self.arrayTempSelected)
+//        if self.arrayTempSelected.count == 0 {
+//            self.btnAdd.isHidden = true
+//        }else {
+//            self.btnAdd.isHidden = false
+//        }
     }
     
     // MARK: - Class Methods
@@ -219,7 +227,7 @@ class AddCollabViewController: UIViewController {
         
         for contact in cnContacts {
             let fullName = CNContactFormatter.string(from: contact, style: .fullName) ?? "No Name"
-            var img:UIImage!
+            let img:UIImage!
             if let contactImageData = contact.imageData {
                 img = UIImage(data: contactImageData)
             }
@@ -241,9 +249,8 @@ class AddCollabViewController: UIViewController {
                 let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
                 let collaborator = CollaboratorDAO(colabData: dict)
                 if self.arraySelected != nil {
-                    if (self.arraySelected?.contains(where: {$0.phone.trim() == collaborator.phone.trim() && $0.addedByMe == true }))! {
+                    if (self.arraySelected?.contains(where: { collaborator.phone.trim().contains($0.phone.trim())   && $0.addedByMe == true }))! {
                         collaborator.isSelected = true
-                        self.arrayTempSelected.append(collaborator)
                     }
                 }
                 self.arrayCollaborators.append(collaborator)
@@ -314,20 +321,31 @@ class AddCollabViewController: UIViewController {
                                 let temp = self.arrayCollaborators[mainIndex]
                                 let collaborator = CollaboratorDAO(colabData: (value as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
                                 collaborator.isSelected = temp.isSelected
+                                collaborator.addedByMe = temp.addedByMe
+                                collaborator.canAddPeople = temp.canAddPeople
+                                collaborator.canAddContent = temp.canAddContent
                                 collaborator.phone = strPhone
                                 if temp.userID.trim().isEmpty {
                                     self.arrayCollaborators[mainIndex] = collaborator
                                 }
+                                if temp.isSelected == true {
+                                    self.arrayTempSelected.append(collaborator)
+                                }
                                 print("replaced Data")
 
+                            }else {
+                                let temp = self.arrayCollaborators[mainIndex]
+                                if temp.isSelected == true {
+                                    self.arrayTempSelected.append(temp)
+                                }
                             }
                         }
                     }
                     print("iter \(index)")
                 }
-                if self.arrayTempSelected.count != 0 {
-                    self.btnAdd.isHidden = false
-                }
+//                if self.arrayTempSelected.count != 0 {
+//                    self.btnAdd.isHidden = false
+//                }
                 self.updateList(arrayColabs:self.arrayCollaborators)
             }
         }
@@ -364,8 +382,10 @@ class AddCollabViewController: UIViewController {
     }
     
     func updateColabs(){
-       
-        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: self.streamID,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.canAddContent)! , canAddPeople:(self.objStream?.canAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+        HUDManager.sharedInstance.showHUD()
+
+        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.streamID)!,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.canAddContent)! , canAddPeople:(self.objStream?.canAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+            HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 if self.delegate != nil {
                     self.delegate?.selectedColabs(arrayColab: self.arrayTempSelected)
@@ -374,6 +394,7 @@ class AddCollabViewController: UIViewController {
             }
         }
     }
+    
     
 }
 extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
@@ -415,17 +436,23 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
         
         let attrs2:[NSAttributedStringKey : NSObject] = [NSAttributedStringKey.font :  UIFont(name: kFontRegular, size: 14.0)!, NSAttributedStringKey.foregroundColor : UIColor(r: 74, g: 74, b: 74)]
         
-        let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
+        if !dictColabContact.displayName.trim().isEmpty {
+            let attributedString1 = NSMutableAttributedString(string:dictColabContact.displayName, attributes:attrs1)
+            let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
+            attributedString1.append(attributedString2)
+            cell.lblDisplayName.attributedText = attributedString1
+        }else {
+            let attributedString1 = NSMutableAttributedString(string:dictColabContact.name, attributes:attrs1)
+            cell.lblDisplayName.attributedText = attributedString1
+        }
         
-        let attributedString2 = NSMutableAttributedString(string:"\n\(dictColabContact.name!)", attributes:attrs2)
-        attributedString1.append(attributedString2)
-        cell.lblDisplayName.attributedText = attributedString1
+       
         
         // cell.imgProfile.image = UIImage(named: "demo_images")
-        if dictColabContact.imgUser.isEmpty {
+        if dictColabContact.userImage.isEmpty {
             cell.imgProfile.setImage(string: dictColabContact.name,color:UIColor.colorHash(name: dictColabContact.name),circular: true)
         }else{
-            cell.imgProfile.setImageWithResizeURL(dictColabContact.imgUser)
+            cell.imgProfile.setImageWithResizeURL(dictColabContact.userImage)
         }
         cell.checkButton.tag = indexPath.row
         cell.selectionStyle = .none

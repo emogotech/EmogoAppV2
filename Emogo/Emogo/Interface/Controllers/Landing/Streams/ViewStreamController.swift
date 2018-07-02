@@ -57,7 +57,6 @@ class ViewStreamController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = nil
-       
         self.prepareNavigation()
         self.navigationItem.hidesBackButton = true
         
@@ -126,6 +125,7 @@ class ViewStreamController: UIViewController {
         stretchyHeader.btnCollab.addTarget(self, action: #selector(self.btnColabAction), for: .touchUpInside)
         stretchyHeader.btnLike.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
          stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
+        self.viewStreamCollectionView.bringSubview(toFront: stretchyHeader)
     }
     
     func prepareHeaderData(){
@@ -146,42 +146,48 @@ class ViewStreamController: UIViewController {
         
         
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            stretchyHeader.btnContainer.isHidden = false
-
-            let imgEdit = UIImage(named: "edit_icon_stream")
+            stretchyHeader.viewLike.isHidden = false
+            stretchyHeader.viewViewCount.isHidden = false
+            let imgEdit = UIImage(named: "view_nav_edit_icon")
             let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
             arrayButtons.append(rightEditBarButtonItem)
             
-            let imgDownload = UIImage(named: "share_icon")
+            let imgDownload = UIImage(named: "share_profile")
             let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
             arrayButtons.append(rightDownloadBarButtonItem)
-            
-            let imgAddCollab = UIImage(named: "add_collaborators_icon")
-            let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
-            arrayButtons.append(rightAddCollabBarButtonItem)
-            
-        }else {
-            
-            if self.objStream?.userCanAddContent == true {
-                self.btnAddContent.isHidden = false
-            }
-            
-            if self.objStream?.userCanAddPeople == true {
-                let imgEdit = UIImage(named: "edit_icon_stream")
-                let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
-                arrayButtons.append(rightEditBarButtonItem)
-                
-                let imgAddCollab = UIImage(named: "add_collaborators_icon")
+            if !(self.objStream?.anyOneCanEdit)! {
+                let imgAddCollab = UIImage(named: "add_user_group_icon")
                 let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
                 arrayButtons.append(rightAddCollabBarButtonItem)
             }
+           
+            self.btnAddContent.isHidden = false
+        }else {
             
-            if self.objStream?.userCanAddContent == true  || self.objStream?.userCanAddPeople == true {
-                let imgDownload = UIImage(named: "share_icon")
+            if self.objStream?.canAddContent == true {
+                self.btnAddContent.isHidden = false
+            }
+            
+            if self.objStream?.canAddPeople == true {
+                let imgEdit = UIImage(named: "view_nav_edit_icon")
+                let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
+                arrayButtons.append(rightEditBarButtonItem)
+                
+                if !(self.objStream?.anyOneCanEdit)! {
+                    let imgAddCollab = UIImage(named: "add_user_group_icon")
+                    let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
+                    arrayButtons.append(rightAddCollabBarButtonItem)
+                }
+            }
+            
+            if self.objStream?.canAddContent == true  || self.objStream?.canAddPeople == true || self.objStream?.anyOneCanEdit == true || self.objStream?.type.lowercased() == "public" {
+                let imgDownload = UIImage(named: "share_profile")
                 let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
                 arrayButtons.append(rightDownloadBarButtonItem)
             }
-            stretchyHeader.btnContainer.isHidden = true
+            
+            stretchyHeader.viewLike.isHidden = true
+            stretchyHeader.viewViewCount.isHidden = true
 
         }
       
@@ -198,13 +204,22 @@ class ViewStreamController: UIViewController {
     }
     
     func prepareNavigation(){
-        
+     
         if ContentList.sharedInstance.mainStreamIndex != nil {
             self.currentIndex = ContentList.sharedInstance.mainStreamIndex
             ContentList.sharedInstance.mainStreamIndex = nil
         }
         self.configureNavigationTite()
+        self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
+        
+         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil, queue: nil) { (notification) in
+            self.updateLayOut()
+        }
+        
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
+
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
             print("prepareNavigation iin view controller")
@@ -244,14 +259,13 @@ class ViewStreamController: UIViewController {
                 self.updateLayOut()
         }
         }
-    }
-    
-    @objc func updateImageAfterEdit(){
-        self.perform(#selector(updateLayOut), with: nil, afterDelay: 0.3)
-    }
-    
-    @objc func updateLayOut(){
         
+    }
+ 
+    @objc func updateLayOut(){
+        if self.stretchyHeader != nil  {
+            self.stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
+        }
         if ContentList.sharedInstance.objStream != nil {
             
             if self.isUpload {
@@ -294,28 +308,7 @@ class ViewStreamController: UIViewController {
                 }
             }
         }
-    
-    func prepareActions(isCreator:Bool) {
-
-        if isCreator {
-         //   stretchyHeader.btnLikeList.addTarget(self, action: #selector(self.showLikeList(sender:)), for: .touchUpInside)
-        
-
-        }else {
-            stretchyHeader.btnLike.isHidden = false
-         //   stretchyHeader.btnEdit.addTarget(self, action: #selector(self.likeStreamAction(sender:)), for: .touchUpInside)
-            // removed for now
-        }
-        self.btnAddContent.isHidden = true
-        if self.objStream?.canAddContent == true {
-            self.btnAddContent.isHidden = false
-        }
-        
-       // removed for now
-        stretchyHeader.btnLike.isHidden = false
-       // stretchyHeader.btnContainer.isHidden = false
-      
-    }
+ 
     
     @IBAction func btnActionForAddContent(_ sender:UIButton) {
         btnActionForAddContent()
@@ -332,9 +325,9 @@ class ViewStreamController: UIViewController {
         
         if self.objStream != nil {
             let actionVC : AddCollabViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddCollabView) as! AddCollabViewController
-          //  actionVC.delegate = self
+            actionVC.delegate = self
             actionVC.arraySelected = self.objStream?.arrayColab
-            actionVC.streamID = self.objStream?.streamID
+            actionVC.objStream = self.objStream
             let nav = UINavigationController(rootViewController: actionVC)
             customPresentViewController(PresenterNew.AddCollabPresenter, viewController: nav, animated: true, completion: nil)
         }
@@ -454,16 +447,19 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func showLikeList(sender:UIButton){
-        let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
-        obj.objStream = self.objStream
-        self.navigationController?.push(viewController: obj)
+        if self.objStream != nil && self.objStream?.arrayLikedUsers.count != 0{
+            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
+            obj.objStream = self.objStream
+            self.navigationController?.push(viewController: obj)
+        }
     }
     @objc  func btnCancelAction(){
         if viewStream == nil {
             let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
             self.navigationController?.popToViewController(vc: obj)
         }else {
-            self.navigationController?.pop()
+            self.navigationController?.popViewController(animated: true)
+         //   self.navigationController?.pop()
         }
     }
     
@@ -571,11 +567,12 @@ class ViewStreamController: UIViewController {
         }
         
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(count,status, error) in
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(count,status, results,error) in
              HUDManager.sharedInstance.hideHUD()
            if (error?.isEmpty)! {
              self.objStream?.likeStatus = status
              self.objStream?.totalLiked = count
+             self.objStream?.arrayLikedUsers = results!
                   if status == "0" {
                     if let totalLike = self.objStream?.totalLiked.trim(){
                         self.stretchyHeader.lblLikeCount.text = "\(totalLike)"
@@ -621,11 +618,15 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func btnColabAction(){
-        let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
-        obj.streamID = self.objStream?.streamID
-        obj.currentIndex = self.currentIndex
-        obj.streamNavigate = self.viewStream
-        self.navigationController?.push(viewController: obj)
+        if self.objStream != nil {
+            if (self.objStream?.arrayColab.count)! > 1 {
+                let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
+                obj.streamID = self.objStream?.streamID
+                obj.currentIndex = self.currentIndex
+                obj.streamNavigate = self.viewStream
+                self.navigationController?.push(viewController: obj)
+            }
+        }
     }
     
     @objc func btnViewDropActionWith(button : UIButton){
@@ -721,14 +722,13 @@ class ViewStreamController: UIViewController {
                 HUDManager.sharedInstance.hideHUD()
             }
              self.isDidLoad = true
-            
+            self.lblNoContent.isHidden = true
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
                 self.prepareHeaderData()
-                if self.objStream?.idCreatedBy.trim() != UserDAO.sharedInstance.user.userId.trim() {
-                    if self.objStream?.arrayContent.count == 0 {
-                        self.lblNoContent.isHidden = false
-                    }
+          
+                if self.objStream?.arrayContent.count == 0 {
+                    self.lblNoContent.isHidden = false
                 }
                self.configureNewNavigation()
                 // Get All Heights
@@ -744,6 +744,12 @@ class ViewStreamController: UIViewController {
                     
                 DispatchQueue.main.async {
                     self.viewStreamCollectionView.reloadData()
+                }
+                
+                if let streamIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.objStream?.streamID.trim()}) {
+                    let oldData = StreamList.sharedInstance.arrayStream[streamIndex]
+                    oldData.haveSomeUpdate = false
+                    StreamList.sharedInstance.arrayStream[streamIndex] = oldData
                 }
             }
             else {
@@ -788,6 +794,9 @@ class ViewStreamController: UIViewController {
                     }
                 }
                 self.showToast(strMSG: kAlert_Stream_Deleted_Success)
+                if self.viewStream != nil && self.viewStream == "fromProfile" {
+                    NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
+                }
                 if self.isFromCreateStream  != nil  {
                     let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
                     self.navigationController?.popToViewController(vc: obj)
@@ -813,7 +822,7 @@ class ViewStreamController: UIViewController {
     }
     
     func btnActionForAddContent() {
-        
+        ContentList.sharedInstance.arrayContent.removeAll()
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
         actionVC.fromViewStream = true
@@ -858,6 +867,7 @@ class ViewStreamController: UIViewController {
     }
     
     func btnActionForLink(){
+        
         ContentList.sharedInstance.objStream = self.objStream?.streamID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_LinkView)
         self.navigationController?.push(viewController: controller)
@@ -901,7 +911,7 @@ class ViewStreamController: UIViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = obj.originalFileName
+            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
@@ -1022,6 +1032,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
                     ContentList.sharedInstance.objStream = objStream?.streamID
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                     objPreview.isViewCount = "TRUE"
+                    objPreview.delegate = self
                     objPreview.currentIndex = indexPath.row + 1
                     let nav = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
@@ -1080,7 +1091,14 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
 
 }
 
-extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate  {
+extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate,ContentViewControllerDelegate  {
+  
+    func updateViewCount(count: String) {
+        if self.stretchyHeader != nil {
+            self.stretchyHeader.lblViewCount.text = count
+        }
+    }
+    
     
     func showPreview() {
         self.openFullView(index: nil)
@@ -1092,6 +1110,12 @@ extension ViewStreamController:StreamViewHeaderDelegate,MFMessageComposeViewCont
     }
    
    
+}
+
+extension ViewStreamController :AddCollabViewControllerDelegate{
+    func selectedColabs(arrayColab: [CollaboratorDAO]) {
+        self.updateLayOut()
+    }
 }
 
 //extension CHTCollectionViewWaterfallLayout {

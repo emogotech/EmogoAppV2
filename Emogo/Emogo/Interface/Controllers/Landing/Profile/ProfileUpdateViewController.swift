@@ -25,10 +25,7 @@ class ProfileUpdateViewController: UITableViewController {
     var fileName:String! = ""
     var delegate:CustomCameraViewControllerDelegate?
     
-    var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
-    }
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         self.prepareLayouts()

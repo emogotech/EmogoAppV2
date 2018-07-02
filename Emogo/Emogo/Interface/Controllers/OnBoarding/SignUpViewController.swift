@@ -46,6 +46,7 @@ class SignUpViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        currentStreamType =  .featured
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,8 +96,8 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func btnCountryPickerAction(_ sender: Any) {
-        customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
-        
+        let nav = UINavigationController(rootViewController: popupViewController)
+        customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
     }
     
     // MARK: - Class Methods

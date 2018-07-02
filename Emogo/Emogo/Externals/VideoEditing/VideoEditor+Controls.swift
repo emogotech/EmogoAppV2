@@ -78,7 +78,7 @@ extension VideoEditorViewController {
             break
         case 105:
             selectedFeature = VideoEditorFeature.text
-            self.canvasImageView.isUserInteractionEnabled = false
+            self.canvasImageView.isUserInteractionEnabled = true
             configureNavigationForTextEditing()
             self.prepareForTextEditing()
             break
@@ -111,6 +111,11 @@ extension VideoEditorViewController {
         self.player.isUserInteractionEnabled = true
         self.playerContainerView.isUserInteractionEnabled = true
         configureNavigationForEditing()
+    }
+    @objc func btnClearAction(){
+        self.configureNavigationButtons()
+        self.updatePlayerAsset(videURl:self.originalFileURl!)
+        self.editedFileURL = self.originalFileURl!
     }
     
     @objc func btnCancelAction(){

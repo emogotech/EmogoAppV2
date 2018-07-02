@@ -52,6 +52,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     var isForEditOnly                       :Bool!
     var isEdit                              :Bool!
     var objContent                          :ContentDAO!
+    var isFromViewStream:Bool! = true
     //var photoEditor                         :PhotoEditorViewController!
     
     // MARK: - Life-cycle Methods
@@ -152,7 +153,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
        // imgStream.addGestureRecognizer(swipeDown)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
+       // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
        // imgStream.addGestureRecognizer(tapRecognizer)
         
         if isViewCount == "TRUE" {
@@ -165,12 +166,14 @@ class StreamContentViewController: MSMessagesAppViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 if currentContentIndex !=  arrContentData.count-1 {
-                    self.perform(#selector(self.nextContentLoad), with: nil, afterDelay: 0.1)
+                    self.nextContentLoad()
+                   // self.perform(#selector(self.nextContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
             case UISwipeGestureRecognizerDirection.right:
                 if currentContentIndex != 0 {
-                    self.perform(#selector(self.previousContentLoad), with: nil, afterDelay: 0.1)
+                    self.previousContentLoad()
+                   // self.perform(#selector(self.previousContentLoad), with: nil, afterDelay: 0.1)
                 }
                 break
                 
@@ -184,7 +187,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     
-    @objc func nextContentLoad() {
+    func nextContentLoad() {
         if(currentContentIndex < arrContentData.count-1) {
             currentContentIndex = currentContentIndex + 1
         }
@@ -195,7 +198,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         loadViewForUI()
     }
     
-    @objc func previousContentLoad(){
+     func previousContentLoad(){
         if currentContentIndex != 0{
             currentContentIndex = currentContentIndex - 1
         }
@@ -206,8 +209,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     func updateContent(){
         
         if currentContentIndex != nil {
-            
-           seletedImage = ContentList.sharedInstance.arrayContent[currentContentIndex]
+           seletedImage = ContentList.sharedInstance.arrayContent[self.currentContentIndex]
         }
         if seletedImage.likeStatus == 0 {
             self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -228,9 +230,12 @@ class StreamContentViewController: MSMessagesAppViewController {
             self.btnEdit.isHidden = false
         }
   
-        if isViewCount != nil {
-            apiForIncreaseViewCount()
+        if isFromViewStream == false {
+            if isViewCount != nil {
+                apiForIncreaseViewCount()
+            }
         }
+        isFromViewStream = false
     }
     
     //MARK: - Load Data in UI
@@ -348,9 +353,10 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnAddToEmogo(_ sender: Any) {
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Profile , preferredStyle: .alert)
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title:kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+           let strUrl = "\(kDeepLinkURL)\(kDeepLinkMyStreamView)"
+           // let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         
         }
@@ -535,8 +541,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnEditAction(_ sender:UIButton){
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Profile , preferredStyle: .alert)
-        let Continue = UIAlertAction(title: kAlertTitle_Yes, style: .default) { (action) in
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
+        let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
             let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
@@ -710,14 +716,12 @@ class StreamContentViewController: MSMessagesAppViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
-    
     func showDelete(){
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
         
-        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
+        let deleteAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            
             if self.isViewCount != nil {
                 self.deleteContentFromStream()
             }else {
@@ -731,10 +735,34 @@ class StreamContentViewController: MSMessagesAppViewController {
             
         })
         
-        optionMenu.addAction(saveAction)
+        optionMenu.addAction(deleteAction)
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
+//    func showDelete(){
+//        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//
+//        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
+//        {
+//            (alert: UIAlertAction!) -> Void in
+//
+//            if self.isViewCount != nil {
+//                self.deleteContentFromStream()
+//            }else {
+//                self.deleteContent()
+//            }
+//        })
+//
+//        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
+//        {
+//            (alert: UIAlertAction!) -> Void in
+//
+//        })
+//
+//        optionMenu.addAction(saveAction)
+//        optionMenu.addAction(cancelAction)
+//        self.present(optionMenu, animated: true, completion: nil)
+//    }
     //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func deleteContent(){
@@ -850,29 +878,29 @@ class StreamContentViewController: MSMessagesAppViewController {
         super.didReceiveMemoryWarning()
     }
 }
-extension StreamContentViewController:SFSafariViewControllerDelegate {
-    func openURL(url:URL) {
-        
-        if #available(iOS 9.0, *) {
-            let safariController = SFSafariViewController(url: url as URL)
-            safariController.delegate = self
-            
-            let navigationController = UINavigationController(rootViewController: safariController)
-            navigationController.setNavigationBarHidden(true, animated: false)
-            self.present(navigationController, animated: true, completion: nil)
-        } else {
-            if UIApplication.shared.canOpenURL(url){
-                UIApplication.shared.openURL(url)
-            }
-        }
-        
-    }
-    @available(iOS 9.0, *)
-    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        controller.dismiss(animated: true, completion: nil)
-    }
-    
-}
+//extension StreamContentViewController:SFSafariViewControllerDelegate {
+//    func openURL(url:URL) {
+//
+//        if #available(iOS 9.0, *) {
+//            let safariController = SFSafariViewController(url: url as URL)
+//            safariController.delegate = self
+//
+//            let navigationController = UINavigationController(rootViewController: safariController)
+//            navigationController.setNavigationBarHidden(true, animated: false)
+//            self.present(navigationController, animated: true, completion: nil)
+//        } else {
+//            if UIApplication.shared.canOpenURL(url){
+//                UIApplication.shared.openURL(url)
+//            }
+//        }
+//
+//    }
+//    @available(iOS 9.0, *)
+//    public func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+//        controller.dismiss(animated: true, completion: nil)
+//    }
+//
+//}
 
 
 

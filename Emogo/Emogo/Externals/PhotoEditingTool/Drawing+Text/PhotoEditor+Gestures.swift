@@ -50,25 +50,26 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
 
         if let view = recognizer.view {
             if view is UITextView {
-                print("textview")
-                let textView = view as! UITextView
-                
-                if textView.font!.pointSize * recognizer.scale < 90 {
-                    let font = UIFont(name: textView.font!.fontName, size: textView.font!.pointSize * recognizer.scale)
-                    textView.font = font
-                    let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width,
-                                                                 height:CGFloat.greatestFiniteMagnitude))
-                    textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
-                                                  height: sizeToFit.height)
-                } else {
-                    let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width,
-                                                                 height:CGFloat.greatestFiniteMagnitude))
-                    textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
-                                                  height: sizeToFit.height)
-                    
+                var currentScale:Float = 0.0
+                if .began == pinchGesture.state || .changed == pinchGesture.state {
+                    if let value =  pinchGesture.view?.layer.value(forKeyPath: "transform.scale.x") {
+                        let num:NSNumber = value as! NSNumber
+                        
+                        currentScale = Float(truncating: num)
+                    }
+                    let minScale: Float = 1.0
+                    let maxScale: Float = 3.0
+                    //  let zoomSpeed: Float = 0.1
+                    var deltaScale = Float(pinchGesture.scale )
+                    //deltaScale = ((deltaScale - 1) * zoomSpeed) + 1
+                    deltaScale = min(deltaScale, maxScale / currentScale)
+                    deltaScale = max(deltaScale, minScale / currentScale)
+                    let zoomTransform: CGAffineTransform = (pinchGesture.view?.transform.scaledBy(x: CGFloat(deltaScale), y: CGFloat(deltaScale)))!
+                    pinchGesture.view?.transform = zoomTransform
+                    pinchGesture.scale = 1
                 }
-              
-                textView.setNeedsDisplay()
+            }
+            recognizer.scale = 1
             } else {
              
                 var currentScale:Float = 0.0
@@ -92,7 +93,6 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
             }
             recognizer.scale = 1
         }
-    }
     /*
     @objc func pinchGesture(_ recognizer: UIPinchGestureRecognizer) {
         print("pinch")

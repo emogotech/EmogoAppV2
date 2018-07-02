@@ -48,7 +48,10 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
 
-
+    @IBOutlet weak var btnShare: UIButton!
+    @IBOutlet weak var btnSetting: UIButton!
+    @IBOutlet weak var btnClose: UIButton!
+    
     var arrayTopContent = [TopContent]()
     var arrayMyStreams = [StreamDAO]()
     
@@ -59,8 +62,8 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    var isEdited:Bool! = false
-    var isUpdateList:Bool! = false
+    var isEdited:Bool! = true
+    
     var imageToUpload:UIImage!
     var fileName:String! = ""
     var selectedIndex:IndexPath?
@@ -79,10 +82,9 @@ class ProfileViewController: UIViewController {
     var isCalledMyStream:Bool! = true
     var isCalledColabStream:Bool! = true
     var isStuffUpdated:Bool! = true
+    var selectedImageView:UIImageView?
 
-    var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize.zero)
-    }
+   
     
     var oldContentOffset = CGPoint.zero
     var topConstraintRange = (CGFloat(0)..<CGFloat(220))
@@ -100,8 +102,8 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.configureProfileNavigation()
-        self.prepareLayout()
-        updateList()
+        self.prepareLayout(listUpdate: false)
+        updateList(hud: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,7 +114,14 @@ class ProfileViewController: UIViewController {
                 timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.startAnimation), userInfo: nil, repeats: true)
             }
         }
+        if  SharedData.sharedInstance.deepLinkType == "updateProfile" {
+          
+            let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
+            self.navigationController?.push(viewController: obj)
+            SharedData.sharedInstance.deepLinkType = ""
+        
     }
+}
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -151,7 +160,7 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kProfileUpdateIdentifier)), object: nil)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kProfileUpdateIdentifier), object: nil, queue: nil) { (notification) in
-            self.prepareLayout()
+            self.prepareLayout(listUpdate: true)
         }
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
@@ -190,6 +199,7 @@ class ProfileViewController: UIViewController {
         segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
         
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
+          
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
         }
@@ -204,7 +214,8 @@ class ProfileViewController: UIViewController {
         segmentControl.shouldAnimateUserSelection = false
     }
     
-    func prepareLayout() {
+   
+    func prepareLayout(listUpdate:Bool) {
        // lblUserName.text = "@" + UserDAO.sharedInstance.user.fullName.trim()
        // lblUserName.minimumScaleFactor = 1.0
         APIServiceManager.sharedInstance.apiForGetUserInfo(userID: UserDAO.sharedInstance.user.userProfileID, isCurrentUser: true) { (_, _) in
@@ -307,7 +318,12 @@ class ProfileViewController: UIViewController {
                     self.lblLocation.isUserInteractionEnabled = true
                 }
                 self.profileStreamShow()
+                if listUpdate{
+                    self.isEdited = true
+                    self.updateList(hud: false)
+                }
             }
+            
             
         }
       
@@ -320,7 +336,7 @@ class ProfileViewController: UIViewController {
         
     }
     
-    func updateList(){
+    func updateList(hud:Bool){
         if isEdited {
             isEdited = false
             if  self.currentMenu == .stuff {
@@ -336,10 +352,14 @@ class ProfileViewController: UIViewController {
 //                }
                // self.getMyStuff(type: .start)
             }else if self.currentMenu == .stream{
-                HUDManager.sharedInstance.showHUD()
+                if hud{
+                    HUDManager.sharedInstance.showHUD()
+                }
                 self.getStreamList(type:.start,filter: .myStream)
             }else {
-                HUDManager.sharedInstance.showHUD()
+                if hud{
+                    HUDManager.sharedInstance.showHUD()
+                }
                 self.getColabs(type: .start)
             }
         }
@@ -403,16 +423,25 @@ class ProfileViewController: UIViewController {
             }
             self.selectedType = .All
         }
+        profileCollectionView.es.resetNoMoreData()
+        /*
+         
         ContentList.sharedInstance.arrayContent.removeAll()
         for i in 0..<ContentList.sharedInstance.arrayStuff.count {
             let obj = ContentList.sharedInstance.arrayStuff[i]
             obj.isSelected = false
             ContentList.sharedInstance.arrayStuff[i] = obj
         }
-        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-        self.lblNOResult.isHidden = true
+         
+ */
         self.btnNext.isHidden = true
         self.btnAdd.isHidden = false
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            self.btnNext.isHidden = false
+            self.btnAdd.isHidden = true
+        }
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        self.lblNOResult.isHidden = true
         if array.count == 0  {
             self.lblNOResult.isHidden = false
             self.lblNOResult.text = "No Stuff Found"
@@ -598,12 +627,11 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnActionProfileUpdate(_ sender: UIButton) {
-        isEdited = true
         let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
         self.navigationController?.pushAsPresent(viewController: obj)
     }
+    
     @IBAction func btnActionNext(_ sender: Any) {
-
         if  ContentList.sharedInstance.arrayContent.count != 0 {
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
@@ -611,7 +639,7 @@ class ProfileViewController: UIViewController {
             self.showToast(strMSG: kAlert_contentSelect)
         }
     }
-    
+  
     @objc func btnSelectAction(button : UIButton)  {
         let index   =   button.tag
         let indexPath   =   IndexPath(item: index, section: 0)
@@ -619,6 +647,7 @@ class ProfileViewController: UIViewController {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             content.isSelected = !content.isSelected
+            
 //            if let mainIndex =  ContentList.sharedInstance.arrayStuff.index(where: {$0.contentID.trim() == content.contentID.trim() && $0.stuffType == self.selectedType }) {
 //                ContentList.sharedInstance.arrayStuff[mainIndex] = content
 //            }
@@ -633,15 +662,17 @@ class ProfileViewController: UIViewController {
     
     
     func updateSelected(obj:ContentDAO){
-        
+       
         if let index =  ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == obj.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent.remove(at: index)
         }else {
             if obj.isSelected  {
                 ContentList.sharedInstance.arrayContent.insert(obj, at: 0)
             }
-            
         }
+        
+        let tempArray =  ContentList.sharedInstance.arrayContent.filter { $0.isSelected == true }
+        ContentList.sharedInstance.arrayContent = tempArray
         
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
@@ -655,10 +686,13 @@ class ProfileViewController: UIViewController {
         
     }
     
+
    
     private func updateSegment(selected:Int){
+        ContentList.sharedInstance.arrayContent.removeAll()
         switch selected {
         case 101:
+            self.lblNOResult.isHidden = true
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_active_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
@@ -668,6 +702,7 @@ class ProfileViewController: UIViewController {
 
             break
         case 102:
+            self.lblNOResult.isHidden = true
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_active_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_icon"), for: .normal)
@@ -677,6 +712,7 @@ class ProfileViewController: UIViewController {
 
             break
         case 103:
+            self.lblNOResult.isHidden = true
             self.btnStream.setImage(#imageLiteral(resourceName: "strems_icon"), for: .normal)
             self.btnColab.setImage(#imageLiteral(resourceName: "collabs_icon"), for: .normal)
             self.btnStuff.setImage(#imageLiteral(resourceName: "stuff_active_icon"), for: .normal)
@@ -700,6 +736,12 @@ class ProfileViewController: UIViewController {
               //  self.getMyStuff(type: .start)
             }else {
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+                var arrayTemp  = [ContentDAO]()
+                for obj in ContentList.sharedInstance.arrayStuff {
+                    obj.isSelected = false
+                    arrayTemp.append(obj)
+                }
+                ContentList.sharedInstance.arrayStuff = arrayTemp
                 self.lblNOResult.isHidden = true
                 if array.count == 0  {
                     self.lblNOResult.isHidden = false
@@ -767,11 +809,12 @@ class ProfileViewController: UIViewController {
     
     
     @objc func btnActionForEdit(sender:UIButton) {
-        isEdited = true
         let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
         let stream = self.arrayMyStreams[sender.tag]
         editVC.streamID = stream.ID
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
+        editVC.isfromProfile = "fromProfile"
+        let nav = UINavigationController(rootViewController: editVC)
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
       
 //        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
 //            let stream = self.arrayMyStreams[sender.tag]
@@ -780,33 +823,23 @@ class ProfileViewController: UIViewController {
     }
     
     @objc func btnActionForHeaderEdit(sender:UIButton) {
-        isEdited = true
         let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
          editVC.streamID = UserDAO.sharedInstance.user.stream?.ID
-        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: editVC, animated: true, completion: nil)
-        
+        editVC.isfromProfile = "fromProfile"
+        let nav = UINavigationController(rootViewController: editVC)
+        customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
 //        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
 //            obj.streamID = UserDAO.sharedInstance.user.stream?.ID
 //            self.navigationController?.push(viewController: obj)
     }
     
-    
-    @objc func btnShowMoreAction(sender:UIButton){
-        let top = self.arrayTopContent[sender.tag]
-        if top.type == StuffType.All {
-            isEdited = true
-        }
-        let obj:MyStuffPreViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffPreView) as! MyStuffPreViewController
-        obj.selectedType = top.type
-        self.navigationController?.push(viewController: obj)
-    }
+
     
     @objc func btnPlayAction(sender:UIButton){
         let content = ContentList.sharedInstance.arrayStuff[sender.tag]
         if content.isAdd {
         //    btnActionForAddContent()
         }else {
-            isEdited = true
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
             ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
@@ -818,7 +851,7 @@ class ProfileViewController: UIViewController {
                     nav.cc_setZoomTransition(originalView: imageCell.imgCover)
                     nav.cc_swipeBackDisabled = true
                 }
-//                self.present(nav, animated: true, completion: nil)
+           self.present(nav, animated: true, completion: nil)
 //                let nav = UINavigationController(rootViewController: objPreview)
 //            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             }
@@ -833,10 +866,10 @@ class ProfileViewController: UIViewController {
                 if (UserDAO.sharedInstance.user.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
                     lblNOResult.isHidden = true
-
+                    
                     if arrayMyStreams.count == 0 {
                         self.layout.headerHeight = 0
-                        lblNOResult.text = "No Streams Found."
+                        lblNOResult.text = "No Emogo Found."
                         lblNOResult.isHidden = false
                     }
                 }else {
@@ -850,7 +883,7 @@ class ProfileViewController: UIViewController {
                     self.layout.headerHeight = 200
                 }
             }else {
-               self.layout.headerHeight = 0
+                self.layout.headerHeight = 0
                 lblNOResult.isHidden = true
                 if arrayMyStreams.count == 0 {
                     self.layout.headerHeight = 0
@@ -953,10 +986,7 @@ class ProfileViewController: UIViewController {
             }else if type == .down {
                 self.profileCollectionView.es.stopLoadingMore()
             }
-            
             self.lblNOResult.isHidden = true
-            self.btnNext.isHidden = true
-            self.btnAdd.isHidden = false
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
                 self.lblNOResult.text  = "No Stuff Found"
@@ -965,6 +995,11 @@ class ProfileViewController: UIViewController {
             }
             self.layout.headerHeight = 0.0
             self.profileCollectionView.reloadData()
+             self.btnAdd.isHidden = true
+            if ContentList.sharedInstance.arrayContent.count == 0 {
+                self.btnNext.isHidden = true
+                self.btnAdd.isHidden = false
+            }
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
             }
@@ -995,8 +1030,7 @@ class ProfileViewController: UIViewController {
                 self.lblNOResult.minimumScaleFactor = 1.0
                 self.lblNOResult.isHidden = false
             }
-            self.isCalledColabStream = false
-            self.layout.headerHeight = 0.0
+            self.profileStreamShow()
             self.profileCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -1024,7 +1058,9 @@ class ProfileViewController: UIViewController {
         self.btnAdd.isHaptic = true
         self.btnAdd.hapticType = .impact(.light)
         kDefault?.setValue(true, forKey: kBounceAnimation)
-      
+        if self.timer != nil {
+            self.timer?.invalidate()
+        }
         ContentList.sharedInstance.arrayContent.removeAll()
         ContentList.sharedInstance.objStream = nil
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
@@ -1057,6 +1093,7 @@ class ProfileViewController: UIViewController {
     
     func actionForAddStream(){
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        createVC.exestingNavigation = self.navigationController
         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
 //        let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
 //        self.navigationController?.push(viewController: controller)
@@ -1089,7 +1126,7 @@ class ProfileViewController: UIViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = obj.originalFileName
+            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
@@ -1201,7 +1238,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         // Create the cell and return the cell
         if currentMenu == .stuff {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
-
+            
             let content = array[indexPath.row]
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_MyStuffCell, for: indexPath) as! MyStuffCell
             // for Add Content
@@ -1236,7 +1273,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
-           
             cell.btnEdit.tag = indexPath.row
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let stream = StreamList.sharedInstance.arrayProfileColabStream[indexPath.row]
@@ -1252,19 +1288,19 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             
         case CHTCollectionElementKindSectionHeader:
             let headerView:ProfileStreamView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: kHeader_ProfileStreamView, for: indexPath) as! ProfileStreamView
-           
+            
             if UserDAO.sharedInstance.user.stream != nil {
-               
-            headerView.delegate = self
-          headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
-            headerView.btnEditHeader.addTarget(self, action: #selector(self.btnActionForHeaderEdit(sender:)), for: .touchUpInside)
+                
+                headerView.delegate = self
+                headerView.prepareLayout(stream:UserDAO.sharedInstance.user.stream!,isCurrentUser: true)
+                headerView.btnEditHeader.addTarget(self, action: #selector(self.btnActionForHeaderEdit(sender:)), for: .touchUpInside)
             }
             headerView.imgCover.layer.cornerRadius = 5.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
             headerView.btnEditHeader.isHidden = false
-           
-        
+            
+            
             return headerView
             
         default:
@@ -1272,6 +1308,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             fatalError("Unexpected element kind")
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
         if currentMenu == .stuff {
@@ -1293,7 +1330,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         }
         
     }
-        
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if currentMenu == .stuff {
@@ -1302,7 +1339,6 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if content.isAdd {
              //   btnActionForAddContent()
             }else {
-                isEdited = true
                 ContentList.sharedInstance.arrayContent = array
                 if ContentList.sharedInstance.arrayContent.count != 0 {
                     //
@@ -1310,6 +1346,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
+                    objPreview.isProfile = "TRUE"
                     let nav = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
                         nav.cc_setZoomTransition(originalView: imageCell.imgCover)
@@ -1322,27 +1359,29 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }
         }else {
           //  let stream = StreamList.sharedInstance.arrayProfileStream[indexPath.row]
-                isEdited = true
                 var index = 0
+            if let cell = collectionView.cellForItem(at: indexPath) {
+                selectedImageView = (cell as! ProfileStreamCell).imgCover
+            }
             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                if currentMenu == .stream {
-                    let tempStream = self.arrayMyStreams[indexPath.row]
-                    let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-                    if tempIndex != nil {
-                        index = tempIndex!
-                    }
-                    obj.viewStream = "fromProfile"
-
-                     StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
-                }else {
-
-                    obj.viewStream = "fromColabProfile"
-                    index = indexPath.row
-                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
+            if currentMenu == .stream {
+                let tempStream = self.arrayMyStreams[indexPath.row]
+                let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
+                if tempIndex != nil {
+                    index = tempIndex!
                 }
-                obj.currentIndex = index
-                ContentList.sharedInstance.objStream = nil
-                self.navigationController?.push(viewController: obj)
+                obj.viewStream = "fromProfile"
+                
+                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
+            }else {
+                
+                obj.viewStream = "fromColabProfile"
+                index = indexPath.row
+                StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
+            }
+            obj.currentIndex = index
+            ContentList.sharedInstance.objStream = nil
+            self.navigationController?.pushViewController(obj, animated: true)
             }
         }
     
@@ -1388,16 +1427,30 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         oldContentOffset = scrollView.contentOffset
     }
     
-    func actionForCover(){
-        isEdited = true
-        let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
-            StreamList.sharedInstance.arrayViewStream = array
-        
+    func actionForCover(imageView:UIImageView){
+       
+        if UserDAO.sharedInstance.user.stream != nil {
+            if (UserDAO.sharedInstance.user.stream?.isColabStream)! {
+                if self.currentMenu == .stream {
+                    self.profileStreamIndex = 0
+                    var array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
+                    array.insert(UserDAO.sharedInstance.user.stream!, at: 0)
+                    StreamList.sharedInstance.arrayViewStream = array
+                }else {
+                    StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
+                }
+            }else {
+                let array = StreamList.sharedInstance.arrayProfileStream.filter { $0.isAdd == false }
+                StreamList.sharedInstance.arrayViewStream = array
+            }
+        }
+      
+        selectedImageView = imageView
         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.currentIndex = profileStreamIndex
         obj.viewStream = "fromProfile"
         ContentList.sharedInstance.objStream = nil
-        self.navigationController?.push(viewController: obj)
+        self.navigationController?.pushViewController(obj, animated: true)
     }
 }
 

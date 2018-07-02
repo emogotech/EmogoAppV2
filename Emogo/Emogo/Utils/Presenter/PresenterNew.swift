@@ -68,7 +68,7 @@ class PresenterNew: NSObject {
             customPresenter.roundCorners = true
             customPresenter.cornerRadius = 15.0
             customPresenter.backgroundOpacity = 1.0
-            customPresenter.dismissOnSwipe = true
+            customPresenter.dismissOnSwipe = false
             customPresenter.blurBackground = true
             customPresenter.blurStyle = UIBlurEffectStyle.light
             return customPresenter
@@ -86,7 +86,7 @@ class PresenterNew: NSObject {
             customPresenter.roundCorners = true
             customPresenter.cornerRadius = 15.0
             customPresenter.backgroundOpacity = 0.8
-            customPresenter.dismissOnSwipe = true
+            customPresenter.dismissOnSwipe = false
             customPresenter.blurBackground = true
             customPresenter.blurStyle = UIBlurEffectStyle.light
             

@@ -45,6 +45,10 @@ class StreamDAO {
     var hieght                 :Int! = 300
     var selectionType:StreamType!
     var count:Int! = 0
+    var haveSomeUpdate:Bool! = false
+    var isColabStream:Bool! = false
+
+    
    
     // People
 
@@ -80,6 +84,15 @@ class StreamDAO {
         }
         if let obj = streamData["height"] {
             self.hieght = Int("\(obj)")
+        }
+        
+        if let obj  = streamData["have_some_update"] {
+            let value  = "\(obj)"
+            self.haveSomeUpdate = value.toBool()
+        }
+        if let obj  = streamData["is_collaborator"] {
+            let value  = "\(obj)"
+            self.isColabStream = value.toBool()
         }
     }
     
@@ -286,29 +299,50 @@ class StreamViewDAO{
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
             print(objColab)
-            for (index,value) in objColab.enumerated() {
+            for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
-                if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                
+                if colab.userID == UserDAO.sharedInstance.user.userProfileID.trim() {
                     colab.isSelected = true
+                    self.userImage = colab.userImage
                 }else {
                     colab.isSelected = colab.addedByMe
-                }
-                if index == 0 {
-                    if colab.userImage.isEmpty {
-                        self.colabImageFirst =  colab.name
-                    }else {
-                        self.colabImageFirst =  colab.userImage
-                    }
-                }else if index == 1 {
-                    if colab.userImage.isEmpty{
-                        self.colabImageSecond = colab.name
-                    }else{
-                        self.colabImageSecond = colab.userImage
-                    }
                 }
                 
                 self.arrayColab.append(colab)
             }
+            
+            var userIndex:Int!
+            if let mainIndex = self.arrayColab.index(where: {$0.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() }) {
+                 userIndex = mainIndex
+            }
+            
+            for (index,colab) in self.arrayColab.enumerated() {
+                if userIndex != index {
+                    
+                    if colabImageFirst.trim().isEmpty {
+                        if colab.userImage.isEmpty {
+                            self.colabImageFirst =  colab.name
+                        }else {
+                            self.colabImageFirst =  colab.userImage
+                        }
+                    }
+                    
+                    if !colabImageFirst.trim().isEmpty {
+                        if colab.userImage.isEmpty{
+                            self.colabImageSecond = colab.name
+                        }else{
+                            self.colabImageSecond = colab.userImage
+                        }
+                    }
+                    
+                    if !self.colabImageFirst.trim().isEmpty &&  !self.colabImageFirst.trim().isEmpty {
+                        break
+                    }
+                }
+            }
+
+            
         }
        
         if let obj  = streamData["contents"] {

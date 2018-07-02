@@ -11,7 +11,7 @@ import GSKStretchyHeaderView
 import Haptica
 
 protocol MyStreamHeaderViewDelegate {
-    func selected(index:Int)
+    func selected(index:Int,content:ContentDAO)
 }
 
 class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowDataSource,GSKStretchyHeaderViewStretchDelegate {
@@ -110,10 +110,10 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     
     @objc func playButtonAction(sender:UIButton){
         if self.sliderDelegate != nil {
-            self.sliderDelegate?.selected(index: Int(sliderCover.currentIndex))
+            let content = arrayContents[Int(sliderCover.currentIndex)]
+            self.sliderDelegate?.selected(index: Int(sliderCover.currentIndex), content: content)
         }
     }
-    
     
     // MARK: - KASlideShow datasource
     
@@ -136,7 +136,8 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     }
     func slideShowDidSelect(_ slideShow: KASlideShow!) {
         if sliderDelegate != nil {
-            self.sliderDelegate?.selected(index: Int(slideShow.currentIndex))
+            let content = arrayContents[Int(slideShow.currentIndex)]
+            self.sliderDelegate?.selected(index: Int(slideShow.currentIndex), content: content)
         }
     }
     

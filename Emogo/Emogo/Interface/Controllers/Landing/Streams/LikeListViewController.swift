@@ -163,6 +163,12 @@ class LikeListViewController: UIViewController {
             cell.prepareLayout(like:dict)
             cell.btnFollow.tag = indexPath.row
             cell.btnFollow.addTarget(self, action: #selector(self.actionForFollowUser(sender:)), for: .touchUpInside)
+             cell.btnFollow.isHidden = false
+            if  dict.userProfileID.trim() == UserDAO.sharedInstance.user.userProfileID {
+                cell.lblDisplayname.text = "You"
+                cell.lblUserName.text = dict.name
+                cell.btnFollow.isHidden = true
+            }
             return cell
         }
     }

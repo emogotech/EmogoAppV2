@@ -34,10 +34,9 @@ target 'Emogo' do
     pod 'Presentr'
     pod 'PryntTrimmerView'
     pod 'BMPlayer'
-    pod "URLEmbeddedView"
     pod "Haptica"
     pod "RichEditorView"
-pod 'DropDown'
+    pod 'DropDown'
 
     
     

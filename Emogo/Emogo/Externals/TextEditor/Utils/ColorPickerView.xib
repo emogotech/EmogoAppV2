@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ColorPickerView" customModule="Emogo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -27,11 +27,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view tag="787822" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-hd-Pxl" customClass="PMColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+                        <view tag="787822" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCE-hd-Pxl" customClass="PMColorPickerView" customModule="Emogo" customModuleProvider="target">
                             <rect key="frame" x="66" y="39" width="288" height="76"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="backgroud Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYv-Ca-z5C">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Color" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYv-Ca-z5C">
                             <rect key="frame" x="21" y="125" width="333" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="hbX-KO-uT2"/>
@@ -40,7 +40,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEE-ys-7hD" customClass="PMColorPickerView" customModule="RichTextEditor" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UEE-ys-7hD" customClass="PMColorPickerView" customModule="Emogo" customModuleProvider="target">
                             <rect key="frame" x="66" y="154" width="288" height="76"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>

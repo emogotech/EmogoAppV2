@@ -55,10 +55,6 @@ class AddStreamViewController: UITableViewController {
     var contentRowHeight : CGFloat = 30.0
     
     
-    var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: minimumSize)
-    }
-    
     // MARK: - Override Functions
     
     override func viewDidLoad() {

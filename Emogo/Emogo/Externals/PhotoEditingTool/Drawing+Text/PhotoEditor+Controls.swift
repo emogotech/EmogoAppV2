@@ -34,10 +34,12 @@ extension PhotoEditorViewController {
                     self.updateContent(coverImage: self.seletedImage.coverImage!, coverVideo: self.seletedImage.coverImageVideo, type: self.seletedImage.type.rawValue, width: self.seletedImage.width, height: self.seletedImage.height)
                 }
         }else {
-            seletedImage.imgPreview = image
+         //   seletedImage.imgPreview = image
             seletedImage.description = txtDescription.text.trim()
             seletedImage.fileName = NSUUID().uuidString + ".png"
             seletedImage.isUploaded = false
+            seletedImage.type = PreviewType.image
+            seletedImage.name = txtTitle.text?.trim()
             self.photoEditorDelegate?.doneEditing(image: self.seletedImage!)
             self.navigationController?.popViewAsDismiss()
         }
@@ -67,23 +69,28 @@ extension PhotoEditorViewController {
         }
         guard let edgeMenu = self.edgeMenu else { return }
         self.viewDescription.isHidden = true
+        canvasImageView.isUserInteractionEnabled = true
         edgeMenu.close()
         switch sender.tag {
         case 101:
         self.selectedFeature = .text
+        isDrawing = false
         self.hideToolbar(hide: false)
         self.textButtonTapped()
             break
         case 102:
         self.selectedFeature = .drawing
+        isDrawing = true
         self.hideToolbar(hide: true)
         drawButtonTapped()
             break
         case 103:
+            isDrawing = false
         self.selectedFeature = .sticker
         stickersButtonTapped()
             break
         case 104:
+            isDrawing = false
             self.selectedFeature = .none
         let obj:FilterViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_FilterView) as! FilterViewController
             obj.image  = self.canvasImageView.image
@@ -127,10 +134,12 @@ extension PhotoEditorViewController {
         }
         self.colorPickerView.isHidden = true
         if self.selectedFeature == .drawing {
+            self.canvasImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
             self.canvasImageView.image = self.image
         }else if self.selectedFeature == .sticker {
             if isStriker {
                 isStriker = false
+                isDrawing = false
                 for beforeTextViewHide in self.canvasImageView.subviews {
                     if beforeTextViewHide.isKind(of: UIImageView.self){
                         if beforeTextViewHide.tag == 111{
@@ -151,6 +160,7 @@ extension PhotoEditorViewController {
         }else if self.selectedFeature == .text {
             if  isText {
                 isText = false
+                isDrawing = false
                 self.lastTextViewTransform = nil
                 for beforeTextViewHide in self.canvasImageView.subviews {
                     if beforeTextViewHide.isKind(of: UIView.self) {
@@ -179,12 +189,15 @@ extension PhotoEditorViewController {
                 edgeMenuLeft.close()
             }
         }
-        isDrawing = false
         self.colorsCollectionView.isHidden = true
         self.gradientImageView.isHidden = true
         let img = self.canvasView.toImage()
         self.canvasImageView.image = img
         self.seletedImage.imgPreview = img
+        if isDrawing {
+            self.canvasImageView.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+        }
+        isDrawing = false
         if  isText {
             isText = false
             self.lastTextViewTransform = nil

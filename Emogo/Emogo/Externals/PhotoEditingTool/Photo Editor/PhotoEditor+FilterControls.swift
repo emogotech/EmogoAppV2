@@ -25,23 +25,8 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
             let filter = self.images[indexPath.row]
             cell.imgPreview.tag = indexPath.row
             cell.lblName.text = filter.iconName
-            if filter.icon ==  nil {
-                self.prepareImageFor(obj: filter, index: indexPath.row) { (objFilter) in
-                    
-                    DispatchQueue.main.async {
-                        if  cell.imgPreview.tag == indexPath.row {
-                            if let objFilter = objFilter {
-                                self.images[indexPath.row] = objFilter
-                                cell.setup(filter: objFilter)
-                            }
-                        }
-                    }
-                    
-                }
-            }else {
-                cell.setup(filter: filter)
-            }
-          
+            let value:String = filter.key
+            cell.imgPreview.image = filter.icon
             return cell
             
         }else {
@@ -55,17 +40,15 @@ extension FilterViewController : UICollectionViewDataSource, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if isGradientFilter {
             let filter = self.images[indexPath.row]
-            self.prepareImageFor(obj: filter, index: indexPath.row) { (objFilter) in
-                DispatchQueue.main.async {
-                    if let objFilter = objFilter {
-                        self.imageGradientFilter = objFilter.icon
-                        self.images[indexPath.row] = objFilter
-                        if let image = self.imageGradientFilter {
-                            self.canvasImageView.image = image.resize(to: (self.imageToFilter?.size)!)
-                        }
-                    }
-                   
+            let value:String = filter.key
+            if value.contains(".png") {
+                if let frontImage = UIImage(named: value) {
+                    let filterImage = self.image?.mergedImageWith(frontImage: frontImage)
+                    self.canvasImageView.image = filterImage?.resize(to: (self.imageToFilter?.size)!)
                 }
+            } else {
+                let filterImage  = self.image?.createFilteredImage(filterName: value)
+                self.canvasImageView.image = filterImage?.resize(to: (self.imageToFilter?.size)!)
             }
          
         }else {

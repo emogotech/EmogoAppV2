@@ -114,6 +114,7 @@ import UIKit
         updateToolbar()
     }
     
+    
     private func updateToolbar() {
         var buttons = [UIBarButtonItem]()
         for option in options {
@@ -122,7 +123,7 @@ import UIKit
                     option.action(strongSelf)
                 }
             }
-
+            
             if let image = option.image {
                 let button = RichBarButtonItem(image: image, handler: handler)
                 buttons.append(button)
@@ -133,9 +134,9 @@ import UIKit
             }
         }
         toolbar.items = buttons
-
-        let defaultIconWidth: CGFloat = 28
-        let barButtonItemMargin: CGFloat = 15
+        
+        let defaultIconWidth: CGFloat = 40
+        let barButtonItemMargin: CGFloat = 11
         let width: CGFloat = buttons.reduce(0) {sofar, new in
             if let view = new.value(forKey: "view") as? UIView {
                 return sofar + view.frame.size.width + barButtonItemMargin

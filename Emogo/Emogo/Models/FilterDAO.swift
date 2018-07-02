@@ -41,8 +41,6 @@ class FilterDAO {
     
     private func prepareGradientData(){
     
-    if deviceName.lowercased().contains("iphone 5") ||  deviceName.lowercased().contains("iphone5") || deviceName.lowercased().contains("iphone 6") || deviceName.lowercased().contains("iphone6"){
-        
         self.arrayFilters = [
             ["name":"Normal","value":"No Filter"],
             ["name":"Chrome","value":"CIPhotoEffectChrome"],
@@ -63,40 +61,8 @@ class FilterDAO {
             ["name":"Gradient6","value":"filter_gradient_6.png"],
             ["name":"Gradient7","value":"filter_gradient_7.png"]
         ]
-    
-    }else {
-        self.arrayFilters = [
-            ["name":"Mosaic","value":"0"],
-            ["name":"Scream","value":"1"],
-            ["name":"Muse","value":"2"],
-            ["name":"Udanie","value":"3"],
-            ["name":"Candy","value":"4"],
-            ["name":"Feathers","value":"5"],
-            ["name":"Normal","value":"No Filter"],
-            ["name":"Chrome","value":"CIPhotoEffectChrome"],
-            ["name":"Fade","value":"CIPhotoEffectFade"],
-            ["name":"Instant","value":"CIPhotoEffectInstant"],
-            ["name":"Mono","value":"CIPhotoEffectMono"],
-            ["name":"Noir","value":"CIPhotoEffectNoir"],
-            ["name":"Process","value":"CIPhotoEffectProcess"],
-            ["name":"Tonal","value":"CIPhotoEffectTonal"],
-            ["name":"Transfer","value":"CIPhotoEffectTransfer"],
-            ["name":"Tone","value":"CILinearToSRGBToneCurve"],
-            ["name":"Linear","value":"CISRGBToneCurveToLinear"],
-            ["name":"Gradient1","value":"filter_gradient_1.png"],
-            ["name":"Gradient2","value":"filter_gradient_2.png"],
-            ["name":"Gradient3","value":"filter_gradient_3.png"],
-            ["name":"Gradient4","value":"filter_gradient_4.png"],
-            ["name":"Gradient5","value":"filter_gradient_5.png"],
-            ["name":"Gradient6","value":"filter_gradient_6.png"],
-            ["name":"Gradient7","value":"filter_gradient_7.png"]
-        ]
-        }
-       
     }
-    
-    
-    
+        
     
 }
 

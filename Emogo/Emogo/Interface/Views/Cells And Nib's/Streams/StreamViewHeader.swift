@@ -21,7 +21,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var btnLike: UIButton!
     @IBOutlet weak var btnCollab: MIBadgeButton!
-    @IBOutlet weak var btnContainer: UIView!
+    @IBOutlet weak var viewLike: UIView!
+    @IBOutlet weak var viewViewCount: UIView!
     @IBOutlet weak var lblViewCount: UILabel!
     @IBOutlet weak var lblLikeCount: UILabel!
     @IBOutlet weak var imgCollabTwo: NZCircularImageView!
@@ -30,6 +31,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
     @IBOutlet weak var btnLikeList: UIButton!
     @IBOutlet weak var viewTop: UIView!
     @IBOutlet weak var lblColabLabel: UILabel!
+    @IBOutlet weak var kConstantImageWidth: NSLayoutConstraint!
 
     var streamDelegate:StreamViewHeaderDelegate?
     var objColab:StreamViewDAO!
@@ -69,7 +71,7 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             btnCollab.isHidden = false
            // btnCollab.badgeEdgeInsets = UIEdgeInsetsMake(0, -7, -7, 0)
         }
-        self.lblName.text = objStream.title.trim().capitalized
+        self.lblName.text = objStream.title.trim()
         self.lblName.shadow()
         self.lblName.minimumScaleFactor = 1.0
         self.lblDescription.text = objStream.description.trim()
@@ -103,7 +105,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgUser.setImageWithResizeURL(objStream.userImage.trim())
         }
         else {
-            self.imgUser.setImage(string:objStream.author.trim(), color: UIColor.colorHash(name:objStream.author.trim()), circular: true)
+            
+            self.imgUser.setImage(string:objStream.author.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
         }
      
         if !objStream.colabImageFirst.trim().isEmpty {
@@ -112,8 +115,8 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
                 self.imgCollabOne.setImageWithResizeURL(objStream.colabImageFirst.trim())
 
             }else {
-                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.colorHash(name:objStream.colabImageFirst.trim()), circular: true)
-
+                
+                self.imgCollabOne.setImage(string:objStream.colabImageFirst.trim(), color: UIColor.brown, circular: true)
             }
            
         }else{
@@ -127,21 +130,24 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
             self.imgCollabTwo.setImageWithResizeURL(objStream.colabImageSecond.trim())
                 
             }else {
-                self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.colorHash(name:objStream.colabImageSecond.trim()), circular: true)
+                self.imgCollabTwo.setImage(string:objStream.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
 
             }
         }else{
             self.imgCollabTwo.isHidden = true
         }
-        if objStream.arrayColab.count == 0 {
+        if objStream.arrayColab.count == 0 ||  objStream.arrayColab.count == 1 {
             self.lblColabLabel.text =  "by " + objStream.author.capitalized
+             kConstantImageWidth.constant = 40.0
         }else {
-            self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count) other"
+            if objStream.arrayColab.count-1 > 1 {
+                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count-1) others"
+            }else {
+                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count-1) other"
+            }
+            kConstantImageWidth.constant = 60.0
         }
-        // For  Now
-       // btnEdit.isHidden = false
-      
-        
+       
     }
    
     

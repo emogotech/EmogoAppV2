@@ -8,7 +8,7 @@
 
 import UIKit
 import QuartzCore
-import Haptica
+//import Haptica
 
 class Animation: NSObject {
 
@@ -63,11 +63,11 @@ class Animation: NSObject {
     }
     
     class func addRightTransitionCollection(imgV:UICollectionView){
-        if kDefault?.bool(forKey: kHapticFeedback) == true{
-            Haptic.impact(.light).generate()
-        }else{
-            
-        }
+//        if kDefault?.bool(forKey: kHapticFeedback) == true{
+//            Haptic.impact(.light).generate()
+//        }else{
+//
+//        }
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = kCATransitionPush
@@ -76,11 +76,11 @@ class Animation: NSObject {
     }
     
     class func addLeftTransitionCollection(imgV:UICollectionView){
-        if kDefault?.bool(forKey: kHapticFeedback) == true{
-            Haptic.impact(.light).generate()
-        }else{
-            
-        }
+//        if kDefault?.bool(forKey: kHapticFeedback) == true{
+//            Haptic.impact(.light).generate()
+//        }else{
+//
+//        }
         let transition = CATransition()
         transition.duration = 0.3
         transition.type = kCATransitionPush

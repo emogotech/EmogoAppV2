@@ -15,6 +15,9 @@ import Contacts
 import XLActionController
 import CropViewController
 
+protocol CreateStreamControllerDelegate {
+    func streamCreatedWith(stream:StreamDAO)
+}
 class CreateStreamController: UITableViewController {
     
     
@@ -51,20 +54,24 @@ class CreateStreamController: UITableViewController {
     var minimumSize: CGSize = CGSize.zero
     
     var contentRowHeight : CGFloat = 30.0
+    var exestingNavigation:UINavigationController?
+    //var delegate:CreateStreamControllerDelegate?
     
-    
-    var croppingParameters: CroppingParameters {
-        return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: minimumSize)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.prepareLayouts()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-       
+        self.viewTitle.layer.contents = UIImage(named: "gradient")?.cgImage
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,10 +92,10 @@ class CreateStreamController: UITableViewController {
         tfDescription.inputAccessoryView = toolBar
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
-        tfDescription.placeholder = "Caption(Optional)"
+        tfDescription.placeholder = "CAPTION(OPTIONAL)"
         tfDescription.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         tfEmogoTitle.selectedLineColor = .clear
-        self.lblCaption.text = "Caption(Optional)"
+        self.lblCaption.text = "CAPTION(OPTIONAL)"
         self.lblCaption.font = UIFont.systemFont(ofSize: 13)
         if self.tfDescription.text.count > 0 {
             self.lblCaption.isHidden = false
@@ -171,6 +178,7 @@ class CreateStreamController: UITableViewController {
         self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
         print(self.fileName)
+        self.textFieldNext.becomeFirstResponder()
     }
     
     
@@ -223,7 +231,11 @@ class CreateStreamController: UITableViewController {
             if isSuccess == true{
                 self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
-                    currentStreamType = StreamType.myStream
+                    if self.switchForEmogoPrivate.on {
+                        currentStreamType = StreamType.Private
+                    }else {
+                        currentStreamType = StreamType.Public
+                    }
                     StreamList.sharedInstance.arrayStream.insert(stream!, at: 0)
                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Filter ), object: nil)
                     if isAssignProfile != nil {
@@ -232,6 +244,7 @@ class CreateStreamController: UITableViewController {
                         if self.isAddContent != nil {
                             self.associateContentToStream(id: (stream?.ID)!)
                         }else {
+                            self.dismiss(animated: true, completion: nil)
                             let array = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                             StreamList.sharedInstance.arrayViewStream = array
                             let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
@@ -239,10 +252,8 @@ class CreateStreamController: UITableViewController {
                             obj.isFromCreateStream = "TRUE"
                             obj.streamType = currentStreamType.rawValue
                             ContentList.sharedInstance.objStream = nil
-                            self.navigationController?.popToViewController(vc: obj)
+                            self.exestingNavigation?.popToViewController(vc: obj)
                         }
-                        
-                        
                         
                         // self.navigationController?.popNormal()
                         
@@ -265,9 +276,10 @@ class CreateStreamController: UITableViewController {
         APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: streamID) { (isUpdated, errorMSG) in
             if (errorMSG?.isEmpty)! {
                 self.showToast(strMSG: kAlert_ProfileStreamAdded)
+                self.dismiss(animated: true, completion: nil)
                 isAssignProfile = nil
                 let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                self.navigationController?.popToViewController(vc: obj)
+                self.exestingNavigation?.popToViewController(vc: obj)
             }else {
                 self.showToast(strMSG: errorMSG!)
             }
@@ -287,14 +299,21 @@ class CreateStreamController: UITableViewController {
             let when = DispatchTime.now() + 1.5
             DispatchQueue.main.asyncAfter(deadline: when) {
                 // Back Screen
-                currentStreamType = StreamType.myStream
+                self.dismiss(animated: true, completion: nil)
+                
+                if self.switchForEmogoPrivate.on {
+                    currentStreamType = StreamType.Private
+                }else {
+                    currentStreamType = StreamType.Public
+                }
+                
                 let array  = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
                 if array.count != 0 {
                     StreamList.sharedInstance.arrayViewStream = array
                     let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                     obj.streamType = currentStreamType.rawValue
                     ContentList.sharedInstance.objStream = id
-                    self.navigationController?.popToViewController(vc: obj)
+                    self.exestingNavigation?.popToViewController(vc: obj)
                 }
                 
             }

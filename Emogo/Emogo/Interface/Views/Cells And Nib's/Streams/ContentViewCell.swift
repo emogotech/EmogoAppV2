@@ -124,7 +124,7 @@ class ContentViewCell: UICollectionViewCell {
             }else {
                // self.btnMore.isHidden = true
             }
-            self.lblImageDescription.numberOfLines = 2
+            self.lblImageDescription.numberOfLines = 0
         }
         
         if seletedImage.type == .notes {

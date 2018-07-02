@@ -132,11 +132,12 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
         //            Animation.viewSlideInFromTopToBottom(views: self.viewMenu)
         //        }
         //        isMenuOpen = false
+        self.segmentContainerView.isHidden = true
+        self.kSegmentHeight.constant = 0.0
         if self.segmentheader != nil {
             if self.segmentheader.superview != nil {
             self.segmentheader.removeFromSuperview()
             }
-            
         }
 
         switch index {
@@ -144,7 +145,6 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
             ShowSegmentControl()
             currentStreamType = StreamType.Public
             self.segmentheader.segmentControl.selectedSegmentIndex = 0
-        
             break
         case 1:
             currentStreamType  =  StreamType.populer
@@ -157,10 +157,10 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
             break
         case 4:
             currentStreamType   =   StreamType.Liked
-            //            currentStreamType = StreamType.People
-            //            collectionLayout.columnCount = 3
-            //            self.lblNoResult.text = kAlert_No_User_Record_Found
-            //   self.actionForPeopleList()
+            //  currentStreamType = StreamType.People
+            //  collectionLayout.columnCount = 3
+            //  self.lblNoResult.text = kAlert_No_User_Record_Found
+            //  self.actionForPeopleList()
             break
             
         case 5:
@@ -230,7 +230,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
     
     func actionForAddStream(){
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
-        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
+         createVC.exestingNavigation = self.navigationController
+         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
 //        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
 //        self.navigationController?.push(viewController: obj)
     }
@@ -313,7 +314,8 @@ extension StreamListViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = obj.originalFileName
+            
+            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
@@ -377,9 +379,11 @@ extension StreamListViewController {
         switch index {
         case 0:
            currentStreamType = StreamType.Public
+           StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
             break
         case 1:
             currentStreamType = StreamType.Private
+            StreamList.sharedInstance.updateRequestType(filter: currentStreamType)
             break
             
         default:
@@ -437,7 +441,7 @@ extension ProfileViewController : ActionSheetViewControllerDelegate {
             self.btnImportAction()
             break
         case "2":
-            self.btnCameraAction()
+            self.actionForCamera()
             break
         case "3":
             self.btnActionForLink()
@@ -472,7 +476,7 @@ extension ViewStreamController : ActionSheetViewControllerDelegate {
             self.btnImportAction()
             break
         case "2":
-            self.btnCameraAction()
+            self.actionForCamera()
             break
         case "3":
             self.btnActionForLink()

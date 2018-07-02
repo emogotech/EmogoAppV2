@@ -198,10 +198,15 @@ extension MyStuffPreViewController:UICollectionViewDelegate,UICollectionViewData
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
                 ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.currentIndex = indexPath.row
-                    objPreview.isFromAll = "YES"
-                    self.navigationController?.push(viewController: objPreview)
+            let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = indexPath.row
+                objPreview.isFromAll = "YES"
+                let nav = UINavigationController(rootViewController: objPreview)
+                let indexPath = IndexPath(row: indexPath.row, section: 0)
+                if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
+                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    nav.cc_swipeBackDisabled = true
+                }
             }
     }
     

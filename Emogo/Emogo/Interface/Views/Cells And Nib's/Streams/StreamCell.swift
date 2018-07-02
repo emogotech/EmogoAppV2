@@ -15,6 +15,8 @@ class StreamCell: UICollectionViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
     @IBOutlet weak var viewContent: UIView!
+    @IBOutlet weak var cardView: CardView!
+    
     var coverImage:UIImage!
 
     
@@ -28,10 +30,10 @@ class StreamCell: UICollectionViewCell {
     func prepareLayouts(stream:StreamDAO){
         
          self.imgCover.contentMode = .scaleAspectFill
-        
+        self.imgCover.isHidden = false
      //   self.imgCover.backgroundColor = .black
          self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
-         self.lblTitle.text = stream.Title.trim().capitalized
+         self.lblTitle.text = stream.Title.trim()
          self.lblTitle.minimumScaleFactor = 1.0
          self.accessibilityLabel =   stream.Title.trim()
          self.lblName.text =  "by \(stream.Author.trim().capitalized)"

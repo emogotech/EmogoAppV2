@@ -256,7 +256,11 @@ class APIServiceManager: NSObject {
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            stream.selectionType = StreamType.myStream
+                            if streamType == "Private" {
+                                stream.selectionType = StreamType.Private
+                            }else {
+                                stream.selectionType = StreamType.Public
+                            }
                             completionHandler(true,"",stream)
                         }
                     }else {
@@ -316,31 +320,38 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let stream = StreamDAO(streamData: (data as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                            for i in 0..<StreamList.sharedInstance.arrayStream.count {
-                                let oldData = StreamList.sharedInstance.arrayStream[i]
-                                  if oldData.ID == stream.ID {
-                                    print(oldData.selectionType)
-                                    stream.selectionType = oldData.selectionType
-                                    StreamList.sharedInstance.arrayStream[i] = stream
-                                }
-                            }
-//                            for obj in StreamList.sharedInstance.arrayStream {
-//                                if obj.ID == stream.ID {
-//                                    if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
-//                                        let oldData = StreamList.sharedInstance.arrayStream[index]
-//                                        print("index found in main list")
-//                                        print(oldData.selectionType)
-//                                        stream.selectionType = oldData.selectionType
-//                                        StreamList.sharedInstance.arrayStream[index] = stream
-//                                    }
+                            
+//                            for i in 0..<StreamList.sharedInstance.arrayStream.count {
+//                                let oldData = StreamList.sharedInstance.arrayStream[i]
+//                                  if oldData.ID == stream.ID {
+//                                    print(oldData.selectionType)
+//                                    stream.selectionType = oldData.selectionType
+//                                    StreamList.sharedInstance.arrayStream[i] = stream
 //                                }
 //                            }
+                            
+                            if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == stream.ID.trim()}) {
+                                let oldData = StreamList.sharedInstance.arrayStream[index]
+                                print("index found in main list")
+                                print(oldData.selectionType)
+                                stream.haveSomeUpdate = false
+                                stream.selectionType = oldData.selectionType
+                                if stream.streamType.lowercased() == "public" {
+                                    stream.selectionType = StreamType.Public
+                                    
+                                }else {
+                                    stream.selectionType = StreamType.Private
+                                    
+                                }
+                                StreamList.sharedInstance.arrayStream[index] = stream
+                            }
+                           
                         }
                         completionHandler(true,"")
                     }else {
@@ -368,8 +379,8 @@ class APIServiceManager: NSObject {
             "any_one_can_edit":anyOneCanEdit,
             "collaborator":jsonCollaborator,
             "collaborator_permission": [
-                "can_add_content" : true,
-                "can_add_people": false]
+                "can_add_content" : canAddContent,
+                "can_add_people": canAddPeople]
         ] as [String : Any]
         
         print(params)
@@ -378,7 +389,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.patch(strURL: url, Param: params) { (result) in
             switch(result){
             case .success(let value):
-                print(value)
+              //  print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -414,6 +425,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetTopStreamAPI) { (result) in
             switch(result){
             case .success(let value):
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -1356,6 +1368,7 @@ class APIServiceManager: NSObject {
             case .success(let value):
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
+                    print(value)
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
                         if let data = (value as! [String:Any])["data"] {
                             let result:[Any] = data as! [Any]
@@ -1523,6 +1536,7 @@ class APIServiceManager: NSObject {
                             kDefault?.setValue(dictUserData.replacingNullsWithEmptyStrings(), forKey: kUserLogggedInData)
                             UserDAO.sharedInstance.parseUserInfo()
                             kDefault?.set(true, forKey: kUserLogggedIn)
+                            NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier ), object: nil)
                         }
                         completionHandler(true,"")
                     }else {
@@ -1834,10 +1848,12 @@ class APIServiceManager: NSObject {
         }
     }
     
-    func apiForLikeUnlikeStream(stream:String, status:String,completionHandler:@escaping (_ updatedCount:String?,_ status:String?, _ strError:String?)->Void){
+    func apiForLikeUnlikeStream(stream:String, status:String,completionHandler:@escaping (_ updatedCount:String?,_ status:String?,_ results:[LikedUser]?, _ strError:String?)->Void){
         let param = ["stream":stream,"status":status] as [String : Any]
         var count:String! = ""
         var statusLiked:String! = ""
+        var arrayLikedUsers = [LikedUser]()
+
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kStreamLikeDislikeAPI, Param: param) { (result) in
             switch(result){
             case .success(let value):
@@ -1853,17 +1869,28 @@ class APIServiceManager: NSObject {
                             if let totalLike = result["total_liked"]{
                                 count = "\(totalLike)"
                             }
+                            
+                            if let likedArray = result["user_liked"]{
+                                if likedArray is [Any] {
+                                    let array:[Any] = likedArray  as! [Any]
+                                    for value in array {
+                                        let user = LikedUser(dictUser: (value as!  NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        arrayLikedUsers.append(user)
+                                    }
+                                }
+                            }
+                            
                         }
-                        completionHandler(count,statusLiked,"")
+                        completionHandler(count,statusLiked,arrayLikedUsers,"")
 
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(nil,nil,errorMessage)
+                        completionHandler(nil,nil,arrayLikedUsers,errorMessage)
                     }
                 }
             case .error(let error):
                 print(error.localizedDescription)
-                completionHandler(nil,nil,error.localizedDescription)
+                completionHandler(nil,nil,arrayLikedUsers,error.localizedDescription)
             }
         }
     }
@@ -2240,7 +2267,7 @@ class APIServiceManager: NSObject {
         }
     }
     
-    func apiForIncreaseStreamViewCount(streamID:String, completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+    func apiForIncreaseStreamViewCount(streamID:String, completionHandler:@escaping (_ isSuccess:String?, _ strError:String?)->Void){
         
         let params:[String:Any] = ["stream":streamID]
         APIManager.sharedInstance.POSTRequestWithHeader(strURL: kAPIIncreaseViewCount, Param: params) { (result) in
@@ -2249,16 +2276,22 @@ class APIServiceManager: NSObject {
                 print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
+                    var strCount:String! = "0"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
-                        completionHandler(true,"")
+                        if let data = (value as! [String:Any])["data"] {
+                           if let count = (data as! [String:Any])["total_view_count"] {
+                                strCount = "\(count)"
+                            }
+                        }
+                        completionHandler(strCount,"")
                     }else {
                         let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
-                        completionHandler(false,errorMessage)
+                        completionHandler("",errorMessage)
                     }
                 }
             case .error(let error):
                 print(error.localizedDescription)
-                completionHandler(false,error.localizedDescription)
+                completionHandler("",error.localizedDescription)
             }
         }
         

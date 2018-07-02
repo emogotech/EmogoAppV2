@@ -214,11 +214,12 @@ class MyStreamViewController: UIViewController {
                 arrayContents.append(image)
             }
         }
-        
-        let controller = LightboxController(images: arrayContents, startIndex: index)
-        controller.dynamicBackground = true
         if arrayContents.count != 0 {
-            present(controller, animated: true, completion: nil)
+            let controller = LightboxController(images: arrayContents, startIndex: index)
+            controller.dynamicBackground = true
+            if arrayContents.count != 0 {
+                present(controller, animated: true, completion: nil)
+            }
         }
     }
     
@@ -395,6 +396,13 @@ class MyStreamViewController: UIViewController {
          obj.isAddContent = true
         self.navigationController?.push(viewController: obj)
     }
+    
+    func gifPreview(content:ContentDAO){
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = content
+        self.present(obj, animated: false, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -492,7 +500,20 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
 
 
 extension MyStreamViewController:MyStreamHeaderViewDelegate {
-    func selected(index: Int) {
-        self.openFullView(index:index)
+    func selected(index: Int, content: ContentDAO) {
+        if content.type == .gif {
+            self.gifPreview(content: content)
+            return
+        }
+        if content.type == .link {
+            guard let url = URL(string: content.coverImage) else {
+                return //be safe
+            }
+            self.openURL(url: url)
+        }else {
+            self.openFullView(index:index)
+        }
     }
+    
+   
 }

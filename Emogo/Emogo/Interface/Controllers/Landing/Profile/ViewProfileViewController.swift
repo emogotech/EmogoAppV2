@@ -25,7 +25,7 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
     @IBOutlet weak var btnFollow: UIButton!
-
+    
     let layout = CHTCollectionViewWaterfallLayout()
     var objPeople:PeopleDAO!
     var oldContentOffset = CGPoint.zero
@@ -36,21 +36,22 @@ class ViewProfileViewController: UIViewController {
     let color = UIColor(r: 155, g: 155, b: 155)
     var isCalledMyStream:Bool! = true
     var isCalledColabStream:Bool! = true
+    var selectedImageView:UIImageView?
 
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         prepareLayouts()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     func prepareLayouts(){
-    
+        
         self.title = objPeople.fullName
         self.lblNOResult.text = kAlert_No_Stream_found
         self.configureNavigationWithTitle()
@@ -68,13 +69,13 @@ class ViewProfileViewController: UIViewController {
         layout.minimumInteritemSpacing = 8.0
         layout.sectionInset = UIEdgeInsetsMake(4, 8, 0, 8)
         layout.columnCount = 2
-
+        
         // Collection view attributes
         self.profileCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         // Add the waterfall layout to your collection view
         self.profileCollectionView.collectionViewLayout = layout
-       configureLoadMoreAndRefresh()
-       self.prepareData()
+        configureLoadMoreAndRefresh()
+        self.prepareData()
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -149,18 +150,18 @@ class ViewProfileViewController: UIViewController {
                             self.lblWebsite.addGestureRecognizer(tap)
                             self.lblWebsite.isUserInteractionEnabled = true
                         }
-                     //   self.imgUser.borderWidth = 1.0
-                       // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+                        //   self.imgUser.borderWidth = 1.0
+                        // self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
                         //print(people.userImage.trim())
                         if !people.userImage.trim().isEmpty {
                             self.imgUser.setImageWithResizeURL(people.userImage.trim())
                         }else {
                             if people.displayName.trim().isEmpty {
                                 
-                            self.imgUser.setImage(string:people.fullName, color: UIColor.colorHash(name:people.fullName ), circular: true)
-                            
-                        }else{
-                            self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
+                                self.imgUser.setImage(string:people.fullName, color: UIColor.colorHash(name:people.fullName ), circular: true)
+                                
+                            }else{
+                                self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
                             }
                         }
                         if people.biography.trim().isEmpty  {
@@ -173,8 +174,8 @@ class ViewProfileViewController: UIViewController {
                         }
                         self.profileStreamShow()
                         self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
-                }
-               
+                    }
+                    
                 }
             }
         }
@@ -188,7 +189,7 @@ class ViewProfileViewController: UIViewController {
                 self.getStreamList(type:.start,streamType: streamType)
             }
         }
-     
+        
     }
     
     
@@ -198,7 +199,7 @@ class ViewProfileViewController: UIViewController {
                 arrayMyStreams = StreamList.sharedInstance.arrayMyStream
             }
             if objPeople.stream != nil {
-
+                
                 if (objPeople.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
                     self.lblNOResult.isHidden = true
@@ -319,8 +320,8 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStream(type:String){
-         HUDManager.sharedInstance.showHUD()
-         self.getStreamList(type:.start,streamType: type)
+        HUDManager.sharedInstance.showHUD()
+        self.getStreamList(type:.start,streamType: type)
     }
     
     
@@ -335,10 +336,10 @@ class ViewProfileViewController: UIViewController {
                 StreamList.sharedInstance.arrayViewStream = array
             }else if ContentList.sharedInstance.mainStreamNavigate == "fromColabProfile"{
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
-                }
+            }
             else if  ContentList.sharedInstance.mainStreamNavigate == "View"{
-//                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
-//                StreamList.sharedInstance.arrayViewStream = array
+                //                let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+                //                StreamList.sharedInstance.arrayViewStream = array
                 
             }
             else {
@@ -350,7 +351,7 @@ class ViewProfileViewController: UIViewController {
         self.navigationController?.pop()
         
     }
-
+    
     @objc func showReportList(){
         let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
         
@@ -481,20 +482,42 @@ class ViewProfileViewController: UIViewController {
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 
 
 extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate,CHTCollectionViewDelegateWaterfallLayout,ProfileStreamViewDelegate {
+   
+    func actionForCover(imageView: UIImageView) {
+        let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+        
+        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
+        if index != nil {
+            obj.currentIndex = index
+        }else {
+            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
+            obj.currentIndex = 0
+        }
+        
+        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
+        StreamList.sharedInstance.arrayViewStream = array
+        print(array)
+        obj.streamType = currentStreamType.rawValue
+        obj.viewStream = "View"
+        selectedImageView = imageView
+        ContentList.sharedInstance.objStream = nil
+        self.navigationController?.pushViewController(obj, animated: true)
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if  self.streamType == "1" {
@@ -506,26 +529,26 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
-            cell.layer.cornerRadius = 5.0
-            cell.layer.masksToBounds = true
-            cell.isExclusiveTouch = true
-          var stream:StreamDAO?
-         if self.streamType == "1" {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
+        cell.layer.cornerRadius = 5.0
+        cell.layer.masksToBounds = true
+        cell.isExclusiveTouch = true
+        var stream:StreamDAO?
+        if self.streamType == "1" {
             stream = self.arrayMyStreams[indexPath.row]
             cell.prepareLayouts(stream: stream!)
             cell.lblName.text = ""
             cell.lblName.isHidden = true
         }else
         {
-             stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
+            stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
             cell.prepareLayouts(stream: stream!)
             cell.lblName.isHidden = false
         }
         
         cell.lblName.text = ""
         cell.lblName.isHidden = true
-            return cell
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
@@ -534,6 +557,9 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) {
+            selectedImageView = (cell as! ProfileStreamCell).imgCover
+        }
         if self.streamType == "1" {
             let tempStream = self.arrayMyStreams[indexPath.row]
             let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
@@ -547,8 +573,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             obj.streamType = currentStreamType.rawValue
             obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
-            
+            self.navigationController?.pushViewController(obj, animated: true)
+
         }else {
             ContentList.sharedInstance.mainStreamIndex = nil
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
@@ -557,9 +583,9 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             obj.streamType = currentStreamType.rawValue
             obj.viewStream = "View"
             ContentList.sharedInstance.objStream = nil
-            self.navigationController?.push(viewController: obj)
+            self.navigationController?.pushViewController(obj, animated: true)
         }
-       
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -577,7 +603,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             headerView.imgCover.layer.cornerRadius = 5.0
             headerView.imgCover.layer.masksToBounds = true
             headerView.imgUser.isHidden = true
-
+            
             return headerView
             
         default:
@@ -603,27 +629,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }
         oldContentOffset = scrollView.contentOffset
     }
-    
-    func actionForCover(){
-         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-        
-        let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
-        if index != nil {
-            obj.currentIndex = index
-        }else {
-            StreamList.sharedInstance.arrayMyStream.insert(self.objPeople.stream!, at: 0)
-            obj.currentIndex = 0
-        }
-        
-        let array = StreamList.sharedInstance.arrayMyStream.filter { $0.isAdd == false }
-        StreamList.sharedInstance.arrayViewStream = array
-        print(array)
-        obj.streamType = currentStreamType.rawValue
-        obj.viewStream = "View"
-        ContentList.sharedInstance.objStream = nil
-        self.navigationController?.push(viewController: obj)
-        
-    }
+
     
 }
+
 

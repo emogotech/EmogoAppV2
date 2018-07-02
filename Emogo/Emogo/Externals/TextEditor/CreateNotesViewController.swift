@@ -78,7 +78,7 @@ class CreateNotesViewController: UIViewController {
     func prepareEditiorView(){
         editorView.delegate = self
         // editorView.inputAccessoryView = toolbar
-        editorView.placeholder = "Type some text..."
+        editorView.placeholder = "TYPE SOMETHING"
         editorView.inputAccessoryView = toolbar
         toolbar.delegate = self
         toolbar.editor = editorView
@@ -121,7 +121,6 @@ class CreateNotesViewController: UIViewController {
         
         let itemHorizontal = RichEditorOptionItem(image: #imageLiteral(resourceName: "horizontal"), title: "") { (toolbar) in
             let  value = toolbar.editor?.contentHTML
-            print(value)
             toolbar.editor?.html = value! + "<div><hr/><br></div>"
             toolbar.editor?.focus()
         }
@@ -161,16 +160,24 @@ class CreateNotesViewController: UIViewController {
     
     @objc func doneButtonAction(){
         if isLinkSelected {
-            if let url = URL(string: self.txtURL.text) {
+            if (self.txtURLTitle.text?.trim().isEmpty)! {
+                return
+            }else if (self.txtURL.text?.trim().isEmpty)! {
+                return
+            }
+            
+               isLinkSelected = false
                 _ =  self.editorView.becomeFirstResponder()
                 let  value = editorView.contentHTML
-                let strTitle:String = (txtURLTitle.text?.trim())!
-                editorView.html = value + "<a href=\(url.absoluteString)>\(strTitle)</a>"
+              var strTitle:String = (txtURLTitle.text?.trim())!
+              if strTitle.isEmpty {
+                  strTitle = self.txtURL.text
+              }
+                editorView.html = value + "<a href=\(self.txtURL.text)>\(strTitle)</a>"
                   self.editorView.focus()
                // self.editorView.insertLink(url.absoluteString, title: "AttachmentURL")
                // self.editorView.focus()
                 self.linkContainerView.isHidden = true
-            }
         }else {
             
             if self.editorView.contentHTML.isEmpty {
@@ -181,21 +188,24 @@ class CreateNotesViewController: UIViewController {
            
             let image = self.editorView.toImage()
             HUDManager.sharedInstance.showHUD()
-            let name = NSUUID().uuidString + ".png"
-            AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
-                
-                if let fileURL = fileURL {
-                    if self.contentDAO == nil {
-                         self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                let name = NSUUID().uuidString + ".png"
+                AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
+                    
+                    if let fileURL = fileURL {
+                        if self.contentDAO == nil {
+                            self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                        }else {
+                            self.updateContent(coverImage: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                        }
+                        
                     }else {
-                        self.updateContent(coverImage: fileURL, width: Int(image.size.width), height: Int(image.size.height))
+                        HUDManager.sharedInstance.hideHUD()
                     }
-                   
-                }else {
-                    HUDManager.sharedInstance.hideHUD()
                 }
             }
-        }
+            }
+           
     }
     
     
@@ -305,11 +315,13 @@ class CreateNotesViewController: UIViewController {
             self.kPreviewHeight.constant = 0.0
         }
         viewPreview.layer.borderWidth = 1.0
-        viewPreview.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
-        viewPreview.layer.cornerRadius = 5.0
+        viewPreview.layer.masksToBounds = true
+        viewPreview.layer.borderColor = UIColor.lightGray.cgColor
+        viewPreview.layer.cornerRadius = 10.0
         viewURL.layer.borderWidth = 1.0
-        viewURL.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
-        viewURL.layer.cornerRadius = 5.0
+        viewURL.layer.borderColor = UIColor.lightGray.cgColor
+        viewURL.layer.cornerRadius = 10.0
+        viewURL.layer.masksToBounds = true
     }
     
     func addView() -> UIView {
@@ -505,6 +517,7 @@ extension CreateNotesViewController:ColorPickerViewDelegate,LinkPickerViewDelega
         }
         editorView.html = value + "<a href=\(url)>\(strTitle)</a>"
         self.editorView.focus()
+        isLinkSelected = false
         self.linkContainerView.isHidden = true
     }
 

@@ -45,7 +45,6 @@ PODS:
   - SwiftLinkPreview (2.1.0)
   - SwiftyCam (2.6.0)
   - SwiftyJSON (3.1.4)
-  - URLEmbeddedView (0.15.0)
   - XLActionController (4.0.0):
     - XLActionController/Core (= 4.0.0)
   - XLActionController/Core (4.0.0)
@@ -72,7 +71,6 @@ DEPENDENCIES:
   - SwiftLinkPreview
   - SwiftyCam
   - SwiftyJSON
-  - URLEmbeddedView
   - XLActionController
 
 SPEC CHECKSUMS:
@@ -104,9 +102,8 @@ SPEC CHECKSUMS:
   SwiftLinkPreview: 2366319a604683d14292c0b59d70a619c1e3d461
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  URLEmbeddedView: 5d9f710ca0a923534ea87ab66843f6305f2ba309
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 91317284defa4604e086164e3a9eb8474ed50fc5
+PODFILE CHECKSUM: 6fe18e9053f1f753825954b095969834adfab4a4
 
 COCOAPODS: 1.4.0

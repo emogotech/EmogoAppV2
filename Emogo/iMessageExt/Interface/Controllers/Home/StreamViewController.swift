@@ -49,6 +49,9 @@ class StreamViewController: MSMessagesAppViewController {
     @IBOutlet weak var viewStream           : UIView!
     @IBOutlet weak var btnContainerLikeView : UIView!
     @IBOutlet weak var viewTop: UIView!
+    @IBOutlet weak var viewLikeCount: UIView!
+    @IBOutlet weak var viewCount: UIView!
+    @IBOutlet weak var kbtnCollabWidth: NSLayoutConstraint!
     
     // MARK: - Variables
     var lblCount                            : UILabel!
@@ -56,10 +59,11 @@ class StreamViewController: MSMessagesAppViewController {
     var objStream                           : StreamViewDAO?
     var currentIndex                        : Int!
     var currentStreamIndex                  : Int!
+    var strStream                           : String = ""
     var hudView                             : LoadingView!
     let kImageFormat = "http"
     var isFromWelcome                       : String?
-
+    var viewStreamType                      :String?
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var selectedIndex:IndexPath?
@@ -92,6 +96,7 @@ class StreamViewController: MSMessagesAppViewController {
         }
     }
     
+ 
     @objc func updateTblData() {
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
         if objStream!.arrayContent.count == 0{
@@ -171,10 +176,19 @@ class StreamViewController: MSMessagesAppViewController {
             self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
        
-       
-       
     }
-    
+    func setUpHeaderIcon() {
+        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            self.btnShare.isHidden = false
+        }else {
+//            if self.objStream?.userCanAddContent == true  || self.objStream?.userCanAddPeople == true{
+                self.btnShare.isHidden = true
+        //}
+    }
+        if self.objStream?.userCanAddPeople == true {
+            self.btnEdit.isHidden =  false
+        }
+    }
   
    
     @objc func setupLabelInCollaboratorButton() {
@@ -284,7 +298,7 @@ class StreamViewController: MSMessagesAppViewController {
             self.lblStreamDesc.text = self.objStream?.description
             self.lblStreamName.text = self.objStream?.title
            // self.lblStreamTitle.text = self.objStream?.title
-            self.perform(#selector(self.updateExpand), with: nil, afterDelay: 0.1)
+           // self.perform(#selector(self.updateExpand), with: nil, afterDelay: 0.1)
             self.lblStreamDesc.minimumScaleFactor = 1.0
             self.lblStreamName.minimumScaleFactor = 1.0
            // self.lblStreamTitle.minimumScaleFactor = 1.0
@@ -310,16 +324,24 @@ class StreamViewController: MSMessagesAppViewController {
       
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
              btnEdit.isHidden = false
-             self.kEditWidth.constant = 40
+                self.kEditWidth.constant = 40
+                self.viewLikeCount.isHidden = false
+                self.viewCount.isHidden = false
             //btnDelete.isHidden = false
             //heightbtnDelete.constant = 29
-            btnContainerLikeView.isHidden = false
-            
         }
       else{
-            btnContainerLikeView.isHidden = true
+               if self.objStream?.canAddPeople == true {
+                self.btnEdit.isHidden = false
+                }
+              if self.objStream?.canAddContent == true  || self.objStream?.canAddPeople == true {
+                self.btnShare.isHidden = false
+            }
+            self.viewLikeCount.isHidden = false
+            self.viewCount.isHidden = false
             
         }
+         
         self.setCollabImage()
     }
     
@@ -349,7 +371,6 @@ class StreamViewController: MSMessagesAppViewController {
 //            self.btnShare.hapticType = .impact(.light)
         }else{
             //self.btnShare.isHaptic = false
-            
         }
         
         
@@ -388,10 +409,11 @@ class StreamViewController: MSMessagesAppViewController {
         self.hudView.startLoaderWithAnimation()
         let stream = self.arrStream[self.currentStreamIndex]
     
-        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (stream.ID)!, status: (self.objStream?.likeStatus)!) {(count,status, error) in
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (stream.ID)!, status: (self.objStream?.likeStatus)!) {(count,status,results, error) in
                self.hudView.stopLoaderWithAnimation()
             
             if (error?.isEmpty)! {
+                self.objStream?.arrayLikedUsers = results!
                 self.objStream?.likeStatus = status
                 self.objStream?.totalLiked = count
                 if status == "0" {
@@ -452,10 +474,16 @@ class StreamViewController: MSMessagesAppViewController {
             self.imgSecondCollab.isHidden = true
        }
         
-        if objStream?.arrayColab.count == 0 {
+        if objStream?.arrayColab.count == 0 ||  objStream?.arrayColab.count == 1 {
             self.lblCollabName.text =  "by " + (objStream?.author.capitalized)!
+            kbtnCollabWidth.constant = 40.0
         }else {
-            self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " \(String(describing: objStream!.arrayColab.count)) other"
+            if (objStream?.arrayColab.count)!-1 > 1 {
+                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) others"
+            }else {
+                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) other"
+            }
+            kbtnCollabWidth.constant = 60.0
         }
     }
     
@@ -477,15 +505,22 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     
-    // MARK: - Action Methods
+    // MARK:- Button Action Methods
     
- 
+    @IBAction func btnLikeCountList(_ sender: Any) {
+        if self.objStream != nil && self.objStream?.arrayLikedUsers.count != 0{
+            let obj = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_LikeListView) as! LikeListViewController
+            obj.objStream = self.objStream
+            self.present(obj, animated: true, completion: nil)
+        }
+    }
     
     @IBAction func btnReportAction(_ sender: Any) {
         self.showReportList()
     }
     
     @IBAction func btnShareAction(_ sender: Any) {
+        
         self.shareStreamAction()
     }
     
@@ -532,6 +567,10 @@ class StreamViewController: MSMessagesAppViewController {
         if self.isFromWelcome != nil {
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.present(vc, animated: true, completion: nil)
+        }else if self.strStream == "viewStream"   {
+            self.dismiss(animated: true, completion: nil)
+            SharedData.sharedInstance.iMessageNavigation = "viewStream"
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }else {
             self.dismiss(animated: true, completion: nil)
             SharedData.sharedInstance.iMessageNavigation = ""
@@ -603,10 +642,18 @@ class StreamViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnShowCollaborator(_ sender:UIButton) {
-        let obj = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_Collaborator) as! CollaboratorViewController
-        obj.strTitle = kCollaobatorList
-        obj.arrCollaborator = objStream?.arrayColab
-        self.present(obj, animated: true, completion: nil)
+        if self.objStream != nil {
+            if (self.objStream?.arrayColab.count)! > 1 {
+                let obj = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_Collaborator) as! CollaboratorViewController
+                obj.strTitle = kCollaobatorList
+                obj.arrCollaborator = objStream?.arrayColab
+                self.present(obj, animated: true, completion: nil)
+            }
+        }
+//        let obj = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_Collaborator) as! CollaboratorViewController
+//        obj.strTitle = kCollaobatorList
+//        obj.arrCollaborator = objStream?.arrayColab
+//        self.present(obj, animated: true, completion: nil)
     }
     
     @IBAction func btnEditStream(_ sender:UIButton) {
@@ -845,10 +892,12 @@ class StreamViewController: MSMessagesAppViewController {
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()
             }
-            let stream = self.arrStream[currentStreamIndex]
+        
+           let stream = self.arrStream[currentStreamIndex]
             
             APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
                 if (errorMsg?.isEmpty)! {
+                    self.setUpHeaderIcon()
                     self.objStream = stream
                     if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
                         let conntenData = self.objStream?.arrayContent
@@ -865,6 +914,7 @@ class StreamViewController: MSMessagesAppViewController {
                                 obj.currentStreamID = self.objStream?.streamID!
                                 obj.currentContentIndex  = i
                                 obj.currentStreamTitle = self.objStream?.title
+                              
                                 self.present(obj, animated: false, completion: nil)
                                 isNavigateContent = true
                                 break
@@ -995,15 +1045,19 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         ContentList.sharedInstance.arrayContent = array
         ContentList.sharedInstance.objStream = objStream?.streamID
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
-      
-        obj.arrContentData = (objStream?.arrayContent)!
+        obj.arrContentData = array!
         obj.isViewCount = "TRUE"
         self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
-        obj.currentContentIndex  = indexPath.row 
+        obj.currentContentIndex  = indexPath.row + 1
         print(obj.currentContentIndex)
-      //  obj.currentStreamTitle = lblStreamTitle.text
-        self.present(obj, animated: false, completion: nil)
+        let nav = UINavigationController(rootViewController: obj)
+        if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentViewCell {
+            nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+            nav.cc_swipeBackDisabled = true
+        }
+        self.present(nav, animated: true, completion: nil)
+       // self.present(obj, animated: false, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {

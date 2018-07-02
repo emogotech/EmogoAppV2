@@ -59,6 +59,16 @@ extension PhotoEditorViewController {
     func drawLineFrom(_ fromPoint: CGPoint, toPoint: CGPoint) {
         // 1
         print(self.canvasImageView.frame)
+        let path = UIBezierPath()
+        path.move(to: fromPoint)
+        path.addLine(to: toPoint)
+        //design path in layer
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = path.cgPath
+        shapeLayer.strokeColor = drawColor.cgColor
+        shapeLayer.lineWidth = self.drawWidth
+        self.canvasImageView.layer.addSublayer(shapeLayer)
+        /*
         UIGraphicsBeginImageContext(canvasImageView.frame.size)
         if let context = UIGraphicsGetCurrentContext() {
             canvasImageView.image?.draw(in: CGRect(x: 0, y: 0, width: canvasImageView.frame.size.width, height: canvasImageView.frame.size.height))
@@ -76,6 +86,7 @@ extension PhotoEditorViewController {
             canvasImageView.image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
+ */
     }
     
 }

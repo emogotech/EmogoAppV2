@@ -41,7 +41,7 @@ extension PreviewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = obj.originalFileName
+            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
                 camera.type = .image
                 if obj.fullResolutionImage != nil {

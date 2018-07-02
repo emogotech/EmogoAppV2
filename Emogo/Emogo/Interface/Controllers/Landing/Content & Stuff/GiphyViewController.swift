@@ -227,11 +227,19 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         cell.isExclusiveTouch = true
         let content = self.arrayGiphy[indexPath.row]
         cell.prepareLayout(content:content)
+        cell.btnSelect.tag = indexPath.row
+        cell.btnSelect.addTarget(self, action: #selector(self.btnSelectAction(button:)), for: .touchUpInside)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let content = self.arrayGiphy[indexPath.row]
+        self.gifPreview(content: content)
+    }
+    
+    @objc func btnSelectAction(button : UIButton)  {
+        let index   =   button.tag
+        let indexPath   =   IndexPath(item: index, section: 0)
         if let cell = self.giphyCollectionView.cellForItem(at: indexPath) {
             let content = self.arrayGiphy[indexPath.row]
             content.isSelected = !content.isSelected
@@ -254,6 +262,23 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
             self.updateSelected(obj:insertNew)
         }
     }
+    
+    func gifPreview(content : GiphyDAO){
+        let insertNew = ContentDAO(contentData: [:])
+        insertNew.description = content.caption
+        insertNew.name = content.name
+        insertNew.type = .gif
+        insertNew.coverImage = content.url
+        insertNew.isUploaded = false
+        insertNew.height = content.hieght
+        insertNew.width = content.width
+        insertNew.isSelected = content.isSelected
+        insertNew.coverImageVideo = content.originalUrl
+        let obj:ShowPreviewViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ShowPreviewView) as! ShowPreviewViewController
+        obj.objContent = insertNew
+        self.present(obj, animated: false, completion: nil)
+    }
+    
     
     func updateSelected(obj:ContentDAO){
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {

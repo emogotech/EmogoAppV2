@@ -8,7 +8,7 @@
 
 import UIKit
 protocol ProfileStreamViewDelegate {
-    func actionForCover()
+    func actionForCover(imageView:UIImageView)
 }
 class ProfileStreamView: UICollectionReusableView {
     @IBOutlet weak var imgUser: NZCircularImageView!
@@ -65,7 +65,7 @@ class ProfileStreamView: UICollectionReusableView {
     
     @objc func tap(gesture:UITapGestureRecognizer) {
         if self.delegate != nil {
-            self.delegate?.actionForCover()
+            self.delegate?.actionForCover(imageView:self.imgCover)
         }
     }
     

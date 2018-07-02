@@ -239,10 +239,11 @@ class VideoEditorViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
         let btnback = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.buttonBackAction))
-        let imgSave = UIImage(named: "icons8-download")
-        let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))
+      //  let imgSave = UIImage(named: "icons8-download")
+        let btnClear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(self.btnClearAction))
+      //  let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))
         self.navigationItem.leftBarButtonItem = btnback
-        self.navigationItem.rightBarButtonItem = btnSave
+        self.navigationItem.rightBarButtonItem = btnClear
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false{
             edgeMenu.open()
@@ -317,7 +318,6 @@ class VideoEditorViewController: UIViewController {
     }
     
     func openPlayer(videoUrl:URL){
-        
         player = BMPlayer()
         let asset = BMPlayerResource(url: videoUrl)
         player.setVideo(resource: asset)

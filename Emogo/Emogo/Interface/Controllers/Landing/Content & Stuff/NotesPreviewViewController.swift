@@ -33,6 +33,7 @@ class NotesPreviewViewController: UIViewController {
             self.webView.loadHTMLString(content.description, baseURL: nil)
             self.webView.scalesPageToFit = true
         }
+        self.navigationController?.isNavigationBarHidden = false
         let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.backButtonAction))
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
