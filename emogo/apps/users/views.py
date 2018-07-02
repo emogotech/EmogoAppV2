@@ -166,7 +166,7 @@ class Users(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, RetrieveA
             ),
             Prefetch(
                 'profile_stream__collaborator_list',
-                queryset=Collaborator.objects.all(),
+                queryset=Collaborator.actives.all(),
                 to_attr='profile_stream_collaborator_list'
             ),
         )
@@ -501,7 +501,7 @@ class UserCollaborators(ListAPIView):
         stream_ids = Collaborator.actives.filter(Q(created_by_id=self.request.user.id) | 
                                                     Q(phone_number__endswith=str(self.request.user.username)[-10:])).values_list( 'stream', flat=True)
         # # 2. Fetch  stream Queryset objects as collaborators.
-        queryset =  self.queryset.filter(id__in=stream_ids)
+        queryset =  self.queryset.filter(id__in=stream_ids).order_by('-upd')
 
         #  Customized field list
         fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type')

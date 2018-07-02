@@ -206,7 +206,7 @@ class UserDetailSerializer(UserProfileSerializer):
     #     return list()
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator')
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             return ViewStreamSerializer(obj.profile_stream, fields=fields).data
         return dict()
@@ -455,8 +455,8 @@ class GetTopStreamSerializer(serializers.Serializer):
         return fields
 
     def get_featured(self, obj):
-        qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        qs = self.qs.filter(featured=True).order_by('-stream_view_count')
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)

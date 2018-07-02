@@ -59,6 +59,7 @@ class Stream(DefaultStatusModel):
     emogo = models.BooleanField(default=False)
     height = models.CharField(max_length=10, null=True, blank=True, default=300)
     width = models.CharField(max_length=10, null=True, blank=True, default=300)
+    have_some_update = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'stream'

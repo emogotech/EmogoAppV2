@@ -17,6 +17,7 @@ from django.core.urlresolvers import resolve
 from django.shortcuts import get_object_or_404
 import itertools
 from emogo.apps.collaborator.models import Collaborator
+from emogo.apps.users.models import UserFollow
 from django.db.models import Prefetch, Count
 from django.db.models import QuerySet
 from django.contrib.auth.models import User
@@ -51,7 +52,14 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
             ),
             Prefetch(
                 'stream_like_dislike_status',
-                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data'),
+                queryset=LikeDislikeStream.objects.filter(status=1).select_related('user__user_data').prefetch_related(
+                        Prefetch(
+                            "user__who_follows",                            
+                            queryset=UserFollow.objects.all(),
+                            to_attr='user_liked_followers'                                   
+                        ),
+
+                ),
                 to_attr='total_like_dislike_data'
             ),
         ).order_by('-stream_view_count')
@@ -133,7 +141,9 @@ class StreamAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retri
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-
+        self.serializer_class = ViewStreamSerializer
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'have_some_update')
+        serializer = self.get_serializer(instance, context=self.request, fields=fields)
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
             # forcibly invalidate the prefetch cache on the instance.
@@ -322,6 +332,7 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
+        Stream.objects.filter(id__in = request.data['streams']).update(have_some_update = True)
 
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -554,6 +565,10 @@ class StreamLikeDislikeAPI(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     lookup_field = 'pk'
 
+    def get_serializer_context(self):
+        followers = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
+        return {'request': self.request, 'followers':followers}
+
     def create(self, request, *args, **kwargs):
         """
         :param request: The request data
@@ -561,11 +576,10 @@ class StreamLikeDislikeAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Create Stream API.
         """
-        serializer = self.get_serializer(data=request.data, context=self.request)
+        serializer = self.get_serializer(data=request.data, context=self.get_serializer_context())
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
         # To return created stream data
-        # self.serializer_class = ViewStreamSerializer
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
 
@@ -586,6 +600,7 @@ class ContentLikeDislikeAPI(CreateAPIView):
         :param kwargs: dict param
         :return: Create Stream API.
         """
+
         serializer = self.get_serializer(data=request.data, context=self.request)
         serializer.is_valid(raise_exception=True)
         serializer.create(serializer)
