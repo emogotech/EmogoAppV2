@@ -338,7 +338,7 @@ class ViewStreamSerializer(StreamSerializer):
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             # else Show collaborator created by logged in user.
             else:
-                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user]
+                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user or _.phone_number == self.context.get('request').user.username or _.phone_number == obj.created_by.username]
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
