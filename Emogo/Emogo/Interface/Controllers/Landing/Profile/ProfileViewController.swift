@@ -149,7 +149,6 @@ class ProfileViewController: UIViewController {
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
         layout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
-        
         layout.columnCount = 2
 
         // Collection view attributes
@@ -647,6 +646,12 @@ class ProfileViewController: UIViewController {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             content.isSelected = !content.isSelected
+            for (index,obj) in ContentList.sharedInstance.arrayStuff.enumerated() {
+                if obj.contentID.trim() == content.contentID.trim() {
+                    obj.isSelected =  content.isSelected
+                    ContentList.sharedInstance.arrayStuff[index] = obj
+                }
+            }
             
 //            if let mainIndex =  ContentList.sharedInstance.arrayStuff.index(where: {$0.contentID.trim() == content.contentID.trim() && $0.stuffType == self.selectedType }) {
 //                ContentList.sharedInstance.arrayStuff[mainIndex] = content

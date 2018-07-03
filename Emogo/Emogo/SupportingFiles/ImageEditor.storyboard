@@ -456,17 +456,24 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY8-XA-NQv">
-                                                    <rect key="frame" x="15" y="8" width="290" height="21"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UA" translatesAutoresizingMaskIntoConstraints="NO" id="g07-CH-Ndx">
+                                                    <rect key="frame" x="17" y="16" width="35" height="29"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="SZe-Xc-wFg"/>
+                                                        <constraint firstAttribute="width" constant="35" id="MrK-zh-OYL"/>
+                                                        <constraint firstAttribute="height" constant="29" id="fY1-lQ-9Rw"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dY8-XA-NQv">
+                                                    <rect key="frame" x="72" y="8" width="240" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="U2f-kY-Wi6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="15"/>
                                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVL-CV-dfx">
-                                                    <rect key="frame" x="15" y="33" width="290" height="21"/>
+                                                    <rect key="frame" x="72" y="33" width="240" height="21"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Light" family="SF UI Display" pointSize="13"/>
                                                     <color key="textColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -474,25 +481,28 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check-box-empty" translatesAutoresizingMaskIntoConstraints="NO" id="1Pf-xm-GdH">
                                                     <rect key="frame" x="334" y="18" width="26" height="26"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="26" id="4Ny-lM-HN2"/>
-                                                        <constraint firstAttribute="height" constant="26" id="zk4-am-ch7"/>
+                                                        <constraint firstAttribute="height" constant="26" id="0CX-Le-q52"/>
+                                                        <constraint firstAttribute="width" constant="26" id="upj-NB-tt7"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="WVL-CV-dfx" secondAttribute="bottom" constant="6.5" id="10Y-Yt-mGP"/>
-                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="leading" secondItem="8EG-Wh-Vle" secondAttribute="leading" constant="15" id="8pW-J2-9dR"/>
-                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="dY8-XA-NQv" secondAttribute="trailing" constant="29" id="937-k7-jQm"/>
-                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="leading" secondItem="8EG-Wh-Vle" secondAttribute="leading" constant="15" id="EKQ-pr-bBb"/>
-                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="top" secondItem="8EG-Wh-Vle" secondAttribute="top" constant="8" id="O04-Ia-Jw2"/>
-                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="top" secondItem="8EG-Wh-Vle" secondAttribute="top" constant="18" id="ar3-o5-Xqv"/>
-                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="top" secondItem="dY8-XA-NQv" secondAttribute="bottom" constant="4" id="cAk-he-7lR"/>
-                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="WVL-CV-dfx" secondAttribute="trailing" constant="29" id="qEk-gX-jcd"/>
-                                                <constraint firstAttribute="trailing" secondItem="1Pf-xm-GdH" secondAttribute="trailing" constant="15" id="qIN-ra-d8Q"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="centerY" secondItem="8EG-Wh-Vle" secondAttribute="centerY" id="3An-dr-7GH"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="WVL-CV-dfx" secondAttribute="trailing" constant="22" id="Dj9-pf-65G"/>
+                                                <constraint firstItem="1Pf-xm-GdH" firstAttribute="leading" secondItem="dY8-XA-NQv" secondAttribute="trailing" constant="22" id="Fy4-E6-yei"/>
+                                                <constraint firstAttribute="trailing" secondItem="1Pf-xm-GdH" secondAttribute="trailing" constant="15" id="PdO-n3-XqT"/>
+                                                <constraint firstItem="g07-CH-Ndx" firstAttribute="centerY" secondItem="8EG-Wh-Vle" secondAttribute="centerY" id="SLL-TB-brF"/>
+                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="leading" secondItem="g07-CH-Ndx" secondAttribute="trailing" constant="20" id="Sur-WE-j2p"/>
+                                                <constraint firstItem="dY8-XA-NQv" firstAttribute="top" secondItem="8EG-Wh-Vle" secondAttribute="top" constant="8" id="exh-jy-kPd"/>
+                                                <constraint firstItem="g07-CH-Ndx" firstAttribute="leading" secondItem="8EG-Wh-Vle" secondAttribute="leading" constant="17" id="kJh-tz-orr"/>
+                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="top" secondItem="dY8-XA-NQv" secondAttribute="bottom" constant="4" id="ugN-pV-CKk"/>
+                                                <constraint firstAttribute="bottom" secondItem="WVL-CV-dfx" secondAttribute="bottom" constant="6.5" id="x3A-Hu-75K"/>
+                                                <constraint firstItem="WVL-CV-dfx" firstAttribute="leading" secondItem="g07-CH-Ndx" secondAttribute="trailing" constant="20" id="yCE-KC-wn1"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="checkMark" destination="1Pf-xm-GdH" id="yAn-qx-z8P"/>
+                                            <outlet property="imgCountryFlag" destination="g07-CH-Ndx" id="PvG-y5-1eP"/>
                                             <outlet property="lblName" destination="dY8-XA-NQv" id="wP0-Pv-W19"/>
                                             <outlet property="lblPhoneCode" destination="WVL-CV-dfx" id="312-vg-dfm"/>
                                         </connections>
@@ -1070,6 +1080,7 @@
     </scenes>
     <resources>
         <image name="Save" width="17" height="23"/>
+        <image name="UA" width="21" height="15"/>
         <image name="brigtness-effect-icon" width="41" height="41"/>
         <image name="check-box-empty" width="26" height="26"/>
         <image name="check-box-filled" width="26" height="26"/>

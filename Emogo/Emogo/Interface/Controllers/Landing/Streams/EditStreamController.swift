@@ -393,8 +393,10 @@ class EditStreamController: UITableViewController {
         AWSManager.sharedInstance.uploadFile(fileUrl, name: self.fileName) { (imageUrl,error) in
             if error == nil {
                 DispatchQueue.main.async {
-                    if self.streamID == nil   {
+                    if self.streamID != nil   {
                         self.editStream(cover: imageUrl!,width:Int(image!.size.width) ,hieght:Int(image!.size.height))
+                    }else {
+                        HUDManager.sharedInstance.hideHUD()
                     }
                 }
             }else {

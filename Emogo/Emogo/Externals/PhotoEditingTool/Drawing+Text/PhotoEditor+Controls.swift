@@ -45,6 +45,15 @@ extension PhotoEditorViewController {
         }
     }
     
+    @IBAction func btnChangeCoverAction(_ sender: Any) {
+        self.tempContentArray = ContentList.sharedInstance.arrayContent
+            let cameraViewController:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+            cameraViewController.isDismiss = true
+            cameraViewController.delegate = self
+            cameraViewController.isForImageOnly = true
+            let nav = UINavigationController(rootViewController: cameraViewController)
+            self.present(nav, animated: true, completion: nil)
+    }
     
     @objc func actionForLeftMenu(sender:UIButton) {
         switch sender.tag {
@@ -388,4 +397,17 @@ extension PhotoEditorViewController {
     }
     
 
+}
+
+extension PhotoEditorViewController: CustomCameraViewControllerDelegate {
+    func dismissWith(image: UIImage?) {
+        if let img = image {
+            ContentList.sharedInstance.arrayContent = self.tempContentArray
+            self.tempContentArray.removeAll()
+            self.image = img
+            self.setImageView(image: img)
+            self.seletedImage.imgPreview = img
+        }
+    }
+    
 }

@@ -77,7 +77,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         
         setupLoader()
         //setupAnchor()
-        
+        self.getTopStreamList()
         viewSearchButton.isHidden = true
         kSearchViewHeight.constant = 0.0
         kViewSearchButtonHeight.constant = 0.0
@@ -120,15 +120,17 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     
     @objc func reloadStreamData(){
         if !isSearch {
-            if SharedData.sharedInstance.iMessageNavigation == "viewStream" {
-                self.viewSegment.isHidden = false
-                self.kHeightViewSegment.constant =  33.0
-            }
-                self.changePager()
-          }
+//            if SharedData.sharedInstance.iMessageNavigation == "viewStream" {
+//                self.viewSegment.isHidden = false
+//                self.kHeightViewSegment.constant =  33.0
+//            }
+                 self.changePager()
+        }
+            
+}
             //self.getStreamList(type:.start,filter:self.streamType)
         
-    }
+
     //MARK:- Configure Stream Header
     
     func configureStreamHeader() {
@@ -335,6 +337,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
 //                collectionStream!.collectionViewLayout = layout
 //            }
            else {
+                
                 layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
                 layout.itemSize = CGSize(width: self.collectionStream.frame.size.width/2 - 12.0, height: self.collectionStream.frame.size.width/2-30)
                 layout.minimumInteritemSpacing = 8
@@ -704,7 +707,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             self.isSearch = true
             PeopleList.sharedInstance.arrayPeople.removeAll()
             collectionStream.reloadData()
-            self.collectionStream.isHidden = true
+            self.collectionStream.isHidden = false
             self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
             self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
             StreamList.sharedInstance.requestURl = ""
@@ -719,7 +722,6 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             
             self.hudView.startLoaderWithAnimation()
             PeopleList.sharedInstance.arrayPeople.removeAll()
-            self.collectionStream.isHidden = true
             self.isStreamEnable = false
             self.isSearch = true
             self.collectionStream.reloadData()
@@ -812,8 +814,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         if(SharedData.sharedInstance.iMessageNavigation != ""){
             return
         }
-        
-        
+       
         if Reachability.isNetworkAvailable() {
             
             if type == .start || type == .up {
@@ -1012,6 +1013,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         }
     }
     
+   
+    
     func getPeopleGlobleSearch(searchText:String, type:RefreshType){
       
         lblNoResult.text = kAlert_No_User_Record_Found
@@ -1034,7 +1037,6 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             }else{
                 self.fectchingStreamData = true
             }
-            
             
             if !(errorMsg?.isEmpty)! {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -1064,8 +1066,6 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 }
                 self.collectionStream.reloadData()
             }
-           
-            
         }
     }
     
@@ -1100,6 +1100,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 self.btnStreamSearch.isUserInteractionEnabled = false
                 self.btnPeopleSearch.isUserInteractionEnabled = true
                 self.lblNoResult.isHidden = true
+                self.collectionStream.isHidden = false
              //   self.viewCollections.isHidden = true
                 self.collectionStream.isUserInteractionEnabled = true
                 self.streaminputDataType(type: type)
@@ -1152,7 +1153,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         self.btnPeopleSearch.setImage(#imageLiteral(resourceName: "people_button_inactive"), for: .normal)
         self.btnStreamSearch.setImage(#imageLiteral(resourceName: "emogo_button_active"), for: .normal)
         self.getStreamGlobleSearch(searchText: searchString, type: .start)
-
+        layout.sectionInset = UIEdgeInsets(top:10, left: 8, bottom: 8, right: 8)
     }
 }
 
@@ -1271,11 +1272,10 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     @objc func btnViewAction(_ sender:UIButton) {
         let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
         self.addRippleTransition()
-        //        StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-        
+        //StreamList.sharedInstance.arrayViewStream = self.arrayToShow
         obj.arrStream = self.arrayToShow
         obj.currentStreamIndex = sender.tag
-        obj.strStream =  "viewStream"
+        //obj.strStream =  "viewStream"
         self.present(obj, animated: false, completion: nil)
         self.changeCellImageAnimation(sender.tag)
     }

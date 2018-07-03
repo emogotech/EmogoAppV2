@@ -94,6 +94,11 @@ extension PreviewController {
     
    @objc func openFullView(){
     var index = 0
+    if self.seletedImage.type == .notes {
+        self.notePreview()
+        return
+    }
+    
     if self.seletedImage.type == .gif {
         self.gifPreview()
         return
@@ -152,6 +157,13 @@ extension PreviewController {
         obj.objContent = self.seletedImage
         self.present(obj, animated: false, completion: nil)
     }
+    
+    func notePreview(){
+        let obj:NotesPreviewViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: "notesPreviewView") as! NotesPreviewViewController
+        obj.contentDAO = self.seletedImage
+        self.navigationController?.pushAsPresent(viewController: obj)
+    }
+
 }
 
 
@@ -255,6 +267,20 @@ extension PreviewController:MFMessageComposeViewControllerDelegate,UINavigationC
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true, completion: nil)
     }
+}
+
+extension PreviewController:CreateNotesViewControllerDelegate
+{
+    
+    func updatedNotes(content:ContentDAO) {
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
+        self.seletedImage = content
+        if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+            ContentList.sharedInstance.arrayContent [index] = seletedImage
+            preparePreview(index: index)
+        }
+    }
+    
 }
 
 

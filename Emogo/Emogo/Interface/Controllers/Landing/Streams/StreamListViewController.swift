@@ -230,7 +230,8 @@ class StreamListViewController: UIViewController {
     }
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
-            self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
+           self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
+      
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkMyStreamView {
@@ -254,7 +255,8 @@ class StreamListViewController: UIViewController {
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeEditContent {
-            getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: SharedData.sharedInstance.contentID)
+         
+          getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: SharedData.sharedInstance.contentID)
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypePeople {
@@ -272,7 +274,7 @@ class StreamListViewController: UIViewController {
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
-         
+        
             let objPreview = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView)
             self.navigationController?.push(viewController: objPreview)
            

@@ -556,6 +556,13 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             let content = array[indexPath.row]
             content.isSelected = !content.isSelected
+            for (index,obj) in ContentList.sharedInstance.arrayStuff.enumerated() {
+                if obj.contentID.trim() == content.contentID.trim() {
+                    obj.isSelected =  content.isSelected
+                    ContentList.sharedInstance.arrayStuff[index] = obj
+                }
+            }
+            
             if content.isSelected {
                 (cell as! MyStuffCell).imgSelect.image = #imageLiteral(resourceName: "select_active_icon")
             }else {
@@ -592,8 +599,4 @@ extension MyStuffViewController:UICollectionViewDelegate,UICollectionViewDataSou
             btnNext.isHidden = true
         }
     }
-    
-    
 }
-
-

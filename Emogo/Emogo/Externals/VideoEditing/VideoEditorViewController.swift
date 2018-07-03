@@ -146,6 +146,7 @@ class VideoEditorViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor =  UIColor.black.withAlphaComponent(0.7)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
 
         self.configureNavigationButtons()
     }

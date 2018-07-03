@@ -298,7 +298,6 @@ class StreamViewDAO{
         }
         if let obj  = streamData["collaborators"] {
             let objColab:[Any] = obj as! [Any]
-            print(objColab)
             for value in objColab {
                 let colab = CollaboratorDAO(colabData: value as! [String : Any])
                 
@@ -312,23 +311,15 @@ class StreamViewDAO{
                 self.arrayColab.append(colab)
             }
             
-            var userIndex:Int!
-            if let mainIndex = self.arrayColab.index(where: {$0.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() }) {
-                 userIndex = mainIndex
-            }
-            
-            for (index,colab) in self.arrayColab.enumerated() {
-                if userIndex != index {
-                    
+            for colab in self.arrayColab {
+                if colab.userID.trim() != self.idCreatedBy.trim() {
                     if colabImageFirst.trim().isEmpty {
                         if colab.userImage.isEmpty {
                             self.colabImageFirst =  colab.name
                         }else {
                             self.colabImageFirst =  colab.userImage
                         }
-                    }
-                    
-                    if !colabImageFirst.trim().isEmpty {
+                    } else if colabImageSecond.trim().isEmpty {
                         if colab.userImage.isEmpty{
                             self.colabImageSecond = colab.name
                         }else{
@@ -336,14 +327,12 @@ class StreamViewDAO{
                         }
                     }
                     
-                    if !self.colabImageFirst.trim().isEmpty &&  !self.colabImageFirst.trim().isEmpty {
+                    if !self.colabImageFirst.trim().isEmpty &&  !self.colabImageSecond.trim().isEmpty {
                         break
                     }
                 }
             }
-
-            
-        }
+         }
        
         if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]
@@ -355,10 +344,14 @@ class StreamViewDAO{
                 if self.canAddContent == true {
                     conent.isShowAddStream = true
                 }
-                if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                     conent.isDelete = true
                     self.canAddContent = true
                     self.canAddPeople = true
+                }
+                if conent.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                    conent.isEdit = true
+                    conent.isDelete = true
                 }
                 self.arrayContent.append(conent)
             }
@@ -404,7 +397,7 @@ class StreamViewDAO{
         }
       
        
-        if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+        if self.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
             self.canAddPeople = true
             self.canAddContent = true
         }

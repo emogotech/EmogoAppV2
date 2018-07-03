@@ -27,7 +27,6 @@ class ProfileStreamView: UICollectionReusableView {
         imgCover.isUserInteractionEnabled = true
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         viewContainer.roundCorners([.bottomLeft, .bottomRight], radius: 5)
-
     }
     
     func prepareLayout(stream:StreamDAO,isCurrentUser:Bool,image:String? = nil){
@@ -60,7 +59,7 @@ class ProfileStreamView: UICollectionReusableView {
         if stream.IDcreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.btnEditHeader.isHidden = false
         }
-      
+        self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
     }
     
     @objc func tap(gesture:UITapGestureRecognizer) {

@@ -13,6 +13,7 @@ class CountryCell: UITableViewCell {
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var lblPhoneCode: UILabel!
     @IBOutlet weak var checkMark: UIImageView!
+    @IBOutlet weak var imgCountryFlag: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

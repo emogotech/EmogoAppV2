@@ -84,6 +84,8 @@ enum EditingFeature {
     var seletedImage:ContentDAO!
     var initContent:ContentDAO!
     var initImage:UIImage?
+    var tempContentArray = [ContentDAO]()
+
 
     //Register Custom font before we load XIB
     public override func loadView() {
@@ -96,6 +98,7 @@ enum EditingFeature {
     
         self.setImageView(image: image!)
         initContent = self.seletedImage
+       
         initImage = image
         let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(self.screenEdgeSwiped(_:)))
         edgePan.edges = .bottom
@@ -307,6 +310,7 @@ enum EditingFeature {
         self.navigationController?.isNavigationBarHidden = false
         navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.barTintColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.8)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         configureNavigationButtons()
     }
     
@@ -330,10 +334,12 @@ enum EditingFeature {
         self.navigationItem.leftBarButtonItem = nil
         navigationItem.hidesBackButton = true
         let btnback = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.buttonBackAction))
-      //  let imgSave = UIImage(named: "icons8-download")
-      //  let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnSaveAction))
+        if self.seletedImage.type == .link {
+            let imgSave = UIImage(named: "change_cover")
+            let btnSave = UIBarButtonItem(image: imgSave, style: .plain, target: self, action: #selector(self.btnChangeCoverAction(_:)))
+            self.navigationItem.rightBarButtonItem = btnSave
+        }
         self.navigationItem.leftBarButtonItem = btnback
-      //  self.navigationItem.rightBarButtonItem = btnSave
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false{
             edgeMenu.open()

@@ -63,10 +63,11 @@ class StreamViewController: MSMessagesAppViewController {
     var hudView                             : LoadingView!
     let kImageFormat = "http"
     var isFromWelcome                       : String?
-    var viewStreamType                      :String?
+    var viewStreamType                      : String?
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var selectedIndex:IndexPath?
+  
 
     
     // MARK: - Life-cycle methods
@@ -567,11 +568,13 @@ class StreamViewController: MSMessagesAppViewController {
         if self.isFromWelcome != nil {
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             self.present(vc, animated: true, completion: nil)
-        }else if self.strStream == "viewStream"   {
-            self.dismiss(animated: true, completion: nil)
-            SharedData.sharedInstance.iMessageNavigation = "viewStream"
-            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
-        }else {
+        }
+//        else if self.strStream == "viewStream"   {
+//            self.dismiss(animated: true, completion: nil)
+//            SharedData.sharedInstance.iMessageNavigation = "viewStream"
+//            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+//        }
+        else {
             self.dismiss(animated: true, completion: nil)
             SharedData.sharedInstance.iMessageNavigation = ""
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
@@ -989,7 +992,14 @@ class StreamViewController: MSMessagesAppViewController {
 }
 
 // MARK: -  Extension CollcetionView Delegates
-extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout {
+extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,StreamContentViewControllerDelegate  {
+    
+    
+    func updateStreamViewCount(count: String) {
+       
+           // self.lbl_ViewCount.text = count
+        
+    }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -1033,6 +1043,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
+        ContentList.sharedInstance.arrayContent.removeAll()
         let content = ContentDAO(contentData: [:])
         content.coverImage = objStream?.coverImage
         content.isUploaded = true
@@ -1047,12 +1058,12 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         obj.arrContentData = array!
         obj.isViewCount = "TRUE"
-        self.addRippleTransition()
+     //   self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row + 1
         print(obj.currentContentIndex)
         let nav = UINavigationController(rootViewController: obj)
-        if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentViewCell {
+        if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamCollectionViewCell {
             nav.cc_setZoomTransition(originalView: imageCell.imgCover)
             nav.cc_swipeBackDisabled = true
         }

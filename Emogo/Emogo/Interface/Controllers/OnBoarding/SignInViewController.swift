@@ -31,7 +31,6 @@ class SignInViewController: UIViewController {
     
     lazy var popupViewController: CountryPickerViewController = {
         let popupViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CountryPickerView)
-        
         return popupViewController as! CountryPickerViewController
     }()
     
@@ -66,21 +65,17 @@ class SignInViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
         // Set Rule for Phone Format
-        txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat)
-        if SharedData.sharedInstance.countryCode.isEmpty {
-            self.btnCountryPicker.isHidden = false
-            popupViewController.delegate = self
-        }else {
-            self.btnCountryPicker.isHidden = true
-        }
-        txtPhoneNumber.formatter.prefix = SharedData.sharedInstance.countryCode!
-      //  txtPhoneNumber.formatter.prefix = "+1"
+        txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: "US")
+        self.btnCountryPicker.isHidden = false
+        popupViewController.delegate = self
+        txtPhoneNumber.formatter.prefix = " +1"
         txtPhoneNumber.hasPredictiveInput = true;
         txtPhoneNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
             print("number is \(textField.text ?? "")")
         }
     }
     
+  
     // MARK: -  Action Methods And Selector
     @IBAction func btnDoneAction(_ sender: Any) {
          self.disMissKeyboard()
@@ -174,9 +169,10 @@ extension SignInViewController: UITextFieldDelegate{
 extension SignInViewController: CountryPickerViewControllerDelegate{
     
     func dissmissPickerWith(country: CountryDAO) {
+        txtPhoneNumber.formatter.resetFormats()
+        txtPhoneNumber.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: country.code)
         SharedData.sharedInstance.countryCode = country.phoneCode
-        txtPhoneNumber.formatter.prefix = country.phoneCode
-        self.btnCountryPicker.isHidden = true
+        txtPhoneNumber.formatter.prefix =  " " + country.phoneCode
     }
     
 }

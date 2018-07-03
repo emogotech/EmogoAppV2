@@ -541,6 +541,11 @@ class PreviewController: UIViewController {
                 objVideoEditor.delegate = self
                 objVideoEditor.seletedImage = self.seletedImage
                 self.navigationController?.pushAsPresent(viewController: objVideoEditor)
+            }else if seletedImage.type == .notes{
+                let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+                controller.contentDAO = self.seletedImage
+                controller.delegate = self
+                self.navigationController?.pushNormal(viewController: controller)
             }else {
                 self.openEditor(image:imgPreview.image!)
             }
@@ -549,17 +554,10 @@ class PreviewController: UIViewController {
         }
     }
     @IBAction func btnActionShare(_ sender: Any) {
-      
-      //  shareSticker()
-        if self.isShowRetake != nil {
-            // retake
-            self.isEditingContent = true
-            let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
-                      kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
-                     self.navigationController?.popToViewController(vc: obj)
-        }else {
-            shareSticker()
-        }
+        self.isEditingContent = true
+           let obj:CustomCameraViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CameraView) as! CustomCameraViewController
+        kDefault?.set(self.selectedIndex, forKey: kRetakeIndex)
+        self.navigationController?.popToViewController(vc: obj)
     }
     @IBAction func btnActionAddStream(_ sender: Any) {
         self.view.endEditing(true)

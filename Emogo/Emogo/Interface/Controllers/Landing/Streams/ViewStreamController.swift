@@ -701,9 +701,14 @@ class ViewStreamController: UIViewController {
         }
         let array = objStream?.arrayContent.filter { $0.isAdd == false }
         ContentList.sharedInstance.arrayContent = array
-        let seletedImage = ContentList.sharedInstance.arrayContent[index!]
-        let videoUrl = URL(string: (seletedImage.coverImage)!)
-        LightboxConfig.handleVideo(self, videoUrl!)
+        let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(index!)
+        if isIndexValid {
+            let seletedImage = ContentList.sharedInstance.arrayContent[index!]
+            let videoUrl = URL(string: (seletedImage.coverImage)!)
+            if videoUrl != nil {
+                LightboxConfig.handleVideo(self, videoUrl!)
+            }
+        }
     }
     
     // MARK: - API Methods

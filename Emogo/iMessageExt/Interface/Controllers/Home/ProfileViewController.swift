@@ -229,7 +229,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
                 }
                 //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
-                self.title = UserDAO.sharedInstance.user.fullName.trim()
+                self.btnProfile.titleLabel?.text = UserDAO.sharedInstance.user.fullName.trim()
                 self.lblBio.minimumScaleFactor = 1.0
                 self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
@@ -516,11 +516,11 @@ class ProfileViewController: UIViewController {
   
     //MARK:- Button Action
     
-    @IBAction func btnNextAction(_ sender: Any) {
+    @IBAction func btnNextAction(_ sender: UIButton) {
         
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            
+           
             let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeShareAddContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }

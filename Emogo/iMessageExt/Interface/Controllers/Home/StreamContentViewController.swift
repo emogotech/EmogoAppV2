@@ -12,6 +12,11 @@ import Lightbox
 import Photos
 import SafariServices
 
+
+protocol StreamContentViewControllerDelegate {
+    func updateStreamViewCount(count:String)
+}
+
 class StreamContentViewController: MSMessagesAppViewController {
     
     // MARK:- UI Elements
@@ -53,6 +58,7 @@ class StreamContentViewController: MSMessagesAppViewController {
     var isEdit                              :Bool!
     var objContent                          :ContentDAO!
     var isFromViewStream:Bool! = true
+    var delegate:StreamContentViewControllerDelegate?
     //var photoEditor                         :PhotoEditorViewController!
     
     // MARK: - Life-cycle Methods
@@ -193,8 +199,6 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
         
         self.addRightTransitionImage(imgV: self.imgStream)
-        
-        
         loadViewForUI()
     }
     
@@ -202,7 +206,6 @@ class StreamContentViewController: MSMessagesAppViewController {
         if currentContentIndex != 0{
             currentContentIndex = currentContentIndex - 1
         }
-        
         self.addLeftTransitionImage(imgV: self.imgStream)
         loadViewForUI()
     }
@@ -244,9 +247,7 @@ class StreamContentViewController: MSMessagesAppViewController {
        // self.imgStream.contentMode = .scaleAspectFit
        let content = self.arrContentData[self.currentContentIndex]
        // self.lblStreamName.text = content.name.trim().capitalized
-        
-       
-        if content.type != nil {
+       if content.type != nil {
             self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: UIControlState.normal)
             if content.type == .image {
                // self.imgStream.setForAnimatedImage(strImage:content.coverImage)
@@ -266,7 +267,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
             else if content.type == .link {
                // self.btnPlay.isHidden = true
-                self.btnEdit.setImage(#imageLiteral(resourceName: "change_link"), for: UIControlState.normal)
+                self.btnEdit.setImage(#imageLiteral(resourceName: "edit_icon"), for: UIControlState.normal)
                 //self.imgStream.setForAnimatedImage(strImage:content.coverImageVideo)
                 SharedData.sharedInstance.downloadImage(url: content.coverImageVideo, handler: { (image) in
                     image?.getColors({ (colors) in
@@ -300,8 +301,7 @@ class StreamContentViewController: MSMessagesAppViewController {
       //  contentProgressView.setProgress(currenProgressValue, animated: true)
         btnEdit.isHidden = !content.isEdit
       //  btnDelete.isHidden = !content.isDelete
-        
-        
+       
        // self.lblStreamName.minimumScaleFactor = 1.0
        // self.lblStreamDesc.minimumScaleFactor = 1.0
        // self.lblStreamTitle.minimumScaleFactor = 1.0
@@ -352,11 +352,12 @@ class StreamContentViewController: MSMessagesAppViewController {
         SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
     }
     
-    @IBAction func btnAddToEmogo(_ sender: Any) {
+    @IBAction func btnAddToEmogo(_ sender: UIButton) {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title:kAlert_Confirmation_Button_Title, style: .default) { (action) in
-           let strUrl = "\(kDeepLinkURL)\(kDeepLinkMyStreamView)"
-           // let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+            //let content = self.arrContentData[sender.tag]
+           //let strUrl = "\(kDeepLinkURL)\(kDeepLinkMyStreamView)"
+            let strUrl = "\(kDeepLinkURL)\(self.currentStreamID)/\(kDeepLinkTypeAddContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         
         }
@@ -371,7 +372,7 @@ class StreamContentViewController: MSMessagesAppViewController {
    
     
     @IBAction func btnClose(_ sender:UIButton){
-        self.dismiss(animated: true, completion: nil)
+       
         if SharedData.sharedInstance.iMessageNavigation != ""{
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Stream_Content), object: nil)
             SharedData.sharedInstance.iMessageNavigation = ""
@@ -380,6 +381,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             SharedData.sharedInstance.iMessageNavigation = ""
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }
+         self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func btnShareAction(_ sender:UIButton){
@@ -531,19 +533,28 @@ class StreamContentViewController: MSMessagesAppViewController {
     }
     
     @IBAction func btnShowReportListAction(_ sender: Any){
+        
+        if seletedImage.isDelete {
+            self.showDelete()
+            return
+        }
         if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
             self.showReport()
-        }else {
-            if seletedImage.isDelete {
-                self.showDelete()
-            }
         }
+//        if self.seletedImage?.createdBy.trim() != UserDAO.sharedInstance.user.userId.trim(){
+//            self.showReport()
+//        }else {
+//            if seletedImage.isDelete {
+//                self.showDelete()
+//            }
+//        }
     }
     
     @IBAction func btnEditAction(_ sender:UIButton){
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+            let content = self.arrContentData[sender.tag]
+            let strUrl = "\(kDeepLinkURL)\(content.contentID!)/\(kDeepLinkTypeEditContent)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
         let Cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
@@ -576,8 +587,10 @@ class StreamContentViewController: MSMessagesAppViewController {
 
     func apiForIncreaseViewCount(){
         if let streamID = ContentList.sharedInstance.objStream {
-            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (_, _) in
-                
+            APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (count, _) in
+//                if self.delegate != nil {
+//                    self.delegate?.updateStreamViewCount(count: count!)
+//                }
             }
         }
         
@@ -904,7 +917,7 @@ class StreamContentViewController: MSMessagesAppViewController {
 
 
 
-extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate {
+extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -912,10 +925,16 @@ extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewD
        return self.arrContentData.count
     }
     
+//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        if let cell = collectionView.cellForItem(at: indexPath) {
+//            (cell as! StreamContentViewCell).imgCover.image = nil
+//        }
+//    }
+//
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContent, for: indexPath) as! StreamContentViewCell
        // let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        let content = self.arrContentData[currentContentIndex]
+        let content = self.arrContentData[indexPath.row]
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)

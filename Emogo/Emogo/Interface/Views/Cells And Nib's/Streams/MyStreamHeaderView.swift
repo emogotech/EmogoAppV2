@@ -95,7 +95,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
             return
         }
         
-        self.lblName.text = content.name.trim().capitalized
+        self.lblName.text = content.name.trim()
         self.lblDescription.text = content.description.trim()
         self.viewContainer.layer.contents = UIImage(named: "gradient")?.cgImage
         self.lblDescription.numberOfLines = 3
@@ -104,6 +104,10 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
             self.btnPlay.isHidden = false
         }else {
             self.btnPlay.isHidden = true
+        }
+        if content.type == .notes {
+            self.lblName.text = content.name.trim()
+            self.lblDescription.text = ""
         }
     }
     

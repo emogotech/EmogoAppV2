@@ -115,7 +115,7 @@ class ContentViewController: UIViewController {
         }
         
         if isFromViewStream == false {
-            if isViewCount != nil {
+            if isViewCount != nil && seletedImage.fileName != "SreamCover"{
                 apiForIncreaseViewCount()
             }
         }
@@ -230,7 +230,12 @@ class ContentViewController: UIViewController {
             switch swipeGesture.direction {
                 
             case UISwipeGestureRecognizerDirection.down:
-              self.dismiss(animated: true, completion: nil)
+                ContentList.sharedInstance.objStream = nil
+                if isProfile != nil  {
+                    let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isSelected == true }
+                    ContentList.sharedInstance.arrayContent = array
+                }
+                self.dismiss(animated: true, completion: nil)
             break
                 
             default:
@@ -514,32 +519,20 @@ class ContentViewController: UIViewController {
         APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
-                if self.isEdit == nil {
-                    ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
-                   
-                    self.currentIndex =  self.currentIndex - 1
-                    self.collectionView.reloadData()
-                    self.updateCollectionView()
-                }else {
-                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
-                        ContentList.sharedInstance.arrayContent.remove(at: index)
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                    if self.isForEditOnly != nil {
-                        self.dismiss(animated: true, completion: nil)
-                    }
-                    
-                }
-                
-               
                 if self.isViewCount != nil {
-                      NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
                 }
                 
+                ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    self.currentIndex =  self.currentIndex - 1
+                    self.updateCollectionView()
+                    self.updateContent()
                 let array =  ContentList.sharedInstance.arrayContent.filter { $0.fileName != "SreamCover" }
                 
                 if  array.count == 0 {
-                    self.dismiss(animated: true, completion: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.dismiss(animated: true, completion: nil)
+                    }
                 }
               
             }else {
@@ -728,6 +721,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
             return ContentList.sharedInstance.arrayContent.count
     }
     
+  
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ContentViewCell
         let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
@@ -814,9 +808,10 @@ extension ContentViewController:CreateNotesViewControllerDelegate
 extension ContentViewController:LightboxControllerPageDelegate {
     
     func lightboxController(_ controller: LightboxController, didMoveToPage page: Int){
-     //  self.currentIndex = controller.currentPage
+       //   self.currentIndex = controller.currentPage
          print(page)
-        //updateCollectionView()
+      //   self.updateContent()
+     //   self.updateCollectionView()
     }
 }
 

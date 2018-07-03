@@ -372,8 +372,10 @@ class MyStreamViewController: UIViewController {
             self.showToast(strMSG: kAlert_Select_Stream_For_Assign)
             return
         }
+        HUDManager.sharedInstance.showHUD()
         let stream = StreamList.sharedInstance.arrayMyStream[index!]
         APIServiceManager.sharedInstance.apiForAssignProfileStream(streamID: stream.ID) { (isUpdated, errorMSG) in
+         HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 self.showToast(strMSG: kAlert_ProfileStreamAdded)
                 isAssignProfile = nil
@@ -392,9 +394,9 @@ class MyStreamViewController: UIViewController {
         }else{
             
         }
-        let obj:AddStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView) as! AddStreamViewController
-         obj.isAddContent = true
-        self.navigationController?.push(viewController: obj)
+        let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
+        createVC.exestingNavigation = self.navigationController
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
     }
     
     func gifPreview(content:ContentDAO){

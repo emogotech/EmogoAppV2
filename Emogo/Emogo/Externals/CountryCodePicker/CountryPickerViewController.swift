@@ -104,6 +104,7 @@ extension CountryPickerViewController :UITableViewDelegate,UITableViewDataSource
         let code = arrayCodes[indexPath.row]
         cell.lblName.text = code.name
         cell.lblPhoneCode.text = code.phoneCode
+        cell.imgCountryFlag.image = UIImage(named:code.code)
         if code.isSelected {
             cell.checkMark.image = #imageLiteral(resourceName: "check-box-filled")
         }else {
@@ -113,7 +114,9 @@ extension CountryPickerViewController :UITableViewDelegate,UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
         let code = arrayCodes[indexPath.row]
+        
         code.isSelected = !code.isSelected
         for (index, _) in arrayCodes.enumerated() {
             if index != indexPath.row {
@@ -121,7 +124,6 @@ extension CountryPickerViewController :UITableViewDelegate,UITableViewDataSource
             }
         }
         tblCountry.reloadData()
-       
     }
     
     
