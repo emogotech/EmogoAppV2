@@ -451,7 +451,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     collaborator_qs = Collaborator.actives.all()
 
     def use_fields(self):
-        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update')
+        fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update', 'can_add_content')
         return fields
 
     def get_featured(self, obj):
