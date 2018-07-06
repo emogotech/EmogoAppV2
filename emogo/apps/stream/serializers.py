@@ -382,21 +382,23 @@ class ViewStreamSerializer(StreamSerializer):
         user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
         # qs = [x ]&t
+        # If current user as owner of stream
+        if obj.created_by.__str__() == self.context.get('request').user.__str__():
+            return {'can_add_content': True, 'can_add_people': True}
+
         if qs.__len__() > 0:
-            fields = ('can_add_content', 'can_add_people')
-            return ViewCollaboratorSerializer(qs[0], fields=fields).data
+            # If Collaborator have permission for can add content 
+            return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
+            # fields = ('can_add_content', 'can_add_people')
+            # return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
-            # If current user as owner of stream
-            if obj.created_by.__str__() == self.context.get('request').user.__str__():
-                return {'can_add_content': True, 'can_add_people': True}
+            # If current user a sophisticated user.
+            # If stream is public and any_one_can_edit is true
+            if obj.any_one_can_edit:
+                return {'can_add_content': obj.any_one_can_edit , 'can_add_people': False}
+            # If stream is public and any_one_can_edit is False
             else:
-                # If current user a sophisticated user.
-                # If stream is public and any_one_can_edit is true
-                if obj.any_one_can_edit:
-                    return {'can_add_content': obj.any_one_can_edit , 'can_add_people': False}
-                # If stream is public and any_one_can_edit is False
-                else:
-                    return {'can_add_content': False, 'can_add_people': False}
+                return {'can_add_content': False, 'can_add_people': False}
 
     def get_collaborator_permission(self, obj):
         list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
