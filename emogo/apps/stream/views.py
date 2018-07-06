@@ -317,7 +317,8 @@ class ContentAPI(CreateAPIView, UpdateAPIView, ListAPIView, DestroyAPIView, Retr
         serializer.is_valid(raise_exception=True)
         instances = serializer.create(serializer.validated_data)
         serializer = ViewContentSerializer(instances, many=True, fields=(
-        'id', 'type', 'name', 'url', 'description', 'video_image', 'height', 'width'))
+        'id', 'name', 'description', 'stream', 'url', 'type', 'created_by', 'video_image', 'height', 'width', 'order',
+        'color', 'user_image', 'full_name', 'order'))
         return custom_render_response(status_code=status.HTTP_201_CREATED, data=serializer.data)
 
     def update(self, request, *args, **kwargs):
