@@ -300,12 +300,6 @@ class CustomCameraViewController: SwiftyCamViewController {
     // MARK: -  Action Methods And Selector
     @IBAction func btnActionCamera(_ sender: Any) {
         
-        if kDefault?.bool(forKey: kHapticFeedback) == true {
-            self.btnCamera.isHaptic = true
-            self.btnCamera.hapticType = .impact(.light)
-        }else{
-            self.btnCamera.isHaptic = false
-        }
         
         if isCaptureMode == true {
             self.performCamera(action: .capture)
@@ -460,6 +454,12 @@ class CustomCameraViewController: SwiftyCamViewController {
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
         print("Normal tap")
         
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            self.btnCamera.isHaptic = true
+            self.btnCamera.hapticType = .impact(.light)
+        }else{
+            self.btnCamera.isHaptic = false
+        }
         if self.cameraMode  == .handFree {
             if isRecording {
                 self.lblRecordTimer.isHidden = true
@@ -471,6 +471,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                 if self.captureInSec != nil {
                     self.performCamera(action: .timer)
                     self.btnCamera.isUserInteractionEnabled = false
+                    self.cameraOption.isUserInteractionEnabled = false
                 }else {
                     isRecording = true
                     self.lblRecordTimer.text = "00:00:00"
@@ -742,6 +743,7 @@ extension CustomCameraViewController:SwiftyCamViewControllerDelegate {
             camera.fileName = NSUUID().uuidString + ".png"
             self.updateData(content: camera)
             self.btnCamera.isUserInteractionEnabled = true
+            self.cameraOption.isUserInteractionEnabled = true
             DispatchQueue.main.async {
                 self.previewCollection.reloadData()
             }

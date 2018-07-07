@@ -66,7 +66,8 @@ class CreateStreamController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+      //  self.navigationController?.isNavigationBarHidden = true
+        prepareNavigationbarButtons()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,32 +79,32 @@ class CreateStreamController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    /*
     @objc func doneClicked() {
         view.endEditing(true)
-    }
+    }*/
     
     // MARK: - Prepare Layouts
     
     private func prepareLayouts(){
         tfEmogoTitle.becomeFirstResponder()
-        tfEmogoTitle.inputAccessoryView = toolBar
-        textFieldNext.inputAccessoryView = toolBar
-        tfDescription.inputAccessoryView = toolBar
+//        tfEmogoTitle.inputAccessoryView = toolBar
+//        textFieldNext.inputAccessoryView = toolBar
+//        tfDescription.inputAccessoryView = toolBar
         tfEmogoTitle.placeholder = "Emogo Title"
         tfEmogoTitle.title = "Emogo Title"
         tfDescription.placeholder = "CAPTION(OPTIONAL)"
         tfDescription.placeholderColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         tfEmogoTitle.selectedLineColor = .clear
         self.lblCaption.text = "CAPTION(OPTIONAL)"
-        self.lblCaption.font = UIFont.systemFont(ofSize: 13)
         if self.tfDescription.text.count > 0 {
             self.lblCaption.isHidden = false
         }else{
             self.lblCaption.isHidden = true
         }
+        self.lblCaption.isHidden = true
         self.tableView.tableFooterView = UIView()
-        AppDelegate.appDelegate.keyboardResign(isActive: false)
+        AppDelegate.appDelegate.keyboardResign(isActive: true)
         tfEmogoTitle.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.tfEmogoTitle.maxLength = 50
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -130,7 +131,16 @@ class CreateStreamController: UITableViewController {
         switchForEmogoPrivate.layer.borderColor = UIColor.black.cgColor
     }
     
-
+    func prepareNavigationbarButtons(){
+        
+        let btnBack = UIBarButtonItem(title: "CANCEL", style: .plain, target: self, action: #selector(self.btnCloseAction(_:)))
+        btnBack.tintColor = UIColor.lightGray
+        self.navigationItem.leftBarButtonItem = btnBack
+        
+        let btnDone = UIBarButtonItem(title: "DONE", style: .plain, target: self, action: #selector(self.btnDoneAction(_:)))
+        self.navigationItem.rightBarButtonItem = btnDone
+        self.title = "Create New Emogo"
+    }
     //MARK:- action for buttons
     
     @IBAction func btnCloseAction(_ sender: Any) {
@@ -462,7 +472,7 @@ extension CreateStreamController :UITextViewDelegate, UITextFieldDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         
-        self.lblCaption.isHidden = textView.text.isEmpty
+     //   self.lblCaption.isHidden = textView.text.isEmpty
         
         if self.tfDescription.contentSize.height > contentRowHeight {
             contentRowHeight = self.tfDescription.contentSize.height
@@ -486,7 +496,7 @@ extension CreateStreamController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     
         if indexPath.row == 1 {
-            return contentRowHeight  + 30
+            return contentRowHeight  + 10
         }else {
             return super.tableView(tableView, heightForRowAt: indexPath)
         }

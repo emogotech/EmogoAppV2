@@ -163,11 +163,13 @@ let kaddBackgroundImage                 = "menuBackGround"
 let kRetakeIndex = "indexRetake"
 let kBounceAnimation = "ActiveBounceAnimation"
 let kHapticFeedback = "hapticFeedback"
+let kContentToAdd                      = "contentAddFromiMessage"
 
 // MARK: - Notification Observer Identifier
 let kLogoutIdentifier = "LogoutNavigationIdentifier"
 let kUpdateStreamViewIdentifier = "UpdateStreamIdentifier"
 let kProfileUpdateIdentifier = "ProfileUpdateIdentifier"
+let kDeepLinkContentAdded = "deeplinkNewContentAdded"
 
 // MARK:- Redirect Links
 let kDeepLinkURL = "Emogo://emogo/"
@@ -184,6 +186,8 @@ let kSearchType = "PEOPLE"
 let kCollaobatorList = "Collaborator List"
 let kDeeplinkOpenUserProfile = "DeeplinkUserProfile"
 let kDeepLinkMyStreamView = "DeepLinkMyStream"
+let kDeepLinkUserProfile = "DeepLinkUserProfile"
+let kDeepLinkShareEditContent = "shareEditContent"
 
 // MARK: -  Enums Alert
 enum AlertType: String {
@@ -241,9 +245,9 @@ let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 //Action sheet constant
 let kAlertSheet_Spam = "It's Spam"
 let kAlertDelete_Content = "Delete"
-let kAlertSheet_Inappropiate = "It's inappropiate"
-let kAlertSheet_SaveToGallery = "Save To Gallery"
-let kAlertSheet_SaveToMyStuff = "Save to My stuff"
+let kAlertSheet_Inappropiate = "It's inappropriate"
+let kAlertSheet_SaveToGallery = "save to gallery"
+let kAlertSheet_SaveToMyStuff = "save to stuff"
 let kAlertSheet_TakePhoto = "Take photo"
 let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
 
@@ -288,7 +292,7 @@ let kAlert_Select_Time                                                   = "Sele
 let kAlertTitle_Emogo                                                   = "Emogo"
 let kAlert_Capture_Title                                               = "Capture limit exceeded!"
 let kAlert_Message                                                     = "Message!"
-
+let kSaveAlertTitle                                                = "where would you like to save this?"
 
 let kAlertTitle_Yes = "YES"
 let kAlertTitle_No =  "No"

@@ -766,7 +766,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: url) { (result) in
             switch(result){
             case .success(let value):
-            //    print(value)
+             // print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -900,6 +900,9 @@ class APIServiceManager: NSObject {
                             let result:[Any] = data as! [Any]
                             for obj in result {
                                 let objContent = ContentDAO(contentData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
+                                    objContent.isShowAddStream = true
+                                }
                                 objContent.isUploaded = true
                                 arrayContents.append(objContent)
                             }
@@ -2157,7 +2160,7 @@ class APIServiceManager: NSObject {
     func apiForGetMyStreamCollabList(type:RefreshType, completionHandler:@escaping (_ type:RefreshType?, _ strError:String?)->Void) {
         
         if type == .start || type == .up{
-            StreamList.sharedInstance.requestURl = kMyStreamCollabListAPI + UserDAO.sharedInstance.user.userProfileID
+            StreamList.sharedInstance.requestURl = kCollaboratorAPI
         }
         if StreamList.sharedInstance.requestURl.trim().isEmpty {
             completionHandler(.end,"")

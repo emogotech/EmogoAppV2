@@ -220,19 +220,33 @@ class SharedData: NSObject {
     }
     
    
-    func presentAppViewWithDeepLink(strURL : String) {
-        guard let url = URL(string: strURL) else {
-            return
-        }
-        if UIApplication.shared.canOpenURL(url) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(url)
+    func presentAppViewWithDeepLink(strURL : String,urlWithParams:URL? = nil) {
+        if urlWithParams != nil {
+            guard let url = urlWithParams else {
+                return
             }
-        } else {
-//             UIApplication.shared.openURL(url)
+            if UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }else {
+            guard let url = URL(string: strURL) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(url) {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            } else {
+                //             UIApplication.shared.openURL(url)
+            }
         }
+       
     }
     
     

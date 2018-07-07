@@ -169,7 +169,7 @@ class ContentDAO{
                 self.type = .gif
             }
         }
-        
+        print(contentData)
         if let obj  = contentData["url"] {
             self.coverImage = obj as! String
         }
@@ -205,9 +205,10 @@ class ContentDAO{
             }
         }
         
-        if self.createdBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+        if self.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
             self.isEdit = true
             self.isDelete = true
+            
         }
         
         if let obj = contentData["imageObj"] {

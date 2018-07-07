@@ -15,10 +15,8 @@ class ContentViewCell: UICollectionViewCell {
     @IBOutlet weak var lblTitleImage: UILabel!
     @IBOutlet weak var lblImageDescription: UILabel!
     @IBOutlet weak var btnPlayIcon: UIButton!
-    @IBOutlet weak var kLinkPreviewHieght: NSLayoutConstraint!
-    @IBOutlet weak var linkPreviewView: UIView!
-    @IBOutlet weak var lblLinkDescription: UILabel!
-    @IBOutlet weak var lblLink: UILabel!
+    @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
+    @IBOutlet weak var linkLogo: UIImageView!
 
 
     lazy var effectView: UIVisualEffectView = {
@@ -53,9 +51,21 @@ class ContentViewCell: UICollectionViewCell {
         super.awakeFromNib()
         effectView.frame = self.frame
         backgroundImageView.frame = effectView.frame
+        if overlayView.superview != nil {
+            overlayView.removeFromSuperview()
+        }
+        if overlayView.superview != nil {
+            overlayView.removeFromSuperview()
+        }
+        if backgroundImageView.superview != nil {
+            backgroundImageView.removeFromSuperview()
+        }
         self.insertSubview(overlayView, at: 0)
         self.insertSubview(effectView, at: 0)
         self.insertSubview(backgroundImageView, at: 0)
+        DispatchQueue.main.async {
+            self.roundCorners([.topLeft, .topRight], radius: 10)
+        }
     }
     
     func prepareView(seletedImage:ContentDAO) {
@@ -69,12 +79,12 @@ class ContentViewCell: UICollectionViewCell {
             self.imgCover.image = seletedImage.imgPreview
         }
         if seletedImage.type == .link {
-            linkPreviewView.isHidden = false
-            kLinkPreviewHieght.constant = 80.0
+            linkLogo.isHidden = false
+            kLinkIogoWidth.constant = 30.0
             
         }else {
-            kLinkPreviewHieght.constant = 0.0
-            linkPreviewView.isHidden = true
+            kLinkIogoWidth.constant = 0.0
+            linkLogo.isHidden = true
         }
         self.btnPlayIcon.isHidden = true
         if seletedImage.imgPreview != nil {
@@ -130,8 +140,6 @@ class ContentViewCell: UICollectionViewCell {
         if seletedImage.type == .notes {
             self.lblImageDescription.text = ""
         }
-        self.lblLink.text = seletedImage.coverImage.trim()
-        self.lblLinkDescription.text = seletedImage.name.trim()
     }
     
     fileprivate func loadDynamicBackground(_ imageURL: String,image:UIImage? = nil) {

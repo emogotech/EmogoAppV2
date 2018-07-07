@@ -98,9 +98,9 @@ class ViewStreamController: UIViewController {
             swipeLeft.direction = UISwipeGestureRecognizerDirection.left
             viewStreamCollectionView.addGestureRecognizer(swipeLeft)
             
-            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-            swipeDown.direction = UISwipeGestureRecognizerDirection.down
-            viewStreamCollectionView.addGestureRecognizer(swipeDown)
+//            let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+//            swipeDown.direction = UISwipeGestureRecognizerDirection.down
+//            viewStreamCollectionView.addGestureRecognizer(swipeDown)
         }
         
      longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
@@ -409,21 +409,23 @@ class ViewStreamController: UIViewController {
     
     @objc func likeStreamAction(sender:UIButton){
        print("Like Action")
-        
-        if  kDefault?.bool(forKey: kHapticFeedback) == true {
-            self.stretchyHeader.btnLike.isHaptic = true
-            self.stretchyHeader.btnLike.hapticType = .impact(.light)
-        }else{
-             self.stretchyHeader.btnLike.isHaptic = false
+        if self.objStream != nil {
+            if  kDefault?.bool(forKey: kHapticFeedback) == true {
+                self.stretchyHeader.btnLike.isHaptic = true
+                self.stretchyHeader.btnLike.hapticType = .impact(.light)
+            }else{
+                self.stretchyHeader.btnLike.isHaptic = false
+            }
+            
+            
+            if self.objStream?.likeStatus == "0" {
+                self.objStream?.likeStatus = "1"
+            }else{
+                self.objStream?.likeStatus = "0"
+            }
+            self.likeDislikeStream()
         }
         
-        
-        if self.objStream?.likeStatus == "0" {
-            self.objStream?.likeStatus = "1"
-        }else{
-            self.objStream?.likeStatus = "0"
-        }
-        self.likeDislikeStream()
     }
  
     @objc func shareStreamAction(sender:UIButton){
@@ -486,10 +488,9 @@ class ViewStreamController: UIViewController {
                 }
                 break
                 
-            case .down:
-           
-               self.navigationController?.popViewAsDismiss()
-                
+//            case .down:
+//             self.navigationController?.popViewAsDismiss()
+//            break
             default:
                 break
             }
@@ -516,9 +517,7 @@ class ViewStreamController: UIViewController {
                 break
             }
             nextIndexPath = nextIndex
-            print("location---->\(gesture.location(in: self.viewStreamCollectionView))")
     viewStreamCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view))
-
  
         case UIGestureRecognizerState.ended:
             viewStreamCollectionView.endInteractiveMovement()
@@ -554,20 +553,10 @@ class ViewStreamController: UIViewController {
       //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
-        var id:String! = ""
-        
-        if ContentList.sharedInstance.objStream != nil {
-            id = ContentList.sharedInstance.objStream
-        }
-        else {
-            if currentIndex != nil {
-                let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
-                id =  stream.ID
-            }
-        }
+       
         
         HUDManager.sharedInstance.showHUD()
-        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: id, status: (self.objStream?.likeStatus)!) {(count,status, results,error) in
+        APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (self.objStream?.streamID)!, status: (self.objStream?.likeStatus)!) {(count,status, results,error) in
              HUDManager.sharedInstance.hideHUD()
            if (error?.isEmpty)! {
              self.objStream?.likeStatus = status
@@ -619,12 +608,15 @@ class ViewStreamController: UIViewController {
     
     @objc func btnColabAction(){
         if self.objStream != nil {
-            if (self.objStream?.arrayColab.count)! > 1 {
-                let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
-                obj.streamID = self.objStream?.streamID
-                obj.currentIndex = self.currentIndex
-                obj.streamNavigate = self.viewStream
-                self.navigationController?.push(viewController: obj)
+            if !(objStream?.totalCollaborator.trim().isEmpty)! {
+                let  colabcount = Int((objStream?.totalCollaborator!)!)
+                if colabcount! > 1 {
+                    let obj:PeopleListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PeopleListView) as! PeopleListViewController
+                    obj.streamID = self.objStream?.streamID
+                    obj.currentIndex = self.currentIndex
+                    obj.streamNavigate = self.viewStream
+                    self.navigationController?.push(viewController: obj)
+                }
             }
         }
     }
@@ -1008,11 +1000,11 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
 
         let content = objStream?.arrayContent[indexPath.row]
        
-        if selectedIndex != nil {
-            
-            let tempContent = objStream?.arrayContent[self.selectedIndex!.row]
-            return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
-        }
+//        if selectedIndex != nil {
+//
+//            let tempContent = objStream?.arrayContent[self.selectedIndex!.row]
+//            return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
+//        }
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     

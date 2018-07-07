@@ -21,6 +21,11 @@ class StreamCollectionViewCell: UICollectionViewCell {
         self.clipsToBounds = true
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imgCover.image = nil
+    }
+    
     func prepareLayout(content:ContentDAO){
         self.imgCover.contentMode = .scaleAspectFill
         imgGradient.isHidden = true

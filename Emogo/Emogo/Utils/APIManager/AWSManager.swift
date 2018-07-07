@@ -360,6 +360,11 @@ class AWSRequestManager:NSObject {
         APIServiceManager.sharedInstance.apiForCreateContent(contents: arrayParams, contentName: "", contentDescription: "", coverImage: "", coverImageVideo: "", coverType: "",width:0,height:0) { (contents, errorMsg) in
             if (errorMsg?.isEmpty)! {
                 SharedData.sharedInstance.contentList.arrayContent = contents
+                if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: kDeepLinkContentAdded), object: nil)
+                }
+                
                 self.completed()
                 if StreamID.count != 0 {
                     self.associateContentToStream(streamID: StreamID, contents: contents!, completion: { (success, errorMsg) in

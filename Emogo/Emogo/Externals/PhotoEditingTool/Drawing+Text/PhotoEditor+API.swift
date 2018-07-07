@@ -51,6 +51,9 @@ extension PhotoEditorViewController {
             if (errorMsg?.isEmpty)! {
                 
                 if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == content?.contentID.trim()}) {
+                    content?.isShowAddStream = self.seletedImage.isShowAddStream
+                    content?.isEdit = self.seletedImage.isEdit
+                    content?.isDelete = self.seletedImage.isDelete
                     self.seletedImage = content
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }

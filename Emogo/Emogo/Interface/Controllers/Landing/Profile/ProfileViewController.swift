@@ -119,8 +119,11 @@ class ProfileViewController: UIViewController {
             let obj = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileUpdateView)
             self.navigationController?.push(viewController: obj)
             SharedData.sharedInstance.deepLinkType = ""
-        
-    }
+        }else if SharedData.sharedInstance.deepLinkType == kDeeplinkOpenUserProfile {
+            
+        }else {
+            
+        }
 }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -159,8 +162,13 @@ class ProfileViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kProfileUpdateIdentifier)), object: nil)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kProfileUpdateIdentifier), object: nil, queue: nil) { (notification) in
-            self.prepareLayout(listUpdate: true)
-        }
+            if notification.object != nil {
+                self.profileCollectionView.reloadData()
+            }else {
+                self.prepareLayout(listUpdate: true)
+            }
+            
+         }
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -815,8 +823,13 @@ class ProfileViewController: UIViewController {
     
     @objc func btnActionForEdit(sender:UIButton) {
         let editVC : EditStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_EditStreamView) as! EditStreamController
-        let stream = self.arrayMyStreams[sender.tag]
-        editVC.streamID = stream.ID
+        if self.currentMenu == .stream {
+            let stream = self.arrayMyStreams[sender.tag]
+            editVC.streamID = stream.ID
+        }else if self.currentMenu == .colabs {
+            let stream = StreamList.sharedInstance.arrayProfileColabStream[sender.tag]
+            editVC.streamID = stream.ID
+        }
         editVC.isfromProfile = "fromProfile"
         let nav = UINavigationController(rootViewController: editVC)
         customPresentViewController(PresenterNew.EditStreamPresenter, viewController: nav, animated: true, completion: nil)
@@ -969,6 +982,7 @@ class ProfileViewController: UIViewController {
     }
     func getMyStuff(type:RefreshType){
         if type == .start || type == .up {
+            ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
                      ContentList.sharedInstance.arrayStuff.remove(at: index)
@@ -1099,7 +1113,8 @@ class ProfileViewController: UIViewController {
     func actionForAddStream(){
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
         createVC.exestingNavigation = self.navigationController
-        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: createVC)
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
 //        let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
 //        self.navigationController?.push(viewController: controller)
     }
@@ -1271,6 +1286,13 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 cell.lblName.text = ""
                 cell.lblName.isHidden = true
             }
+            if stream.haveSomeUpdate {
+                cell.layer.borderWidth = 1.0
+                cell.layer.borderColor = kCardViewBordorColor.cgColor
+            }else {
+                cell.layer.borderWidth = 0.0
+                cell.layer.borderColor = UIColor.clear.cgColor
+            }
             return cell
             
         }else {
@@ -1282,6 +1304,13 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let stream = StreamList.sharedInstance.arrayProfileColabStream[indexPath.row]
             cell.prepareLayouts(stream: stream)
+            if stream.haveSomeUpdate {
+                cell.layer.borderWidth = 1.0
+                cell.layer.borderColor = kCardViewBordorColor.cgColor
+            }else {
+                cell.layer.borderWidth = 0.0
+                cell.layer.borderColor = UIColor.clear.cgColor
+            }
             return cell
         }
     }

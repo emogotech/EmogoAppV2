@@ -20,6 +20,7 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
     @IBOutlet weak var lblNOResult: UILabel!
+    @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
@@ -546,6 +547,14 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             cell.lblName.isHidden = false
         }
         
+        if (stream?.haveSomeUpdate)! {
+            cell.layer.borderWidth = 1.0
+            cell.layer.borderColor = kCardViewBordorColor.cgColor
+        }else {
+            cell.layer.borderWidth = 0.0
+            cell.layer.borderColor = UIColor.clear.cgColor
+        }
+        
         cell.lblName.text = ""
         cell.lblName.isHidden = true
         return cell
@@ -569,6 +578,7 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
             }else {
                 obj.currentIndex = indexPath.row
             }
+            
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
             obj.streamType = currentStreamType.rawValue
             obj.viewStream = "View"

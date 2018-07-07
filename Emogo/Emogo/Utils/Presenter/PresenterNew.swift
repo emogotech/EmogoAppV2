@@ -20,20 +20,21 @@ class PresenterNew: NSObject {
     
     static let CreateStreamPresenter: Presentr = {
         let width = ModalSize.full
-        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 60), sizeLandscape: Float(kFrame.size.width - 60))
-        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 60))
+        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
+        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
         let customType = PresentationType.custom(width: width, height: height, center: center)
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
-        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.dismissTransitionType = .coverVertical
         customPresenter.roundCorners = true
         customPresenter.cornerRadius = 15.0
-        customPresenter.backgroundOpacity = 1.0
+        customPresenter.backgroundOpacity = 0.85
         customPresenter.dismissOnSwipe = true
-        customPresenter.blurBackground = true
-        customPresenter.blurStyle = UIBlurEffectStyle.light
+        customPresenter.blurBackground = false
         return customPresenter
     }()
+    
+  
     
     
     static let EditStreamPresenter: Presentr = {
@@ -43,14 +44,12 @@ class PresenterNew: NSObject {
         let customType = PresentationType.custom(width: width, height: height, center: center)
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
-        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.dismissTransitionType = .coverVertical
         customPresenter.roundCorners = true
         customPresenter.cornerRadius = 15.0
-        customPresenter.backgroundColor = UIColor.clear
-        customPresenter.backgroundOpacity = 0.8
+        customPresenter.backgroundOpacity = 0.85
         customPresenter.dismissOnSwipe = false
-        customPresenter.blurBackground = true
-        customPresenter.blurStyle = UIBlurEffectStyle.light
+        customPresenter.blurBackground = false
         return customPresenter
     }()
     
@@ -64,31 +63,29 @@ class PresenterNew: NSObject {
             let customType = PresentationType.custom(width: width, height: height, center: center)
             let customPresenter = Presentr(presentationType: customType)
             customPresenter.transitionType = .coverVertical
-            customPresenter.dismissTransitionType = .crossDissolve
+            customPresenter.dismissTransitionType = .coverVertical
             customPresenter.roundCorners = true
             customPresenter.cornerRadius = 15.0
-            customPresenter.backgroundOpacity = 1.0
-            customPresenter.dismissOnSwipe = false
-            customPresenter.blurBackground = true
-            customPresenter.blurStyle = UIBlurEffectStyle.light
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
             return customPresenter
         }else {
            
-            let width = ModalSize.full
-            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  100.0), sizeLandscape: Float(kFrame.size.width/2.0 +  100.0))
-            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  100.0)
-            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
-            let customType = PresentationType.custom(width: width, height: height, center: center)
+//            let width = ModalSize.full
+//            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  60.0), sizeLandscape: Float(kFrame.size.width/2.0 +  60.0))
+//            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  60.0)
+//            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+//            let customType = PresentationType.custom(width: width, height: height, center: center)
+              let customType = PresentationType.bottomHalf
             let customPresenter = Presentr(presentationType: customType)
-
             customPresenter.transitionType = .coverVertical
-            customPresenter.dismissTransitionType = .crossDissolve
+            customPresenter.dismissTransitionType = .coverVertical
             customPresenter.roundCorners = true
             customPresenter.cornerRadius = 15.0
-            customPresenter.backgroundOpacity = 0.8
-            customPresenter.dismissOnSwipe = false
-            customPresenter.blurBackground = true
-            customPresenter.blurStyle = UIBlurEffectStyle.light
+            customPresenter.backgroundOpacity = 0.85
+            customPresenter.dismissOnSwipe = true
+            customPresenter.blurBackground = false
             
             return customPresenter
         }
@@ -105,30 +102,36 @@ class PresenterNew: NSObject {
         
         let customPresenter = Presentr(presentationType: customType)
         customPresenter.transitionType = .coverVertical
-        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.dismissTransitionType = .coverVertical
         customPresenter.roundCorners = true
         customPresenter.cornerRadius = 15.0
-        customPresenter.backgroundOpacity = 1.0
+        customPresenter.backgroundOpacity = 0.85
         customPresenter.dismissOnSwipe = true
-        customPresenter.blurBackground = true
-        customPresenter.blurStyle = UIBlurEffectStyle.light
-        
+        customPresenter.blurBackground = false
         return customPresenter
     }()
     
     
     let contentContainer: Presentr = {
         let width = ModalSize.full
-        let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
-        let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
+        var height:ModalSize!
+        var center:ModalCenterPosition!
+
+        if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 60), sizeLandscape: Float(kFrame.size.width - 60))
+             center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 60))
+
+        }else {
+            height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height - 30), sizeLandscape: Float(kFrame.size.width - 30))
+             center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: 30))
+        }
         let customType = PresentationType.custom(width: width, height: height, center: center)
         let customPresenter = Presentr(presentationType: customType)
-        customPresenter.transitionType = .coverVerticalFromTop
-        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .coverVertical
         customPresenter.roundCorners = true
         customPresenter.blurBackground = false
-        customPresenter.backgroundOpacity = 1.0
-        customPresenter.backgroundColor = UIColor.black
+        customPresenter.backgroundOpacity = 0.85
         customPresenter.dismissOnSwipe = true
         return customPresenter
     }()

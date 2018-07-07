@@ -19,7 +19,8 @@ class StreamContentViewCell: UICollectionViewCell {
     @IBOutlet weak var linkPreviewView: UIView!
     @IBOutlet weak var lblLinkDescription: UILabel!
     @IBOutlet weak var lblLink: UILabel!
-    
+    @IBOutlet weak var kLinkIogoWidth: NSLayoutConstraint!
+    @IBOutlet weak var linkLogo: UIImageView!
     
     lazy var effectView: UIVisualEffectView = {
         let effect = UIBlurEffect(style: .dark)
@@ -58,6 +59,8 @@ class StreamContentViewCell: UICollectionViewCell {
         self.insertSubview(backgroundImageView, at: 0)
     }
     
+
+    
     func prepareView(seletedImage:ContentDAO) {
         
         self.imgCover.image = nil
@@ -68,14 +71,23 @@ class StreamContentViewCell: UICollectionViewCell {
         if  seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
         }
+        
         if seletedImage.type == .link {
-            linkPreviewView.isHidden = false
-            kLinkPreviewHieght.constant = 80.0
+            linkLogo.isHidden = false
+            kLinkIogoWidth.constant = 30.0
             
         }else {
-            kLinkPreviewHieght.constant = 0.0
-            linkPreviewView.isHidden = true
+            kLinkIogoWidth.constant = 0.0
+            linkLogo.isHidden = true
         }
+//        if seletedImage.type == .link {
+//            linkPreviewView.isHidden = false
+//            kLinkPreviewHieght.constant = 80.0
+//
+//        }else {
+//            kLinkPreviewHieght.constant = 0.0
+//            linkPreviewView.isHidden = true
+//        }
         self.btnPlayIcon.isHidden = true
         if seletedImage.imgPreview != nil {
             self.imgCover.image = seletedImage.imgPreview
@@ -124,14 +136,14 @@ class StreamContentViewCell: UICollectionViewCell {
             }else {
                 // self.btnMore.isHidden = true
             }
-            self.lblImageDescription.numberOfLines = 2
+            self.lblImageDescription.numberOfLines = 0
         }
         
         if seletedImage.type == .notes {
             self.lblImageDescription.text = ""
         }
-        self.lblLink.text = seletedImage.coverImage.trim()
-        self.lblLinkDescription.text = seletedImage.name.trim()
+//        self.lblLink.text = seletedImage.coverImage.trim()
+//        self.lblLinkDescription.text = seletedImage.name.trim()
     }
     
     fileprivate func loadDynamicBackground(_ imageURL: String,image:UIImage? = nil) {

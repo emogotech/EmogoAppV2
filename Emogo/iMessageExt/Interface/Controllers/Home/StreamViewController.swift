@@ -67,6 +67,8 @@ class StreamViewController: MSMessagesAppViewController {
     var getImageData : NSMutableArray = NSMutableArray()
     var collectionLayout = CHTCollectionViewWaterfallLayout()
     var selectedIndex:IndexPath?
+    var isUpload:Bool! = false
+    var isView:Bool! = false
   
 
     
@@ -76,11 +78,19 @@ class StreamViewController: MSMessagesAppViewController {
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
-
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
+      //  NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: self)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil, queue: nil) { (notification) in
+           // self.updateLayOut()
+        }
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
         
-           NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        
+         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: nil)
+   
        
         requestMessageScreenChangeSize()
         
@@ -96,9 +106,9 @@ class StreamViewController: MSMessagesAppViewController {
             imgGradient.isUserInteractionEnabled = true
         }
     }
-    
  
     @objc func updateTblData() {
+        self.lbl_ViewCount.text = objStream?.viewCount.trim()
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
         if objStream!.arrayContent.count == 0{
             if self.isFromWelcome != nil {
@@ -106,6 +116,7 @@ class StreamViewController: MSMessagesAppViewController {
                 let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
                 self.present(vc, animated: true, completion: nil)
             }else {
+          
             self.dismiss(animated: false, completion: nil)
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
            
@@ -121,9 +132,13 @@ class StreamViewController: MSMessagesAppViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+          self.lbl_ViewCount.text = objStream?.viewCount.trim()
           self.getStream()
-        
-        
+       
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+         self.lbl_ViewCount.text = objStream?.viewCount.trim()
     }
     
     // MARK: - PrepareLayout
@@ -158,7 +173,7 @@ class StreamViewController: MSMessagesAppViewController {
 //            btnNextStream.isEnabled = false
 //
 //        }
-         // self.lbl_ViewCount.text = objStream?.viewCount.trim()
+        // self.lbl_ViewCount.text = objStream?.viewCount.trim()
         setupLoader()
         //self.perform(#selector(setupLabelInCollaboratorButton), with: nil, afterDelay: 0.01)
         self.perform(#selector(setupCollectionProperties), with: nil, afterDelay: 0.01)
@@ -176,8 +191,56 @@ class StreamViewController: MSMessagesAppViewController {
         }else{
             self.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
-       
+        
     }
+    /*
+    @objc func updateLayOut(){
+       
+            self.imgStream.image = #imageLiteral(resourceName: "stream-card-placeholder")
+       
+        if ContentList.sharedInstance.objStream != nil {
+            
+            if self.isUpload {
+                self.isUpload = false
+                let stream = StreamList.sharedInstance.arrayViewStream[currentStreamIndex]
+                let streamID = stream.ID
+                if streamID != "" {
+                    self.getStream()
+                }
+            }else{
+                let stream = StreamList.sharedInstance.arrayViewStream[currentStreamIndex]
+                let streamID = stream.ID
+                if streamID != "" {
+                    self.getStream()
+                }
+            }
+            if SharedData.sharedInstance.deepLinkType != "" {
+              //  self.btnActionForAddContent()
+                SharedData.sharedInstance.deepLinkType = ""
+            }
+            
+        }
+        else {
+            if StreamList.sharedInstance.arrayViewStream.count != 0 {
+                if currentIndex != nil {
+                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
+                    if isIndexValid {
+                        let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                        StreamList.sharedInstance.selectedStream = stream
+                    }
+                }
+            }
+            if StreamList.sharedInstance.selectedStream != nil {
+                self.getStream()
+            }
+            
+            if SharedData.sharedInstance.deepLinkType != "" {
+               // self.btnActionForAddContent()
+                SharedData.sharedInstance.deepLinkType = ""
+            }
+        }
+    }*/
+    
     func setUpHeaderIcon() {
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
             self.btnShare.isHidden = false
@@ -338,8 +401,8 @@ class StreamViewController: MSMessagesAppViewController {
               if self.objStream?.canAddContent == true  || self.objStream?.canAddPeople == true {
                 self.btnShare.isHidden = false
             }
-            self.viewLikeCount.isHidden = false
-            self.viewCount.isHidden = false
+            self.viewLikeCount.isHidden = true
+            self.viewCount.isHidden = true
             
         }
          
@@ -373,27 +436,26 @@ class StreamViewController: MSMessagesAppViewController {
         }else{
             //self.btnShare.isHaptic = false
         }
-        
-        
-        if MFMessageComposeViewController.canSendAttachments(){
-            let composeVC = MFMessageComposeViewController()
-            composeVC.recipients = []
-            composeVC.message = composeMessage()
-            composeVC.messageComposeDelegate = self as? MFMessageComposeViewControllerDelegate
-            self.present(composeVC, animated: true, completion: nil)
+        if(SharedData.sharedInstance.isMessageWindowExpand){
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
+        self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
+
+           
     }
-    func composeMessage() -> MSMessage {
+ 
+    @objc func sendMessage(){
         let session = MSSession()
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
-        
         layout.caption = lblStreamName.text!
         layout.image  = imgStream.image
         layout.subcaption = lblStreamDesc.text!
-        
+        layout.caption = lblStreamName.text!
+        if let url =  URL(string: (self.objStream?.coverImage)!) {
+            layout.mediaFileURL = url
+        }
         message.layout = layout
-        //let selectedImage = StreamList.sharedInstance.arrayStream[currentIndex]
         if StreamList.sharedInstance.objStream == nil {
             let strURl = String(format: "%@/%@", kNavigation_Stream,self.objStream!.streamID)
             message.url = URL(string: strURl)
@@ -401,9 +463,11 @@ class StreamViewController: MSMessagesAppViewController {
             let strURl = String(format: "%@/%@/%@", kNavigation_Stream,self.objStream!.streamID,StreamList.sharedInstance.objStream!)
             message.url = URL(string: strURl)
         }
-        
-        return message
+
+        SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+        self.view.isUserInteractionEnabled = true
     }
+
     //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
@@ -435,58 +499,75 @@ class StreamViewController: MSMessagesAppViewController {
             }
         }
     }
-    
-    
-    
+   
     //MARK: set Collaborator image
     
     func setCollabImage() {
-       
-        if (objStream?.userImage.trim().isEmpty)! {
+        if !(objStream?.userImage.trim().isEmpty)! {
             self.imgUser.setImageWithResizeURL(objStream?.userImage.trim())
         }
         else {
-            self.imgUser.setImage(string:objStream?.author.trim(), color: UIColor.colorHash(name:objStream?.author.trim()), circular: true)
+            
+            self.imgUser.setImage(string:objStream?.author.trim(), color: UIColor(r: 0, g: 122, b: 255), circular: true)
         }
-
-        if (objStream?.colabImageFirst.trim().isEmpty)! {
-
+        
+        if !(objStream?.colabImageFirst.trim().isEmpty)! {
+            
             if  (objStream?.colabImageFirst.contains(kImageFormat))! {
                 self.imgFirstCollab.setImageWithResizeURL(objStream?.colabImageFirst.trim())
-
+                
             }else {
-                self.imgFirstCollab.setImage(string:objStream?.colabImageFirst.trim(), color: UIColor.colorHash(name:objStream?.colabImageFirst.trim()), circular: true)
+                
+                self.imgFirstCollab.setImage(string:objStream?.colabImageFirst.trim(), color: UIColor.brown, circular: true)
             }
-
+            
         }else{
             self.imgFirstCollab.isHidden = true
         }
-
-        if (objStream?.colabImageSecond.trim().isEmpty)! {
-
+        
+        
+        if !(objStream?.colabImageSecond.trim().isEmpty)! {
+            
             if  (objStream?.colabImageSecond.contains(kImageFormat))! {
                 self.imgSecondCollab.setImageWithResizeURL(objStream?.colabImageSecond.trim())
-
+                
             }else {
-                self.imgSecondCollab.setImage(string:objStream?.colabImageSecond.trim(), color: UIColor.colorHash(name:objStream?.colabImageSecond.trim()), circular: true)
-
+                self.imgSecondCollab.setImage(string:objStream?.colabImageSecond.trim(), color: UIColor.cyan, circular: true)
+                
             }
         }else{
             self.imgSecondCollab.isHidden = true
-       }
+        }
         
-        if objStream?.arrayColab.count == 0 ||  objStream?.arrayColab.count == 1 {
+        var colabcount:Int! = 0
+        if !(objStream?.totalCollaborator.trim().isEmpty)! {
+            colabcount = Int((objStream?.totalCollaborator!)!)
+            if colabcount! > 2 {
+                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \(colabcount!-1) others"
+            }else {
+                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \(colabcount!-1) other"
+            }
+             kbtnCollabWidth.constant = 60.0
+        }
+        
+        if colabcount == 0 ||  colabcount == 1 {
             self.lblCollabName.text =  "by " + (objStream?.author.capitalized)!
             kbtnCollabWidth.constant = 40.0
-        }else {
-            if (objStream?.arrayColab.count)!-1 > 1 {
-                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) others"
-            }else {
-                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) other"
-            }
-            kbtnCollabWidth.constant = 60.0
         }
+//        if objStream?.arrayColab.count == 0 ||  objStream?.arrayColab.count == 1 {
+//            self.lblCollabName.text =  "by " + (objStream?.author.capitalized)!
+//             kbtnCollabWidth.constant = 40.0
+//        }else {
+//            if (objStream?.arrayColab.count)!-1 > 1 {
+//                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) others"
+//            }else {
+//                self.lblCollabName.text = "by " +  (objStream?.author.capitalized)! + " and \((objStream?.arrayColab.count)!-1) other"
+//            }
+//               kbtnCollabWidth.constant = 60.0
+//        }
     }
+       
+
     
     
     // MARK: - Enable/Disable - Next/Previous Button
@@ -520,9 +601,9 @@ class StreamViewController: MSMessagesAppViewController {
         self.showReportList()
     }
     
-    @IBAction func btnShareAction(_ sender: Any) {
-        
-        self.shareStreamAction()
+    @IBAction func btnShareAction(_ sender: UIButton) {
+       
+      self.shareStreamAction()
     }
     
     @IBAction func btnNextAction(_ sender:UIButton) {
@@ -572,12 +653,12 @@ class StreamViewController: MSMessagesAppViewController {
 //        else if self.strStream == "viewStream"   {
 //            self.dismiss(animated: true, completion: nil)
 //            SharedData.sharedInstance.iMessageNavigation = "viewStream"
-//            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+//           
 //        }
         else {
             self.dismiss(animated: true, completion: nil)
             SharedData.sharedInstance.iMessageNavigation = ""
-            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+         //  NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }
        
     }
@@ -997,7 +1078,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     
     func updateStreamViewCount(count: String) {
        
-           // self.lbl_ViewCount.text = count
+           self.lbl_ViewCount.text = count
         
     }
     
@@ -1033,7 +1114,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
-        
+        cell.imgCover.image = nil
         cell.btnPlay.tag = indexPath.row
         cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
         cell.prepareLayout(content:content!)
@@ -1042,6 +1123,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        isView =  true
         self.collectionStreams.deselectItem(at: indexPath, animated:false)
         ContentList.sharedInstance.arrayContent.removeAll()
         let content = ContentDAO(contentData: [:])
@@ -1058,6 +1140,7 @@ extension StreamViewController : UICollectionViewDelegate,UICollectionViewDataSo
         let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         obj.arrContentData = array!
         obj.isViewCount = "TRUE"
+        obj.isViewStream =  true
      //   self.addRippleTransition()
         obj.currentStreamID = objStream?.streamID!
         obj.currentContentIndex  = indexPath.row + 1

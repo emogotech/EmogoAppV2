@@ -19,11 +19,13 @@ class CollaboratorCollectionViewCell: UICollectionViewCell {
     }
     
     func prepareLayout(content:CollaboratorDAO){
+        
         self.lblCollaboratorName.text = content.name!
-        if content.imgUser == "" {
-            self.imgCollaborator.setImage(string: content.name!, color: UIColor.colorHash(name: content.name!), circular: true)
+        if content.userImage == "" {
+            self.imgCollaborator.setImage(string: content.name, color: UIColor(r: 0, g: 173, b: 243), circular: true)
         }else{
-            self.imgCollaborator.setImageWithURL(strImage: content.imgUser.trim(), placeholder: "")
+        
+           self.imgCollaborator.setImageWithURL(strImage: content.userImage.trim(), placeholder: "")
         }
     }
 }

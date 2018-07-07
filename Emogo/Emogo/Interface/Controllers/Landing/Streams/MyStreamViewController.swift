@@ -80,7 +80,7 @@ class MyStreamViewController: UIViewController {
         
          kShowOnlyMyStream = "1"
         HUDManager.sharedInstance.showHUD()
-          self.getMyStreams(type:.start,filter: .myStream)
+          self.getMyStreams(type:.start,filter: .Emogo)
         // Load More
         configureLoadMoreAndRefresh()
         if isAssignProfile == nil {
@@ -133,7 +133,7 @@ class MyStreamViewController: UIViewController {
         
         self.myStreamCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
            
-            self?.getMyStreams(type:.down,filter: .myStream)
+            self?.getMyStreams(type:.down,filter: .Emogo)
             
         }
         self.myStreamCollectionView.expiredTimeInterval = 20.0
@@ -142,7 +142,7 @@ class MyStreamViewController: UIViewController {
         switch index {
         case 0:
             self.selectedType = StreamType.Emogo
-            self.getMyStreams(type: .start, filter: .myStream)
+            self.getMyStreams(type: .start, filter: .Emogo)
             
             break
         case 1:
@@ -164,7 +164,7 @@ class MyStreamViewController: UIViewController {
             assignProfileStream()
         }else {
             var streamID  = [String]()
-            for stream in StreamList.sharedInstance.arrayMyStream {
+            for stream in self.arraySelected {
                 if stream.isSelected == true {
                     streamID.append(stream.ID.trim())
                 }
@@ -230,6 +230,7 @@ class MyStreamViewController: UIViewController {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             let stream = StreamDAO(streamData: [:])
             stream.isAdd = true
+            stream.canAddContent = true
             StreamList.sharedInstance.arrayMyStream.insert(stream, at: 0)
             self.myStreamCollectionView.reloadData()
         }
@@ -271,7 +272,8 @@ class MyStreamViewController: UIViewController {
                     }
                 }
             }
-            
+            let array =   StreamList.sharedInstance.arrayMyStream.filter { $0.canAddContent == true }
+             StreamList.sharedInstance.arrayMyStream = array
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -325,6 +327,8 @@ class MyStreamViewController: UIViewController {
                 }
             }
             
+            let array =   StreamList.sharedInstance.arrayMyStream.filter { $0.canAddContent == true }
+            StreamList.sharedInstance.arrayMyStream = array
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
                 self.showToast(type: .success, strMSG: errorMsg!)
@@ -396,7 +400,9 @@ class MyStreamViewController: UIViewController {
         }
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
         createVC.exestingNavigation = self.navigationController
-        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
+        let nav = UINavigationController(rootViewController: createVC)
+       
+        customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
     }
     
     func gifPreview(content:ContentDAO){

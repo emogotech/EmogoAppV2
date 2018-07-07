@@ -94,9 +94,8 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
         let collaborator = self.arrayColab[indexPath.row]
         cell.lblTitle.text = collaborator.name
         cell.imgSelect.isHidden = true
-        if !collaborator.imgUser.isEmpty {
-            cell.imgCover.layer.cornerRadius = cell.imgCover.frame.size.width/2.0
-            cell.imgCover.layer.masksToBounds = true
+        if !collaborator.userImage.isEmpty {
+            cell.imgCover.setImageWithResizeURL(collaborator.userImage)
         }else {
             cell.imgCover.setImage(string: collaborator.name, color: UIColor(r: 0, g: 173, b: 243), circular: true)
         }

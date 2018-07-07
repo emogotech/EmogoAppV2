@@ -449,13 +449,15 @@ extension UIViewController {
     
     
     func dismissWithAnimation(handler : @escaping (() -> Void)) {
+        /*
         let transition: CATransition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         transition.type = kCATransitionFade
         transition.subtype = kCATransitionFromBottom
         self.view.window!.layer.add(transition, forKey: nil)
-        self.dismiss(animated: false) {
+ */
+        self.dismiss(animated: true) {
             handler()
         }
     }

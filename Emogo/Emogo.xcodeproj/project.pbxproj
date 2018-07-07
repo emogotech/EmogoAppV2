@@ -148,6 +148,7 @@
 		F0B3EEAD20E4FD9C00599675 /* CCSwipBackPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EF0B0720DCF26C0004AC50 /* CCSwipBackPresentationController.swift */; };
 		F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */; };
 		F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */; };
+		F0C7592620EC9624004AB444 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
 		F0F9DC3820E0F4CC000E2CA1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */; };
 		F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */; };
 		F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */; };
@@ -433,16 +434,6 @@
 		F4C20FEE209AE4E80094A7FC /* FilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */; };
 		F4C20FF8209AE4E80094A7FC /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C20FE3209AE4E50094A7FC /* FilterCell.swift */; };
 		F4C2102A209AE7010094A7FC /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C21029209AE7010094A7FC /* FilterViewController.swift */; };
-		F4C2103B209B366B0094A7FC /* ACEDrawingLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2102D209B36650094A7FC /* ACEDrawingLabelView.m */; };
-		F4C2103C209B366B0094A7FC /* ACEDrawingTools.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2102F209B36670094A7FC /* ACEDrawingTools.m */; };
-		F4C2103D209B366B0094A7FC /* ACEDrawingToolState.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C21032209B36690094A7FC /* ACEDrawingToolState.m */; };
-		F4C2103E209B366B0094A7FC /* sticker_close.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21034209B366A0094A7FC /* sticker_close.png */; };
-		F4C2103F209B366B0094A7FC /* sticker_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21035209B366A0094A7FC /* sticker_close@2x.png */; };
-		F4C21040209B366B0094A7FC /* sticker_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21036209B366A0094A7FC /* sticker_close@3x.png */; };
-		F4C21041209B366B0094A7FC /* sticker_resize.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21037209B366A0094A7FC /* sticker_resize.png */; };
-		F4C21042209B366B0094A7FC /* sticker_resize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21038209B366A0094A7FC /* sticker_resize@2x.png */; };
-		F4C21043209B366B0094A7FC /* sticker_resize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C21039209B366A0094A7FC /* sticker_resize@3x.png */; };
-		F4C21044209B366B0094A7FC /* ACEDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C2103A209B366A0094A7FC /* ACEDrawingView.m */; };
 		F4C2489F20514EAA00D74EA5 /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */; };
 		F4C763E82003E09900AB664F /* MBAutoGrowingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */; };
 		F4C9554420A31D890065D1C8 /* FNSUdnie.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = F4C9553E20A31D860065D1C8 /* FNSUdnie.mlmodel */; };
@@ -967,20 +958,6 @@
 		F4C20FD9209AE4DF0094A7FC /* FilterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCell.xib; sourceTree = "<group>"; };
 		F4C20FE3209AE4E50094A7FC /* FilterCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		F4C21029209AE7010094A7FC /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		F4C2102C209B36650094A7FC /* ACEDrawingLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingLabelView.h; sourceTree = "<group>"; };
-		F4C2102D209B36650094A7FC /* ACEDrawingLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingLabelView.m; sourceTree = "<group>"; };
-		F4C2102E209B36660094A7FC /* ACEDrawingTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingTools.h; sourceTree = "<group>"; };
-		F4C2102F209B36670094A7FC /* ACEDrawingTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingTools.m; sourceTree = "<group>"; };
-		F4C21030209B36680094A7FC /* ACEDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingView.h; sourceTree = "<group>"; };
-		F4C21031209B36680094A7FC /* ACEDrawingToolState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingToolState.h; sourceTree = "<group>"; };
-		F4C21032209B36690094A7FC /* ACEDrawingToolState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingToolState.m; sourceTree = "<group>"; };
-		F4C21034209B366A0094A7FC /* sticker_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_close.png; sourceTree = "<group>"; };
-		F4C21035209B366A0094A7FC /* sticker_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@2x.png"; sourceTree = "<group>"; };
-		F4C21036209B366A0094A7FC /* sticker_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@3x.png"; sourceTree = "<group>"; };
-		F4C21037209B366A0094A7FC /* sticker_resize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_resize.png; sourceTree = "<group>"; };
-		F4C21038209B366A0094A7FC /* sticker_resize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@2x.png"; sourceTree = "<group>"; };
-		F4C21039209B366A0094A7FC /* sticker_resize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@3x.png"; sourceTree = "<group>"; };
-		F4C2103A209B366A0094A7FC /* ACEDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingView.m; sourceTree = "<group>"; };
 		F4C2489E20514EAA00D74EA5 /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		F4C763E62003E09700AB664F /* MBAutoGrowingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBAutoGrowingTextView.m; sourceTree = "<group>"; };
 		F4C763E72003E09800AB664F /* MBAutoGrowingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBAutoGrowingTextView.h; sourceTree = "<group>"; };
@@ -1418,7 +1395,6 @@
 			isa = PBXGroup;
 			children = (
 				F40D3E6720CE6A08008ED566 /* ColorPicker */,
-				F4C2102B209B362C0094A7FC /* ImageDrawing */,
 				F42DCD372098406100078969 /* SideMenu */,
 				F4838AD42084B7AF0034F2B4 /* Segment Control */,
 				F41752E6201CB684005AFE4A /* CheckBox */,
@@ -2346,35 +2322,6 @@
 			path = Filter;
 			sourceTree = "<group>";
 		};
-		F4C2102B209B362C0094A7FC /* ImageDrawing */ = {
-			isa = PBXGroup;
-			children = (
-				F4C21033209B366A0094A7FC /* ACEDraggableText */,
-				F4C2102C209B36650094A7FC /* ACEDrawingLabelView.h */,
-				F4C2102D209B36650094A7FC /* ACEDrawingLabelView.m */,
-				F4C2102E209B36660094A7FC /* ACEDrawingTools.h */,
-				F4C2102F209B36670094A7FC /* ACEDrawingTools.m */,
-				F4C21031209B36680094A7FC /* ACEDrawingToolState.h */,
-				F4C21032209B36690094A7FC /* ACEDrawingToolState.m */,
-				F4C21030209B36680094A7FC /* ACEDrawingView.h */,
-				F4C2103A209B366A0094A7FC /* ACEDrawingView.m */,
-			);
-			path = ImageDrawing;
-			sourceTree = "<group>";
-		};
-		F4C21033209B366A0094A7FC /* ACEDraggableText */ = {
-			isa = PBXGroup;
-			children = (
-				F4C21034209B366A0094A7FC /* sticker_close.png */,
-				F4C21035209B366A0094A7FC /* sticker_close@2x.png */,
-				F4C21036209B366A0094A7FC /* sticker_close@3x.png */,
-				F4C21037209B366A0094A7FC /* sticker_resize.png */,
-				F4C21038209B366A0094A7FC /* sticker_resize@2x.png */,
-				F4C21039209B366A0094A7FC /* sticker_resize@3x.png */,
-			);
-			path = ACEDraggableText;
-			sourceTree = "<group>";
-		};
 		F4C9553C20A31D6C0065D1C8 /* CoreML */ = {
 			isa = PBXGroup;
 			children = (
@@ -2678,7 +2625,6 @@
 				F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */,
 				F46AC6DE2043E92E00B71102 /* TLPhotosPickerViewController.xib in Resources */,
 				F480777C20D0EFCA008E5BDA /* LinkPickerViewCell.xib in Resources */,
-				F4C21041209B366B0094A7FC /* sticker_resize.png in Resources */,
 				F4C20FEA209AE4E80094A7FC /* FilterGradientCell.xib in Resources */,
 				330FEB871FC3F68E00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				F4731FC31FC2C9F500AA68D8 /* StreamSearchCell.xib in Resources */,
@@ -2703,11 +2649,9 @@
 				F433EDA420174160004FEB93 /* StreamViewHeader.xib in Resources */,
 				330FEB861FC3F68E00552260 /* SF-Pro-Display-Regular.otf in Resources */,
 				F41FD95320A9583F00FA8623 /* FilterGradientCell.xib in Resources */,
-				F4C21042209B366B0094A7FC /* sticker_resize@2x.png in Resources */,
 				F401DFAE1FE28A6200BD7DDA /* Stuff.storyboard in Resources */,
 				F41FD94A20A9583F00FA8623 /* StickersViewController.xib in Resources */,
 				F44939E51FEA567800AE2FCA /* icon_pull_to_refresh_arrow@2x.png in Resources */,
-				F4C21040209B366B0094A7FC /* sticker_close@3x.png in Resources */,
 				F41FD95520A9583F00FA8623 /* PhotoCropEditorBorder@3x.png in Resources */,
 				F4F18E821FBF209800E746A8 /* MainInterface.storyboard in Resources */,
 				F4A69BA41FC45181008F9534 /* beep.wav in Resources */,
@@ -2717,14 +2661,12 @@
 				F4311874202B88D2006139F7 /* filter_gradient_5_icon@3x.png in Resources */,
 				F42217B420074D56002D4E4E /* k-popup-dismiss-button@2x.png in Resources */,
 				F4838ADB2084CE840034F2B4 /* ProfileStreamView.xib in Resources */,
-				F4C21043209B366B0094A7FC /* sticker_resize@3x.png in Resources */,
 				F4311879202B88D2006139F7 /* filter_gradient_5.png in Resources */,
 				F4311873202B88D2006139F7 /* filter_gradient_3.png in Resources */,
 				F41FD96120A9583F00FA8623 /* filterMenuItem_icon@3x.png in Resources */,
 				330FEB831FC3F68E00552260 /* SF-Pro-Display-Heavy.otf in Resources */,
 				F42217B520074D56002D4E4E /* k-popup-dismiss-button@3x.png in Resources */,
 				F4C20FEE209AE4E80094A7FC /* FilterCell.xib in Resources */,
-				F4C2103F209B366B0094A7FC /* sticker_close@2x.png in Resources */,
 				330FEB881FC3F68E00552260 /* SF-Pro-Display-Thin.otf in Resources */,
 				330FEB851FC3F68E00552260 /* SF-Pro-Display-Medium.otf in Resources */,
 				F44939E21FEA567800AE2FCA /* Localizable.strings in Resources */,
@@ -2735,7 +2677,6 @@
 				F4311876202B88D2006139F7 /* filter_gradient_7_icon@3x.png in Resources */,
 				F431186D202B88D2006139F7 /* filter_gradient_6_icon@3x.png in Resources */,
 				F406FCFA208779FA006192B4 /* Assets.xcassets in Resources */,
-				F4C2103E209B366B0094A7FC /* sticker_close.png in Resources */,
 				F4311875202B88D2006139F7 /* filter_gradient_7.png in Resources */,
 				330FEB821FC3F68E00552260 /* SF-Pro-Display-Bold.otf in Resources */,
 				F4311877202B88D2006139F7 /* filter_gradient_2.png in Resources */,
@@ -3131,7 +3072,6 @@
 				F4CF824420905569005636FE /* EmogoContactViewCell.swift in Sources */,
 				F409FC6F1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				F46AB0C520BC1FC300229031 /* VideoEditor+Text.swift in Sources */,
-				F4C2103D209B366B0094A7FC /* ACEDrawingToolState.m in Sources */,
 				F41C3AD91FE1062C009CD942 /* MyStreamViewController.swift in Sources */,
 				F406FCF6208771AB006192B4 /* FollowersViewController.swift in Sources */,
 				F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */,
@@ -3154,7 +3094,6 @@
 				F4148A231FBD7DAA00081900 /* StreamDAO.swift in Sources */,
 				F445453C200374DD00ED59C3 /* UITextField+Max.m in Sources */,
 				F4F2A0DE2057D20100ED76D7 /* DeeplinkDAO.swift in Sources */,
-				F4C21044209B366B0094A7FC /* ACEDrawingView.m in Sources */,
 				F43612F71FD69B3200788FFE /* AGBlurFilter.swift in Sources */,
 				F4C9554520A31D890065D1C8 /* FNSMosaic.mlmodel in Sources */,
 				F45A78701FBC46A2003FD6AB /* AWSManager.swift in Sources */,
@@ -3296,7 +3235,6 @@
 				F44939E41FEA567800AE2FCA /* ESRefreshHeaderAnimator.swift in Sources */,
 				F4C9554820A31D890065D1C8 /* FNSCandy.mlmodel in Sources */,
 				F41FD94420A9583F00FA8623 /* Protocols.swift in Sources */,
-				F4C2103C209B366B0094A7FC /* ACEDrawingTools.m in Sources */,
 				335B1A121FBB238A006DA9D9 /* AppDelegate.swift in Sources */,
 				F40D3E6420CE5B9F008ED566 /* LinkPickerView.swift in Sources */,
 				F49B42992004D965006DD15D /* GiphyDAO.swift in Sources */,
@@ -3311,7 +3249,6 @@
 				F4148A271FBD947000081900 /* CardView.swift in Sources */,
 				33BCB09C1FBB353E004FF634 /* SignUpViewController.swift in Sources */,
 				33BCB09E1FBB353E004FF634 /* VerificationViewController.swift in Sources */,
-				F4C2103B209B366B0094A7FC /* ACEDrawingLabelView.m in Sources */,
 				F406FCF8208773BF006192B4 /* FollowerCell.swift in Sources */,
 				F42217C22007521A002D4E4E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				F41FD95120A9583F00FA8623 /* CropRectView.swift in Sources */,
@@ -3498,6 +3435,7 @@
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */,
 				2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */,
+				F0C7592620EC9624004AB444 /* MIBadgeButton.swift in Sources */,
 				336618AC1FCED13B008BC84A /* StreamContentViewController.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */,

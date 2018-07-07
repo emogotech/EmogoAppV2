@@ -231,7 +231,8 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
     func actionForAddStream(){
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
          createVC.exestingNavigation = self.navigationController
-         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: createVC, animated: true, completion: nil)
+         let nav = UINavigationController(rootViewController: createVC)
+         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)
 //        let obj = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_AddStreamView)
 //        self.navigationController?.push(viewController: obj)
     }

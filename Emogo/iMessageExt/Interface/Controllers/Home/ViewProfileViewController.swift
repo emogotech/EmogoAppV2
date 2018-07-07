@@ -26,6 +26,7 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var btnFollow: UIButton!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnReport: UIButton!
+    @IBOutlet weak var lblTitle: UILabel!
     
     
     let layout = CHTCollectionViewWaterfallLayout()
@@ -63,7 +64,7 @@ class ViewProfileViewController: UIViewController {
     
     func prepareLayouts(){
     
-        self.title = objPeople.fullName
+        self.lblTitle.text = objPeople.fullName
         self.lblNOResult.text = kAlert_No_Stream_found
        
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))

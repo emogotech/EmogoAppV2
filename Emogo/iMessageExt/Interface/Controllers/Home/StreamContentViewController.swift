@@ -40,7 +40,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSave: UIButton!
     
-   
+    @IBOutlet weak var btnReport: UIButton!
+    
     var isDeleteContent: Bool = false
     
     
@@ -57,13 +58,14 @@ class StreamContentViewController: MSMessagesAppViewController {
     var isForEditOnly                       :Bool!
     var isEdit                              :Bool!
     var objContent                          :ContentDAO!
-    var isFromViewStream:Bool! = true
+    var isViewStream:Bool! = true
     var delegate:StreamContentViewControllerDelegate?
     //var photoEditor                         :PhotoEditorViewController!
     
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.isHidden = true
         SharedData.sharedInstance.tempViewController = self
         setupLoader()
         updateContent()
@@ -100,6 +102,7 @@ class StreamContentViewController: MSMessagesAppViewController {
  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+         self.collectionView.isHidden = false
        // contentProgressView.transform = CGAffineTransform(scaleX: 1, y: 3)
         self.collectionView.reloadData()
         updateCollectionView()
@@ -162,9 +165,15 @@ class StreamContentViewController: MSMessagesAppViewController {
        // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
        // imgStream.addGestureRecognizer(tapRecognizer)
         
-        if isViewCount == "TRUE" {
-             apiForIncreaseViewCount()
+        if isViewStream == false {
+            if isViewCount != nil && seletedImage.fileName != "SreamCover"{
+                apiForIncreaseViewCount()
+            }
         }
+        isViewStream = false
+//        if isViewCount == "TRUE" {
+//             apiForIncreaseViewCount()
+//        }
     }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
@@ -210,7 +219,9 @@ class StreamContentViewController: MSMessagesAppViewController {
         loadViewForUI()
     }
     func updateContent(){
-        
+        btnReport.isHidden = false
+        self.btnLikeDislike.isHidden = false
+        btnReport.isHidden = false
         if currentContentIndex != nil {
            seletedImage = ContentList.sharedInstance.arrayContent[self.currentContentIndex]
         }
@@ -232,13 +243,17 @@ class StreamContentViewController: MSMessagesAppViewController {
         if seletedImage.isEdit {
             self.btnEdit.isHidden = false
         }
-  
-        if isFromViewStream == false {
-            if isViewCount != nil {
+        if isViewStream == false {
+            if isViewCount != nil && seletedImage.fileName != "SreamCover"{
                 apiForIncreaseViewCount()
             }
         }
-        isFromViewStream = false
+        isViewStream = false
+        
+        if seletedImage.fileName == "SreamCover" {
+            self.btnLikeDislike.isHidden = true
+            btnReport.isHidden = true
+        }
     }
     
     //MARK: - Load Data in UI
@@ -332,6 +347,67 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
         }
     }
+    
+    func createURLWithComponents(content: ContentDAO, urlString:String) -> String? {
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = "Emogo";
+        urlComponents.host = "emogo"
+        
+        // add params
+        let name = URLQueryItem(name: "name", value: content.name!)
+        let url = URLQueryItem(name: "url", value: content.coverImage!)
+        let description = URLQueryItem(name: "description", value: content.description!)
+        let videoImage = URLQueryItem(name: "video_image", value: content.coverImageVideo!)
+        let height = URLQueryItem(name: "height", value: "\(content.height!)")
+        let width = URLQueryItem(name: "width", value:  "\(content.width!)")
+        let contentID = URLQueryItem(name: "content_id", value: content.contentID!)
+        let contentType = URLQueryItem(name: "type", value: content.type.rawValue)
+        let created_by = URLQueryItem(name: "created_by", value: content.createdBy)
+        var streamID:URLQueryItem?
+        if self.currentStreamID == nil {
+             streamID = URLQueryItem(name: "stream_id", value: "")
+        }else {
+             streamID = URLQueryItem(name: "stream_id", value: self.currentStreamID)
+        }
+
+        urlComponents.queryItems = [name, url, description, videoImage,videoImage,height,width,contentID,contentType,created_by,streamID!]
+        
+        let strURl = "\(urlComponents.url!)/\(kDeepLinkTypeShareAddContent)"
+        print(strURl)
+        return strURl
+    }
+    
+    func createURLWithComponentsEdit(content: ContentDAO, urlString:String) -> String? {
+        let urlComponents = NSURLComponents()
+        urlComponents.scheme = "Emogo";
+        urlComponents.host = "emogo"
+
+        // add params
+        let name = URLQueryItem(name: "name", value: content.name!)
+        let url = URLQueryItem(name: "url", value: content.coverImage!)
+        let description = URLQueryItem(name: "description", value: content.description!)
+        let videoImage = URLQueryItem(name: "video_image", value: content.coverImageVideo!)
+        let height = URLQueryItem(name: "height", value: "\(content.height!)")
+        let width = URLQueryItem(name: "width", value:  "\(content.width!)")
+        let contentID = URLQueryItem(name: "content_id", value: content.contentID!)
+        let contentType = URLQueryItem(name: "type", value: content.type.rawValue)
+        let created_by = URLQueryItem(name: "created_by", value: content.createdBy)
+        var streamID:URLQueryItem?
+        if self.currentStreamID == nil {
+            streamID = URLQueryItem(name: "stream_id", value: "")
+        }else {
+            streamID = URLQueryItem(name: "stream_id", value: self.currentStreamID)
+        }
+
+        urlComponents.queryItems = [name, url, description, videoImage,videoImage,height,width,contentID,contentType,created_by,streamID!]
+
+        let strURl = "\(urlComponents.url!)/\(kDeepLinkShareEditContent)"
+        print(strURl)
+        return strURl
+    }
+
+    
+   
     //MARK: - Action Methods
     @IBAction func btnSaveAction(_ sender: Any) {
         self.saveActionSheet()
@@ -347,19 +423,38 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.likeDislikeContent()
     }
     
-    @IBAction func btnAddStreamContent(_ sender:UIButton){
-        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
-        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
-    }
+//    @IBAction func btnAddStreamContent(_ sender:UIButton){
+//        let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeAddContent)"
+//        SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+//    }
     
     @IBAction func btnAddToEmogo(_ sender: UIButton) {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title:kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            //let content = self.arrContentData[sender.tag]
-           //let strUrl = "\(kDeepLinkURL)\(kDeepLinkMyStreamView)"
-            let strUrl = "\(kDeepLinkURL)\(self.currentStreamID)/\(kDeepLinkTypeAddContent)"
-            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
+        //    let stream = self.arrContentData[self.currentContentIndex]
+            let url = self.createURLWithComponents(content: self.seletedImage, urlString: "")
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: url!)
+            
+        }
+        let Cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(Continue)
+        alert.addAction(Cancel)
+        present(alert, animated: true, completion: nil)
         
+    }
+    
+    @IBAction func btnEditAction(_ sender:UIButton){
+        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
+        let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
+             //let content = self.arrContentData[self.currentContentIndex]
+            
+            let url = self.createURLWithComponentsEdit(content: self.seletedImage, urlString: "")
+            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: url!)
+            
+//             let strUrl = "\(kDeepLinkURL)\(content.contentID!)/\(kDeepLinkShareEditContent)"
+//            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
         let Cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
             alert.dismiss(animated: true, completion: nil)
@@ -550,21 +645,7 @@ class StreamContentViewController: MSMessagesAppViewController {
 //        }
     }
     
-    @IBAction func btnEditAction(_ sender:UIButton){
-        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Edit_Content , preferredStyle: .alert)
-        let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-            let content = self.arrContentData[sender.tag]
-            let strUrl = "\(kDeepLinkURL)\(content.contentID!)/\(kDeepLinkTypeEditContent)"
-            SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
-        }
-        let Cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
-            alert.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(Continue)
-        alert.addAction(Cancel)
-        present(alert, animated: true, completion: nil)
-        
-    }
+ 
     
     @objc func sendMessage(){
         let session = MSSession()
@@ -588,9 +669,9 @@ class StreamContentViewController: MSMessagesAppViewController {
     func apiForIncreaseViewCount(){
         if let streamID = ContentList.sharedInstance.objStream {
             APIServiceManager.sharedInstance.apiForIncreaseStreamViewCount(streamID: streamID) { (count, _) in
-//                if self.delegate != nil {
-//                    self.delegate?.updateStreamViewCount(count: count!)
-//                }
+                if self.delegate != nil {
+                    self.delegate?.updateStreamViewCount(count: count!)
+                }
             }
         }
         
@@ -663,29 +744,25 @@ class StreamContentViewController: MSMessagesAppViewController {
     
     func saveActionSheet(){
         
-        let optionMenu = UIAlertController(title: kAlert_Message, message: "", preferredStyle: .alert)
-        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .destructive, handler: {
+        let optionMenu = UIAlertController(title: kSaveAlertTitle, message: nil, preferredStyle: .alert)
+        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.saveToMyStuff()
         })
-        
-        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .destructive, handler: {
+        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
-            if self.hudView != nil {
-                self.hudView.stopLoaderWithAnimation()
-            }
+            
             
             if self.seletedImage.type == .image {
                 if self.seletedImage.imgPreview == nil {
                   
                     SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
-                      
+                       
                         if image != nil {
-                          //  UIImageWriteToSavedPhotosAlbum(image!
-                               // ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
-                               // ), nil)
-                            self.showToastIMsg(type: .success, strMSG: kAlert_Save_Image)
-                           // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
+                            UIImageWriteToSavedPhotosAlbum(image!
+                                ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                                ), nil)
+                           self.showToastIMsg(type: .success, strMSG: kAlert_Save_Image)
                         }
                     })
                 }
@@ -696,13 +773,12 @@ class StreamContentViewController: MSMessagesAppViewController {
             }else if self.seletedImage.type == .gif{
                 
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-                  
+                 
                     if image != nil {
-                       // UIImageWriteToSavedPhotosAlbum(image!
-                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-                           // ), nil)
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                            ), nil)
                         self.showToastIMsg(type: .success, strMSG: kAlert_Save_GIF)
-                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF)
                     }
                 })
             }else if self.seletedImage.type == .link{
@@ -711,15 +787,65 @@ class StreamContentViewController: MSMessagesAppViewController {
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
                   
                     if image != nil {
-                      //  UIImageWriteToSavedPhotosAlbum(image!
-                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-                           // ), nil)
+                        UIImageWriteToSavedPhotosAlbum(image!
+                            ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+                            ), nil)
                         self.showToastIMsg(type: .success, strMSG: kAlert_Save_Link)
-                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link)
                     }
                 })
             }
         })
+//        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
+//            (alert: UIAlertAction!) -> Void in
+//            if self.hudView != nil {
+//                self.hudView.stopLoaderWithAnimation()
+//            }
+//
+//            if self.seletedImage.type == .image {
+//                if self.seletedImage.imgPreview == nil {
+//
+//                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
+//
+//                        if image != nil {
+//                          //  UIImageWriteToSavedPhotosAlbum(image!
+//                               // ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+//                               // ), nil)
+//                            self.showToastIMsg(type: .success, strMSG: kAlert_Save_Image)
+//                           // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
+//                        }
+//                    })
+//                }
+//
+//            }else if self.seletedImage.type == .video{
+//                self.videoDownload()
+//
+//            }else if self.seletedImage.type == .gif{
+//
+//                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+//
+//                    if image != nil {
+//                       // UIImageWriteToSavedPhotosAlbum(image!
+//                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+//                           // ), nil)
+//                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_GIF)
+//                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF)
+//                    }
+//                })
+//            }else if self.seletedImage.type == .link{
+//
+//                //  self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
+//                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
+//
+//                    if image != nil {
+//                      //  UIImageWriteToSavedPhotosAlbum(image!
+//                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
+//                           // ), nil)
+//                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_Link)
+//                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link)
+//                    }
+//                })
+//            }
+//        })
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
         })
@@ -776,6 +902,11 @@ class StreamContentViewController: MSMessagesAppViewController {
 //        optionMenu.addAction(cancelAction)
 //        self.present(optionMenu, animated: true, completion: nil)
 //    }
+    
+    @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
+          self.showToastIMsg(type: .error, strMSG: kAlert_Save_Image)
+        
+    }
     //MARK: ⬇︎⬇︎⬇︎ API Methods ⬇︎⬇︎⬇︎
     
     func deleteContent(){
@@ -811,35 +942,69 @@ class StreamContentViewController: MSMessagesAppViewController {
             }
         }
     }
+  
     func deleteContentFromStream(){
        
         APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
-           
+          
             if isSuccess == true {
-                if self.isEdit == nil {
-                    ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
-                    if  ContentList.sharedInstance.arrayContent.count == 0 {
-                        //self.navigationController?.pop()
-                        return
+                if self.isViewCount != nil {
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+                }
+                
+                ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+                self.currentContentIndex =  self.currentContentIndex - 1
+                
+                if self.currentContentIndex < 0 {
+                    self.currentContentIndex = 0
+                }
+                self.updateCollectionView()
+                self.updateContent()
+                let array =  ContentList.sharedInstance.arrayContent.filter { $0.fileName != "SreamCover" }
+                
+                if  array.count == 0 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.dismiss(animated: true, completion: nil)
                     }
-                    self.currentContentIndex =  self.currentContentIndex - 1
-                    self.updateCollectionView()
-                }else {
-                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
-                        ContentList.sharedInstance.arrayContent.remove(at: index)
-                       // self.navigationController?.pop()
-                    }
-                    if self.isForEditOnly != nil {
-                       // self.navigationController?.pop()
-                    }
-                    
                 }
                 
             }else {
                  self.showToastIMsg(type: .success, strMSG: errorMsg!)
             }
+            
         }
     }
+    
+    
+//    func deleteContentFromStream(){
+//
+//        APIServiceManager.sharedInstance.apiForDeleteContentFromStream(streamID: ContentList.sharedInstance.objStream!, contentID: seletedImage.contentID.trim()) { (isSuccess, errorMsg) in
+//
+//            if isSuccess == true {
+//                if self.isEdit == nil {
+//                    ContentList.sharedInstance.arrayContent.remove(at: self.currentContentIndex)
+//                    if  ContentList.sharedInstance.arrayContent.count == 0 {
+//                        //self.navigationController?.pop()
+//                        return
+//                    }
+//                    self.currentContentIndex =  self.currentContentIndex - 1
+//                    self.updateCollectionView()
+//                }else {
+//                    if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
+//                        ContentList.sharedInstance.arrayContent.remove(at: index)
+//                       // self.navigationController?.pop()
+//                    }
+//                    if self.isForEditOnly != nil {
+//                       // self.navigationController?.pop()
+//                    }
+//
+//                }
+//
+//            }else {
+//                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
+//            }
+//        }
+//    }
     
     func deleteFileFromAWS(content:ContentDAO){
         if !content.coverImage.isEmpty {
@@ -930,11 +1095,11 @@ extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewD
 //            (cell as! StreamContentViewCell).imgCover.image = nil
 //        }
 //    }
-//
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContent, for: indexPath) as! StreamContentViewCell
-       // let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
-        let content = self.arrContentData[indexPath.row]
+        let content =  ContentList.sharedInstance.arrayContent[indexPath.row]
+        //let content = self.arrContentData[indexPath.row]
         cell.prepareView(seletedImage: content)
         cell.btnPlayIcon.tag = indexPath.row
         cell.btnPlayIcon.addTarget(self, action: #selector(self.openFullView), for: .touchUpInside)
@@ -960,4 +1125,18 @@ extension StreamContentViewController:UICollectionViewDelegate,UICollectionViewD
         self.updateContent()
         print(indexPath)
     }
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        var visibleRect = CGRect()
+//
+//        visibleRect.origin = collectionView.contentOffset
+//        visibleRect.size = collectionView.bounds.size
+//
+//        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+//
+//        guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
+//        self.currentContentIndex = indexPath.row
+//        self.updateContent()
+//        print(indexPath)
+//    }
 }

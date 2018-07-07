@@ -284,7 +284,6 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
                 UIView.animate(withDuration: 0.3, animations: {
                     view.center = self.canvasImageView.center
                 })
-                
             }
         }
     }

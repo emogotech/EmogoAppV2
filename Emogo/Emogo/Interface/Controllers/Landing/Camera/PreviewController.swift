@@ -94,6 +94,10 @@ class PreviewController: UIViewController {
         self.showStatusBar()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -121,11 +125,12 @@ class PreviewController: UIViewController {
         
       
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
+            
             ContentList.sharedInstance.arrayContent.removeAll()
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
             self.isShowRetake = true
-            ContentList.sharedInstance.objStream = nil
-            SharedData.sharedInstance.contentList.objStream = nil
+         //   ContentList.sharedInstance.objStream = nil
+          //  SharedData.sharedInstance.contentList.objStream = nil
             
             let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
             
@@ -149,9 +154,7 @@ class PreviewController: UIViewController {
                 selectedIndex = 0
             }
             self.preparePreview(index: selectedIndex)
-            self.btnDone.isHidden = true
-            self.btnAddStream.isHidden = false
-            self.btnDone.isHidden = true
+           
             SharedData.sharedInstance.deepLinkType = ""
         }else{
             self.preparePreview(index: selectedIndex)
@@ -207,10 +210,7 @@ class PreviewController: UIViewController {
         
         // Preview Footer
         self.previewCollection.reloadData()
-        if ContentList.sharedInstance.objStream != nil {
-            self.btnDone.isHidden = true
-        }
-        
+       
         self.imgPreview.contentMode = .scaleAspectFit
        // kWidth.constant = 0.0
         kLinkPreviewHieght.constant = 0.0
@@ -336,6 +336,10 @@ class PreviewController: UIViewController {
     }
     
     func preparePreview(index:Int) {
+        
+        if ContentList.sharedInstance.objStream != nil {
+            self.btnDone.isHidden = true
+        }
         self.btnShareAction.isHidden = true
         self.txtTitleImage.text = ""
         txtDescription.text = ""
@@ -852,6 +856,7 @@ class PreviewController: UIViewController {
                     ContentList.sharedInstance.arrayContent[index] = content!
                 }
                 self.btnAddStream.isHidden = false
+                self.btnAddStream.isUserInteractionEnabled = true
                 self.btnDone.isHidden = true
             }else {
                 self.showToast(strMSG: errorMsg!)

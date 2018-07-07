@@ -118,15 +118,16 @@ class AddCollabViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     @objc func inviteButtonAction(){
+        
         if UserDAO.sharedInstance.user.shareURL.isEmpty {
             return
         }
         let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
-        let shareItem =  "Hey checkout \(UserDAO.sharedInstance.user.fullName.capitalized)'s profile!"
-        let text = "\n via Emogo"
+        
+        let shareItem =  "Collaborate with me on emogo!"
         
         // let shareItem = "Hey checkout the s profile,emogo"
-        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url,text], applicationActivities:nil)
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url], applicationActivities:nil)
         //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
         
         DispatchQueue.main.async {
@@ -184,6 +185,38 @@ class AddCollabViewController: UIViewController {
 //        }else {
 //            self.btnAdd.isHidden = false
 //        }
+    }
+    
+     func btnActionForUserProfile(indexPath:IndexPath) {
+        
+        var collaborator:CollaboratorDAO!
+        if self.isSearchEnable {
+            var array:[CollaboratorDAO] = (self.arraySearch[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            collaborator = array[indexPath.row]
+        }else {
+            var array:[CollaboratorDAO] = (self.arrayToShow[indexPath.section] as! [String:Any])["value"] as! [CollaboratorDAO]
+            collaborator = array[indexPath.row]
+        }
+        
+        if collaborator.userID.trim() != "" {
+            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                self.navigationController?.push(viewController: obj)
+                
+            }else {
+                let people = PeopleDAO(peopleData:[:])
+                people.fullName = collaborator.name
+                people.userProfileID = collaborator.userID
+                //  people.userProfileID =
+                let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = people
+                self.navigationController?.push(viewController: obj)
+            }
+            
+        }else{
+            self.showToast(strMSG: "Seems user is not registered with Emogo yet!")
+        }
+
     }
     
     // MARK: - Class Methods
@@ -384,7 +417,7 @@ class AddCollabViewController: UIViewController {
     func updateColabs(){
         HUDManager.sharedInstance.showHUD()
 
-        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.streamID)!,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.canAddContent)! , canAddPeople:(self.objStream?.canAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
+        APIServiceManager.sharedInstance.apiForEditStreamColabs(streamID: (self.objStream?.streamID)!,streamType: (self.objStream?.type)!, anyOneCanEdit: (self.objStream?.anyOneCanEdit)!, canAddContent: (self.objStream?.userCanAddContent)! , canAddPeople:(self.objStream?.userCanAddPeople)!, collaborator: arrayTempSelected) { (result, errorMSG) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 if self.delegate != nil {
@@ -466,13 +499,15 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = self.tblAddCollab.cellForRow(at: indexPath) {
-            self.btnCheckedClicked(sender: (cell as! AddCollabCell).checkButton)
-        }
+//        if let cell = self.tblAddCollab.cellForRow(at: indexPath) {
+//            self.btnCheckedClicked(sender: (cell as! AddCollabCell).checkButton)
+//        }
+        self.btnActionForUserProfile(indexPath: indexPath)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
     }
+    
     
 }
 

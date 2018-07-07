@@ -231,7 +231,7 @@ class StreamListViewController: UIViewController {
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
            self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
-      
+           
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkMyStreamView {
@@ -280,17 +280,31 @@ class StreamListViewController: UIViewController {
            
         }
         
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkShareEditContent {
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            let objContent:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+            objContent.currentIndex = 0
+            let nav = UINavigationController(rootViewController: objContent)
+            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
+            //self.navigationController?.push(viewController: objContent)
+        }
+        
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
             ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
             let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
             objPreview.currentIndex = 0
             let nav = UINavigationController(rootViewController: objPreview)
+            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             
-             customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
-            
+        }
+        if SharedData.sharedInstance.deepLinkType == kDeepLinkUserProfile {
+            let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+            self.navigationController?.pushViewController(obj, animated: false)
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeeplinkOpenUserProfile {
+      
+           
            // Naviagte to user Profile
             if SharedData.sharedInstance.objDeepLink != nil {
                 if SharedData.sharedInstance.objDeepLink?.userId.trim() == UserDAO.sharedInstance.user.userId.trim() {
@@ -305,7 +319,7 @@ class StreamListViewController: UIViewController {
                     objPeople.userId = SharedData.sharedInstance.objDeepLink?.userId
                     objPeople.userImage = SharedData.sharedInstance.objDeepLink?.userImage
                     objPeople.phoneNumber = SharedData.sharedInstance.objDeepLink?.phone
-                   objPeople.userProfileID = SharedData.sharedInstance.objDeepLink?.userProfileID
+                    objPeople.userProfileID = SharedData.sharedInstance.objDeepLink?.userProfileID
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -829,6 +843,7 @@ class StreamListViewController: UIViewController {
  
     func getStream(currentStreamID:String, currentConytentID:String){
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
+            print(currentStreamID)
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
@@ -849,6 +864,12 @@ class StreamListViewController: UIViewController {
                                 break
                             }
                         }
+                    } else if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent {
+                        ContentList.sharedInstance.arrayContent = allContents
+                        let contentVC : ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                        contentVC.currentIndex = 0
+                        let nav = UINavigationController(rootViewController: contentVC)
+                        self.customPresentViewController(PresenterNew.instance.contentContainer, viewController: nav, animated: true, completion: nil)
                     }
                     else {
                         let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
@@ -866,6 +887,7 @@ class StreamListViewController: UIViewController {
             }else {
                 self.showToast(type: .success, strMSG: errorMsg!)
                 SharedData.sharedInstance.deepLinkType = ""
+               
             }
         }
     }

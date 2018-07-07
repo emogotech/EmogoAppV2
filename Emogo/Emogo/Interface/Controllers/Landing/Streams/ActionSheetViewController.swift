@@ -109,7 +109,7 @@ extension ActionSheetViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let tableHeight =  tblOptions.bounds.size.height
-        let cellHeight  =  tableHeight/6
+        let cellHeight  =  tableHeight/5
         return cellHeight
     }
     

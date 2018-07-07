@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Haptica
 
 protocol PMSwitcherChangeValueDelegate {
     func switcherDidChangeValue(switcher: PMAnimatedSwitch,value: Bool)
@@ -101,6 +102,8 @@ class PMAnimatedSwitch: UIView {
     
     @objc func switcherButtonTouch(_ sender: AnyObject) {
         on = !on
+        self.button.isHaptic = true
+        self.button.hapticType = .impact(.light)
         animationSwitcherButton()
         delegate?.switcherDidChangeValue(switcher: self, value: on)
     }
@@ -114,13 +117,17 @@ class PMAnimatedSwitch: UIView {
             rotateAnimation.duration = 0.45
             rotateAnimation.isCumulative = false;
             self.button.layer.add(rotateAnimation, forKey: "rotate")
-            
+            self.button.layer.borderColor = UIColor.clear.cgColor
             // Translation animation
             UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions.curveEaseInOut, animations: { () -> Void in
                 self.button.isSelected = true
                 self.buttonLeftConstraint.constant = self.onCenterPosition
                 self.layoutIfNeeded()
-                self.button.backgroundColor = self.selectedColor
+                if  self.isRoundButton {
+                    self.button.backgroundColor = UIColor(r: 0, g: 122, b: 255)
+                }else {
+                    self.button.backgroundColor = UIColor.white
+                }
             }, completion: { (finish:Bool) -> Void in
                 if self.isShadowOn {
                     self.button.layer.shadowOffset = CGSize(width: 0, height: 0.2)
@@ -142,6 +149,7 @@ class PMAnimatedSwitch: UIView {
             }
             
             // Rotate animation
+            self.button.layer.borderColor = UIColor.black.cgColor
             let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
             rotateAnimation.fromValue = 0.0
             rotateAnimation.toValue = -CGFloat(Double.pi)

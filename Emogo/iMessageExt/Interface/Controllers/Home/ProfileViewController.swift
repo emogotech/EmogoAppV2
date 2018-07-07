@@ -46,7 +46,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
     @IBOutlet weak var btnNext: UIButton!
-    @IBOutlet weak var btnProfile: UIButton!
+    @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnSetting: UIButton!
     @IBOutlet weak var btnShare: UIButton!
@@ -106,14 +106,14 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      
+        self.lblName.text = UserDAO.sharedInstance.user.fullName.trim()
         self.prepareLayout()
         updateList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      
+        self.lblName.text = UserDAO.sharedInstance.user.fullName.trim()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -127,10 +127,10 @@ class ProfileViewController: UIViewController {
     func prepareLayouts(){
         self.title = "Profile"
         self.btnNext.isHidden = true
-        self.btnClose.tintColor = UIColor(r: 0, g: 122, b: 255)
-        self.btnShare.tintColor = UIColor(r: 0, g: 122, b: 255)
-        self.btnSetting.tintColor = UIColor(r: 0, g: 122, b: 255)
-     
+//        self.btnClose.tintColor = UIColor(r: 0, g: 122, b: 255)
+//        self.btnShare.tintColor = UIColor(r: 0, g: 122, b: 255)
+//        self.btnSetting.tintColor = UIColor(r: 0, g: 122, b: 255)
+        self.lblName.text = UserDAO.sharedInstance.user.fullName.trim()
         ContentList.sharedInstance.arrayStuff.removeAll()
         StreamList.sharedInstance.arrayProfileStream.removeAll()
         StreamList.sharedInstance.arrayProfileColabStream.removeAll()
@@ -229,7 +229,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
                 }
                 //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
-                self.btnProfile.titleLabel?.text = UserDAO.sharedInstance.user.fullName.trim()
+                self.lblName.text = UserDAO.sharedInstance.user.fullName.trim()
                 self.lblBio.minimumScaleFactor = 1.0
                 self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
@@ -348,6 +348,7 @@ class ProfileViewController: UIViewController {
     }
 
     func updateList(){
+        self.lblName.text = UserDAO.sharedInstance.user.fullName.trim()
         if isEdited {
             isEdited = false
             if  self.currentMenu == .stuff {
@@ -521,7 +522,7 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
            
-            let strUrl = "\(kDeepLinkURL)\(kDeepLinkTypeShareAddContent)"
+            let strUrl = "\(kDeepLinkURL)\(kDeepLinkUserProfile)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
         let Cancel = UIAlertAction(title: kAlert_Cancel_Title, style: .default) { (action) in
@@ -544,7 +545,7 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-       //  self.dismiss(animated: true, completion: nil)
+       // self.dismiss(animated: true, completion: nil)
      
         let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
         self.present(vc, animated: true, completion: nil)
@@ -838,7 +839,7 @@ class ProfileViewController: UIViewController {
 
                     if arrayMyStreams.count == 0 {
                         self.layout.headerHeight = 0
-                        lblNOResult.text = "No Streams Found."
+                        lblNOResult.text = "No Emogo Found."
                         lblNOResult.isHidden = false
                     }
                 }else {
@@ -1249,12 +1250,19 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             }else {
                 isEdited = true
                 ContentList.sharedInstance.arrayContent = array
+                
                if ContentList.sharedInstance.arrayContent.count != 0  {
-                    let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+                let content = ContentDAO(contentData: [:])
+                content.coverImage = objStream?.coverImage
+                content.isUploaded = true
+                content.type = .image
+                content.fileName = "SreamCover"
+                content.name = objStream?.title
+                content.description = objStream?.description
+               
+                let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
                        obj.arrContentData = array
-                       obj.currentStreamID = self.objStream?.streamID!
                        obj.currentContentIndex  = indexPath.row
-                       obj.currentStreamTitle = self.objStream?.title
                         let nav = UINavigationController(rootViewController: obj)
                         if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentViewCell {
                             nav.cc_setZoomTransition(originalView: imageCell.imgCover)

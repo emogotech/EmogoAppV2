@@ -29,15 +29,23 @@ class PeopleSearchCollectionViewCell: UICollectionViewCell {
 //        label.isHidden = true
 //
 //    }
-    
     func prepareData(people:StreamDAO){
         self.lblName.text = people.fullName!
-        lblName.minimumScaleFactor = 1.0
+        
         if people.userImage.isEmpty {
-            self.imgUser.setImage(string: people.fullName, color:#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), circular: true)
+            self.imgUser.setImage(string: people.fullName, color: UIColor(r: 0, g: 173, b: 243), circular: true)
         }else {
             self.imgUser.setImageWithURL(strImage: people.userImage.trim(), placeholder: "")
         }
     }
+//    func prepareData(people:StreamDAO){
+//        self.lblName.text = people.fullName!
+//        lblName.minimumScaleFactor = 1.0
+//        if people.userImage.isEmpty {
+//            self.imgUser.setImage(string: people.fullName, color:#colorLiteral(red: 0, green: 0.6784313725, blue: 0.9529411765, alpha: 1), circular: true)
+//        }else {
+//            self.imgUser.setImageWithURL(strImage: people.userImage.trim(), placeholder: "")
+//        }
+//    }
     
 }

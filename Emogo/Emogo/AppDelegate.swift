@@ -41,9 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        
-      
-        
+                
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
@@ -113,10 +111,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else if splitArr.last == kDeepLinkTypeShareAddContent as String {
                 self.getInfoFormURLAddToStream(url: url)
                 return setTypeOfViewController(objType: kDeepLinkTypeShareAddContent)
+            }else if splitArr.last == kDeepLinkShareEditContent as String {
+                self.getInfoFormURLAddToStream(url: url)
+                return setTypeOfViewController(objType: kDeepLinkShareEditContent)
             }
             else if splitArr.last == kDeepLinkTypeShareMessage as String {
                 self.getInfoFormURLAddToStream(url: url)
                 return setTypeOfViewController(objType: kDeepLinkTypeShareMessage)
+            }else if splitArr.last == kDeepLinkUserProfile as String {
+                return setTypeOfViewController(objType: kDeepLinkUserProfile)
             }
             
             return false
@@ -141,17 +144,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareAddContent
         } else if objType == kDeepLinkMyStreamView {
             SharedData.sharedInstance.deepLinkType = kDeepLinkMyStreamView
+        }else if objType == kDeepLinkShareEditContent {
+              SharedData.sharedInstance.deepLinkType = kDeepLinkShareEditContent
         }
         else if objType == kDeepLinkTypeShareMessage {
             SharedData.sharedInstance.deepLinkType = kDeepLinkTypeShareMessage
         }else if  objType == kDeeplinkOpenUserProfile {
              SharedData.sharedInstance.deepLinkType  = kDeeplinkOpenUserProfile
+        }else if  objType == kDeepLinkUserProfile {
+            SharedData.sharedInstance.deepLinkType  = kDeepLinkUserProfile
         }
         
         self.prepareViewController()
 
         return true
     }
+    
     
     func getInfoFormURL(url:URL){
         var peopleData:[String:Any] = [String:Any]()
@@ -170,24 +178,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func getInfoFormURLAddToStream(url:URL){
-        
+      
         var dictData : Dictionary = [String:Any]()
-        dictData["name"] = url.valueOf("name")
-        dictData["url"] = url.valueOf("coverImage")
-        dictData["description"] = url.valueOf("description")
-        dictData["video_image"] = url.valueOf("coverImageVideo")
-        dictData["height"] = url.valueOf("height")
-        let width = url.valueOf("width")?.components(separatedBy: "/")
-        dictData["width"] = width?[0]
         
-        let content = ContentDAO(contentData: dictData)
-        content.type =  url.valueOf("type") == "Picture" ? PreviewType.image : .link   //.link
-        content.isUploaded = false
-        
-        //print(SharedData.sharedInstance.contentList.arrayContent)
-        SharedData.sharedInstance.contentList.arrayContent.removeAll()
-        SharedData.sharedInstance.contentList.arrayContent.append(content)
-        //print(SharedData.sharedInstance.contentList.arrayContent)
+        if url.valueOf("stream_id") == nil {
+            
+            dictData["name"] = url.valueOf("name")
+            dictData["url"] = url.valueOf("coverImage")
+            dictData["description"] = url.valueOf("description")
+            dictData["video_image"] = url.valueOf("coverImageVideo")
+            dictData["height"] = url.valueOf("height")
+            let width = url.valueOf("width")?.components(separatedBy: "/")
+            dictData["width"] = width?[0]
+            let content = ContentDAO(contentData: dictData)
+            content.type =  url.valueOf("type") == "Picture" ? PreviewType.image : .link   //.link
+            content.isUploaded = false
+            SharedData.sharedInstance.contentList.arrayContent.removeAll()
+            SharedData.sharedInstance.contentList.arrayContent.append(content)
+            
+        }else {
+            dictData["name"] = url.valueOf("name")
+            dictData["url"] = url.valueOf("url")
+            dictData["description"] = url.valueOf("description")
+            dictData["video_image"] = url.valueOf("video_image")
+            dictData["height"] = url.valueOf("height")
+            dictData["width"] = url.valueOf("width")
+            dictData["id"] = url.valueOf("content_id")
+            dictData["type"] = url.valueOf("type")
+            dictData["created_by"] = url.valueOf("created_by")
+            let content = ContentDAO(contentData: dictData)
+            let strID:String! =  url.valueOf("stream_id")
+            if strID.trim() == "" {
+                ContentList.sharedInstance.objStream = nil
+                content.isUploaded = false
+            }else {
+                ContentList.sharedInstance.objStream = strID
+                content.isUploaded = true
+            }
+            //print(SharedData.sharedInstance.contentList.arrayContent)
+            SharedData.sharedInstance.contentList.arrayContent.removeAll()
+            SharedData.sharedInstance.contentList.arrayContent.append(content)
+        }
+       
+    //print(SharedData.sharedInstance.contentList.arrayContent)
     }
     
     private func prepareViewController() {
@@ -210,7 +243,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If User already logged in
        self.performLogin()
        self.keyboardToolBar(disable:false)
-        
         // Logout User if Token Is Expired
        
     }

@@ -544,7 +544,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdI-SW-eah" customClass="TrimmerView" customModule="PryntTrimmerView">
-                                <rect key="frame" x="0.0" y="667" width="375" height="0.0"/>
+                                <rect key="frame" x="10" y="667" width="355" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="0Yf-Gr-GMG"/>
@@ -686,7 +686,7 @@
                         <constraints>
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="0HO-2B-5Ds"/>
                             <constraint firstItem="JA2-Zb-Ltf" firstAttribute="bottom" secondItem="vMC-uu-6hj" secondAttribute="bottom" id="1bz-eb-5xs"/>
-                            <constraint firstItem="mdI-SW-eah" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" id="5WF-pb-5j4"/>
+                            <constraint firstItem="mdI-SW-eah" firstAttribute="trailing" secondItem="JA2-Zb-Ltf" secondAttribute="trailing" constant="-10" id="5WF-pb-5j4"/>
                             <constraint firstItem="jSQ-zb-a9d" firstAttribute="top" secondItem="TuQ-3s-rsu" secondAttribute="top" id="B80-DL-387"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="fSk-va-djo" secondAttribute="bottom" id="D8x-Fv-34p"/>
                             <constraint firstItem="vMC-uu-6hj" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="EcF-kU-g89"/>
@@ -694,7 +694,7 @@
                             <constraint firstItem="c5g-qy-GzR" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="GcD-qP-Gd4"/>
                             <constraint firstItem="jSQ-zb-a9d" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Gia-lE-UMJ"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="bottom" secondItem="JA2-Zb-Ltf" secondAttribute="bottom" id="Itx-vI-dKG"/>
-                            <constraint firstItem="mdI-SW-eah" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" id="Jk9-kd-eat"/>
+                            <constraint firstItem="mdI-SW-eah" firstAttribute="leading" secondItem="JA2-Zb-Ltf" secondAttribute="leading" constant="10" id="Jk9-kd-eat"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="jSQ-zb-a9d" secondAttribute="bottom" id="OD2-wI-GZU"/>
                             <constraint firstItem="mdI-SW-eah" firstAttribute="top" secondItem="c5g-qy-GzR" secondAttribute="bottom" id="S9f-qB-2lr"/>
                             <constraint firstItem="5MR-Zc-rUw" firstAttribute="centerY" secondItem="JA2-Zb-Ltf" secondAttribute="centerY" id="hIo-Z3-oPZ"/>

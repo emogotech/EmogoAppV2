@@ -195,7 +195,8 @@ class EditStreamController: UITableViewController {
            
             
             self.switchMakeEmogoGlobal.on = (self.objStream?.anyOneCanEdit)!
-            
+            self.switchMakeEmogoGlobal.animationSwitcherButton()
+
             if self.objStream?.type.lowercased() == "public"{
                 self.switchEmogoPrivate.on = false
                 self.switchEmogoPrivate.animationSwitcherButton()
@@ -214,7 +215,7 @@ class EditStreamController: UITableViewController {
             self.switchAddPeople.animationSwitcherButton()
             self.switchAddContent.animationSwitcherButton()
             
-            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+            if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                 
                 self.selectedCollaborators = (self.objStream?.arrayColab)!
                 
@@ -224,7 +225,7 @@ class EditStreamController: UITableViewController {
                 }
             }else {
                 self.switchEmogoPrivate.isUserInteractionEnabled = false
-                self.switchEmogoPrivate.isUserInteractionEnabled = false
+                self.switchMakeEmogoGlobal.isUserInteractionEnabled = false
                 self.btnChangeCover.isHidden = true
                 self.tfEmogoTitle.isUserInteractionEnabled = false
                 self.tfDescription.isUserInteractionEnabled = false
@@ -233,7 +234,7 @@ class EditStreamController: UITableViewController {
                     self.switchAddPeople.isUserInteractionEnabled = (self.objStream?.userCanAddPeople)!
                     self.switchAddContent.isUserInteractionEnabled = (self.objStream?.userCanAddContent)!
                 }
-                self.btnAddCollab.isUserInteractionEnabled = (self.objStream?.userCanAddPeople)!
+                self.btnAddCollab.isUserInteractionEnabled = (self.objStream?.canAddPeople)!
 
             }
             
@@ -356,6 +357,7 @@ class EditStreamController: UITableViewController {
         self.strCoverImage = ""
         self.imgCover.contentMode = .scaleAspectFit
         self.imgCover.backgroundColor = image.getColors().background
+        self.tfEmogoTitle.becomeFirstResponder()
         print(self.fileName)
     }
     
@@ -645,9 +647,15 @@ extension EditStreamController :PMSwitcherChangeValueDelegate{
                 self.btnAddCollab.isUserInteractionEnabled = false
             }else {
                 self.switchAddContent.on = false
-                self.switchAddContent.isUserInteractionEnabled = false
                 self.switchAddPeople.on = false
-                self.switchAddPeople.isUserInteractionEnabled = false
+                if self.objStream?.arrayColab.count == 0 {
+                    self.switchAddPeople.isUserInteractionEnabled = false
+                    self.switchAddContent.isUserInteractionEnabled = false
+                }else {
+                    self.switchAddPeople.isUserInteractionEnabled = true
+                    self.switchAddContent.isUserInteractionEnabled = true
+                }
+              
                 self.btnAddCollab.isUserInteractionEnabled = true
             }
             

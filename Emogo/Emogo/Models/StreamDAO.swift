@@ -47,6 +47,7 @@ class StreamDAO {
     var count:Int! = 0
     var haveSomeUpdate:Bool! = false
     var isColabStream:Bool! = false
+    var canAddContent:Bool! = false
 
     
    
@@ -94,6 +95,16 @@ class StreamDAO {
             let value  = "\(obj)"
             self.isColabStream = value.toBool()
         }
+        
+        if let obj  = streamData["stream_permission"] {
+            if obj is [String:Any] {
+                if let value = (obj as! [String:Any]) ["can_add_content"] {
+                    let canadd  = "\(value)"
+                    self.canAddContent = canadd.toBool()
+                }
+            }
+        }
+        
     }
     
     
@@ -181,7 +192,7 @@ class StreamList{
             self.requestURl = "user_streams?following_stream=True"
             break
         case .Emogo:
-            self.requestURl =  kStreamAPI + "my_stream=True"
+            self.requestURl =  kStreamAPI + "self_created=True"
             break
         case .Collab:
             self.requestURl =  kMyStreamCollabListAPI + "collab=True"

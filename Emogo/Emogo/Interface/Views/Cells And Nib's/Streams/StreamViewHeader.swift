@@ -136,17 +136,22 @@ class StreamViewHeader: GSKStretchyHeaderView,GSKStretchyHeaderViewStretchDelega
         }else{
             self.imgCollabTwo.isHidden = true
         }
-        if objStream.arrayColab.count == 0 ||  objStream.arrayColab.count == 1 {
-            self.lblColabLabel.text =  "by " + objStream.author.capitalized
-             kConstantImageWidth.constant = 40.0
-        }else {
-            if objStream.arrayColab.count-1 > 1 {
-                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count-1) others"
+        var colabcount:Int! = 0
+        if !objStream.totalCollaborator.trim().isEmpty {
+            colabcount = Int(objStream.totalCollaborator!)
+            if colabcount! > 2 {
+                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(colabcount!-1) others"
             }else {
-                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(objStream.arrayColab.count-1) other"
+                self.lblColabLabel.text = "by " +  objStream.author.capitalized + " and \(colabcount!-1) other"
             }
             kConstantImageWidth.constant = 60.0
         }
+        
+        if colabcount == 0 ||  colabcount == 1 {
+            self.lblColabLabel.text =  "by " + objStream.author.capitalized
+            kConstantImageWidth.constant = 40.0
+        }
+       
        
     }
    

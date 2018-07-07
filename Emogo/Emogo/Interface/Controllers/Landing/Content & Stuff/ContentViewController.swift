@@ -64,10 +64,21 @@ class ContentViewController: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
         self.collectionView.addGestureRecognizer(swipeDown)
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kDeepLinkContentAdded)), object: nil)
+
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kDeepLinkContentAdded), object: nil, queue: nil) { (notification) in
+            SharedData.sharedInstance.deepLinkType = ""
+            ContentList.sharedInstance.arrayContent.removeAll()
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
+            self.currentIndex = 0
+             self.updateContent()
+            
+        }
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
         self.collectionView.reloadData()
         bottomToolBarView.backgroundColor = UIColor.clear
@@ -81,7 +92,14 @@ class ContentViewController: UIViewController {
         updateCollectionView()
         self.collectionView.isHidden = false
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.statusBarStyle = .default
+    }
 
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -93,7 +111,13 @@ class ContentViewController: UIViewController {
         self.btnLikeDislike.isHidden = false
         btnOther.isHidden = false
         if currentIndex != nil {
-            seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
+            let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(currentIndex)
+            if isIndexValid {
+                seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
+            }
+        }
+        if seletedImage == nil {
+            return
         }
         if seletedImage.likeStatus == 0 {
             self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -125,6 +149,12 @@ class ContentViewController: UIViewController {
             self.btnLikeDislike.isHidden = true
             btnOther.isHidden = true
         }
+        
+         if  SharedData.sharedInstance.deepLinkType == kDeepLinkShareEditContent {
+             self.btnAddToEmogo.isHidden = false
+             self.btnSave.isHidden = false
+             self.btnShare.isHidden = false
+        }
     }
     
     func deeplinkHandle(){
@@ -148,16 +178,11 @@ class ContentViewController: UIViewController {
             let arrayC = [String]()
             let array = ContentList.sharedInstance.arrayContent.filter { $0.isUploaded == false }
             AWSRequestManager.sharedInstance.startContentUpload(StreamID: arrayC, array: array)
-            SharedData.sharedInstance.deepLinkType = ""
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = false
             self.showToast(strMSG: "Please while wait content is upload...")
-            SharedData.sharedInstance.deepLinkType = ""
         }
         self.updateContent()
-        if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareMessage {
-            self.btnAddToEmogo.isHidden = true
-            SharedData.sharedInstance.deepLinkType = ""
-        }
+       
     }
     
     func updateCollectionView(){
@@ -216,14 +241,56 @@ class ContentViewController: UIViewController {
     }
     
     @IBAction func btnActionShare(_ sender: Any) {
+        if self.seletedImage.type == .link {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo) { (image) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.shareSticker(image: image)
+                    }
+                }
+            }
+        } else {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage) { (image) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.shareSticker(image: image)
+                    }
+                    
+                }
+            }
+    }
+    }
+    
+    func shareSticker(image:UIImage){
         if MFMessageComposeViewController.canSendAttachments(){
             let composeVC = MFMessageComposeViewController()
             composeVC.recipients = []
-            composeVC.message = composeMessage()
+            composeVC.message = composeMessage(image: image)
             composeVC.messageComposeDelegate = self
             self.present(composeVC, animated: true, completion: nil)
         }
     }
+    
+    func composeMessage(image:UIImage) -> MSMessage {
+        let session = MSSession()
+        let message = MSMessage(session: session)
+        let layout = MSMessageTemplateLayout()
+        layout.caption = self.seletedImage.name!
+        layout.image  = image
+        layout.subcaption = self.seletedImage.description
+        let content = self.seletedImage
+        message.layout = layout
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+        
+        return message
+    }
+    
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -244,29 +311,7 @@ class ContentViewController: UIViewController {
             }
         }
     
-    func composeMessage() -> MSMessage {
-        let session = MSSession()
-        let message = MSMessage(session: session)
-        let layout = MSMessageTemplateLayout()
-        
-        layout.caption = self.seletedImage.name
-        if let url =  URL(string: self.seletedImage.coverImage) {
-            layout.mediaFileURL = url
-        }
-       // layout.image  = self.seletedImage.coverImage
-        layout.subcaption = self.seletedImage.description
-        
-        message.layout = layout
-        if ContentList.sharedInstance.objStream == nil {
-            let strURl = String(format: "%@/%@", kNavigation_Content,seletedImage.contentID)
-            message.url = URL(string: strURl)
-        }else {
-            let strURl = String(format: "%@/%@/%@", kNavigation_Content,seletedImage.contentID,ContentList.sharedInstance.objStream!)
-            message.url = URL(string: strURl)
-        }
-        
-        return message
-    }
+  
     
     
     @IBAction func btnActionAddStream(_ sender: Any) {
@@ -341,13 +386,13 @@ class ContentViewController: UIViewController {
     
     func saveActionSheet(){
         
-        let optionMenu = UIAlertController(title: kAlert_Message, message: "", preferredStyle: .actionSheet)
-        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .destructive, handler: {
+        let optionMenu = UIAlertController(title: kSaveAlertTitle, message: nil, preferredStyle: .actionSheet)
+        let saveToMyStuffAction = UIAlertAction(title: kAlertSheet_SaveToMyStuff, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.saveToMyStuff()
         })
         
-        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .destructive, handler: {
+        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             
             
@@ -487,17 +532,36 @@ class ContentViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true {
                 self.deleteFileFromAWS(content: self.seletedImage)
+                
+                if ContentList.sharedInstance.arrayStuff.count != 0 {
+                    let objTemp = ContentList.sharedInstance.arrayContent[self.currentIndex]
+                    for (index,obj) in ContentList.sharedInstance.arrayStuff.enumerated() {
+                        if obj.contentID.trim() == objTemp.contentID.trim() {
+                            ContentList.sharedInstance.arrayStuff.remove(at: index)
+                        }
+                    }
+                }
+            NotificationCenter.default.post(name: NSNotification.Name(kProfileUpdateIdentifier), object: "Delete")
+
+                
                 if self.isFromAll != nil {
                     ContentList.sharedInstance.arrayStuff.remove(at: self.currentIndex)
                 }
                 if self.isEdit == nil {
-                    ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(self.currentIndex)
+                    if isIndexValid {
+                        ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
+                    }
                     if  ContentList.sharedInstance.arrayContent.count == 0 {
                         self.dismiss(animated: true, completion: nil)
                         return
                     }
                     self.currentIndex =  self.currentIndex - 1
-                   self.updateCollectionView()
+                    if self.currentIndex < 0 {
+                        self.currentIndex = 0
+                    }
+                    self.updateCollectionView()
+                    self.updateContent()
                 }else {
                     if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
                         ContentList.sharedInstance.arrayContent.remove(at: index)
@@ -522,9 +586,14 @@ class ContentViewController: UIViewController {
                 if self.isViewCount != nil {
                     NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
                 }
+               
                 
                 ContentList.sharedInstance.arrayContent.remove(at: self.currentIndex)
-                    self.currentIndex =  self.currentIndex - 1
+                self.currentIndex =  self.currentIndex - 1
+                
+                 if self.currentIndex < 0 {
+                    self.currentIndex = 0
+                 }
                     self.updateCollectionView()
                     self.updateContent()
                 let array =  ContentList.sharedInstance.arrayContent.filter { $0.fileName != "SreamCover" }
