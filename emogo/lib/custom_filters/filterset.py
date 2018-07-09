@@ -36,8 +36,11 @@ class StreamFilter(django_filters.FilterSet):
         return qs.filter(created_by=self.request.user).order_by('-upd')
 
     def filter_self_created(self, qs, name, value):
-        # Get self created streams
-        return qs.filter(created_by=self.request.user).order_by('-upd')
+        # Fetch all self created streams
+        stream_ids = self.collaborator_qs.filter(created_by_id=self.request.user.id).values_list( 'stream', flat=True)
+
+        # 2. Fetch and return stream Queryset objects without collaborators.
+        return qs.exclude(id__in=stream_ids).filter(created_by=self.request.user).order_by('-upd')
 
     def filter_popular(self, qs, name, value):
         owner_qs = qs.filter(type='Public').order_by('-view_count')
@@ -142,7 +145,7 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_following_stream(self, qs, name, value):
-        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True)
+        following_ids = UserFollow.objects.filter(follower=self.request.user).values_list('following_id', flat=True).order_by('-follow_time')
         # 1. Get user as collaborator in streams created by following's
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
                                                  stream__type='Private', created_by_id__in=following_ids).values_list(
@@ -154,10 +157,13 @@ class UserStreamFilter(django_filters.FilterSet):
         # 3. Get main stream created by requested user and stream type is Public.
         main_qs = qs.filter(created_by__in=following_ids, type='Public').order_by('-upd')
         qs = main_qs | stream_as_collabs
+        qs = list(qs)
+        stream_ids_list = list(following_ids)
+        qs.sort(key=lambda t: stream_ids_list.index(t.created_by_id))
         return qs
 
     def filter_follower_stream(self, qs, name, value):
-        follower_ids = UserFollow.objects.filter(following=self.request.user).values_list('follower_id', flat=True)
+        follower_ids = UserFollow.objects.filter(following=self.request.user).values_list('follower_id', flat=True).order_by('-follow_time')
         # 1. Get user as collaborator in streams created by follower's.
         stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
                                                  stream__type='Private', created_by_id__in=follower_ids).values_list(
@@ -172,22 +178,20 @@ class UserStreamFilter(django_filters.FilterSet):
         return qs
 
     def filter_emogo_stream(self, qs, name, value):
+        user = get_object_or_404(User, user_data__id=value)
         # 1. Get user as collaborator in streams created by requested user.
-        stream_ids = Collaborator.actives.filter(phone_number=self.request.user.username, stream__status='Active',
-                                                 stream__type='Private', created_by__user_data__id=value).values_list(
-            'stream', flat=True)
+        stream_ids = Collaborator.actives.filter(stream__status='Active', created_by_id = user.id).values_list('stream', flat=True)
 
-        # 2. Fetch stream Queryset objects.
-        stream_as_collabs = qs.filter(id__in=stream_ids)
-
-        main_qs = qs.filter(created_by__user_data__id=value, type='Public').order_by('-upd')
-        qs = main_qs | stream_as_collabs
-        return qs
+        # 2. Fetch and return stream Queryset objects without collaborators.
+        return  qs.exclude(id__in=stream_ids).filter(created_by__user_data__id= user.id, type='Public').order_by('-upd')
 
     def filter_collab_stream(self, qs, name, value):
         user = get_object_or_404(User, user_data__id=value)
-        stream_ids = Collaborator.actives.filter(phone_number__endswith=str(user.username)[-10:],
-                                                 stream__status='Active').values_list('stream', flat=True)
+        stream_ids = Collaborator.actives.filter(
+            (
+                (Q(phone_number__endswith=str(self.request.user.username)[-10:]) & Q(created_by_id = user.id)) |
+                (Q(phone_number__endswith=str(user.username)[-10:]) & Q(created_by_id = self.request.user.id))
+            ) & Q(stream__status='Active')).values_list('stream', flat=True)
         qs = qs.filter(id__in=stream_ids)
         return qs
 

@@ -206,7 +206,7 @@ class UserDetailSerializer(UserProfileSerializer):
     #     return list()
 
     def get_profile_stream(self, obj):
-        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes')
+        fields = ('id', 'name', 'image', 'author', 'created_by', 'view_count', 'type', 'height', 'width', 'total_likes', 'is_collaborator', 'have_some_update')
         if obj.profile_stream is not None and obj.profile_stream.status == 'Active':
             return ViewStreamSerializer(obj.profile_stream, fields=fields).data
         return dict()
@@ -327,7 +327,8 @@ class UserLoginSerializer(UserSerializer):
                 user.user_data.save()
             user_profile = UserProfile.objects.get(user=user, otp__isnull=True)
             body = "Here is your emogo one time passcode"
-            sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server.
+            sent_otp = send_otp(self.validated_data.get('username'), body)  # Todo Uncomment this code before move to stage server
+
             # print sent_otp
             # sent_otp = 12345
             if sent_otp is not None:
@@ -446,6 +447,8 @@ class GetTopStreamSerializer(serializers.Serializer):
     popular = serializers.SerializerMethodField()
     my_stream = serializers.SerializerMethodField()
     people = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
+    following_stream = serializers.SerializerMethodField()
     collaborator_qs = Collaborator.actives.all()
 
     def use_fields(self):
@@ -453,8 +456,8 @@ class GetTopStreamSerializer(serializers.Serializer):
         return fields
 
     def get_featured(self, obj):
-        qs = self.qs.filter(featured=True)
-        return {"total": qs.count(), "data":ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
+        qs = self.qs.filter(featured=True).order_by('-stream_view_count')
+        return {"total": qs.count(), "data": ViewStreamSerializer(qs[0:10], many=True, fields=self.use_fields()).data }
 
     def get_emogo(self, obj):
         qs = self.qs.filter(emogo=True)
@@ -507,6 +510,33 @@ class GetTopStreamSerializer(serializers.Serializer):
         return {"total": qs.count(), "data": UserDetailSerializer(qs[0:10], many=True, fields=fields,
                                     context=self.context).data}
 
+    def get_liked(self, obj):
+        stream_ids_list = LikeDislikeStream.objects.filter(user=self.context.user, status=1).values_list('stream',
+                                                                                                         flat=True)
+        result_list = self.qs.filter(id__in=stream_ids_list).order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+
+    def get_following_stream(self, obj):
+        # 1. Get user as collaborator in streams created by following's
+        stream_ids = Collaborator.actives.filter(phone_number=self.context.user.username, stream__status='Active',
+                                                 stream__type='Private', created_by_id__in=UserFollow.objects.filter(
+                follower=self.context.user).values_list('following_id', flat=True)).values_list(
+            'stream', flat=True)
+
+        # 2. Fetch stream Queryset objects.
+        stream_as_collabs = self.qs.filter(id__in=stream_ids)
+
+        # 3. Get main stream created by requested user and stream type is Public.
+        main_qs = self.qs.filter(
+            created_by__in=UserFollow.objects.filter(follower=self.context.user).values_list('following_id', flat=True),
+            type='Public').order_by('-upd')
+        result_list = main_qs | stream_as_collabs
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+
 
 class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
@@ -537,5 +567,7 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
 
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
-        return {contact: (True if contact in users else False) for contact in self.validated_data.get('contact_list')}
-
+        # Find User profile for contact list
+        fields = ('user_profile_id', 'full_name', 'user_image', 'display_name')
+        return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
+                    if contact in users else False) for contact in self.validated_data.get('contact_list') }

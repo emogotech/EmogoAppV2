@@ -63,6 +63,13 @@ class StreamSerializer(DynamicFieldsModelSerializer):
         return attrs
 
     def save(self, **kwargs):
+        # Get variable any one can true
+        any_one_can_edit = self.validated_data.get('any_one_can_edit')
+            
+        # If any_one_can_edit variable is True, Set default stream's type is Public
+        if any_one_can_edit:
+            self.validated_data['type'] = 'Public'
+
         self.instance = self.update(self.instance, self.validated_data)
 
         # 1. Create Collaborator
@@ -85,6 +92,21 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             self.instance.stream_contents.all().delete()
             if contents.__len__() > 0:
                 self.create_content(self.instance)
+
+        #3  Update the status of  all collaborator is Inactive When Stream is Global otherwise Collaborator Status is Active
+        if self.instance.collaborator_list.all().__len__ > 0 :
+            stream_type = self.validated_data.get('type')
+            if stream_type == 'Public':
+                # When Stream is (Public -> Global) and (Private -> Global), (Global -> Public) 
+                status = 'Inactive' if any_one_can_edit else 'Active'
+            else:
+                # When Stream is (Global  -> Private), so collaboratopr status is Active 
+                status = 'Active'
+            self.instance.collaborator_list.all().update(status=status)
+
+        # 4. Set have_some_update is true, when user edit the stream..
+        self.instance.have_some_update = True
+        self.instance.save()
         return kwargs
 
     def create(self, validated_data):
@@ -111,8 +133,11 @@ class StreamSerializer(DynamicFieldsModelSerializer):
     def create_collaborator(self, stream):
         """
         :param stream: The stream object
+        :Add Stream's Owner as collaborators..
+        :Call owner stream for adding Stream's Owner as collaborators in collaborators list ..
         :return: Add Stream collaborators.
         """
+        self.owner_collaborator(stream)
         collaborator_list = self.initial_data.get('collaborator')
         collaborators = map(self.save_collaborator, collaborator_list,
                             itertools.repeat(stream, collaborator_list.__len__()))
@@ -186,6 +211,21 @@ class StreamSerializer(DynamicFieldsModelSerializer):
             stream.save()
         return stream
 
+    def owner_collaborator(self, stream):
+        # Adding and update the streams as collaborator..
+        if stream.collaborator_list.filter().__len__() < 1 :
+            user_qs = User.objects.filter(id = self.context.get('request').user.id).values('user_data__full_name', 'username')
+            collaborator, created = Collaborator.objects.get_or_create(
+                phone_number=user_qs[0].get('username'),
+                stream=stream
+            )
+            collaborator.name = user_qs[0].get('user_data__full_name')
+            collaborator.can_add_content = True
+            collaborator.can_add_people = True
+            collaborator.created_by = self.context.get('request').user
+            collaborator.save()
+            return collaborator
+
 
 class ViewStreamSerializer(StreamSerializer):
     """
@@ -201,8 +241,9 @@ class ViewStreamSerializer(StreamSerializer):
     total_likes = serializers.SerializerMethodField()
     user_liked = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
-    have_some_update = serializers.SerializerMethodField()
+    # have_some_update = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
+    is_collaborator = serializers.SerializerMethodField()
 
     def get_total_collaborator(self, obj):
         try:
@@ -228,30 +269,37 @@ class ViewStreamSerializer(StreamSerializer):
         except AttributeError:
             return None
 
-    def get_have_some_update(self, obj):
-        # 1. Get last view date of user views Stream
+    def get_is_collaborator(self, obj):
+        # check Profile stream have any collaborator available or not
         try:
-            last_view_date = max(row.action_date for row in obj.total_view_count)
-        except ValueError:
-            return True
-        # 1. Get last date of add content to stream
-        if obj.content_list.__len__() > 0:
-            last_content_added_date = max(row.attached_date for row in obj.content_list)
-            if last_view_date < last_content_added_date:
-                return True
-        # 2. Get last date of modify content of stream
-        if obj.content_list.__len__() > 0:
-            last_content_modify_date = max(row.content.upd for row in obj.content_list)
-            if last_view_date < last_content_modify_date:
-                return True
-        # 3. Get last date of collaborator added in stream
-        if obj.stream_collaborator.__len__() > 0:
-            last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
-            if last_view_date < last_collaborator_added:
-                return True
-        if last_view_date < obj.upd:
-            return True
-        return False
+            return True if obj.profile_stream_collaborator_list.__len__() > 0 else False
+        except Exception:
+            return '0'
+
+    # def get_have_some_update(self, obj):
+    #     # 1. Get last view date of user views Stream
+    #     try:
+    #         last_view_date = max(row.action_date for row in obj.total_view_count)
+    #     except ValueError:
+    #         return True
+    #     # 1. Get last date of add content to stream
+    #     if obj.content_list.__len__() > 0:
+    #         last_content_added_date = max(row.attached_date for row in obj.content_list)
+    #         if last_view_date < last_content_added_date:
+    #             return True
+    #     # 2. Get last date of modify content of stream
+    #     if obj.content_list.__len__() > 0:
+    #         last_content_modify_date = max(row.content.upd for row in obj.content_list)
+    #         if last_view_date < last_content_modify_date:
+    #             return True
+    #     # 3. Get last date of collaborator added in stream
+    #     if obj.stream_collaborator.__len__() > 0:
+    #         last_collaborator_added = max(row.crd for row in obj.stream_collaborator)
+    #         if last_view_date < last_collaborator_added:
+    #             return True
+    #     if last_view_date < obj.upd:
+    #         return True
+    #     return False
 
     def get_liked(self, obj):
         for x in obj.total_like_dislike_data:
@@ -260,8 +308,10 @@ class ViewStreamSerializer(StreamSerializer):
         return False
 
     def get_user_liked(self, obj):
+        # Find the logged in user and fetch current user's followers 
+        user_id = self.context.get('request').user.id
         try:
-            return [{'id': x.user.user_data.id, 'name': x.user.user_data.id, 'user_image': x.user.user_data.user_image } for x in obj.total_like_dislike_data ]
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if user_id in  map(lambda y: y.follower.id, x.user.user_liked_followers) else False } for x in obj.total_like_dislike_data ]
         except AttributeError:
             return None
 
@@ -288,28 +338,26 @@ class ViewStreamSerializer(StreamSerializer):
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             # else Show collaborator created by logged in user.
             else:
-                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user]
+                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user or  _ if self.context.get('request').user.username in map(lambda x: x.phone_number, obj.stream_collaborator) ]
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+
             if user_qs.__len__() > 0:
-                # If some collaborator are registered
                 for user, instance in product(user_qs, instances):
-                    # print(user.get('username'), instance)
+                    # print(user.get('username'), instance.phone_number)
+                    # If some collaborator are registered
                     if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', user.get('user_data__full_name'))
                         setattr(instance, 'user_profile_id', user.get('user_data__id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
-                        list_of_instances.append(instance)
-
-                # If some collaborator are not registered.
-                for user in user_qs:
-                    if not user.get('username').endswith(instance.phone_number):
+                    # If some collaborator are not registered.
+                    elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
                         setattr(instance, 'user_image', None)
-                        list_of_instances.append(instance)
+                    list_of_instances.append(instance)
             # If any collaborator is not registered
             else:
                 for instance in instances:
@@ -334,21 +382,23 @@ class ViewStreamSerializer(StreamSerializer):
         user_phono_number = str(self.context.get('request').user.username)
         qs = [x for x in qs if str(x.phone_number) in user_phono_number]
         # qs = [x ]&t
+        # If current user as owner of stream
+        if obj.created_by.__str__() == self.context.get('request').user.__str__():
+            return {'can_add_content': True, 'can_add_people': True}
+
         if qs.__len__() > 0:
-            fields = ('can_add_content', 'can_add_people')
-            return ViewCollaboratorSerializer(qs[0], fields=fields).data
+            # If Collaborator have permission for can add content 
+            return {'can_add_content': qs[0].can_add_content, 'can_add_people': qs[0].can_add_people}
+            # fields = ('can_add_content', 'can_add_people')
+            # return ViewCollaboratorSerializer(qs[0], fields=fields).data
         else:
-            # If current user as owner of stream
-            if obj.created_by.__str__() == self.context.get('request').user.__str__():
-                return {'can_add_content': True, 'can_add_people': True}
+            # If current user a sophisticated user.
+            # If stream is public and any_one_can_edit is true
+            if obj.any_one_can_edit:
+                return {'can_add_content': obj.any_one_can_edit , 'can_add_people': False}
+            # If stream is public and any_one_can_edit is False
             else:
-                # If current user a sophisticated user.
-                # If stream is public and any_one_can_edit is true
-                if obj.any_one_can_edit:
-                    return {'can_add_content': obj.any_one_can_edit , 'can_add_people': False}
-                # If stream is public and any_one_can_edit is False
-                else:
-                    return {'can_add_content': False, 'can_add_people': False}
+                return {'can_add_content': False, 'can_add_people': False}
 
     def get_collaborator_permission(self, obj):
         list_of_obj = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user ]
@@ -498,6 +548,10 @@ class MoveContentToStreamSerializer(ContentSerializer):
         """
         # Create Stream and content
         StreamContent.objects.get_or_create(content=content, stream=stream)
+
+        # Set True in have_some_update field, When user move content to stream
+        stream.have_some_update = True
+        stream.save()
         return self.initial_data['contents']
 
 
@@ -584,14 +638,26 @@ class StreamLikeDislikeSerializer(DynamicFieldsModelSerializer):
     """
     user = serializers.CharField(read_only=True)
     total_liked = serializers.SerializerMethodField()
+    user_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = LikeDislikeStream
-        fields = ['user', 'stream', 'status', 'total_liked']
+        fields = ['user', 'stream', 'status', 'total_liked', 'user_liked']
         extra_kwargs = {'status': {'required': True, 'allow_null': False}}
 
+    def liked(self, obj):
+        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream'))
+
     def get_total_liked(self, obj):
-        return LikeDislikeStream.objects.filter(status=1, stream=obj.get('stream')).aggregate(total_liked=Count('id')).get('total_liked',0)
+
+        return self.liked(obj).aggregate(total_liked=Count('id')).get('total_liked',0)
+   
+    def get_user_liked(self, obj):
+        # Find the logged in user and fetch current user's followers 
+        try:
+            return [{'id': x.user.id, 'user_profile_id': x.user.user_data.id, 'user_image': x.user.user_data.user_image,'full_name': x.user.user_data.full_name, 'display_name': x.user.user_data.display_name, 'is_following': True if x.user.id in  self.context.get('followers') else False } for x in self.liked(obj) ]
+        except AttributeError:
+            return None
 
     def create(self, validated_data):
         obj, created = LikeDislikeStream.objects.update_or_create(
@@ -637,7 +703,8 @@ class StreamUserViewStatusSerializer(DynamicFieldsModelSerializer):
         extra_kwargs = {'stream': {'required': True}}
 
     def get_total_view_count(self, obj):
-        return StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
+        new_view_count = StreamUserViewStatus.objects.filter(stream=obj.get('stream')).aggregate(total_view_count=Count('id')).get('total_view_count', 0)
+        return new_view_count + obj.get('stream').view_count
 
     def create(self, validated_data):
         instance = StreamUserViewStatus.objects.create(stream=self.validated_data.get('stream'), user=self.context.get('request').auth.user)
