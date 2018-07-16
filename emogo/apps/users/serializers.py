@@ -454,7 +454,7 @@ class GetTopStreamSerializer(serializers.Serializer):
     featured = serializers.SerializerMethodField()
     emogo = serializers.SerializerMethodField()
     popular = serializers.SerializerMethodField()
-    my_stream = serializers.SerializerMethodField()
+    # my_stream = serializers.SerializerMethodField()
     people = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     following_stream = serializers.SerializerMethodField()
@@ -493,13 +493,13 @@ class GetTopStreamSerializer(serializers.Serializer):
             result_list = owner_qs[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
-    def get_my_stream(self, obj):
+    # def get_my_stream(self, obj):
 
-        # Get self created streams
-        result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
-        total = result_list.count()
-        result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+    #     # Get self created streams
+    #     result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
+    #     total = result_list.count()
+    #     result_list = result_list[0:10]
+    #     return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
