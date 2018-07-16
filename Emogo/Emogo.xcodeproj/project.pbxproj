@@ -161,6 +161,7 @@
 		F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */; };
 		F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */; };
 		F0C7592620EC9624004AB444 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
+		F0F789C020FCCEFD0081B2F3 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F789BF20FCCEFC0081B2F3 /* StreamContentCell.swift */; };
 		F0F9DC3820E0F4CC000E2CA1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */; };
 		F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */; };
 		F0FDA20D20D25DB5006BA09A /* EditStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */; };
@@ -662,6 +663,7 @@
 		F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeStreamListCell.swift; sourceTree = "<group>"; };
 		F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabViewController.swift; sourceTree = "<group>"; };
 		F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabCell.swift; sourceTree = "<group>"; };
+		F0F789BF20FCCEFC0081B2F3 /* StreamContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
 		F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStreamController.swift; sourceTree = "<group>"; };
 		F0FDA20C20D25DB5006BA09A /* EditStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditStreamController.swift; sourceTree = "<group>"; };
@@ -1095,6 +1097,7 @@
 		2BDC4A9D1FD1178C0018FC6E /* StreamCollectionCell */ = {
 			isa = PBXGroup;
 			children = (
+				F0F789BF20FCCEFC0081B2F3 /* StreamContentCell.swift */,
 				F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */,
 				2BDC4AA11FD1178C0018FC6E /* StreamCollectionViewCell.swift */,
 				F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */,
@@ -3404,6 +3407,7 @@
 				336618AC1FCED13B008BC84A /* StreamContentViewController.swift in Sources */,
 				337B8FA21FBEEEA300CFACE3 /* Validator.swift in Sources */,
 				33DAB2F31FC6B9020053AC23 /* FSPagerCollectionView.swift in Sources */,
+				F0F789C020FCCEFD0081B2F3 /* StreamContentCell.swift in Sources */,
 				2BDC4AA61FD1178C0018FC6E /* StreamCollectionViewCell.swift in Sources */,
 				F0B3EEAB20E4FD9700599675 /* CCZoomTransitioner.swift in Sources */,
 				F065AAB120E0DE1400993DD6 /* FollowHeader.swift in Sources */,

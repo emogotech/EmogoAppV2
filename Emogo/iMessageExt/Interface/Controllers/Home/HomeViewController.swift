@@ -1321,6 +1321,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     
     @objc func btnViewAction(_ sender:UIButton) {
 //        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+     
+       
         let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         self.addRippleTransition()
         //StreamList.sharedInstance.arrayViewStream = self.arrayToShow

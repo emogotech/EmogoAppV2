@@ -533,6 +533,7 @@ class ViewStreamController: UIViewController {
     func composeMessage() -> MSMessage {
         let session = MSSession()
         let message = MSMessage(session: session)
+     
         let layout = MSMessageTemplateLayout()
         
         layout.caption = stretchyHeader.lblName.text!

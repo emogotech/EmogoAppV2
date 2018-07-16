@@ -49,14 +49,27 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     var indexForMinimum = 0
     var isFromCreateStream:String?
     var arrStream  = [StreamDAO]()
-  
-    
-    
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupLoader()
         self.viewStreamCollectionView.accessibilityLabel = "ViewStreamCollectionView"
-      
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
+        //  NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: self)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil, queue: nil) { (notification) in
+            // self.updateLayOut()
+        }
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: nil)
         self.prepareLayouts()
+       
     }
     
     
@@ -67,9 +80,32 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.title = nil
-        self.prepareNavigation()
-        self.navigationItem.hidesBackButton = true
+     
+      self.getStream()
         
+    }
+    @objc func updateTblData() {
+        self.stretchyHeader.lblViewCount.text = objStream?.viewCount.trim()
+        objStream!.arrayContent = ContentList.sharedInstance.arrayContent
+        if objStream!.arrayContent.count == 0{
+            if self.isFromWelcome != nil {
+                
+                let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.present(vc, animated: true, completion: nil)
+            }else {
+                
+                self.dismiss(animated: false, completion: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+                
+            }
+        }else{
+            if objStream?.likeStatus == "0" {
+                self.stretchyHeader.btnLike.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+            }else{
+                self.stretchyHeader.btnLike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+            }
+            self.getStream()
+        }
     }
     
  
@@ -135,6 +171,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
     
     func configureStrechyHeader() {
+        
         let nibViews = Bundle.main.loadNibNamed("StreamViewHeader", owner: self, options: nil)
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
@@ -154,138 +191,11 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     
     func prepareHeaderData(){
         if self.objStream != nil {
+         
             stretchyHeader.prepareLayout(stream:self.objStream)
         }
     }
-    /*
-    func configureNewNavigation(){
-        
-        var arrayButtons = [UIBarButtonItem]()
-        
-        let imgP = UIImage(named: "back_icon_stream")
-        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.btnCancelAction))
-        self.navigationItem.leftBarButtonItem = btnback
-        
-        let btnRightBar = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
-        arrayButtons.insert(btnRightBar, at: 0)
-        
-        
-        if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-            stretchyHeader.viewLike.isHidden = false
-            stretchyHeader.viewViewCount.isHidden = false
-            let imgEdit = UIImage(named: "view_nav_edit_icon")
-            let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
-            arrayButtons.append(rightEditBarButtonItem)
-            
-            let imgDownload = UIImage(named: "share_profile")
-            let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
-            arrayButtons.append(rightDownloadBarButtonItem)
-            if !(self.objStream?.anyOneCanEdit)! {
-                let imgAddCollab = UIImage(named: "add_user_group_icon")
-                let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
-                arrayButtons.append(rightAddCollabBarButtonItem)
-            }
-           
-            self.btnAddContent.isHidden = false
-        }else {
-            
-            if self.objStream?.canAddContent == true {
-                self.btnAddContent.isHidden = false
-            }
-            
-            if self.objStream?.canAddPeople == true {
-                let imgEdit = UIImage(named: "view_nav_edit_icon")
-                let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgEdit, style: .plain, target: self, action: #selector(self.editStreamAction(sender:)))
-                arrayButtons.append(rightEditBarButtonItem)
-                
-                if !(self.objStream?.anyOneCanEdit)! {
-                    let imgAddCollab = UIImage(named: "add_user_group_icon")
-                    let rightAddCollabBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgAddCollab, style: .plain, target: self, action: #selector(self.btnActionaddCollaborator))
-                    arrayButtons.append(rightAddCollabBarButtonItem)
-                }
-            }
-            
-            if self.objStream?.canAddContent == true  || self.objStream?.canAddPeople == true || self.objStream?.anyOneCanEdit == true || self.objStream?.type.lowercased() == "public" {
-                let imgDownload = UIImage(named: "share_profile")
-                let rightDownloadBarButtonItem:UIBarButtonItem = UIBarButtonItem(image: imgDownload, style: .plain, target: self, action: #selector(self.shareStreamAction(sender:)))
-                arrayButtons.append(rightDownloadBarButtonItem)
-            }
-            
-            stretchyHeader.viewLike.isHidden = true
-            stretchyHeader.viewViewCount.isHidden = true
 
-        }
-      
-        self.navigationItem.rightBarButtonItems = arrayButtons
-        
-        if self.objStream?.likeStatus == "0" {
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
-            
-        }else{
-            self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
-        }
-        self.stretchyHeader.btnLike.isHidden = false
-
-    }*/
-    
-    func prepareNavigation(){
-     
-        if ContentList.sharedInstance.mainStreamIndex != nil {
-            self.currentIndex = ContentList.sharedInstance.mainStreamIndex
-            ContentList.sharedInstance.mainStreamIndex = nil
-        }
-       // self.configureNavigationTite()
-        self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
-        
-         NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kNotification_Update_Image_Cover)), object: self)
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil, queue: nil) { (notification) in
-            self.updateLayOut()
-        }
-        
-        NotificationCenter.default.removeObserver(self, name: (NSNotification.Name(rawValue: kUpdateStreamViewIdentifier)), object: self)
-
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
-            
-            //print("prepareNavigation iin view controller")
-           
-            if let data = notification.userInfo?["data"] as? [String] {
-               // print(data)
-                self.isUpload  = true
-                for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
-                    let streams = StreamList.sharedInstance.arrayViewStream[v]
-                    for dataIDs in data {
-                        if streams.ID == dataIDs {
-                            self.currentIndex = v
-                               self.perform(#selector(self.updateLayOut), with: nil, afterDelay: 0.1)
-                            break
-                        }
-                    }
-                    ContentList.sharedInstance.objStream = nil
-                }
-                
-                }
-                
-            
-        }
-        if isRefresh {
-            if ContentList.sharedInstance.objStream != nil {
-                self.isUpload  = true
-                for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
-                    let streams = StreamList.sharedInstance.arrayViewStream[v]
-                    if streams.ID == ContentList.sharedInstance.objStream {
-                        self.currentIndex = v
-                        self.perform(#selector(self.updateLayOut), with: nil, afterDelay: 0.1)
-                        break
-                    }
-                }
-                ContentList.sharedInstance.objStream = nil
-            }else{
-                self.updateLayOut()
-        }
-        }
-        
-    }
  
     @objc func updateLayOut(){
         if self.stretchyHeader != nil  {
@@ -299,13 +209,13 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
                 let streamID = stream.ID
                 if streamID != "" {
-                    self.getStream(currentStream:nil,streamID:streamID)
+                    self.getStream()
                 }
             }else{
                 let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
                 let streamID = stream.ID
                 if streamID != "" {
-                    self.getStream(currentStream:nil,streamID:streamID)
+                    self.getStream()
                 }
             }
             if SharedData.sharedInstance.deepLinkType != "" {
@@ -325,7 +235,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                     }
                 }
                 if StreamList.sharedInstance.selectedStream != nil {
-                    self.getStream(currentStream:StreamList.sharedInstance.selectedStream)
+                    self.getStream()
                 }
                 
                 if SharedData.sharedInstance.deepLinkType != "" {
@@ -336,9 +246,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         }
  
     
-    @IBAction func btnActionForAddContent(_ sender:UIButton) {
-       // btnActionForAddContent()
-    }
+
     @IBAction func btnReportAction(_ sender: Any) {
         self.showReportList()
     }
@@ -369,7 +277,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
     
     func showReport(){
-        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: kAlert_Title_ActionSheet, message: "", preferredStyle: .alert)
         let saveAction = UIAlertAction(title: kAlertSheet_Spam, style: .destructive, handler: {
             (alert: UIAlertAction!) -> Void in
             APIServiceManager.sharedInstance.apiForSendReport(type: kName_Report_Spam, user: "", stream: (self.objStream?.streamID!)!, content: "", completionHandler: { (isSuccess, error) in
@@ -461,6 +369,10 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         alert.addAction(yes)
         alert.addAction(no)
         present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func btnActionClose(_ sender: Any) {
+        self.btnCancelAction()
     }
     
     @objc func likeStreamAction(sender:UIButton){
@@ -782,67 +694,92 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
             }
         }
     }
-    
-    // MARK: - API Methods
-    func getStream(currentStream:StreamDAO?, streamID:String? = nil){
-        if isDidLoad == true {
-           
-        }
-        var id:String! = ""
-        if streamID != nil {
-            id = streamID
-        }else {
-            id = currentStream?.ID
-        }
-        APIServiceManager.sharedInstance.apiForViewStream(streamID:id) { (stream, errorMsg) in
-            if  self.isDidLoad == true {
-               
+    //MARK:- calling webservice
+    @objc func getStream() {
+        if Reachability.isNetworkAvailable() {
+            DispatchQueue.main.async {
+                self.hudView.startLoaderWithAnimation()
             }
-             self.isDidLoad = true
-            self.lblNoContent.isHidden = true
-            if (errorMsg?.isEmpty)! {
-                self.objStream = stream
-                self.prepareHeaderData()
-          
-                if self.objStream?.arrayContent.count == 0 {
-                    self.lblNoContent.isHidden = false
-                }
-//               self.configureNewNavigation()
-                // Get All Heights
-                var arrayHeights = [Int]()
-                
-                for obj in (self.objStream?.arrayContent)! {
-                    arrayHeights.append(obj.height)
-                }
-                let minimum = arrayHeights.min()
-                if let index =  self.objStream?.arrayContent.index(where: {$0.height ==  minimum}) {
-                    self.indexForMinimum = index
-                }
+            
+            let stream = self.arrStream[currentStreamIndex]
+            
+            APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
+                if (errorMsg?.isEmpty)! {
+                   
+                    self.objStream = stream
+                    self.prepareHeaderData()
+
+                    if SharedData.sharedInstance.iMessageNavigation == kNavigation_Content {
+                        let conntenData = self.objStream?.arrayContent
+                        var arrayTempStream  = [StreamDAO]()
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        self.arrStream = arrayTempStream
+                          var isNavigateContent = false
+                        for i in 0...(conntenData?.count)!-1 {
+                            let data : ContentDAO = conntenData![i]
+                            if data.contentID ==  SharedData.sharedInstance.iMessageNavigationCurrentContentID {
+                                let obj : StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+                                obj.arrContentData = (self.objStream?.arrayContent)!
+                                obj.currentStreamID = self.objStream?.streamID!
+                                obj.currentContentIndex  = i
+                                obj.currentStreamTitle = self.objStream?.title
+                                
+                                self.present(obj, animated: false, completion: nil)
+                                isNavigateContent = true
+                                break
+                            }
+                        }
+                        if !isNavigateContent {
+                            self.showToastIMsg(type: .error, strMSG: kAlert_Content_Not_Found)
+                        }
+                        
+                    }else if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream{
+                        
+                        var arrayTempStream  = [StreamDAO]()
+                        arrayTempStream.append(SharedData.sharedInstance.streamContent!)
+                        self.arrStream = arrayTempStream
+                        
+                        
+                    }
                     
-                DispatchQueue.main.async {
+                    if self.objStream!.arrayContent.count == 0 {
+                        self.lblNoContent.isHidden = false
+                    }else{
+                        self.lblNoContent.isHidden = true
+                    }
+                    if self.objStream!.likeStatus == "0" {
+                         self.stretchyHeader.btnLike.setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
+                    }else{
+                        self.stretchyHeader.btnLike.setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
+                    }
+                  
                     self.viewStreamCollectionView.reloadData()
                 }
-                
-                if let streamIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.objStream?.streamID.trim()}) {
-                    let oldData = StreamList.sharedInstance.arrayStream[streamIndex]
-                    oldData.haveSomeUpdate = false
-                    StreamList.sharedInstance.arrayStream[streamIndex] = oldData
+                if self.hudView != nil {
+                    self.hudView.stopLoaderWithAnimation()
                 }
-            }
-            else {
-                if errorMsg == "404" {
-                      self.showToastIMsg(type: .success, strMSG: kAlert_Stream_Deleted)
-                  
-//                    let when = DispatchTime.now() + 1.5
-//                    DispatchQueue.main.asyncAfter(deadline: when) {
-//                        self.navigationController?.popNormal()
-//                    }
-                }else {
-                     self.showToastIMsg(type: .success, strMSG: errorMsg!)
+                else if errorMsg == APIStatus.NotFound.rawValue{
+                    self.showToastIMsg(type: .error, strMSG: kAlert_Stream_Not_Found)
+                    if self.isFromWelcome != nil {
+                        
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                        self.present(vc, animated: true, completion: nil)
+                    }else {
+                        
+                        self.dismiss(animated: true, completion: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+                    }
+                }else{
+                    self.showToastIMsg(type: .error, strMSG: errorMsg!)
                 }
             }
         }
+        else {
+            self.showToastIMsg(type: .error, strMSG: kAlert_Network_ErrorMsg)
+        }
     }
+    
+   
     
     func deleteStream() {
         //        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
@@ -870,7 +807,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 let stream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
                 let streamID = stream.ID
                 if streamID != "" {
-                    self.getStream(currentStream:nil,streamID:streamID)
+                    self.getStream()
                 }
             } else {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
@@ -931,7 +868,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell : StreamCollectionViewCell = self.viewStreamCollectionView.dequeueReusableCell(withReuseIdentifier: iMgsSegue_StreamCollection, for: indexPath) as! StreamCollectionViewCell
+        let cell : StreamContentCell = self.viewStreamCollectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
         let content = objStream?.arrayContent[indexPath.row]
         
         // for Add Content
