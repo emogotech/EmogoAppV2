@@ -54,9 +54,9 @@ class StreamFilter(django_filters.FilterSet):
         return result_list
 
     def filter_global_search(self, qs, name, value):
-        public_stream = qs.filter(name__icontains=value, type='Public')
+        public_stream = qs.filter(name__icontains=value)
         # Get streams user as collaborator
-        collaborator_permission = self.collaborator_qs.filter(stream__name__icontains=value).exclude(stream__type='Public')
+        collaborator_permission = self.collaborator_qs.filter(stream__name__icontains=value)
         collaborator_permission = [x.stream.id for x in collaborator_permission if
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
