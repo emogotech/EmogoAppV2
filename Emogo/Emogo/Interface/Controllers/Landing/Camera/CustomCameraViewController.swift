@@ -374,7 +374,7 @@ class CustomCameraViewController: SwiftyCamViewController {
         else {
             configure.maxSelectedAssets = 10
         }
-        configure.muteAudio = true
+        configure.muteAudio = false
         configure.usedCameraButton = false
         configure.usedPrefetch = false
         viewController.configure = configure

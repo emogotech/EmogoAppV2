@@ -175,7 +175,7 @@ class ProfileUpdateViewController: UITableViewController {
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 1
-        configure.muteAudio = true
+        configure.muteAudio = false
         configure.usedCameraButton = false
         configure.allowedVideo = false
         configure.usedPrefetch = false

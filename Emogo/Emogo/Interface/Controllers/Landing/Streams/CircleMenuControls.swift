@@ -302,7 +302,7 @@ extension StreamListViewController {
         var configure = TLPhotosPickerConfigure()
         configure.numberOfColumn = 3
         configure.maxSelectedAssets = 10
-        configure.muteAudio = true
+        configure.muteAudio = false
         configure.usedCameraButton = false
         configure.usedPrefetch = false
         viewController.configure = configure
