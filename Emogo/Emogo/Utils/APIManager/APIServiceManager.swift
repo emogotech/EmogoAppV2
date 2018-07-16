@@ -425,7 +425,7 @@ class APIServiceManager: NSObject {
         APIManager.sharedInstance.GETRequestWithHeader(strURL: kGetTopStreamAPI) { (result) in
             switch(result){
             case .success(let value):
-                //print(value)
+                print(value)
                 if let code = (value as! [String:Any])["status_code"] {
                     let status = "\(code)"
                     if status == APIStatus.success.rawValue  || status == APIStatus.successOK.rawValue  {
@@ -459,20 +459,27 @@ class APIServiceManager: NSObject {
                                 
                             }
                             
-                            if let value = result["my_stream"] {
+                            if let value = result["public_stream"] {
                                 let dict:[String:Any] = value as! [String : Any]
                               //  print(dict)
                                 if let obj = dict["data"] {
                                     let array:[Any] = obj as! [Any]
                                     for obj in array {
                                         let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
-                                        if stream.streamType.lowercased() == "public" {
                                             stream.selectionType = StreamType.Public
-
-                                        }else {
-                                            stream.selectionType = StreamType.Private
-
-                                        }
+                                        objects.append(stream)
+                                    }
+                                }
+                            }
+                            
+                            if let value = result["private_stream"] {
+                                let dict:[String:Any] = value as! [String : Any]
+                                //  print(dict)
+                                if let obj = dict["data"] {
+                                    let array:[Any] = obj as! [Any]
+                                    for obj in array {
+                                        let stream = StreamDAO(streamData: (obj as! NSDictionary).replacingNullsWithEmptyStrings() as! [String : Any])
+                                        stream.selectionType = StreamType.Private
                                         objects.append(stream)
                                     }
                                 }
