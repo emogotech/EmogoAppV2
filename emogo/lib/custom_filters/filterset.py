@@ -57,11 +57,13 @@ class StreamFilter(django_filters.FilterSet):
         public_stream = qs.filter(name__icontains=value, type='Public')
         # Get streams user as collaborator
         collaborator_permission = self.collaborator_qs.filter(stream__name__icontains=value).exclude(stream__type='Public')
-        collaborator_permission = [x.stream for x in collaborator_permission if
+        collaborator_permission = [x.stream.id for x in collaborator_permission if
                                    str(x.phone_number) in str(
                                        self.request.user.username) and x.stream.status == 'Active']
+        # Filter collaborator streams in Stream table
+        collab_list = qs.filter(id__in =  collaborator_permission)
         # Merge result
-        result_list = list(chain(public_stream, collaborator_permission))
+        result_list = list(chain(public_stream, collab_list))
         return result_list
 
 

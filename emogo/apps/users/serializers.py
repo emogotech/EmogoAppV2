@@ -458,6 +458,8 @@ class GetTopStreamSerializer(serializers.Serializer):
     people = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     following_stream = serializers.SerializerMethodField()
+    private_stream = serializers.SerializerMethodField()
+    public_stream = serializers.SerializerMethodField()
     collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
@@ -527,8 +529,21 @@ class GetTopStreamSerializer(serializers.Serializer):
         total = result_list.count()
         result_list = result_list[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
-
-
+    
+    ## Added Private stream 
+    def get_private_stream(self, obj):
+        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Private').order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
+    
+    ## Added Public stream 
+    def get_public_stream(self, obj):
+        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Public').order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
+    
 class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer
@@ -557,6 +572,6 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
-        fields = ('user_profile_id', 'full_name', 'user_image', 'display_name')
+        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
         return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
                     if contact in users else False) for contact in self.validated_data.get('contact_list') }

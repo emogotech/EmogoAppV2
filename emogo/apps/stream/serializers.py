@@ -322,7 +322,7 @@ class ViewStreamSerializer(StreamSerializer):
             return 0
 
     def get_collaborators(self, obj):
-        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id')
+        fields = ('id', 'name', 'phone_number', 'can_add_content', 'can_add_people', 'image', 'user_image', 'added_by_me', 'user_profile_id', 'user_id')
         list_of_instances = list()
         user_qs = list()
         if obj.stream_collaborator.__len__() > 0:
@@ -335,14 +335,14 @@ class ViewStreamSerializer(StreamSerializer):
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             # else Show collaborator created by logged in user.
             else:
                 instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user or  _ if self.context.get('request').user.username in map(lambda x: x.phone_number, obj.stream_collaborator) ]
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
-                    user_qs = User.objects.filter(condition).filter(is_active=True).values('user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
+                    user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
 
             if user_qs.__len__() > 0:
                 for user, instance in product(user_qs, instances):
@@ -351,11 +351,13 @@ class ViewStreamSerializer(StreamSerializer):
                     if user.get('username') is not None and user.get('username').endswith(instance.phone_number):
                         setattr(instance, 'name', user.get('user_data__full_name'))
                         setattr(instance, 'user_profile_id', user.get('user_data__id'))
+                        setattr(instance, 'user_id', user.get('id'))
                         setattr(instance, 'user_image', user.get('user_data__user_image'))
                     # If some collaborator are not registered.
                     elif not user.get('username').endswith(instance.phone_number) and not instance.phone_number in map(lambda x: x.phone_number, list_of_instances):
                         setattr(instance, 'name', instance.name)
                         setattr(instance, 'user_profile_id', None)
+                        setattr(instance, 'user_id', None)
                         setattr(instance, 'user_image', None)
                     list_of_instances.append(instance)
             # If any collaborator is not registered
@@ -363,6 +365,7 @@ class ViewStreamSerializer(StreamSerializer):
                 for instance in instances:
                     setattr(instance, 'name', instance.name)
                     setattr(instance, 'user_profile_id', None)
+                    setattr(instance, 'user_id', None)
                     setattr(instance, 'user_image', None)
                     list_of_instances.append(instance)
             list_of_instances = list(set(list_of_instances))
