@@ -31,6 +31,12 @@ enum StuffType:String {
     case Giphy = "Giphy"
 }
 
+enum SegmentType:String {
+    case EMOGOS = "EMOGOS"
+    case COLLABS = "COLLABS"
+    case MYSTUFF = "MY STUFF"
+}
+
 
 /*
 class ImageDAO {

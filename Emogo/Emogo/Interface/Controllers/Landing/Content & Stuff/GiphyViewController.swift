@@ -51,6 +51,7 @@ class GiphyViewController: UIViewController {
         txtSearch.addTarget(self, action: #selector(self.textFieldDidChange(textfield:)), for: .editingChanged)
         HUDManager.sharedInstance.showHUD()
          self.getTrendingList()
+        btnNext.isHidden = true
     }
     
     @objc func textFieldDidChange(textfield:UITextField) {
@@ -139,7 +140,7 @@ class GiphyViewController: UIViewController {
                     self.giphyCollectionView.reloadData()
                 }
             } else {
-                print("No Results Found")
+                //print("No Results Found")
             }
         }
     }
@@ -189,7 +190,7 @@ class GiphyViewController: UIViewController {
                     self.giphyCollectionView.reloadData()
                 }
             } else {
-                print("No Results Found")
+               // print("No Results Found")
             }
         }
     }
@@ -281,6 +282,7 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
     
     
     func updateSelected(obj:ContentDAO){
+        
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.coverImage.trim() == obj.coverImage.trim()}) {
              ContentList.sharedInstance.arrayContent.remove(at: index)
         }else {
@@ -291,9 +293,9 @@ extension GiphyViewController:UICollectionViewDelegate,UICollectionViewDataSourc
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
-            btnNext.isUserInteractionEnabled = true
+            btnNext.isHidden = false
         }else {
-            btnNext.isUserInteractionEnabled = false
+            btnNext.isHidden = true
         }
     }
     
@@ -313,4 +315,3 @@ extension GiphyViewController:UITextFieldDelegate {
         return isEditingEnable
     }
 }
-

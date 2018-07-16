@@ -370,7 +370,7 @@ class StreamViewController: MSMessagesAppViewController {
         self.lbl_LikeCount.text = objStream?.totalLikeCount.trim()
         self.lbl_ViewCount.text = objStream?.viewCount.trim()
      //   lblCount.text = ""
-        btnCollaborator.isUserInteractionEnabled = false
+       // btnCollaborator.isUserInteractionEnabled = false
        // lblCount.isHidden = true
         btnEdit.isHidden = true
         self.kEditWidth.constant = 0
@@ -378,12 +378,12 @@ class StreamViewController: MSMessagesAppViewController {
        // heightbtnDelete.constant = 0
         if objStream?.arrayColab.count != 0 {
            // lblCount.text = String(format: "%d", (objStream?.arrayColab.count)!)
-            btnCollaborator.isUserInteractionEnabled = true
+           // btnCollaborator.isUserInteractionEnabled = true
           //  lblCount.isHidden = false
-            btnCollaborator.isHidden = false
+          //  btnCollaborator.isHidden = false
         }
         else {
-            btnCollaborator.isHidden = true
+          //  btnCollaborator.isHidden = true
         }
       
         if self.objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim(){
@@ -428,7 +428,7 @@ class StreamViewController: MSMessagesAppViewController {
     //MARK:- Share Stream
     
     func shareStreamAction(){
-        print("Share Action")
+       // print("Share Action")
         
         if  kDefault?.bool(forKey: kHapticFeedback) == true {
 //            self.btnShare.isHaptic = true
@@ -668,7 +668,7 @@ class StreamViewController: MSMessagesAppViewController {
         lblStreamName.text = ""
         lblStreamDesc.text = ""
         btnEdit.isHidden = true
-        btnCollaborator.isHidden = true
+       // btnCollaborator.isHidden = true
         self.kEditWidth.constant = 0
         
         imgStream.image = UIImage(named: kPlaceholderImage)
@@ -687,7 +687,7 @@ class StreamViewController: MSMessagesAppViewController {
         lblStreamName.text = ""
         lblStreamDesc.text = ""
         btnEdit.isHidden = true
-        btnCollaborator.isHidden = true
+        //btnCollaborator.isHidden = true
         self.kEditWidth.constant = 0
         
         imgStream.image = UIImage(named: kPlaceholderImage)

@@ -111,7 +111,7 @@ class MyStuffViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.stuffCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            print("reload more called")
+           /// print("reload more called")
             self?.getMyStuff(type:.down)
         }
         
@@ -336,7 +336,7 @@ class MyStuffViewController: UIViewController {
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
                     ContentList.sharedInstance.arrayStuff.remove(at: index)
-                    print("Removed")
+                   // print("Removed")
                 }
             }
             ContentList.sharedInstance.arrayContent.removeAll()

@@ -48,6 +48,7 @@ class FollowersViewController: UIViewController {
         self.setupRefreshLoader()
      
     }
+    
     // MARK:- LoaderSetup
     
     func setupLoader() {

@@ -71,7 +71,7 @@ class NotesViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.notesCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            print("reload more called")
+           // print("reload more called")
             self?.getMyStuff(type:.down)
         }
         

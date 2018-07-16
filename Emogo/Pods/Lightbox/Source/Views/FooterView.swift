@@ -59,15 +59,15 @@ open class FooterView: UIView {
   }
 
   func updatePage(_ page: Int, _ numberOfPages: Int) {
-    let text = "\(page)/\(numberOfPages)"
-
+   // let text = "\(page)/\(numberOfPages)"
+    let text = ""
     pageLabel.attributedText = NSAttributedString(string: text,
       attributes: LightboxConfig.PageIndicator.textAttributes)
     pageLabel.sizeToFit()
   }
 
   func updateText(_ text: String) {
-    infoLabel.fullText = text
+    //infoLabel.fullText = text
 
     if text.isEmpty {
       _ = removeGradientLayer()

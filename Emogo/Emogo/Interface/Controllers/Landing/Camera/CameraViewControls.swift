@@ -61,7 +61,7 @@ extension CustomCameraViewController {
             self.setupButtonWhileRecording(isAddButton: true)
         } else {
             beepSound?.play { completed in
-                print("completed: \(completed)")
+               // print("completed: \(completed)")
             }
             timeSec -= 1
             lblRecordTimer.text = timeString(time: TimeInterval(timeSec),inSeconds: true)
@@ -79,7 +79,7 @@ extension CustomCameraViewController {
             takePhoto()
             break
         case .record:
-            print("prepare for record")
+            //print("prepare for record")
             break
         case .stop:
             stopVideoRecording()

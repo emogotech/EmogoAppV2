@@ -53,7 +53,8 @@ class ProfileStreamViewCell: UICollectionViewCell {
             self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim()) { (_, imgSize) in
                 self.size = imgSize
             }
+          
         }
-            
-        }
+      
+    }
 }

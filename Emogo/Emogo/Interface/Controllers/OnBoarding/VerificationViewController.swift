@@ -16,7 +16,7 @@ class VerificationViewController: UIViewController {
 
      var OTP:String!
      var phone:String!
-    var isForLogin:String!
+     var isForLogin:String!
 
     // MARK: - Override Functions
     override func viewDidLoad() {

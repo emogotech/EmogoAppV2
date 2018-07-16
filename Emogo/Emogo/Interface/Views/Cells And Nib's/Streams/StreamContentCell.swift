@@ -34,7 +34,7 @@ class StreamContentCell: UICollectionViewCell {
             self.accessibilityLabel = "StreamContentCellContent"
             imgAdd.isHidden = true
             viewCard.isHidden = false
-            self.lblName.text = content.name.trim().capitalized
+            self.lblName.text = content.name.trim()
             self.lblName.minimumScaleFactor = 1.0
             if (self.lblName.text?.trim().isEmpty)! {
                 self.viewContent.isHidden = true

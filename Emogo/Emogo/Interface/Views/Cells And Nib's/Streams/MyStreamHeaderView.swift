@@ -56,7 +56,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     func prepareLayout(contents:[ContentDAO]){
         arrayContents = contents
         for obj in contents {
-            if obj.type == .image {
+            if obj.type == .image || obj.type == .notes || obj.type == .video  || obj.type == .gif {
                 if obj.imgPreview != nil {
                     arrayContent.append(obj.imgPreview!)
                 }else {
@@ -171,9 +171,9 @@ class MyStreamCell:UICollectionViewCell {
             imgAdd.isHidden = true
             cardView.isHidden = false
             self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
-            self.lblTitle.text = stream.Title.trim().capitalized
+            self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
-            self.lblName.text =  "by \(stream.Author.trim().capitalized)"
+            self.lblName.text =  "by \(stream.Author.trim())"
             self.lblName.minimumScaleFactor = 1.0
             self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
             if stream.isSelected {

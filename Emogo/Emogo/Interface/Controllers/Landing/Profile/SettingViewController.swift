@@ -12,7 +12,6 @@ class SettingViewController: UIViewController {
 
     @IBOutlet weak var btnShareProfile: UIButton!
     @IBOutlet weak var btnLogout: UIButton!
-    @IBOutlet weak var switchForEffect: UISwitch!
     @IBOutlet weak var switchHaptic: UISwitch!
     @IBOutlet weak var lblSeprator: UILabel!
     @IBOutlet weak var lblTitleHaptic: UILabel!
@@ -24,7 +23,6 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         prepareLayout()
       
     }
@@ -33,20 +31,18 @@ class SettingViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
   
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareNavigation()
-        
     }
     
     //MARK:- prepare Layout
     
     func prepareLayout() {
         btnLogout.contentHorizontalAlignment = UIControlContentHorizontalAlignment.left
-        switchForEffect.tintColor = UIColor(hex: "00ADF3")
+      //  switchForEffect.tintColor = UIColor(hex: "00ADF3")
         
         print(UIDevice.current.modelName)
         

@@ -50,6 +50,9 @@ class ViewController: UIViewController {
         images.append(UIImage(named: "image two")!)
         images.append(UIImage(named: "image three")!)
         images.append(UIImage(named: "image four")!)
+        images.append(UIImage(named: "image five")!)
+        images.append(UIImage(named: "image six")!)
+        
         pageController.delegate = self
         pageController.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
         pageController.setNumberOfPages(images.count)
@@ -60,6 +63,7 @@ class ViewController: UIViewController {
         viewTutorial.transitionDuration = 0.5 // Transition duration
         viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorial.isRepeatAll = true
+        viewTutorial.isIphone = true
         viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
         viewTutorial.add(KASlideShowGestureType.all)
         viewTutorial.isExclusiveTouch = true
@@ -149,7 +153,10 @@ extension ViewController:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDel
             break
         case 3:
             lblWelcome.text = "Share everything right from iMessage"
-           
+            break
+        case 4:
+            break
+        case 5:
             break
         default:
             lblWelcome.text = "Welcome to Emogo!"

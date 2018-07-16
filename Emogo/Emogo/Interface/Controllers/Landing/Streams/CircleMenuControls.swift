@@ -246,6 +246,7 @@ extension StreamListViewController:FSPagerViewDataSource,FSPagerViewDelegate,Str
     }
     
 }
+
 extension StreamListViewController {
     
 //    func actionForAddStream(){
@@ -283,7 +284,8 @@ extension StreamListViewController {
     func btnActionForNotes(){
         ContentList.sharedInstance.objStream = nil
         ContentList.sharedInstance.arrayContent.removeAll()
-        let controller = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView)
+        let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+        controller.isOpenFrom = "Stream"
         self.navigationController?.push(viewController: controller)
     }
     
@@ -466,7 +468,8 @@ extension ProfileViewController : ActionSheetViewControllerDelegate {
     func btnActionForNotes(){
         ContentList.sharedInstance.objStream = nil
         ContentList.sharedInstance.arrayContent.removeAll()
-        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
+        let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+        controller.isOpenFrom = "Profile"
         self.navigationController?.push(viewController: controller)
     }
 }
@@ -495,11 +498,6 @@ extension ViewStreamController : ActionSheetViewControllerDelegate {
             break
         }
     }
-    func btnActionForNotes(){
-        ContentList.sharedInstance.objStream = nil
-        ContentList.sharedInstance.arrayContent.removeAll()
-        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
-        self.navigationController?.push(viewController: controller)
-    }
+   
 }
 

@@ -66,12 +66,15 @@ class User {
         }
         if let obj = userData["followers"] {
             if "\(obj)" != "0" {
-                self.followers = "\(obj)\nfollowers"
+               // self.followers = "\(obj)\nfollowers"
+                self.followers = "\(obj)\nFOLLOWERS"
+                
             }
         }
         if let obj = userData["following"] {
             if "\(obj)" != "0" {
-                self.following = "\(obj)\nfollowing"
+               // self.following = "\(obj)\nfollowing"
+                 self.following = "\(obj)\nFOLLOWING"
             }
         }
         if let obj = userData["branchio_url"] {

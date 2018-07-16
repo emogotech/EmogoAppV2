@@ -31,6 +31,7 @@ class CreateNotesViewController: UIViewController {
 
     var contentDAO:ContentDAO?
     var delegate:CreateNotesViewControllerDelegate?
+    var isOpenFrom:String?
     
     lazy var toolbar: RichEditorToolbar = {
         let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
@@ -56,12 +57,19 @@ class CreateNotesViewController: UIViewController {
         self.viewContainer.isHidden = true
         if let content = contentDAO {
             self.editorView.html = content.description
+          _ = self.editorView.becomeFirstResponder()
+            self.editorView.focus()
         }
     }
     
     
     func configureNaviationBar(){
         //0,122,255
+        self.title = nil
+        self.navigationItem.hidesBackButton = true
+        let imgP = UIImage(named: "back_icon_stream")
+        let btnback = UIBarButtonItem(image: imgP, style: .plain, target: self, action: #selector(self.backButtonAction))
+        self.navigationItem.leftBarButtonItem = btnback
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor(r: 0, g: 122, b: 255)
         self.navigationController?.navigationBar.barTintColor = UIColor.white
@@ -82,6 +90,7 @@ class CreateNotesViewController: UIViewController {
         editorView.inputAccessoryView = toolbar
         toolbar.delegate = self
         toolbar.editor = editorView
+        self.editorView.isScrollEnabled = true
         prepareToolBar()
     
         UITextField.appearance().keyboardAppearance = .dark
@@ -121,7 +130,9 @@ class CreateNotesViewController: UIViewController {
         
         let itemHorizontal = RichEditorOptionItem(image: #imageLiteral(resourceName: "horizontal"), title: "") { (toolbar) in
             let  value = toolbar.editor?.contentHTML
-            toolbar.editor?.html = value! + "<div><hr/><br></div>"
+           // editorView.html = value + "<div>nbsp<hr/></div>"
+            toolbar.editor?.placeholder = ""
+            toolbar.editor?.html = value! + "<br><div><hr/></div>"
             toolbar.editor?.focus()
         }
         options.append(itemHorizontal)
@@ -156,7 +167,10 @@ class CreateNotesViewController: UIViewController {
         
         toolbar.options = options
     }
-   
+    
+    @objc func backButtonAction(){
+        self.navigationController?.pop()
+    }
     
     @objc func doneButtonAction(){
         if isLinkSelected {
@@ -179,19 +193,17 @@ class CreateNotesViewController: UIViewController {
                // self.editorView.focus()
                 self.linkContainerView.isHidden = true
         }else {
-            
-            if self.editorView.contentHTML.isEmpty {
+            self.view.endEditing(true)
+            if self.editorView.contentHTML.isEmpty || self.editorView.text.trim().isEmpty {
                 self.showAlert(strMessage: "Unable to save blank note.")
                 return
             }
-            self.view.endEditing(true)
            
-            let image = self.editorView.toImage()
             HUDManager.sharedInstance.showHUD()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 let name = NSUUID().uuidString + ".png"
-                AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
-                    
+                let image = self.editorView.toImage()
+                AWSRequestManager.sharedInstance.imageUpload(image: image, name: name, isContent: true, completion: { (fileURL, errorMSG) in
                     if let fileURL = fileURL {
                         if self.contentDAO == nil {
                             self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
@@ -202,7 +214,7 @@ class CreateNotesViewController: UIViewController {
                     }else {
                         HUDManager.sharedInstance.hideHUD()
                     }
-                }
+                })
             }
             }
            
@@ -250,9 +262,11 @@ class CreateNotesViewController: UIViewController {
             break
         case 103:
             let  value = editorView.contentHTML
-            print(value)
-            editorView.html = value + "<div><hr/><br></div>"
-            self.editorView.focus()
+          //  print(value)
+            editorView.html = value + "<div>nbsp<hr/></div>"
+            //editorView.html = value + "<div>nbsp<hr/><br></div>"
+            editorView.placeholder = ""
+           // self.editorView.focus()
             break
         case 104:
            
@@ -329,7 +343,7 @@ class CreateNotesViewController: UIViewController {
             viewWithTag.removeFromSuperview()
         }
         let Y = self.editorView.frame.size.height + 50
-        print(Y)
+       // print(Y)
         print(self.view.frame)
         let H = self.view.frame.size.height - (self.editorView.frame.size.height + 50)
         let  tempView = UIView(frame: CGRect(x: 0, y: Y, width: self.view.frame.size.width, height:H))
@@ -369,12 +383,14 @@ class CreateNotesViewController: UIViewController {
     func uploadImage(image:UIImage){
         let name = NSUUID().uuidString + ".png"
         AWSRequestManager.sharedInstance.imageUpload(image: image.resize(to: CGSize(width: 300, height: 300)), name: name) { (fileURL, errorMSG) in
-            if let fileURL = fileURL { 
-                print(fileURL)
-                DispatchQueue.main.async {
+          
+            DispatchQueue.main.async {
+                if let fileURL = fileURL {
+                    print(fileURL)
                     _ =  self.editorView.becomeFirstResponder()
                     self.editorView.insertImage(fileURL, alt: "attachment")
                 }
+                HUDManager.sharedInstance.hideHUD()
             }
         }
     }
@@ -388,7 +404,7 @@ class CreateNotesViewController: UIViewController {
                     ContentList.sharedInstance.arrayContent.append(obj)
                     let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
                     objPreview.isShowRetake = false
-                    objPreview.isFromNotes = true
+                    objPreview.isFromNotes = self.isOpenFrom
                     self.navigationController?.pushNormal(viewController: objPreview)
                 }
             }
@@ -397,13 +413,16 @@ class CreateNotesViewController: UIViewController {
     
     
     func updateContent(coverImage:String ,width:Int,height:Int){
-        APIServiceManager.sharedInstance.apiForEditContent(contentID: (self.contentDAO?.contentID)!, contentName: "", contentDescription: "", coverImage: coverImage, coverImageVideo: "", coverType: (self.contentDAO?.type.rawValue)!, width: width, height: height) { (content, errorMsg) in
+        APIServiceManager.sharedInstance.apiForEditContent(contentID: (self.contentDAO?.contentID)!, contentName: "", contentDescription: self.editorView.contentHTML, coverImage: coverImage, coverImageVideo: "", coverType: (self.contentDAO?.type.rawValue)!, width: width, height: height) { (content, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
+                if ContentList.sharedInstance.objStream != nil {
+                    NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+                }
                 if self.delegate != nil {
                     self.delegate?.updatedNotes(content: content!)
                 }
-                self.navigationController?.popViewAsDismiss()
+                self.navigationController?.popNormal()
                 
             }else {
                 self.showToast(strMSG: errorMsg!)
@@ -461,6 +480,7 @@ extension CreateNotesViewController:TextEditorViewDelegate {
     func selectBold() {
         _ =  self.editorView.becomeFirstResponder()
         self.editorView.bold()
+
     }
     
     func selectItalic() {
@@ -526,6 +546,7 @@ extension CreateNotesViewController:ColorPickerViewDelegate,LinkPickerViewDelega
 extension CreateNotesViewController:CustomCameraViewControllerDelegate {
     func dismissWith(image: UIImage?) {
         if let img = image {
+            HUDManager.sharedInstance.showHUD()
             self.uploadImage(image: img)
         }
     }

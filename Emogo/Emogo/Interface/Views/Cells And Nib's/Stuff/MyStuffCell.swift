@@ -15,7 +15,6 @@ class MyStuffCell: UICollectionViewCell {
     @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var btnSelect: UIButton!
-
     @IBOutlet weak var btnPlay: UIButton!
     
    
@@ -24,7 +23,7 @@ class MyStuffCell: UICollectionViewCell {
         guard let content = content  else {
             return
         }
-        self.lblTitle.text = content.name.trim().capitalized
+        self.lblTitle.text = content.name.trim()
         self.lblDescription.text =  content.description.trim()
         if (self.lblTitle.text?.trim().isEmpty)! && (self.lblDescription.text?.trim().isEmpty)!{
             self.viewContent.layer.contents = nil

@@ -88,7 +88,6 @@ let kAPIIncreaseViewCount                            = "increase_view_count/"
 let kAPICheckEmogoUser                               = "check_contact_in_emogo_user/"
 
 
-
 // MARK: -  API STATUS CODE
 enum APIStatus: String {
     case successOK = "200"

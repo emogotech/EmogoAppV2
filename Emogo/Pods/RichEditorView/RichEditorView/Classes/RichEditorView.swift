@@ -84,7 +84,7 @@ import UIKit
     }
 
     /// The value we hold in order to be able to set the line height before the JS completely loads.
-    private var innerLineHeight: Int = 28
+   open var innerLineHeight: Int = 35
 
     /// The line height of the editor. Defaults to 28.
     open private(set) var lineHeight: Int {
@@ -468,11 +468,10 @@ import UIKit
         scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentHeight)
         
         // XXX: Maybe find a better way to get the cursor height
-        let lineHeight = CGFloat(self.lineHeight)
+        let lineHeight = CGFloat(self.lineHeight) + 70
         let cursorHeight = lineHeight - 4
         let visiblePosition = CGFloat(relativeCaretYPosition)
         var offset: CGPoint?
-
         if visiblePosition + cursorHeight > scrollView.bounds.size.height {
             // Visible caret position goes further than our bounds
             offset = CGPoint(x: 0, y: (visiblePosition + lineHeight) - scrollView.bounds.height + scrollView.contentOffset.y)

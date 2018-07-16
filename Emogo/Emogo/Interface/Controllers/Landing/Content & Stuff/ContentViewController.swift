@@ -42,8 +42,10 @@ class ContentViewController: UIViewController {
     var isFromViewStream:Bool! = true
     var delegate:ContentViewControllerDelegate?
     var isProfile:String?
+    var lightBoxIndex:Int! = 0
+   var arrayLightBoxIndexes = [Int]()
+    var isFromNotesEdit:Bool! = false
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,7 +82,6 @@ class ContentViewController: UIViewController {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarStyle = .lightContent
         self.navigationController?.isNavigationBarHidden = true
-        self.collectionView.reloadData()
         bottomToolBarView.backgroundColor = UIColor.clear
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
             bottomToolBarView.backgroundColor = UIColor.black
@@ -88,9 +89,15 @@ class ContentViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.collectionView.reloadData()
-        updateCollectionView()
-        self.collectionView.isHidden = false
+        
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+            if !self.isFromNotesEdit {
+                self.updateCollectionView()
+            }
+            self.isFromNotesEdit = false
+             self.collectionView.isHidden = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -187,10 +194,8 @@ class ContentViewController: UIViewController {
     
     func updateCollectionView(){
         let indexPath = IndexPath(row: currentIndex, section: 0)
-       collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
+            collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
-    
-    
     
     @IBAction func btnShowReportListAction(_ sender: Any){
         if seletedImage.isDelete {
@@ -310,9 +315,7 @@ class ContentViewController: UIViewController {
             }
             }
         }
-    
   
-    
     
     @IBAction func btnActionAddStream(_ sender: Any) {
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
@@ -452,11 +455,12 @@ class ContentViewController: UIViewController {
         
         APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
             if let fileURL = fileURL {
+              //  SharedData.sharedInstance.saveVideo(fileUrl: fileURL)
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
                 }) { completed, error in
                     if completed {
-                        print("Video is saved!")
+                       // print("Video is saved!")
                         self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
                     }
                 }
@@ -498,9 +502,11 @@ class ContentViewController: UIViewController {
                 }
             })
         }else if seletedImage.type == .notes {
+            isFromNotesEdit = true
             let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
             controller.contentDAO = self.seletedImage
             controller.delegate = self
+            controller.isOpenFrom = "Content"
             self.navigationController?.pushNormal(viewController: controller)
         }
     }
@@ -691,17 +697,17 @@ class ContentViewController: UIViewController {
             self.notePreview()
             return
         }
-        var arrayContents = [LightboxImage]()
         var index:Int! = 0
         var arrayTemp = [ContentDAO]()
-        
+        var arrayContents = [LightboxImage]()
+        arrayLightBoxIndexes.removeAll()
         if isEdit == nil {
             index = self.currentIndex
             arrayTemp = ContentList.sharedInstance.arrayContent
         }else{
             arrayTemp.append(seletedImage)
         }
-        for obj  in arrayTemp {
+        for (lightIndex,obj)  in arrayTemp.enumerated() {
             var image:LightboxImage!
             let text = obj.name + "\n" +  obj.description
             
@@ -727,6 +733,7 @@ class ContentViewController: UIViewController {
                 }
             }
             if image != nil {
+                self.arrayLightBoxIndexes.append(lightIndex)
                 arrayContents.append(image)
                 if obj.contentID == seletedImage.contentID {
                     index = arrayContents.count - 1
@@ -749,6 +756,9 @@ class ContentViewController: UIViewController {
         }else{
             let controller = LightboxController(images: arrayContents, startIndex: index)
             controller.pageDelegate = self
+            if self.arrayLightBoxIndexes.count != 0 {
+                controller.dismissalDelegate = self
+            }
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
@@ -763,7 +773,7 @@ class ContentViewController: UIViewController {
     }
     
     func notePreview(){
-        let obj:NotesPreviewViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: "notesPreviewView") as! NotesPreviewViewController
+         let obj:NotesPreviewViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: "notesPreviewView") as! NotesPreviewViewController
         obj.contentDAO = self.seletedImage
         self.navigationController?.pushAsPresent(viewController: obj)
     }
@@ -818,7 +828,7 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         guard let indexPath = collectionView.indexPathForItem(at: visiblePoint) else { return }
         self.currentIndex = indexPath.row
         self.updateContent()
-        print(indexPath)
+       // print(indexPath)
     }
 }
 
@@ -838,7 +848,7 @@ extension ContentViewController:PhotoEditorDelegate
     
     
     func canceledEditing() {
-        print("Canceled")
+       // print("Canceled")
         AppDelegate.appDelegate.keyboardResign(isActive: true)
     }
 }
@@ -865,22 +875,34 @@ extension ContentViewController:CreateNotesViewControllerDelegate
     
     func updatedNotes(content:ContentDAO) {
         AppDelegate.appDelegate.keyboardResign(isActive: true)
-        self.seletedImage = content
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage
+            self.seletedImage = content
         }
-        self.updateContent()
     }
     
 }
 
-extension ContentViewController:LightboxControllerPageDelegate {
+extension ContentViewController:LightboxControllerPageDelegate,LightboxControllerDismissalDelegate {
+    
     
     func lightboxController(_ controller: LightboxController, didMoveToPage page: Int){
        //   self.currentIndex = controller.currentPage
-         print(page)
+          print(page)
+        self.lightBoxIndex = page
       //   self.updateContent()
      //   self.updateCollectionView()
+    }
+    func lightboxControllerWillDismiss(_ controller: LightboxController){
+        let isIndexValid = self.arrayLightBoxIndexes.indices.contains(self.lightBoxIndex)
+        if  isIndexValid {
+        let index = self.arrayLightBoxIndexes[self.lightBoxIndex]
+            let isContent = ContentList.sharedInstance.arrayContent.indices.contains(index)
+            if  isContent {
+                self.currentIndex = index
+                self.seletedImage = ContentList.sharedInstance.arrayContent[ self.currentIndex]
+            }
+        }
     }
 }
 

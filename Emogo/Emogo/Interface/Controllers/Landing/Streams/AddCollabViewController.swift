@@ -277,7 +277,7 @@ class AddCollabViewController: UIViewController {
             }
             
             if UserDAO.sharedInstance.user.phoneNumber.trim().contains(phone.trim()) || phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {
-                print("user number found")
+                //print("user number found")
             }else {
                 let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
                 let collaborator = CollaboratorDAO(colabData: dict)
@@ -343,7 +343,7 @@ class AddCollabViewController: UIViewController {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-            print(results)
+          //  print(results)
             if (errorMSG?.isEmpty)! {
                 let arrayKey = results?.keys
                 for (index,obj) in (arrayKey?.enumerated())! {
@@ -364,7 +364,7 @@ class AddCollabViewController: UIViewController {
                                 if temp.isSelected == true {
                                     self.arrayTempSelected.append(collaborator)
                                 }
-                                print("replaced Data")
+                               // print("replaced Data")
 
                             }else {
                                 let temp = self.arrayCollaborators[mainIndex]
@@ -374,7 +374,7 @@ class AddCollabViewController: UIViewController {
                             }
                         }
                     }
-                    print("iter \(index)")
+                   // print("iter \(index)")
                 }
 //                if self.arrayTempSelected.count != 0 {
 //                    self.btnAdd.isHidden = false
@@ -410,7 +410,7 @@ class AddCollabViewController: UIViewController {
     func performSearch(text:String) {
         let result = self.arrayCollaborators
             .filter { $0.name.lowercased().contains(text.lowercased()) }
-        print(result)
+       // print(result)
         self.updateList(arrayColabs:result)
     }
     

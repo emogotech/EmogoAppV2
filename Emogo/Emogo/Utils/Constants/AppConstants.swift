@@ -155,9 +155,12 @@ let kSegue_ContainerSegue = "containerSegue"
 let kCell_AddCollabView = "addCollabCell"
 let kCell_StreamContent = "streamContent"
 let kLikeStreamList_Cell = "likeStreamListCell"
+let kCell_ProfileStreamView = "profileStreamViewCell"
+
 
 // MARK: - UserDefault Identifier
 let kUserLogggedIn                      = "userloggedin"
+let kIsAppLaunch                        = "appLaunchFirstTime"
 let kUserLogggedInData                  = "userloggedinData"
 let kaddBackgroundImage                 = "menuBackGround"
 let kRetakeIndex = "indexRetake"

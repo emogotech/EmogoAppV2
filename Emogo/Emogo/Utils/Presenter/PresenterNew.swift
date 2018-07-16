@@ -72,12 +72,11 @@ class PresenterNew: NSObject {
             return customPresenter
         }else {
            
-//            let width = ModalSize.full
-//            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  60.0), sizeLandscape: Float(kFrame.size.width/2.0 +  60.0))
-//            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  60.0)
-//            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
-//            let customType = PresentationType.custom(width: width, height: height, center: center)
-              let customType = PresentationType.bottomHalf
+            let width = ModalSize.full
+            let height = ModalSize.customOrientation(sizePortrait: Float(kFrame.size.height/2.0 +  60.0), sizeLandscape: Float(kFrame.size.width/2.0 +  60.0))
+            let cennterY = kFrame.size.height - (kFrame.size.height/2.0 +  60.0)
+            let center = ModalCenterPosition.customOrigin(origin: CGPoint(x: 0, y: cennterY))
+            let customType = PresentationType.custom(width: width, height: height, center: center)
             let customPresenter = Presentr(presentationType: customType)
             customPresenter.transitionType = .coverVertical
             customPresenter.dismissTransitionType = .coverVertical

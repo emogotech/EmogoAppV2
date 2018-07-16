@@ -452,7 +452,7 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     @objc func captureModeTap(_ sender: UIGestureRecognizer){
-        print("Normal tap")
+       // print("Normal tap")
         
         if kDefault?.bool(forKey: kHapticFeedback) == true {
             self.btnCamera.isHaptic = true
@@ -498,10 +498,10 @@ class CustomCameraViewController: SwiftyCamViewController {
     }
     
     @objc func recordingModeTap(_ sender: UIGestureRecognizer){
-        print("Long tap")
+       // print("Long tap")
         switch sender.state {
         case .began:
-            print("begin recording")
+           // print("begin recording")
             self.lblRecordTimer.isHidden = true
             self.performCamera(action: .recording)
             self.cameraOption.isUserInteractionEnabled = false
@@ -509,12 +509,12 @@ class CustomCameraViewController: SwiftyCamViewController {
             break
         case .ended:
             if self.cameraMode == .normal {
-                print("end Recording")
+              //  print("end Recording")
                 self.lblRecordTimer.isHidden = true
                 //                self.recordButtonTapped(isShow: false)
                 self.performCamera(action: .stop)
             }else{
-                print(">>>>>>>>>>>>>>>>>else")
+               // print(">>>>>>>>>>>>>>>>>else")
             }
             break
             

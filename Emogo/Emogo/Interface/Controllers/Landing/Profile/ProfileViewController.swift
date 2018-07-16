@@ -48,6 +48,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var btnNext: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
 
+    @IBOutlet weak var heightviewBio: NSLayoutConstraint!
+    @IBOutlet weak var kViewLocWebHeight: NSLayoutConstraint!
+    @IBOutlet weak var segmentMain: HMSegmentedControl!
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnSetting: UIButton!
     @IBOutlet weak var btnClose: UIButton!
@@ -78,16 +81,16 @@ class ProfileViewController: UIViewController {
     var lastOffset:CGPoint! = CGPoint.zero
     var didScrollInLast:Bool! = false
     var selectedType:StuffType! = StuffType.All
+    var selectedSegment:SegmentType! =  SegmentType.EMOGOS
     var profileStreamIndex = 0
     var isCalledMyStream:Bool! = true
     var isCalledColabStream:Bool! = true
     var isStuffUpdated:Bool! = true
     var selectedImageView:UIImageView?
 
-   
-    
     var oldContentOffset = CGPoint.zero
     var topConstraintRange = (CGFloat(0)..<CGFloat(220))
+    
    // 178
     let layout = CHTCollectionViewWaterfallLayout()
 
@@ -124,6 +127,7 @@ class ProfileViewController: UIViewController {
         }else {
             
         }
+        
 }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -181,6 +185,7 @@ class ProfileViewController: UIViewController {
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.profileCollectionView.addGestureRecognizer(longPressGesture)
 
+        
 //        let tapFollow = UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:)))
 //        self.lblFollowers.isUserInteractionEnabled = true
 //        self.lblFollowers.addGestureRecognizer(tapFollow)
@@ -189,12 +194,15 @@ class ProfileViewController: UIViewController {
 //        self.lblFollowing.isUserInteractionEnabled = true
 //        self.lblFollowing.addGestureRecognizer(tapFollowing)
         
+       /*
         self.btnStream.setTitleColor(colorSelected, for: .normal)
         self.btnStream.titleLabel?.font = fontSelected
         self.btnColab.setTitleColor(color, for: .normal)
         self.btnColab.titleLabel?.font = font
         self.btnStuff.setTitleColor(color, for: .normal)
         self.btnStuff.titleLabel?.font = font
+         */
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
         self.lblWebsite.addGestureRecognizer(tap)
         self.lblWebsite.isUserInteractionEnabled = true
@@ -210,7 +218,6 @@ class ProfileViewController: UIViewController {
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
         }
-        
         segmentControl.selectionIndicatorHeight = 1.0
         segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
@@ -219,6 +226,26 @@ class ProfileViewController: UIViewController {
         segmentControl.selectedSegmentIndex = 0
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
+      
+        
+        segmentMain.sectionTitles = ["EMOGOS", "COLLABS", "MY STUFF"]
+        
+        segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
+            
+            print("Selected index \(index) (via block)")
+            self.updateSegment(selected: index)
+        }
+         segmentMain.selectionIndicatorHeight = 1.0
+         segmentMain.backgroundColor = UIColor.white
+         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        // segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+         segmentMain.selectionIndicatorColor =  kCardViewBordorColor
+         segmentMain.selectionStyle = .textWidthStripe
+         segmentMain.selectedSegmentIndex = 0
+         segmentMain.selectionIndicatorLocation = .down
+         segmentMain.shouldAnimateUserSelection = false
+       
+    
     }
     
    
@@ -232,6 +259,7 @@ class ProfileViewController: UIViewController {
                 self.imgLocation.image = #imageLiteral(resourceName: "location icon")
                 self.lblLocation.isHidden = false
                 self.lblWebsite.isHidden = false
+                self.lblBio.isHidden =  false
                 self.lblFollowers.isHidden = true
                 self.lblFollowing.isHidden = true
 
@@ -242,18 +270,15 @@ class ProfileViewController: UIViewController {
                 self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 self.lblLocation.minimumScaleFactor = 1.0
                 self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
-                if UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.kHeaderHeight.constant = 178
-                    self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
-                }else {
-                    self.kHeaderHeight.constant = 220
-                    self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
-                }
+               
                 //self.lblBirthday.text = UserDAO.sharedInstance.user.birthday.trim()
                 self.title = UserDAO.sharedInstance.user.fullName.trim()
                 self.lblBio.minimumScaleFactor = 1.0
                 self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
+                
+                self.heightviewBio.constant = 42
+                self.kViewLocWebHeight.constant = 32
                 
                 if UserDAO.sharedInstance.user.location.trim().isEmpty {
                     self.imgLocation.isHidden = true
@@ -310,19 +335,110 @@ class ProfileViewController: UIViewController {
                         self.imgUser.setImage(string:UserDAO.sharedInstance.user.displayName, color: UIColor.colorHash(name:UserDAO.sharedInstance.user.displayName ), circular: true)
                     }
                 }
-            //    self.imgUser.borderWidth = 1.0
-              //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
-               
+                // self.imgUser.borderWidth = 1.0
+                //  self.imgUser.borderColor = UIColor(r: 13, g: 192, b: 237)
+                
+                if !UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                    
+                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                    self.lblWebsite.text =  UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.isHidden = false
+                    self.lblWebsite.isHidden =  false
+                    self.imgLink.isHidden = false
+                    self.imgLocation.isHidden = false
+                    self.lblBio.isHidden =  true
+                    self.heightviewBio.constant = 0
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                    self.lblLocation.addGestureRecognizer(tap)
+                    self.lblLocation.isUserInteractionEnabled = true
+                    self.kHeaderHeight.constant = 170//178
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
+                }
 
-                if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty {
+             else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
                     self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
+                    self.lblBio.isHidden = true
+                    self.heightviewBio.constant = 0
                     self.imgLink.isHidden = true
                     self.imgLocation.isHidden = false
                     self.imgLocation.image = self.imgLink.image
                     let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
                     self.lblLocation.addGestureRecognizer(tap)
                     self.lblLocation.isUserInteractionEnabled = true
+                    self.kHeaderHeight.constant = 170//178
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
+                }
+                else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.isHidden =  false
+                    self.lblWebsite.isHidden = true
+                    self.lblBio.isHidden = false
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = false
+                    self.imgLocation.image = self.imgLink.image
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                    self.lblLocation.addGestureRecognizer(tap)
+                    self.lblLocation.isUserInteractionEnabled = true
+                    self.kHeaderHeight.constant = 205
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
+                }
+               
+                else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                    self.lblLocation.isHidden =  false
+                    self.lblWebsite.isHidden = true
+                    self.lblBio.isHidden = true
+                    self.heightviewBio.constant = 0
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = false
+                    self.imgLocation.image = self.imgLocation.image
+                    self.kHeaderHeight.constant = 170//178
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
+                }
+                else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
+                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                    self.lblLocation.isHidden =  false
+                    self.lblWebsite.isHidden = true
+                    self.lblBio.isHidden = false
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = false
+                    self.imgLocation.image = self.imgLink.image
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                    self.lblLocation.addGestureRecognizer(tap)
+                    self.lblLocation.isUserInteractionEnabled = true
+                    self.kHeaderHeight.constant = 205//178
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
+                }
+               else if UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
+           
+                    self.lblLocation.isHidden = true
+                    self.lblWebsite.isHidden = true
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = true
+                    self.lblBio.isHidden = false
+                    self.kViewLocWebHeight.constant = 0
+                    self.kHeaderHeight.constant = 188
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(188))
+                    
+                }
+               else  if  UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty  {
+                    
+                    self.lblLocation.isHidden = true
+                    self.lblWebsite.isHidden = true
+                    self.imgLink.isHidden = true
+                    self.imgLocation.isHidden = true
+                    self.lblBio.isHidden = true
+                    self.kHeaderHeight.constant = 130 //146
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(130))
+                   
+                } 
+ 
+                else{
+                    self.kHeaderHeight.constant = 205//220
+                    self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
+               
                 }
                 self.profileStreamShow()
                 if listUpdate{
@@ -330,11 +446,13 @@ class ProfileViewController: UIViewController {
                     self.updateList(hud: false)
                 }
             }
-            
-            
+            self.btnContainer.addShadow()
+            self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
         }
       
-        btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
+    //  btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
+        
+        
         if  self.currentMenu == .stuff {
             kStuffOptionsHeight.constant = 17.0
         }else {
@@ -371,6 +489,9 @@ class ProfileViewController: UIViewController {
             }
         }
     }
+    
+ 
+    
     
     func updateStuffList(index:Int){
         switch index {
@@ -538,13 +659,15 @@ class ProfileViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
-                print("Swie Left")
+               // print("Swie Left")
                 if currentMenu == .stream {
                     Animation.addRightTransition(collection: self.profileCollectionView)
-                    self.updateSegment(selected: 102)
+                    self.updateSegment(selected: 1)
+                    //self.updateSegment(selected: 102)
                 }else if currentMenu == .colabs {
                     Animation.addRightTransition(collection: self.profileCollectionView)
-                    self.updateSegment(selected: 103)
+                    self.updateSegment(selected: 2)
+                    //self.updateSegment(selected: 103)
                 }else {
                     if self.selectedType != StuffType.Giphy {
                         Animation.addRightTransition(collection: self.profileCollectionView)
@@ -556,14 +679,16 @@ class ProfileViewController: UIViewController {
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
-                print("Swie Right")
+               // print("Swie Right")
                 if currentMenu == .colabs {
                     Animation.addLeftTransition(collection: self.profileCollectionView)
-                    self.updateSegment(selected: 101)
+                    self.updateSegment(selected: 0)
+                   // self.updateSegment(selected: 101)
+                    
                 }else if currentMenu == .stuff {
                     if  self.selectedType == StuffType.All {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
-                        self.updateSegment(selected: 102)
+                       // self.updateSegment(selected: 102)
                     }else {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
                         let index = self.selectedType.hashValue - 1
@@ -698,9 +823,37 @@ class ProfileViewController: UIViewController {
         }
         
     }
-    
-
    
+    func updateSegment(selected:Int){
+        ContentList.sharedInstance.arrayContent.removeAll()
+        switch selected {
+        case 0:
+            self.selectedSegment = .EMOGOS
+            self.lblNOResult.isHidden = true
+            self.currentMenu = .stream
+            self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
+            break
+        case 1:
+            self.lblNOResult.isHidden = true
+            self.selectedSegment = .COLLABS
+            self.currentMenu = .colabs
+            self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
+            break
+        case 2:
+            self.lblNOResult.isHidden = true
+            self.selectedSegment = .MYSTUFF
+            self.currentMenu = .stuff
+            self.btnNext.isHidden = true
+            self.btnAdd.isHidden = false
+            break
+            
+        default:
+            break
+        }
+    }
+  /*
     private func updateSegment(selected:Int){
         ContentList.sharedInstance.arrayContent.removeAll()
         switch selected {
@@ -736,7 +889,7 @@ class ProfileViewController: UIViewController {
         default:
             break
         }
-    }
+    }*/
     
     private func updateConatiner(){
         self.profileCollectionView.es.resetNoMoreData()
@@ -986,7 +1139,7 @@ class ProfileViewController: UIViewController {
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
                      ContentList.sharedInstance.arrayStuff.remove(at: index)
-                    print("Removed")
+                   // print("Removed")
                 }
             }
             self.profileCollectionView.reloadData()
@@ -1205,7 +1358,7 @@ class ProfileViewController: UIViewController {
     }
 
     @objc func startAnimation(){
-        print("Called")
+       // print("Called")
         
         UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
             
@@ -1449,14 +1602,20 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         //we compress the top view
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
+            print(delta)
+            btnContainer.addBorders(edges: .top, color: .white, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
+             print(delta)
         }
         
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
+             print(delta)
+            btnContainer.addBorders(edges: .top, color: color, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
+            print(delta)
         }
         oldContentOffset = scrollView.contentOffset
     }

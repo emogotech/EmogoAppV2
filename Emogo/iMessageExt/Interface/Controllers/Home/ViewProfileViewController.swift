@@ -18,8 +18,9 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
-    @IBOutlet weak var lblNOResult: UILabel!
+    @IBOutlet weak var lblNoResult: UILabel!
     @IBOutlet weak var imgLocation: UIImageView!
+    @IBOutlet weak var kheightlblName: NSLayoutConstraint!
     @IBOutlet weak var imgLink: UIImageView!
     @IBOutlet weak var btnContainer: UIView!
     @IBOutlet weak var kHeaderHeight: NSLayoutConstraint!
@@ -27,9 +28,17 @@ class ViewProfileViewController: UIViewController {
     @IBOutlet weak var btnShare: UIButton!
     @IBOutlet weak var btnReport: UIButton!
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var segmentMain: HMSegmentedControl!
+    @IBOutlet weak var heightviewBio: NSLayoutConstraint!
+    @IBOutlet weak var kHeightViewLocation: NSLayoutConstraint!
+    @IBOutlet weak var viewSingle: UIView!
+    @IBOutlet weak var lblSingleView: UILabel!
+    @IBOutlet weak var imgSingleView: UIImageView!
+    @IBOutlet weak var kHeightlblName: NSLayoutConstraint!
     
     
     let layout = CHTCollectionViewWaterfallLayout()
+   
     var objPeople:PeopleDAO!
     var oldContentOffset = CGPoint.zero
     var topConstraintRange = (CGFloat(0)..<CGFloat(220))
@@ -43,6 +52,9 @@ class ViewProfileViewController: UIViewController {
     var hudRefreshView: LoadingView!
     var hudView  : LoadingView!
     var refresher: UIRefreshControl?
+    let font = UIFont(name: "SFProText-Light", size: 14.0)
+    let fontSelected = UIFont(name: "SFProText-Medium", size: 14.0)
+    let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +62,7 @@ class ViewProfileViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         prepareLayouts()
+        self.setupLoader()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,7 +78,7 @@ class ViewProfileViewController: UIViewController {
     func prepareLayouts(){
     
         self.lblTitle.text = objPeople.fullName
-        self.lblNOResult.text = kAlert_No_Stream_found
+        self.lblNoResult.text = kAlert_No_Stream_found
        
         let btnFlag = UIBarButtonItem(image: #imageLiteral(resourceName: "stream_flag"), style: .plain, target: self, action: #selector(self.showReportList))
         let btnShare = UIBarButtonItem(image: #imageLiteral(resourceName: "share icon"), style: .plain, target: self, action: #selector(self.profileShareAction))
@@ -98,6 +111,23 @@ class ViewProfileViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollection.addGestureRecognizer(swipeLeft)
         
+        segmentMain.sectionTitles = ["EMOGOS", "COLLABS"]
+        
+        segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
+            
+            print("Selected index \(index) (via block)")
+            self.updateSegment(selected: index)
+        }
+        segmentMain.selectionIndicatorHeight = 1.0
+        segmentMain.backgroundColor = UIColor.white
+        segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
+        //segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+        segmentMain.selectionIndicatorColor =  kCardViewBordorColor
+        segmentMain.selectionStyle = .textWidthStripe
+        segmentMain.selectedSegmentIndex = 0
+        segmentMain.selectionIndicatorLocation = .down
+        segmentMain.shouldAnimateUserSelection = false
+        
     }
 
     
@@ -125,9 +155,9 @@ class ViewProfileViewController: UIViewController {
                         self.imgLink.isHidden = false
                         self.imgLocation.isHidden = false
                         if self.objPeople.isFollowing {
-                            self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "following"), for: .normal)
                         }else {
-                            self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "follow"), for: .normal)
                         }
                         if people.location.trim().isEmpty {
                             self.imgLocation.isHidden = true
@@ -163,16 +193,157 @@ class ViewProfileViewController: UIViewController {
                             self.imgUser.setImage(string:people.displayName, color: UIColor.colorHash(name:people.displayName ), circular: true)
                             }
                         }
-                        if people.biography.trim().isEmpty  {
-                            self.kHeaderHeight.constant = 178
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+//                        if people.biography.trim().isEmpty  {
+//                            self.kHeaderHeight.constant = 178
+//                            self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
+//
+//                        }else {
+//                            self.kHeaderHeight.constant = 220
+//                            self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+//                        }
+                        
+                        if !people.displayName.trim().isEmpty && !people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty  {
                             
-                        }else {
-                            self.kHeaderHeight.constant = 220
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(220))
+                            self.lblLocation.text = people.location.trim()
+                            self.lblWebsite.text =  people.website.trim()
+                            self.lblLocation.isHidden = false
+                            self.lblWebsite.isHidden =  false
+                            self.imgLink.isHidden = false
+                            self.imgLocation.isHidden = false
+                            self.lblBio.isHidden =  true
+                            self.heightviewBio.constant = 0
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblLocation.addGestureRecognizer(tap)
+                            self.lblLocation.isUserInteractionEnabled = true
+                            self.kHeaderHeight.constant = 211//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                        }
+                            
+                        else if !people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && people.biography.trim().isEmpty {
+                            
+                            self.lblSingleView.text = people.website.trim()
+                            self.viewSingle.isHidden = false
+                            self.lblWebsite.isHidden = true
+                            self.lblLocation.isHidden = true
+                            self.lblBio.isHidden = true
+                            self.heightviewBio.constant = 0
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.image = self.imgLink.image
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
+                            self.lblSingleView.isUserInteractionEnabled = true
+                            self.kHeaderHeight.constant = 211//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                        }
+                        else if people.displayName.trim().isEmpty &&  people.location.trim().isEmpty && !people.website.trim().isEmpty && !people.biography.trim().isEmpty {
+                            // self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                            self.lblSingleView.text = people.website.trim()
+                            self.viewSingle.isHidden = false
+                            self.lblWebsite.isHidden = true
+                            self.lblBio.isHidden = false
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.image = self.imgLink.image
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
+                            self.lblSingleView.isUserInteractionEnabled = true
+                            self.kHeaderHeight.constant = 223
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
+                        }
+                            
+                        else if !people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty && people.displayName.trim().isEmpty  {
+                            // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                            self.lblSingleView.text = people.location.trim()
+                            self.viewSingle.isHidden = false
+                            self.lblWebsite.isHidden = true
+                            self.lblBio.isHidden = true
+                            self.heightviewBio.constant = 0
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.lblLocation.isHidden = true
+                            self.imgSingleView.image = self.imgLocation.image
+                            self.kHeaderHeight.constant = 211//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(211))
+                        }
+                        else if !people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty && !people.displayName.trim().isEmpty {
+                            // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                            self.lblSingleView.text = people.location.trim()
+                            self.viewSingle.isHidden = false
+                            self.lblWebsite.isHidden = true
+                            self.lblBio.isHidden = false
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.image = self.imgLink.image
+                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
+                            self.lblSingleView.addGestureRecognizer(tap)
+                            self.lblSingleView.isUserInteractionEnabled = true
+                            self.kHeaderHeight.constant = 253//178
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
+                        }
+                            
+                        else if people.location.trim().isEmpty && people.website.trim().isEmpty && !people.biography.trim().isEmpty {
+                            
+                            self.lblLocation.isHidden = true
+                            self.lblWebsite.isHidden = true
+                            self.lblSingleView.isHidden = true
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden =  true
+                            
+                            self.lblBio.isHidden = false
+                            self.kHeightViewLocation.constant = 0
+                            self.kHeaderHeight.constant = 221
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(221))
+                            
+                        }
+                        else  if  people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty && !people.displayName.trim().isEmpty{
+                            
+                            self.lblLocation.isHidden = true
+                            self.lblWebsite.isHidden = true
+                            self.lblSingleView.isHidden = true
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden = true
+                            self.lblBio.isHidden = true
+                            self.viewSingle.isHidden = true
+                            self.kHeightlblName.constant = 0
+                            self.kHeaderHeight.constant = 179
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(179))
+                            
+                        }else if people.displayName.trim().isEmpty && people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty {
+                            
+                            self.lblLocation.isHidden = true
+                            self.lblWebsite.isHidden = true
+                            self.lblSingleView.isHidden = true
+                            self.imgLink.isHidden = true
+                            self.imgLocation.isHidden = true
+                            self.imgSingleView.isHidden = true
+                            self.lblBio.isHidden = true
+                            self.viewSingle.isHidden = true
+                            self.kHeightlblName.constant = 0
+                            self.kHeaderHeight.constant = 147
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(147))
+                        }
+                        else if people.displayName.trim().isEmpty && !people.location.trim().isEmpty && !people.website.trim().isEmpty && !people.biography.trim().isEmpty {
+                            
+                            self.viewSingle.isHidden = true
+                            self.kHeightlblName.constant = 0
+                            self.kHeaderHeight.constant = 223
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(223))
+                        }
+                            
+                        else{
+                            self.viewSingle.isHidden = true
+                            self.kHeaderHeight.constant = 253//220
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
+                            
                         }
                         self.profileStreamShow()
-                        self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
+                       // self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
+                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
+                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
+                        self.btnContainer.layer.masksToBounds = true
                 }
                
                 }
@@ -186,12 +357,28 @@ class ViewProfileViewController: UIViewController {
         self.profileCollection.delegate = self
         if objPeople != nil  {
             if !objPeople.userProfileID.isEmpty {
+                self.hudView.startLoaderWithAnimation()
                 self.getStreamList(type:.start,streamType: streamType)
             }
         }
         self.profileCollection.reloadData()
     }
- 
+    // MARK:- LoaderSetup
+    
+    func setupLoader() {
+        hudView  = LoadingView.init(frame: view.frame)
+        view.addSubview(hudView)
+        hudView.translatesAutoresizingMaskIntoConstraints = false
+        hudView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        hudView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        hudView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        hudView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
+    }
 
     // MARK:- pull to refresh LoaderSetup
     
@@ -239,10 +426,11 @@ class ViewProfileViewController: UIViewController {
 
                 if (objPeople.stream?.CoverImage.trim().isEmpty)! {
                     self.layout.headerHeight = 0
-                    self.lblNOResult.isHidden = true
+                    self.lblNoResult.isHidden = true
                     if arrayMyStreams.count == 0 {
-                        self.lblNOResult.text = kAlert_No_Stream_found
-                        self.lblNOResult.isHidden = false
+                      
+                       self.lblNoResult.text = kAlert_No_Stream_found
+                        self.lblNoResult.isHidden = false
                     }
                 }else {
                     if self.isCalledMyStream {
@@ -262,15 +450,16 @@ class ViewProfileViewController: UIViewController {
                             StreamList.sharedInstance.arrayMyStream.append(self.objPeople.stream!)
                         }
                     }
-                    lblNOResult.isHidden = true
+                    lblNoResult.isHidden = true
                     self.layout.headerHeight = 200
                 }
             }else {
                 self.layout.headerHeight = 0
-                self.lblNOResult.isHidden = true
+                self.lblNoResult.isHidden = true
                 if arrayMyStreams.count == 0 {
-                    self.lblNOResult.text = kAlert_No_Stream_found
-                    self.lblNOResult.isHidden = false
+                  
+                    self.lblNoResult.text = kAlert_No_Stream_found
+                    self.lblNoResult.isHidden = false
                 }
             }
             self.profileCollection.reloadData()
@@ -321,14 +510,16 @@ class ViewProfileViewController: UIViewController {
             case UISwipeGestureRecognizerDirection.left:
                 print("Swie Left")
                 if self.streamType == "1" {
-                    self.updateSegment(selected: 102)
+                    self.updateSegment(selected: 1)
+                    //self.updateSegment(selected: 102)
                 }
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
                 print("Swie Right")
                 if self.streamType == "2" {
-                    self.updateSegment(selected: 101)
+                    self.updateSegment(selected: 0)
+                  //  self.updateSegment(selected: 101)
                 }
                 break
             default:
@@ -337,6 +528,38 @@ class ViewProfileViewController: UIViewController {
         }
     }
     
+    
+    private func updateSegment(selected:Int){
+        switch selected {
+        case 0:
+            
+            self.streamType = "1"
+            if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.profileStreamShow()
+            break
+        case 1:
+            
+            self.streamType = "2"
+            if self.arrayColabStream.count == 0 && self.isCalledColabStream {
+                self.getStream(type:  self.streamType)
+            }
+            self.lblNoResult.isHidden = true
+            StreamList.sharedInstance.arrayMyStream = self.arrayColabStream
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                self.lblNoResult.text = kAlert_No_Stream_found
+                self.lblNoResult.isHidden = false
+            }
+            self.lblNoResult.isHidden = true
+            self.layout.headerHeight = 0
+            self.profileCollection.reloadData()
+            break
+        default:
+            break
+        }
+    }
+    /*
     private func updateSegment(selected:Int){
         switch selected {
         case 101:
@@ -367,10 +590,10 @@ class ViewProfileViewController: UIViewController {
         default:
             break
         }
-    }
+    }*/
     
     func getStream(type:String){
-        
+         self.hudView.startLoaderWithAnimation()
          self.getStreamList(type:.start,streamType: type)
     }
     
@@ -469,63 +692,38 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStreamList(type:RefreshType,streamType:String){
-        self.lblNOResult.isHidden = true
+        self.lblNoResult.isHidden = true
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollection.reloadData()
         }
-            
-         APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userProfileID,type: type,streamType: streamType) { (refreshType, errorMsg) in
-                self.view.isUserInteractionEnabled = true
-                if self.hudView != nil {
-                    self.hudView.stopLoaderWithAnimation()
-                }
-            
-                if self.hudRefreshView != nil {
-                    self.hudRefreshView.stopLoaderWithAnimation()
-                }
-                self.lblNOResult.isHidden = true
-                if StreamList.sharedInstance.arrayStream.count == 0 {
-                    self.lblNOResult.isHidden = false
-                }
-                DispatchQueue.main.async {
-                    self.profileCollection.reloadData()
-                }
-                
-                self.profileCollection.isHidden = false
-                self.profileCollection.isUserInteractionEnabled = true
-                
-                if type == .up {
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                    
-                }else if type == .down {
-                    
-                    if StreamList.sharedInstance.arrayMyStream.count == 0 {
-                        if streamType == "2" {
-                            self.lblNOResult.text = kAlert_No_Stream_found
-                        }
-                        self.lblNOResult.isHidden = false
-                    }
-                    if streamType == "1" {
-                        self.profileStreamShow()
-                        self.isCalledMyStream = false
-                    }else {
-                        self.layout.headerHeight = 0
-                        self.arrayColabStream = StreamList.sharedInstance.arrayMyStream
-                        self.isCalledColabStream = false
-                    }
-                    self.profileCollection.reloadData()
-                    if !(errorMsg?.isEmpty)! {
-                        self.showToastIMsg(type: .error, strMSG: errorMsg!)
-                    }
-                }
-                
-                if !(errorMsg?.isEmpty)! {
-                    self.showToastIMsg(type: .success, strMSG: errorMsg!)
-                }
+        APIServiceManager.sharedInstance.apiForGetUserStream(userID: objPeople.userProfileID,type: type,streamType: streamType) { (refreshType, errorMsg) in
+            if self.hudView != nil {
+                self.hudView.stopLoaderWithAnimation()
             }
-      
-       
+            
+            if self.hudRefreshView != nil {
+                self.hudRefreshView.stopLoaderWithAnimation()
+            }
+            if StreamList.sharedInstance.arrayMyStream.count == 0 {
+                if streamType == "2" {
+                    self.lblNoResult.text = kAlert_No_Stream_found
+                }
+                self.lblNoResult.isHidden = false
+            }
+            if streamType == "1" {
+                self.profileStreamShow()
+                self.isCalledMyStream = false
+            }else {
+                self.layout.headerHeight = 0
+                self.arrayColabStream = StreamList.sharedInstance.arrayMyStream
+                self.isCalledColabStream = false
+            }
+            self.profileCollection.reloadData()
+            if !(errorMsg?.isEmpty)! {
+               
+            }
+        }
     }
 
     func followUser(){
@@ -534,7 +732,7 @@ class ViewProfileViewController: UIViewController {
           
             if (errorMSG?.isEmpty)! {
                 self.objPeople.isFollowing = true
-                self.btnFollow.setImage(#imageLiteral(resourceName: "unfollow_btn"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "following"), for: .normal)
             }else {
                 self.showToastIMsg(type: .error, strMSG: errorMSG!)
             }
@@ -546,7 +744,7 @@ class ViewProfileViewController: UIViewController {
            
             if (errorMSG?.isEmpty)! {
                 self.objPeople.isFollowing = false
-                self.btnFollow.setImage(#imageLiteral(resourceName: "follow_btn"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "follow"), for: .normal)
             }else {
                self.showToastIMsg(type: .error, strMSG: errorMSG!)
             }
@@ -574,7 +772,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create the cell and return the cell
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamCell, for: indexPath) as! ProfileStreamCell
+          let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_ProfileStreamView, for: indexPath) as! ProfileStreamViewCell
+  
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
@@ -663,12 +862,14 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         
         //we compress the top view
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
+            self.btnContainer.addBorders(edges: UIRectEdge.top, color: .white, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
         }
         
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
+            self.btnContainer.addBorders(edges: UIRectEdge.top, color: color, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
         }

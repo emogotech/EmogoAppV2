@@ -141,12 +141,13 @@ class AWSManager: NSObject {
             DispatchQueue.main.async(execute: {() -> Void in
                 if totalBytesExpectedToSend != 0 && totalBytesExpectedToSend != 0 {
                     let  percentage = totalBytesSent*100/totalBytesExpectedToSend
-                    print(" total size---->\(totalBytesExpectedToSend) video upload percentage-------->\(percentage)")
+                    print(" total size---->\(totalBytesExpectedToSend)  upload percentage-------->\(percentage)")
                 }
             })
         }
         transferManager.upload(uploadRequest).continueWith { (task) -> Any? in
             if let error = task.error {
+                print(error.localizedDescription)
                 completion(nil, error)
             }
             if task.result != nil {
@@ -173,7 +174,7 @@ class AWSManager: NSObject {
                 return nil
             }
             completion(true, nil)
-            print("Deleted successfully.")
+          //  print("Deleted successfully.")
             return nil
         }
     }
@@ -199,15 +200,19 @@ class AWSRequestManager:NSObject {
         arrayRequest = [String]()
     }
     
-    func imageUpload(image:UIImage,name:String,completion:@escaping (String?,Error?)->Void) {
+    func imageUpload(image:UIImage,name:String,isContent:Bool? = nil,completion:@escaping (String?,Error?)->Void) {
             let img = image.reduceSize()
             let imageData = UIImageJPEGRepresentation(img, 1.0)
             let url = Document.saveFile(data: imageData!, name: name)
             let fileUrl = URL(fileURLWithPath: url)
+            if isContent == nil {
             self.arrayRequest.append(name)
+            }
             AWSManager.sharedInstance.uploadFile(fileUrl, name: name) { (imageUrl,error) in
-                if let index = self.arrayRequest.index(of: name) {
-                    self.arrayRequest.remove(at: index)
+                if isContent == nil {
+                    if let index = self.arrayRequest.index(of: name) {
+                        self.arrayRequest.remove(at: index)
+                    }
                 }
                completion(imageUrl, error)
             }
@@ -237,7 +242,7 @@ class AWSRequestManager:NSObject {
                         })
                     }
                 }else {
-                    print("Nil video upload")
+                  //  print("Nil video upload")
                 }
             })
         }

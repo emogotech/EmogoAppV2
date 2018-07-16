@@ -15,23 +15,25 @@ import SwiftLinkPreview
 
 class ShareViewHomeController: UIViewController {
     
+    @IBOutlet weak var collectionImages: UICollectionView!
+    
     @IBOutlet weak var lblTitle : UILabel!
     @IBOutlet weak var lblDesc : UILabel!
     @IBOutlet weak var lblLink : UILabel!
     @IBOutlet weak var imgLink : UIImageView!
     @IBOutlet weak var viewContainer : UIView!
     @IBOutlet weak var viewLogin : UIView!
-    
+   
     @IBOutlet weak var btnAddToStream : UIButton!
     @IBOutlet weak var btnShareStream : UIButton!
     @IBOutlet weak var imgChoosedImage : UIImageView!
+    
+    @IBOutlet weak var viewForLink: UIView!
     
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     
     var tempWebView  : UIWebView!
-    
-    
     var dictData : Dictionary = [String:Any]()
     
     override func viewDidLoad() {
@@ -53,9 +55,13 @@ class ShareViewHomeController: UIViewController {
             self.perform(#selector(self.closeAfter), with: nil, afterDelay: 10.0)
         }
         
+        self.collectionImages.delegate = self
+        self.collectionImages.dataSource = self
+        
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
         
+        viewForLink.addBorders(edges: [.top,.left,.right,.bottom], color: UIColor.lightGray, thickness: 1)
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
     }
@@ -382,6 +388,23 @@ class ShareViewHomeController: UIViewController {
         
         return message
     }
+    
+}
+
+extension ShareViewHomeController: UICollectionViewDelegate,UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell : CollectionImagesCell = collectionView.dequeueReusableCell(withReuseIdentifier:"selectedImagesCell", for: indexPath) as! CollectionImagesCell
+       // cell.imgSelected.image = ""
+        
+        return cell
+    }
+    
     
 }
 

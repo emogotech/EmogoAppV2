@@ -59,7 +59,7 @@ typedef NS_ENUM(NSUInteger, KASlideShowState) {
 
 @property  (readonly, nonatomic) NSUInteger currentIndex;
 @property  (readonly, nonatomic) KASlideShowState state;
-@property  (assign, nonatomic) BOOL isRepeatAll;
+@property  (assign, nonatomic) BOOL isRepeatAll,isIphone;
 
 
 - (void) addGesture:(KASlideShowGestureType)gestureType;

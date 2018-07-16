@@ -32,10 +32,12 @@ class SignInViewController: UIViewController {
     lazy var popupViewController: CountryPickerViewController = {
         let popupViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CountryPickerView)
         return popupViewController as! CountryPickerViewController
+      
     }()
     
     
     // MARK: - Override Functions
+    @IBOutlet weak var btnCountryPickerCollaps: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         prepareLayouts()

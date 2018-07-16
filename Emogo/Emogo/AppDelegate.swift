@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        print("open url Called")
+       // print("open url Called")
         let branchHandled = Branch.getInstance().application(app,
                                                              open: url,
                                                              sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
@@ -243,7 +243,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If User already logged in
        self.performLogin()
        self.keyboardToolBar(disable:false)
-        // Logout User if Token Is Expired
+      if kDefault?.bool(forKey: kIsAppLaunch) == false {
+            kDefault?.set(true, forKey: kIsAppLaunch)
+            kDefault?.set(true, forKey: kHapticFeedback)
+      }
        
     }
     
@@ -257,7 +260,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (error == nil) {
                 if let dictData = params {
                     let dict:NSDictionary  = dictData as NSDictionary
-                    print(dict)
+                   // print(dict)
                     if dict["user_id"] != nil {
                         let deepLink = DeeplinkDAO(dictDeeplink: dict.replacingNullsWithEmptyStrings() as! [String : Any])
                         SharedData.sharedInstance.objDeepLink = deepLink

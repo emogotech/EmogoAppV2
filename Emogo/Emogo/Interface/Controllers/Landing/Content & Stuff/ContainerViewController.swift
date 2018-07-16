@@ -198,7 +198,7 @@ class ContainerViewController: UIViewController {
                         }
                     }
                     catch{
-                        print("exception!");
+                       // print("exception!");
                     }
                 }
             }
@@ -361,7 +361,7 @@ class ContainerViewController: UIViewController {
                             con.fileUrl = url
                             con.isUploaded = false
                             if let file =  obj?.value(forKey: "filename"){
-                                print(file)
+                               // print(file)
                             con.fileName = file as! String
                             }
                             //find(arr, "c")!              // 2
@@ -377,7 +377,7 @@ class ContainerViewController: UIViewController {
                         con.isUploaded = false
                         if let file =  obj?.value(forKey: "filename"){
                             con.fileName = file as! String
-                            print(file)
+                           // print(file)
                         }
                         arraySelectedContent?.insert(con, at: 0)
                         group.leave()
@@ -478,7 +478,7 @@ class ContainerViewController: UIViewController {
                         do {
                             try data.write(to: tempPathVideo!)
                         } catch {
-                            print(error)
+                            //print(error)
                         }
                         handler(tempPathVideo,image)
                     }

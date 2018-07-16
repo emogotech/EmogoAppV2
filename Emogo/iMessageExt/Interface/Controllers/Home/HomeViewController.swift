@@ -64,9 +64,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
   //  var selectedType:StreamType! = StreamType.Public
     let kSearchHeight = 60.0
-    
-   // fileprivate let arrImages = ["PopularDeselected","MyStreamsDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","PeopleDeselect","LikedDeselected","FollowingDeselected"]
-   // fileprivate let arrImagesSelected = ["Popular","My Streams","Featured","Emogo Streams","Profile","People"]
+
     fileprivate let arrImages = ["MyStreamsDeselected","PopularDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
     fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
 
@@ -880,7 +878,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 for _ in StreamList.sharedInstance.arrayStream {
                     if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                         StreamList.sharedInstance.arrayStream.remove(at: index)
-                        print("Removed")
+                       // print("Removed")
                     }
                 }
             }
@@ -1012,7 +1010,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                     for _ in StreamList.sharedInstance.arrayStream {
                         if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                             StreamList.sharedInstance.arrayStream.remove(at: index)
-                            print("Removed")
+                            //print("Removed")
                         }
                     }
                 }
@@ -1552,7 +1550,8 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 0:
                 lastIndex = index
-                currentStreamType  =  StreamType.populer
+                currentStreamType = StreamType.Public
+            
                 lastSelectedType = currentStreamType
                 if last > index {
                     self.addLeftTransitionCollection(imgV: self.collectionStream)
@@ -1566,9 +1565,8 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 
             case 1:
                 lastIndex = index
-                currentStreamType = StreamType.Public
-                self.segmentHeader.segmentControl.selectedSegmentIndex = 0
-               // currentStreamType =  StreamType.myStream
+                 currentStreamType  =  StreamType.populer
+               
                 lastSelectedType = currentStreamType
                 if last > index {
                     self.addLeftTransitionCollection(imgV: self.collectionStream)

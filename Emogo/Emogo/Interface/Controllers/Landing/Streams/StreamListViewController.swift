@@ -22,11 +22,6 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var btnMenu: UIButton!
     @IBOutlet weak var btnAdd   :   UIButton!
     @IBOutlet weak var txtSearch : UITextField!
-    
-    var lastIndex             : Int = 2
-    var isPullToRefreshRemoved:Bool! = false
-    private var lastContentOffset: CGFloat = 0
-    var btnAddFrame   : CGRect!
     //Search
     @IBOutlet weak var viewSearchMain: UIView!
     @IBOutlet weak var viewCollection: UIView!
@@ -40,6 +35,12 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var imgSearchIcon          : UIImageView!
     @IBOutlet weak var kSegmentHeight         : NSLayoutConstraint!
 
+    
+    var lastIndex             : Int = 2
+    var isPullToRefreshRemoved:Bool! = false
+    private var lastContentOffset: CGFloat = 0
+    var btnAddFrame   : CGRect!
+    
     var isAddButtonTapped   =   false
     var isDidLoadCalled : Bool  =   false
     
@@ -116,7 +117,7 @@ class StreamListViewController: UIViewController {
         super.viewDidLoad()
         
         self.streamCollectionView.accessibilityLabel = "StreamCollectionView"
-          prepareLayouts()
+        prepareLayouts()
         txtSearch.delegate = self
         viewSearchButtons.isHidden = true
         kViewSearchButtonsHeight.constant = 0.0
@@ -190,7 +191,7 @@ class StreamListViewController: UIViewController {
             self.menuView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
             self.menuView.heightAnchor.constraint(equalToConstant: frame.size.height).isActive = true
             
-//            
+         
 //            self.viewMenu.removeConstraints(self.viewMenu.constraints)
 //            self.viewMenu.translatesAutoresizingMaskIntoConstraints = false
 //
@@ -231,7 +232,6 @@ class StreamListViewController: UIViewController {
     func checkDeepLinkURL() {
         if SharedData.sharedInstance.deepLinkType == kDeepLinkTypeAddContent{
            self.getStream(currentStreamID: SharedData.sharedInstance.streamID, currentConytentID: "")
-           
         }
         
         if SharedData.sharedInstance.deepLinkType == kDeepLinkMyStreamView {
@@ -307,7 +307,7 @@ class StreamListViewController: UIViewController {
            
            // Naviagte to user Profile
             if SharedData.sharedInstance.objDeepLink != nil {
-                if SharedData.sharedInstance.objDeepLink?.userId.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                if SharedData.sharedInstance.objDeepLink?.userId.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self.isUpdateList = true
                         let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
@@ -320,6 +320,11 @@ class StreamListViewController: UIViewController {
                     objPeople.userImage = SharedData.sharedInstance.objDeepLink?.userImage
                     objPeople.phoneNumber = SharedData.sharedInstance.objDeepLink?.phone
                     objPeople.userProfileID = SharedData.sharedInstance.objDeepLink?.userProfileID
+
+                    if (SharedData.sharedInstance.objDeepLink?.userProfileID.trim().isEmpty)! {
+                        objPeople.userProfileID = SharedData.sharedInstance.objDeepLink?.userId
+
+                    }
                     let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
@@ -344,6 +349,7 @@ class StreamListViewController: UIViewController {
         }
         self.updateCircleMenu()
         self.getTopStreamList()
+        
         // Attach datasource and delegate
         self.lblNoResult.isHidden = true
         self.streamCollectionView.dataSource  = self
@@ -367,13 +373,12 @@ class StreamListViewController: UIViewController {
         self.btnStreamSearch.isUserInteractionEnabled = false
         self.btnPeopleSearch.isUserInteractionEnabled = true
         
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizerDirection.right
-        self.streamCollectionView.addGestureRecognizer(swipeRight)
+    
+//        let swipeRight = UIPanGestureRecognizer(target: self, action: #selector(self.respondToPanGesture(gesture:)))
+//        self.streamCollectionView.addGestureRecognizer(swipeRight)
         
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
-        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
-        self.streamCollectionView.addGestureRecognizer(swipeLeft)
+//        let swipeLeft = UIPanGestureRecognizer(target: self, action: #selector(self.respondToPanGesture(gesture:)))
+//        self.streamCollectionView.addGestureRecognizer(swipeLeft)
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
@@ -433,7 +438,7 @@ class StreamListViewController: UIViewController {
    
     
     @objc func startAnimation(){
-        print("Called")
+        //print("Called")
         
         UIView.animate(withDuration: 0.3 / 1.5, animations: {() -> Void in
             
@@ -469,7 +474,18 @@ class StreamListViewController: UIViewController {
 //            })
     }
     
-    
+    @objc func respondToPanGesture(gesture: UIPanGestureRecognizer) {
+       let velocity =  gesture.translation(in: self.view)
+        print(velocity)
+        if velocity.x > 0 {
+            print("right")
+        }else {
+            print("right")
+
+        }
+        
+        
+    }
     
     @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
@@ -656,6 +672,7 @@ class StreamListViewController: UIViewController {
         
         let actionVC : ActionSheetViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_ActionSheet) as! ActionSheetViewController
         actionVC.delegate = self
+        
         customPresentViewController(PresenterNew.ActionSheetPresenter, viewController: actionVC, animated: true, completion: nil)
     }
     
@@ -664,8 +681,6 @@ class StreamListViewController: UIViewController {
         if kDefault?.bool(forKey: kHapticFeedback) == true {
             self.btnMenu.isHaptic = true
             self.btnMenu.hapticType = .impact(.light)
-        }else{
-            
         }
         self.viewMenu.isHidden = true
         isMenuOpen = true
@@ -764,10 +779,10 @@ class StreamListViewController: UIViewController {
     // MARK: - Class Methods
     func checkForListSize() {
         if self.streamCollectionView.frame.size.height - 100 < self.streamCollectionView.contentSize.height {
-            print("Greater")
+          //  print("Greater")
             self.viewMenu.layer.contents = UIImage(named: "home_gradient")?.cgImage
         }else {
-            print("less")
+          //  print("less")
             self.viewMenu.layer.contents = nil
             self.btnMenu.transform = CGAffineTransform.init(rotationAngle: 0)
         }
@@ -805,7 +820,7 @@ class StreamListViewController: UIViewController {
             for _ in StreamList.sharedInstance.arrayStream {
                 if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
-                    print("Removed")
+                   //print("Removed")
                 }
             }
         }
@@ -843,7 +858,7 @@ class StreamListViewController: UIViewController {
  
     func getStream(currentStreamID:String, currentConytentID:String){
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
-            print(currentStreamID)
+           // print(currentStreamID)
             AppDelegate.appDelegate.window?.isUserInteractionEnabled = true
             if (errorMsg?.isEmpty)! {
                 let allContents = stream?.arrayContent
@@ -853,8 +868,8 @@ class StreamListViewController: UIViewController {
                         
                         for i in 0...(stream?.arrayContent.count)!-1 {
                             let data : ContentDAO = allContents![i]
-                            print(data.contentID)
-                            print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
+                           // print(data.contentID)
+                           // print(SharedData.sharedInstance.iMessageNavigationCurrentContentID)
                             if data.contentID ==  currentConytentID {
                                 objPreview.seletedImage = data
                                 objPreview.isEdit = true
@@ -876,7 +891,7 @@ class StreamListViewController: UIViewController {
                         let tempDict : NSDictionary = NSDictionary()
                         let streamDads = StreamDAO.init(streamData: tempDict as! [String : Any])
                         streamDads.ID = stream?.streamID
-                        print(streamDads.ID)
+                        //print(streamDads.ID)
                         StreamList.sharedInstance.arrayViewStream = [streamDads]
                         obj.currentIndex = 0
                         ContentList.sharedInstance.arrayContent = stream?.arrayContent
@@ -897,7 +912,7 @@ class StreamListViewController: UIViewController {
             for _ in StreamList.sharedInstance.arrayStream {
                 if let index = StreamList.sharedInstance.arrayStream.index(where: { $0.selectionType == currentStreamType}) {
                     StreamList.sharedInstance.arrayStream.remove(at: index)
-                    print("Removed")
+                   // print("Removed")
                 }
             }
         }
@@ -937,9 +952,7 @@ class StreamListViewController: UIViewController {
    
     
     // MARK: - Search API Methods
-    
-    
-
+  
     func getPeopleGlobalSearch(searchText:String, type:RefreshType){
         
         if type == .start || type == .up {
@@ -1180,13 +1193,17 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 cell.isExclusiveTouch = true
                 let stream = self.arrayToShow[indexPath.row]
                 cell.prepareLayouts(stream: stream)
-                if stream.haveSomeUpdate {
-                    cell.layer.borderWidth = 1.0
-                    cell.layer.borderColor = kCardViewBordorColor.cgColor
-                }else {
-                    cell.layer.borderWidth = 0.0
-                    cell.layer.borderColor = UIColor.clear.cgColor
-                }
+//                if stream.haveSomeUpdate {
+//                    cell.layer.borderWidth = 1.0
+//                    cell.layer.borderColor = kCardViewBordorColor.cgColor
+//                }else {
+//                    cell.layer.borderWidth = 0.0
+//                    cell.layer.borderColor = UIColor.clear.cgColor
+//                }
+                cell.cardView.shadowColor = UIColor.blue
+                cell.cardView.shadowOffsetWidth = 0
+                cell.cardView.shadowOffsetHeight = 10
+                cell.cardView.shadowOpacity = 1.0
                 return cell
             }
         }else {
@@ -1352,7 +1369,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
         if (self.lastContentOffset > scrollView.contentOffset.y && !isSearch  ) {
             if  scrollView.contentOffset.y < -20 {
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseOut], animations: {
-                 print("up View")
+               //  print("up View")
                     self.kSearchViewHieght.constant = 52.0
                     self.imgSearchIcon.isHidden = false
                 }, completion: nil)
@@ -1364,7 +1381,7 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             if scrollView.contentOffset.y > 0.5 {
                 
                 UIView.animate(withDuration: 0.3, delay: 0.1, options: [.curveEaseIn], animations: {
-                    print("Down View")
+                  //  print("Down View")
                     self.kSearchViewHieght.constant = 0.0
                     self.imgSearchIcon.isHidden = true
                 }, completion: nil)

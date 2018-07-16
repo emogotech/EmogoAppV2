@@ -57,7 +57,7 @@ class LinkViewController: UIViewController {
         let  footer: ESRefreshProtocol & ESRefreshAnimatorProtocol = RefreshFooterAnimator(frame: .zero)
         
         self.linkCollectionView.es.addInfiniteScrolling(animator: footer) { [weak self] in
-            print("reload more called")
+           // print("reload more called")
             self?.getMyLinks(type:.down)
         }
         
@@ -184,7 +184,7 @@ class LinkViewController: UIViewController {
                 })
                 
             }else{
-                print("Invalid")
+               // print("Invalid")
                 self.showToast(strMSG: "Enter valid url.")
             }
         }else {

@@ -228,7 +228,12 @@ typedef NS_ENUM(NSInteger, KASlideShowSlideMode) {
         }
         
         NSLog(@"SlideShowPrevIndex----->%lu",(unsigned long)prevIndex);
-        if (self.isRepeatAll == YES && prevIndex == 3) {
+        
+        if (self.isRepeatAll == YES && prevIndex == 5 && self.isIphone == YES) {
+            return;
+        }
+        
+        if (self.isRepeatAll == YES && prevIndex == 3 && self.isIphone == NO) {
             return;
         }
         [self populateImageView:_topImageView andIndex:_currentIndex];

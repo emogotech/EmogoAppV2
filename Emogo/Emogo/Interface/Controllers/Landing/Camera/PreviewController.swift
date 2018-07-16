@@ -50,7 +50,7 @@ class PreviewController: UIViewController {
     var strPresented:String!
     var isEditingContent:Bool! = false
     var isShowRetake:Bool?
-    var isFromNotes:Bool?
+    var isFromNotes:String?
 
 
     override func viewDidLoad() {
@@ -387,7 +387,7 @@ class PreviewController: UIViewController {
                 })
                 
                 if seletedImage.name == "SharedImage_group.com.emogotechnologiesinc.thoughtstream" {
-                    print("image from Share - Extension")
+                   // print("image from Share - Extension")
                     let img = UIImage(data: (UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.value(forKey: "imageObj") as! Data))
                     self.imgPreview.image   =   img
                     seletedImage.imgPreview =   img
@@ -477,8 +477,18 @@ class PreviewController: UIViewController {
     
    @objc func btnBack() {
     if self.isFromNotes != nil{
-        let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_NotesView)
-        self.navigationController?.popToViewController(vc: controller)
+        if self.isFromNotes == "Stream"{
+            let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView)
+            self.navigationController?.popToViewController(vc: controller)
+        }else if isFromNotes == "StreamView" {
+            let controller = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream)
+            self.navigationController?.popToViewController(vc: controller)
+        }else if isFromNotes == "Profile" {
+            let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView)
+            self.navigationController?.popToViewController(vc: controller)
+        }else {
+            self.navigationController?.popNormal()
+        }
         return
     }
         if self.strPresented == nil {
@@ -548,6 +558,7 @@ class PreviewController: UIViewController {
             }else if seletedImage.type == .notes{
                 let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
                 controller.contentDAO = self.seletedImage
+                controller.isOpenFrom = "Preview"
                 controller.delegate = self
                 self.navigationController?.pushNormal(viewController: controller)
             }else {
@@ -930,7 +941,7 @@ class PreviewController: UIViewController {
         
         slp.preview(self.seletedImage.coverImage,
                     onSuccess: { result in
-                        print(result)
+                       // print(result)
                         debugPrint(result)
                         if let title = result[SwiftLinkResponseKey.title] {
                             self.lblLinkTitle.text = title as? String

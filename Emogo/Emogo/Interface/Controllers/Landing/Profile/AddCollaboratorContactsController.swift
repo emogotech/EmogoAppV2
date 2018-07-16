@@ -127,11 +127,11 @@ class AddCollaboratorContactsController: UIViewController,UITableViewDelegate,UI
             }
             
             if UserDAO.sharedInstance.user.phoneNumber.trim().contains(phone.trim()) || phone.trim().contains(UserDAO.sharedInstance.user.phoneNumber.trim()) {
-                print("user number found")
+                //print("user number found")
             }else {
                 let dict:[String:Any] = ["name":fullName,"phone_number":phone!]
                 
-                print(dict)
+                //print(dict)
                 
                 let collaborator = CollaboratorDAO(colabData: dict)
                 if self.arraySelected != nil {

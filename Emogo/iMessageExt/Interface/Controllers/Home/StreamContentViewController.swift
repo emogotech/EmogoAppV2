@@ -60,6 +60,8 @@ class StreamContentViewController: MSMessagesAppViewController {
     var objContent                          :ContentDAO!
     var isViewStream:Bool! = true
     var delegate:StreamContentViewControllerDelegate?
+    var isProfile:String?
+    
     //var photoEditor                         :PhotoEditorViewController!
     
     // MARK: - Life-cycle Methods
@@ -160,7 +162,9 @@ class StreamContentViewController: MSMessagesAppViewController {
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
-       // imgStream.addGestureRecognizer(swipeDown)
+        self.collectionView.addGestureRecognizer(swipeDown)
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+       //  imgStream.addGestureRecognizer(swipeDown)
         
        // let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.btnPlayAction(_:)))
        // imgStream.addGestureRecognizer(tapRecognizer)
@@ -193,6 +197,10 @@ class StreamContentViewController: MSMessagesAppViewController {
                 break
                 
             case UISwipeGestureRecognizerDirection.down:
+                ContentList.sharedInstance.objStream = nil
+                SharedData.sharedInstance.iMessageNavigation = ""
+                NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
+
                 self.dismiss(animated: true, completion: nil)
                 break
                 
@@ -476,15 +484,34 @@ class StreamContentViewController: MSMessagesAppViewController {
             SharedData.sharedInstance.iMessageNavigation = ""
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Reload_Content_Data), object: nil)
         }
+
          self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func btnShareAction(_ sender:UIButton){
-        self.view.isUserInteractionEnabled = false
+      
         if(SharedData.sharedInstance.isMessageWindowExpand){
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Compact), object: nil)
         }
-        self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
+        if self.seletedImage.type == .link {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo) { (image) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.sendMessage(image: image)
+                    }
+                }
+            }
+        } else {
+            SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImage) { (image) in
+                if let image = image {
+                    DispatchQueue.main.async {
+                        self.sendMessage(image: image)
+                    }
+                    
+                }
+            }
+        }
+        //self.perform(#selector(self.sendMessage), with: nil, afterDelay: 0.1)
     }
     
     @IBAction func btnPlayAction(_ sender: Any) {
@@ -566,7 +593,7 @@ class StreamContentViewController: MSMessagesAppViewController {
             
         }else{
             let controller = LightboxController(images: arrayContents, startIndex: index)
-            //controller.pageDelegate = self
+            controller.pageDelegate = self as? LightboxControllerPageDelegate
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
@@ -574,7 +601,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         }
     }
     func gifPreview(){
-        let obj:StreamContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+        let obj:StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
         obj.objContent = self.seletedImage
         self.present(obj, animated: false, completion: nil)
     }
@@ -647,22 +674,50 @@ class StreamContentViewController: MSMessagesAppViewController {
     
  
     
-    @objc func sendMessage(){
+    @objc func sendMessage(image:UIImage){
+        
         let session = MSSession()
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
-        layout.caption = self.seletedImage.name
-        if let url =  URL(string: self.seletedImage.coverImage) {
-            layout.mediaFileURL = url
-        }
+        layout.caption = self.seletedImage.name!
+        layout.image  = image
         layout.subcaption = self.seletedImage.description
+        let content = self.seletedImage
         message.layout = layout
-
-        let content = self.arrContentData[currentContentIndex]
-        message.layout = layout
-        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
-        SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
-        self.view.isUserInteractionEnabled = true
+        if ContentList.sharedInstance.objStream == nil {
+            let strURl = kNavigation_Content + (content?.contentID!)!
+            message.url = URL(string: strURl)
+        }else {
+            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            message.url = URL(string: strURl)
+        }
+         SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+       // return message
+//        let session = MSSession()
+//        let message = MSMessage(session: session)
+//        let layout = MSMessageTemplateLayout()
+//        layout.caption = self.seletedImage.name
+//        if let url =  URL(string: self.seletedImage.coverImage) {
+//            layout.mediaFileURL = url
+//        }
+//        layout.subcaption = self.seletedImage.description
+//        message.layout = layout
+//
+//        let content = self.arrContentData[currentContentIndex]
+//        message.layout = layout
+//
+//        if ContentList.sharedInstance.objStream == nil {
+//            let strURl = kNavigation_Content + (content.contentID!)
+//            message.url = URL(string: strURl)
+//        }else {
+//           // let strURl = kNavigation_Content + (content.contentID!) + currentStreamID
+//           message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(content.coverImage)")
+//            //let strURl = kNavigation_Content + (content.contentID!) + ContentList.sharedInstance.objStream!
+//           // message.url = URL(string: strURl)
+//        }
+////        message.url = URL(string: "\(kNavigation_Content)/\(content.contentID!)/\(currentStreamID!)")
+//        SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)
+//        self.view.isUserInteractionEnabled = true
     }
     
 
@@ -795,57 +850,7 @@ class StreamContentViewController: MSMessagesAppViewController {
                 })
             }
         })
-//        let saveToGalleryAction = UIAlertAction(title: kAlertSheet_SaveToGallery, style: .default, handler: {
-//            (alert: UIAlertAction!) -> Void in
-//            if self.hudView != nil {
-//                self.hudView.stopLoaderWithAnimation()
-//            }
-//
-//            if self.seletedImage.type == .image {
-//                if self.seletedImage.imgPreview == nil {
-//
-//                    SharedData.sharedInstance.downloadFile(strURl: self.seletedImage.coverImage, handler: { (image,_) in
-//
-//                        if image != nil {
-//                          //  UIImageWriteToSavedPhotosAlbum(image!
-//                               // ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
-//                               // ), nil)
-//                            self.showToastIMsg(type: .success, strMSG: kAlert_Save_Image)
-//                           // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
-//                        }
-//                    })
-//                }
-//
-//            }else if self.seletedImage.type == .video{
-//                self.videoDownload()
-//
-//            }else if self.seletedImage.type == .gif{
-//
-//                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-//
-//                    if image != nil {
-//                       // UIImageWriteToSavedPhotosAlbum(image!
-//                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-//                           // ), nil)
-//                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_GIF)
-//                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF)
-//                    }
-//                })
-//            }else if self.seletedImage.type == .link{
-//
-//                //  self.imgCover.setForAnimatedImage(strImage:self.seletedImage.coverImage)
-//                SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
-//
-//                    if image != nil {
-//                      //  UIImageWriteToSavedPhotosAlbum(image!
-//                          //  ,self, #selector(self.image(_:withPotentialError:contextInfo:)
-//                           // ), nil)
-//                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_Link)
-//                       // self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link)
-//                    }
-//                })
-//            }
-//        })
+
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
         })
@@ -855,6 +860,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
+    
     func showDelete(){
         let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
         
@@ -878,30 +884,7 @@ class StreamContentViewController: MSMessagesAppViewController {
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
-//    func showDelete(){
-//        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-//
-//        let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
-//        {
-//            (alert: UIAlertAction!) -> Void in
-//
-//            if self.isViewCount != nil {
-//                self.deleteContentFromStream()
-//            }else {
-//                self.deleteContent()
-//            }
-//        })
-//
-//        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
-//        {
-//            (alert: UIAlertAction!) -> Void in
-//
-//        })
-//
-//        optionMenu.addAction(saveAction)
-//        optionMenu.addAction(cancelAction)
-//        self.present(optionMenu, animated: true, completion: nil)
-//    }
+
     
     @objc func image(_ image: UIImage, withPotentialError error: NSErrorPointer, contextInfo: UnsafeRawPointer) {
           self.showToastIMsg(type: .error, strMSG: kAlert_Save_Image)
@@ -1024,8 +1007,9 @@ class StreamContentViewController: MSMessagesAppViewController {
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
                 }) { completed, error in
                     if completed {
-                        print("Video is saved!")
-                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_Video)
+                       // print("Video is saved!")
+                       // self.showToastIMsg(type: .success, strMSG: kAlert_Save_Video)
+                        self.showToastIMsg(type: .success, strMSG:   kAlert_Save_Video)
                     }
                 }
             }

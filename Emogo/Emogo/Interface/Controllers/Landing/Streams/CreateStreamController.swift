@@ -187,8 +187,8 @@ class CreateStreamController: UITableViewController {
         self.imgCover.backgroundColor = image.getColors().background
         self.viewAddCoverImage.isHidden = true
         self.lblAddCoverImage.isHidden = true
-        print(self.fileName)
-        self.textFieldNext.becomeFirstResponder()
+       // print(self.fileName)
+        self.tfEmogoTitle.becomeFirstResponder()
     }
     
     
@@ -239,7 +239,7 @@ class CreateStreamController: UITableViewController {
         APIServiceManager.sharedInstance.apiForCreateStream(streamName: self.tfEmogoTitle.text!, streamDescription: self.tfDescription.text.trim(), coverImage: cover, streamType: streamType, anyOneCanEdit: false, collaborator: self.selectedCollaborators, canAddContent: false , canAddPeople: false ,height:hieght,width:width) { (isSuccess, errorMsg,stream) in
             HUDManager.sharedInstance.hideHUD()
             if isSuccess == true{
-                self.showToastOnWindow(strMSG: kAlert_Stream_Added_Success)
+                self.showToast(type: .error, strMSG: kAlert_Stream_Added_Success)
                 DispatchQueue.main.async{
                     if self.switchForEmogoPrivate.on {
                         currentStreamType = StreamType.Private
@@ -332,7 +332,7 @@ class CreateStreamController: UITableViewController {
     
     
     func selectedCollaborator(colabs:[CollaboratorDAO]){
-        print(self.selectedCollaborators)
+      //  print(self.selectedCollaborators)
         self.selectedCollaborators = colabs
     }
     func actionForUploadCover(){

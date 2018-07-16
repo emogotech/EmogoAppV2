@@ -25,7 +25,7 @@ class LinkListCell: UICollectionViewCell {
         guard let content = content  else {
             return
         }
-        self.lblTitle.text = content.name.trim().capitalized
+        self.lblTitle.text = content.name.trim()
         self.lblDescription.text =  content.description.trim()
         self.viewContent.layer.contents = UIImage(named: "gradient")?.cgImage
         //  self.imgCover.backgroundColor = .black

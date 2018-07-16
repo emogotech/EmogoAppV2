@@ -128,7 +128,7 @@ class SharedData: NSObject {
             PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: fileUrl)
         }) { saved, error in
             if saved {
-                print("Saved")
+               // print("Saved")
             }
         }
     }

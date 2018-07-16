@@ -222,10 +222,10 @@ class ViewStreamController: UIViewController {
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kUpdateStreamViewIdentifier), object: nil, queue: nil) { (notification) in
             
-            print("prepareNavigation iin view controller")
+            //print("prepareNavigation iin view controller")
            
             if let data = notification.userInfo?["data"] as? [String] {
-                print(data)
+               // print(data)
                 self.isUpload  = true
                 for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
                     let streams = StreamList.sharedInstance.arrayViewStream[v]
@@ -270,6 +270,7 @@ class ViewStreamController: UIViewController {
             
             if self.isUpload {
                 self.isUpload = false
+                
                 let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
                 let streamID = stream.ID
                 if streamID != "" {
@@ -408,7 +409,7 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func likeStreamAction(sender:UIButton){
-       print("Like Action")
+      // print("Like Action")
         if self.objStream != nil {
             if  kDefault?.bool(forKey: kHapticFeedback) == true {
                 self.stretchyHeader.btnLike.isHaptic = true
@@ -429,7 +430,7 @@ class ViewStreamController: UIViewController {
     }
  
     @objc func shareStreamAction(sender:UIButton){
-        print("Share Action")
+       // print("Share Action")
         
 //        if  kDefault?.bool(forKey: kHapticFeedback) == true {
 //            self.stretchyHeader.btnShare.isHaptic = true
@@ -852,7 +853,6 @@ class ViewStreamController: UIViewController {
         actionController.headerData = "ADD ITEM"
         actionController.shouldShowAddButton    =   false
         present(actionController, animated: true, completion: nil)
- 
          */
     }
     
@@ -880,6 +880,12 @@ class ViewStreamController: UIViewController {
     func btnActionForMyStuff(){
         ContentList.sharedInstance.objStream = self.objStream?.streamID
         let controller = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_MyStuffView)
+        self.navigationController?.push(viewController: controller)
+    }
+    func btnActionForNotes(){
+        ContentList.sharedInstance.objStream = self.objStream?.streamID
+        let controller:CreateNotesViewController = kStoryboardPhotoEditor.instantiateViewController(withIdentifier: kStoryboardID_CreateNotesView) as! CreateNotesViewController
+        controller.isOpenFrom = "StreamView"
         self.navigationController?.push(viewController: controller)
     }
     
@@ -1008,42 +1014,32 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return CGSize(width: (content?.width)!, height: (content?.height)!)
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
-        let content = objStream?.arrayContent[indexPath.row]
-                if content?.isAdd == true {
-                    btnActionForAddContent()
-                }
-            else {
-                    ContentList.sharedInstance.arrayContent.removeAll()
-                    let content = ContentDAO(contentData: [:])
-                    content.coverImage = objStream?.coverImage
-                    content.isUploaded = true
-                    content.type = .image
-                    content.fileName = "SreamCover"
-                    content.name = objStream?.title
-                    content.description = objStream?.description
-                    var array = objStream?.arrayContent.filter { $0.isAdd == false }
-                    array?.insert(content, at: 0)
-                    ContentList.sharedInstance.arrayContent = array
-                    ContentList.sharedInstance.objStream = objStream?.streamID
-                    let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
-                    objPreview.isViewCount = "TRUE"
-                    objPreview.delegate = self
-                    objPreview.currentIndex = indexPath.row + 1
-                    let nav = UINavigationController(rootViewController: objPreview)
-                    if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
-                        nav.cc_setZoomTransition(originalView: imageCell.imgCover)
-                        nav.cc_swipeBackDisabled = true
-                    }
-                    self.present(nav, animated: true, completion: nil)
-        
-                }
-        
-     //   customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
-        return true
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        ContentList.sharedInstance.arrayContent.removeAll()
+        let profileContent = ContentDAO(contentData: [:])
+        profileContent.coverImage = objStream?.coverImage
+        profileContent.isUploaded = true
+        profileContent.type = .image
+        profileContent.fileName = "SreamCover"
+        profileContent.name = objStream?.title
+        profileContent.description = objStream?.description
+        var array = objStream?.arrayContent.filter { $0.isAdd == false }
+        array?.insert(profileContent, at: 0)
+        ContentList.sharedInstance.arrayContent = array
+        ContentList.sharedInstance.objStream = objStream?.streamID
+        let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+        objPreview.isViewCount = "TRUE"
+        objPreview.delegate = self
+        objPreview.currentIndex = indexPath.row + 1
+        let nav = UINavigationController(rootViewController: objPreview)
+        if let imageCell = collectionView.cellForItem(at: indexPath) as? StreamContentCell {
+            nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+            nav.cc_swipeBackDisabled = true
+        }
+        self.present(nav, animated: true, completion: nil)
     }
-
+    
+   
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        let content = objStream?.arrayContent[indexPath.row]
 //        if content?.isAdd == true {
@@ -1065,7 +1061,7 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         let contentDest = objStream?.arrayContent[sourceIndexPath.row]
         objStream?.arrayContent.remove(at: sourceIndexPath.row)
         objStream?.arrayContent.insert(contentDest!, at: destinationIndexPath.row)
-            print("moving ended")
+            //print("moving ended")
             DispatchQueue.main.async {
             self.viewStreamCollectionView.reloadItems(at: [destinationIndexPath,sourceIndexPath])
                 HUDManager.sharedInstance.showHUD()

@@ -79,7 +79,6 @@ class MyStreamViewController: UIViewController {
         self.myStreamCollectionView.collectionViewLayout = layout
         
          kShowOnlyMyStream = "1"
-        HUDManager.sharedInstance.showHUD()
           self.getMyStreams(type:.start,filter: .Emogo)
         // Load More
         configureLoadMoreAndRefresh()
@@ -227,6 +226,7 @@ class MyStreamViewController: UIViewController {
     
     func getMyStreams(type:RefreshType,filter:StreamType){
         if type == .start || type == .up {
+            HUDManager.sharedInstance.showHUD()
             StreamList.sharedInstance.arrayMyStream.removeAll()
             let stream = StreamDAO(streamData: [:])
             stream.isAdd = true
@@ -284,8 +284,8 @@ class MyStreamViewController: UIViewController {
     
     
     func getColabStreams(type:RefreshType){
-        HUDManager.sharedInstance.showHUD()
         if type == .start || type == .up {
+            HUDManager.sharedInstance.showHUD()
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.myStreamCollectionView.reloadData()
         }
@@ -400,6 +400,7 @@ class MyStreamViewController: UIViewController {
         }
         let createVC : CreateStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_CreateStreamView) as! CreateStreamController
         createVC.exestingNavigation = self.navigationController
+        createVC.isAddContent = true
         let nav = UINavigationController(rootViewController: createVC)
        
         customPresentViewController(PresenterNew.CreateStreamPresenter, viewController: nav, animated: true, completion: nil)

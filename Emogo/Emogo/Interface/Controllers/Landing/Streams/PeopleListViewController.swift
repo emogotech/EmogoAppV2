@@ -109,9 +109,9 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let collaborator = self.arrayColab[indexPath.row]
-        print(collaborator.userID)
-        print(UserDAO.sharedInstance.user.userId)
-        print(UserDAO.sharedInstance.user.userProfileID)
+      //  print(collaborator.userID)
+      //  print(UserDAO.sharedInstance.user.userId)
+      //  print(UserDAO.sharedInstance.user.userProfileID)
 
         if collaborator.userID != "" {
             if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {

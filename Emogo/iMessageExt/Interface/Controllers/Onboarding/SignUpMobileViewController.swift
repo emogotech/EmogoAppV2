@@ -8,16 +8,42 @@
 
 import UIKit
 import Messages
+import Presentr
 
 class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegate {
     
     // MARK:- UI Elements
-    @IBOutlet weak var txtMobileNumber  : UITextField!
-    @IBOutlet weak var txtMobileCollapse  : UITextField!
+//    @IBOutlet weak var txtMobileNumber  : UITextField!
+//    @IBOutlet weak var txtMobileCollapse  : UITextField!
     @IBOutlet weak var imgBackground : UIImageView!
     
     @IBOutlet weak var viewExpand  : UIView!
     @IBOutlet weak var viewCollapse  : UIView!
+    
+    @IBOutlet weak var btnCountryPickerCollapse: UIButton!
+    @IBOutlet weak var btnCountryPickerExpand: UIButton!
+    
+    @IBOutlet weak var txtMobileNumber  : SHSPhoneTextField!
+    @IBOutlet weak var txtMobileCollapse  : SHSPhoneTextField!
+    
+    
+    let customOrientationPresenter: Presentr = {
+        let customType = PresentationType.bottomHalf
+        let customPresenter = Presentr(presentationType: customType)
+        customPresenter.transitionType = .coverVertical
+        customPresenter.dismissTransitionType = .crossDissolve
+        customPresenter.roundCorners = true
+        customPresenter.backgroundColor = .black
+        customPresenter.backgroundOpacity = 0.5
+        customPresenter.cornerRadius = 5.0
+        customPresenter.dismissOnSwipe = true
+        return customPresenter
+    }()
+    
+    lazy var popupViewController: CountryPickerViewController = {
+        let popupViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_CountryPickerView)
+        return popupViewController as! CountryPickerViewController
+    }()
     
     // MARK:- Variables
     var userName                        :  String?
@@ -46,6 +72,28 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         
         txtMobileCollapse.attributedPlaceholder = placeholder
         txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
+        
+        
+        
+        // Set Rule for Phone Format
+        txtMobileNumber.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: "US")
+        self.btnCountryPickerExpand.isHidden = false
+        popupViewController.delegate = self
+        txtMobileNumber.formatter.prefix = " +1"
+        txtMobileNumber.hasPredictiveInput = true;
+        txtMobileNumber.textDidChangeBlock = { (textField: UITextField!) -> Void in
+            print("number is \(textField.text ?? "")")
+        }
+        
+        // Set Rule for Phone Format
+        txtMobileCollapse.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: "US")
+        self.btnCountryPickerCollapse.isHidden = false
+        popupViewController.delegate = self
+        txtMobileCollapse.formatter.prefix = " +1"
+        txtMobileCollapse.hasPredictiveInput = true;
+        txtMobileCollapse.textDidChangeBlock = { (textField: UITextField!) -> Void in
+            print("number is \(textField.text ?? "")")
+        }
         
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -130,7 +178,10 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
     }
     
-    
+    @IBAction func btnActionCountryPicker(_ sender: Any) {
+        let nav = UINavigationController(rootViewController: popupViewController)
+        customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
+    }
     
     
     // MARK:- LoaderSetup
@@ -275,4 +326,18 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
     }
 }
-
+extension SignUpMobileViewController: CountryPickerViewControllerDelegate{
+    
+    func dissmissPickerWith(country: CountryDAO) {
+        txtMobileNumber.formatter.resetFormats()
+        txtMobileNumber.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: country.code)
+        SharedData.sharedInstance.countryCode = country.phoneCode
+        txtMobileNumber.formatter.prefix =  " " + country.phoneCode
+        
+        txtMobileCollapse.formatter.resetFormats()
+        txtMobileCollapse.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: country.code)
+        SharedData.sharedInstance.countryCode = country.phoneCode
+        txtMobileCollapse.formatter.prefix =  " " + country.phoneCode
+    }
+    
+}

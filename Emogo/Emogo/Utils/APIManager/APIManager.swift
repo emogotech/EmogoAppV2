@@ -47,10 +47,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                 print(error.localizedDescription)
+                // print(error.localizedDescription)
                  if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    print(statusCode)
+                    //print(statusCode)
                  }
                  callback!(.error(error))
             }
@@ -61,7 +61,7 @@ class APIManager: NSObject {
     func POSTRequest(strURL: String, Param: [String: Any], callback: ((ApiResult<Any, Error>) -> Void)?) {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
-        print(url)
+        //print(url)
         //   let headers : HTTPHeaders = ["Content-Type" : "application/json"]
         Alamofire.request(url, method: .post, parameters: Param, encoding: JSONEncoding.default).responseJSON { response in
             switch response.result {
@@ -71,10 +71,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    print(statusCode)
+                    //print(statusCode)
                 }
                 callback!(.error(error))
             }
@@ -109,10 +109,10 @@ class APIManager: NSObject {
                         break
                     case .failure(let error):
                         // TODO deal with error
-                        print(error.localizedDescription)
+                      //  print(error.localizedDescription)
                         if response.response != nil {
                             let statusCode = (response.response?.statusCode)!
-                            print(statusCode)
+                          //  print(statusCode)
                         }
                         callback!(.error(error))
                     }
@@ -149,10 +149,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                   // print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -179,10 +179,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                   // print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -206,10 +206,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                   // print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -225,7 +225,7 @@ class APIManager: NSObject {
             switch response.result {
             case .success(let value):
                 let dict:[String:Any] = value as! [String : Any]
-                print(dict)
+               // print(dict)
                 guard let code = dict["country_code"] else {
                     
                     completionHandler("")
@@ -235,10 +235,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+                //print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    print(statusCode)
+                   // print(statusCode)
                 }
                 completionHandler("")
             }
@@ -252,8 +252,8 @@ class APIManager: NSObject {
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
-        print(headers)
-        print(url)
+       // print(headers)
+        //print(url)
 
         Alamofire.request(url, method: .put, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
@@ -263,10 +263,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                   // print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -283,7 +283,7 @@ class APIManager: NSObject {
     func delete(strURL: String,Param: [String: Any]? = nil,callback: ((ApiResult<Any, Error>) -> Void)?) {
         let url = "\(kBaseURL)\(strURL)".trim()
         let headers : HTTPHeaders = ["Authorization" :"Token \(UserDAO.sharedInstance.user.token!)"]
-        print(url)
+       // print(url)
         Alamofire.request(url, method: .delete, parameters: Param, encoding: JSONEncoding.default, headers: headers).validate().validate(statusCode: 200..<500).responseJSON{ response in
             switch response.result {
             case .success(let value):
@@ -292,11 +292,11 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error)
+               // print(error)
              
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                   // print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -311,7 +311,7 @@ class APIManager: NSObject {
 
     func patch(params:[Any],strURL: String,callback: ((ApiResult<Any, Error>) -> Void)?){
         //creates the request
-        print(params)
+       // print(params)
         self.completionHandler = callback
         let url = "\(kBaseURL)\(strURL)"
         var request = URLRequest(url: try! url.asURL())
@@ -334,10 +334,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
-                    print(statusCode)
+                    //print(statusCode)
                     if statusCode == 401 {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: kLogoutIdentifier), object: nil)
                     }
@@ -360,10 +360,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                print(error.localizedDescription)
+               // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    print(statusCode)
+                   // print(statusCode)
                 }
                 callback!(.error(error))
             }
@@ -382,9 +382,9 @@ class APIManager: NSObject {
         Alamofire.download(strFile, to: destination).response { response in
             
             if response.destinationURL != nil {
-                print(response.destinationURL!)
+                //print(response.destinationURL!)
              if   let imagePath = response.destinationURL?.path {
-                                    print(imagePath)
+                                   // print(imagePath)
                 completionHandler(imagePath,response.destinationURL)
                 return
                             }
