@@ -73,6 +73,38 @@ DEPENDENCIES:
   - SwiftyJSON
   - XLActionController
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - AWSCore
+    - AWSS3
+    - BMPlayer
+    - Branch
+    - Cache
+    - Crashlytics
+    - CropViewController
+    - DropDown
+    - Fabric
+    - GiphyCoreSDK
+    - GSKStretchyHeaderView
+    - Haptica
+    - Hue
+    - iCarousel
+    - Imaginary
+    - IQKeyboardManagerSwift
+    - Lightbox
+    - NVActivityIndicatorView
+    - Presentr
+    - PryntTrimmerView
+    - RichEditorView
+    - RS3DSegmentedControl
+    - SDWebImage
+    - SnapKit
+    - SwiftLinkPreview
+    - SwiftyCam
+    - SwiftyJSON
+    - XLActionController
+
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   AWSCore: b4895b4a5256d0040f8825ad31f3477d081f508f
@@ -104,6 +136,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 086e050082956c7ce19f8e2047e3998e5d49d309
+PODFILE CHECKSUM: 61fab1f4aa2a3d51990e62b2c9e4bf0046dc8c5d
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

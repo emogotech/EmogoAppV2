@@ -160,9 +160,9 @@ class ViewProfileViewController: UIViewController {
                         self.kHeightViewLocation.constant = 32
                         
                         if self.objPeople.isFollowing {
-                            self.btnFollow.setImage(#imageLiteral(resourceName: "following"), for: .normal)
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "followingNew"), for: .normal)
                         }else {
-                            self.btnFollow.setImage(#imageLiteral(resourceName: "follow"), for: .normal)
+                            self.btnFollow.setImage(#imageLiteral(resourceName: "followNew"), for: .normal)
                         }
                         if people.location.trim().isEmpty {
                             self.imgLocation.isHidden = true
@@ -666,7 +666,7 @@ class ViewProfileViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 self.objPeople.isFollowing = true
-                self.btnFollow.setImage(#imageLiteral(resourceName: "following"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "followingNew"), for: .normal)
             }else {
                 self.showToast(strMSG: errorMSG!)
             }
@@ -678,7 +678,7 @@ class ViewProfileViewController: UIViewController {
             HUDManager.sharedInstance.hideHUD()
             if (errorMSG?.isEmpty)! {
                 self.objPeople.isFollowing = false
-                self.btnFollow.setImage(#imageLiteral(resourceName: "follow"), for: .normal)
+                self.btnFollow.setImage(#imageLiteral(resourceName: "followNew"), for: .normal)
             }else {
                 self.showToast(strMSG: errorMSG!)
             }

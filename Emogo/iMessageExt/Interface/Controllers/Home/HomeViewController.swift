@@ -929,7 +929,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
             APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
                 self.view.isUserInteractionEnabled = true
                 if (errorMsg?.isEmpty)! {
-                    let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//                    let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+                     let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
                     if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
                         var arrayTempStream  = [StreamDAO]()
                         arrayTempStream.append(SharedData.sharedInstance.streamContent!)
@@ -1319,7 +1320,8 @@ extension HomeViewController : UICollectionViewDelegate,UICollectionViewDataSour
     }
     
     @objc func btnViewAction(_ sender:UIButton) {
-        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+        let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         self.addRippleTransition()
         //StreamList.sharedInstance.arrayViewStream = self.arrayToShow
         obj.arrStream = self.arrayToShow

@@ -69,6 +69,15 @@ extension UIImageView {
         //    self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
         
     }
+    func setOriginalImage(strImage:String, placeholder:String){
+        if strImage.isEmpty{
+            return
+        }
+        self.sd_setShowActivityIndicatorView(true)
+        self.sd_setIndicatorStyle(.gray)
+        let imgURL = URL(string: strImage.stringByAddingPercentEncodingForURLQueryParameter()!)!
+        self.sd_setImage(with: imgURL, placeholderImage: UIImage(named: placeholder))
+    }
     
 }
 
@@ -333,6 +342,7 @@ extension MSMessagesAppViewController {
                             messageColor: UIColor.white,
                             font: nil)
     }
+   
 }
 
 // MARK: - UITextField
@@ -371,6 +381,14 @@ extension UILabel {
             attributes: [.font: font],
             context: nil).size
         return labelTextSize.height > bounds.size.height
+    }
+    func shadow() {
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowRadius = 3.0
+        self.layer.shadowOpacity = 0.5
+        self.layer.masksToBounds = false
+        self.layer.shouldRasterize = true
     }
 }
 

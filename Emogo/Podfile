@@ -10,6 +10,7 @@ def common_pods_for_target
     pod 'AWSS3'
     pod 'Lightbox'
     pod 'Presentr'
+    pod "GSKStretchyHeaderView"
 
 end
 
@@ -28,7 +29,6 @@ target 'Emogo' do
     pod 'GiphyCoreSDK'
     pod 'XLActionController'
     pod 'CropViewController'
-    pod "GSKStretchyHeaderView"
     pod 'SwiftLinkPreview'
     pod ‘RS3DSegmentedControl’
     pod 'Branch'

@@ -1255,7 +1255,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
 {
     func actionForCover(imageView: UIImageView) {
         
-        let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//        let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+          let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         if UserDAO.sharedInstance.user.stream != nil {
             if (UserDAO.sharedInstance.user.stream?.isColabStream)! {
                 if self.currentMenu == .stream {
@@ -1435,19 +1436,20 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             if let cell = collectionView.cellForItem(at: indexPath) {
                 selectedImageView = (cell as! ProfileStreamViewCell).imgCover
             }
-            let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//            let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+              let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             if currentMenu == .stream {
                 let tempStream = self.arrayMyStreams[indexPath.row]
                 let tempIndex = StreamList.sharedInstance.arrayProfileStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
                 if tempIndex != nil {
                     index = tempIndex!
                 }
-                obj.viewStreamType = "fromProfile"
+                obj.viewStream = "fromProfile"
                 obj.arrStream = StreamList.sharedInstance.arrayProfileStream
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileStream
             }else {
                 
-                obj.viewStreamType = "fromColabProfile"
+                obj.viewStream = "fromColabProfile"
                 index = indexPath.row
                 obj.arrStream = StreamList.sharedInstance.arrayProfileColabStream
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream

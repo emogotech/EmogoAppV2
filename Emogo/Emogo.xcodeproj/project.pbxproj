@@ -135,6 +135,9 @@
 		F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
 		F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
+		F0593AA120FCA6E600AD6003 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0593AA020FCA6E600AD6003 /* ViewStreamController.swift */; };
+		F0593AA620FCBA8700AD6003 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
+		F0593AA720FCBA8A00AD6003 /* StreamViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433EDA52017421D004FEB93 /* StreamViewHeader.swift */; };
 		F06256D7209C2A0700AE0558 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06256D6209C2A0700AE0558 /* SettingViewController.swift */; };
 		F065AA9F20E0BDDB00993DD6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F065AA9E20E0BDDA00993DD6 /* ProfileViewController.swift */; };
 		F065AAA320E0C43E00993DD6 /* MyStuffCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F065AAA120E0C43E00993DD6 /* MyStuffCell.swift */; };
@@ -642,6 +645,7 @@
 		F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		F040CC892050231600224035 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
+		F0593AA020FCA6E600AD6003 /* ViewStreamController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
 		F06256D6209C2A0700AE0558 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F065AA9E20E0BDDA00993DD6 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		F065AAA120E0C43E00993DD6 /* MyStuffCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyStuffCell.swift; sourceTree = "<group>"; };
@@ -1240,6 +1244,7 @@
 		337B8F761FBEECBD00CFACE3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				F0593AA020FCA6E600AD6003 /* ViewStreamController.swift */,
 				F0B3EEA620E4E61D00599675 /* LikeListViewController.swift */,
 				F03330E720E110EA006C0C58 /* ViewProfileViewController.swift */,
 				F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */,
@@ -2459,7 +2464,6 @@
 				335B1A0C1FBB238A006DA9D9 /* Resources */,
 				335B1A511FBB23FE006DA9D9 /* Embed App Extensions */,
 				C173F5211AF5667D4A90FF7B /* [CP] Embed Pods Frameworks */,
-				230F345EC74DDC3EC0A71F7D /* [CP] Copy Pods Resources */,
 				F45133991FD1801D00941755 /* ShellScript */,
 			);
 			buildRules = (
@@ -2482,7 +2486,6 @@
 				335B1A1F1FBB238A006DA9D9 /* Frameworks */,
 				335B1A201FBB238A006DA9D9 /* Resources */,
 				3D35FD3244544ECEE59095FA /* [CP] Embed Pods Frameworks */,
-				5CC617390601AD8563745138 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2503,7 +2506,6 @@
 				335B1A2A1FBB238B006DA9D9 /* Frameworks */,
 				335B1A2B1FBB238B006DA9D9 /* Resources */,
 				4221665022DB283B717FA017 /* [CP] Embed Pods Frameworks */,
-				FC049D7989960005CFA18D2B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2523,7 +2525,6 @@
 				335B1A3F1FBB23FE006DA9D9 /* Sources */,
 				335B1A401FBB23FE006DA9D9 /* Frameworks */,
 				335B1A411FBB23FE006DA9D9 /* Resources */,
-				6FF4B822804C3FA071DEF205 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2542,7 +2543,6 @@
 				335B1A521FBB2413006DA9D9 /* Sources */,
 				335B1A531FBB2413006DA9D9 /* Frameworks */,
 				335B1A541FBB2413006DA9D9 /* Resources */,
-				781F79E1FA5FBDB1DEEF0C46 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2744,6 +2744,7 @@
 				335B1A5F1FBB2413006DA9D9 /* MainInterface.storyboard in Resources */,
 				F065AAB520E0E37F00993DD6 /* ProfileStreamView.xib in Resources */,
 				330FEB7A1FC3F68C00552260 /* SF-Pro-Display-Bold.otf in Resources */,
+				F0593AA620FCBA8700AD6003 /* StreamViewHeader.xib in Resources */,
 				330FEB7C1FC3F68C00552260 /* SF-Pro-Display-Light.otf in Resources */,
 				330FEB7F1FC3F68C00552260 /* SF-Pro-Display-Semibold.otf in Resources */,
 				330FEB791FC3F68C00552260 /* SF-Pro-Display-Black.otf in Resources */,
@@ -2758,21 +2759,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		230F345EC74DDC3EC0A71F7D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Emogo/Pods-Emogo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		24E5B8FD9D7FDC61532EBB4C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2820,6 +2806,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
@@ -2833,6 +2820,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
@@ -2856,6 +2844,7 @@
 				"${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
+				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
@@ -2869,6 +2858,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AWSS3.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
@@ -2879,51 +2869,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CC617390601AD8563745138 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoTests/Pods-EmogoTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FF4B822804C3FA071DEF205 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ShareExt/Pods-ShareExt-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		781F79E1FA5FBDB1DEEF0C46 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMessageExt/Pods-iMessageExt-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		7DC7DD69B9FB2A05FF180134 /* [CP] Check Pods Manifest.lock */ = {
@@ -3062,21 +3007,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 354d9ea5fa22b3b5e1620ed193d224a89a7d64eb 66e3f65c5bbde313bf08e23f3d083dbb8552236deea6ba69c6ba92dd6aeaf3e5";
-		};
-		FC049D7989960005CFA18D2B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EmogoUITests/Pods-EmogoUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3418,6 +3348,7 @@
 				33DAB2F61FC6B9020053AC23 /* FSPagerViewLayoutAttributes.swift in Sources */,
 				2BDC4AAE1FD1188D0018FC6E /* HomeCollectionReusableView.swift in Sources */,
 				2BFE0062200F84EB0086DEBF /* FLAnimatedImage.m in Sources */,
+				F0593AA120FCA6E600AD6003 /* ViewStreamController.swift in Sources */,
 				337B8FA91FBEEF6F00CFACE3 /* APIServiceManager.swift in Sources */,
 				337B8FA51FBEEF5A00CFACE3 /* SharedData.swift in Sources */,
 				F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */,
@@ -3502,6 +3433,7 @@
 				F065AAA520E0C51B00993DD6 /* CardView.swift in Sources */,
 				F0B3EEAA20E4FD9300599675 /* CCZoomTransitionVCExtension.swift in Sources */,
 				F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */,
+				F0593AA720FCBA8A00AD6003 /* StreamViewHeader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

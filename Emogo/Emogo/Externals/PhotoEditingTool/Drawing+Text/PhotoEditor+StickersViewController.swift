@@ -54,12 +54,12 @@ extension PhotoEditorViewController {
         }, completion: { (finished) -> Void in
             self.stickersViewController.view.removeFromSuperview()
             self.stickersViewController.removeFromParentViewController()
+            self.viewDescription.isHidden = false
             if self.isStriker == true{
                  self.endDone()
             }else{
                 self.hideToolbar(hide: nil)
             }
-           
         })
     }
     

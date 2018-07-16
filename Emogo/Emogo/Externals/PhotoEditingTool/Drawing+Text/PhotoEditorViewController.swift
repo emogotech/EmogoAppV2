@@ -343,6 +343,7 @@ enum EditingFeature {
         guard let edgeMenu = self.edgeMenu else { return }
         if edgeMenu.opened  == false{
             edgeMenu.open()
+            
         }
     }
     func removeNavigationButtons(){

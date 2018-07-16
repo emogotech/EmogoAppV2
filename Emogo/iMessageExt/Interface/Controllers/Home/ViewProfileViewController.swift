@@ -806,7 +806,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         if self.streamType == "1" {
             let tempStream = self.arrayMyStreams[indexPath.row]
             let tempIndex = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == tempStream.ID.trim()})
-            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+              let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             if tempIndex != nil {
                 obj.currentStreamIndex = tempIndex!
             }else {
@@ -820,7 +821,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         }else {
             ContentList.sharedInstance.mainStreamIndex = nil
             StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayMyStream
-            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+//            let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+              let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
             if SharedData.sharedInstance.iMessageNavigation == kNavigation_Stream {
                 var arrayTempStream  = [StreamDAO]()
                 arrayTempStream.append(SharedData.sharedInstance.streamContent!)
@@ -877,8 +879,8 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
     }
   
     func actionForCover(imageView: UIImageView) {
-        let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
-        
+//        let obj:StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+          let obj:ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         let index = StreamList.sharedInstance.arrayMyStream.index(where: {$0.ID.trim() == self.objPeople.stream?.ID.trim()})
         if index != nil {
             obj.currentStreamIndex = index
