@@ -94,6 +94,7 @@ class ProfileViewController: UIViewController {
     var selectedImageView:UIImageView?
     var hudView  : LoadingView!
     var hudRefreshView : LoadingView!
+    var strBackFromColab:String! = ""
     
    // 178
     let layout = CHTCollectionViewWaterfallLayout()
@@ -214,7 +215,7 @@ class ProfileViewController: UIViewController {
         segmentMain.selectionIndicatorHeight = 1.0
         segmentMain.backgroundColor = UIColor.white
         segmentMain.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
-        //segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
+      //  segmentMain.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentMain.selectionIndicatorColor =  kCardViewBordorColor
         segmentMain.selectionStyle = .textWidthStripe
         segmentMain.selectedSegmentIndex = 0
@@ -432,9 +433,9 @@ class ProfileViewController: UIViewController {
         }
       
       //  btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
-        btnContainer.addBorders(edges: UIRectEdge.top, color: color, thickness: 1)
-        btnContainer.roundCorners([.topLeft,.topRight], radius: 10)
-        btnContainer.layer.masksToBounds = true
+//        btnContainer.addBorders(edges: UIRectEdge.top, color: color, thickness: 1)
+//        btnContainer.roundCorners([.topLeft,.topRight], radius: 10)
+//        btnContainer.layer.masksToBounds = true
         
         
         if  self.currentMenu == .stuff {
@@ -632,7 +633,7 @@ class ProfileViewController: UIViewController {
         self.refresher?.frame = CGRect(x: 0, y: 0, width: self.profileCollectionView.frame.size.width, height: 100)
         SharedData.sharedInstance.nextStreamString = ""
         self.hudRefreshView.startLoaderWithAnimation()
-        self.profileCollectionView.isUserInteractionEnabled = false
+      //  self.profileCollectionView.isUserInteractionEnabled = false
         if self.currentMenu == .stream {
             self.getStreamList(type:.up,filter:.myStream)
         }else if self.currentMenu == .stuff {
@@ -674,12 +675,17 @@ class ProfileViewController: UIViewController {
     
     @IBAction func btnBackAction(_ sender: Any) {
        // self.dismiss(animated: true, completion: nil)
-     
-        let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        self.present(vc, animated: true, completion: nil)
+        if self.strBackFromColab == "backFromColab" {
+          self.dismiss(animated: true, completion: nil)
+
+            
+        }else{
+       
+            let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            self.present(vc, animated: true, completion: nil)
        
     }
-    
+}
     @IBAction func btnShareAction(_ sender: Any) {
         self.profileShareAction()
     }
@@ -889,20 +895,23 @@ class ProfileViewController: UIViewController {
     private func updateSegment(selected:Int){
         switch selected {
         case 0:
+            self.selectedSegment = .EMOGOS
             self.currentMenu = .stream
             self.btnNext.isHidden = true
-            
+            self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
+            self.selectedSegment = .COLLABS
             self.currentMenu = .colabs
             self.btnNext.isHidden = true
-            
+            self.segmentMain.selectedSegmentIndex = 1
             
             break
         case 2:
+            self.selectedSegment = .MYSTUFF
             self.currentMenu = .stuff
             self.btnNext.isHidden = true
-            
+            self.segmentMain.selectedSegmentIndex = 2
             break
         default:
             break
@@ -1494,14 +1503,14 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
-            btnContainer.addBorders(edges: .top, color: .white, thickness: 1)
+          
         }
         
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
-            btnContainer.addBorders(edges: .top, color: color, thickness: 1)
+          
         }
         oldContentOffset = scrollView.contentOffset
     }

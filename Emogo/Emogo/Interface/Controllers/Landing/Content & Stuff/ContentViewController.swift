@@ -281,7 +281,7 @@ class ContentViewController: UIViewController {
         let message = MSMessage(session: session)
         let layout = MSMessageTemplateLayout()
         layout.caption = self.seletedImage.name!
-        layout.image  = image
+        layout.image  = self.imageOrientation(image)
         layout.subcaption = self.seletedImage.description
         let content = self.seletedImage
         message.layout = layout
@@ -406,9 +406,8 @@ class ContentViewController: UIViewController {
                         HUDManager.sharedInstance.hideHUD()
                         if image != nil {
                             UIImageWriteToSavedPhotosAlbum(image!
-                                ,self, #selector(PhotoEditorViewController.image(_:withPotentialError:contextInfo:)
+                                ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                                 ), nil)
-                            self.showToast(type: AlertType.success, strMSG: kAlert_Save_Image)
                         }
                     })
                 }
@@ -424,7 +423,6 @@ class ContentViewController: UIViewController {
                         UIImageWriteToSavedPhotosAlbum(image!
                             ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                             ), nil)
-                        self.showToast(type: AlertType.success, strMSG: kAlert_Save_GIF)
                     }
                 })
             }else if self.seletedImage.type == .link{
@@ -436,7 +434,6 @@ class ContentViewController: UIViewController {
                         UIImageWriteToSavedPhotosAlbum(image!
                             ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                             ), nil)
-                        self.showToast(type: AlertType.success, strMSG: kAlert_Save_Link)
                     }
                 })
             }
@@ -455,13 +452,13 @@ class ContentViewController: UIViewController {
         
         APIManager.sharedInstance.download(strFile: self.seletedImage.coverImage) { (_, fileURL) in
             if let fileURL = fileURL {
+                self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
               //  SharedData.sharedInstance.saveVideo(fileUrl: fileURL)
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL:fileURL)
                 }) { completed, error in
                     if completed {
                        // print("Video is saved!")
-                        self.showToast(type: AlertType.success, strMSG: kAlert_Save_Video)
                     }
                 }
             }

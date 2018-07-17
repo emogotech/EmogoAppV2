@@ -36,7 +36,7 @@ class CollaboratorViewController: MSMessagesAppViewController {
     //MARK: - Life-Cycle methods
     func prepareLayout() {
         self.btnBack.transform = self.btnBack.transform.rotated(by: -CGFloat(Double.pi / 2))
-        lblTitle.text = "\(strTitle!)"
+       lblTitle.text = "\(strTitle!)"
     }
     
     //MARK: - Setup collection Properties
@@ -75,17 +75,50 @@ extension CollaboratorViewController : UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let userInfo = self.arrCollaborator[indexPath.row]
-        if userInfo.userID.isEmpty {
-            self.showToastIMsg(type: AlertType.error, strMSG: "User not found.")
-            return
+        let collaborator = self.arrCollaborator[indexPath.row]
+        //  print(collaborator.userID)
+        //  print(UserDAO.sharedInstance.user.userId)
+        //  print(UserDAO.sharedInstance.user.userProfileID)
+        
+        if collaborator.userID != "" {
+            if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                let obj : ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+               obj.strBackFromColab = "backFromColab" 
+               self.present(obj, animated: false, completion: nil)
+                
+            }else {
+                let people = PeopleDAO(peopleData:[:])
+                people.fullName = collaborator.name
+                people.userProfileID = collaborator.userID
+                //  people.userProfileID =
+                let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = people
+               self.present(obj, animated: false, completion: nil)
+            }
+            
+        }else{
+            self.showToastIMsg(type: AlertType.error,strMSG: "Seems user is not registered with Emogo yet!")
         }
-        let people = PeopleDAO(peopleData:[:])
-        people.fullName = userInfo.name
-        people.userProfileID = userInfo.userID
-         let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
-        obj.objPeople = people
-        self.present(obj, animated: false, completion: nil)
+        
+   
+//        let userInfo = self.arrCollaborator[indexPath.row]
+//        if userInfo.userID.isEmpty {
+//            self.showToastIMsg(type: AlertType.error, strMSG: "User not found.")
+//            return
+//        }else if userInfo.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+//                let obj : ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+//                self.present(obj, animated: false, completion: nil)
+//        }
+//
+//        else{
+//        let people = PeopleDAO(peopleData:[:])
+//        people.fullName = userInfo.name
+//        people.userProfileID = userInfo.userID
+//         let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+//        obj.objPeople = people
+//        self.present(obj, animated: false, completion: nil)
+//        }
+     
 //        let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_People , preferredStyle: .alert)
 //        let yes = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
 //            let str = self.createURLWithComponents(userInfo: userInfo, urlString: "")

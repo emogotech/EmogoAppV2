@@ -308,9 +308,8 @@ class ViewProfileViewController: UIViewController {
                             self.imgSingleView.isHidden = true
                             self.lblBio.isHidden = true
                             self.viewSingle.isHidden = true
-                            self.kHeightlblName.constant = 0
-                            self.kHeaderHeight.constant = 179
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(179))
+                            self.kHeaderHeight.constant = 172
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(172))
                             
                         }else if people.displayName.trim().isEmpty && people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty {
                             
@@ -342,9 +341,9 @@ class ViewProfileViewController: UIViewController {
                         }
                         self.profileStreamShow()
                        // self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
-                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
-                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
-                        self.btnContainer.layer.masksToBounds = true
+//                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
+//                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
+//                        self.btnContainer.layer.masksToBounds = true
                     }
                     
                 }
@@ -469,6 +468,7 @@ class ViewProfileViewController: UIViewController {
                 self.getStream(type:  self.streamType)
             }
             self.profileStreamShow()
+            self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
 
@@ -483,6 +483,7 @@ class ViewProfileViewController: UIViewController {
                 self.lblNOResult.isHidden = false
             }
             self.layout.headerHeight = 0
+            self.segmentMain.selectedSegmentIndex = 1
             self.profileCollectionView.reloadData()
             break
         default:
@@ -621,7 +622,7 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStreamList(type:RefreshType,streamType:String){
-        self.lblNOResult.isHidden = true
+        //self.lblNOResult.isHidden = true
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollectionView.reloadData()
@@ -639,11 +640,13 @@ class ViewProfileViewController: UIViewController {
             }else if type == .down {
                 self.profileCollectionView.es.stopLoadingMore()
             }
+            self.lblNOResult.isHidden = true
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 if streamType == "2" {
                     self.lblNOResult.text = kAlert_No_Stream_found
+                    self.lblNOResult.isHidden = false
                 }
-                self.lblNOResult.isHidden = false
+               
             }
             if streamType == "1" {
                 self.profileStreamShow()

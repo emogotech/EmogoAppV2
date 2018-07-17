@@ -817,7 +817,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                             UIImageWriteToSavedPhotosAlbum(image!
                                 ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                                 ), nil)
-                           self.showToastIMsg(type: .success, strMSG: kAlert_Save_Image)
                         }
                     })
                 }
@@ -833,7 +832,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                         UIImageWriteToSavedPhotosAlbum(image!
                             ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                             ), nil)
-                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_GIF)
                     }
                 })
             }else if self.seletedImage.type == .link{
@@ -845,7 +843,6 @@ class StreamContentViewController: MSMessagesAppViewController {
                         UIImageWriteToSavedPhotosAlbum(image!
                             ,self, #selector(self.image(_:withPotentialError:contextInfo:)
                             ), nil)
-                        self.showToastIMsg(type: .success, strMSG: kAlert_Save_Link)
                     }
                 })
             }

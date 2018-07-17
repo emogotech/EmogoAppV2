@@ -11,7 +11,7 @@ import UIKit
 class CollaboratorCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var lblCollaboratorName  : UILabel!
-    @IBOutlet weak var imgCollaborator      : UIImageView!
+    @IBOutlet weak var imgCollaborator: NZCircularImageView!
     
     override func awakeFromNib() {
         imgCollaborator.layer.cornerRadius = self.imgCollaborator.frame.size.width/2

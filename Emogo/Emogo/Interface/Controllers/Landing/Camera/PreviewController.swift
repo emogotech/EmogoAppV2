@@ -807,7 +807,7 @@ class PreviewController: UIViewController {
         let layout = MSMessageTemplateLayout()
         
         layout.caption = txtTitleImage.text!
-        layout.image  = imgPreview.image
+        layout.image  = imgPreview.image?.fixOrientation()
         layout.subcaption = txtDescription.text
         let content = self.seletedImage
         message.layout = layout

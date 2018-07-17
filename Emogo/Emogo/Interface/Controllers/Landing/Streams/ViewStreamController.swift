@@ -537,7 +537,7 @@ class ViewStreamController: UIViewController {
         let layout = MSMessageTemplateLayout()
         
         layout.caption = stretchyHeader.lblName.text!
-        layout.image  = stretchyHeader.imgCover.image
+        layout.image  = stretchyHeader.imgCover.image?.fixOrientation()
         layout.subcaption = stretchyHeader.lblDescription.text!
         
         message.layout = layout
@@ -609,6 +609,7 @@ class ViewStreamController: UIViewController {
     }
     
     @objc func btnColabAction(){
+      
         if self.objStream != nil {
             if !(objStream?.totalCollaborator.trim().isEmpty)! {
                 let  colabcount = Int((objStream?.totalCollaborator!)!)
@@ -617,6 +618,19 @@ class ViewStreamController: UIViewController {
                     obj.streamID = self.objStream?.streamID
                     obj.currentIndex = self.currentIndex
                     obj.streamNavigate = self.viewStream
+                    self.navigationController?.push(viewController: obj)
+                    
+                }else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                    self.navigationController?.push(viewController: obj)
+                    
+                }
+                else {
+                    let objPeople = PeopleDAO(peopleData: [:])
+                    objPeople.fullName = self.objStream?.author
+                    objPeople.userProfileID = self.objStream?.idCreatedBy
+                    let obj:ViewProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                     obj.objPeople = objPeople
                     self.navigationController?.push(viewController: obj)
                 }
             }

@@ -175,7 +175,6 @@ class ContentDAO{
                 self.type = .gif
             }
         }
-        print(contentData)
         if let obj  = contentData["url"] {
             self.coverImage = obj as! String
         }

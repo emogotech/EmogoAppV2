@@ -15,25 +15,23 @@ import SwiftLinkPreview
 
 class ShareViewHomeController: UIViewController {
     
-    @IBOutlet weak var collectionImages: UICollectionView!
-    
     @IBOutlet weak var lblTitle : UILabel!
     @IBOutlet weak var lblDesc : UILabel!
     @IBOutlet weak var lblLink : UILabel!
     @IBOutlet weak var imgLink : UIImageView!
     @IBOutlet weak var viewContainer : UIView!
     @IBOutlet weak var viewLogin : UIView!
-   
+    
     @IBOutlet weak var btnAddToStream : UIButton!
     @IBOutlet weak var btnShareStream : UIButton!
     @IBOutlet weak var imgChoosedImage : UIImageView!
-    
-    @IBOutlet weak var viewForLink: UIView!
     
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     
     var tempWebView  : UIWebView!
+    
+    
     var dictData : Dictionary = [String:Any]()
     
     override func viewDidLoad() {
@@ -55,13 +53,9 @@ class ShareViewHomeController: UIViewController {
             self.perform(#selector(self.closeAfter), with: nil, afterDelay: 10.0)
         }
         
-        self.collectionImages.delegate = self
-        self.collectionImages.dataSource = self
-        
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
         
-        viewForLink.addBorders(edges: [.top,.left,.right,.bottom], color: UIColor.lightGray, thickness: 1)
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
     }
@@ -113,8 +107,8 @@ class ShareViewHomeController: UIViewController {
         print(propertyList)
         print(strPublicURL)
         print(strPublicPng)
-
-       
+        
+        
         if itemProvider.hasItemConformingToTypeIdentifier(propertyList) {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
@@ -134,7 +128,7 @@ class ShareViewHomeController: UIViewController {
                     self.closeAfter()
                     return }
                 OperationQueue.main.addOperation {
-                        self.getData(mainURL: url as URL)
+                    self.getData(mainURL: url as URL)
                 }
             })
         }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) || itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
@@ -181,13 +175,13 @@ class ShareViewHomeController: UIViewController {
                             return
                         }
                         print(openUrl)
-
+                        
                         
                         OperationQueue.main.addOperation {
-                                self.getData(mainURL: openUrl)
-                            }
+                            self.getData(mainURL: openUrl)
+                        }
                         
-                       
+                        
                         //   self.extensionContext?.completeRequestReturningItems([], completionHandler:nil)
                     })
                 }
@@ -196,7 +190,7 @@ class ShareViewHomeController: UIViewController {
         else {
             print("Error - check itemProvider object!")
             //remove
-          closeAfter()
+            closeAfter()
         }
     }
     
@@ -233,7 +227,7 @@ class ShareViewHomeController: UIViewController {
                                         DispatchQueue.main.async {
                                             let img = UIImage(data: data!)
                                             if img == nil {
-                                              self.setupWebViewWithUrlStr(strUrl: mainURL!)
+                                                self.setupWebViewWithUrlStr(strUrl: mainURL!)
                                             }
                                             else {
                                                 self.dictData["coverImageVideo"] = url?.absoluteString
@@ -388,23 +382,6 @@ class ShareViewHomeController: UIViewController {
         
         return message
     }
-    
-}
-
-extension ShareViewHomeController: UICollectionViewDelegate,UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell : CollectionImagesCell = collectionView.dequeueReusableCell(withReuseIdentifier:"selectedImagesCell", for: indexPath) as! CollectionImagesCell
-       // cell.imgSelected.image = ""
-        
-        return cell
-    }
-    
     
 }
 

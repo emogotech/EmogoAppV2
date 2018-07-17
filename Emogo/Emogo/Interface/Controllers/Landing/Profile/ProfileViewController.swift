@@ -502,6 +502,7 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = .All
+            self.segmentControl.selectedSegmentIndex = 0
             break
         case 1:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -510,6 +511,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = StuffType.Picture
+            self.segmentControl.selectedSegmentIndex = 1
+
             break
         case 2:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -518,6 +521,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = StuffType.Video
+            self.segmentControl.selectedSegmentIndex = 2
+
             break
         case 3:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -526,6 +531,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = StuffType.Links
+            self.segmentControl.selectedSegmentIndex = 3
+
             break
         case 4:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -534,6 +541,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = StuffType.Notes
+            self.segmentControl.selectedSegmentIndex = 4
+
             break
         case 5:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -542,6 +551,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = StuffType.Giphy
+            self.segmentControl.selectedSegmentIndex = 5
+
             break
         default:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -550,6 +561,8 @@ class ProfileViewController: UIViewController {
                 
             }
             self.selectedType = .All
+            self.segmentControl.selectedSegmentIndex = 0
+
         }
         profileCollectionView.es.resetNoMoreData()
         /*
@@ -688,6 +701,7 @@ class ProfileViewController: UIViewController {
                 }else if currentMenu == .stuff {
                     if  self.selectedType == StuffType.All {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
+                        self.updateSegment(selected: 1)
                        // self.updateSegment(selected: 102)
                     }else {
                         Animation.addLeftTransition(collection: self.profileCollectionView)
@@ -833,6 +847,7 @@ class ProfileViewController: UIViewController {
             self.currentMenu = .stream
             self.btnNext.isHidden = true
             self.btnAdd.isHidden = false
+            self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
             self.lblNOResult.isHidden = true
@@ -840,6 +855,7 @@ class ProfileViewController: UIViewController {
             self.currentMenu = .colabs
             self.btnNext.isHidden = true
             self.btnAdd.isHidden = false
+            self.segmentMain.selectedSegmentIndex = 1
             break
         case 2:
             self.lblNOResult.isHidden = true
@@ -847,6 +863,7 @@ class ProfileViewController: UIViewController {
             self.currentMenu = .stuff
             self.btnNext.isHidden = true
             self.btnAdd.isHidden = false
+            self.segmentMain.selectedSegmentIndex = 2
             break
             
         default:
@@ -1603,7 +1620,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         //we compress the top view
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
             print(delta)
-            btnContainer.addBorders(edges: .top, color: .white, thickness: 1)
+         //   btnContainer.addBorders(edges: .top, color: .white, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
              print(delta)
@@ -1612,7 +1629,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
              print(delta)
-            btnContainer.addBorders(edges: .top, color: color, thickness: 1)
+         //   btnContainer.addBorders(edges: .top, color: color, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
             print(delta)

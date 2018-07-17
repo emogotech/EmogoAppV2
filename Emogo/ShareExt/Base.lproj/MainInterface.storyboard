@@ -25,7 +25,7 @@
         <!--Share View Home Controller-->
         <scene sceneID="ceB-am-kn3">
             <objects>
-                <viewController storyboardIdentifier="ShareViewHomeController" id="j1y-V4-xli" customClass="ShareViewHomeController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShareViewHomeController" id="j1y-V4-xli" customClass="ShareViewHomeController" customModule="EmogoShare" sceneMemberID="viewController">
                     <view key="view" opaque="NO" contentMode="scaleToFill" id="wbc-yd-nQP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -88,7 +88,7 @@
                                         <rect key="frame" x="91.5" y="258" width="161" height="53"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" image="share_in_imessage_button"/>
+                                        <state key="normal" image="share_in_imessage"/>
                                         <connections>
                                             <action selector="btnActionShare:" destination="j1y-V4-xli" eventType="touchUpInside" id="U05-q0-cGA"/>
                                         </connections>
@@ -497,7 +497,7 @@
         <image name="send_icon" width="34" height="36"/>
         <image name="share_add_to_stream" width="161" height="53"/>
         <image name="share_cross_button" width="31" height="31"/>
-        <image name="share_in_imessage_button" width="161" height="53"/>
+        <image name="share_in_imessage" width="161" height="53"/>
         <image name="share_logo" width="53" height="40"/>
         <image name="share_post_button" width="32" height="32"/>
         <image name="stream-card-placeholder" width="145" height="145"/>

@@ -134,7 +134,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         // Add the waterfall layout to your collection view
         self.viewStreamCollectionView.collectionViewLayout = layout
         
-        if currentIndex != nil  && StreamList.sharedInstance.arrayViewStream.count > 1 {
+        if currentStreamIndex != nil  && self.arrStream.count > 1 {
             viewStreamCollectionView.isUserInteractionEnabled = true
             let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
             swipeRight.direction = UISwipeGestureRecognizerDirection.right
@@ -206,13 +206,13 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
             if self.isUpload {
                 self.isUpload = false
                 
-                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                let stream = StreamList.sharedInstance.arrayViewStream[currentStreamIndex]
                 let streamID = stream.ID
                 if streamID != "" {
                     self.getStream()
                 }
             }else{
-                let stream = StreamList.sharedInstance.arrayViewStream[currentIndex]
+                let stream = StreamList.sharedInstance.arrayViewStream[currentStreamIndex]
                 let streamID = stream.ID
                 if streamID != "" {
                     self.getStream()
@@ -226,10 +226,10 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         }
         else {
             if StreamList.sharedInstance.arrayViewStream.count != 0 {
-                if currentIndex != nil {
-                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentIndex)
+                if currentStreamIndex != nil {
+                    let isIndexValid = StreamList.sharedInstance.arrayViewStream.indices.contains(currentStreamIndex)
                     if isIndexValid {
-                        let stream =  StreamList.sharedInstance.arrayViewStream[currentIndex]
+                        let stream =  StreamList.sharedInstance.arrayViewStream[currentStreamIndex]
                         StreamList.sharedInstance.selectedStream = stream
                     }
                     }
@@ -477,13 +477,13 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case .left:
-                if currentIndex !=  StreamList.sharedInstance.arrayViewStream.count-1 {
-                    self.next()
+                if currentStreamIndex != self.arrStream.count-1 {
+                    self.nextImageLoad()
                 }
                 break
             case .right:
-                if currentIndex != 0 {
-                    self.previous()
+                if currentStreamIndex != 0 {
+                    self.previousImageLoad()
                 }
                 break
                 
@@ -494,6 +494,34 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 break
             }
         }
+    }
+    func nextImageLoad() {
+     
+        btnEdit.isHidden = true
+        // btnCollaborator.isHidden = true
+        
+        
+   
+        
+        if(currentStreamIndex < arrStream.count-1) {
+            currentStreamIndex = currentStreamIndex + 1
+        }
+        
+     
+        getStream()
+    }
+    
+    func previousImageLoad() {
+      
+        btnEdit.isHidden = true
+        //btnCollaborator.isHidden = true
+       
+        if currentStreamIndex != 0{
+            currentStreamIndex =  currentStreamIndex - 1
+        }
+        // btnEnableDisable()
+      
+        getStream()
     }
     
     @objc func handleLongGesture(_ gesture: UILongPressGestureRecognizer) {
@@ -576,31 +604,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 }
             }
     }
-    
-   
-    
-    func next() {
-        self.lblNoContent.isHidden = true
-        self.btnAddContent.isHidden = true
-        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
-        if(currentIndex < StreamList.sharedInstance.arrayViewStream.count-1) {
-            currentIndex = currentIndex + 1
-        }
-        Animation.addRightTransition(collection: self.viewStreamCollectionView)
-        self.viewStreamCollectionView.reloadData()
-        self.updateLayOut()
-    }
-    
-    func previous() {
-        self.btnAddContent.isHidden = true
-        stretchyHeader.imgCover.image = #imageLiteral(resourceName: "stream-card-placeholder")
-        self.lblNoContent.isHidden = true
-        if currentIndex != 0{
-            currentIndex =  currentIndex - 1
-        }
-        Animation.addLeftTransition(collection: self.viewStreamCollectionView)
-        self.updateLayOut()
-    }
+ 
     
     @objc func btnColabAction(){
         if self.objStream != nil {
@@ -609,7 +613,18 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 obj.strTitle = kCollaobatorList
                 obj.arrCollaborator = objStream?.arrayColab
                 self.present(obj, animated: true, completion: nil)
-            }
+             }else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+                let obj:ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                 self.present(obj, animated: true, completion: nil)
+             }
+            else {
+                let objPeople = PeopleDAO(peopleData: [:])
+                objPeople.fullName = self.objStream?.author
+                objPeople.userProfileID = self.objStream?.idCreatedBy
+                let obj:ViewProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_UserProfileView) as! ViewProfileViewController
+                obj.objPeople = objPeople
+                self.present(obj, animated: true, completion: nil)
+        }
         }
     }
     
@@ -804,7 +819,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 if(self.currentStreamIndex != 0){
                     self.currentStreamIndex = self.currentStreamIndex - 1
                 }
-                let stream = StreamList.sharedInstance.arrayViewStream[self.currentIndex]
+                let stream = StreamList.sharedInstance.arrayViewStream[self.currentStreamIndex]
                 let streamID = stream.ID
                 if streamID != "" {
                     self.getStream()

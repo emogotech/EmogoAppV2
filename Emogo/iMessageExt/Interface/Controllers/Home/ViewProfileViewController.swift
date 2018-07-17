@@ -290,7 +290,6 @@ class ViewProfileViewController: UIViewController {
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
                             self.imgSingleView.isHidden =  true
-                            
                             self.lblBio.isHidden = false
                             self.kHeightViewLocation.constant = 0
                             self.kHeaderHeight.constant = 221
@@ -307,9 +306,8 @@ class ViewProfileViewController: UIViewController {
                             self.imgSingleView.isHidden = true
                             self.lblBio.isHidden = true
                             self.viewSingle.isHidden = true
-                            self.kHeightlblName.constant = 0
-                            self.kHeaderHeight.constant = 179
-                            self.topConstraintRange = (CGFloat(0)..<CGFloat(179))
+                            self.kHeaderHeight.constant = 172
+                            self.topConstraintRange = (CGFloat(0)..<CGFloat(172))
                             
                         }else if people.displayName.trim().isEmpty && people.location.trim().isEmpty && people.website.trim().isEmpty && people.biography.trim().isEmpty {
                             
@@ -341,9 +339,9 @@ class ViewProfileViewController: UIViewController {
                         }
                         self.profileStreamShow()
                        // self.btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: self.color, thickness: 1)
-                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
-                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
-                        self.btnContainer.layer.masksToBounds = true
+//                        self.btnContainer.addBorders(edges: UIRectEdge.top, color: self.color, thickness: 1)
+//                        self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
+//                        self.btnContainer.layer.masksToBounds = true
                 }
                
                 }
@@ -410,7 +408,7 @@ class ViewProfileViewController: UIViewController {
         self.refresher?.frame = CGRect(x: 0, y: 0, width: self.profileCollection.frame.size.width, height: 100)
         SharedData.sharedInstance.nextStreamString = ""
         self.hudRefreshView.startLoaderWithAnimation()
-        self.profileCollection.isUserInteractionEnabled = false
+       // self.profileCollection.isUserInteractionEnabled = false
    
         self.getStreamList(type:.up,streamType: (self.streamType)!)
         self.profileCollection.reloadData()
@@ -532,7 +530,7 @@ class ViewProfileViewController: UIViewController {
     private func updateSegment(selected:Int){
         switch selected {
         case 0:
-            
+            self.segmentMain.selectedSegmentIndex = 0
             self.streamType = "1"
             if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
                 self.getStream(type:  self.streamType)
@@ -540,7 +538,7 @@ class ViewProfileViewController: UIViewController {
             self.profileStreamShow()
             break
         case 1:
-            
+            self.segmentMain.selectedSegmentIndex = 1
             self.streamType = "2"
             if self.arrayColabStream.count == 0 && self.isCalledColabStream {
                 self.getStream(type:  self.streamType)
@@ -551,7 +549,7 @@ class ViewProfileViewController: UIViewController {
                 self.lblNoResult.text = kAlert_No_Stream_found
                 self.lblNoResult.isHidden = false
             }
-            self.lblNoResult.isHidden = true
+           // self.lblNoResult.isHidden = true
             self.layout.headerHeight = 0
             self.profileCollection.reloadData()
             break
@@ -692,7 +690,7 @@ class ViewProfileViewController: UIViewController {
     }
     
     func getStreamList(type:RefreshType,streamType:String){
-        self.lblNoResult.isHidden = true
+      
         if type == .start || type == .up {
             StreamList.sharedInstance.arrayMyStream.removeAll()
             self.profileCollection.reloadData()
@@ -705,12 +703,14 @@ class ViewProfileViewController: UIViewController {
             if self.hudRefreshView != nil {
                 self.hudRefreshView.stopLoaderWithAnimation()
             }
+            self.lblNoResult.isHidden = true
             if StreamList.sharedInstance.arrayMyStream.count == 0 {
                 if streamType == "2" {
                     self.lblNoResult.text = kAlert_No_Stream_found
+                    self.lblNoResult.isHidden = false
                 }
-                self.lblNoResult.isHidden = false
             }
+           
             if streamType == "1" {
                 self.profileStreamShow()
                 self.isCalledMyStream = false
@@ -718,6 +718,7 @@ class ViewProfileViewController: UIViewController {
                 self.layout.headerHeight = 0
                 self.arrayColabStream = StreamList.sharedInstance.arrayMyStream
                 self.isCalledColabStream = false
+               
             }
             self.profileCollection.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -864,14 +865,14 @@ extension ViewProfileViewController:UICollectionViewDelegate,UICollectionViewDat
         
         //we compress the top view
         if delta > 0 && kHeaderHeight.constant > topConstraintRange.lowerBound && scrollView.contentOffset.y > 0 {
-            self.btnContainer.addBorders(edges: UIRectEdge.top, color: .white, thickness: 1)
+           // self.btnContainer.addBorders(edges: UIRectEdge.top, color: .white, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
         }
         
         //we expand the top view
         if delta < 0 && kHeaderHeight.constant < topConstraintRange.upperBound && scrollView.contentOffset.y < 0{
-            self.btnContainer.addBorders(edges: UIRectEdge.top, color: color, thickness: 1)
+          //  self.btnContainer.addBorders(edges: UIRectEdge.top, color: color, thickness: 1)
             kHeaderHeight.constant -= delta
             scrollView.contentOffset.y -= delta
         }
