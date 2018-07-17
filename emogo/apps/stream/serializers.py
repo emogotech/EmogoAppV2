@@ -329,16 +329,16 @@ class ViewStreamSerializer(StreamSerializer):
 
             # If logged-in user is owner of stream show all collaborator
             current_url = resolve(self.context.get('request').path_info).url_name
+            instances = obj.stream_collaborator
+
             # If user as owner or want to get all collaborator list
             if current_url == 'stream_collaborator' or obj.created_by == self.context.get('request').user:
-                instances = obj.stream_collaborator
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
                     user_qs = User.objects.filter(condition).filter(is_active=True).values('id', 'user_data__id', 'user_data__full_name', 'username', 'user_data__user_image')
             # else Show collaborator created by logged in user.
             else:
-                instances = [_ for _ in obj.stream_collaborator if _.created_by == self.context.get('request').user or  _ if self.context.get('request').user.username in map(lambda x: x.phone_number, obj.stream_collaborator) ]
                 phone_numbers = [str(_.phone_number) for _ in instances]
                 if phone_numbers.__len__() > 0:
                     condition = reduce(operator.or_, [Q(username__icontains=s) for s in phone_numbers])
