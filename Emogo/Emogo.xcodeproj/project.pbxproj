@@ -66,7 +66,6 @@
 		335B1A611FBB2413006DA9D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 335B1A601FBB2413006DA9D9 /* Assets.xcassets */; };
 		335B1A651FBB2413006DA9D9 /* Emogo.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 335B1A561FBB2413006DA9D9 /* Emogo.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		336618AC1FCED13B008BC84A /* StreamContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336618A91FCED13B008BC84A /* StreamContentViewController.swift */; };
-		336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336618AA1FCED13B008BC84A /* StreamViewController.swift */; };
 		337B52E11FBC131E00CEC0EB /* UserNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */; };
 		337B52E31FBC141200CEC0EB /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		337B52E51FBC14C800CEC0EB /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
@@ -212,6 +211,7 @@
 		F4110B4E1FBECDE000BC2A8A /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E41FBC14C800CEC0EB /* APIConstants.swift */; };
 		F4110B4F1FBECDE300BC2A8A /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B52E21FBC141200CEC0EB /* AppConstants.swift */; };
 		F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BCB0341FBB353E004FF634 /* APIManager.swift */; };
+		F412310D20FF4D5300749BA6 /* Pulsator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412310C20FF4D5300749BA6 /* Pulsator.swift */; };
 		F4148A0F1FBD76C800081900 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */; };
 		F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A131FBD78A600081900 /* StreamListViewController.swift */; };
 		F4148A211FBD7C7C00081900 /* StreamCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4148A201FBD7C7C00081900 /* StreamCell.swift */; };
@@ -582,7 +582,6 @@
 		335B1A601FBB2413006DA9D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		335B1A621FBB2413006DA9D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		336618A91FCED13B008BC84A /* StreamContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContentViewController.swift; sourceTree = "<group>"; };
-		336618AA1FCED13B008BC84A /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
 		337B52E01FBC131E00CEC0EB /* UserNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameViewController.swift; sourceTree = "<group>"; };
 		337B52E21FBC141200CEC0EB /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		337B52E41FBC14C800CEC0EB /* APIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
@@ -711,6 +710,7 @@
 		F40D3E5F20CE5B9F008ED566 /* LinkPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinkPickerView.xib; sourceTree = "<group>"; };
 		F40D3E6020CE5B9F008ED566 /* TextEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
 		F40D3E6820CE6A16008ED566 /* PMColorPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PMColorPickerView.swift; sourceTree = "<group>"; };
+		F412310C20FF4D5300749BA6 /* Pulsator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsator.swift; sourceTree = "<group>"; };
 		F4148A0E1FBD76C800081900 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		F4148A131FBD78A600081900 /* StreamListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamListViewController.swift; sourceTree = "<group>"; };
 		F4148A201FBD7C7C00081900 /* StreamCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamCell.swift; sourceTree = "<group>"; };
@@ -1254,7 +1254,6 @@
 				F065AAAA20E0D9D500993DD6 /* FollowersViewController.swift */,
 				F065AA9E20E0BDDA00993DD6 /* ProfileViewController.swift */,
 				339518551FBF1B0000DCC085 /* HomeViewController.swift */,
-				336618AA1FCED13B008BC84A /* StreamViewController.swift */,
 				2BA2726F1FD6A82100543957 /* CollaboratorViewController.swift */,
 				336618A91FCED13B008BC84A /* StreamContentViewController.swift */,
 			);
@@ -1420,6 +1419,7 @@
 		33BCB03F1FBB353E004FF634 /* Custom UI */ = {
 			isa = PBXGroup;
 			children = (
+				F412310B20FF4D4700749BA6 /* PulseView */,
 				F40D3E6720CE6A08008ED566 /* ColorPicker */,
 				F42DCD372098406100078969 /* SideMenu */,
 				F4838AD42084B7AF0034F2B4 /* Segment Control */,
@@ -1769,6 +1769,14 @@
 				F49023C71FC42666004F3C90 /* NSDictionary+NullRemover.m */,
 			);
 			path = Dictionary;
+			sourceTree = "<group>";
+		};
+		F412310B20FF4D4700749BA6 /* PulseView */ = {
+			isa = PBXGroup;
+			children = (
+				F412310C20FF4D5300749BA6 /* Pulsator.swift */,
+			);
+			path = PulseView;
 			sourceTree = "<group>";
 		};
 		F4148A101FBD770900081900 /* Landing */ = {
@@ -2810,6 +2818,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
+				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
@@ -2824,6 +2833,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
@@ -2848,6 +2858,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Cache/Cache.framework",
 				"${BUILT_PRODUCTS_DIR}/GSKStretchyHeaderView/GSKStretchyHeaderView.framework",
+				"${BUILT_PRODUCTS_DIR}/Haptica/Haptica.framework",
 				"${BUILT_PRODUCTS_DIR}/Hue/Hue.framework",
 				"${BUILT_PRODUCTS_DIR}/Imaginary/Imaginary.framework",
 				"${BUILT_PRODUCTS_DIR}/Lightbox/Lightbox.framework",
@@ -2862,6 +2873,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GSKStretchyHeaderView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Haptica.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hue.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Imaginary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lightbox.framework",
@@ -3095,6 +3107,7 @@
 				F409FC761FE3E4450093E0E7 /* PMInteractor.swift in Sources */,
 				F429C4CF20F5DE8F00601B70 /* PMNavigationGestures.swift in Sources */,
 				F43612F81FD69B3200788FFE /* AGSaturationFilter.swift in Sources */,
+				F412310D20FF4D5300749BA6 /* Pulsator.swift in Sources */,
 				F44939E31FEA567800AE2FCA /* ESRefreshFooterAnimator.swift in Sources */,
 				F4164F3C20AC40530066DD97 /* VideoEditor+Trimmer.swift in Sources */,
 				F4148A141FBD78A600081900 /* StreamListViewController.swift in Sources */,
@@ -3395,7 +3408,6 @@
 				F4402F761FCD9E5600152D01 /* CollaboratorDAO.swift in Sources */,
 				F4F0BE2E20C90617009C003A /* SplashViewController.swift in Sources */,
 				F0B3EEAD20E4FD9C00599675 /* CCSwipBackPresentationController.swift in Sources */,
-				336618AD1FCED13B008BC84A /* StreamViewController.swift in Sources */,
 				F406FD0120878D25006192B4 /* FollowerDAO.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */,

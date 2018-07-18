@@ -286,10 +286,10 @@ class ContentViewController: UIViewController {
         let content = self.seletedImage
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
-            let strURl = kNavigation_Content + (content?.contentID!)!
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
             message.url = URL(string: strURl)
         }else {
-            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            let strURl = kNavigation_Content + "/" +  (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
             message.url = URL(string: strURl)
         }
         
@@ -841,6 +841,9 @@ extension ContentViewController:PhotoEditorDelegate
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }
         self.updateContent()
+        if self.isViewCount != nil {
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+        }
     }
     
     
@@ -863,6 +866,9 @@ extension ContentViewController:VideoEditorDelegate
             ContentList.sharedInstance.arrayContent [index] = seletedImage
         }
         self.updateContent()
+        if self.isViewCount != nil {
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
+        }
     }
     
 }
@@ -875,6 +881,9 @@ extension ContentViewController:CreateNotesViewControllerDelegate
         if let index =   ContentList.sharedInstance.arrayContent.index(where: {$0.contentID.trim() == self.seletedImage.contentID.trim()}) {
             ContentList.sharedInstance.arrayContent [index] = seletedImage
             self.seletedImage = content
+        }
+        if self.isViewCount != nil {
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Update_Image_Cover), object: nil)
         }
     }
     

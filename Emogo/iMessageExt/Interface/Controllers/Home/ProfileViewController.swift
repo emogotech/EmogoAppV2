@@ -9,7 +9,7 @@
 import UIKit
 //import XLActionController
 import Social
-//import Haptica
+import Haptica
 
 
 enum ProfileMenu:String{
@@ -188,16 +188,22 @@ class ProfileViewController: UIViewController {
         self.profileCollectionView.register(nibViews, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader, withReuseIdentifier: kHeader_ProfileStreamView)
      
         // Segment control Configure
-       // Haptic.impact(.heavy).generate()
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         segmentControl.sectionTitles = ["ALL", "PHOTOS", "VIDEOS", "LINKS", "NOTES","GIFS"]
         
         segmentControl.indexChangeBlock = {(_ index: Int) -> Void in
             print("Selected index \(index) (via block)")
             self.updateStuffList(index: index)
         }
-        
+       
+
         segmentControl.selectionIndicatorHeight = 1.0
-        segmentControl.backgroundColor = UIColor.white
+        segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+       // segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentControl.selectionStyle = .textWidthStripe
@@ -506,7 +512,7 @@ class ProfileViewController: UIViewController {
         switch index {
         case 0:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-               // Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -514,7 +520,7 @@ class ProfileViewController: UIViewController {
             break
         case 1:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-              //  Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -522,7 +528,7 @@ class ProfileViewController: UIViewController {
             break
         case 2:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-              //  Haptic.impact(.light).generate()
+              Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -530,7 +536,7 @@ class ProfileViewController: UIViewController {
             break
         case 3:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-              //  Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -538,7 +544,7 @@ class ProfileViewController: UIViewController {
             break
         case 4:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-               // Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -546,7 +552,7 @@ class ProfileViewController: UIViewController {
             break
         case 5:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-               // Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -554,7 +560,7 @@ class ProfileViewController: UIViewController {
             break
         default:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
-              //  Haptic.impact(.light).generate()
+               Haptic.impact(.light).generate()
             }else{
                 
             }
@@ -674,18 +680,22 @@ class ProfileViewController: UIViewController {
     }
     
     @IBAction func btnBackAction(_ sender: Any) {
-       // self.dismiss(animated: true, completion: nil)
+     
         if self.strBackFromColab == "backFromColab" {
           self.dismiss(animated: true, completion: nil)
-
-            
-        }else{
-       
+        }else if strBackFromColab == "fromViewStreamColab"{
+          self.dismiss(animated: true, completion: nil)
+        }else if strBackFromColab == "fromProfile" {
             let vc = storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            vc.isFromProfile = true
             self.present(vc, animated: true, completion: nil)
-       
+        }
+        else{
+           self.dismiss(animated: true, completion: nil)
+
     }
 }
+    
     @IBAction func btnShareAction(_ sender: Any) {
         self.profileShareAction()
     }
@@ -716,6 +726,11 @@ class ProfileViewController: UIViewController {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
                 print("Swie Left")
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
                 if currentMenu == .stream {
                     Animation.addRightTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 1)
@@ -736,6 +751,11 @@ class ProfileViewController: UIViewController {
                 
             case UISwipeGestureRecognizerDirection.right:
                 print("Swie Right")
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
                 if currentMenu == .colabs {
                     Animation.addLeftTransition(collection: self.profileCollectionView)
                     self.updateSegment(selected: 0)
@@ -895,12 +915,22 @@ class ProfileViewController: UIViewController {
     private func updateSegment(selected:Int){
         switch selected {
         case 0:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedSegment = .EMOGOS
             self.currentMenu = .stream
             self.btnNext.isHidden = true
             self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedSegment = .COLLABS
             self.currentMenu = .colabs
             self.btnNext.isHidden = true
@@ -908,6 +938,11 @@ class ProfileViewController: UIViewController {
             
             break
         case 2:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.selectedSegment = .MYSTUFF
             self.currentMenu = .stuff
             self.btnNext.isHidden = true

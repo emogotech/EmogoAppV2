@@ -34,6 +34,7 @@ class StreamListViewController: UIViewController {
     @IBOutlet weak var kCancelWidthConstraint         : NSLayoutConstraint!
     @IBOutlet weak var imgSearchIcon          : UIImageView!
     @IBOutlet weak var kSegmentHeight         : NSLayoutConstraint!
+    @IBOutlet weak var kMenuViewHeight         : NSLayoutConstraint!
 
     
     var lastIndex             : Int = 2
@@ -54,6 +55,7 @@ class StreamListViewController: UIViewController {
     var isMyStreamPublic:Bool! = true
 
     var selectedImageView:UIImageView?
+    
     //-=-------------------------
     
     @IBOutlet weak var menuView: FSPagerView! {
@@ -81,6 +83,8 @@ class StreamListViewController: UIViewController {
     var timer:Timer?
     var segmentheader: SegmentHeaderViewCell!
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
+    let pulsator = Pulsator()
+
     
     /*
     let customOrientationPresenter: Presentr = {
@@ -130,7 +134,9 @@ class StreamListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-     
+        
+        self.kMenuViewHeight.constant = 115.0
+
         self.configureLandingNavigation()
         menuView.isHidden = true
         
@@ -172,6 +178,8 @@ class StreamListViewController: UIViewController {
         }
         
         if #available(iOS 11, *), UIDevice().userInterfaceIdiom == .phone && UIScreen.main.nativeBounds.height == 2436{
+            self.kMenuViewHeight.constant = 130.0
+
             let frame = self.menuView.frame
             //let viewFrame = self.viewMenu.frame
 //            self.menuView.backgroundColor = .red
@@ -374,11 +382,13 @@ class StreamListViewController: UIViewController {
         self.btnPeopleSearch.isUserInteractionEnabled = true
         
     
-//        let swipeRight = UIPanGestureRecognizer(target: self, action: #selector(self.respondToPanGesture(gesture:)))
-//        self.streamCollectionView.addGestureRecognizer(swipeRight)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        self.streamCollectionView.addGestureRecognizer(swipeRight)
         
-//        let swipeLeft = UIPanGestureRecognizer(target: self, action: #selector(self.respondToPanGesture(gesture:)))
-//        self.streamCollectionView.addGestureRecognizer(swipeLeft)
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        self.streamCollectionView.addGestureRecognizer(swipeLeft)
         
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeDown.direction = UISwipeGestureRecognizerDirection.down
@@ -387,6 +397,11 @@ class StreamListViewController: UIViewController {
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
         swipeUp.direction = UISwipeGestureRecognizerDirection.up
         self.viewMenu.addGestureRecognizer(swipeUp)
+        
+        
+        pulsator.numPulse = 3
+        pulsator.backgroundColor = UIColor(red: 0, green: 0.46, blue: 0.76, alpha: 1).cgColor
+
     }
     
     func configureStreamHeader() {
@@ -855,6 +870,33 @@ class StreamListViewController: UIViewController {
     }
     
     
+    
+    func getStream(cell:StreamCell,indexPath:IndexPath,streamID:String) {
+     //   pulsator.radius = cell.bounds.size.width / 2.0
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        pulsator.frame = CGRect(x: cell.imgCover.center.x, y: cell.imgCover.center.y, width: 0, height: 0)
+        cell.imgCover.layer.addSublayer(pulsator)
+        pulsator.start()
+        APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
+           self.pulsator.stop()
+          self.pulsator.removeFromSuperlayer()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            if (errorMsg?.isEmpty)! {
+                
+                if let objStream = stream {
+                    self.selectedImageView = cell.imgCover
+                    StreamList.sharedInstance.arrayViewStream = self.arrayToShow
+                    let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
+                    obj.currentIndex = indexPath.row
+                    obj.objStream = objStream
+                    obj.streamType = currentStreamType.rawValue
+                    ContentList.sharedInstance.objStream = nil
+                    self.navigationController?.pushViewController(obj, animated: true)
+                    
+                }
+            }
+        }
+    }
  
     func getStream(currentStreamID:String, currentConytentID:String){
         APIServiceManager.sharedInstance.apiForViewStream(streamID: currentStreamID) { (stream, errorMsg) in
@@ -1312,14 +1354,10 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
             }else {
                 
                 if let cell = collectionView.cellForItem(at: indexPath) {
-                    selectedImageView = (cell as! StreamCell).imgCover
+                    let stream = self.arrayToShow[indexPath.row]
+                    self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
                 }
-                StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                obj.currentIndex = indexPath.row
-                obj.streamType = currentStreamType.rawValue
-                ContentList.sharedInstance.objStream = nil
-                self.navigationController?.pushViewController(obj, animated: true)
+                
             }
         }else {
             if isSearch && isTapPeople {
@@ -1343,14 +1381,9 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                 }
             }else {
                 if let cell = collectionView.cellForItem(at: indexPath) {
-                    selectedImageView = (cell as! StreamCell).imgCover
+                    let stream = self.arrayToShow[indexPath.row]
+                    self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
                 }
-                StreamList.sharedInstance.arrayViewStream = self.arrayToShow
-                let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
-                obj.currentIndex = indexPath.row
-                obj.streamType = currentStreamType.rawValue
-                ContentList.sharedInstance.objStream = nil
-                self.navigationController?.pushViewController(obj, animated: true)
             }
         }
        

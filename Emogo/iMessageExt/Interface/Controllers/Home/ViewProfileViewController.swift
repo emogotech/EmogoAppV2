@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Haptica
 
 class ViewProfileViewController: UIViewController {
    
@@ -111,6 +112,11 @@ class ViewProfileViewController: UIViewController {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.left
         self.profileCollection.addGestureRecognizer(swipeLeft)
         
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         segmentMain.sectionTitles = ["EMOGOS", "COLLABS"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
@@ -506,6 +512,11 @@ class ViewProfileViewController: UIViewController {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.left:
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
                 print("Swie Left")
                 if self.streamType == "1" {
                     self.updateSegment(selected: 1)
@@ -514,6 +525,11 @@ class ViewProfileViewController: UIViewController {
                 break
                 
             case UISwipeGestureRecognizerDirection.right:
+                if kDefault?.bool(forKey: kHapticFeedback) == true{
+                    Haptic.impact(.light).generate()
+                }else{
+                    
+                }
                 print("Swie Right")
                 if self.streamType == "2" {
                     self.updateSegment(selected: 0)
@@ -530,6 +546,11 @@ class ViewProfileViewController: UIViewController {
     private func updateSegment(selected:Int){
         switch selected {
         case 0:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.segmentMain.selectedSegmentIndex = 0
             self.streamType = "1"
             if self.arrayMyStreams.count == 0 && self.isCalledMyStream {
@@ -538,6 +559,11 @@ class ViewProfileViewController: UIViewController {
             self.profileStreamShow()
             break
         case 1:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
             self.segmentMain.selectedSegmentIndex = 1
             self.streamType = "2"
             if self.arrayColabStream.count == 0 && self.isCalledColabStream {

@@ -67,8 +67,10 @@ class StreamContentViewController: MSMessagesAppViewController {
     // MARK: - Life-cycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.collectionView.isHidden = true
         SharedData.sharedInstance.tempViewController = self
+        ContentList.sharedInstance.arrayContent = arrContentData
         setupLoader()
         updateContent()
         
@@ -78,7 +80,6 @@ class StreamContentViewController: MSMessagesAppViewController {
             currentContentIndex = currentContentIndex - 1
         }
         self.perform(#selector(self.prepareLayout), with: nil, afterDelay: 0.2)
-        ContentList.sharedInstance.arrayContent = arrContentData
         requestMessageScreenChangeSize()
         //apiForIncreaseViewCount()
         
@@ -231,7 +232,13 @@ class StreamContentViewController: MSMessagesAppViewController {
         self.btnLikeDislike.isHidden = false
         btnReport.isHidden = false
         if currentContentIndex != nil {
-           seletedImage = ContentList.sharedInstance.arrayContent[self.currentContentIndex]
+            let isIndexValid = ContentList.sharedInstance.arrayContent.indices.contains(currentContentIndex)
+            if isIndexValid {
+                seletedImage = ContentList.sharedInstance.arrayContent[currentContentIndex]
+            }
+        }
+        if seletedImage == nil {
+            return
         }
         if seletedImage.likeStatus == 0 {
             self.btnLikeDislike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)
@@ -685,10 +692,10 @@ class StreamContentViewController: MSMessagesAppViewController {
         let content = self.seletedImage
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
-            let strURl = kNavigation_Content + (content?.contentID!)!
+            let strURl = kNavigation_Content  + "/" + (content?.contentID!)!
             message.url = URL(string: strURl)
         }else {
-            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
             message.url = URL(string: strURl)
         }
          SharedData.sharedInstance.savedConversation?.insert(message, completionHandler: nil)

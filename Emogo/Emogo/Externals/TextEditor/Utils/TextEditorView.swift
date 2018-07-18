@@ -15,6 +15,12 @@ enum NoteTextAlignment {
     case center
 }
 
+struct TextEditorViewConstants {
+    static var kDefaultFontType = ""
+    static var kSelectedTag:Int = 103
+
+}
+
 
 protocol TextEditorViewDelegate {
     func selectHeader(tag:Int)
@@ -36,7 +42,8 @@ class TextEditorView: UIView {
     class func instanceFromNib() -> TextEditorView {
         return  UINib(nibName: "TextEditorView", bundle: nil).instantiate(withOwner: nil, options: nil).first  as! TextEditorView
     }
-  
+
+    
     @IBAction func btnActionForTextOptions(_ sender: UIButton) {
         switch sender.tag {
         case 101:

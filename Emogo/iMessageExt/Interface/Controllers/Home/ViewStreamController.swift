@@ -11,11 +11,11 @@ import Lightbox
 //import XLActionController
 import MessageUI
 import Messages
+import Haptica
 
 class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,CHTCollectionViewDelegateWaterfallLayout,StreamContentViewControllerDelegate,StreamViewHeaderDelegate  {
    
-    
- 
+
     // MARK: - UI Elements
     @IBOutlet weak var viewStreamCollectionView: UICollectionView!
     @IBOutlet weak var lblNoContent: UILabel!
@@ -62,12 +62,16 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: kNotification_Update_Image_Cover), object: nil, queue: nil) { (notification) in
             // self.updateLayOut()
         }
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        
+          NotificationCenter.default.addObserver(self, selector: #selector(self.requestMessageScreenChangeSize), name: NSNotification.Name(rawValue: kNotification_Manage_Screen_Size), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Stream_Content), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateTblData), name: NSNotification.Name(rawValue: kNotification_Reload_Content_Data), object: nil)
+        requestMessageScreenChangeSize()
+
         self.prepareLayouts()
        
     }
@@ -84,6 +88,20 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
       self.getStream()
         
     }
+    
+    // MARK:- Selector Methods
+    @objc func requestMessageScreenChangeSize() {
+        if self.stretchyHeader != nil {
+            if(SharedData.sharedInstance.isMessageWindowExpand == false){
+                stretchyHeader.isUserInteractionEnabled = false
+            }
+            else {
+                stretchyHeader.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    
     @objc func updateTblData() {
         self.stretchyHeader.lblViewCount.text = objStream?.viewCount.trim()
         objStream!.arrayContent = ContentList.sharedInstance.arrayContent
@@ -308,7 +326,7 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
     
     func showDelete(){
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
         {
@@ -378,12 +396,12 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     @objc func likeStreamAction(sender:UIButton){
       // print("Like Action")
         if self.objStream != nil {
-//            if  kDefault?.bool(forKey: kHapticFeedback) == true {
-//                self.stretchyHeader.btnLike.isHaptic = true
-//                self.stretchyHeader.btnLike.hapticType = .impact(.light)
-//            }else{
-//                self.stretchyHeader.btnLike.isHaptic = false
-//            }
+            if  kDefault?.bool(forKey: kHapticFeedback) == true {
+                self.stretchyHeader.btnLike.isHaptic = true
+                self.stretchyHeader.btnLike.hapticType = .impact(.light)
+            }else{
+                self.stretchyHeader.btnLike.isHaptic = false
+            }
             
             
             if self.objStream?.likeStatus == "0" {
@@ -712,10 +730,18 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     //MARK:- calling webservice
     @objc func getStream() {
         if Reachability.isNetworkAvailable() {
+           
+            if self.arrStream.count == 0 {
+                return
+            }
+            
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()
             }
             
+            print(self.arrStream)
+            print(self.currentStreamIndex)
+
             let stream = self.arrStream[currentStreamIndex]
             
             APIServiceManager.sharedInstance.apiForViewStream(streamID: stream.ID!) { (stream, errorMsg) in
@@ -839,18 +865,17 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
             }
         }
     }
+    
     func showToastIMsg(type:AlertType,strMSG:String) {
-            self.view.makeToast(message: strMSG,
-                                duration: TimeInterval(2.0),
-                                position: .center,
-                                image: nil,
-                                backgroundColor: UIColor.black.withAlphaComponent(0.6),
-                                titleColor: UIColor.yellow,
-                                messageColor: UIColor.white,
-                                font: nil)
-        }
-        
-     
+        self.view.makeToast(message: strMSG,
+                            duration: TimeInterval(2.0),
+                            position: .center,
+                            image: nil,
+                            backgroundColor: UIColor.black.withAlphaComponent(0.6),
+                            titleColor: UIColor.yellow,
+                            messageColor: UIColor.white,
+                            font: nil)
+    }
 
     func updateStreamViewCount(count: String) {
         

@@ -8,6 +8,7 @@
 
 import UIKit
 import Messages
+import Haptica
 
 class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     
@@ -64,11 +65,13 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     let fontSegment = UIFont(name: "SFProText-Medium", size: 12.0)
   //  var selectedType:StreamType! = StreamType.Public
     let kSearchHeight = 60.0
+    var isFromProfile : Bool = false
+    let pagerView = FSPagerView()
 
     fileprivate let arrImages = ["MyStreamsDeselected","PopularDeselected","FeatutreDeselected","emogoDeselected","ProfileDeselected","LikedDeselected","FollowingDeselected"]
     fileprivate let arrImagesSelected = ["My Streams","Popular","Featured","Emogo Streams","Profile","Liked Streams", "Following Streams"]
 
-    
+
     // MARK:- Life-cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,6 +118,7 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
         }
         btnStreamSearch.isUserInteractionEnabled = false
         btnPeopleSearch.isUserInteractionEnabled = true
+
     }
     
 
@@ -196,6 +200,12 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
 //        self.searchView.clipsToBounds = true
         
         currentStreamType =  StreamType.featured
+        
+        if self.isFromProfile == true{
+            self.btnFeature.setTitle("FEATURED", for: .normal)
+            pagerView.scrollToItem(at: 2, animated: true)
+            
+        }
       
         //        streamType = StreamType.featured
         //        self.getStreamList(type:.start,filter:.featured)
@@ -245,7 +255,6 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     }
     
     func preparePagerFrame() {
-        let pagerView = FSPagerView()
         pagerView.frame = pagerContent.bounds
         pagerContent.addSubview(pagerView)
         pagerView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -501,6 +510,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+  
+  
     override func viewWillAppear(_ animated: Bool) {
          super.viewWillAppear(animated)
         DispatchQueue.main.async {
@@ -509,6 +520,8 @@ class HomeViewController: MSMessagesAppViewController,MyStreamSegmentDelegate {
                 self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
             }
         }
+       
+       
         if !checkIsAvailableFilter() {
             preparePagerFrame()
         }
@@ -1623,12 +1636,15 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
                 else{
                     self.addRightTransitionCollection(imgV: self.collectionStream)
                 }
+               
+                
                 let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
                 self.present(obj, animated: true, completion: nil)
-                
+               
               // showAlert(index, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                 self.changePager()
 
+                
                 break
            /*
             case 5:
@@ -1768,8 +1784,9 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             case 4:
                 currentStreamType = StreamType.profile
                 let obj = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+                obj.strBackFromColab = "fromProfile"
                 self.present(obj, animated: true, completion: nil)
-                 currentStreamType = StreamType.profile
+               
                // showAlert(pagerView.currentIndex, pagerView: pagerView, alert: kAlert_Title_Confirmation, messgae: kAlert_Confirmation_Description_For_Profile, selectedIndex: 0)
                  self.changePager()
 
@@ -1841,7 +1858,11 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
     }
     
     func changePager() {
-     
+        if kDefault?.bool(forKey: kHapticFeedback) == true{
+            Haptic.impact(.light).generate()
+        }else{
+            
+        }
         DispatchQueue.main.async {
             self.arrayToShow = StreamList.sharedInstance.arrayStream.filter { $0.selectionType == currentStreamType }
             self.viewSegment.isHidden = true

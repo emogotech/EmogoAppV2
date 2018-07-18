@@ -306,7 +306,7 @@ class MessagesViewController: MSMessagesAppViewController {
     
     func navigateControllerAfterMessageSelected(type:String){
         SharedData.sharedInstance.iMessageNavigation = type
-        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+         let obj : ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         if type == kNavigation_Stream {
             var arrayTempStream  = [StreamDAO]()
             arrayTempStream.append(SharedData.sharedInstance.streamContent!)

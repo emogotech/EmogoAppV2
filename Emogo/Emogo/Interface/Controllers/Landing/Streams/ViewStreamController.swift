@@ -106,8 +106,10 @@ class ViewStreamController: UIViewController {
      longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.handleLongGesture(_:)))
         self.viewStreamCollectionView.addGestureRecognizer(longPressGesture)
         configureStrechyHeader()
-       
-       
+        if self.objStream != nil {
+            self.prepareIBOutlets()
+        }
+
     }
     
     func configureStrechyHeader() {
@@ -203,6 +205,7 @@ class ViewStreamController: UIViewController {
 
     }
     
+    
     func prepareNavigation(){
      
         if ContentList.sharedInstance.mainStreamIndex != nil {
@@ -244,6 +247,10 @@ class ViewStreamController: UIViewController {
             
         }
         if isRefresh {
+            if self.objStream != nil {
+                ContentList.sharedInstance.objStream = nil
+                return
+            }
             if ContentList.sharedInstance.objStream != nil {
                 self.isUpload  = true
                 for v in 0...StreamList.sharedInstance.arrayViewStream.count-1 {
@@ -256,10 +263,41 @@ class ViewStreamController: UIViewController {
                 }
                 ContentList.sharedInstance.objStream = nil
             }else{
-                self.updateLayOut()
+                if self.objStream == nil {
+                    self.updateLayOut()
+                }
         }
         }
         
+    }
+    
+    func prepareIBOutlets(){
+        self.prepareHeaderData()
+        
+        if self.objStream?.arrayContent.count == 0 {
+            self.lblNoContent.isHidden = false
+        }
+        self.configureNewNavigation()
+        // Get All Heights
+        var arrayHeights = [Int]()
+        
+        for obj in (self.objStream?.arrayContent)! {
+            arrayHeights.append(obj.height)
+        }
+        let minimum = arrayHeights.min()
+        if let index =  self.objStream?.arrayContent.index(where: {$0.height ==  minimum}) {
+            self.indexForMinimum = index
+        }
+        
+        DispatchQueue.main.async {
+            self.viewStreamCollectionView.reloadData()
+        }
+        
+        if let streamIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.objStream?.streamID.trim()}) {
+            let oldData = StreamList.sharedInstance.arrayStream[streamIndex]
+            oldData.haveSomeUpdate = false
+            StreamList.sharedInstance.arrayStream[streamIndex] = oldData
+        }
     }
  
     @objc func updateLayOut(){
@@ -738,32 +776,7 @@ class ViewStreamController: UIViewController {
             self.lblNoContent.isHidden = true
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
-                self.prepareHeaderData()
-          
-                if self.objStream?.arrayContent.count == 0 {
-                    self.lblNoContent.isHidden = false
-                }
-               self.configureNewNavigation()
-                // Get All Heights
-                var arrayHeights = [Int]()
-                
-                for obj in (self.objStream?.arrayContent)! {
-                    arrayHeights.append(obj.height)
-                }
-                let minimum = arrayHeights.min()
-                if let index =  self.objStream?.arrayContent.index(where: {$0.height ==  minimum}) {
-                    self.indexForMinimum = index
-                }
-                    
-                DispatchQueue.main.async {
-                    self.viewStreamCollectionView.reloadData()
-                }
-                
-                if let streamIndex =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.objStream?.streamID.trim()}) {
-                    let oldData = StreamList.sharedInstance.arrayStream[streamIndex]
-                    oldData.haveSomeUpdate = false
-                    StreamList.sharedInstance.arrayStream[streamIndex] = oldData
-                }
+               self.prepareIBOutlets()
             }
             else {
                 if errorMsg == "404" {

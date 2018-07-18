@@ -180,8 +180,15 @@ class SignInViewController: MSMessagesAppViewController {
     
     
     @IBAction func btnActionCountryPicker(_ sender: Any) {
+        self.view.endEditing(true)
+        self.txtMobileNumber.isUserInteractionEnabled  = false
+        if(!SharedData.sharedInstance.isMessageWindowExpand){
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
+            
+        }
         let nav = UINavigationController(rootViewController: popupViewController)
         customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
+        
     }
    
     @IBAction func btnSignIn(_ sender : UIButton) {
@@ -217,6 +224,7 @@ class SignInViewController: MSMessagesAppViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+        self.txtMobileNumber.isUserInteractionEnabled = true
         self.txtMobileNumber.resignFirstResponder()
     }
     
@@ -282,12 +290,16 @@ extension SignInViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+      
         if(!SharedData.sharedInstance.isMessageWindowExpand) {
             NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
+             
+            
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+      
         let textFieldText: String! = textField.text
         
         

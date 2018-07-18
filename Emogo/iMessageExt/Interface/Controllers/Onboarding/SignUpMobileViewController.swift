@@ -179,6 +179,9 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
     }
     
     @IBAction func btnActionCountryPicker(_ sender: Any) {
+        if(!SharedData.sharedInstance.isMessageWindowExpand){
+            NotificationCenter.default.post(name: NSNotification.Name(kNotification_Manage_Request_Style_Expand), object: nil)
+        }
         let nav = UINavigationController(rootViewController: popupViewController)
         customPresentViewController(customOrientationPresenter, viewController: nav, animated: true)
     }

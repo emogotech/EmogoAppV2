@@ -812,10 +812,10 @@ class PreviewController: UIViewController {
         let content = self.seletedImage
         message.layout = layout
         if ContentList.sharedInstance.objStream == nil {
-            let strURl = kNavigation_Content + (content?.contentID!)!
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)!
             message.url = URL(string: strURl)
         }else {
-            let strURl = kNavigation_Content + (content?.contentID!)! + ContentList.sharedInstance.objStream!
+            let strURl = kNavigation_Content + "/" + (content?.contentID!)! + "/" + ContentList.sharedInstance.objStream!
             message.url = URL(string: strURl)
         }
         

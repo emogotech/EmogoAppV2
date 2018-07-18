@@ -45,14 +45,14 @@ class User {
     var location                   :String! = ""
     var website                    :String! = ""
     var biography                  :String! = ""
-    var username                  :String! = ""
-    var birthday                  :String! = ""
-    var shareURL                  :String! = ""
-    var userProfileID             :String! = ""
-    var followers                 :String! = ""
-    var following                 :String! = ""
-    var stream                    :StreamDAO?
-    var displayName             :String! = ""
+    var username                   :String! = ""
+    var birthday                   :String! = ""
+    var shareURL                   :String! = ""
+    var userProfileID              :String! = ""
+    var followers                  :String! = ""
+    var following                  :String! = ""
+    var stream                     :StreamDAO?
+    var displayName                :String! = ""
 
 
    

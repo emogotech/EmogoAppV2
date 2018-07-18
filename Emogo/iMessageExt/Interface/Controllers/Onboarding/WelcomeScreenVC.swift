@@ -393,7 +393,7 @@ class WelcomeScreenVC: MSMessagesAppViewController {
                     SharedData.sharedInstance.iMessageNavigationCurrentStreamID = ""
                     SharedData.sharedInstance.iMessageNavigationCurrentContentID = splitArr[1]
                 }
-
+ 
             }
             if SharedData.sharedInstance.tempViewController == nil {
               SharedData.sharedInstance.iMessageNavigation = splitArr[0]
@@ -428,7 +428,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     
     func navigateControllerAfterMessageSelected(type:String){
         SharedData.sharedInstance.iMessageNavigation = type
-        let obj : StreamViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_Stream) as! StreamViewController
+        
+ let obj : ViewStreamController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
         obj.isFromWelcome = "TRUE"
         if type == kNavigation_Stream {
             var arrayTempStream  = [StreamDAO]()
