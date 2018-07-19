@@ -326,20 +326,20 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
     }
     
     func showDelete(){
-        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        
+        let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Delete_Stream_Msg, preferredStyle: .alert)
+      
         let saveAction = UIAlertAction(title: kAlertDelete_Content, style: .destructive, handler:
         {
             (alert: UIAlertAction!) -> Void in
             self.deleteStream()
         })
-        
+
         let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler:
         {
             (alert: UIAlertAction!) -> Void in
-            
+
         })
-        
+
         optionMenu.addAction(saveAction)
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
@@ -598,9 +598,11 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
       //MARK:- Like Dislike Stream
     
     func likeDislikeStream(){
-      
+        DispatchQueue.main.async {
+            self.hudView.startLoaderWithAnimation()
+        }
         APIServiceManager.sharedInstance.apiForLikeUnlikeStream(stream: (self.objStream?.streamID)!, status: (self.objStream?.likeStatus)!) {(count,status, results,error) in
-          
+           self.hudView.stopLoaderWithAnimation()
            if (error?.isEmpty)! {
              self.objStream?.likeStatus = status
              self.objStream?.totalLiked = count
@@ -631,9 +633,10 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                 obj.strTitle = kCollaobatorList
                 obj.arrCollaborator = objStream?.arrayColab
                 self.present(obj, animated: true, completion: nil)
-             }else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                let obj:ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                 self.present(obj, animated: true, completion: nil)
+             }
+            else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
+//                let obj:ProfileViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+//                 self.present(obj, animated: true, completion: nil)
              }
             else {
                 let objPeople = PeopleDAO(peopleData: [:])
@@ -842,14 +845,11 @@ class ViewStreamController: UIViewController,UICollectionViewDelegate,UICollecti
                     }
                     return
                 }
+              
                 if(self.currentStreamIndex != 0){
                     self.currentStreamIndex = self.currentStreamIndex - 1
                 }
-                let stream = StreamList.sharedInstance.arrayViewStream[self.currentStreamIndex]
-                let streamID = stream.ID
-                if streamID != "" {
-                    self.getStream()
-                }
+                self.getStream()
             } else {
                 self.showToastIMsg(type: .success, strMSG: errorMsg!)
             }

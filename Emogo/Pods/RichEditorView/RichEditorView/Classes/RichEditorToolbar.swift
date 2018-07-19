@@ -69,7 +69,7 @@ import UIKit
         set { backgroundToolbar.barTintColor = newValue }
     }
 
-    private var toolbarScroll: UIScrollView
+  open var toolbarScroll: UIScrollView
     private var toolbar: UIToolbar
     private var backgroundToolbar: UIToolbar
     

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_0" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -252,8 +252,8 @@
                         <constraint firstAttribute="trailing" secondItem="W1s-BR-f8r" secondAttribute="trailing" id="zsP-gM-djT"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColorr">
-                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </userDefinedRuntimeAttribute>
                         <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetWidth">
                             <integer key="value" value="1"/>
@@ -274,7 +274,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="btnBody" destination="26i-Qm-dBo" id="39f-Dw-hM1"/>
+                <outlet property="btnBold" destination="2xQ-Pn-KqU" id="Ydy-94-3HZ"/>
+                <outlet property="btnHeading" destination="wn3-3s-Ou6" id="eIN-AL-Qqw"/>
+                <outlet property="btnItalic" destination="lCL-eX-br2" id="xAO-dx-1qr"/>
                 <outlet property="btnSelectFont" destination="dGW-BJ-Wds" id="Dbw-Bb-6Vm"/>
+                <outlet property="btnTitle" destination="qAb-PR-4pA" id="3LH-Ls-7S1"/>
+                <outlet property="btnUnderline" destination="yxK-gR-Ir3" id="U0x-ki-du5"/>
             </connections>
             <point key="canvasLocation" x="32.5" y="-202"/>
         </view>

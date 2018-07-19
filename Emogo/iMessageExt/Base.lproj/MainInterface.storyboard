@@ -402,7 +402,7 @@
                                         <rect key="frame" x="104.5" y="8" width="166" height="31"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Mobile Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="RJu-Np-IyY">
-                                        <rect key="frame" x="88" y="93.5" width="199.5" height="27"/>
+                                        <rect key="frame" x="87" y="93" width="202" height="27.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="RJu-Np-IyY" secondAttribute="height" multiplier="59:8" id="tTu-p1-BLh"/>
                                         </constraints>
@@ -500,7 +500,7 @@
                                 <rect key="frame" x="0.0" y="212" width="375" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Mobile Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="Ujs-o8-5GM">
-                                        <rect key="frame" x="89" y="2" width="197.5" height="27.5"/>
+                                        <rect key="frame" x="87" y="2" width="202" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Ujs-o8-5GM" secondAttribute="height" multiplier="194:27" id="uJW-Gt-HPB"/>
                                         </constraints>
@@ -508,7 +508,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter mobile number" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="dnw-Zz-waE" customClass="SHSPhoneTextField">
-                                        <rect key="frame" x="38" y="42.5" width="299" height="47"/>
+                                        <rect key="frame" x="38" y="43" width="299" height="47"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="dnw-Zz-waE" secondAttribute="height" multiplier="299:47" id="LTo-3T-pKc"/>
@@ -529,7 +529,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BgT-Tn-ubj">
-                                        <rect key="frame" x="41" y="42.5" width="70" height="61"/>
+                                        <rect key="frame" x="41" y="43" width="70" height="61"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="ZYZ-gY-s1f"/>
                                             <constraint firstAttribute="height" constant="61" id="yPY-3A-Bc1"/>
@@ -540,7 +540,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iYc-sL-2en">
-                                        <rect key="frame" x="38" y="91.5" width="299" height="1"/>
+                                        <rect key="frame" x="38" y="92" width="299" height="1"/>
                                         <color key="backgroundColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="CWF-eR-i0U"/>
@@ -550,7 +550,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oTw-ZY-752">
-                                        <rect key="frame" x="79.5" y="109.5" width="215" height="51"/>
+                                        <rect key="frame" x="79.5" y="110" width="215" height="51"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="215" id="b9x-Td-Pdl"/>
                                             <constraint firstAttribute="height" constant="51" id="sz2-y2-r2L"/>
@@ -561,7 +561,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BYs-AF-4pe">
-                                        <rect key="frame" x="95.5" y="175.5" width="183" height="28.5"/>
+                                        <rect key="frame" x="95.5" y="176" width="183" height="28"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                         <state key="normal" title="Sign In">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1158,7 +1158,7 @@
                                         <rect key="frame" x="104.5" y="8" width="166" height="31"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Mobile Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="vpE-3n-avs">
-                                        <rect key="frame" x="98.5" y="96.5" width="179.5" height="25"/>
+                                        <rect key="frame" x="96.5" y="96" width="183.5" height="25.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="vpE-3n-avs" secondAttribute="height" multiplier="194:27" id="Xcc-Y8-Obh"/>
                                         </constraints>
@@ -1216,7 +1216,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOs-7X-UYD">
-                                        <rect key="frame" x="152.5" y="287.5" width="70" height="36"/>
+                                        <rect key="frame" x="151.5" y="287.5" width="72" height="37"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="iOs-7X-UYD" secondAttribute="height" multiplier="35:18" id="EbI-jj-Ohh"/>
                                         </constraints>
@@ -1256,7 +1256,7 @@
                                 <rect key="frame" x="0.0" y="212" width="375" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Mobile Number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="XWe-0c-D84">
-                                        <rect key="frame" x="98.5" y="2" width="179.5" height="25"/>
+                                        <rect key="frame" x="96.5" y="2" width="183.5" height="25.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="XWe-0c-D84" secondAttribute="height" multiplier="97:13" constant="-7.4615384615384528" id="t5u-I6-ObN"/>
                                         </constraints>
@@ -1264,7 +1264,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please enter mobile number" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fi1-rl-yhS" customClass="SHSPhoneTextField">
-                                        <rect key="frame" x="38" y="40" width="299" height="49"/>
+                                        <rect key="frame" x="38" y="40.5" width="299" height="49"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fi1-rl-yhS" secondAttribute="height" multiplier="299:49" id="R9a-tX-uvw"/>
@@ -1285,7 +1285,7 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqn-RC-bsM">
-                                        <rect key="frame" x="38" y="40" width="70" height="61"/>
+                                        <rect key="frame" x="38" y="40.5" width="70" height="61"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="61" id="Lyx-00-F9U"/>
                                             <constraint firstAttribute="width" constant="70" id="XB9-gA-6XI"/>
@@ -1295,7 +1295,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6q-Hu-PYn">
-                                        <rect key="frame" x="38" y="90.5" width="299" height="1"/>
+                                        <rect key="frame" x="38" y="91" width="299" height="1"/>
                                         <color key="backgroundColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="asp-MS-dzR"/>
@@ -1305,7 +1305,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8KY-RN-ayI">
-                                        <rect key="frame" x="80" y="108" width="215" height="51"/>
+                                        <rect key="frame" x="80" y="108.5" width="215" height="51"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="215" id="ezm-OB-S1g"/>
                                             <constraint firstAttribute="height" constant="51" id="t4k-VR-aHI"/>
@@ -1316,7 +1316,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Cc-Mn-B5D">
-                                        <rect key="frame" x="107.5" y="174" width="160" height="31"/>
+                                        <rect key="frame" x="107.5" y="174.5" width="160" height="30.5"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="18"/>
                                         <state key="normal" title="Sign Up">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

@@ -547,7 +547,7 @@
                                 </cells>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfz-6l-SyY">
-                                <rect key="frame" x="119" y="601" width="137" height="45"/>
+                                <rect key="frame" x="107" y="593" width="161" height="53"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="jfz-6l-SyY" secondAttribute="height" multiplier="137:45" id="nMI-fx-fsh"/>
                                 </constraints>
@@ -670,10 +670,10 @@
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cRadius">
                                                             <real key="value" value="5"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacityy">
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
                                                             <real key="value" value="1"/>
                                                         </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColorr">
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
                                                             <color key="value" red="1" green="0.15021100030000001" blue="0.1658187512" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
@@ -1192,7 +1192,7 @@
                                 <rect key="frame" x="5" y="99" width="365" height="410"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We texted you a 5 digit code. Please enter it below." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rZk-wr-NXx">
-                                        <rect key="frame" x="52.5" y="113" width="261" height="48"/>
+                                        <rect key="frame" x="52" y="114" width="261.5" height="47"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="20"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1241,7 +1241,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DC-Lh-HM0">
-                                        <rect key="frame" x="127.5" y="369" width="110" height="29"/>
+                                        <rect key="frame" x="127" y="369" width="111" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="29" id="WLK-GW-PeV"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="g7l-Qx-35Z"/>
@@ -1385,14 +1385,14 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OiI-BY-sC0">
-                                        <rect key="frame" x="75" y="268" width="215" height="53"/>
+                                        <rect key="frame" x="75" y="268" width="215" height="54"/>
                                         <state key="normal" image="new-done-btn"/>
                                         <connections>
                                             <action selector="btnDoneAction:" destination="8aY-dE-SI1" eventType="touchUpInside" id="ZOe-QP-XJt"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Exw-Tc-RmJ">
-                                        <rect key="frame" x="108.5" y="360" width="148" height="34"/>
+                                        <rect key="frame" x="110.5" y="361" width="144" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Exw-Tc-RmJ" secondAttribute="height" multiplier="74:17" id="22N-g3-cKx"/>
                                         </constraints>
@@ -1625,7 +1625,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stream Caption" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="INF-VS-5bF">
-                                                    <rect key="frame" x="14" y="6" width="111" height="22"/>
+                                                    <rect key="frame" x="14" y="6" width="119.5" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="TBf-db-Upj"/>
                                                     </constraints>
@@ -1668,7 +1668,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Stream Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="mtn-KJ-vkC">
-                                                    <rect key="frame" x="10" y="22" width="138" height="17"/>
+                                                    <rect key="frame" x="10" y="22" width="140" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="HOT-8b-ddN"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="ZzM-Mw-sfb"/>
@@ -1814,7 +1814,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="L89-Gg-6A2">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="Dag-XE-f0V"/>
                                                     </constraints>
@@ -1926,7 +1926,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yh-g8-GsU">
-                                                    <rect key="frame" x="120" y="27.5" width="136" height="45"/>
+                                                    <rect key="frame" x="108" y="23.5" width="160" height="53"/>
                                                     <state key="normal" image="done_button"/>
                                                     <connections>
                                                         <action selector="btnActionDone:" destination="d1T-Gm-eoY" eventType="touchUpInside" id="ZRq-KK-h6E"/>
@@ -3045,7 +3045,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="FjK-Mp-XtL">
-                                                    <rect key="frame" x="10" y="8" width="103" height="19"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="19" id="mRk-IV-WOt"/>
                                                     </constraints>
@@ -3480,7 +3480,7 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="add cover Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuT-8V-Thc">
-                                                    <rect key="frame" x="138" y="85" width="101" height="17"/>
+                                                    <rect key="frame" x="135" y="85" width="105.5" height="17"/>
                                                     <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -3520,7 +3520,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STREAM DESCRIPTION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="23y-5V-lY3">
-                                                    <rect key="frame" x="14" y="6" width="165.5" height="22"/>
+                                                    <rect key="frame" x="14" y="6" width="175" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="LS0-Gp-CtX"/>
                                                     </constraints>
@@ -3563,7 +3563,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make Stream Private" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="ywr-w8-MdQ">
-                                                    <rect key="frame" x="10" y="25.5" width="138" height="17"/>
+                                                    <rect key="frame" x="10" y="25.5" width="140" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="17" id="Wq8-Np-elY"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="138" id="YgT-DH-cjh"/>
@@ -3668,7 +3668,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Collaborators can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="VRe-R3-1wt">
-                                                    <rect key="frame" x="10" y="8" width="106.5" height="16"/>
+                                                    <rect key="frame" x="10" y="8" width="111.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="xRA-uv-W5w"/>
                                                     </constraints>
@@ -4668,7 +4668,7 @@ AAAAAAAAAAAAIPk
         <image name="close_icon_Action" width="24" height="24"/>
         <image name="create_new_emogo_button" width="360" height="60"/>
         <image name="demo_images" width="48" height="48"/>
-        <image name="done_button" width="136" height="45"/>
+        <image name="done_button" width="160" height="53"/>
         <image name="emogo_button_active" width="170" height="36"/>
         <image name="emogo_stream" width="182" height="53"/>
         <image name="flash-icon" width="27" height="28"/>

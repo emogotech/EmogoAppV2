@@ -8,6 +8,7 @@
 
 import UIKit
 import RichEditorView
+import CropViewController
 
 protocol CreateNotesViewControllerDelegate {
     func updatedNotes(content:ContentDAO)
@@ -32,6 +33,7 @@ class CreateNotesViewController: UIViewController {
     var contentDAO:ContentDAO?
     var delegate:CreateNotesViewControllerDelegate?
     var isOpenFrom:String?
+    var isFromSave:Bool! =  false
     
     lazy var toolbar: RichEditorToolbar = {
         let toolbar = RichEditorToolbar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 44))
@@ -45,6 +47,7 @@ class CreateNotesViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.prepareLayout()
+     //   _ =  self.editorView.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,6 +63,8 @@ class CreateNotesViewController: UIViewController {
           _ = self.editorView.becomeFirstResponder()
             self.editorView.focus()
         }
+        
+       
     }
     
     
@@ -83,19 +88,44 @@ class CreateNotesViewController: UIViewController {
         configureNaviationBar()
     }
     
+    
     func prepareEditiorView(){
         editorView.delegate = self
         // editorView.inputAccessoryView = toolbar
-        editorView.placeholder = "TYPE SOMETHING"
+        editorView.placeholder = ""
         editorView.inputAccessoryView = toolbar
         toolbar.delegate = self
         toolbar.editor = editorView
         self.editorView.isScrollEnabled = true
+          if UIDevice.current.modelName.lowercased().contains("iphone 5") || UIDevice.current.modelName.lowercased().contains("iphone 5s") {
+            self.toolbar.toolbarScroll.isScrollEnabled = true
+          }else{
+         self.toolbar.toolbarScroll.isScrollEnabled = false
+        }
+       
         prepareToolBar()
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeDown.direction = UISwipeGestureRecognizerDirection.down
+        self.view.isUserInteractionEnabled = true
+        self.view.addGestureRecognizer(swipeDown)
     
         UITextField.appearance().keyboardAppearance = .dark
     }
     
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.down:
+            self.view.endEditing(true)
+          
+            break
+                
+            default:
+                break
+            }
+        }
+    }
     
     func prepareToolBar(){
         var options = toolbar.options
@@ -139,7 +169,8 @@ class CreateNotesViewController: UIViewController {
 
         
         let itemPhoto = RichEditorOptionItem(image: #imageLiteral(resourceName: "photo_video"), title: "") { (toolbar) in
-            self.openCamera()
+            self.actionForUploadPhoto()
+           // self.openCamera()
         }
         options.append(itemPhoto)
 
@@ -169,7 +200,13 @@ class CreateNotesViewController: UIViewController {
     }
     
     @objc func backButtonAction(){
-        self.navigationController?.pop()
+           self.view.endEditing(true)
+        if !self.editorView.contentHTML.isEmpty || !self.editorView.text.trim().isEmpty {
+            self.showAlertOnBack()
+            return
+        }else{
+            self.navigationController?.pop()
+        }
     }
     
     @objc func doneButtonAction(){
@@ -203,9 +240,17 @@ class CreateNotesViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 let name = NSUUID().uuidString + ".png"
                 let image = self.editorView.toImage()
+                /*
+                let camera = ContentDAO(contentData: [:])
+                 camera.type = .notes
+                 camera.imgPreview = image
+                 camera.fileName = name
+                 camera.isUploaded = false
+               */
                 AWSRequestManager.sharedInstance.imageUpload(image: image, name: name, isContent: true, completion: { (fileURL, errorMSG) in
                     if let fileURL = fileURL {
                         if self.contentDAO == nil {
+                            
                             self.createContentAPI(imageURl: fileURL, width: Int(image.size.width), height: Int(image.size.height))
                         }else {
                             self.updateContent(coverImage: fileURL, width: Int(image.size.width), height: Int(image.size.height))
@@ -226,8 +271,102 @@ class CreateNotesViewController: UIViewController {
         self.viewContainer.layer.borderWidth = 1.0
         self.viewContainer.layer.borderColor = UIColor(r: 74, g: 74, b: 74).cgColor
     }
-
     
+    func showAlertOnBack() {
+        let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation  , preferredStyle: .actionSheet)
+        
+        let saveAction = UIAlertAction(title: kAlertSheet_Save, style: .default, handler:
+        {
+            (alert: UIAlertAction!) -> Void in
+            self.isFromSave = true
+            self.doneButtonAction()
+            
+           
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .destructive, handler:
+        {
+           
+            (alert: UIAlertAction!) -> Void in
+            
+               self.navigationController?.pop()
+        })
+        
+        optionMenu.addAction(saveAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+
+    func actionForUploadPhoto(){
+        
+        // let optionMenu = UIAlertController(title:nil, message:nil, preferredStyle: .actionSheet)
+        let optionMenu = UIAlertController()
+        let takePhotoAction = UIAlertAction(title: kAlertSheet_TakePhoto, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.openCamera()
+            
+        })
+        
+        let selectFromCameraRollAction = UIAlertAction(title: kAlertSheet_SelectFromCameraRoll, style: .default, handler: {
+            (alert: UIAlertAction!) -> Void in
+            self.imageFromGalleryAction()
+        })
+        
+        let cancelAction = UIAlertAction(title: kAlert_Cancel_Title, style: .cancel, handler: {
+            (alert: UIAlertAction!) -> Void in
+        })
+        
+        optionMenu.addAction(takePhotoAction)
+        optionMenu.addAction(selectFromCameraRollAction)
+        optionMenu.addAction(cancelAction)
+        self.present(optionMenu, animated: true, completion: nil)
+    }
+    
+    
+    func imageFromGalleryAction(){
+        let viewController = TLPhotosPickerViewController(withTLPHAssets: { [weak self] (assets) in // TLAssets
+            //     self?.selectedAssets = assets
+            if assets.count != 0 {
+                self?.prepareCoverImage(asset:assets[0])
+            }
+            }, didCancel: nil)
+        viewController.didExceedMaximumNumberOfSelection = { (picker) in
+            //exceed max selection
+        }
+        viewController.selectedAssets = [TLPHAsset]()
+        var configure = TLPhotosPickerConfigure()
+        configure.numberOfColumn = 3
+        configure.maxSelectedAssets = 1
+        configure.muteAudio = false
+        configure.usedCameraButton = false
+        configure.allowedVideo = false
+        configure.usedPrefetch = false
+        viewController.configure = configure
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func prepareCoverImage(asset:TLPHAsset){
+        if let image = asset.fullResolutionImage {
+            self.presentCropperWithImage(image: image)
+            return
+        }
+        asset.cloudImageDownload(progressBlock: { (_) in
+        }, completionBlock: { (image) in
+            if let image = image {
+                self.presentCropperWithImage(image: image)
+            }
+        })
+    }
+    
+    func presentCropperWithImage(image:UIImage){
+        let croppingStyle = CropViewCroppingStyle.default
+        let cropController = CropViewController(croppingStyle: croppingStyle, image: image)
+        cropController.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            // your code here
+            self.present(cropController, animated: true, completion: nil)
+        }
+    }
     @IBAction func btnActionForCommand(_ sender: Any) {
 //        isCommandTapped = !isCommandTapped
 //        if isCommandTapped {
@@ -402,10 +541,15 @@ class CreateNotesViewController: UIViewController {
             if (errorMSG?.isEmpty)! {
                 for obj in contents! {
                     ContentList.sharedInstance.arrayContent.append(obj)
-                    let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
-                    objPreview.isShowRetake = false
-                    objPreview.isFromNotes = self.isOpenFrom
-                    self.navigationController?.pushNormal(viewController: objPreview)
+                    if self.isFromSave == true {
+                        self.navigationController?.pop()
+                    }else{
+                        let objPreview:PreviewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_PreView) as! PreviewController
+                        objPreview.isShowRetake = false
+                        objPreview.isFromNotes = self.isOpenFrom
+                        self.navigationController?.pushNormal(viewController: objPreview)
+                    }
+                  
                 }
             }
         }
@@ -451,7 +595,7 @@ extension CreateNotesViewController:RichEditorDelegate {
         print(content)
     }
     func richEditorDidLoad(_ editor: RichEditorView) {
-        
+        _ =  self.editorView.becomeFirstResponder()
     }
     func richEditorLostFocus(_ editor: RichEditorView) {
         print("focus Lost")
@@ -470,6 +614,7 @@ extension CreateNotesViewController:TextEditorViewDelegate {
 
     func selectFontFamily(family:String){
         self.editorView.setFontFamily(family)
+        _ =  self.editorView.becomeFirstResponder()
     }
 
     func selectHeader(tag: Int) {
@@ -551,7 +696,21 @@ extension CreateNotesViewController:CustomCameraViewControllerDelegate {
         }
     }
 }
+extension CreateNotesViewController:CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        cropViewController.dismiss(animated: true) {
+                HUDManager.sharedInstance.showHUD()
+                self.uploadImage(image: image)
+        }
+       
+    }
+    func cropViewController(_ cropViewController: CropViewController, didFinishCancelled cancelled: Bool) {
+        self.dismiss(animated: true, completion: nil)
+        HUDManager.sharedInstance.showHUD()
+        self.uploadImage(image: cropViewController.image)
+    }
 
+}
 
 extension CreateNotesViewController:UITextFieldDelegate,UITextViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

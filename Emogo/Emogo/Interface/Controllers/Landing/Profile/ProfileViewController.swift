@@ -1503,15 +1503,19 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.isExclusiveTouch = true
             cell.btnEdit.tag = indexPath.row
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
-            let stream = StreamList.sharedInstance.arrayProfileColabStream[indexPath.row]
-            cell.prepareLayouts(stream: stream)
-            if stream.haveSomeUpdate {
-                cell.layer.borderWidth = 1.0
-                cell.layer.borderColor = kCardViewBordorColor.cgColor
-            }else {
-                cell.layer.borderWidth = 0.0
-                cell.layer.borderColor = UIColor.clear.cgColor
+            let isIndexValid = StreamList.sharedInstance.arrayProfileColabStream.indices.contains(indexPath.row)
+            if isIndexValid {
+                let stream = StreamList.sharedInstance.arrayProfileColabStream[indexPath.row]
+                cell.prepareLayouts(stream: stream)
+                if stream.haveSomeUpdate {
+                    cell.layer.borderWidth = 1.0
+                    cell.layer.borderColor = kCardViewBordorColor.cgColor
+                }else {
+                    cell.layer.borderWidth = 0.0
+                    cell.layer.borderColor = UIColor.clear.cgColor
+                }
             }
+           
             return cell
         }
     }
@@ -1581,7 +1585,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
-                    objPreview.isProfile = "TRUE"
+                     objPreview.isProfile = "TRUE"
                     let nav = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
                         nav.cc_setZoomTransition(originalView: imageCell.imgCover)
@@ -1612,6 +1616,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 
                 obj.viewStream = "fromColabProfile"
                 index = indexPath.row
+                StreamList.sharedInstance.arrayViewStream.removeAll()
                 StreamList.sharedInstance.arrayViewStream = StreamList.sharedInstance.arrayProfileColabStream
             }
             obj.currentIndex = index

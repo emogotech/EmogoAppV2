@@ -253,6 +253,7 @@ let kAlertSheet_SaveToGallery = "save to gallery"
 let kAlertSheet_SaveToMyStuff = "save to stuff"
 let kAlertSheet_TakePhoto = "Take photo"
 let kAlertSheet_SelectFromCameraRoll = "Select from camera roll"
+let kAlertSheet_Save = "Save"
 
 
 //Notification Name`
@@ -290,7 +291,7 @@ let kAlert_Title_Confirmation                                            = "Conf
 let kAlert_Confirmation_Button_Title                                      = "Continue"
 let kAlert_Cancel_Title                                                  = "Cancel"
 let kAlert_Title_ActionSheet                                                  =     "Report"
-
+let kAlert_Confirmation                                                 = "Do you want to save it?"
 let kAlert_Select_Time                                                   = "Select Time"
 let kAlertTitle_Emogo                                                   = "Emogo"
 let kAlert_Capture_Title                                               = "Capture limit exceeded!"

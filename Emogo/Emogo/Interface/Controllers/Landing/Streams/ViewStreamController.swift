@@ -659,8 +659,8 @@ class ViewStreamController: UIViewController {
                     self.navigationController?.push(viewController: obj)
                     
                 }else if objStream?.idCreatedBy.trim() == UserDAO.sharedInstance.user.userId.trim() {
-                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
-                    self.navigationController?.push(viewController: obj)
+//                    let obj:ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+//                    self.navigationController?.popToViewController(vc: obj)
                     
                 }
                 else {
@@ -809,12 +809,20 @@ class ViewStreamController: UIViewController {
         APIServiceManager.sharedInstance.apiForDeleteStream(streamID: id) { (isSuccess, errorMsg) in
             HUDManager.sharedInstance.hideHUD()
             if (errorMsg?.isEmpty)! {
-                if let i = StreamList.sharedInstance.arrayViewStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
-                    StreamList.sharedInstance.arrayViewStream.remove(at: i)
+                if StreamList.sharedInstance.selectedStream == nil {
+                    if let i = StreamList.sharedInstance.arrayViewStream.index(where: { $0.ID.trim() == self.objStream?.streamID.trim() }) {
+                        StreamList.sharedInstance.arrayViewStream.remove(at: i)
+                    }
+                }else {
+                    if let i = StreamList.sharedInstance.arrayViewStream.index(where: { $0.ID.trim() == StreamList.sharedInstance.selectedStream.ID.trim() }) {
+                        StreamList.sharedInstance.arrayViewStream.remove(at: i)
+                    }
                 }
+              
+               
                 for obj in StreamList.sharedInstance.arrayStream {
-                    if obj.ID == StreamList.sharedInstance.selectedStream.ID {
-                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == obj.ID.trim()}) {
+                    if obj.ID == self.objStream?.streamID.trim() {
+                        if let index =  StreamList.sharedInstance.arrayStream.index(where: {$0.ID.trim() == self.objStream?.streamID.trim()}) {
                             StreamList.sharedInstance.arrayStream.remove(at: index)
                         }
                     }

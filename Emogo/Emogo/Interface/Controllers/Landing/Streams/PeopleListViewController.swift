@@ -115,7 +115,9 @@ extension PeopleListViewController:UICollectionViewDelegate,UICollectionViewData
 
         if collaborator.userID != "" {
             if collaborator.userID.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
+                ContentList.sharedInstance.mainStreamIndex = nil
                   let obj : ProfileViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ProfileView) as! ProfileViewController
+               // self.navigationController?.popToViewController(vc: obj)
                 self.navigationController?.push(viewController: obj)
 
             }else {
