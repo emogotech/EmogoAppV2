@@ -470,7 +470,7 @@ class UserCollaborators(ListAPIView):
         )
 
         # Ensure queryset is re-evaluated on each request.
-        queryset = self.queryset.filter(id__in=Collaborator.actives.filter(phone_number= self.request.user.username).values_list('stream_id', flat=True)).select_related('created_by__user_data__user').prefetch_related(
+        queryset = self.queryset.filter(id__in=Collaborator.actives.filter(Q(phone_number= self.request.user.username )| Q(created_by_id=self.request.user.id) ).values_list('stream_id', flat=True)).select_related('created_by__user_data__user').prefetch_related(
         Prefetch(
             "stream_contents",
             queryset=StreamContent.objects.all().select_related('content').order_by('order'),

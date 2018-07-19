@@ -444,11 +444,13 @@ class GetTopStreamSerializer(serializers.Serializer):
     featured = serializers.SerializerMethodField()
     emogo = serializers.SerializerMethodField()
     popular = serializers.SerializerMethodField()
-    my_stream = serializers.SerializerMethodField()
+    # my_stream = serializers.SerializerMethodField()
     people = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
     following_stream = serializers.SerializerMethodField()
-    collaborator_qs = Collaborator.actives.all()
+    private_stream = serializers.SerializerMethodField()
+    public_stream = serializers.SerializerMethodField()
+    collaborator_qs = Collaborator.actives.all().select_related('stream')
 
     def use_fields(self):
         fields = ('id', 'name', 'image', 'author' ,'stream', 'url', 'type', 'created_by', 'video_image', 'view_count', 'height', 'width', 'have_some_update')
@@ -480,28 +482,12 @@ class GetTopStreamSerializer(serializers.Serializer):
             result_list = owner_qs[0:10]
         return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
-    def get_my_stream(self, obj):
-
-        # Get self created streams
-        result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
-        total = result_list.count()
-        result_list = result_list[0:10]
-
-        #
-        # if owner_qs.count() < 5:
-        #     # Get streams user as collaborator and has add content permission
-        #     collaborator_permission = [x.stream for x in self.collaborator_qs if
-        #                                str(x.phone_number) in str(
-        #                                    self.context.user.username) and x.stream.status == 'Active']
-        #
-        #     # merge result
-        #     result_list = list(chain(owner_qs, collaborator_permission))
-        #     total = result_list.__len__()
-        #     result_list = result_list[0:5]
-        # else:
-        #     total = owner_qs.count()
-        #     result_list = owner_qs[0:5]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
+    # def get_my_stream(self, obj):
+    #     # Get self created streams
+    #     result_list = self.qs.filter(created_by=self.context.user).order_by('-upd')
+    #     total = result_list.count()
+    #     result_list = result_list[0:10]
+    #     return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
 
     def get_people(self, obj):
         fields = ('user_profile_id', 'full_name', 'phone_number', 'people', 'user_image', 'display_name', 'user_id')
@@ -534,9 +520,22 @@ class GetTopStreamSerializer(serializers.Serializer):
         result_list = main_qs | stream_as_collabs
         total = result_list.count()
         result_list = result_list[0:10]
-        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data}
-
-
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
+    
+    ## Added Private stream 
+    def get_private_stream(self, obj):
+        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Private').order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
+    
+    ## Added Public stream 
+    def get_public_stream(self, obj):
+        result_list = self.qs.filter(created_by__id=self.context.user.id, type='Public').order_by('-upd')
+        total = result_list.count()
+        result_list = result_list[0:10]
+        return {"total": total, "data": ViewStreamSerializer(result_list, many=True, fields=self.use_fields()).data }
+    
 class UserFollowSerializer(DynamicFieldsModelSerializer):
     """
     User Follow model Serializer
@@ -567,6 +566,6 @@ class CheckContactInEmogoSerializer(serializers.Serializer):
     def find_contact_list(self):
         users = User.objects.all().values_list('username', flat=True)
         # Find User profile for contact list
-        fields = ('user_profile_id', 'full_name', 'user_image', 'display_name')
+        fields = ('user_id', 'user_profile_id', 'full_name', 'user_image', 'display_name')
         return {contact: (UserDetailSerializer(UserProfile.objects.get(user__username = contact), fields=fields, context=self.context).data 
                     if contact in users else False) for contact in self.validated_data.get('contact_list') }
