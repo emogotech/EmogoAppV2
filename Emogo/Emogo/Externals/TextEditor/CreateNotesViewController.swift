@@ -521,7 +521,7 @@ class CreateNotesViewController: UIViewController {
     
     func uploadImage(image:UIImage){
         let name = NSUUID().uuidString + ".png"
-        AWSRequestManager.sharedInstance.imageUpload(image: image.resize(to: CGSize(width: 300, height: 300)), name: name) { (fileURL, errorMSG) in
+        AWSRequestManager.sharedInstance.imageUpload(image: image, name: name) { (fileURL, errorMSG) in
           
             DispatchQueue.main.async {
                 if let fileURL = fileURL {
