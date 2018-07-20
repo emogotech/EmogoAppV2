@@ -401,15 +401,15 @@ class MyStuffViewController: UIViewController {
             self.selectedType = .All
         }
         stuffCollectionView.es.resetNoMoreData()
-        /*
+      
          // For Unselect Previous selected
-        ContentList.sharedInstance.arrayContent.removeAll()
-        for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-            let obj = ContentList.sharedInstance.arrayStuff[i]
-            obj.isSelected = false
-            ContentList.sharedInstance.arrayStuff[i] = obj
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
+            for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                let obj = ContentList.sharedInstance.arrayStuff[i]
+                obj.isSelected = false
+                ContentList.sharedInstance.arrayStuff[i] = obj
+            }
         }
- */
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNoResult.isHidden = true
         self.btnNext.isHidden = true

@@ -307,8 +307,11 @@ extension ProfileUpdateViewController:UITextViewDelegate {
          if textView == txtDisplayName {
             return textView.text.length + (text.length - range.length) <= 40
         }else if textView == txtBio {
-        return textView.text.length + (text.length - range.length) <= 160
-        }else if textView == txtLocation {
+            return textView.text.length + (text.length - range.length) <= 160
+         }else if textView == txtWebsite {
+            return textView.text.length + (text.length - range.length) <= 100
+         }
+        else if textView == txtLocation {
             return textView.text.length + (text.length - range.length) <= 25
         }
         return true

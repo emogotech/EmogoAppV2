@@ -46,6 +46,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
     @IBOutlet weak var btnNext: UIButton!
+    @IBOutlet weak var btnNextStuff: UIButton!
     @IBOutlet weak var btnAdd: UIButton!
 
     @IBOutlet weak var heightviewBio: NSLayoutConstraint!
@@ -104,6 +105,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.lblNOResult.isHidden = true
         self.configureProfileNavigation()
         self.prepareLayout(listUpdate: false)
         updateList(hud: true)
@@ -142,6 +144,7 @@ class ProfileViewController: UIViewController {
         self.title = "Profile"
         self.btnNext.isHidden = true
         self.btnAdd.isHidden = false
+        self.lblNOResult.isHidden = true
         ContentList.sharedInstance.arrayStuff.removeAll()
         StreamList.sharedInstance.arrayProfileStream.removeAll()
         StreamList.sharedInstance.arrayProfileColabStream.removeAll()
@@ -281,6 +284,11 @@ class ProfileViewController: UIViewController {
                 self.lblBio.minimumScaleFactor = 1.0
                 self.imgLink.isHidden = false
                 self.imgLocation.isHidden = false
+                
+                
+                if UserDAO.sharedInstance.user.website.trim().count > 25 {
+                    self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim(count: 25)
+                }
                 
                 self.heightviewBio.constant = 42
                 self.kViewLocWebHeight.constant = 32
@@ -441,6 +449,7 @@ class ProfileViewController: UIViewController {
                 } 
  
                 else{
+                   
                     self.kHeaderHeight.constant = 205//220
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
                
@@ -570,16 +579,15 @@ class ProfileViewController: UIViewController {
 
         }
         profileCollectionView.es.resetNoMoreData()
-        /*
-         
-        ContentList.sharedInstance.arrayContent.removeAll()
-        for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-            let obj = ContentList.sharedInstance.arrayStuff[i]
-            obj.isSelected = false
-            ContentList.sharedInstance.arrayStuff[i] = obj
+        
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
+            for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                let obj = ContentList.sharedInstance.arrayStuff[i]
+                obj.isSelected = false
+                ContentList.sharedInstance.arrayStuff[i] = obj
+            }
         }
-         
- */
+        
         self.btnNext.isHidden = true
         self.btnAdd.isHidden = false
         if ContentList.sharedInstance.arrayContent.count != 0 {
@@ -1456,6 +1464,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+         self.lblNOResult.isHidden = true
         // Create the cell and return the cell
         if currentMenu == .stuff {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
@@ -1501,6 +1510,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
             cell.layer.cornerRadius = 5.0
             cell.layer.masksToBounds = true
             cell.isExclusiveTouch = true
+            self.lblNOResult.isHidden = true
             cell.btnEdit.tag = indexPath.row
             cell.btnEdit.addTarget(self, action: #selector(self.btnActionForEdit(sender:)), for: .touchUpInside)
             let isIndexValid = StreamList.sharedInstance.arrayProfileColabStream.indices.contains(indexPath.row)

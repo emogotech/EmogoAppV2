@@ -117,6 +117,8 @@ class ViewStreamController: UIViewController {
         self.stretchyHeader = nibViews?.first as! StreamViewHeader
         self.viewStreamCollectionView.addSubview(self.stretchyHeader)
         stretchyHeader.streamDelegate = self
+        stretchyHeader.maximumContentHeight = 306
+        stretchyHeader.swipeToDown(height: 300)
         
         if self.objStream?.likeStatus == "0" {
             self.stretchyHeader.btnLike .setImage(#imageLiteral(resourceName:                  "Unlike_icon"), for: .normal)

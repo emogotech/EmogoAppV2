@@ -276,10 +276,7 @@ class ViewProfileViewController: UIViewController {
                             self.lblBio.isHidden = false
                             self.imgLink.isHidden = true
                             self.imgLocation.isHidden = true
-                            self.imgSingleView.image = self.imgLink.image
-                            let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionForWebsite))
-                            self.lblSingleView.addGestureRecognizer(tap)
-                            self.lblSingleView.isUserInteractionEnabled = true
+                            self.imgSingleView.image = self.imgLocation.image
                             self.kHeaderHeight.constant = 253//178
                             self.topConstraintRange = (CGFloat(0)..<CGFloat(253))
                         }

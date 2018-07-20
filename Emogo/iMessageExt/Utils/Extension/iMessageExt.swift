@@ -167,6 +167,16 @@ extension UIView {
         mask.path = path.cgPath
         self.layer.mask = mask
     }
+    
+    func swipeToDown (height : CGFloat ) {
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 8.0, initialSpringVelocity: 8.0, options: .curveEaseIn, animations: {
+            
+            self.frame.origin.y += height
+            
+        }, completion: nil )
+        
+    }
 }
 
 // MARK: - UIView

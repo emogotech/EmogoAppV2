@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var imgUser: NZCircularImageView!
     @IBOutlet weak var btnStream: UIButton!
     @IBOutlet weak var btnColab: UIButton!
-    @IBOutlet weak var btnStuff: UIButton!
+    @IBOutlet weak var btnNextStuff: UIButton!
     @IBOutlet weak var lblNOResult: UILabel!
     @IBOutlet weak var imgLocation: UIImageView!
     @IBOutlet weak var imgLink: UIImageView!
@@ -45,7 +45,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var segmentControl: HMSegmentedControl!
     @IBOutlet weak var lblFollowers: UILabel!
     @IBOutlet weak var lblFollowing: UILabel!
-    @IBOutlet weak var btnNext: UIButton!
+   
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var btnSetting: UIButton!
@@ -130,7 +130,7 @@ class ProfileViewController: UIViewController {
     
     func prepareLayouts(){
         self.title = "Profile"
-        self.btnNext.isHidden = true
+        self.btnNextStuff.isHidden = true
 //        self.btnClose.tintColor = UIColor(r: 0, g: 122, b: 255)
 //        self.btnShare.tintColor = UIColor(r: 0, g: 122, b: 255)
 //        self.btnSetting.tintColor = UIColor(r: 0, g: 122, b: 255)
@@ -253,6 +253,9 @@ class ProfileViewController: UIViewController {
                 self.heightviewBio.constant = 42
                 self.kViewLocWebHeight.constant = 32
                 
+                if UserDAO.sharedInstance.user.website.trim().count > 25 {
+                    self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim(count: 25)
+                } 
                 if UserDAO.sharedInstance.user.biography.trim().isEmpty {
                     self.kHeaderHeight.constant = 178
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(178))
@@ -399,7 +402,6 @@ class ProfileViewController: UIViewController {
                     self.imgLink.isHidden = true
                     self.imgLocation.isHidden = false
                     self.imgLocation.image = self.imgLocation.image
-                  
                     self.kHeaderHeight.constant = 205//210
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
                 }
@@ -429,6 +431,7 @@ class ProfileViewController: UIViewController {
                 }
                     
                 else{
+                    self.lblWebsite.isHidden = false
                     self.kHeaderHeight.constant = 205//210
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(205))
                     
@@ -507,7 +510,7 @@ class ProfileViewController: UIViewController {
             }
         }
     }
-    
+   /*
     func updateStuffList(index:Int){
         switch index {
         case 0:
@@ -566,19 +569,117 @@ class ProfileViewController: UIViewController {
             }
             self.selectedType = .All
         }
-        /*
-        ContentList.sharedInstance.arrayContent.removeAll()
-        for i in 0..<ContentList.sharedInstance.arrayStuff.count {
-            let obj = ContentList.sharedInstance.arrayStuff[i]
-            obj.isSelected = false
-            ContentList.sharedInstance.arrayStuff[i] = obj
-        }*/
+        
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
+            for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                let obj = ContentList.sharedInstance.arrayStuff[i]
+                obj.isSelected = false
+                ContentList.sharedInstance.arrayStuff[i] = obj
+            }
+        }
+        
         
         self.btnNext.isHidden = true
    
         if ContentList.sharedInstance.arrayContent.count != 0 {
             self.btnNext.isHidden = false
          
+        }
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        self.lblNOResult.isHidden = true
+        if array.count == 0  {
+            self.lblNOResult.isHidden = false
+            self.lblNOResult.text = "No Stuff Found"
+        }
+        self.profileCollectionView.reloadData()
+    }*/
+    func updateStuffList(index:Int){
+        switch index {
+        case 0:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = .All
+            self.segmentControl.selectedSegmentIndex = 0
+            break
+        case 1:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = StuffType.Picture
+            self.segmentControl.selectedSegmentIndex = 1
+            
+            break
+        case 2:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = StuffType.Video
+            self.segmentControl.selectedSegmentIndex = 2
+            
+            break
+        case 3:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = StuffType.Links
+            self.segmentControl.selectedSegmentIndex = 3
+            
+            break
+        case 4:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = StuffType.Notes
+            self.segmentControl.selectedSegmentIndex = 4
+            
+            break
+        case 5:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = StuffType.Giphy
+            self.segmentControl.selectedSegmentIndex = 5
+            
+            break
+        default:
+            if kDefault?.bool(forKey: kHapticFeedback) == true{
+                Haptic.impact(.light).generate()
+            }else{
+                
+            }
+            self.selectedType = .All
+            self.segmentControl.selectedSegmentIndex = 0
+            
+        }
+       
+        
+        if  ContentList.sharedInstance.arrayContent.count == 0 {
+            self.btnNextStuff.isHidden = true
+            for i in 0..<ContentList.sharedInstance.arrayStuff.count {
+                let obj = ContentList.sharedInstance.arrayStuff[i]
+                obj.isSelected = false
+                ContentList.sharedInstance.arrayStuff[i] = obj
+            }
+        }
+        
+        self.btnNextStuff.isHidden = true
+      
+        if ContentList.sharedInstance.arrayContent.count != 0 {
+            self.btnNextStuff.isHidden = false
+
         }
         let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
         self.lblNOResult.isHidden = true
@@ -652,11 +753,11 @@ class ProfileViewController: UIViewController {
   
     //MARK:- Button Action
     
-    @IBAction func btnNextAction(_ sender: UIButton) {
+    @IBAction func btnNextStuffAction(_ sender: Any) {
         
         let alert = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation_Description_For_Add_Content , preferredStyle: .alert)
         let Continue = UIAlertAction(title: kAlert_Confirmation_Button_Title, style: .default) { (action) in
-           
+            
             let strUrl = "\(kDeepLinkURL)\(kDeepLinkUserProfile)"
             SharedData.sharedInstance.presentAppViewWithDeepLink(strURL: strUrl)
         }
@@ -667,7 +768,7 @@ class ProfileViewController: UIViewController {
         alert.addAction(Cancel)
         present(alert, animated: true, completion: nil)
     }
-    
+   
     
     @IBAction func btnSettingAction(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: kStoryboardID_SettingView) as! SettingViewController
@@ -903,16 +1004,17 @@ class ProfileViewController: UIViewController {
         let contains =  ContentList.sharedInstance.arrayContent.contains(where: { $0.isSelected == true })
         
         if contains {
-            btnNext.isHidden = false
+             self.btnNextStuff.isHidden = false
             
         }else {
-            btnNext.isHidden = true
+             self.btnNextStuff.isHidden = true
            
         }
         
     }
     
     private func updateSegment(selected:Int){
+         ContentList.sharedInstance.arrayContent.removeAll()
         switch selected {
         case 0:
             if kDefault?.bool(forKey: kHapticFeedback) == true{
@@ -922,7 +1024,7 @@ class ProfileViewController: UIViewController {
             }
             self.selectedSegment = .EMOGOS
             self.currentMenu = .stream
-            self.btnNext.isHidden = true
+            self.btnNextStuff.isHidden = true
             self.segmentMain.selectedSegmentIndex = 0
             break
         case 1:
@@ -933,7 +1035,7 @@ class ProfileViewController: UIViewController {
             }
             self.selectedSegment = .COLLABS
             self.currentMenu = .colabs
-            self.btnNext.isHidden = true
+            self.btnNextStuff.isHidden = true
             self.segmentMain.selectedSegmentIndex = 1
             
             break
@@ -945,7 +1047,7 @@ class ProfileViewController: UIViewController {
             }
             self.selectedSegment = .MYSTUFF
             self.currentMenu = .stuff
-            self.btnNext.isHidden = true
+            self.btnNextStuff.isHidden = true
             self.segmentMain.selectedSegmentIndex = 2
             break
         default:
@@ -1120,7 +1222,7 @@ class ProfileViewController: UIViewController {
             self.streaminputDataType(type: .start)
             if (errorMsg?.isEmpty)! {
                 self.lblNOResult.isHidden = true
-                self.btnNext.isHidden = true
+                self.btnNextStuff.isHidden = true
                
                 let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
                 if array.count == 0 {
@@ -1138,7 +1240,9 @@ class ProfileViewController: UIViewController {
         }
     }
     func getMyStuff(type:RefreshType){
+        
         if type == .start || type == .up {
+            ContentList.sharedInstance.arrayContent.removeAll()
             for _ in  ContentList.sharedInstance.arrayStuff {
                 if let index = ContentList.sharedInstance.arrayStuff.index(where: { $0.stuffType == selectedType}) {
                      ContentList.sharedInstance.arrayStuff.remove(at: index)
@@ -1159,7 +1263,9 @@ class ProfileViewController: UIViewController {
             self.streaminputDataType(type: type)
             
             self.lblNOResult.isHidden = true
-            self.btnNext.isHidden = true
+              if ContentList.sharedInstance.arrayContent.count == 0 {
+                  self.btnNextStuff.isHidden = true
+            }
            
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
             if array.count == 0 {
@@ -1216,6 +1322,7 @@ class ProfileViewController: UIViewController {
         }
     }
     @objc func btnPlayAction(sender:UIButton){
+        
         let content = ContentList.sharedInstance.arrayStuff[sender.tag]
         if content.isAdd {
             //    btnActionForAddContent()
@@ -1223,15 +1330,40 @@ class ProfileViewController: UIViewController {
             let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
             ContentList.sharedInstance.arrayContent = array
             if ContentList.sharedInstance.arrayContent.count != 0 {
-                let obj:StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! StreamContentViewController
+                let obj:StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+              
                 obj.arrContentData = array
                 obj.currentStreamID = self.objStream?.streamID!
                 obj.currentContentIndex  = sender.tag
                 obj.currentStreamTitle = self.objStream?.title
-                self.present(obj, animated: false, completion: nil)
+                let nav = UINavigationController(rootViewController:  obj)
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    nav.cc_swipeBackDisabled = true
+                }
+                self.present(nav, animated: true, completion: nil)
+                //                let nav = UINavigationController(rootViewController: objPreview)
+                //            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             }
-            
-            }
+        }
+       
+//        let content = ContentList.sharedInstance.arrayStuff[sender.tag]
+//        if content.isAdd {
+//            //    btnActionForAddContent()
+//        }else {
+//            let array =  ContentList.sharedInstance.arrayStuff.filter { $0.isAdd == false }
+//            ContentList.sharedInstance.arrayContent = array
+//            if ContentList.sharedInstance.arrayContent.count != 0 {
+//                let obj:StreamContentViewController = self.storyboard!.instantiateViewController(withIdentifier: iMsgSegue_StreamContent) as! StreamContentViewController
+//                obj.arrContentData = array
+//                obj.currentStreamID = self.objStream?.streamID!
+//                obj.currentContentIndex  = sender.tag
+//                obj.currentStreamTitle = self.objStream?.title
+//                self.present(obj, animated: false, completion: nil)
+//            }
+//
+//            }
         }
     /*
     func profileStreamShow(){

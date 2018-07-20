@@ -202,8 +202,15 @@ class CreateNotesViewController: UIViewController {
     @objc func backButtonAction(){
            self.view.endEditing(true)
         if !self.editorView.contentHTML.isEmpty || !self.editorView.text.trim().isEmpty {
-            self.showAlertOnBack()
-            return
+            if self.contentDAO != nil {
+                if self.contentDAO?.description != self.editorView.text {
+                    self.showAlertOnBack()
+                }else {
+                   self.showAlertOnBack()
+                }
+            }else {
+                self.showAlertOnBack()
+            }
         }else{
             self.navigationController?.pop()
         }
@@ -273,6 +280,8 @@ class CreateNotesViewController: UIViewController {
     }
     
     func showAlertOnBack() {
+      
+
         let optionMenu = UIAlertController(title: kAlert_Title_Confirmation, message: kAlert_Confirmation  , preferredStyle: .actionSheet)
         
         let saveAction = UIAlertAction(title: kAlertSheet_Save, style: .default, handler:
@@ -595,7 +604,10 @@ extension CreateNotesViewController:RichEditorDelegate {
         print(content)
     }
     func richEditorDidLoad(_ editor: RichEditorView) {
+        let when = DispatchTime.now() + 1.5
+        DispatchQueue.main.asyncAfter(deadline: when) {
         _ =  self.editorView.becomeFirstResponder()
+        }
     }
     func richEditorLostFocus(_ editor: RichEditorView) {
         print("focus Lost")

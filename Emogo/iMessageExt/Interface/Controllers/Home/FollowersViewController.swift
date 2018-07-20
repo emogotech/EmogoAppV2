@@ -124,6 +124,7 @@ class FollowersViewController: UIViewController {
         }
     }
     func prepareTableview(){
+        self.tblFollowers.tableFooterView = UIView()
         if isSearchEnable {
             self.textFieldEditingChange(sender: txtSearch)
         }else {

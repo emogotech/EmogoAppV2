@@ -343,7 +343,7 @@ class AddCollabViewController: UIViewController {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-          //  print(results)
+            print(results)
             if (errorMSG?.isEmpty)! {
                 let arrayKey = results?.keys
                 for (index,obj) in (arrayKey?.enumerated())! {
