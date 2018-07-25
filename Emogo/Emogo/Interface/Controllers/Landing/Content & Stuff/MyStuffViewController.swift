@@ -93,7 +93,8 @@ class MyStuffViewController: UIViewController {
         }
         
         segmentControl.selectionIndicatorHeight = 1.0
-        segmentControl.backgroundColor = UIColor.white
+        segmentControl.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+       // segmentControl.backgroundColor = UIColor.white
         segmentControl.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor(r: 74, g: 74, b: 74),NSAttributedStringKey.font : fontSegment ?? UIFont.systemFont(ofSize: 12.0)]
         segmentControl.selectionIndicatorColor = UIColor(r: 74, g: 74, b: 74)
         segmentControl.selectionStyle = .textWidthStripe

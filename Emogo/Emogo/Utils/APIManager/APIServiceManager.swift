@@ -2379,6 +2379,28 @@ class APIServiceManager: NSObject {
         
         
     }
-    
+    func apiForGoToPreview(contentID:[String],completionHandler:@escaping (_ isSuccess:Bool?, _ strError:String?)->Void){
+        let url = kAPIGoToPreview + "\(contentID)/"
+     
+        APIManager.sharedInstance.GETRequest(strURL: url) { (result) in
+            switch(result){
+            case .success(let value):
+                //print(value)
+                if let code = (value as! [String:Any])["status_code"] {
+                    let status = "\(code)"
+                    if status == APIStatus.NoContent.rawValue{
+                        completionHandler(true,"")
+                    }else {
+                        let errorMessage = SharedData.sharedInstance.getErrorMessages(dict: value as! [String : Any])
+                        completionHandler(false,errorMessage)
+                    }
+                }
+            case .error(let error):
+                //print(error.localizedDescription)
+                completionHandler(false,error.localizedDescription)
+            }
+        }
+        
+    }
 }
 

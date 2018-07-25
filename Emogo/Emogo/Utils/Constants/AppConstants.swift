@@ -241,7 +241,8 @@ enum checkKeyType: String {
 
 //PlaceHolder text
 let kPlaceHolder_Text_Mobile                   = "Your number here"
-let kPlaceHolderText_Sign_Up_Name               = "Your text here"
+//let kPlaceHolderText_Sign_Up_Name               = "Your text here"
+let kPlaceHolderText_Sign_Up_Name               = "USERNAME"
 let kPlaceHolderText_Sign_Up_Verify             = "Your code here"
 
 
@@ -299,7 +300,7 @@ let kAlert_Message                                                     = "Messag
 let kSaveAlertTitle                                                = "where would you like to save this?"
 
 let kAlertTitle_Yes = "YES"
-let kAlertTitle_No =  "No"
+let kAlertTitle_No =  "NO"
 let kAlertTitle_Unfollow =  "Unfollow"
 
 

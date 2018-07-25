@@ -8,15 +8,19 @@
 
 import UIKit
 
+
 class VerificationViewController: UIViewController {
     
     // MARK: - UI Elements
 
-    @IBOutlet weak var txtOtP                 : SHSPhoneTextField!
+   // @IBOutlet weak var txtOtP                 : SHSPhoneTextField!
 
-     var OTP:String!
-     var phone:String!
-     var isForLogin:String!
+    @IBOutlet weak var otpView: VPMOTPView!
+    
+    var OTP:String!
+    var phone:String!
+    var isForLogin:String!
+    var txtOtP: String = ""
 
     // MARK: - Override Functions
     override func viewDidLoad() {
@@ -39,8 +43,24 @@ class VerificationViewController: UIViewController {
     func prepareLayouts(){
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.disMissKeyboard))
         view.addGestureRecognizer(tap)
-        addToolBar(textField: txtOtP)
-        txtOtP.formatter.setDefaultOutputPattern("#####")
+        self.setOTPView()
+      //  addToolBar(textField: txtOtP)
+       // txtOtP.formatter.setDefaultOutputPattern("#####")
+    }
+    
+    func setOTPView() {
+        
+        otpView.otpFieldsCount = 5
+        otpView.otpFieldDefaultBorderColor = UIColor.gray
+        otpView.otpFieldDisplayType = .square
+        otpView.otpFieldSize = 50
+        otpView.otpFieldBorderWidth = 1
+        otpView.cursorColor = UIColor.gray
+        otpView.delegate = self
+        otpView.shouldAllowIntermediateEditing = false
+        
+        // Create the UI
+        otpView.initializeUI()
     }
     
     func addToolBar(textField: UITextField){
@@ -64,10 +84,11 @@ class VerificationViewController: UIViewController {
     
     // MARK: -  Action Methods And Selector
     @IBAction func btnGoToLandingScreen(_ sender: Any) {
+      
         
-        if (self.txtOtP.text?.trim().isEmpty)! {
-            self.txtOtP.shake()
-        }else if (txtOtP.text?.trim().count)! != 5 {
+        if (self.txtOtP.trim().isEmpty) {
+           // self.txtOtP.shake()
+        }else if (txtOtP.trim().count) != 5 {
             self.showToast(type: .error, strMSG: kAlert_Verification_Length_Msg)
         }else {
             self.view.endEditing(true)
@@ -83,6 +104,11 @@ class VerificationViewController: UIViewController {
     @IBAction func btnResendOTPAction(_ sender: Any) {
         self.resendOTP()
     }
+    
+    @IBAction func btnbackAction(_ sender: Any) {
+        self.navigationController?.pop()
+
+    }
 
     // MARK: - Class Methods
     @objc func disMissKeyboard(){
@@ -94,7 +120,7 @@ class VerificationViewController: UIViewController {
     func verifyOTP(){
         if Reachability.isNetworkAvailable() {
             HUDManager.sharedInstance.showHUD()
-            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
+            APIServiceManager.sharedInstance.apiForVerifyUserOTP(otp: self.txtOtP,phone: self.phone) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
@@ -114,7 +140,7 @@ class VerificationViewController: UIViewController {
         
         if Reachability.isNetworkAvailable() {
             HUDManager.sharedInstance.showHUD()
-            APIServiceManager.sharedInstance.apiForVerifyLoginOTP(otp: self.txtOtP.text!,phone: self.phone) { (isSuccess, errorMsg) in
+            APIServiceManager.sharedInstance.apiForVerifyLoginOTP(otp: self.txtOtP,phone: self.phone) { (isSuccess, errorMsg) in
                 HUDManager.sharedInstance.hideHUD()
                 if isSuccess == true {
                     AppDelegate.appDelegate.removeOberserver()
@@ -154,4 +180,22 @@ class VerificationViewController: UIViewController {
     }
     */
 
+}
+
+extension VerificationViewController: VPMOTPViewDelegate {
+    
+    func hasEnteredAllOTP(hasEntered: Bool) -> Bool {
+        print("Has entered all OTP? \(hasEntered)")
+        
+        return true
+    }
+    
+    func shouldBecomeFirstResponderForOTP(otpFieldIndex index: Int) -> Bool {
+        return true
+    }
+    
+    func enteredOTP(otpString: String) {
+        txtOtP = otpString
+        print("OTPString: \(otpString)")
+    }
 }

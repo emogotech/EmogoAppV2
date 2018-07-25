@@ -16,6 +16,7 @@ class FollowerCell: UITableViewCell {
     @IBOutlet weak var ViewUser: UIView!
     @IBOutlet weak var viewMessage: UIView!
 
+    @IBOutlet weak var imgMsg: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

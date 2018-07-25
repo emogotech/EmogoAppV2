@@ -86,6 +86,7 @@ let kMyStreamListAPI                                 = "user_streams?public_stre
 let kMyStreamCollabListAPI                           = "user_streams?collab_stream="
 let kAPIIncreaseViewCount                            = "increase_view_count/"
 let kAPICheckEmogoUser                               = "check_contact_in_emogo_user/"
+let kAPIGoToPreview                                  = "bulk_contents?ids="
 
 
 // MARK: -  API STATUS CODE

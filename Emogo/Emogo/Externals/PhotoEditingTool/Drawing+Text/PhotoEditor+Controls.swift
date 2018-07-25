@@ -95,6 +95,7 @@ extension PhotoEditorViewController {
             break
         case 103:
             isDrawing = false
+            
         self.selectedFeature = .sticker
         stickersButtonTapped()
             break
@@ -320,6 +321,7 @@ extension PhotoEditorViewController {
     
     func endDone(){
         self.colorsCollectionView.isHidden = true
+        self.viewDescription.isHidden = true
      //   doneButton.isHidden = false
         hideToolbar(hide: false)
     }

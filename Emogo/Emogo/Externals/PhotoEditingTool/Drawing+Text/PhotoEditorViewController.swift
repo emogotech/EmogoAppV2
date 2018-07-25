@@ -317,6 +317,7 @@ enum EditingFeature {
     
     func configureNavigationForSticker(){
        configureNavigationForText()
+        self.viewDescription.isHidden = true
     }
     
     func configureNavigationForText(){

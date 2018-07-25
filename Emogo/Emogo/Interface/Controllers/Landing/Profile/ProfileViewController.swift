@@ -464,7 +464,7 @@ class ProfileViewController: UIViewController {
             self.btnContainer.roundCorners([.topLeft,.topRight], radius: 5)
         }
       
-    //  btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
+      //btnContainer.addBorders(edges: [UIRectEdge.top,UIRectEdge.bottom], color: color, thickness: 1)
         
         
         if  self.currentMenu == .stuff {
@@ -1595,7 +1595,7 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                     
                     let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
                       objPreview.currentIndex = indexPath.row
-                     objPreview.isProfile = "TRUE"
+                      objPreview.isProfile = "TRUE"
                     let nav = UINavigationController(rootViewController: objPreview)
                     if let imageCell = collectionView.cellForItem(at: indexPath) as? MyStuffCell {
                         nav.cc_setZoomTransition(originalView: imageCell.imgCover)

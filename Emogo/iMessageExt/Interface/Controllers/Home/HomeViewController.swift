@@ -1530,13 +1530,13 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "cell", at: index)
         
         if(index == pagerView.currentIndex) {
-            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = UIImage(named: self.arrImagesSelected[index])
             cell.addLayerInImageView(isTrue : true)
         }
         else {
-            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 65, height: 65)
+            cell.imageView?.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
             cell.imageView?.center = cell.contentView.center
             cell.imageView?.image = UIImage(named: self.arrImages[index])
         }
@@ -1899,12 +1899,12 @@ extension HomeViewController : FSPagerViewDataSource,FSPagerViewDelegate {
             let indexPath = NSIndexPath(row: row, section: 0)
             if let sel = pagerView.collectionView.cellForItem(at: indexPath as IndexPath) {
                 if(sender == (sel as! FSPagerViewCell).imageView?.tag){
-                    (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 90, height: 90)
+                    (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 75, height: 75)
                     (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
                     (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImagesSelected[indexPath.row])
                     (sel as! FSPagerViewCell).addLayerInImageView(isTrue : true)
                 } else {
-                    (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 65, height: 65)
+                    (sel as! FSPagerViewCell).imageView?.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
                     (sel as! FSPagerViewCell).imageView?.center = (sel as! FSPagerViewCell).contentView.center
                     (sel as! FSPagerViewCell).imageView?.image = UIImage(named: self.arrImages[indexPath.row])
                 }

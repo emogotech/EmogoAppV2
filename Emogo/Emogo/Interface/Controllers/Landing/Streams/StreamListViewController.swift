@@ -63,7 +63,7 @@ class StreamListViewController: UIViewController {
             self.menuView.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "cell")
             menuView.backgroundView?.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0)
             menuView.backgroundColor = #colorLiteral(red: 0.4392156899, green: 0.01176470611, blue: 0.1921568662, alpha: 0)
-            menuView.itemSize = CGSize(width: 130, height: 130)
+            menuView.itemSize = CGSize(width: 90, height: 90)
             menuView.transformer = FSPagerViewTransformer(type:.ferrisWheel)
             menuView.delegate = self
             menuView.dataSource = self
@@ -182,11 +182,11 @@ class StreamListViewController: UIViewController {
 
             let frame = self.menuView.frame
             //let viewFrame = self.viewMenu.frame
-//            self.menuView.backgroundColor = .red
-//            self.viewMenu.backgroundColor = .green
+           // self.menuView.backgroundColor = .red
+            // self.viewMenu.backgroundColor = .black
             
-            let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
-            let guide  =  self.view.safeAreaLayoutGuide
+           let extraBottomSpace = UIApplication.shared.keyWindow?.safeAreaInsets.bottom
+           let guide  =  self.view.safeAreaLayoutGuide
 
             
             self.menuView.removeConstraints(self.menuView.constraints)
@@ -194,7 +194,7 @@ class StreamListViewController: UIViewController {
             
             self.menuView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             
-            self.menuView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace! - 10).isActive = false
+          self.menuView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace! - 10).isActive = false
             self.menuView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
             self.menuView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
             self.menuView.heightAnchor.constraint(equalToConstant: frame.size.height).isActive = true
@@ -674,8 +674,13 @@ class StreamListViewController: UIViewController {
     
     @IBAction func btnActionAdd(_ sender: Any) {
         
-        self.btnAdd.isHaptic = true
-        self.btnAdd.hapticType = .impact(.light)
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+            self.btnAdd.isHaptic = true
+            self.btnAdd.hapticType = .impact(.heavy)
+        }else{
+            self.btnAdd.isHaptic = false
+        }
         
         if self.timer != nil {
             self.timer?.invalidate()

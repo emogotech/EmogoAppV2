@@ -235,7 +235,7 @@ extension PhotoEditorViewController : UIGestureRecognizerDelegate  {
     func moveView(view: UIView, recognizer: UIPanGestureRecognizer)  {
         
         deleteView.isHidden = false
-        
+       
         view.superview?.bringSubview(toFront: view)
         let pointToSuperView = recognizer.location(in: self.view)
         

@@ -20,29 +20,8 @@ class FollowersViewController: UIViewController {
     var arraySearch = [FollowerDAO]()
     var isSearchEnable:Bool! = false
     var isEditingEnable:Bool! = true
-    
-    let customOrientationPresenter: Presentr = {
-        let width = ModalSize.sideMargin(value: 20)
-        let height = ModalSize.sideMargin(value: 20)
-        let center = ModalCenterPosition.center
-        let customType = PresentationType.custom(width: width, height: height, center: center)
-        let customPresenter = Presentr(presentationType: customType)
-        customPresenter.transitionType = .coverVerticalFromTop
-        customPresenter.dismissTransitionType = .crossDissolve
-        customPresenter.roundCorners = true
-        customPresenter.backgroundColor = .black
-        customPresenter.backgroundOpacity = 0.5
-        customPresenter.cornerRadius = 5.0
-        customPresenter.dismissOnSwipe = true
-        return customPresenter
-    }()
-    
-   
-//    lazy var popupViewController: AddCollaboratorContactsController = {
-//        let popupViewController = self.storyboard?.instantiateViewController(withIdentifier: kStoryboardID_AddCollaboratorContactsView)
-//        return popupViewController as! AddCollaboratorContactsController
-    //}()
-    
+    var delegate:AddCollabViewControllerDelegate?
+    var objStream:StreamViewDAO?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -341,7 +320,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
          //   return 1
-            return 0
+            return 1
         }else {
             if isSearchEnable {
                 return self.arraySearch.count
@@ -375,11 +354,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        }else {
             return 50
-        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -387,6 +362,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
         let view:FollowHeader = nibViews?.first as! FollowHeader
         if section == 0 {
             view.lblTitle.text = "Invite"
+       
         }else {
             view.lblTitle.text = self.listType.rawValue
         }
@@ -397,8 +373,20 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-           
-    //customPresentViewController(customOrientationPresenter, viewController: popupViewController, animated: true)
+            if UserDAO.sharedInstance.user.shareURL.isEmpty {
+                return
+            }
+            let url:URL = URL(string: UserDAO.sharedInstance.user.shareURL!)!
+            
+            let shareItem =  "Collaborate with me on emogo!"
+            // let shareItem = "Hey checkout the s profile,emogo"
+            let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: [shareItem,url], applicationActivities:nil)
+            //  activityViewController.excludedActivityTypes = [.print, .copyToPasteboard, .assignToContact, .saveToCameraRoll, .airDrop]
+            
+            DispatchQueue.main.async {
+                self.present(activityViewController, animated: true, completion: nil);
+            }
+      
         }else {
             var people:FollowerDAO!
             if isSearchEnable {

@@ -12,6 +12,7 @@ import Messages
 import Lightbox
 import Photos
 import IQKeyboardManagerSwift
+import Haptica
 
 
 protocol ContentViewControllerDelegate {
@@ -45,6 +46,7 @@ class ContentViewController: UIViewController {
     var lightBoxIndex:Int! = 0
    var arrayLightBoxIndexes = [Int]()
     var isFromNotesEdit:Bool! = false
+    var viewIndex:Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,6 +125,9 @@ class ContentViewController: UIViewController {
                 seletedImage = ContentList.sharedInstance.arrayContent[currentIndex]
             }
         }
+        
+        print(seletedImage.contentID)
+        
         if seletedImage == nil {
             return
         }
@@ -146,8 +151,9 @@ class ContentViewController: UIViewController {
         }
         
         if isFromViewStream == false {
+            
             if isViewCount != nil && seletedImage.fileName != "SreamCover"{
-                apiForIncreaseViewCount()
+                    apiForIncreaseViewCount()
             }
         }
         isFromViewStream = false
@@ -318,6 +324,15 @@ class ContentViewController: UIViewController {
   
     
     @IBAction func btnActionAddStream(_ sender: Any) {
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+            self.btnAddToEmogo.isHaptic = true
+            self.btnAddToEmogo.hapticType = .impact(.heavy)
+        }else{
+            self.btnAddToEmogo.isHaptic = false
+        }
+        
         let obj:MyStreamViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_MyStreamView) as! MyStreamViewController
         obj.objContent = seletedImage
         obj.streamID =  ContentList.sharedInstance.objStream
@@ -416,7 +431,7 @@ class ContentViewController: UIViewController {
                 self.videoDownload()
                 
             }else if self.seletedImage.type == .gif{
-        
+             
                 SharedData.sharedInstance.downloadImage(url: self.seletedImage.coverImageVideo, handler: { (image) in
                     HUDManager.sharedInstance.hideHUD()
                     if image != nil {
@@ -470,7 +485,7 @@ class ContentViewController: UIViewController {
     }
     
     func performEdit(){
-        if seletedImage.type == .image {
+        if seletedImage.type == .image ||  seletedImage.type == .gif {
             if self.seletedImage.imgPreview == nil {
                 HUDManager.sharedInstance.showHUD()
                 SharedData.sharedInstance.downloadImage(url: seletedImage.coverImage, handler: { (image) in
@@ -759,6 +774,9 @@ class ContentViewController: UIViewController {
             controller.dynamicBackground = true
             if arrayContents.count != 0 {
                 present(controller, animated: true, completion: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.viewIndex = -1
+                }
             }
         }
     }
@@ -811,7 +829,9 @@ extension ContentViewController:UICollectionViewDelegate,UICollectionViewDataSou
         return CGSize(width: kFrame.size.width, height: self.collectionView.frame.size.height)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.openFullView()
+        self.viewIndex = indexPath.row
+           self.openFullView()
+      
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -895,8 +915,15 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
     func lightboxController(_ controller: LightboxController, didMoveToPage page: Int){
        //   self.currentIndex = controller.currentPage
           print(page)
-        self.lightBoxIndex = page
-      //   self.updateContent()
+         self.lightBoxIndex = page
+        if  self.viewIndex != self.currentIndex {
+            if isFromViewStream == false {
+                if isViewCount != nil && seletedImage.fileName != "SreamCover"{
+                    apiForIncreaseViewCount()
+                }
+            }
+        }
+       
      //   self.updateCollectionView()
     }
     func lightboxControllerWillDismiss(_ controller: LightboxController){
@@ -910,6 +937,7 @@ extension ContentViewController:LightboxControllerPageDelegate,LightboxControlle
             }
         }
     }
+    
 }
 
 extension ContentViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {

@@ -127,6 +127,8 @@
 		F022DBC820F75F650043FFFB /* SHSPhoneNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2D1FBDB5CC00081900 /* SHSPhoneNumberFormatter.m */; };
 		F022DBC920F75F690043FFFB /* SHSPhoneLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A2B1FBDB5CA00081900 /* SHSPhoneLogic.m */; };
 		F022DBCA20F75F6D0043FFFB /* SHSFlagAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4148A321FBDB5CD00081900 /* SHSFlagAccessoryView.m */; };
+		F0231CAD21087A6700ADE30F /* VPMOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E90B70210732DD003DE904 /* VPMOTPView.swift */; };
+		F0231CAE21087A6B00ADE30F /* VPMOTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */; };
 		F03330E820E110EB006C0C58 /* ViewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03330E720E110EA006C0C58 /* ViewProfileViewController.swift */; };
 		F03548C820E3BD0700C2E275 /* ProfileStreamViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03548C720E3BD0700C2E275 /* ProfileStreamViewCell.swift */; };
 		F036D15520DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036D15320DB7CE3003ED5AD /* MyStreamSegmentHeaderView.swift */; };
@@ -160,6 +162,9 @@
 		F0C1139E20D39F4E00F1569C /* AddCollabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */; };
 		F0C113A020D39F7C00F1569C /* AddCollabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */; };
 		F0C7592620EC9624004AB444 /* MIBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C3ADF1FE13A96009CD942 /* MIBadgeButton.swift */; };
+		F0E90B6B21072BA8003DE904 /* Copperplate.ttc in Resources */ = {isa = PBXBuildFile; fileRef = F0E90B6A21072BA8003DE904 /* Copperplate.ttc */; };
+		F0E90B71210732DE003DE904 /* VPMOTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */; };
+		F0E90B72210732DE003DE904 /* VPMOTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0E90B70210732DD003DE904 /* VPMOTPView.swift */; };
 		F0F789C020FCCEFD0081B2F3 /* StreamContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F789BF20FCCEFC0081B2F3 /* StreamContentCell.swift */; };
 		F0F9DC3820E0F4CC000E2CA1 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */; };
 		F0FDA20B20D25D97006BA09A /* CreateStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */; };
@@ -662,6 +667,9 @@
 		F0B3EEA820E4E78100599675 /* LikeStreamListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeStreamListCell.swift; sourceTree = "<group>"; };
 		F0C1139D20D39F4D00F1569C /* AddCollabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabViewController.swift; sourceTree = "<group>"; };
 		F0C1139F20D39F7C00F1569C /* AddCollabCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCollabCell.swift; sourceTree = "<group>"; };
+		F0E90B6A21072BA8003DE904 /* Copperplate.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Copperplate.ttc; sourceTree = "<group>"; };
+		F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPMOTPTextField.swift; sourceTree = "<group>"; };
+		F0E90B70210732DD003DE904 /* VPMOTPView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPMOTPView.swift; sourceTree = "<group>"; };
 		F0F789BF20FCCEFC0081B2F3 /* StreamContentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamContentCell.swift; sourceTree = "<group>"; };
 		F0F9DC3720E0F4CA000E2CA1 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F0FDA20A20D25D97006BA09A /* CreateStreamController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStreamController.swift; sourceTree = "<group>"; };
@@ -1382,6 +1390,7 @@
 		33BCB03E1FBB353E004FF634 /* Externals */ = {
 			isa = PBXGroup;
 			children = (
+				F0E90B6E210732DD003DE904 /* VPMOTPView */,
 				F4430A3720F760AB00515FEB /* CollectionView */,
 				F4EF0AFF20DCD0570004AC50 /* NavigationController */,
 				F41846ED20DBBC900077CEAB /* ZoomTransition */,
@@ -1452,6 +1461,7 @@
 		33BCB0431FBB353E004FF634 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				F0E90B6A21072BA8003DE904 /* Copperplate.ttc */,
 				F02C61A7204FF5EB0041CEE4 /* SF-UI-Display-Semibold.otf */,
 				F45AAE7320849A0A00C452DE /* SF-UI-Display-Medium.otf */,
 				F4DAE8F3205BC58F00B5A892 /* SF-UI-Display-Light.otf */,
@@ -1577,6 +1587,15 @@
 				F03548C720E3BD0700C2E275 /* ProfileStreamViewCell.swift */,
 			);
 			path = ProfileCell;
+			sourceTree = "<group>";
+		};
+		F0E90B6E210732DD003DE904 /* VPMOTPView */ = {
+			isa = PBXGroup;
+			children = (
+				F0E90B6F210732DD003DE904 /* VPMOTPTextField.swift */,
+				F0E90B70210732DD003DE904 /* VPMOTPView.swift */,
+			);
+			path = VPMOTPView;
 			sourceTree = "<group>";
 		};
 		F0FDA20E20D26AD5006BA09A /* Presenter */ = {
@@ -2652,6 +2671,7 @@
 			files = (
 				F4CDD4FA2011DE07005436A1 /* PMActionCell.xib in Resources */,
 				F41FD94F20A9583F00FA8623 /* EmojiCollectionViewCell.xib in Resources */,
+				F0E90B6B21072BA8003DE904 /* Copperplate.ttc in Resources */,
 				F40D3E6320CE5B9F008ED566 /* TextEditorView.xib in Resources */,
 				F41FD94120A9583F00FA8623 /* PhotoCropEditorBorder.png in Resources */,
 				F40557CB20AEB39D00A28F51 /* countryCodes.json in Resources */,
@@ -3073,6 +3093,7 @@
 				F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */,
 				33DAB2F91FC6B9AC0053AC23 /* FSPagerCollectionView.swift in Sources */,
 				F4266EFC1FF670830075BFD7 /* ProfileViewController.swift in Sources */,
+				F0E90B71210732DE003DE904 /* VPMOTPTextField.swift in Sources */,
 				F41FD94020A9583F00FA8623 /* GradientView.swift in Sources */,
 				F4539375200CD93200F7D029 /* UILabel+LineCounter.m in Sources */,
 				F45A78721FBC4FF4003FD6AB /* RequestDAO.swift in Sources */,
@@ -3201,6 +3222,7 @@
 				F463DAD1200DE69C0039A58A /* CustomCameraViewController.swift in Sources */,
 				F005121520DA331F00EA4E50 /* SegmentHeaderViewCell.swift in Sources */,
 				F41FD94820A9583F00FA8623 /* UIView+Image.swift in Sources */,
+				F0E90B72210732DE003DE904 /* VPMOTPView.swift in Sources */,
 				F4EF0B0B20DCF26D0004AC50 /* CCSwipBackPresentationController.swift in Sources */,
 				F46AB0C720BC2BFC00229031 /* VideoEditor+UITextView.swift in Sources */,
 				F433EDA0201739E8004FEB93 /* MyStreamHeaderView.swift in Sources */,
@@ -3411,6 +3433,7 @@
 				F406FD0120878D25006192B4 /* FollowerDAO.swift in Sources */,
 				337B8FB21FBEF37F00CFACE3 /* NSDictionary+NullRemover.m in Sources */,
 				2BBF98451FEA98D90092AA82 /* UIImageView+Letters.swift in Sources */,
+				F0231CAE21087A6B00ADE30F /* VPMOTPTextField.swift in Sources */,
 				330FEB891FC4132C00552260 /* Reachability.swift in Sources */,
 				2BDC4AA71FD1178C0018FC6E /* HomeCollectionViewCell.swift in Sources */,
 				2BA272731FD6ABA700543957 /* CollaboratorCollectionViewCell.swift in Sources */,
@@ -3440,6 +3463,7 @@
 				F022DBC720F75F610043FFFB /* SHSPhoneNumberFormatter+UserConfig.m in Sources */,
 				F03548C820E3BD0700C2E275 /* ProfileStreamViewCell.swift in Sources */,
 				2B677A3A1FF28E3B00709663 /* PeopleSearchCollectionViewCell.swift in Sources */,
+				F0231CAD21087A6700ADE30F /* VPMOTPView.swift in Sources */,
 				F065AAA320E0C43E00993DD6 /* MyStuffCell.swift in Sources */,
 				F4110B511FBEDC9000BC2A8A /* APIManager.swift in Sources */,
 				F03330E820E110EB006C0C58 /* ViewProfileViewController.swift in Sources */,

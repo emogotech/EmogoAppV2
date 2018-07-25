@@ -128,21 +128,23 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-       
+     
         
         images.removeAll()
         
         if  SharedData.sharedInstance.isMessageWindowExpand {
-            images.append(UIImage(named: "tut_iphone_1")!)
-            images.append(UIImage(named: "tut_iphone_2")!)
-            images.append(UIImage(named: "tut_iphone_3")!)
-            images.append(UIImage(named: "tut_iphone_4")!)
-        }else{
             images.append(UIImage(named: "tut_imsg_1")!)
             images.append(UIImage(named: "tut_imsg_2")!)
             images.append(UIImage(named: "tut_imsg_3")!)
             images.append(UIImage(named: "tut_imsg_4")!)
+         
+        }else{
+            images.append(UIImage(named: "imsg_onbr_1")!)
+            images.append(UIImage(named: "imsg_onbr_2")!)
+            images.append(UIImage(named: "imsg_onbr_3")!)
+            images.append(UIImage(named: "imsg_onbr_4")!)
+            images.append(UIImage(named: "imsg_onbr_5")!)
+            images.append(UIImage(named: "imsg_onbr_6")!)
         }
 
         pageController.setCurrentPage(0)

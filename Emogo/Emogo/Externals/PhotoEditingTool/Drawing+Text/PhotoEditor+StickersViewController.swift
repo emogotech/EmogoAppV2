@@ -83,7 +83,7 @@ extension PhotoEditorViewController: StickersViewControllerDelegate {
     
     func didSelectImage(image: UIImage) {
 //        isStriker = true
-        
+
         let imageView = UIImageView(image: image)
         imageView.tag = 111
         imageView.contentMode = .scaleAspectFill

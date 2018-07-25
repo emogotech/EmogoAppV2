@@ -10,6 +10,7 @@ import UIKit
 import SwiftyCam
 import CropViewController
 import RS3DSegmentedControl
+import Haptica
 
 protocol CustomCameraViewControllerDelegate {
     func dismissWith(image:UIImage?)
@@ -345,6 +346,14 @@ class CustomCameraViewController: SwiftyCamViewController {
     
     
     @IBAction func btnActionSwitchCamera(_ sender: Any) {
+        
+        if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
+            self.btnCameraSwitch.isHaptic = true
+            self.btnCameraSwitch.hapticType = .impact(.heavy)
+        }else{
+            self.btnCameraSwitch.isHaptic = false
+        }
         switchCamera()
     }
     
@@ -455,8 +464,9 @@ class CustomCameraViewController: SwiftyCamViewController {
        // print("Normal tap")
         
         if kDefault?.bool(forKey: kHapticFeedback) == true {
+            Haptic.impact(.heavy).generate()
             self.btnCamera.isHaptic = true
-            self.btnCamera.hapticType = .impact(.light)
+            self.btnCamera.hapticType = .impact(.heavy)
         }else{
             self.btnCamera.isHaptic = false
         }
