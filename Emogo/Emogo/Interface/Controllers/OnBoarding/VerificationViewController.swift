@@ -53,7 +53,7 @@ class VerificationViewController: UIViewController {
         otpView.otpFieldsCount = 5
         otpView.otpFieldDefaultBorderColor = UIColor.gray
         otpView.otpFieldDisplayType = .square
-        otpView.otpFieldSize = 50
+        otpView.otpFieldSize = 40
         otpView.otpFieldBorderWidth = 1
         otpView.cursorColor = UIColor.gray
         otpView.delegate = self

@@ -137,9 +137,13 @@ class ContentViewController: UIViewController {
             self.btnLikeDislike .setImage(#imageLiteral(resourceName: "like_icon"), for: .normal)
         }
         self.collectionView.reloadData()
+        
+        
         btnAddToEmogo.isHidden = true
         btnShare.isHidden = true
         btnSave.isHidden = true
+        
+        
         if self.seletedImage.isShowAddStream {
             btnAddToEmogo.isHidden = false
             btnShare.isHidden = false

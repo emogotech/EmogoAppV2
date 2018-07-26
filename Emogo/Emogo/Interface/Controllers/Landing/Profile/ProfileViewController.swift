@@ -286,8 +286,8 @@ class ProfileViewController: UIViewController {
                 self.imgLocation.isHidden = false
                 
                 
-                if UserDAO.sharedInstance.user.website.trim().count > 25 {
-                    self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim(count: 25)
+                if UserDAO.sharedInstance.user.website.trim().count > 27 {
+                    self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27)) ..."
                 }
                 
                 self.heightviewBio.constant = 42

@@ -354,14 +354,15 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-            return 50
-    }
     
+            return 50
+       
+    }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let nibViews = Bundle.main.loadNibNamed(kHeader, owner: self, options: nil)
         let view:FollowHeader = nibViews?.first as! FollowHeader
         if section == 0 {
-            view.lblTitle.text = "Invite"
+           view.lblTitle.text = "Invite"
        
         }else {
             view.lblTitle.text = self.listType.rawValue

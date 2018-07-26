@@ -22,6 +22,11 @@ class AddCollabViewController: UIViewController {
     @IBOutlet weak var btnAdd: UIButton!
     @IBOutlet weak var tfSearch: UITextField!
     @IBOutlet weak var viewSearch: UIView!
+    @IBOutlet weak var btnCancel: UIButton!
+    @IBOutlet weak var viewAddCollab: UIView!
+    @IBOutlet weak var btnInviteFriends: UIButton!
+    @IBOutlet weak var kConsViewTop: NSLayoutConstraint!
+    
     var arrIndexSection : [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     var arrayToShow = [Any]()
     var arraySearch = [Any]()
@@ -38,6 +43,9 @@ class AddCollabViewController: UIViewController {
     var delegate:AddCollabViewControllerDelegate?
     var arrayTempSelected = [CollaboratorDAO]()
     var objStream:StreamViewDAO?
+    var kOriginalContants:CGFloat = 0.0
+  // var consTopHeight = CGSize.zero
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +53,21 @@ class AddCollabViewController: UIViewController {
         tfSearch.delegate = self
         self.tblAddCollab.dataSource = self
         tblAddCollab.sectionIndexColor = UIColor.lightGray
+        self.viewAddCollab.isHidden = false
+        self.viewAddCollab.cornerRadius = 15.0
+        self.viewAddCollab.clipsToBounds = true
         // self.tblAddCollab.rowHeight = UITableViewAutomaticDimension
         //  self.tblAddCollab.estimatedRowHeight = 250
         self.prepareLayouts()
+      
+         self.navigationController?.isNavigationBarHidden = true
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super .viewDidAppear(true)
+        kOriginalContants =  self.kConsViewTop.constant
+        print(kOriginalContants)
         self.tblAddCollab.reloadData()
     }
     override func didReceiveMemoryWarning() {
@@ -69,9 +84,21 @@ class AddCollabViewController: UIViewController {
         }
         self.tblAddCollab.separatorStyle = .none
         self.getContacts()
-        prepareNavBarButtons()
+      
+        btnInviteFriends.setTitle("INVITE FRIENDS", for: .normal)
+        btnInviteFriends.titleLabel?.font = UIFont(name: kFontMedium, size: 11.0)
+        btnInviteFriends.setTitleColor(UIColor(r: 0, g: 122, b: 255), for: .normal)
+        
+      
+        btnCancel.setTitle("CANCEL", for: .normal)
+        btnCancel.titleLabel?.font = UIFont(name: kFontRegular, size: 11.0)
+        btnCancel.setTitleColor(UIColor(r: 74, g: 74, b: 74), for: .normal)
+       // prepareNavBarButtons()
         tfSearch.addTarget(self, action: #selector(self.textFieldEditingChange(sender:)), for: UIControlEvents.editingChanged)
+
     }
+    
+
     
     func prepareNavBarButtons(){
         
@@ -100,14 +127,7 @@ class AddCollabViewController: UIViewController {
         self.title = "Add Collaborators"
     }
     
-    @objc func textFieldEditingChange(sender:UITextField) {
-        
-        self.isSearchEnable = true
-        self.arraySearch.removeAll()
-        self.tblAddCollab.reloadData()
-        self.performSearch(text: (sender.text?.trim())!)
-    }
-    
+  
     @IBAction func btnActionAdd(_ sender: Any) {
             print(arrayTempSelected)
             self.updateColabs()
@@ -117,6 +137,14 @@ class AddCollabViewController: UIViewController {
     @objc func cancelButtonAction(){
         self.dismiss(animated: true, completion: nil)
     }
+    @IBAction func btnCancelAction(_ sender: Any) {
+        self.cancelButtonAction()
+    }
+    
+    @IBAction func btnInviteAction(_ sender: Any) {
+        self.inviteButtonAction()
+    }
+    
     @objc func inviteButtonAction(){
         
         if UserDAO.sharedInstance.user.shareURL.isEmpty {
@@ -343,7 +371,7 @@ class AddCollabViewController: UIViewController {
             arrayNumber.append(obj.phone)
         }
         APIServiceManager.sharedInstance.apiForValidate(contacts: arrayNumber) { (results, errorMSG) in
-            print(results)
+           // print(results)
             if (errorMSG?.isEmpty)! {
                 let arrayKey = results?.keys
                 for (index,obj) in (arrayKey?.enumerated())! {
@@ -406,11 +434,13 @@ class AddCollabViewController: UIViewController {
        
         self.tblAddCollab.reloadData()
     }
-    
+   
     func performSearch(text:String) {
+        
         let result = self.arrayCollaborators
             .filter { $0.name.lowercased().contains(text.lowercased()) }
        // print(result)
+        
         self.updateList(arrayColabs:result)
     }
     
@@ -428,7 +458,7 @@ class AddCollabViewController: UIViewController {
         }
     }
     
-    
+   
 }
 extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -512,12 +542,55 @@ extension AddCollabViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension AddCollabViewController: UITextFieldDelegate {
+    
+    @objc func textFieldEditingChange(sender:UITextField) {
+        
+        self.isSearchEnable = true
+        self.arraySearch.removeAll()
+        self.tblAddCollab.reloadData()
+       
+        if (self.tfSearch.text?.trim().isEmpty)! {
+          //  self.navigationController?.isNavigationBarHidden = true
+//            self.viewAddCollab.isHidden = false
+//            self.kConsViewTop.constant = kOriginalContants //176
+            self.tblAddCollab.reloadData()
+        }else{
+            self.viewAddCollab.isHidden = true
+            self.prepareNavBarButtons()
+            self.kConsViewTop.constant = 0
+           
+        }
+         self.performSearch(text: (sender.text?.trim())!)
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if (textField.text?.trim().isEmpty)!  {
             self.isSearchEnable = false
             self.tblAddCollab.reloadData()
+            self.navigationController?.isNavigationBarHidden = true
+            self.viewAddCollab.isHidden = false
+            self.kConsViewTop.constant = kOriginalContants
+        }else{
+            self.viewAddCollab.isHidden = true
+            self.prepareNavBarButtons()
+            self.kConsViewTop.constant = 0
         }
         return true
     }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if self.tfSearch.text == nil {
+            self.viewAddCollab.isHidden = false
+            self.kConsViewTop.constant =  kOriginalContants
+        }else{
+            self.prepareNavBarButtons()
+            self.viewAddCollab.isHidden = true
+            self.kConsViewTop.constant = 0
+        }
+    }
+
+        
+
+  
+
 }

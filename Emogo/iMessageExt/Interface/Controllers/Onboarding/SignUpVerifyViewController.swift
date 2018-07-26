@@ -208,7 +208,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         otpExpandView.otpFieldsCount = 5
         otpExpandView.otpFieldDefaultBorderColor = UIColor.gray
         otpExpandView.otpFieldDisplayType = .square
-        otpExpandView.otpFieldSize = 40
+        otpExpandView.otpFieldSize = 35
         otpExpandView.otpFieldBorderWidth = 1
         otpExpandView.cursorColor = UIColor.gray
         otpExpandView.delegate = self
@@ -223,7 +223,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         otpCollapseView.otpFieldsCount = 5
         otpCollapseView.otpFieldDefaultBorderColor = UIColor.gray
         otpCollapseView.otpFieldDisplayType = .square
-        otpCollapseView.otpFieldSize = 40
+        otpCollapseView.otpFieldSize = 35
         otpCollapseView.otpFieldBorderWidth = 1
         otpCollapseView.cursorColor = UIColor.gray
         otpCollapseView.delegate = self

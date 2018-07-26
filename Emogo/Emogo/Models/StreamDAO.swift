@@ -344,6 +344,8 @@ class StreamViewDAO{
                 }
             }
          }
+        
+
        
         if let obj  = streamData["contents"] {
             let objContent:[Any] = obj as! [Any]
@@ -363,6 +365,9 @@ class StreamViewDAO{
                 if conent.createdBy.trim() == UserDAO.sharedInstance.user.userProfileID.trim() {
                     conent.isEdit = true
                     conent.isDelete = true
+                }
+                if self.canAddContent == true  || self.canAddPeople == true || self.anyOneCanEdit == true || self.type.lowercased() == "public" {
+                    conent.isShowAddStream = true
                 }
                 self.arrayContent.append(conent)
             }

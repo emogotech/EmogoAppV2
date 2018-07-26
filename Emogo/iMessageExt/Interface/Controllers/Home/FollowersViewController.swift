@@ -359,7 +359,7 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 1
+            return 0
         }else {
             if isSearchEnable {
                 return self.arraySearch.count
@@ -393,7 +393,12 @@ extension FollowersViewController:UITableViewDelegate,UITableViewDataSource,UITe
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        if section == 0 {
+            return 0
+        }else{
+            return 50
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
