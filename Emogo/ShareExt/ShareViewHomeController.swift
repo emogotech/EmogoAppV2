@@ -26,6 +26,9 @@ class ShareViewHomeController: UIViewController {
     @IBOutlet weak var btnShareStream : UIButton!
     @IBOutlet weak var imgChoosedImage : UIImageView!
     
+    @IBOutlet weak var viewLink: UIView!
+    @IBOutlet weak var collectionShare: UICollectionView!
+    
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     
@@ -56,8 +59,14 @@ class ShareViewHomeController: UIViewController {
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
         
+        viewLink.layer.cornerRadius = 10.0
+        viewLink.clipsToBounds = true
+        
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
+        self.collectionShare.isHidden = true
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -477,5 +486,16 @@ extension ShareViewHomeController : UIWebViewDelegate {
     }
     
 }
-
+extension ShareViewHomeController : UICollectionViewDelegate,UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell =  collectionShare.dequeueReusableCell(withReuseIdentifier: "selectedImagesCell", for: indexPath) as! CollectionImagesCell
+        return cell
+    }
+}
 

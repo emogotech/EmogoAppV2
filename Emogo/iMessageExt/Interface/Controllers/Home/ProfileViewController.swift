@@ -253,9 +253,12 @@ class ProfileViewController: UIViewController {
                 self.heightviewBio.constant = 42
                 self.kViewLocWebHeight.constant = 32
                 
-                if UserDAO.sharedInstance.user.website.trim().count > 25 {
-                    self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim(count: 25)
-                } 
+                if UserDAO.sharedInstance.user.website.trim().count > 27 {
+                      self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27))..."
+                }
+                if UserDAO.sharedInstance.user.location.trim().count > 15 {
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))..."
+                }
                 if UserDAO.sharedInstance.user.biography.trim().isEmpty {
                     self.kHeaderHeight.constant = 178
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(178))

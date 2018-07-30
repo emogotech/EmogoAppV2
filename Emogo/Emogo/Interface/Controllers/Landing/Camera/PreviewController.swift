@@ -995,7 +995,8 @@ class PreviewController: UIViewController {
                         }
                         self.imgLogo.setForAnimatedImage(strImage: imgUrl)
                         self.kLinkPreviewHieght.constant = 120.0
-                        self.viewLinkPreview.isHidden = false
+                        self.viewLinkPreview.isHidden = true
+                       // self.viewLinkPreview.isHidden = false
         },
                     onError: {
                         

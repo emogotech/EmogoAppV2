@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iMessageExt/MessagesViewController.swift"
-            timestampString = "553614331.0963"
+            timestampString = "554644100.383602"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
@@ -298,7 +298,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.085192"
+            timestampString = "554653709.739225"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "531"
@@ -393,22 +393,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.085597"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "prepareLayouts()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Streams/AddStreamViewController.swift"
             timestampString = "553695080.249567"
             startingColumnNumber = "9223372036854775807"
@@ -447,38 +431,6 @@
             endingLineNumber = "2088"
             landmarkName = "apiForFollowerUserSearch(name:completionHandler:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.APIServiceManager.apiForFollowerUserSearch(name: Swift.String, completionHandler: (Swift.Optional&lt;Swift.Array&lt;Emogo.FollowerDAO&gt;&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "554307607.514143"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2088"
-                  endingLineNumber = "2088"
-                  offsetFromSymbolStart = "240">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Emogo.ApiResult&lt;Any, Swift.Error&gt;) -&gt; () in Emogo.APIServiceManager.apiForFollowerUserSearch(name: Swift.String, completionHandler: (Swift.Optional&lt;Swift.Array&lt;Emogo.FollowerDAO&gt;&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Utils/APIManager/APIServiceManager.swift"
-                  timestampString = "554307607.516755"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "2087"
-                  endingLineNumber = "2087"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -510,22 +462,6 @@
             startingLineNumber = "314"
             endingLineNumber = "314"
             landmarkName = "apiForEditStream(streamID:streamName:streamDescription:coverImage:streamType:anyOneCanEdit:collaborator:canAddContent:canAddPeople:height:width:completionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.0860519"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "prepareLayouts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -574,22 +510,6 @@
             startingLineNumber = "332"
             endingLineNumber = "332"
             landmarkName = "getStream()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.0862989"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "prepareLayouts()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -680,140 +600,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.086493"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
-            landmarkName = "btnActionAddStream(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.086552"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "590"
-            endingLineNumber = "590"
-            landmarkName = "btnActionAddStream(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.086611"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "596"
-            endingLineNumber = "596"
-            landmarkName = "btnActionAddStream(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.0866719"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604"
-            landmarkName = "btnActionAddStream(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Camera/PreviewController.swift"
-            timestampString = "554130051.086732"
+            timestampString = "554653709.739702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "882"
             endingLineNumber = "882"
             landmarkName = "modifyObjects(contents:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/MyStreamViewController.swift"
-            timestampString = "553513609.91802"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/MyStreamViewController.swift"
-            timestampString = "553513609.918449"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "prepareLayouts()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/MyStreamViewController.swift"
-            timestampString = "553513609.9190021"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "updateStuffList(index:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/MyStreamViewController.swift"
-            timestampString = "553513609.919266"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "updateStuffList(index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -840,11 +632,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "554307845.228529"
+            timestampString = "554653709.739799"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "423"
-            endingLineNumber = "423"
+            startingLineNumber = "426"
+            endingLineNumber = "426"
             landmarkName = "prepareLayout(listUpdate:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -936,45 +728,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.534695"
+            timestampString = "554637217.700775"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "472"
             endingLineNumber = "472"
             landmarkName = "videoDownload()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.ContentViewController.videoDownload() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Content%20&amp;%20Stuff/ContentViewController.swift"
-                  timestampString = "554307607.767488"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "472"
-                  endingLineNumber = "472"
-                  offsetFromSymbolStart = "20">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Foundation.URL&gt;) -&gt; () in Emogo.ContentViewController.videoDownload() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Content%20&amp;%20Stuff/ContentViewController.swift"
-                  timestampString = "554307607.770715"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "473"
-                  endingLineNumber = "473"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -984,7 +744,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.534779"
+            timestampString = "554637217.700851"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "483"
@@ -1231,38 +991,6 @@
             endingLineNumber = "567"
             landmarkName = "btnBackAction()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.ViewProfileViewController.btnBackAction() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-                  timestampString = "554307607.834885"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "567"
-                  endingLineNumber = "567"
-                  offsetFromSymbolStart = "1924">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 (Emogo.StreamDAO) -&gt; Swift.Bool in Emogo.ViewProfileViewController.btnBackAction() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-                  timestampString = "554307607.837486"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "567"
-                  endingLineNumber = "567"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1295,38 +1023,6 @@
             endingLineNumber = "552"
             landmarkName = "btnBackAction()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Emogo.ViewProfileViewController.btnBackAction() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-                  timestampString = "554307607.849386"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "552"
-                  endingLineNumber = "552"
-                  offsetFromSymbolStart = "288">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Emogo.StreamDAO) -&gt; Swift.Bool in Emogo.ViewProfileViewController.btnBackAction() -&gt; ()"
-                  moduleName = "Emogo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/Emogo/Interface/Controllers/Landing/Profile/ViewProfileViewController.swift"
-                  timestampString = "554307607.852108"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "552"
-                  endingLineNumber = "552"
-                  offsetFromSymbolStart = "20">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1416,11 +1112,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "554307845.229262"
+            timestampString = "554653709.740495"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "621"
-            endingLineNumber = "621"
+            startingLineNumber = "624"
+            endingLineNumber = "624"
             landmarkName = "configureLoadMoreAndRefresh()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1431,12 +1127,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "554307845.2293431"
+            filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
+            timestampString = "554653709.740566"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "616"
+            endingLineNumber = "616"
             landmarkName = "updateStuffList(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1448,11 +1144,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
-            timestampString = "554134463.69875"
+            timestampString = "554653709.740634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613"
+            startingLineNumber = "622"
+            endingLineNumber = "622"
             landmarkName = "updateStuffList(index:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1464,43 +1160,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
-            timestampString = "554134463.698989"
+            timestampString = "554653709.740698"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "619"
-            endingLineNumber = "619"
-            landmarkName = "updateStuffList(index:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
-            timestampString = "554134463.6990581"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1490"
-            endingLineNumber = "1490"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
-            timestampString = "554134463.699126"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1333"
-            endingLineNumber = "1333"
+            startingLineNumber = "1336"
+            endingLineNumber = "1336"
             landmarkName = "btnPlayAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1512,11 +1176,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iMessageExt/Interface/Controllers/Home/ProfileViewController.swift"
-            timestampString = "554134463.699201"
+            timestampString = "554653709.740761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "437"
+            endingLineNumber = "437"
             landmarkName = "prepareLayout()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1704,7 +1368,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.535754"
+            timestampString = "554637217.702089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "782"
@@ -1720,7 +1384,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.53582"
+            timestampString = "554637217.702159"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "926"
@@ -1736,7 +1400,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.535881"
+            timestampString = "554637217.702225"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "921"
@@ -1752,7 +1416,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Emogo/Interface/Controllers/Landing/Content &amp; Stuff/ContentViewController.swift"
-            timestampString = "554302309.535944"
+            timestampString = "554637217.7022901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "789"
@@ -1847,13 +1511,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Profile/ProfileViewController.swift"
-            timestampString = "554307845.230042"
+            filePath = "Emogo/Interface/Controllers/Landing/Streams/AddCollabViewController.swift"
+            timestampString = "554307845.230129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
-            landmarkName = "prepareLayout(listUpdate:)"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Emogo/Interface/Views/Cells And Nib&apos;s/Streams/MyStreamHeaderView.swift"
+            timestampString = "554653709.741287"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "prepareLayout(contents:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1863,14 +1543,62 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Emogo/Interface/Controllers/Landing/Streams/AddCollabViewController.swift"
-            timestampString = "554307845.230129"
+            filePath = "Emogo/AppDelegate.swift"
+            timestampString = "554645548.8686171"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "viewDidAppear(_:)"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "application(_:open:options:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShareExt/ShareViewHomeController.swift"
+            timestampString = "554653709.741397"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "334"
+            endingLineNumber = "334"
+            landmarkName = "btnPostAction(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EmogoShare.ShareViewHomeController.btnPostAction(__ObjC.UIButton) -&gt; ()"
+                  moduleName = "EmogoShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/ShareExt/ShareViewHomeController.swift"
+                  timestampString = "554649702.971064"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EmogoShare.ShareViewHomeController.btnPostAction(__ObjC.UIButton) -&gt; ()"
+                  moduleName = "EmogoShare"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/northout/Aarti/Northout/Emogo-Northout/Emogo/ShareExt/ShareViewHomeController.swift"
+                  timestampString = "554649702.973628"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "331"
+                  endingLineNumber = "331"
+                  offsetFromSymbolStart = "3596">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -133,10 +133,16 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         images.removeAll()
         
         if  SharedData.sharedInstance.isMessageWindowExpand {
-            images.append(UIImage(named: "tut_imsg_1")!)
-            images.append(UIImage(named: "tut_imsg_2")!)
-            images.append(UIImage(named: "tut_imsg_3")!)
-            images.append(UIImage(named: "tut_imsg_4")!)
+            images.append(UIImage(named: "imsg_onbr_1")!)
+            images.append(UIImage(named: "imsg_onbr_2")!)
+            images.append(UIImage(named: "imsg_onbr_3")!)
+            images.append(UIImage(named: "imsg_onbr_4")!)
+            images.append(UIImage(named: "imsg_onbr_5")!)
+            images.append(UIImage(named: "imsg_onbr_6")!)
+//            images.append(UIImage(named: "tut_imsg_1")!)
+//            images.append(UIImage(named: "tut_imsg_2")!)
+//            images.append(UIImage(named: "tut_imsg_3")!)
+//            images.append(UIImage(named: "tut_imsg_4")!)
          
         }else{
             images.append(UIImage(named: "imsg_onbr_1")!)
@@ -146,40 +152,75 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             images.append(UIImage(named: "imsg_onbr_5")!)
             images.append(UIImage(named: "imsg_onbr_6")!)
         }
-
-        pageController.setCurrentPage(0)
+        
+        pageController.delegate = self
+        pageController.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
         pageController.setNumberOfPages(images.count)
-        pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+        pageController.setCurrentPage(1)
         viewTutorial.datasource = self
         viewTutorial.delegate = self
-        viewTutorial.delay = 5 // Delay between transitions
-        viewTutorial.transitionDuration = 1.0 //0.5 // Transition duration
+        viewTutorial.delay = 1 // Delay between transitions
+        viewTutorial.transitionDuration = 0.5 // Transition duration
         viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorial.isRepeatAll = true
+        viewTutorial.isIphone = true
         viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
         viewTutorial.add(KASlideShowGestureType.all)
         viewTutorial.isExclusiveTouch = true
         viewTutorial.reloadData()
-        viewTutorial.start()
         pageController.load()
-        pageController.updateState(forPageNumber: 1)
         
-        pageControllerClosed.setCurrentPage(0)
+        pageControllerClosed.delegate = self
+        pageControllerClosed.setImageActiveState(#imageLiteral(resourceName: "selected slider circle"), inActiveState: #imageLiteral(resourceName: "unselected slider cirlce"))
         pageControllerClosed.setNumberOfPages(images.count)
-        pageControllerClosed.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+        pageControllerClosed.setCurrentPage(1)
         viewTutorialClosed.datasource = self
         viewTutorialClosed.delegate = self
-        viewTutorialClosed.delay = 5 // Delay between transitions
-        viewTutorialClosed.transitionDuration =  1.0 // 0.5 // Transition duration
+        viewTutorialClosed.delay = 1 // Delay between transitions
+        viewTutorialClosed.transitionDuration = 0.5 // Transition duration
         viewTutorialClosed.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
         viewTutorialClosed.isRepeatAll = true
+        viewTutorialClosed.isIphone = true
         viewTutorialClosed.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
         viewTutorialClosed.add(KASlideShowGestureType.all)
         viewTutorialClosed.isExclusiveTouch = true
         viewTutorialClosed.reloadData()
-        viewTutorialClosed.start()
         pageControllerClosed.load()
-        pageControllerClosed.updateState(forPageNumber: 1)
+  
+//        pageController.setCurrentPage(0)
+//        pageController.setNumberOfPages(images.count)
+//        pageController.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+//        viewTutorial.datasource = self
+//        viewTutorial.delegate = self
+//        viewTutorial.delay = 1 // Delay between transitions
+//        viewTutorial.transitionDuration = 1.0 //0.5 // Transition duration
+//        viewTutorial.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+//        viewTutorial.isRepeatAll = true
+//        viewTutorial.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
+//        viewTutorial.add(KASlideShowGestureType.all)
+//        viewTutorial.isExclusiveTouch = true
+//        viewTutorial.isIphone = true
+//        viewTutorial.reloadData()
+//        viewTutorial.start()
+//        pageController.load()
+//        pageController.updateState(forPageNumber: 0)
+        
+//        pageControllerClosed.setCurrentPage(0)
+//        pageControllerClosed.setNumberOfPages(images.count)
+//        pageControllerClosed.setImageActiveState(UIImage(named: "selected slider circle"), inActiveState: UIImage(named: "unselected slider cirlce"))
+//        viewTutorialClosed.datasource = self
+//        viewTutorialClosed.delegate = self
+//        viewTutorialClosed.delay = 1 // Delay between transitions
+//        viewTutorialClosed.transitionDuration =  1.0 // 0.5 // Transition duration
+//        viewTutorialClosed.transitionType = KASlideShowTransitionType.slideHorizontal // Choose a transition type (fade or slide)
+//        viewTutorialClosed.isRepeatAll = true
+//        viewTutorialClosed.imagesContentMode = .scaleAspectFit // Choose a content mode for images to display
+//        viewTutorialClosed.add(KASlideShowGestureType.all)
+//        viewTutorialClosed.isExclusiveTouch = true
+//        viewTutorialClosed.reloadData()
+//        viewTutorialClosed.start()
+//        pageControllerClosed.load()
+//        pageControllerClosed.updateState(forPageNumber: 0)
        // self.perform(#selector(self.showFullView), with: nil, afterDelay: 1.0)
     }
     
@@ -470,7 +511,7 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
     func slideShowImagesNumber(_ slideShow: KASlideShow!) -> Int {
         return images.count
     }
-    
+  /*
     // MARK: - KASlideShow delegate
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
@@ -488,8 +529,21 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
         pageController.updateState(forPageNumber: tag + 1)
         pageControllerClosed.updateState(forPageNumber: tag + 1)
         self.updateText(tag: tag)
-    }
+    }*/
     
+    // MARK: - KASlideShow delegate
+    func slideShowDidShowNext(_ slideShow: KASlideShow!) {
+        let tag = Int(slideShow.currentIndex)
+        pageController.updateState(forPageNumber: tag + 1)
+        //pageControllerClosed.updateState(forPageNumber: tag + 1)
+       // self.updateText(tag: tag)
+    }
+    func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
+        let tag = Int(slideShow.currentIndex)
+        pageController.updateState(forPageNumber: tag + 1)
+      //  pageControllerClosed.updateState(forPageNumber: tag + 1)
+      //  self.updateText(tag: tag)
+    }
     func slideShowDidEnded(_ slideShow: KASlideShow!) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.signup()
@@ -517,9 +571,9 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
     }
     
     func signup(){
-//        let obj:UserNameViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_UserNameView) as! UserNameViewController
-//        self.addLeftTransitionView(subtype: kCATransitionFromRight)
-//        self.navigationController?.pushNormal(viewController: obj)
+        let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController
+        self.addRippleTransition()
+        self.present(obj, animated: false, completion: nil)
     }
     
 }

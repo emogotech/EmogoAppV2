@@ -56,12 +56,21 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
     func prepareLayout(contents:[ContentDAO]){
         arrayContents = contents
         for obj in contents {
-            if obj.type == .image || obj.type == .notes || obj.type == .video  || obj.type == .gif {
+            if obj.type == .image || obj.type == .notes  || obj.type == .gif {
                 if obj.imgPreview != nil {
                     arrayContent.append(obj.imgPreview!)
                 }else {
                     if !obj.coverImage.trim().isEmpty {
                         let url = URL(string: obj.coverImage.stringByAddingPercentEncodingForURLQueryParameter()!)
+                        arrayContent.append(url!)
+                    }
+                }
+            }else if obj.type == .video {
+                if obj.imgPreview != nil {
+                    arrayContent.append(obj.imgPreview!)
+                }else {
+                    if !obj.coverImage.trim().isEmpty {
+                        let url = URL(string: obj.coverImageVideo.stringByAddingPercentEncodingForURLQueryParameter()!)
                         arrayContent.append(url!)
                     }
                 }
@@ -149,6 +158,7 @@ class MyStreamHeaderView: GSKStretchyHeaderView,KASlideShowDelegate,KASlideShowD
 
 
 class MyStreamCell:UICollectionViewCell {
+    
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblName: UILabel!
     @IBOutlet weak var imgCover: UIImageView!
@@ -156,6 +166,8 @@ class MyStreamCell:UICollectionViewCell {
     @IBOutlet weak var imgSelect: UIImageView!
     @IBOutlet weak var imgAdd: UIImageView!
     @IBOutlet weak var cardView: CardView!
+    
+      var seletedImage:ContentDAO!
     
     func prepareLayout(stream:StreamDAO?){
         guard let stream = stream  else {
@@ -170,7 +182,7 @@ class MyStreamCell:UICollectionViewCell {
             self.imgCover.contentMode = .scaleAspectFill
             imgAdd.isHidden = true
             cardView.isHidden = false
-            self.imgCover.setImageWithURL(strImage: stream.CoverImage.trim(), placeholder: kPlaceholderImage)
+            self.imgCover.setImageWithURL(strImage:stream.CoverImage.trim(), placeholder: kPlaceholderImage)
             self.lblTitle.text = stream.Title.trim()
             self.lblTitle.minimumScaleFactor = 1.0
             self.lblName.text =  "by \(stream.Author.trim())"

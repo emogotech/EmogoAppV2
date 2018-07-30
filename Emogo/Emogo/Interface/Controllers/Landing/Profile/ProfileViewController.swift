@@ -287,7 +287,10 @@ class ProfileViewController: UIViewController {
                 
                 
                 if UserDAO.sharedInstance.user.website.trim().count > 27 {
-                    self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27)) ..."
+                    self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27))..."
+                }
+                if UserDAO.sharedInstance.user.location.trim().count > 15 {
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))..."
                 }
                 
                 self.heightviewBio.constant = 42

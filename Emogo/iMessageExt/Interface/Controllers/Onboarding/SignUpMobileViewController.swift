@@ -142,7 +142,10 @@ class SignUpMobileViewController: MSMessagesAppViewController,UITextFieldDelegat
         }
     }
 
-
+    @IBAction func btnBackSignUp(_ sender: Any) {
+         self.dismiss(animated: true, completion: nil)
+    }
+    
     @objc func requestMessageScreenChangeSize(){
         if SharedData.sharedInstance.isMessageWindowExpand {
             UIView.animate(withDuration: 0.2, animations: {

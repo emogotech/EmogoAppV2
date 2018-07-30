@@ -104,6 +104,7 @@ class MyStreamViewController: UIViewController {
         }else {
             self.stretchyHeader.prepareLayout(contents: ContentList.sharedInstance.arrayToCreate)
         }
+        
         self.stretchyHeader.btnBack.addTarget(self, action: #selector(self.backButtonAction(sender:)), for: .touchUpInside)
         self.stretchyHeader.sliderDelegate = self
        
@@ -438,6 +439,7 @@ extension MyStreamViewController:UICollectionViewDelegate,UICollectionViewDataSo
         // for Add Content
         let stream = StreamList.sharedInstance.arrayMyStream[indexPath.row]
         cell.prepareLayout(stream: stream)
+      //  cell.imgCover.setImageWithURL(strImage: self.objContent.coverImage, placeholder: kPlaceholderImage)
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
