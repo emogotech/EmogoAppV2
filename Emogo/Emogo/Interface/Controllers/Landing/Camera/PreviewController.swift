@@ -127,29 +127,32 @@ class PreviewController: UIViewController {
         if  SharedData.sharedInstance.deepLinkType == kDeepLinkTypeShareAddContent {
             
             ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent
-            self.isShowRetake = true
+            ContentList.sharedInstance.arrayContent = SharedData.sharedInstance.contentList.arrayContent!
+            print(ContentList.sharedInstance.arrayContent.count)
+             self.isShowRetake = true
          //   ContentList.sharedInstance.objStream = nil
           //  SharedData.sharedInstance.contentList.objStream = nil
-            
-            let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
-            
-            if !conten.name.isEmpty {
-                if conten.name.trim().count > 75 {
-                    conten.name = conten.name.trim(count: 75)
+            if ContentList.sharedInstance.arrayContent.count == 1 {
+                let conten = ContentList.sharedInstance.arrayContent[selectedIndex]
+                
+                if !conten.name.isEmpty {
+                    if conten.name.trim().count > 75 {
+                        conten.name = conten.name.trim(count: 75)
+                    }
                 }
-            }
-            if !conten.description.isEmpty {
-                if conten.description.trim().count > 250 {
-                    conten.description = conten.description.trim(count: 250)
+                if !conten.description.isEmpty {
+                    if conten.description.trim().count > 250 {
+                        conten.description = conten.description.trim(count: 250)
+                    }
                 }
+                conten.isUploaded = false
+                
+                conten.type = conten.type == .image ? .image : .link
+                
+                ContentList.sharedInstance.arrayContent.removeAll()
+                ContentList.sharedInstance.arrayContent.append(conten)
             }
-            conten.isUploaded = false
-            
-            conten.type = conten.type == .image ? .image : .link
-            
-            ContentList.sharedInstance.arrayContent.removeAll()
-            ContentList.sharedInstance.arrayContent.append(conten)
+          
             if selectedIndex == nil {
                 selectedIndex = 0
             }
@@ -387,16 +390,16 @@ class PreviewController: UIViewController {
                 })
                 
                 if seletedImage.name == "SharedImage_group.com.emogotechnologiesinc.thoughtstream" {
-                   // print("image from Share - Extension")
-                    let img = UIImage(data: (UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.value(forKey: "imageObj") as! Data))
-                    self.imgPreview.image   =   img
-                    seletedImage.imgPreview =   img
-                    seletedImage.name       =   ""
-                    self.txtTitleImage.text = ""
-                    self.txtDescription.text    =   ""
-                    
-                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.set(nil, forKey: "imageObj")
-                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.synchronize()
+//                   // print("image from Share - Extension")
+//                    let img = UIImage(data: (UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.value(forKey: "imageObj") as! Data))
+//                    self.imgPreview.image   =   img
+//                    seletedImage.imgPreview =   img
+//                    seletedImage.name       =   ""
+//                    self.txtTitleImage.text = ""
+//                    self.txtDescription.text    =   ""
+//
+//                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.set(nil, forKey: "imageObj")
+//                    UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.synchronize()
                 }else{
                     self.imgPreview.setForAnimatedImage(strImage:seletedImage.coverImage)
                 }

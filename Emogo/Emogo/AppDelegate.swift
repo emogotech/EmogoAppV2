@@ -181,7 +181,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
         var dictData : Dictionary = [String:Any]()
         
-        if url.valueOf("stream_id") == nil {
+        if let count =  kDefault?.value(forKey: "totalItems") {
+            SharedData.sharedInstance.contentList.arrayContent.removeAll()
+            let imageCount:Int = count as! Int
+            for i in 0..<imageCount {
+                if let data =  kDefault?.value(forKey: "imageObj" + "\(i)") {
+                    let image = UIImage(data: data as! Data)
+                    let camera = ContentDAO(contentData: [:])
+                    camera.type = .image
+                    camera.imgPreview = image
+                    camera.fileName = NSUUID().uuidString + ".png"
+                    camera.height = Int((image?.size.height)!)
+                    camera.width = Int((image?.size.width)!)
+                    camera.isUploaded = false
+                    SharedData.sharedInstance.contentList.arrayContent.append(camera)
+                    kDefault?.removeObject(forKey: "totalItems")
+                    kDefault?.removeObject(forKey: "imageObj" + "\(i)")
+                    print(image)
+                }
+            }
+            
+            return
+        }
+         if url.valueOf("stream_id") == nil {
             
             dictData["name"] = url.valueOf("name")
             dictData["url"] = url.valueOf("coverImage")

@@ -1,8 +1,8 @@
 //
-//  ShareViewHomeController.swift
+//  ShareViewController.swift
 //  ShareExt
 //
-//  Created by Sushobhit on 24/01/18.
+//  Created by Northout on 31/07/18.
 //  Copyright © 2018 Vikas Goyal. All rights reserved.
 //
 
@@ -13,38 +13,41 @@ import Messages
 import MessageUI
 import SwiftLinkPreview
 
-class ShareViewHomeController: UIViewController {
+class ShareViewController: UIViewController {
     
-    @IBOutlet weak var lblTitle : UILabel!
-    @IBOutlet weak var lblDesc : UILabel!
-    @IBOutlet weak var lblLink : UILabel!
-    @IBOutlet weak var imgLink : UIImageView!
-    @IBOutlet weak var viewContainer : UIView!
-    @IBOutlet weak var viewLogin : UIView!
+    //MARK: Outlet Connection
     
-    @IBOutlet weak var btnAddToStream : UIButton!
-    @IBOutlet weak var btnShareStream : UIButton!
-    @IBOutlet weak var imgChoosedImage : UIImageView!
+    @IBOutlet weak var viewContainer: UIView!
+    @IBOutlet weak var viewLink: UIView!
+    @IBOutlet weak var collectionShareImage: UICollectionView!
+    @IBOutlet weak var viewLogin: UIView!
     
+    @IBOutlet weak var btnCancel: UIButton!
+    @IBOutlet weak var btnAdd: UIButton!
+    @IBOutlet weak var btnShareiMsg: UIButton!
+    @IBOutlet weak var btnChooseEmogo: UIButton!
+    
+    @IBOutlet weak var imgLink: UIImageView!
+    
+    @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblLink: UILabel!
+    @IBOutlet weak var lblDesc: UILabel!
   
     
     var hudView  : LoadingView!
     var isLoadWeb : Bool = false
     var tempWebView  : UIWebView!
-    
+    var arrayImages = [UIImage]()
+    var collectionLayout = CHTCollectionViewWaterfallLayout()
     var dictData : Dictionary = [String:Any]()
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.lblTitle.text = ""
-        self.lblDesc.text = ""
-        self.lblLink.text = ""
-        
+
         let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
         
         if defaultUser?.bool(forKey: "userloggedin") == true {
-            setupLoader()
+           setupLoader()
             self.navigationController?.navigationBar.isHidden  = true
             viewLogin.isHidden = true
         }
@@ -55,11 +58,27 @@ class ShareViewHomeController: UIViewController {
         
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
-       
+        
+        viewLink.layer.cornerRadius = 10.0
+        viewLink.clipsToBounds = true
+        viewLink.layer.borderColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        viewLink.layer.borderWidth =  1.0
+      
         imgLink.layer.cornerRadius = 10.0
         imgLink.clipsToBounds = true
-     
-        
+   
+        self.viewLink.isHidden = false
+        self.collectionShareImage.isHidden = true
+       
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.prepareLayout()
         
     }
     
@@ -69,9 +88,23 @@ class ShareViewHomeController: UIViewController {
             DispatchQueue.main.async {
                 self.hudView.startLoaderWithAnimation()
             }
-           self.fetchAndSetContentFromContext()
+            self.fetchAndSetContentFromContext()
+            
         }
     }
+    
+    func prepareLayout(){
+        
+        self.collectionShareImage.isHidden = false
+        self.collectionShareImage.delegate = self
+        self.collectionShareImage.dataSource = self
+        collectionLayout.minimumColumnSpacing = 8.0
+        collectionLayout.minimumInteritemSpacing = 2.0
+        collectionLayout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
+        collectionLayout.columnCount = 2
+        self.collectionShareImage.collectionViewLayout = collectionLayout
+    }
+    
     // MARK:- LoaderSetup
     func setupLoader() {
         hudView  = LoadingView.init(frame: view.frame)
@@ -99,7 +132,7 @@ class ShareViewHomeController: UIViewController {
             }else {
                 self.view.transform = CGAffineTransform(translationX: 0, y: self.view.frame.size.height)
             }
-           print(self.navigationController)
+          //  print(self.navigationController)
         }, completion: completion)
     }
     
@@ -108,11 +141,10 @@ class ShareViewHomeController: UIViewController {
         let extensionItem = extensionContext?.inputItems.first as! NSExtensionItem
         let itemProvider = extensionItem.attachments?.first as! NSItemProvider
         
-     
         let propertyList = String(kUTTypePropertyList)
         let strPublicURL = String(kUTTypeURL)
         let strPublicPng  =   String(kUTTypePNG)
-        let strPublicJpeg =   String(kUTTypeJPEG)
+        let strPublicJpeg    =   String(kUTTypeJPEG)
         print(extensionItem)
         print(itemProvider)
         print(propertyList)
@@ -125,6 +157,12 @@ class ShareViewHomeController: UIViewController {
             itemProvider.loadItem(forTypeIdentifier: propertyList, options: nil, completionHandler: { (item, error) -> Void in
                 guard let dictionary = item as? NSDictionary else { return }
                 OperationQueue.main.addOperation {
+                    self.collectionShareImage.isHidden = true
+                    self.viewLink.isHidden = false
+                    self.imgLink.isHidden   =   false
+                    self.lblDesc.isHidden   =   false
+                    self.lblTitle.isHidden  =   false
+                    self.lblLink.isHidden   =   false
                     if let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
                         let urlString = results["URL"] as? String,
                         let url = NSURL(string: urlString) {
@@ -143,40 +181,103 @@ class ShareViewHomeController: UIViewController {
                     self.getData(mainURL: url as URL)
                 }
             })
-        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) || itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) {
             
+                        self.collectionShareImage.isHidden = false
+            
+                        self.viewLink.isHidden  =  true
+                        self.imgLink.isHidden   =   true
+                        self.lblDesc.isHidden   =   true
+                        self.lblTitle.isHidden  =   true
+                        self.lblLink.isHidden   =   true
+            
+            
+            if let item = self.extensionContext?.inputItems[0] as? NSExtensionItem{
+                for (index,ele) in (item.attachments?.enumerated())!{
+                    let itemProvider = ele as! NSItemProvider
+                    
+                    itemProvider.loadItem(forTypeIdentifier: strPublicPng, options: nil, completionHandler: { (item, error) -> Void in
+                        
+                        
+                        let imagePath = item as! NSURL
+                        if FileManager.default.fileExists(atPath: imagePath.path!){
+                            print("Exists")
+                           
+                        
+                            let data = NSData.init(contentsOf: imagePath as URL)
+                            let imageObj = UIImage(data: data! as Data)
+                            self.arrayImages.append(imageObj!)
+                            print(self.arrayImages.count)
+                           
+                            let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+                            defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj"+"\(index)")
+                            defaultUser?.synchronize()
+                            
+                            self.dictData["coverImageVideo"] = imagePath.path
+                            self.dictData["name"] = "SharedImage_group.com.emogotechnologiesinc.thoughtstream"
+                            self.dictData["description"] = ""
+                            self.dictData["coverImage"] = imagePath.path
+                            self.dictData["type"] = "Picture"
+                            
+                            self.collectionShareImage.reloadData()
+                            
+                            self.hudView.stopLoaderWithAnimation()
+                        }else{
+                            print("No Image")
+                        }
+                    })
+                }
+            }
+            
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
+            
+            self.collectionShareImage.isHidden = false
+          
+            self.viewLink.isHidden  =  true
             self.imgLink.isHidden   =   true
             self.lblDesc.isHidden   =   true
             self.lblTitle.isHidden  =   true
             self.lblLink.isHidden   =   true
+           
             
-            itemProvider.loadItem(forTypeIdentifier: strPublicJpeg , options: nil, completionHandler: { (item, error) -> Void in
-                print(strPublicJpeg )
-                
+            if let item = self.extensionContext?.inputItems[0] as? NSExtensionItem{
+                let itemcount = item.attachments?.count
+                for (index,ele) in (item.attachments?.enumerated())!{
+                    let itemProvider = ele as! NSItemProvider
+            
+            itemProvider.loadItem(forTypeIdentifier: strPublicJpeg, options: nil, completionHandler: { (item, error) -> Void in
+               
+                   
                 let imagePath = item as! NSURL
                 if FileManager.default.fileExists(atPath: imagePath.path!){
                     print("Exists")
+                   
                     let data = NSData.init(contentsOf: imagePath as URL)
                     let imageObj = UIImage(data: data! as Data)
-                    
-                    self.imgChoosedImage.image  =   imageObj
-                    self.imgLink.image  =   imageObj
-                    
+                    self.arrayImages.append(imageObj!)
+                    print(self.arrayImages.count)
+        
                     let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-                    defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj")
+                    defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj"+"\(index)")
+                    defaultUser?.set(itemcount, forKey: "totalItems")
                     defaultUser?.synchronize()
-                    
                     self.dictData["coverImageVideo"] = imagePath.path
                     self.dictData["name"] = "SharedImage_group.com.emogotechnologiesinc.thoughtstream"
                     self.dictData["description"] = ""
                     self.dictData["coverImage"] = imagePath.path
                     self.dictData["type"] = "Picture"
+                   
+                    self.collectionShareImage.reloadData()
                     
                     self.hudView.stopLoaderWithAnimation()
                 }else{
                     print("No Image")
                 }
-            })
+                    })
+                }
+            }
+          
+            
         } else  if let item = extensionContext?.inputItems.first as? NSExtensionItem {
             if let itemProvider = item.attachments?.first as? NSItemProvider {
                 if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text") {
@@ -213,17 +314,27 @@ class ShareViewHomeController: UIViewController {
             let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
             slp.preview(url.absoluteString,
                         onSuccess: { result in
+                            self.collectionShareImage.isHidden = true
+                            self.viewLink.isHidden  =   false
+                            self.imgLink.isHidden   =   false
+                            self.lblDesc.isHidden   =   false
+                            self.lblTitle.isHidden  =   false
+                            self.lblLink.isHidden   =   false
+                        
                             let title = result[SwiftLinkResponseKey.title]
                             let description = result[SwiftLinkResponseKey.description]
                             let imageUrl = result[SwiftLinkResponseKey.image]
                             if let title = title {
                                 DispatchQueue.main.async {
+                                  
+                                  
                                     self.lblTitle.text = title as? String
                                     self.lblLink.text = url.absoluteString
                                 }
                             }
                             if let description = description {
                                 DispatchQueue.main.async {
+                                   
                                     self.lblDesc.text = description as? String
                                     self.lblLink.text = url.absoluteString
                                     self.imgLink.contentMode  = .scaleAspectFill
@@ -292,12 +403,23 @@ class ShareViewHomeController: UIViewController {
             completion(data, response, error)
         }).resume()
     }
+    //MARK:- Action for Buttons
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    @IBAction func btnActionAdd(_ sender: Any) {
+        self.view.isUserInteractionEnabled = false
+        let width = Int((self.imgLink.image?.size.height)!)
+        let height = Int((self.imgLink.image?.size.width)!)
+        self.dictData["height"] = String(format: "%d", (width))
+        self.dictData["width"] =  String(format: "%d", (height))
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
+        self.presentAppViewWithDeepLink(strURL: str!)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            self.view.isUserInteractionEnabled = true
+        })
     }
     
-    @IBAction func btnCancleAction(_ sender:UIButton) {
+    @IBAction func btnActionCancel(_ sender: Any) {
         self.view.isUserInteractionEnabled = false
         UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.setValue(nil, forKey: "imageObj")
         self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
@@ -305,7 +427,28 @@ class ShareViewHomeController: UIViewController {
         })
     }
     
-    @IBAction func btnActionShare(_ sender: Any) {
+    @IBAction func btnActionClose(_ sender: Any) {
+        self.view.isUserInteractionEnabled = false
+        UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")?.setValue(nil, forKey: "imageObj")
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+        })
+    }
+    @IBAction func btnActionChooseEmogo(_ sender: Any) {
+        self.view.isUserInteractionEnabled = false
+        let width = Int((self.imgLink.image?.size.height)!)
+        let height = Int((self.imgLink.image?.size.width)!)
+        self.dictData["height"] = String(format: "%d", (width))
+        self.dictData["width"] =  String(format: "%d", (height))
+        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
+        self.presentAppViewWithDeepLink(strURL: str!)
+        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
+            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
+            self.view.isUserInteractionEnabled = true
+        })
+    }
+    
+    @IBAction func btnActionShareiMsg(_ sender: Any) {
         self.view.isUserInteractionEnabled = false
         let width = Int((self.imgLink.image?.size.height)!)
         let height = Int((self.imgLink.image?.size.width)!)
@@ -318,36 +461,6 @@ class ShareViewHomeController: UIViewController {
             self.view.isUserInteractionEnabled = true
         })
     }
-    
-    @IBAction func btnAddToStreamAction(_ sender: UIButton) {
-        self.view.isUserInteractionEnabled = false
-        let width = Int((self.imgLink.image?.size.height)!)
-        let height = Int((self.imgLink.image?.size.width)!)
-        self.dictData["height"] = String(format: "%d", (width))
-        self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
-        self.presentAppViewWithDeepLink(strURL: str!)
-        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
-            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-            self.view.isUserInteractionEnabled = true
-        })
-    }
-    
-    @IBAction func btnPostAction(_ sender: UIButton) {
-        self.view.isUserInteractionEnabled = false
-        
-        let width = Int((self.imgLink.image?.size.height)!)
-        let height = Int((self.imgLink.image?.size.width)!)
-        self.dictData["height"] = String(format: "%d", (width))
-        self.dictData["width"] =  String(format: "%d", (height))
-        let str = self.createURLWithComponentsForStream(userInfo: self.dictData, typeNavigation: "addContentFromShare")
-        self.presentAppViewWithDeepLink(strURL: str!)
-        self.hideExtensionWithCompletionHandler(completion: { (Bool) -> Void in
-            self.extensionContext!.completeRequest(returningItems: nil, completionHandler: nil)
-            self.view.isUserInteractionEnabled = true
-        })
-    }
-    
     func presentAppViewWithDeepLink(strURL : String) {
         guard let url = URL(string: strURL) else {
             return
@@ -398,15 +511,14 @@ class ShareViewHomeController: UIViewController {
     }
     
 }
-
-extension ShareViewHomeController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
+extension ShareViewController:MFMessageComposeViewControllerDelegate,UINavigationControllerDelegate {
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true, completion: nil)
     }
 }
 
-extension ShareViewHomeController : UIWebViewDelegate {
+extension ShareViewController : UIWebViewDelegate {
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         print(error.localizedDescription)
         DispatchQueue.main.async {
@@ -492,4 +604,22 @@ extension ShareViewHomeController : UIWebViewDelegate {
     
 }
 
-
+extension ShareViewController: UICollectionViewDataSource,UICollectionViewDelegate,CHTCollectionViewDelegateWaterfallLayout {
+   
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return self.arrayImages.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell: CollectionImagesCell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionImagesCell", for: indexPath) as! CollectionImagesCell
+       cell.imgSelected.image = self.arrayImages[indexPath.row]
+       cell.imgSelected.layer.cornerRadius = 10.0
+       cell.imgSelected.clipsToBounds = true
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+                let itemWidth = collectionView.bounds.size.width/3.0 - 12.0
+                return CGSize(width: itemWidth, height: 68)
+    }
+}

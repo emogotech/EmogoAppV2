@@ -742,6 +742,7 @@ class ContentViewController: UIViewController {
                 }else {
                     let url = URL(string: obj.coverImageVideo)
                     let videoUrl = URL(string: obj.coverImage)
+                    print(videoUrl)
                     if let url = url, let videoUrl = videoUrl {
                         image = LightboxImage(imageURL: url, text: text.trim(), videoURL: videoUrl)
                     }

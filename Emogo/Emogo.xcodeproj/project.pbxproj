@@ -118,6 +118,7 @@
 		F005121820DA7D8100EA4E50 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = F4961E1D1FFE92B900A406FF /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		F009A93720D0F88E00051547 /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93620D0F88E00051547 /* ActionSheetViewController.swift */; };
 		F009A93920D0F8A700051547 /* ActionSheetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009A93820D0F8A700051547 /* ActionSheetViewCell.swift */; };
+		F00E69BA2111B57900F54639 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F409FC6E1FE3D8C50093E0E7 /* CHTCollectionViewWaterfallLayout.swift */; };
 		F022DBC220F754E70043FFFB /* CountryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557C820AEB37000A28F51 /* CountryPickerViewController.swift */; };
 		F022DBC320F754EB0043FFFB /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40557CE20AEB90500A28F51 /* CountryCell.swift */; };
 		F022DBC420F754F10043FFFB /* countryCodes.json in Resources */ = {isa = PBXBuildFile; fileRef = F40557CA20AEB39D00A28F51 /* countryCodes.json */; };
@@ -136,6 +137,7 @@
 		F036D15720DBA141003ED5AD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F4838AD62084B7BA0034F2B4 /* HMSegmentedControl.m */; };
 		F03A89BF20D8D73600CBB5D7 /* StreamContentViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F03A89BE20D8D73600CBB5D7 /* StreamContentViewCell.swift */; };
 		F040CC872050034B00224035 /* HHPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F040CC852050034900224035 /* HHPageView.m */; };
+		F04A559B211033A800B4F53F /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04A559A211033A800B4F53F /* ShareViewController.swift */; };
 		F0593AA120FCA6E600AD6003 /* ViewStreamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0593AA020FCA6E600AD6003 /* ViewStreamController.swift */; };
 		F0593AA620FCBA8700AD6003 /* StreamViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = F433EDA320174160004FEB93 /* StreamViewHeader.xib */; };
 		F0593AA720FCBA8A00AD6003 /* StreamViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F433EDA52017421D004FEB93 /* StreamViewHeader.swift */; };
@@ -650,6 +652,7 @@
 		F040CC882050204200224035 /* SF-Pro-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Regular.otf"; sourceTree = "<group>"; };
 		F040CC892050231600224035 /* SF-Pro-Text-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Light.otf"; sourceTree = "<group>"; };
 		F040CC8A20502D7B00224035 /* SF-Pro-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Medium.otf"; sourceTree = "<group>"; };
+		F04A559A211033A800B4F53F /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F0593AA020FCA6E600AD6003 /* ViewStreamController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewStreamController.swift; sourceTree = "<group>"; };
 		F06256D6209C2A0700AE0558 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		F065AA9E20E0BDDA00993DD6 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -1195,13 +1198,14 @@
 			isa = PBXGroup;
 			children = (
 				2B531A9C2018740800D646DC /* ShareViewHomeController.swift */,
+				F04A559A211033A800B4F53F /* ShareViewController.swift */,
+				F0ACBEC020F4DD2A0008F145 /* CollectionImagesCell.swift */,
 				3346053E1FD13FEF0040BD98 /* EmogoShare.entitlements */,
 				335B1A471FBB23FE006DA9D9 /* MainInterface.storyboard */,
 				335B1A4A1FBB23FE006DA9D9 /* Info.plist */,
 				2BBA5EEA201B82800077CE7B /* DemoPreprocessor.js */,
 				2B531A992018735A00D646DC /* Utils */,
 				2BBA5EE8201B7E220077CE7B /* HomeViewController.swift */,
-				F0ACBEC020F4DD2A0008F145 /* CollectionImagesCell.swift */,
 			);
 			path = ShareExt;
 			sourceTree = "<group>";
@@ -3368,11 +3372,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B531A9B2018735A00D646DC /* shareExt.swift in Sources */,
+				F00E69BA2111B57900F54639 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 				2B531AA12018AB8800D646DC /* ASToast.swift in Sources */,
 				2B531A9E2018759D00D646DC /* LoadingView.swift in Sources */,
 				2B531A9F201875A900D646DC /* KDLoadingView.swift in Sources */,
 				2B531A9D2018740800D646DC /* ShareViewHomeController.swift in Sources */,
 				2B9865312074E8AB00EC1405 /* Document.swift in Sources */,
+				F04A559B211033A800B4F53F /* ShareViewController.swift in Sources */,
 				2BBA5EE9201B7E220077CE7B /* HomeViewController.swift in Sources */,
 				F0ACBEC120F4DD2A0008F145 /* CollectionImagesCell.swift in Sources */,
 			);
@@ -3598,7 +3604,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
@@ -3653,7 +3659,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "bf2a9cf8-a3ea-4faa-9a7b-bfd8a1474521";
 				SDKROOT = iphoneos;

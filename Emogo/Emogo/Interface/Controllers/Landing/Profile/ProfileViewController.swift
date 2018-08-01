@@ -154,7 +154,8 @@ class ProfileViewController: UIViewController {
         kShowOnlyMyStream = "1"
         self.getStreamList(type:.start,filter: .myStream)
         configureLoadMoreAndRefresh()
-
+        
+      
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
         layout.minimumInteritemSpacing = 8.0
@@ -235,7 +236,6 @@ class ProfileViewController: UIViewController {
         segmentControl.selectionIndicatorLocation = .down
         segmentControl.shouldAnimateUserSelection = false
       
-        
         segmentMain.sectionTitles = ["EMOGOS", "COLLABS", "MY STUFF"]
         
         segmentMain.indexChangeBlock = {(_ index: Int) -> Void in
@@ -310,7 +310,7 @@ class ProfileViewController: UIViewController {
                
                 if UserDAO.sharedInstance.user.followers.trim().isEmpty && !UserDAO.sharedInstance.user.following.trim().isEmpty  {
                     self.lblFollowers.text = UserDAO.sharedInstance.user.following.trim()
-                     self.lblFollowing.text = ""
+                    self.lblFollowing.text = ""
                     self.lblFollowers.isHidden = false
                     self.lblFollowers.tag = 0
                     self.lblFollowers.isUserInteractionEnabled = true
@@ -1066,6 +1066,32 @@ class ProfileViewController: UIViewController {
 
     
     @objc func btnPlayAction(sender:UIButton){
+        
+        let array =  ContentList.sharedInstance.arrayStuff.filter { $0.stuffType == self.selectedType }
+        let content = array[sender.tag]
+        if content.isAdd {
+            //   btnActionForAddContent()
+        }else {
+            ContentList.sharedInstance.arrayContent = array
+            if ContentList.sharedInstance.arrayContent.count != 0 {
+                //
+                // let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                
+                let objPreview:ContentViewController = kStoryboardStuff.instantiateViewController(withIdentifier: kStoryboardID_ContentView) as! ContentViewController
+                objPreview.currentIndex = sender.tag
+                objPreview.isProfile = "TRUE"
+                let nav = UINavigationController(rootViewController: objPreview)
+                let indexPath = IndexPath(row: sender.tag, section: 0)
+                if let imageCell = profileCollectionView.cellForItem(at: indexPath) as? MyStuffCell {
+                    nav.cc_setZoomTransition(originalView: imageCell.imgCover)
+                    nav.cc_swipeBackDisabled = true
+                }
+                self.present(nav, animated: true, completion: nil)
+                
+                //  self.navigationController?.push(viewController: objPreview)
+            }
+        }
+        /*
         let content = ContentList.sharedInstance.arrayStuff[sender.tag]
         if content.isAdd {
         //    btnActionForAddContent()
@@ -1085,7 +1111,7 @@ class ProfileViewController: UIViewController {
 //                let nav = UINavigationController(rootViewController: objPreview)
 //            customPresentViewController( PresenterNew.instance.contentContainer, viewController: nav, animated: true)
             }
-        }
+        }*/
     }
     
     

@@ -13,7 +13,9 @@ import UIKit
 class HomeViewController: UINavigationController {
 
     init() {
-        let viewController:UIViewController = UIStoryboard(name: "MainInterface", bundle: nil).instantiateViewController(withIdentifier: "ShareViewHomeController") as UIViewController
+//        let viewController:UIViewController = UIStoryboard(name: "MainInterface", bundle: nil).instantiateViewController(withIdentifier: "ShareViewHomeController") as UIViewController
+//        super.init(rootViewController: viewController)
+        let viewController:UIViewController = UIStoryboard(name: "MainInterface", bundle: nil).instantiateViewController(withIdentifier: "ShareViewController") as UIViewController
         super.init(rootViewController: viewController)
     }
     

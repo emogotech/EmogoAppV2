@@ -153,6 +153,7 @@ class MyStreamViewController: UIViewController {
             self.selectedType = StreamType.Emogo
             
         }
+      
         
     }
     
@@ -274,6 +275,12 @@ class MyStreamViewController: UIViewController {
                 }
             }
             let array =   StreamList.sharedInstance.arrayMyStream.filter { $0.canAddContent == true }
+            
+            if array.count == 0 {
+                self.lblNoResult.isHidden =  false
+                self.lblNoResult.text = "No Emogo Found"
+                self.btnDone.isHidden =  true
+            }
              StreamList.sharedInstance.arrayMyStream = array
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
@@ -329,6 +336,13 @@ class MyStreamViewController: UIViewController {
             }
             
             let array =   StreamList.sharedInstance.arrayMyStream.filter { $0.canAddContent == true }
+            
+            if array.count == 0 {
+                self.lblNoResult.isHidden =  false
+                self.lblNoResult.text = "No Emogo Found"
+                self.btnDone.isHidden =  true
+            }
+            
             StreamList.sharedInstance.arrayMyStream = array
             self.myStreamCollectionView.reloadData()
             if !(errorMsg?.isEmpty)! {
