@@ -19,10 +19,10 @@ class StreamContentCell: UICollectionViewCell {
 
     
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imgCover.image = nil
-    }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        imgCover.image = nil
+//    }
     
     func prepareLayout(content:ContentDAO){
          self.imgCover.contentMode = .scaleAspectFill

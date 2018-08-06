@@ -11,6 +11,7 @@ import Lightbox
 import XLActionController
 import MessageUI
 import Messages
+import SkeletonView
 
 class ViewStreamController: UIViewController {
    
@@ -40,13 +41,15 @@ class ViewStreamController: UIViewController {
 
     var indexForMinimum = 0
     var isFromCreateStream:String?
-    
+   
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewStreamCollectionView.accessibilityLabel = "ViewStreamCollectionView"
       
         self.prepareLayouts()
+
     }
     
     
@@ -61,7 +64,7 @@ class ViewStreamController: UIViewController {
         self.navigationItem.hidesBackButton = true
         
     }
-    
+   
  
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -70,10 +73,12 @@ class ViewStreamController: UIViewController {
     
     // MARK: - Prepare Layouts
     func prepareLayouts(){
+        
+        
         self.lblNoContent.isHidden = true
         self.viewStreamCollectionView.dataSource  = self
         self.viewStreamCollectionView.delegate = self
-        
+       
         let layout = CHTCollectionViewWaterfallLayout()
         // Change individual layout attributes for the spacing between cells
         layout.minimumColumnSpacing = 8.0
@@ -81,6 +86,7 @@ class ViewStreamController: UIViewController {
         layout.sectionInset = UIEdgeInsetsMake(20, 8, 8, 8)
        // layout.isEnableReorder = true
         layout.columnCount = 2
+        
         // Collection view attributes
         self.viewStreamCollectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
         self.viewStreamCollectionView.alwaysBounceVertical = true
@@ -268,7 +274,7 @@ class ViewStreamController: UIViewController {
                 if self.objStream == nil {
                     self.updateLayOut()
                 }
-        }
+            }
         }
         
     }
@@ -761,6 +767,7 @@ class ViewStreamController: UIViewController {
     
     // MARK: - API Methods
     func getStream(currentStream:StreamDAO?, streamID:String? = nil){
+     
         if isDidLoad == true {
             HUDManager.sharedInstance.showHUD()
         }
@@ -774,11 +781,12 @@ class ViewStreamController: UIViewController {
             if  self.isDidLoad == true {
                 HUDManager.sharedInstance.hideHUD()
             }
-             self.isDidLoad = true
+             //self.isDidLoad = true
             self.lblNoContent.isHidden = true
             if (errorMsg?.isEmpty)! {
                 self.objStream = stream
-               self.prepareIBOutlets()
+                self.viewStreamCollectionView.reloadData()
+                self.prepareIBOutlets()
             }
             else {
                 if errorMsg == "404" {
@@ -952,8 +960,8 @@ class ViewStreamController: UIViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
+                camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
@@ -977,6 +985,7 @@ class ViewStreamController: UIViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
+                    camera.fileName = url.lastPathComponent
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img
@@ -1019,37 +1028,40 @@ extension ViewStreamController:UICollectionViewDelegate,UICollectionViewDataSour
         return 1
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if objStream != nil {
+       if objStream != nil {
             return objStream!.arrayContent.count
-        }else {
+       }else {
             return 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         // Create the cell and return the cell
-        let content = objStream?.arrayContent[indexPath.row]
+       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell_StreamContentCell, for: indexPath) as! StreamContentCell
+        
         cell.layer.cornerRadius = 5.0
         cell.layer.masksToBounds = true
         cell.isExclusiveTouch = true
-        cell.btnPlay.tag = indexPath.row
-        cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
-        cell.prepareLayout(content:content!)
+        let content = objStream?.arrayContent[indexPath.row]
+            cell.btnPlay.tag = indexPath.row
+            cell.btnPlay.addTarget(self, action: #selector(self.btnPlayAction(sender:)), for: .touchUpInside)
+            cell.prepareLayout(content:content!)
+      
         return cell
     }
     
     func collectionView (_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                          sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-
-        let content = objStream?.arrayContent[indexPath.row]
-       
-//        if selectedIndex != nil {
-//
-//            let tempContent = objStream?.arrayContent[self.selectedIndex!.row]
-//            return CGSize(width: (tempContent?.width)!, height: (tempContent?.height)!)
-//        }
-        return CGSize(width: (content?.width)!, height: (content?.height)!)
+        if objStream != nil {
+            let content = objStream?.arrayContent[indexPath.row]
+            return CGSize(width: (content?.width)!, height: (content?.height)!)
+           
+        }else {
+            return CGSize(width: 100, height: 100)
+        }
+    
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

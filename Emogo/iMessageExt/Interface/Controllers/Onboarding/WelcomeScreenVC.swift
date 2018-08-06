@@ -36,9 +36,15 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     // MARK: - Life-Cycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         self.viewSplash.isHidden = false
+//   self.viewExpand.isHidden = true
+       // self.viewCollapse.isHidden = true
+        
         pageController.delegate = self
         pageControllerClosed.delegate = self
+        
         // SharedData.sharedInstance.resetAllData()
         setupLoader()
         prepareLayout()
@@ -105,7 +111,10 @@ class WelcomeScreenVC: MSMessagesAppViewController {
     
     // MARK:- LoaderSetup
     func setupLoader() {
-        self.viewSplash.isHidden = false
+        
+        self.viewSplash.isHidden = true
+//   self.viewExpand.isHidden = true
+      // self.viewCollapse.isHidden = false
         
         self.perform(#selector(self.isUserLogedIn), with: nil, afterDelay: 2.0)
     }
@@ -263,6 +272,8 @@ class WelcomeScreenVC: MSMessagesAppViewController {
         }
         else {
             self.viewSplash.isHidden = true
+            self.viewCollapse.isHidden = false
+           
 //            self.container.isHidden = true
         }
     }
@@ -282,13 +293,14 @@ class WelcomeScreenVC: MSMessagesAppViewController {
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = false
             viewCollapse.isHidden = true
+            
             //            imgBackground.image = #imageLiteral(resourceName: "background-iPhone")
         }else{
             //            imgBackground.image = #imageLiteral(resourceName: "background_collapse")
             self.viewExpand.center = self.view.center
             self.viewCollapse.center = self.view.center
             self.viewExpand.isHidden = true
-            viewCollapse.isHidden = false
+            self.viewCollapse.isHidden = false
         }
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -535,14 +547,14 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
     func slideShowDidShowNext(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
-        //pageControllerClosed.updateState(forPageNumber: tag + 1)
-       // self.updateText(tag: tag)
+        pageControllerClosed.updateState(forPageNumber: tag + 1)
+      // self.updateText(tag: tag)
     }
     func slideShowDidShowPrevious(_ slideShow: KASlideShow!) {
         let tag = Int(slideShow.currentIndex)
         pageController.updateState(forPageNumber: tag + 1)
-      //  pageControllerClosed.updateState(forPageNumber: tag + 1)
-      //  self.updateText(tag: tag)
+        pageControllerClosed.updateState(forPageNumber: tag + 1)
+       //self.updateText(tag: tag)
     }
     func slideShowDidEnded(_ slideShow: KASlideShow!) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -550,7 +562,7 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
         }
     }
     
-    func updateText(tag:Int) {
+//    func updateText(tag:Int) {
 //        switch tag {
 //        case 0:
 //            lblWelcome.text = "Welcome to Emogo!"
@@ -568,7 +580,7 @@ extension WelcomeScreenVC:KASlideShowDelegate,KASlideShowDataSource,HHPageViewDe
 //        default:
 //            lblWelcome.text = "Welcome to Emogo!"
 //        }
-    }
+//    }
     
     func signup(){
         let obj : SignUpNameViewController = self.storyboard?.instantiateViewController(withIdentifier: iMsgSegue_SignUpName) as! SignUpNameViewController

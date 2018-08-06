@@ -194,7 +194,7 @@ class StreamListViewController: UIViewController {
             
             self.menuView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             
-          self.menuView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace! - 10).isActive = false
+           self.menuView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: extraBottomSpace! - 10).isActive = false
             self.menuView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
             self.menuView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
             self.menuView.heightAnchor.constraint(equalToConstant: frame.size.height).isActive = true
@@ -399,8 +399,8 @@ class StreamListViewController: UIViewController {
         self.viewMenu.addGestureRecognizer(swipeUp)
         
         
-        pulsator.numPulse = 3
-        pulsator.backgroundColor = UIColor(red: 0, green: 0.46, blue: 0.76, alpha: 1).cgColor
+       // pulsator.numPulse = 3
+      //  pulsator.backgroundColor = UIColor(red: 0, green: 0.46, blue: 0.76, alpha: 1).cgColor
 
     }
     
@@ -875,20 +875,21 @@ class StreamListViewController: UIViewController {
     }
     
     
-    
+  
     func getStream(cell:StreamCell,indexPath:IndexPath,streamID:String) {
      //   pulsator.radius = cell.bounds.size.width / 2.0
-        UIApplication.shared.beginIgnoringInteractionEvents()
-        pulsator.frame = CGRect(x: cell.imgCover.center.x, y: cell.imgCover.center.y, width: 0, height: 0)
-        cell.imgCover.layer.addSublayer(pulsator)
-        pulsator.start()
+          UIApplication.shared.beginIgnoringInteractionEvents()
+//        pulsator.frame = CGRect(x: cell.imgCover.center.x, y: cell.imgCover.center.y, width: 0, height: 0)
+//        cell.imgCover.layer.addSublayer(pulsator)
+     //   pulsator.start()
         APIServiceManager.sharedInstance.apiForViewStream(streamID: streamID) { (stream, errorMsg) in
-           self.pulsator.stop()
-          self.pulsator.removeFromSuperlayer()
+         // self.pulsator.stop()
+        //  self.pulsator.removeFromSuperlayer()
             UIApplication.shared.endIgnoringInteractionEvents()
             if (errorMsg?.isEmpty)! {
                 
-                if let objStream = stream {
+              if let objStream = stream {
+                
                     self.selectedImageView = cell.imgCover
                     StreamList.sharedInstance.arrayViewStream = self.arrayToShow
                     let obj:ViewStreamController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_viewStream) as! ViewStreamController
@@ -896,8 +897,9 @@ class StreamListViewController: UIViewController {
                     obj.objStream = objStream
                     obj.streamType = currentStreamType.rawValue
                     ContentList.sharedInstance.objStream = nil
+                
                     self.navigationController?.pushViewController(obj, animated: true)
-                    
+
                 }
             }
         }
@@ -1357,11 +1359,11 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     self.navigationController?.push(viewController: obj)
                 }
             }else {
-                
+               
                 if let cell = collectionView.cellForItem(at: indexPath) {
                     let stream = self.arrayToShow[indexPath.row]
                     self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
-                }
+               }
                 
             }
         }else {
@@ -1385,10 +1387,11 @@ extension StreamListViewController:UICollectionViewDelegate,UICollectionViewData
                     self.navigationController?.push(viewController: obj)
                 }
             }else {
+           
                 if let cell = collectionView.cellForItem(at: indexPath) {
                     let stream = self.arrayToShow[indexPath.row]
                     self.getStream(cell: cell as! StreamCell, indexPath: indexPath, streamID: stream.ID)
-                }
+               }
             }
         }
        

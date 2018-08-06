@@ -61,14 +61,13 @@ class SignInViewController: MSMessagesAppViewController {
     func prepareLayout()  {
         let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
         let placeholder = SharedData.sharedInstance.placeHolderText(text: kPlaceHolder_Text_Mobile, colorName: color)
-        txtMobileNumber.attributedPlaceholder = placeholder;
-         txtMobileNumber.text = "\(SharedData.sharedInstance.countryCode!)"
+        
+        txtMobileNumber.attributedPlaceholder = placeholder
+        txtMobileCollapse.attributedPlaceholder = placeholder
         
         self.addToolBar(textField: txtMobileNumber)
-        txtMobileCollapse.attributedPlaceholder = placeholder
-        txtMobileCollapse.text = "\(SharedData.sharedInstance.countryCode!)"
         
-        
+
         // Set Rule for Phone Format
         txtMobileNumber.formatter.setDefaultOutputPattern(kPhoneFormat, imagePath: "US")
         self.btnCountryPicker.isHidden = false

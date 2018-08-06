@@ -50,7 +50,7 @@ class APIManager: NSObject {
                 // print(error.localizedDescription)
                  if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    //print(statusCode)
+                    print(statusCode)
                  }
                  callback!(.error(error))
             }
@@ -74,7 +74,7 @@ class APIManager: NSObject {
                // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                    //print(statusCode)
+                    print(statusCode)
                 }
                 callback!(.error(error))
             }
@@ -112,7 +112,7 @@ class APIManager: NSObject {
                       //  print(error.localizedDescription)
                         if response.response != nil {
                             let statusCode = (response.response?.statusCode)!
-                          //  print(statusCode)
+                           print(statusCode)
                         }
                         callback!(.error(error))
                     }
@@ -235,10 +235,10 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-                //print(error.localizedDescription)
+                print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                   // print(statusCode)
+                    print(statusCode)
                 }
                 completionHandler("")
             }
@@ -263,7 +263,7 @@ class APIManager: NSObject {
                 break
             case .failure(let error):
                 // TODO deal with error
-               // print(error.localizedDescription)
+                print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)! //example : 200
                    // print(statusCode)
@@ -363,7 +363,7 @@ class APIManager: NSObject {
                // print(error.localizedDescription)
                 if response.response != nil {
                     let statusCode = (response.response?.statusCode)!
-                   // print(statusCode)
+                    print(statusCode)
                 }
                 callback!(.error(error))
             }

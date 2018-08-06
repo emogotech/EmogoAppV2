@@ -593,8 +593,8 @@ class CustomCameraViewController: SwiftyCamViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
+                camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
@@ -619,6 +619,7 @@ class CustomCameraViewController: SwiftyCamViewController {
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
+                    camera.fileName = url.lastPathComponent
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img

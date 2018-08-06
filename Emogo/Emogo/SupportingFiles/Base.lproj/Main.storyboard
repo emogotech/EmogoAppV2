@@ -324,7 +324,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ae0-uw-c4H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4492" y="678.71064467766121"/>
+            <point key="canvasLocation" x="3706" y="-251"/>
         </scene>
         <!--People List View Controller-->
         <scene sceneID="t9R-Vd-1ne">
@@ -1804,7 +1804,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kum-J7-4mU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="572.56371814092961"/>
+            <point key="canvasLocation" x="1345" y="-250"/>
         </scene>
         <!--Create Stream Controller-->
         <scene sceneID="RbX-Wt-8bC">
@@ -2633,7 +2633,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Isx-nV-aId" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3706.4000000000001" y="-987.25637181409309"/>
+            <point key="canvasLocation" x="3705" y="-949"/>
         </scene>
         <!--Add Collab View Controller-->
         <scene sceneID="QJt-Qe-Gtu">
@@ -3663,7 +3663,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y3r-SB-3BG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3792.8000000000002" y="678.71064467766121"/>
+            <point key="canvasLocation" x="2894" y="-250"/>
         </scene>
         <!--Action Sheet View Controller-->
         <scene sceneID="AEI-Qy-KTz">
@@ -3800,7 +3800,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iHf-II-6Cr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1960.8" y="572.56371814092961"/>
+            <point key="canvasLocation" x="2086" y="-251"/>
         </scene>
         <!--User Name View Controller-->
         <scene sceneID="xIA-zF-Mw5">

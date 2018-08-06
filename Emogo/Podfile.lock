@@ -41,6 +41,7 @@ PODS:
   - SDWebImage (4.2.3):
     - SDWebImage/Core (= 4.2.3)
   - SDWebImage/Core (4.2.3)
+  - SkeletonView (1.1.1)
   - SnapKit (4.0.0)
   - SwiftLinkPreview (2.1.0)
   - SwiftyCam (2.6.0)
@@ -68,6 +69,7 @@ DEPENDENCIES:
   - RichEditorView
   - RS3DSegmentedControl
   - SDWebImage
+  - SkeletonView
   - SwiftLinkPreview
   - SwiftyCam
   - SwiftyJSON
@@ -99,6 +101,7 @@ SPEC REPOS:
     - RichEditorView
     - RS3DSegmentedControl
     - SDWebImage
+    - SkeletonView
     - SnapKit
     - SwiftLinkPreview
     - SwiftyCam
@@ -130,12 +133,13 @@ SPEC CHECKSUMS:
   RichEditorView: 1bbb07b87ca2d479ac29a6877014b38b8df233ef
   RS3DSegmentedControl: 686b5bc9e3080a6b7b902ba4e04735a90c52dc6d
   SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
+  SkeletonView: 041053e904504e7d8db83df166e599be75659fe1
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftLinkPreview: 2366319a604683d14292c0b59d70a619c1e3d461
   SwiftyCam: 86c114177a1b1f5dc2c82384577d0c20b922a31b
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   XLActionController: 7e88fece1799e61357cb00b1cc67104d66ec4d2c
 
-PODFILE CHECKSUM: 212a9a39e4eabb2ef44fd22436389d8556c443e7
+PODFILE CHECKSUM: 769f8961f0864bc2593d0a4732875c1dc822b0c0
 
 COCOAPODS: 1.5.0

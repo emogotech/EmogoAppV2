@@ -12,6 +12,7 @@ def common_pods_for_target
     pod 'Presentr'
     pod "GSKStretchyHeaderView"
     pod "Haptica"
+    pod "SkeletonView"
 
 end
 

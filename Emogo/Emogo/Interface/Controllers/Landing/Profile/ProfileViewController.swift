@@ -273,9 +273,9 @@ class ProfileViewController: UIViewController {
 
                 self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
                 self.lblFullName.minimumScaleFactor = 1.0
-                self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
+              //  self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
                 self.lblWebsite.minimumScaleFactor = 1.0
-                self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+               // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 self.lblLocation.minimumScaleFactor = 1.0
                 self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
                
@@ -286,11 +286,11 @@ class ProfileViewController: UIViewController {
                 self.imgLocation.isHidden = false
                 
                 
-                if UserDAO.sharedInstance.user.website.trim().count > 27 {
-                    self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27))..."
+                if UserDAO.sharedInstance.user.website.trim().count > 20 {
+                    self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
                 }
                 if UserDAO.sharedInstance.user.location.trim().count > 15 {
-                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))..."
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
                 }
                 
                 self.heightviewBio.constant = 42
@@ -356,8 +356,8 @@ class ProfileViewController: UIViewController {
                 
                 if !UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
                     
-                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                    self.lblWebsite.text =  UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
+                    self.lblWebsite.text =  "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
                     self.lblLocation.isHidden = false
                     self.lblWebsite.isHidden =  false
                     self.imgLink.isHidden = false
@@ -372,7 +372,7 @@ class ProfileViewController: UIViewController {
                 }
 
              else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
@@ -387,7 +387,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))...".trim()
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = false
@@ -402,7 +402,7 @@ class ProfileViewController: UIViewController {
                 }
                
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
@@ -414,7 +414,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))...".trim()
                     self.lblLocation.isHidden =  false
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = false
@@ -1384,8 +1384,8 @@ class ProfileViewController: UIViewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
+                camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
@@ -1410,6 +1410,7 @@ class ProfileViewController: UIViewController {
                     //print(progress)
                 }, completionBlock: { (url, mimeType) in
                     camera.fileUrl = url
+                    camera.fileName = url.lastPathComponent
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img

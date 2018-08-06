@@ -13,7 +13,6 @@ import AWSS3
 class RequestDAO {
     var request : AWSS3TransferManagerUploadRequest!
     var isCompleted:Bool! = false
-
     init(request:AWSS3TransferManagerUploadRequest, isCompleted:Bool) {
         self.request = request
         self.isCompleted = isCompleted

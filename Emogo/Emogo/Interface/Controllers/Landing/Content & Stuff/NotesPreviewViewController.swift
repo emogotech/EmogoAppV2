@@ -31,7 +31,9 @@ class NotesPreviewViewController: UIViewController {
     func prepareLayout(){
         if let content = contentDAO {
             self.webView.loadHTMLString(content.description, baseURL: nil)
-            self.webView.scalesPageToFit = true
+            self.webView.scalesPageToFit = false
+            self.webView.stringByEvaluatingJavaScript(from: "document. body.style.zoom = 8.0;")
+           
         }
         self.navigationController?.isNavigationBarHidden = false
         let backButton = UIBarButtonItem(image: #imageLiteral(resourceName: "back_new"), style: .plain, target: self, action: #selector(self.backButtonAction))
@@ -39,10 +41,11 @@ class NotesPreviewViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.white
         self.navigationItem.leftBarButtonItem = backButton
     }
+    
     @objc func backButtonAction(){
         self.navigationController?.popViewAsDismiss()
     }
-
+   
     /*
     // MARK: - Navigation
 

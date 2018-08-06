@@ -66,18 +66,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
        // print("open url Called")
-        let branchHandled = Branch.getInstance().application(app,
-                                                             open: url,
-                                                             sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
-                                                             annotation: options[UIApplicationOpenURLOptionsKey.annotation]
-        )
-        if (!branchHandled) {
-            // If not handled by Branch, do other deep link routing for the Facebook SDK, Pinterest SDK, etc
+        print(url)
+        if url.absoluteString.contains("open?link_click_id=") {
+            let branchHandled = Branch.getInstance().application(app,
+                                                                 open: url,
+                                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String,
+                                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation]
+            )
+            if (!branchHandled) {
+                // If not handled by Branch, do other deep link routing for the Facebook SDK, Pinterest SDK, etc
+            }else {
+                return true
+            }
         }else {
-            return true
+            return url.scheme == "Emogo" && executeDeepLink(with: url)
         }
-        
-        return url.scheme == "Emogo" && executeDeepLink(with: url)
+        return true
+
     }
     
     private func executeDeepLink(with url: URL) -> Bool {

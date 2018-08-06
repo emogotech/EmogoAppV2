@@ -24,13 +24,13 @@ internal let kPulsatorAnimationKey = "pulsator"
 
 open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
 
-    fileprivate let pulse = CALayer()
+    fileprivate let pulseNew = CALayer()
     fileprivate var animationGroup: CAAnimationGroup!
     fileprivate var alpha: CGFloat = 0.45
 
     override open var backgroundColor: CGColor? {
         didSet {
-            pulse.backgroundColor = backgroundColor
+           pulseNew .backgroundColor = backgroundColor
             guard let backgroundColor = backgroundColor else {return}
             let oldAlpha = alpha
             alpha = backgroundColor.alpha
@@ -111,7 +111,7 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
     
     /// The value of this property showed a pulse is started
     @objc open var isPulsating: Bool {
-        guard let keys = pulse.animationKeys() else {return false}
+        guard let keys = pulseNew.animationKeys() else {return false}
         return keys.count > 0
     }
     
@@ -158,9 +158,9 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
     // MARK: - Private Methods
     
     fileprivate func setupPulse() {
-        pulse.contentsScale = screenScale
-        pulse.opacity = 0
-        addSublayer(pulse)
+        pulseNew .contentsScale = screenScale
+        pulseNew .opacity = 0
+        addSublayer(pulseNew )
         updatePulse()
     }
     
@@ -187,11 +187,11 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
     
     fileprivate func updatePulse() {
         let diameter: CGFloat = radius * 2
-        pulse.bounds = CGRect(
+        pulseNew .bounds = CGRect(
             origin: CGPoint.zero,
             size: CGSize(width: diameter, height: diameter))
-        pulse.cornerRadius = radius
-        pulse.backgroundColor = backgroundColor
+        pulseNew .cornerRadius = radius
+        pulseNew .backgroundColor = backgroundColor
     }
     
     fileprivate func updateInstanceDelay() {
@@ -219,13 +219,13 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
         if let prevSuperlayer = prevSuperlayer, let prevLayerIndex = prevLayerIndex {
             prevSuperlayer.insertSublayer(self, at: UInt32(prevLayerIndex))
         }
-        if pulse.superlayer == nil {
-            addSublayer(pulse)
+        if pulseNew .superlayer == nil {
+            addSublayer(pulseNew)
         }
-        let isAnimating = pulse.animation(forKey: kPulsatorAnimationKey) != nil
+        let isAnimating = pulseNew .animation(forKey: kPulsatorAnimationKey) != nil
         // if the animationGroup is not nil, it means the animation was not stopped
         if let animationGroup = animationGroup, !isAnimating {
-            pulse.add(animationGroup, forKey: kPulsatorAnimationKey)
+            pulseNew .add(animationGroup, forKey: kPulsatorAnimationKey)
         }
     }
     
@@ -235,12 +235,12 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
     @objc open func start() {
         setupPulse()
         setupAnimationGroup()
-        pulse.add(animationGroup, forKey: kPulsatorAnimationKey)
+        pulseNew .add(animationGroup, forKey: kPulsatorAnimationKey)
     }
     
     /// Stop the animation.
     @objc open func stop() {
-        pulse.removeAllAnimations()
+        pulseNew .removeAllAnimations()
         animationGroup = nil
     }
     
@@ -248,10 +248,10 @@ open class Pulsator: CAReplicatorLayer, CAAnimationDelegate {
     // MARK: - Delegate methods for CAAnimation
     
     public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        if let keys = pulse.animationKeys(), keys.count > 0 {
-            pulse.removeAllAnimations()
+        if let keys = pulseNew .animationKeys(), keys.count > 0 {
+            pulseNew .removeAllAnimations()
         }
-        pulse.removeFromSuperlayer()
+        pulseNew.removeFromSuperlayer()
         
         if autoRemove {
             removeFromSuperlayer()

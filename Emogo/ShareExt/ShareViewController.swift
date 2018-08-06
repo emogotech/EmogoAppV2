@@ -55,13 +55,13 @@ class ShareViewController: UIViewController {
             viewLogin.isHidden = false
             self.perform(#selector(self.closeAfter), with: nil, afterDelay: 10.0)
         }
-        
+        let kViewLinkBordorColor = UIColor(red: 243/255.0, green: 243/255.0, blue: 243/255.0, alpha: 1.0).cgColor
         viewContainer.layer.cornerRadius = 10.0
         viewContainer.clipsToBounds = true
         
         viewLink.layer.cornerRadius = 10.0
         viewLink.clipsToBounds = true
-        viewLink.layer.borderColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        viewLink.layer.borderColor = kViewLinkBordorColor
         viewLink.layer.borderWidth =  1.0
       
         imgLink.layer.cornerRadius = 10.0
@@ -69,7 +69,7 @@ class ShareViewController: UIViewController {
    
         self.viewLink.isHidden = false
         self.collectionShareImage.isHidden = true
-       
+     
     }
 
     override func didReceiveMemoryWarning() {
@@ -102,6 +102,7 @@ class ShareViewController: UIViewController {
         collectionLayout.minimumInteritemSpacing = 2.0
         collectionLayout.sectionInset = UIEdgeInsetsMake(10, 8, 0, 8)
         collectionLayout.columnCount = 2
+       
         self.collectionShareImage.collectionViewLayout = collectionLayout
     }
     
@@ -181,38 +182,49 @@ class ShareViewController: UIViewController {
                     self.getData(mainURL: url as URL)
                 }
             })
-        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) {
+        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) || itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg)  {
             
-                        self.collectionShareImage.isHidden = false
+            self.collectionShareImage.isHidden = false
             
-                        self.viewLink.isHidden  =  true
-                        self.imgLink.isHidden   =   true
-                        self.lblDesc.isHidden   =   true
-                        self.lblTitle.isHidden  =   true
-                        self.lblLink.isHidden   =   true
+            self.viewLink.isHidden  =   true
+            self.imgLink.isHidden   =   true
+            self.lblDesc.isHidden   =   true
+            self.lblTitle.isHidden  =   true
+            self.lblLink.isHidden   =   true
             
             
             if let item = self.extensionContext?.inputItems[0] as? NSExtensionItem{
+                let itemcount = item.attachments?.count
                 for (index,ele) in (item.attachments?.enumerated())!{
                     let itemProvider = ele as! NSItemProvider
+                    var type = strPublicJpeg
+                    if itemProvider.hasItemConformingToTypeIdentifier(strPublicPng) {
+                        type = strPublicPng
+                    }
                     
-                    itemProvider.loadItem(forTypeIdentifier: strPublicPng, options: nil, completionHandler: { (item, error) -> Void in
+                    itemProvider.loadItem(forTypeIdentifier: type, options: nil, completionHandler: { (item, error) -> Void in
                         
                         
                         let imagePath = item as! NSURL
                         if FileManager.default.fileExists(atPath: imagePath.path!){
                             print("Exists")
-                           
-                        
+                            
                             let data = NSData.init(contentsOf: imagePath as URL)
                             let imageObj = UIImage(data: data! as Data)
                             self.arrayImages.append(imageObj!)
                             print(self.arrayImages.count)
-                           
-                            let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-                            defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj"+"\(index)")
-                            defaultUser?.synchronize()
                             
+                            let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
+                            if UIScreen.main.bounds.size.height == 568 {
+                               
+                                defaultUser?.setValue(UIImageJPEGRepresentation(imageObj!, 0.2), forKey: "imageObj"+"\(index)")
+
+                            }else {
+                                defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj"+"\(index)")
+
+                            }
+                            defaultUser?.set(itemcount, forKey: "totalItems")
+                            defaultUser?.synchronize()
                             self.dictData["coverImageVideo"] = imagePath.path
                             self.dictData["name"] = "SharedImage_group.com.emogotechnologiesinc.thoughtstream"
                             self.dictData["description"] = ""
@@ -229,56 +241,7 @@ class ShareViewController: UIViewController {
                 }
             }
             
-        }else if itemProvider.hasItemConformingToTypeIdentifier(strPublicJpeg) {
-            
-            self.collectionShareImage.isHidden = false
-          
-            self.viewLink.isHidden  =  true
-            self.imgLink.isHidden   =   true
-            self.lblDesc.isHidden   =   true
-            self.lblTitle.isHidden  =   true
-            self.lblLink.isHidden   =   true
-           
-            
-            if let item = self.extensionContext?.inputItems[0] as? NSExtensionItem{
-                let itemcount = item.attachments?.count
-                for (index,ele) in (item.attachments?.enumerated())!{
-                    let itemProvider = ele as! NSItemProvider
-            
-            itemProvider.loadItem(forTypeIdentifier: strPublicJpeg, options: nil, completionHandler: { (item, error) -> Void in
-               
-                   
-                let imagePath = item as! NSURL
-                if FileManager.default.fileExists(atPath: imagePath.path!){
-                    print("Exists")
-                   
-                    let data = NSData.init(contentsOf: imagePath as URL)
-                    let imageObj = UIImage(data: data! as Data)
-                    self.arrayImages.append(imageObj!)
-                    print(self.arrayImages.count)
-        
-                    let defaultUser  = UserDefaults(suiteName: "group.com.emogotechnologiesinc.thoughtstream")
-                    defaultUser?.setValue(UIImagePNGRepresentation(imageObj!), forKey: "imageObj"+"\(index)")
-                    defaultUser?.set(itemcount, forKey: "totalItems")
-                    defaultUser?.synchronize()
-                    self.dictData["coverImageVideo"] = imagePath.path
-                    self.dictData["name"] = "SharedImage_group.com.emogotechnologiesinc.thoughtstream"
-                    self.dictData["description"] = ""
-                    self.dictData["coverImage"] = imagePath.path
-                    self.dictData["type"] = "Picture"
-                   
-                    self.collectionShareImage.reloadData()
-                    
-                    self.hudView.stopLoaderWithAnimation()
-                }else{
-                    print("No Image")
-                }
-                    })
-                }
-            }
-          
-            
-        } else  if let item = extensionContext?.inputItems.first as? NSExtensionItem {
+        }else  if let item = extensionContext?.inputItems.first as? NSExtensionItem {
             if let itemProvider = item.attachments?.first as? NSItemProvider {
                 if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text") {
                     itemProvider.loadItem(forTypeIdentifier: "public.plain-text", options: nil, completionHandler: { (url, error) -> Void in

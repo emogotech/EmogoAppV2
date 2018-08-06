@@ -41,8 +41,8 @@ extension PreviewController {
             group.enter()
             let camera = ContentDAO(contentData: [:])
             camera.isUploaded = false
-            camera.fileName = NSUUID().uuidString + ".png"
             if obj.type == .photo || obj.type == .livePhoto {
+                camera.fileName = NSUUID().uuidString + ".png"
                 camera.type = .image
                 if obj.fullResolutionImage != nil {
                     camera.imgPreview = obj.fullResolutionImage
@@ -66,7 +66,9 @@ extension PreviewController {
                 obj.tempCopyMediaFile(progressBlock: { (progress) in
                     print(progress)
                 }, completionBlock: { (url, mimeType) in
+                    print(mimeType)
                     camera.fileUrl = url
+                    camera.fileName = url.lastPathComponent
                     obj.phAsset?.getOrigianlImage(handler: { (img, _) in
                         if img != nil {
                             camera.imgPreview = img

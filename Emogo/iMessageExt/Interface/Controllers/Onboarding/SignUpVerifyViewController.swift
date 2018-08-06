@@ -16,6 +16,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
     @IBOutlet weak var txtVeryficationCollapse  : UITextField!
     @IBOutlet weak var imgBackground : UIImageView!
     
+    @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var otpExpandView: VPMOTPView!
     @IBOutlet weak var viewExpand  : UIView!
     @IBOutlet weak var viewCollapse  : UIView!
@@ -44,6 +45,7 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         super.didReceiveMemoryWarning()
     }
     
+  
     // MARK:- PrepareLayout
     func prepareLayout()  {
         let color = UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
@@ -149,6 +151,13 @@ class SignUpVerifyViewController: MSMessagesAppViewController,UITextFieldDelegat
         hudView.heightAnchor.constraint(equalToConstant: view.frame.size.height).isActive = true
         hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         hudView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    @IBAction func btnBackAction(_ sender: Any) {
+        print("button tapped")
+       self.dismiss(animated: true, completion: nil)
+   
+        
     }
     
     // MARK:- Action Methods

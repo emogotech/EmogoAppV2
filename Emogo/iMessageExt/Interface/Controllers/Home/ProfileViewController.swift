@@ -244,17 +244,17 @@ class ProfileViewController: UIViewController {
 
                 self.lblFullName.text =  UserDAO.sharedInstance.user.displayName.trim().capitalized
                 self.lblFullName.minimumScaleFactor = 1.0
-                self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
+               // self.lblWebsite.text = UserDAO.sharedInstance.user.website.trim()
                 self.lblWebsite.minimumScaleFactor = 1.0
-                self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
+               // self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
                 self.lblLocation.minimumScaleFactor = 1.0
                 self.lblBio.text = UserDAO.sharedInstance.user.biography.trim()
                 
                 self.heightviewBio.constant = 42
                 self.kViewLocWebHeight.constant = 32
                 
-                if UserDAO.sharedInstance.user.website.trim().count > 27 {
-                      self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 27))..."
+                if UserDAO.sharedInstance.user.website.trim().count > 20 {
+                      self.lblWebsite.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                 }
                 if UserDAO.sharedInstance.user.location.trim().count > 15 {
                     self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))..."
@@ -344,8 +344,8 @@ class ProfileViewController: UIViewController {
                 
                 if !UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
                     
-                    self.lblLocation.text = UserDAO.sharedInstance.user.location.trim()
-                    self.lblWebsite.text =  UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.location.trim(count: 15))..."
+                    self.lblWebsite.text =  "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                     self.lblLocation.isHidden = false
                     self.lblWebsite.isHidden =  false
                     self.imgLink.isHidden = false
@@ -360,7 +360,7 @@ class ProfileViewController: UIViewController {
                 }
                     
                 else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
                     self.heightviewBio.constant = 0
@@ -374,7 +374,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if UserDAO.sharedInstance.user.location.trim().isEmpty && !UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
                     self.imgLink.isHidden = true
@@ -388,7 +388,7 @@ class ProfileViewController: UIViewController {
                 }
                     
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = true
                     self.heightviewBio.constant = 0
@@ -399,7 +399,7 @@ class ProfileViewController: UIViewController {
                     self.topConstraintRange = (CGFloat(0)..<CGFloat(170))
                 }
                 else if !UserDAO.sharedInstance.user.location.trim().isEmpty && UserDAO.sharedInstance.user.website.trim().isEmpty && !UserDAO.sharedInstance.user.biography.trim().isEmpty {
-                    self.lblLocation.text = UserDAO.sharedInstance.user.website.trim()
+                    self.lblLocation.text = "\(UserDAO.sharedInstance.user.website.trim(count: 20))..."
                     self.lblWebsite.isHidden = true
                     self.lblBio.isHidden = false
                     self.imgLink.isHidden = true

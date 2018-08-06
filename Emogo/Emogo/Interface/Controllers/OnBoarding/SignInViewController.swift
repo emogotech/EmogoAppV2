@@ -121,7 +121,7 @@ class SignInViewController: UIViewController {
                     /*
                     let obj:StreamListViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_StreamListView) as! StreamListViewController
                     self.navigationController?.flipPush(viewController: obj)
- */
+                    */
                     
                     let obj:VerificationViewController = kStoryboardMain.instantiateViewController(withIdentifier: kStoryboardID_VerificationView) as! VerificationViewController
                     obj.isForLogin = "errorMsg"
